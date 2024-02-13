@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url = "https://maven.fabricmc.net/"
+    }
+    maven {
+        url = 'https://plugins.gradle.org/m2/'
+    }
+}
+
+dependencies {
+    implementation("net.fabricmc:tiny-remapper:0.8.9")
+    implementation("net.fabricmc:mapping-io:0.2.1")
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

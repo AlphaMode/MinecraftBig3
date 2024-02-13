@@ -1,0 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal()
+        maven {
+            url = "https://maven.fabricmc.net/"
+        }
+    }
+}
+
+rootProject.name = 'wisp-b1.7.3'
