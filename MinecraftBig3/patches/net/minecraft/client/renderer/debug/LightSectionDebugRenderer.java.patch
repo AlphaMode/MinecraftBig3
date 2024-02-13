@@ -1,0 +1,20 @@
+--- a/net/minecraft/client/renderer/debug/LightSectionDebugRenderer.java
++++ b/net/minecraft/client/renderer/debug/LightSectionDebugRenderer.java
+@@ -195,7 +_,7 @@
+             for(int j = 0; j < i; ++j) {
+                 for(int k = 0; k < i; ++k) {
+                     for(int l = 0; l < i; ++l) {
+-                        SectionPos sectionpos = SectionPos.of(p_282370_.x() + l - p_282804_, p_282370_.y() + k - p_282804_, p_282370_.z() + j - p_282804_);
++                        SectionPos sectionpos = SectionPos.of(p_282370_.x().add(l - p_282804_), p_282370_.y().add(k - p_282804_), p_282370_.z().add(j - p_282804_));
+                         LayerLightSectionStorage.SectionType layerlightsectionstorage$sectiontype = p_283220_.getDebugSectionType(p_283151_, sectionpos);
+                         if (layerlightsectionstorage$sectiontype == LayerLightSectionStorage.SectionType.LIGHT_AND_DATA) {
+                             this.lightAndBlocksShape.fill(l, k, j);
+@@ -207,7 +_,7 @@
+                 }
+             }
+ 
+-            this.minPos = SectionPos.of(p_282370_.x() - p_282804_, p_282370_.y() - p_282804_, p_282370_.z() - p_282804_);
++            this.minPos = SectionPos.of(p_282370_.x().subtract(p_282804_), p_282370_.y().subtract(p_282804_), p_282370_.z().subtract(p_282804_));
+         }
+     }
+ }

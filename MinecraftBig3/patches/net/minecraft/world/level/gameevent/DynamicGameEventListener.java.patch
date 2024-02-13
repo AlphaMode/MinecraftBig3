@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/gameevent/DynamicGameEventListener.java
++++ b/net/minecraft/world/level/gameevent/DynamicGameEventListener.java
+@@ -43,7 +_,7 @@
+         if (p_223624_ != null) {
+             ChunkAccess chunkaccess = p_223623_.getChunk(p_223624_.x(), p_223624_.z(), ChunkStatus.FULL, false);
+             if (chunkaccess != null) {
+-                p_223625_.accept(chunkaccess.getListenerRegistry(p_223624_.y()));
++                p_223625_.accept(chunkaccess.getListenerRegistry(p_223624_.y().intValue()));
+             }
+         }
+     }

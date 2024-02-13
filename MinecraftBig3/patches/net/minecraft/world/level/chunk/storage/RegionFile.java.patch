@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/chunk/storage/RegionFile.java
++++ b/net/minecraft/world/level/chunk/storage/RegionFile.java
+@@ -95,7 +_,7 @@
+     }
+ 
+     private Path getExternalChunkPath(ChunkPos p_63685_) {
+-        String s = "c." + p_63685_.x + "." + p_63685_.z + ".mcc";
++        String s = "c." + p_63685_.x() + "." + p_63685_.z() + ".mcc";
+         return this.externalFileDir.resolve(s);
+     }
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/gametest/framework/StructureUtils.java
++++ b/net/minecraft/gametest/framework/StructureUtils.java
+@@ -125,7 +_,7 @@
+     }
+ 
+     private static void forceLoadChunks(BoundingBox p_308909_, ServerLevel p_127859_) {
+-        p_308909_.intersectingChunks().forEach(p_308480_ -> p_127859_.setChunkForced(p_308480_.x, p_308480_.z, true));
++        p_308909_.intersectingChunks().forEach(p_308480_ -> p_127859_.setChunkForced(p_308480_.x(), p_308480_.z(), true));
+     }
+ 
+     public static void clearSpaceForStructure(BoundingBox p_127850_, ServerLevel p_127852_) {

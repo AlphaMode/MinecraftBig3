@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/level/levelgen/blockpredicates/HasSturdyFacePredicate.java
++++ b/net/minecraft/world/level/levelgen/blockpredicates/HasSturdyFacePredicate.java
+@@ -9,17 +_,17 @@
+ import net.minecraft.world.level.WorldGenLevel;
+ 
+ public class HasSturdyFacePredicate implements BlockPredicate {
+-    private final Vec3i offset;
++    private final me.alphamode.mcbig.core.Vec3l offset;
+     private final Direction direction;
+     public static final Codec<HasSturdyFacePredicate> CODEC = RecordCodecBuilder.create(
+         p_198327_ -> p_198327_.group(
+-                    Vec3i.offsetCodec(16).optionalFieldOf("offset", Vec3i.ZERO).forGetter(p_198331_ -> p_198331_.offset),
++                    me.alphamode.mcbig.core.Vec3l.offsetCodec(16).optionalFieldOf("offset", me.alphamode.mcbig.core.Vec3l.ZERO).forGetter(p_198331_ -> p_198331_.offset),
+                     Direction.CODEC.fieldOf("direction").forGetter(p_198329_ -> p_198329_.direction)
+                 )
+                 .apply(p_198327_, HasSturdyFacePredicate::new)
+     );
+ 
+-    public HasSturdyFacePredicate(Vec3i p_198320_, Direction p_198321_) {
++    public HasSturdyFacePredicate(me.alphamode.mcbig.core.Vec3l p_198320_, Direction p_198321_) {
+         this.offset = p_198320_;
+         this.direction = p_198321_;
+     }

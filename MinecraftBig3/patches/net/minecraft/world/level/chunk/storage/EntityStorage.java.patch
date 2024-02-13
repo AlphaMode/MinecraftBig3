@@ -1,0 +1,52 @@
+--- a/net/minecraft/world/level/chunk/storage/EntityStorage.java
++++ b/net/minecraft/world/level/chunk/storage/EntityStorage.java
+@@ -32,7 +_,7 @@
+     private static final String POSITION_TAG = "Position";
+     private final ServerLevel level;
+     private final IOWorker worker;
+-    private final LongSet emptyChunks = new LongOpenHashSet();
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> emptyChunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+     private final ProcessorMailbox<Runnable> entityDeserializerQueue;
+     protected final DataFixer fixerUpper;
+ 
+@@ -45,11 +_,11 @@
+ 
+     @Override
+     public CompletableFuture<ChunkEntities<Entity>> loadEntities(ChunkPos p_156551_) {
+-        return this.emptyChunks.contains(p_156551_.toLong())
++        return this.emptyChunks.contains(p_156551_)
+             ? CompletableFuture.completedFuture(emptyChunk(p_156551_))
+             : this.worker.loadAsync(p_156551_).thenApplyAsync(p_223458_ -> {
+                 if (p_223458_.isEmpty()) {
+-                    this.emptyChunks.add(p_156551_.toLong());
++                    this.emptyChunks.add(p_156551_);
+                     return emptyChunk(p_156551_);
+                 } else {
+                     try {
+@@ -75,7 +_,7 @@
+     }
+ 
+     private static void writeChunkPos(CompoundTag p_156563_, ChunkPos p_156564_) {
+-        p_156563_.put("Position", new IntArrayTag(new int[]{p_156564_.x, p_156564_.z}));
++        p_156563_.put("Position", new IntArrayTag(new int[]{p_156564_.x().intValue(), p_156564_.z().intValue()}));
+     }
+ 
+     private static ChunkEntities<Entity> emptyChunk(ChunkPos p_156569_) {
+@@ -86,7 +_,7 @@
+     public void storeEntities(ChunkEntities<Entity> p_156559_) {
+         ChunkPos chunkpos = p_156559_.getPos();
+         if (p_156559_.isEmpty()) {
+-            if (this.emptyChunks.add(chunkpos.toLong())) {
++            if (this.emptyChunks.add(chunkpos)) {
+                 this.worker.store(chunkpos, null);
+             }
+         } else {
+@@ -104,7 +_,7 @@
+                 LOGGER.error("Failed to store chunk {}", chunkpos, p_156554_);
+                 return null;
+             });
+-            this.emptyChunks.remove(chunkpos.toLong());
++            this.emptyChunks.remove(chunkpos);
+         }
+     }
+ 

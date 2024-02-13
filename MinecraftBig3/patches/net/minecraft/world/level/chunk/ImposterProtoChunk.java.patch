@@ -1,0 +1,37 @@
+--- a/net/minecraft/world/level/chunk/ImposterProtoChunk.java
++++ b/net/minecraft/world/level/chunk/ImposterProtoChunk.java
+@@ -126,7 +_,7 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getNoiseBiome(int p_204430_, int p_204431_, int p_204432_) {
++    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204430_, me.alphamode.mcbig.math.BigInteger p_204431_, me.alphamode.mcbig.math.BigInteger p_204432_) {
+         return this.wrapped.getNoiseBiome(p_204430_, p_204431_, p_204432_);
+     }
+ 
+@@ -155,21 +_,21 @@
+     }
+ 
+     @Override
+-    public LongSet getReferencesForStructure(Structure p_223408_) {
++    public it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getReferencesForStructure(Structure p_223408_) {
+         return this.wrapped.getReferencesForStructure(p_223408_);
+     }
+ 
+     @Override
+-    public void addReferenceForStructure(Structure p_223402_, long p_223403_) {
++    public void addReferenceForStructure(Structure p_223402_, ChunkPos p_223403_) {
+     }
+ 
+     @Override
+-    public Map<Structure, LongSet> getAllReferences() {
++    public Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> getAllReferences() {
+         return this.wrapped.getAllReferences();
+     }
+ 
+     @Override
+-    public void setAllReferences(Map<Structure, LongSet> p_62738_) {
++    public void setAllReferences(Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> p_62738_) {
+     }
+ 
+     @Override

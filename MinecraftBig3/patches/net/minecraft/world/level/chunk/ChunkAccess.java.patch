@@ -1,0 +1,71 @@
+--- a/net/minecraft/world/level/chunk/ChunkAccess.java
++++ b/net/minecraft/world/level/chunk/ChunkAccess.java
+@@ -57,7 +_,7 @@
+ public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiomeSource, LightChunk, StructureAccess {
+     public static final int NO_FILLED_SECTION = -1;
+     private static final Logger LOGGER = LogUtils.getLogger();
+-    private static final LongSet EMPTY_REFERENCE_SET = new LongOpenHashSet();
++    private static final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> EMPTY_REFERENCE_SET = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+     protected final ShortList[] postProcessing;
+     protected volatile boolean unsaved;
+     private volatile boolean isLightCorrect;
+@@ -74,7 +_,7 @@
+     protected final Map<Heightmap.Types, Heightmap> heightmaps = Maps.newEnumMap(Heightmap.Types.class);
+     protected ChunkSkyLightSources skyLightSources;
+     private final Map<Structure, StructureStart> structureStarts = Maps.newHashMap();
+-    private final Map<Structure, LongSet> structuresRefences = Maps.newHashMap();
++    private final Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> structuresRefences = Maps.newHashMap();
+     protected final Map<BlockPos, CompoundTag> pendingBlockEntities = Maps.newHashMap();
+     protected final Map<BlockPos, BlockEntity> blockEntities = Maps.newHashMap();
+     protected final LevelHeightAccessor levelHeightAccessor;
+@@ -219,23 +_,23 @@
+     }
+ 
+     @Override
+-    public LongSet getReferencesForStructure(Structure p_223017_) {
++    public it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getReferencesForStructure(Structure p_223017_) {
+         return this.structuresRefences.getOrDefault(p_223017_, EMPTY_REFERENCE_SET);
+     }
+ 
+     @Override
+-    public void addReferenceForStructure(Structure p_223007_, long p_223008_) {
+-        this.structuresRefences.computeIfAbsent(p_223007_, p_223019_ -> new LongOpenHashSet()).add(p_223008_);
++    public void addReferenceForStructure(Structure p_223007_, ChunkPos p_223008_) {
++        this.structuresRefences.computeIfAbsent(p_223007_, p_223019_ -> new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>()).add(p_223008_);
+         this.unsaved = true;
+     }
+ 
+     @Override
+-    public Map<Structure, LongSet> getAllReferences() {
++    public Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> getAllReferences() {
+         return Collections.unmodifiableMap(this.structuresRefences);
+     }
+ 
+     @Override
+-    public void setAllReferences(Map<Structure, LongSet> p_187663_) {
++    public void setAllReferences(Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> p_187663_) {
+         this.structuresRefences.clear();
+         this.structuresRefences.putAll(p_187663_);
+         this.unsaved = true;
+@@ -413,17 +_,17 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getNoiseBiome(int p_204347_, int p_204348_, int p_204349_) {
++    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204347_, me.alphamode.mcbig.math.BigInteger p_204348_, me.alphamode.mcbig.math.BigInteger p_204349_) {
+         try {
+             int i = QuartPos.fromBlock(this.getMinBuildHeight());
+             int k = i + QuartPos.fromBlock(this.getHeight()) - 1;
+-            int l = Mth.clamp(p_204348_, i, k);
++            int l = Mth.clamp(p_204348_.intValue(), i, k);
+             int j = this.getSectionIndex(QuartPos.toBlock(l));
+-            return this.sections[j].getNoiseBiome(p_204347_ & 3, l & 3, p_204349_ & 3);
++            return this.sections[j].getNoiseBiome(p_204347_.intValue() & 3, l & 3, p_204349_.intValue() & 3);
+         } catch (Throwable throwable) {
+             CrashReport crashreport = CrashReport.forThrowable(throwable, "Getting biome");
+             CrashReportCategory crashreportcategory = crashreport.addCategory("Biome being got");
+-            crashreportcategory.setDetail("Location", () -> CrashReportCategory.formatLocation(this, p_204347_, p_204348_, p_204349_));
++            crashreportcategory.setDetail("Location", () -> CrashReportCategory.formatLocation(this, p_204347_.longValue(), p_204348_.longValue(), p_204349_.longValue()));
+             throw new ReportedException(crashreport);
+         }
+     }

@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/storage/loot/predicates/LocationCheck.java
++++ b/net/minecraft/world/level/storage/loot/predicates/LocationCheck.java
+@@ -16,9 +_,9 @@
+ public record LocationCheck(Optional<LocationPredicate> predicate, BlockPos offset) implements LootItemCondition {
+     private static final MapCodec<BlockPos> OFFSET_CODEC = RecordCodecBuilder.mapCodec(
+         p_298180_ -> p_298180_.group(
+-                    ExtraCodecs.strictOptionalField(Codec.INT, "offsetX", 0).forGetter(Vec3i::getX),
+-                    ExtraCodecs.strictOptionalField(Codec.INT, "offsetY", 0).forGetter(Vec3i::getY),
+-                    ExtraCodecs.strictOptionalField(Codec.INT, "offsetZ", 0).forGetter(Vec3i::getZ)
++                    ExtraCodecs.strictOptionalField(Codec.INT, "offsetX", 0).forGetter(me.alphamode.mcbig.core.Vec3l::getX),
++                    ExtraCodecs.strictOptionalField(Codec.INT, "offsetY", 0).forGetter(me.alphamode.mcbig.core.Vec3l::getY),
++                    ExtraCodecs.strictOptionalField(Codec.INT, "offsetZ", 0).forGetter(me.alphamode.mcbig.core.Vec3l::getZ)
+                 )
+                 .apply(p_298180_, BlockPos::new)
+     );

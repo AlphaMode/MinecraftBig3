@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/level/levelgen/blending/BlendingData.java
++++ b/net/minecraft/world/level/levelgen/blending/BlendingData.java
+@@ -101,7 +_,7 @@
+     }
+ 
+     @Nullable
+-    public static BlendingData getOrUpdateBlendingData(WorldGenRegion p_190305_, int p_190306_, int p_190307_) {
++    public static BlendingData getOrUpdateBlendingData(WorldGenRegion p_190305_, me.alphamode.mcbig.math.BigInteger p_190306_, me.alphamode.mcbig.math.BigInteger p_190307_) {
+         ChunkAccess chunkaccess = p_190305_.getChunk(p_190306_, p_190307_);
+         BlendingData blendingdata = chunkaccess.getBlendingData();
+         if (blendingdata != null && chunkaccess.getHighestGeneratedStatus().isOrAfter(ChunkStatus.BIOMES)) {
+@@ -112,12 +_,12 @@
+         }
+     }
+ 
+-    public static Set<Direction8> sideByGenerationAge(WorldGenLevel p_197066_, int p_197067_, int p_197068_, boolean p_197069_) {
++    public static Set<Direction8> sideByGenerationAge(WorldGenLevel p_197066_, me.alphamode.mcbig.math.BigInteger p_197067_, me.alphamode.mcbig.math.BigInteger p_197068_, boolean p_197069_) {
+         Set<Direction8> set = EnumSet.noneOf(Direction8.class);
+ 
+         for(Direction8 direction8 : Direction8.values()) {
+-            int i = p_197067_ + direction8.getStepX();
+-            int j = p_197068_ + direction8.getStepZ();
++            me.alphamode.mcbig.math.BigInteger i = p_197067_.add(direction8.getStepX());
++            me.alphamode.mcbig.math.BigInteger j = p_197068_.add(direction8.getStepZ());
+             if (p_197066_.getChunk(i, j).isOldNoiseGeneration() == p_197069_) {
+                 set.add(direction8);
+             }

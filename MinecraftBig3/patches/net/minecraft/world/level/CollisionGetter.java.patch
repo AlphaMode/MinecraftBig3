@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/CollisionGetter.java
++++ b/net/minecraft/world/level/CollisionGetter.java
+@@ -20,7 +_,7 @@
+     WorldBorder getWorldBorder();
+ 
+     @Nullable
+-    BlockGetter getChunkForCollisions(int p_45774_, int p_45775_);
++    BlockGetter getChunkForCollisions(me.alphamode.mcbig.math.BigInteger p_45774_, me.alphamode.mcbig.math.BigInteger p_45775_);
+ 
+     default boolean isUnobstructed(@Nullable Entity p_45750_, VoxelShape p_45751_) {
+         return true;

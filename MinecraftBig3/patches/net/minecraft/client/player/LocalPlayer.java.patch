@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/player/LocalPlayer.java
++++ b/net/minecraft/client/player/LocalPlayer.java
+@@ -197,7 +_,7 @@
+ 
+     @Override
+     public void tick() {
+-        if (this.level().hasChunkAt(this.getBlockX(), this.getBlockZ())) {
++        if (this.level().hasChunkAt(this.getBigBlockX(), this.getBigBlockZ())) {
+             super.tick();
+             if (this.isPassenger()) {
+                 this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround()));

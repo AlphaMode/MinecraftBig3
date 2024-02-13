@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/levelgen/PatrolSpawner.java
++++ b/net/minecraft/world/level/levelgen/PatrolSpawner.java
+@@ -52,10 +_,10 @@
+                             BlockPos.MutableBlockPos blockpos$mutableblockpos = player.blockPosition().mutable().move(k, 0, l);
+                             int i1 = 10;
+                             if (!p_64570_.hasChunksAt(
+-                                blockpos$mutableblockpos.getX() - 10,
+-                                blockpos$mutableblockpos.getZ() - 10,
+-                                blockpos$mutableblockpos.getX() + 10,
+-                                blockpos$mutableblockpos.getZ() + 10
++                                blockpos$mutableblockpos.getBigX().subtract(me.alphamode.mcbig.core.BigConstants.Ints.TEN),
++                                blockpos$mutableblockpos.getBigZ().subtract(me.alphamode.mcbig.core.BigConstants.Ints.TEN),
++                                blockpos$mutableblockpos.getBigX().add(me.alphamode.mcbig.core.BigConstants.Ints.TEN),
++                                blockpos$mutableblockpos.getBigZ().add(me.alphamode.mcbig.core.BigConstants.Ints.TEN)
+                             )) {
+                                 return 0;
+                             } else {

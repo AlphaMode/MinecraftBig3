@@ -1,0 +1,39 @@
+--- a/net/minecraft/util/Mth.java
++++ b/net/minecraft/util/Mth.java
+@@ -66,6 +_,11 @@
+         return p_14108_ < (double)i ? i - 1 : i;
+     }
+ 
++    public static me.alphamode.mcbig.math.BigInteger bigFloor(double p_14108_) {
++        me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.val((long)p_14108_);
++        return p_14108_ < (double)i.doubleValue() ? i.subtract(me.alphamode.mcbig.math.BigInteger.ONE) : i;
++    }
++
+     public static long lfloor(double p_14135_) {
+         long i = (long)p_14135_;
+         return p_14135_ < (double)i ? i - 1L : i;
+@@ -89,6 +_,15 @@
+         return p_14166_ > (double)i ? i + 1 : i;
+     }
+ 
++    public static me.alphamode.mcbig.math.BigInteger bigCeil(double p_14166_) {
++        me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.val((long)p_14166_);
++        return p_14166_ > (double)i.doubleValue() ? i.add() : i;
++    }
++
++    public static me.alphamode.mcbig.math.BigInteger clamp(me.alphamode.mcbig.math.BigInteger p_14046_, me.alphamode.mcbig.math.BigInteger p_14047_, me.alphamode.mcbig.math.BigInteger p_14048_) {
++        return p_14046_.max(p_14047_).min(p_14048_);
++    }
++
+     public static int clamp(int p_14046_, int p_14047_, int p_14048_) {
+         return Math.min(Math.max(p_14046_, p_14047_), p_14048_);
+     }
+@@ -276,7 +_,7 @@
+     }
+ 
+     @Deprecated
+-    public static long getSeed(Vec3i p_14058_) {
++    public static long getSeed(me.alphamode.mcbig.core.Vec3l p_14058_) {
+         return getSeed(p_14058_.getX(), p_14058_.getY(), p_14058_.getZ());
+     }
+ 

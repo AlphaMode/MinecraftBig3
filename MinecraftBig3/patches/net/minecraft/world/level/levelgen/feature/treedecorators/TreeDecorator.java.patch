@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/levelgen/feature/treedecorators/TreeDecorator.java
++++ b/net/minecraft/world/level/levelgen/feature/treedecorators/TreeDecorator.java
+@@ -46,9 +_,9 @@
+             this.roots = new ObjectArrayList<>(p_226057_);
+             this.logs = new ObjectArrayList<>(p_226055_);
+             this.leaves = new ObjectArrayList<>(p_226056_);
+-            this.logs.sort(Comparator.comparingInt(Vec3i::getY));
+-            this.leaves.sort(Comparator.comparingInt(Vec3i::getY));
+-            this.roots.sort(Comparator.comparingInt(Vec3i::getY));
++            this.logs.sort(Comparator.comparingLong(me.alphamode.mcbig.core.Vec3l::getY));
++            this.leaves.sort(Comparator.comparingLong(me.alphamode.mcbig.core.Vec3l::getY));
++            this.roots.sort(Comparator.comparingLong(me.alphamode.mcbig.core.Vec3l::getY));
+         }
+ 
+         public void placeVine(BlockPos p_226065_, BooleanProperty p_226066_) {

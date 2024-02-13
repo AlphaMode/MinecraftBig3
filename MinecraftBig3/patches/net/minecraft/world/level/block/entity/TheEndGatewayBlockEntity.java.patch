@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
+@@ -281,7 +_,7 @@
+             if (blockstate.is(Blocks.END_STONE)
+                 && !p_59954_.getBlockState(blockpos4).isCollisionShapeFullBlock(p_59954_, blockpos4)
+                 && !p_59954_.getBlockState(blockpos5).isCollisionShapeFullBlock(p_59954_, blockpos5)) {
+-                double d1 = blockpos3.distToCenterSqr(0.0, 0.0, 0.0);
++                double d1 = blockpos3.distToCenterSqr(me.alphamode.mcbig.math.BigDecimal.ZERO, me.alphamode.mcbig.math.BigDecimal.ZERO, me.alphamode.mcbig.math.BigDecimal.ZERO);
+                 if (blockpos2 == null || d1 < d0) {
+                     blockpos2 = blockpos3;
+                     d0 = d1;

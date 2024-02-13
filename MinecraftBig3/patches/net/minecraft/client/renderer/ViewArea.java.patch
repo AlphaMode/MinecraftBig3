@@ -1,0 +1,17 @@
+--- a/net/minecraft/client/renderer/ViewArea.java
++++ b/net/minecraft/client/renderer/ViewArea.java
+@@ -97,10 +_,10 @@
+         }
+     }
+ 
+-    public void setDirty(int p_110860_, int p_110861_, int p_110862_, boolean p_110863_) {
+-        int i = Math.floorMod(p_110860_, this.sectionGridSizeX);
+-        int j = Math.floorMod(p_110861_ - this.level.getMinSection(), this.sectionGridSizeY);
+-        int k = Math.floorMod(p_110862_, this.sectionGridSizeZ);
++    public void setDirty(me.alphamode.mcbig.math.BigInteger p_110860_, me.alphamode.mcbig.math.BigInteger p_110861_, me.alphamode.mcbig.math.BigInteger p_110862_, boolean p_110863_) {
++        int i = me.alphamode.mcbig.math.BigMath.floorMod(p_110860_, this.sectionGridSizeX).intValue();
++        int j = me.alphamode.mcbig.math.BigMath.floorMod(p_110861_.subtract(this.level.getMinSection()), this.sectionGridSizeY).intValue();
++        int k = me.alphamode.mcbig.math.BigMath.floorMod(p_110862_, this.sectionGridSizeZ).intValue();
+         SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection = this.sections[this.getSectionIndex(i, j, k)];
+         sectionrenderdispatcher$rendersection.setDirty(p_110863_);
+     }

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
++++ b/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
+@@ -44,7 +_,7 @@
+     public Path createPath(BlockPos p_26475_, int p_26476_) {
+         LevelChunk levelchunk = this.level
+             .getChunkSource()
+-            .getChunkNow(SectionPos.blockToSectionCoord(p_26475_.getX()), SectionPos.blockToSectionCoord(p_26475_.getZ()));
++            .getChunkNow(SectionPos.blockToSectionCoord(p_26475_.getBigX()), SectionPos.blockToSectionCoord(p_26475_.getBigZ()));
+         if (levelchunk == null) {
+             return null;
+         } else {

@@ -1,0 +1,124 @@
+--- a/net/minecraft/server/level/ChunkTrackingView.java
++++ b/net/minecraft/server/level/ChunkTrackingView.java
+@@ -7,7 +_,7 @@
+ public interface ChunkTrackingView {
+     ChunkTrackingView EMPTY = new ChunkTrackingView() {
+         @Override
+-        public boolean contains(int p_294225_, int p_294897_, boolean p_294644_) {
++        public boolean contains(me.alphamode.mcbig.math.BigInteger p_294225_, me.alphamode.mcbig.math.BigInteger p_294897_, boolean p_294644_) {
+             return false;
+         }
+ 
+@@ -25,13 +_,13 @@
+             if (p_294391_ instanceof ChunkTrackingView.Positioned chunktrackingview$positioned
+                 && p_294272_ instanceof ChunkTrackingView.Positioned chunktrackingview$positioned1
+                 && chunktrackingview$positioned.squareIntersects(chunktrackingview$positioned1)) {
+-                int i = Math.min(chunktrackingview$positioned.minX(), chunktrackingview$positioned1.minX());
+-                int j = Math.min(chunktrackingview$positioned.minZ(), chunktrackingview$positioned1.minZ());
+-                int k = Math.max(chunktrackingview$positioned.maxX(), chunktrackingview$positioned1.maxX());
+-                int l = Math.max(chunktrackingview$positioned.maxZ(), chunktrackingview$positioned1.maxZ());
++                me.alphamode.mcbig.math.BigInteger i = chunktrackingview$positioned.minX().min(chunktrackingview$positioned1.minX());
++                me.alphamode.mcbig.math.BigInteger j = chunktrackingview$positioned.minZ().min(chunktrackingview$positioned1.minZ());
++                me.alphamode.mcbig.math.BigInteger k = chunktrackingview$positioned.maxX().max(chunktrackingview$positioned1.maxX());
++                me.alphamode.mcbig.math.BigInteger l = chunktrackingview$positioned.maxZ().max(chunktrackingview$positioned1.maxZ());
+ 
+-                for(int i1 = i; i1 <= k; ++i1) {
+-                    for(int j1 = j; j1 <= l; ++j1) {
++                for(me.alphamode.mcbig.math.BigInteger i1 = i; i1.compareTo(k) <= 0; i1 = i1.add()) {
++                    for(me.alphamode.mcbig.math.BigInteger j1 = j; j1.compareTo(l) <= 0; j1 = j1.add()) {
+                         boolean flag = chunktrackingview$positioned.contains(i1, j1);
+                         boolean flag1 = chunktrackingview$positioned1.contains(i1, j1);
+                         if (flag != flag1) {
+@@ -53,28 +_,28 @@
+     }
+ 
+     default boolean contains(ChunkPos p_296112_) {
+-        return this.contains(p_296112_.x, p_296112_.z);
++        return this.contains(p_296112_.x(), p_296112_.z());
+     }
+ 
+-    default boolean contains(int p_295374_, int p_296479_) {
++    default boolean contains(me.alphamode.mcbig.math.BigInteger p_295374_, me.alphamode.mcbig.math.BigInteger p_296479_) {
+         return this.contains(p_295374_, p_296479_, true);
+     }
+ 
+-    boolean contains(int p_294429_, int p_295591_, boolean p_296102_);
++    boolean contains(me.alphamode.mcbig.math.BigInteger p_294429_, me.alphamode.mcbig.math.BigInteger p_295591_, boolean p_296102_);
+ 
+     void forEach(Consumer<ChunkPos> p_294937_);
+ 
+-    default boolean isInViewDistance(int p_295863_, int p_294569_) {
++    default boolean isInViewDistance(me.alphamode.mcbig.math.BigInteger p_295863_, me.alphamode.mcbig.math.BigInteger p_294569_) {
+         return this.contains(p_295863_, p_294569_, false);
+     }
+ 
+-    static boolean isInViewDistance(int p_294551_, int p_294918_, int p_296415_, int p_296475_, int p_295248_) {
++    static boolean isInViewDistance(me.alphamode.mcbig.math.BigInteger p_294551_, me.alphamode.mcbig.math.BigInteger p_294918_, int p_296415_, me.alphamode.mcbig.math.BigInteger p_296475_, me.alphamode.mcbig.math.BigInteger p_295248_) {
+         return isWithinDistance(p_294551_, p_294918_, p_296415_, p_296475_, p_295248_, false);
+     }
+ 
+-    static boolean isWithinDistance(int p_294927_, int p_295703_, int p_294990_, int p_295161_, int p_295394_, boolean p_295219_) {
+-        int i = Math.max(0, Math.abs(p_295161_ - p_294927_) - 1);
+-        int j = Math.max(0, Math.abs(p_295394_ - p_295703_) - 1);
++    static boolean isWithinDistance(me.alphamode.mcbig.math.BigInteger p_294927_, me.alphamode.mcbig.math.BigInteger p_295703_, int p_294990_, me.alphamode.mcbig.math.BigInteger p_295161_, me.alphamode.mcbig.math.BigInteger p_295394_, boolean p_295219_) {
++        int i = Math.max(0, p_295161_.subtract(p_294927_).abs().intValue() - 1);
++        int j = Math.max(0, p_295394_.subtract(p_295703_).abs().intValue() - 1);
+         long k = (long)Math.max(0, Math.max(i, j) - (p_295219_ ? 1 : 0));
+         long l = (long)Math.min(i, j);
+         long i1 = l * l + k * k;
+@@ -83,36 +_,36 @@
+     }
+ 
+     public static record Positioned(ChunkPos center, int viewDistance) implements ChunkTrackingView {
+-        int minX() {
+-            return this.center.x - this.viewDistance - 1;
+-        }
+-
+-        int minZ() {
+-            return this.center.z - this.viewDistance - 1;
+-        }
+-
+-        int maxX() {
+-            return this.center.x + this.viewDistance + 1;
+-        }
+-
+-        int maxZ() {
+-            return this.center.z + this.viewDistance + 1;
++        me.alphamode.mcbig.math.BigInteger minX() {
++            return this.center.x().subtract(this.viewDistance).subtract();
++        }
++
++        me.alphamode.mcbig.math.BigInteger minZ() {
++            return this.center.z().subtract(this.viewDistance).subtract();
++        }
++
++        me.alphamode.mcbig.math.BigInteger maxX() {
++            return this.center.x().add(this.viewDistance).add();
++        }
++
++        me.alphamode.mcbig.math.BigInteger maxZ() {
++            return this.center.z().add(this.viewDistance).add();
+         }
+ 
+         @VisibleForTesting
+         protected boolean squareIntersects(ChunkTrackingView.Positioned p_295100_) {
+-            return this.minX() <= p_295100_.maxX() && this.maxX() >= p_295100_.minX() && this.minZ() <= p_295100_.maxZ() && this.maxZ() >= p_295100_.minZ();
++            return this.minX().compareTo(p_295100_.maxX()) <= 0 && this.maxX().compareTo(p_295100_.minX()) >= 0 && this.minZ().compareTo(p_295100_.maxZ()) <= 0 && this.maxZ().compareTo(p_295100_.minZ()) >= 0;
+         }
+ 
+         @Override
+-        public boolean contains(int p_295177_, int p_294248_, boolean p_294703_) {
+-            return ChunkTrackingView.isWithinDistance(this.center.x, this.center.z, this.viewDistance, p_295177_, p_294248_, p_294703_);
++        public boolean contains(me.alphamode.mcbig.math.BigInteger p_295177_, me.alphamode.mcbig.math.BigInteger p_294248_, boolean p_294703_) {
++            return ChunkTrackingView.isWithinDistance(this.center.x(), this.center.z(), this.viewDistance, p_295177_, p_294248_, p_294703_);
+         }
+ 
+         @Override
+         public void forEach(Consumer<ChunkPos> p_294236_) {
+-            for(int i = this.minX(); i <= this.maxX(); ++i) {
+-                for(int j = this.minZ(); j <= this.maxZ(); ++j) {
++            for(me.alphamode.mcbig.math.BigInteger i = this.minX(); i.compareTo(this.maxX()) <= 0; i = i.add()) {
++                for(me.alphamode.mcbig.math.BigInteger j = this.minZ(); j.compareTo(this.maxZ()) <= 0; j = j.add()) {
+                     if (this.contains(i, j)) {
+                         p_294236_.accept(new ChunkPos(i, j));
+                     }

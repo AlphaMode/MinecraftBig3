@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/entity/ai/navigation/PathNavigation.java
++++ b/net/minecraft/world/entity/ai/navigation/PathNavigation.java
+@@ -38,7 +_,7 @@
+     protected int tick;
+     protected int lastStuckCheck;
+     protected Vec3 lastStuckCheckPos = Vec3.ZERO;
+-    protected Vec3i timeoutCachedNode = Vec3i.ZERO;
++    protected me.alphamode.mcbig.core.Vec3l timeoutCachedNode = me.alphamode.mcbig.core.Vec3l.ZERO;
+     protected long timeoutTimer;
+     protected long lastTimeoutCheck;
+     protected double timeoutLimit;
+@@ -227,7 +_,7 @@
+     protected void followThePath() {
+         Vec3 vec3 = this.getTempMobPos();
+         this.maxDistanceToWaypoint = this.mob.getBbWidth() > 0.75F ? this.mob.getBbWidth() / 2.0F : 0.75F - this.mob.getBbWidth() / 2.0F;
+-        Vec3i vec3i = this.path.getNextNodePos();
++        me.alphamode.mcbig.core.Vec3l vec3i = this.path.getNextNodePos();
+         double d0 = Math.abs(this.mob.getX() - ((double)vec3i.getX() + 0.5));
+         double d1 = Math.abs(this.mob.getY() - (double)vec3i.getY());
+         double d2 = Math.abs(this.mob.getZ() - ((double)vec3i.getZ() + 0.5));
+@@ -283,7 +_,7 @@
+         }
+ 
+         if (this.path != null && !this.path.isDone()) {
+-            Vec3i vec3i = this.path.getNextNodePos();
++            me.alphamode.mcbig.core.Vec3l vec3i = this.path.getNextNodePos();
+             long i = this.level.getGameTime();
+             if (vec3i.equals(this.timeoutCachedNode)) {
+                 this.timeoutTimer += i - this.lastTimeoutCheck;
+@@ -307,7 +_,7 @@
+     }
+ 
+     private void resetStuckTimeout() {
+-        this.timeoutCachedNode = Vec3i.ZERO;
++        this.timeoutCachedNode = me.alphamode.mcbig.core.Vec3l.ZERO;
+         this.timeoutTimer = 0L;
+         this.timeoutLimit = 0.0;
+         this.isStuck = false;

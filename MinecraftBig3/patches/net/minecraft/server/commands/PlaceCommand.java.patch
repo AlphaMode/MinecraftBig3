@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/commands/PlaceCommand.java
++++ b/net/minecraft/server/commands/PlaceCommand.java
+@@ -239,7 +_,7 @@
+         ServerLevel serverlevel = p_214576_.getLevel();
+         ConfiguredFeature<?, ?> configuredfeature = p_248822_.value();
+         ChunkPos chunkpos = new ChunkPos(p_214578_);
+-        checkLoaded(serverlevel, new ChunkPos(chunkpos.x - 1, chunkpos.z - 1), new ChunkPos(chunkpos.x + 1, chunkpos.z + 1));
++        checkLoaded(serverlevel, new ChunkPos(chunkpos.x().subtract(), chunkpos.z().subtract()), new ChunkPos(chunkpos.x().add(), chunkpos.z().add()));
+         if (!configuredfeature.place(serverlevel, serverlevel.getChunkSource().getGenerator(), serverlevel.getRandom(), p_214578_)) {
+             throw ERROR_FEATURE_FAILED.create();
+         } else {

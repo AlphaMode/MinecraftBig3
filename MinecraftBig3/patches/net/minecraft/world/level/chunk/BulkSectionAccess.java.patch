@@ -1,0 +1,33 @@
+--- a/net/minecraft/world/level/chunk/BulkSectionAccess.java
++++ b/net/minecraft/world/level/chunk/BulkSectionAccess.java
+@@ -11,10 +_,10 @@
+ 
+ public class BulkSectionAccess implements AutoCloseable {
+     private final LevelAccessor level;
+-    private final Long2ObjectMap<LevelChunkSection> acquiredSections = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<SectionPos, LevelChunkSection> acquiredSections = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+     @Nullable
+     private LevelChunkSection lastSection;
+-    private long lastSectionKey;
++    private SectionPos lastSectionKey;
+ 
+     public BulkSectionAccess(LevelAccessor p_156103_) {
+         this.level = p_156103_;
+@@ -24,14 +_,14 @@
+     public LevelChunkSection getSection(BlockPos p_156105_) {
+         int i = this.level.getSectionIndex(p_156105_.getY());
+         if (i >= 0 && i < this.level.getSectionsCount()) {
+-            long j = SectionPos.asLong(p_156105_);
+-            if (this.lastSection == null || this.lastSectionKey != j) {
++            SectionPos j = SectionPos.of(p_156105_);
++            if (this.lastSection == null || !java.util.Objects.equals(this.lastSectionKey, j)) {
+                 this.lastSection = this.acquiredSections
+                     .computeIfAbsent(
+                         j,
+                         p_156109_ -> {
+                             ChunkAccess chunkaccess = this.level
+-                                .getChunk(SectionPos.blockToSectionCoord(p_156105_.getX()), SectionPos.blockToSectionCoord(p_156105_.getZ()));
++                                .getChunk(SectionPos.blockToSectionCoord(p_156105_.getBigX()), SectionPos.blockToSectionCoord(p_156105_.getBigZ()));
+                             LevelChunkSection levelchunksection = chunkaccess.getSection(i);
+                             levelchunksection.acquire();
+                             return levelchunksection;

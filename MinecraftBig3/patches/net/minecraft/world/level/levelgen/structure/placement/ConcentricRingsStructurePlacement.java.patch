@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/placement/ConcentricRingsStructurePlacement.java
++++ b/net/minecraft/world/level/levelgen/structure/placement/ConcentricRingsStructurePlacement.java
+@@ -80,7 +_,7 @@
+     }
+ 
+     @Override
+-    protected boolean isPlacementChunk(ChunkGeneratorStructureState p_256631_, int p_256202_, int p_255915_) {
++    protected boolean isPlacementChunk(ChunkGeneratorStructureState p_256631_, me.alphamode.mcbig.math.BigInteger p_256202_, me.alphamode.mcbig.math.BigInteger p_255915_) {
+         List<ChunkPos> list = p_256631_.getRingPositionsFor(this);
+         return list == null ? false : list.contains(new ChunkPos(p_256202_, p_255915_));
+     }

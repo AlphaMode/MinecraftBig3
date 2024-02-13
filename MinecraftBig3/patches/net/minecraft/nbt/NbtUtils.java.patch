@@ -1,0 +1,27 @@
+--- a/net/minecraft/nbt/NbtUtils.java
++++ b/net/minecraft/nbt/NbtUtils.java
+@@ -662,4 +_,24 @@
+     public static int getDataVersion(CompoundTag p_265397_, int p_265399_) {
+         return p_265397_.contains("DataVersion", 99) ? p_265397_.getInt("DataVersion") : p_265399_;
+     }
++
++    public static <T extends it.unimi.dsi.fastutil.objects.ObjectCollection<net.minecraft.world.level.ChunkPos>> T readChunks(CompoundTag tag, String key, java.util.function.Supplier<T> consumer) {
++        T chunks = consumer.get();
++        tag.getList(key, Tag.TAG_COMPOUND).forEach(chunkTag -> {
++            CompoundTag chunk = (CompoundTag) chunkTag;
++            chunks.add(new net.minecraft.world.level.ChunkPos(me.alphamode.mcbig.math.BigInteger.val(chunk.getString("xPos")), me.alphamode.mcbig.math.BigInteger.val(chunk.getString("zPos"))));
++        });
++        return chunks;
++    }
++
++    public static void writeChunks(CompoundTag tag, String key, it.unimi.dsi.fastutil.objects.ObjectCollection<net.minecraft.world.level.ChunkPos> chunks) {
++        ListTag chunksList = new ListTag();
++        chunks.forEach(chunkPos -> {
++            CompoundTag chunk = new CompoundTag();
++            chunk.putString("xPos", chunkPos.x().toString());
++            chunk.putString("zPos", chunkPos.z().toString());
++            chunksList.add(chunk);
++        });
++        tag.put(key, chunksList);
++    }
+ }

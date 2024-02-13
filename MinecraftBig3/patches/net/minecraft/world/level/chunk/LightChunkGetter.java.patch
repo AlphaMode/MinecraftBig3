@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/chunk/LightChunkGetter.java
++++ b/net/minecraft/world/level/chunk/LightChunkGetter.java
+@@ -7,7 +_,7 @@
+ 
+ public interface LightChunkGetter {
+     @Nullable
+-    LightChunk getChunkForLighting(int p_63023_, int p_63024_);
++    LightChunk getChunkForLighting(me.alphamode.mcbig.math.BigInteger p_63023_, me.alphamode.mcbig.math.BigInteger p_63024_);
+ 
+     default void onLightUpdate(LightLayer p_63021_, SectionPos p_63022_) {
+     }

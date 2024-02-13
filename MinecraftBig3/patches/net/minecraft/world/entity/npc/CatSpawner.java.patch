@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/npc/CatSpawner.java
++++ b/net/minecraft/world/entity/npc/CatSpawner.java
+@@ -39,7 +_,7 @@
+                     int j = (8 + randomsource.nextInt(24)) * (randomsource.nextBoolean() ? -1 : 1);
+                     BlockPos blockpos = player.blockPosition().offset(i, 0, j);
+                     int k = 10;
+-                    if (!p_35330_.hasChunksAt(blockpos.getX() - 10, blockpos.getZ() - 10, blockpos.getX() + 10, blockpos.getZ() + 10)) {
++                    if (!p_35330_.hasChunksAt(blockpos.getBigX().subtract(me.alphamode.mcbig.core.BigConstants.Ints.TEN), blockpos.getBigZ().subtract(me.alphamode.mcbig.core.BigConstants.Ints.TEN), blockpos.getBigX().add(me.alphamode.mcbig.core.BigConstants.Ints.TEN), blockpos.getBigZ().add(me.alphamode.mcbig.core.BigConstants.Ints.TEN))) {
+                         return 0;
+                     } else {
+                         if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, p_35330_, blockpos, EntityType.CAT)) {

@@ -1,0 +1,41 @@
+--- a/net/minecraft/client/gui/components/DebugScreenOverlay.java
++++ b/net/minecraft/client/gui/components/DebugScreenOverlay.java
+@@ -274,7 +_,7 @@
+             }
+ 
+             Level level = this.getLevel();
+-            LongSet longset = (LongSet)(level instanceof ServerLevel ? ((ServerLevel)level).getForcedChunks() : LongSets.EMPTY_SET);
++            it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = (it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>)(level instanceof ServerLevel ? ((ServerLevel)level).getForcedChunks() : LongSets.EMPTY_SET);
+             List<String> list = Lists.newArrayList(
+                 "Minecraft "
+                     + SharedConstants.getCurrentVersion().getName()
+@@ -323,9 +_,9 @@
+                 String.format(
+                     Locale.ROOT,
+                     "Chunk: %d %d %d [%d %d in r.%d.%d.mca]",
+-                    chunkpos.x,
++                    chunkpos.x().longValue(),
+                     SectionPos.blockToSectionCoord(blockpos.getY()),
+-                    chunkpos.z,
++                    chunkpos.z().longValue(),
+                     chunkpos.getRegionLocalX(),
+                     chunkpos.getRegionLocalZ(),
+                     chunkpos.getRegionX(),
+@@ -470,7 +_,7 @@
+             }
+ 
+             this.serverChunk = serverlevel.getChunkSource()
+-                .getChunkFuture(this.lastPos.x, this.lastPos.z, ChunkStatus.FULL, false)
++                .getChunkFuture(this.lastPos.x(), this.lastPos.z(), ChunkStatus.FULL, false)
+                 .thenApply(p_205369_ -> p_205369_.map(p_205371_ -> (LevelChunk)p_205371_, p_205363_ -> null));
+         }
+ 
+@@ -479,7 +_,7 @@
+ 
+     private LevelChunk getClientChunk() {
+         if (this.clientChunk == null) {
+-            this.clientChunk = this.minecraft.level.getChunk(this.lastPos.x, this.lastPos.z);
++            this.clientChunk = this.minecraft.level.getChunk(this.lastPos.x(), this.lastPos.z());
+         }
+ 
+         return this.clientChunk;

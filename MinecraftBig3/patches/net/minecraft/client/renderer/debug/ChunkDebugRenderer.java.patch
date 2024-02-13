@@ -1,0 +1,23 @@
+--- a/net/minecraft/client/renderer/debug/ChunkDebugRenderer.java
++++ b/net/minecraft/client/renderer/debug/ChunkDebugRenderer.java
+@@ -67,9 +_,9 @@
+                         p_113370_,
+                         p_113371_,
+                         s1,
+-                        (double)SectionPos.sectionToBlockCoord(chunkpos.x, 8),
++                        (double)SectionPos.sectionToBlockCoord(chunkpos.x(), 8).intValue(),
+                         d1 + (double)i,
+-                        (double)SectionPos.sectionToBlockCoord(chunkpos.z, 8),
++                        (double)SectionPos.sectionToBlockCoord(chunkpos.z(), 8).intValue(),
+                         -1,
+                         0.15F,
+                         true,
+@@ -99,7 +_,7 @@
+                 for(int l = j - 12; l <= j + 12; ++l) {
+                     ChunkPos chunkpos = new ChunkPos(k, l);
+                     String s = "";
+-                    LevelChunk levelchunk = clientchunkcache.getChunk(k, l, false);
++                    LevelChunk levelchunk = clientchunkcache.getChunk(me.alphamode.mcbig.math.BigInteger.val(k), me.alphamode.mcbig.math.BigInteger.val(l), false);
+                     s = s + "Client: ";
+                     if (levelchunk == null) {
+                         s = s + "0n/a\n";

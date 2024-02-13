@@ -1,0 +1,55 @@
+--- a/net/minecraft/network/protocol/game/ClientboundLevelChunkWithLightPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundLevelChunkWithLightPacket.java
+@@ -9,30 +_,30 @@
+ import net.minecraft.world.level.lighting.LevelLightEngine;
+ 
+ public class ClientboundLevelChunkWithLightPacket implements Packet<ClientGamePacketListener> {
+-    private final int x;
+-    private final int z;
++    private final me.alphamode.mcbig.math.BigInteger x;
++    private final me.alphamode.mcbig.math.BigInteger z;
+     private final ClientboundLevelChunkPacketData chunkData;
+     private final ClientboundLightUpdatePacketData lightData;
+ 
+     public ClientboundLevelChunkWithLightPacket(LevelChunk p_285290_, LevelLightEngine p_285254_, @Nullable BitSet p_285350_, @Nullable BitSet p_285304_) {
+         ChunkPos chunkpos = p_285290_.getPos();
+-        this.x = chunkpos.x;
+-        this.z = chunkpos.z;
++        this.x = chunkpos.x();
++        this.z = chunkpos.z();
+         this.chunkData = new ClientboundLevelChunkPacketData(p_285290_);
+         this.lightData = new ClientboundLightUpdatePacketData(chunkpos, p_285254_, p_285350_, p_285304_);
+     }
+ 
+     public ClientboundLevelChunkWithLightPacket(FriendlyByteBuf p_195710_) {
+-        this.x = p_195710_.readInt();
+-        this.z = p_195710_.readInt();
++        this.x = p_195710_.readBigInteger();
++        this.z = p_195710_.readBigInteger();
+         this.chunkData = new ClientboundLevelChunkPacketData(p_195710_, this.x, this.z);
+         this.lightData = new ClientboundLightUpdatePacketData(p_195710_, this.x, this.z);
+     }
+ 
+     @Override
+     public void write(FriendlyByteBuf p_195712_) {
+-        p_195712_.writeInt(this.x);
+-        p_195712_.writeInt(this.z);
++        p_195712_.writeBigInteger(this.x);
++        p_195712_.writeBigInteger(this.z);
+         this.chunkData.write(p_195712_);
+         this.lightData.write(p_195712_);
+     }
+@@ -41,11 +_,11 @@
+         p_195716_.handleLevelChunkWithLight(this);
+     }
+ 
+-    public int getX() {
++    public me.alphamode.mcbig.math.BigInteger getX() {
+         return this.x;
+     }
+ 
+-    public int getZ() {
++    public me.alphamode.mcbig.math.BigInteger getZ() {
+         return this.z;
+     }
+ 

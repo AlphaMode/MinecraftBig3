@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/LevelAccessor.java
++++ b/net/minecraft/world/level/LevelAccessor.java
+@@ -74,7 +_,7 @@
+     ChunkSource getChunkSource();
+ 
+     @Override
+-    default boolean hasChunk(int p_46794_, int p_46795_) {
++    default boolean hasChunk(me.alphamode.mcbig.math.BigInteger p_46794_, me.alphamode.mcbig.math.BigInteger p_46795_) {
+         return this.getChunkSource().hasChunk(p_46794_, p_46795_);
+     }
+ 

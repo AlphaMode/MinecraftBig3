@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/blockpredicates/MatchingBlockTagPredicate.java
++++ b/net/minecraft/world/level/levelgen/blockpredicates/MatchingBlockTagPredicate.java
+@@ -17,7 +_,7 @@
+                 .apply(p_259003_, MatchingBlockTagPredicate::new)
+     );
+ 
+-    protected MatchingBlockTagPredicate(Vec3i p_204683_, TagKey<Block> p_204684_) {
++    protected MatchingBlockTagPredicate(me.alphamode.mcbig.core.Vec3l p_204683_, TagKey<Block> p_204684_) {
+         super(p_204683_);
+         this.tag = p_204684_;
+     }

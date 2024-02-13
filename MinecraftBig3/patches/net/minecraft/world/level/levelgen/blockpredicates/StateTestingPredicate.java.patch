@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/blockpredicates/StateTestingPredicate.java
++++ b/net/minecraft/world/level/levelgen/blockpredicates/StateTestingPredicate.java
+@@ -9,13 +_,13 @@
+ import net.minecraft.world.level.block.state.BlockState;
+ 
+ public abstract class StateTestingPredicate implements BlockPredicate {
+-    protected final Vec3i offset;
++    protected final me.alphamode.mcbig.core.Vec3l offset;
+ 
+-    protected static <P extends StateTestingPredicate> P1<Mu<P>, Vec3i> stateTestingCodec(Instance<P> p_190547_) {
+-        return p_190547_.group(Vec3i.offsetCodec(16).optionalFieldOf("offset", Vec3i.ZERO).forGetter(p_190549_ -> p_190549_.offset));
++    protected static <P extends StateTestingPredicate> P1<Mu<P>, me.alphamode.mcbig.core.Vec3l> stateTestingCodec(Instance<P> p_190547_) {
++        return p_190547_.group(me.alphamode.mcbig.core.Vec3l.offsetCodec(16).optionalFieldOf("offset", me.alphamode.mcbig.core.Vec3l.ZERO).forGetter(p_190549_ -> p_190549_.offset));
+     }
+ 
+-    protected StateTestingPredicate(Vec3i p_190541_) {
++    protected StateTestingPredicate(me.alphamode.mcbig.core.Vec3l p_190541_) {
+         this.offset = p_190541_;
+     }
+ 

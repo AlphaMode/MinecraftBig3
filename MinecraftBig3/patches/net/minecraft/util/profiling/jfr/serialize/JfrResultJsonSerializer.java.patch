@@ -1,0 +1,13 @@
+--- a/net/minecraft/util/profiling/jfr/serialize/JfrResultJsonSerializer.java
++++ b/net/minecraft/util/profiling/jfr/serialize/JfrResultJsonSerializer.java
+@@ -84,8 +_,8 @@
+                 JsonObject jsonobject3 = new JsonObject();
+                 jsonobject3.addProperty("durationNanos", p_185538_.duration().toNanos());
+                 jsonobject3.addProperty("level", p_185538_.level());
+-                jsonobject3.addProperty("chunkPosX", p_185538_.chunkPos().x);
+-                jsonobject3.addProperty("chunkPosZ", p_185538_.chunkPos().z);
++                jsonobject3.addProperty("chunkPosX", p_185538_.chunkPos().x());
++                jsonobject3.addProperty("chunkPosZ", p_185538_.chunkPos().z());
+                 jsonobject3.addProperty("worldPosX", p_185538_.worldPos().x());
+                 jsonobject3.addProperty("worldPosZ", p_185538_.worldPos().z());
+                 return jsonobject3;

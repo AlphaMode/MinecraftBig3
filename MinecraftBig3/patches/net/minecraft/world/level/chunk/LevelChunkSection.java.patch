@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/chunk/LevelChunkSection.java
++++ b/net/minecraft/world/level/chunk/LevelChunkSection.java
+@@ -184,7 +_,7 @@
+         for(int j = 0; j < 4; ++j) {
+             for(int k = 0; k < 4; ++k) {
+                 for(int l = 0; l < 4; ++l) {
+-                    palettedcontainer.getAndSetUnchecked(j, k, l, p_282075_.getNoiseBiome(p_282310_ + j, p_281510_ + k, p_283057_ + l, p_283084_));
++                    palettedcontainer.getAndSetUnchecked(j, k, l, p_282075_.getNoiseBiome(me.alphamode.mcbig.math.BigInteger.val(p_282310_ + j), me.alphamode.mcbig.math.BigInteger.val(p_281510_ + k), me.alphamode.mcbig.math.BigInteger.val(p_283057_ + l), p_283084_));
+                 }
+             }
+         }

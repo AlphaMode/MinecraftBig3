@@ -1,0 +1,79 @@
+--- a/net/minecraft/server/level/ServerLevel.java
++++ b/net/minecraft/server/level/ServerLevel.java
+@@ -298,7 +_,7 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getUncachedNoiseBiome(int p_203775_, int p_203776_, int p_203777_) {
++    public Holder<Biome> getUncachedNoiseBiome(me.alphamode.mcbig.math.BigInteger p_203775_, me.alphamode.mcbig.math.BigInteger p_203776_, me.alphamode.mcbig.math.BigInteger p_203777_) {
+         return this.getChunkSource()
+             .getGenerator()
+             .getBiomeSource()
+@@ -384,7 +_,7 @@
+                         profilerfiller.push("checkDespawn");
+                         p_308566_.checkDespawn();
+                         profilerfiller.pop();
+-                        if (this.chunkSource.chunkMap.getDistanceManager().inEntityTickingRange(p_308566_.chunkPosition().toLong())) {
++                        if (this.chunkSource.chunkMap.getDistanceManager().inEntityTickingRange(p_308566_.chunkPosition())) {
+                             Entity entity = p_308566_.getVehicle();
+                             if (entity != null) {
+                                 if (!entity.isRemoved() && entity.hasPassenger(p_308566_)) {
+@@ -411,7 +_,7 @@
+     }
+ 
+     @Override
+-    public boolean shouldTickBlocksAt(long p_184059_) {
++    public boolean shouldTickBlocksAt(ChunkPos p_184059_) {
+         return this.chunkSource.chunkMap.getDistanceManager().inBlockTickingRange(p_184059_);
+     }
+ 
+@@ -1318,23 +_,23 @@
+         this.getServer().getPlayerList().broadcastAll(new ClientboundSetDefaultSpawnPositionPacket(p_8734_, p_8735_));
+     }
+ 
+-    public LongSet getForcedChunks() {
++    public it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getForcedChunks() {
+         ForcedChunksSavedData forcedchunkssaveddata = this.getDataStorage().get(ForcedChunksSavedData.factory(), "chunks");
+-        return (LongSet)(forcedchunkssaveddata != null ? LongSets.unmodifiable(forcedchunkssaveddata.getChunks()) : LongSets.EMPTY_SET);
++        return forcedchunkssaveddata != null ? it.unimi.dsi.fastutil.objects.ObjectSets.unmodifiable(forcedchunkssaveddata.getChunks()) : it.unimi.dsi.fastutil.objects.ObjectSets.EMPTY_SET;
+     }
+ 
+-    public boolean setChunkForced(int p_8603_, int p_8604_, boolean p_8605_) {
++    public boolean setChunkForced(me.alphamode.mcbig.math.BigInteger p_8603_, me.alphamode.mcbig.math.BigInteger p_8604_, boolean p_8605_) {
+         ForcedChunksSavedData forcedchunkssaveddata = this.getDataStorage().computeIfAbsent(ForcedChunksSavedData.factory(), "chunks");
+         ChunkPos chunkpos = new ChunkPos(p_8603_, p_8604_);
+-        long i = chunkpos.toLong();
++//        long i = chunkpos.toLong();
+         boolean flag;
+         if (p_8605_) {
+-            flag = forcedchunkssaveddata.getChunks().add(i);
++            flag = forcedchunkssaveddata.getChunks().add(chunkpos);
+             if (flag) {
+                 this.getChunk(p_8603_, p_8604_);
+             }
+         } else {
+-            flag = forcedchunkssaveddata.getChunks().remove(i);
++            flag = forcedchunkssaveddata.getChunks().remove(chunkpos);
+         }
+ 
+         forcedchunkssaveddata.setDirty(flag);
+@@ -1621,16 +_,16 @@
+         return "Chunks[S] W: " + this.chunkSource.gatherStats() + " E: " + this.entityManager.gatherStats();
+     }
+ 
+-    public boolean areEntitiesLoaded(long p_143320_) {
++    public boolean areEntitiesLoaded(ChunkPos p_143320_) {
+         return this.entityManager.areEntitiesLoaded(p_143320_);
+     }
+ 
+-    private boolean isPositionTickingWithEntitiesLoaded(long p_184111_) {
++    private boolean isPositionTickingWithEntitiesLoaded(ChunkPos p_184111_) {
+         return this.areEntitiesLoaded(p_184111_) && this.chunkSource.isPositionTicking(p_184111_);
+     }
+ 
+     public boolean isPositionEntityTicking(BlockPos p_143341_) {
+-        return this.entityManager.canPositionTick(p_143341_) && this.chunkSource.chunkMap.getDistanceManager().inEntityTickingRange(ChunkPos.asLong(p_143341_));
++        return this.entityManager.canPositionTick(p_143341_) && this.chunkSource.chunkMap.getDistanceManager().inEntityTickingRange(new ChunkPos(p_143341_));
+     }
+ 
+     public boolean isNaturalSpawningAllowed(BlockPos p_201919_) {

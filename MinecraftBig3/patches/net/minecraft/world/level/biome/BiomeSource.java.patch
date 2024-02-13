@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/biome/BiomeSource.java
++++ b/net/minecraft/world/level/biome/BiomeSource.java
+@@ -158,7 +_,7 @@
+     }
+ 
+     @Override
+-    public abstract Holder<Biome> getNoiseBiome(int p_204238_, int p_204239_, int p_204240_, Climate.Sampler p_204241_);
++    public abstract Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204238_, me.alphamode.mcbig.math.BigInteger p_204239_, me.alphamode.mcbig.math.BigInteger p_204240_, Climate.Sampler p_204241_);
+ 
+     public void addDebugInfo(List<String> p_207837_, BlockPos p_207838_, Climate.Sampler p_207839_) {
+     }

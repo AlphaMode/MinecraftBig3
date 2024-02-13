@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/biome/TheEndBiomeSource.java
++++ b/net/minecraft/world/level/biome/TheEndBiomeSource.java
+@@ -57,10 +_,10 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getNoiseBiome(int p_204292_, int p_204293_, int p_204294_, Climate.Sampler p_204295_) {
+-        int i = QuartPos.toBlock(p_204292_);
+-        int j = QuartPos.toBlock(p_204293_);
+-        int k = QuartPos.toBlock(p_204294_);
++    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204292_, me.alphamode.mcbig.math.BigInteger p_204293_, me.alphamode.mcbig.math.BigInteger p_204294_, Climate.Sampler p_204295_) {
++        int i = QuartPos.toBlock(p_204292_.intValue());
++        int j = QuartPos.toBlock(p_204293_.intValue());
++        int k = QuartPos.toBlock(p_204294_.intValue());
+         int l = SectionPos.blockToSectionCoord(i);
+         int i1 = SectionPos.blockToSectionCoord(k);
+         if ((long)l * (long)l + (long)i1 * (long)i1 <= 4096L) {

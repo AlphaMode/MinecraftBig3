@@ -1,0 +1,91 @@
+--- a/net/minecraft/world/entity/Entity.java
++++ b/net/minecraft/world/entity/Entity.java
+@@ -1336,7 +_,7 @@
+ 
+     @Deprecated
+     public float getLightLevelDependentMagicValue() {
+-        return this.level().hasChunkAt(this.getBlockX(), this.getBlockZ())
++        return this.level().hasChunkAt(this.getBigBlockX(), this.getBigBlockZ())
+             ? this.level().getLightLevelDependentMagicValue(BlockPos.containing(this.getX(), this.getEyeY(), this.getZ()))
+             : 0.0F;
+     }
+@@ -2686,7 +_,7 @@
+         if (this.level() instanceof ServerLevel) {
+             ChunkPos chunkpos = new ChunkPos(BlockPos.containing(p_20325_, p_20326_, p_20327_));
+             ((ServerLevel)this.level()).getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 0, this.getId());
+-            this.level().getChunk(chunkpos.x, chunkpos.z);
++            this.level().getChunk(chunkpos.x(), chunkpos.z());
+             this.teleportTo(p_20325_, p_20326_, p_20327_);
+         }
+     }
+@@ -3145,10 +_,10 @@
+ 
+     public boolean touchingUnloadedChunk() {
+         AABB aabb = this.getBoundingBox().inflate(1.0);
+-        int i = Mth.floor(aabb.minX);
+-        int j = Mth.ceil(aabb.maxX);
+-        int k = Mth.floor(aabb.minZ);
+-        int l = Mth.ceil(aabb.maxZ);
++        me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(aabb.minX);
++        me.alphamode.mcbig.math.BigInteger j = Mth.bigCeil(aabb.maxX);
++        me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(aabb.minZ);
++        me.alphamode.mcbig.math.BigInteger l = Mth.bigCeil(aabb.maxZ);
+         return !this.level().hasChunksAt(i, k, j, l);
+     }
+ 
+@@ -3222,7 +_,11 @@
+     }
+ 
+     public final int getBlockX() {
+-        return this.blockPosition.getX();
++        return this.blockPosition.getBigX().intValue();
++    }
++
++    public final me.alphamode.mcbig.math.BigInteger getBigBlockX() {
++        return this.blockPosition.getBigX();
+     }
+ 
+     public final double getX() {
+@@ -3241,6 +_,10 @@
+         return this.blockPosition.getY();
+     }
+ 
++    public final me.alphamode.mcbig.math.BigInteger getBigBlockY() {
++        return this.blockPosition.getBigY();
++    }
++
+     public final double getY() {
+         return this.position.y;
+     }
+@@ -3258,7 +_,11 @@
+     }
+ 
+     public final int getBlockZ() {
+-        return this.blockPosition.getZ();
++        return this.blockPosition.getBigZ().intValue();
++    }
++
++    public final me.alphamode.mcbig.math.BigInteger getBigBlockZ() {
++        return this.blockPosition.getBigZ();
+     }
+ 
+     public final double getZ() {
+@@ -3276,13 +_,13 @@
+     public final void setPosRaw(double p_20344_, double p_20345_, double p_20346_) {
+         if (this.position.x != p_20344_ || this.position.y != p_20345_ || this.position.z != p_20346_) {
+             this.position = new Vec3(p_20344_, p_20345_, p_20346_);
+-            int i = Mth.floor(p_20344_);
+-            int j = Mth.floor(p_20345_);
+-            int k = Mth.floor(p_20346_);
+-            if (i != this.blockPosition.getX() || j != this.blockPosition.getY() || k != this.blockPosition.getZ()) {
++            me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(p_20344_);
++            me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(p_20345_);
++            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(p_20346_);
++            if (!i.equals(this.blockPosition.getBigX()) || !j.equals(this.blockPosition.getBigY()) || !k.equals(this.blockPosition.getBigZ())) {
+                 this.blockPosition = new BlockPos(i, j, k);
+                 this.feetBlockState = null;
+-                if (SectionPos.blockToSectionCoord(i) != this.chunkPosition.x || SectionPos.blockToSectionCoord(k) != this.chunkPosition.z) {
++                if (!SectionPos.blockToSectionCoord(i).equals(this.chunkPosition.x()) || !SectionPos.blockToSectionCoord(k).equals(this.chunkPosition.z())) {
+                     this.chunkPosition = new ChunkPos(this.blockPosition);
+                 }
+             }

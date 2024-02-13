@@ -1,0 +1,146 @@
+--- a/net/minecraft/world/entity/ai/village/poi/PoiManager.java
++++ b/net/minecraft/world/entity/ai/village/poi/PoiManager.java
+@@ -39,7 +_,7 @@
+     public static final int MAX_VILLAGE_DISTANCE = 6;
+     public static final int VILLAGE_SECTION_SIZE = 1;
+     private final PoiManager.DistanceTracker distanceTracker;
+-    private final LongSet loadedChunks = new LongOpenHashSet();
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> loadedChunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+ 
+     public PoiManager(Path p_217869_, DataFixer p_217870_, boolean p_217871_, RegistryAccess p_217872_, LevelHeightAccessor p_217873_) {
+         super(p_217869_, PoiSection::codec, PoiSection::new, p_217870_, DataFixTypes.POI_CHUNK, p_217871_, p_217872_, p_217873_);
+@@ -47,11 +_,11 @@
+     }
+ 
+     public void add(BlockPos p_217920_, Holder<PoiType> p_217921_) {
+-        this.getOrCreate(SectionPos.asLong(p_217920_)).add(p_217920_, p_217921_);
++        this.getOrCreate(SectionPos.of(p_217920_)).add(p_217920_, p_217921_);
+     }
+ 
+     public void remove(BlockPos p_27080_) {
+-        this.getOrLoad(SectionPos.asLong(p_27080_)).ifPresent(p_148657_ -> p_148657_.remove(p_27080_));
++        this.getOrLoad(SectionPos.of(p_27080_)).ifPresent(p_148657_ -> p_148657_.remove(p_27080_));
+     }
+ 
+     public long getCountInRange(Predicate<Holder<PoiType>> p_27122_, BlockPos p_27123_, int p_27124_, PoiManager.Occupancy p_27125_) {
+@@ -79,7 +_,7 @@
+     public Stream<PoiRecord> getInChunk(Predicate<Holder<PoiType>> p_27118_, ChunkPos p_27119_, PoiManager.Occupancy p_27120_) {
+         return IntStream.range(this.levelHeightAccessor.getMinSection(), this.levelHeightAccessor.getMaxSection())
+             .boxed()
+-            .map(p_217886_ -> this.getOrLoad(SectionPos.of(p_27119_, p_217886_).asLong()))
++            .map(p_217886_ -> this.getOrLoad(SectionPos.of(p_27119_, p_217886_)))
+             .filter(Optional::isPresent)
+             .flatMap(p_217942_ -> p_217942_.get().getRecords(p_27118_, p_27120_));
+     }
+@@ -157,31 +_,31 @@
+     }
+ 
+     public boolean release(BlockPos p_27155_) {
+-        return this.getOrLoad(SectionPos.asLong(p_27155_))
++        return this.getOrLoad(SectionPos.of(p_27155_))
+             .map(p_217993_ -> p_217993_.release(p_27155_))
+             .orElseThrow(() -> Util.pauseInIde(new IllegalStateException("POI never registered at " + p_27155_)));
+     }
+ 
+     public boolean exists(BlockPos p_27092_, Predicate<Holder<PoiType>> p_27093_) {
+-        return this.getOrLoad(SectionPos.asLong(p_27092_)).map(p_217925_ -> p_217925_.exists(p_27092_, p_27093_)).orElse(false);
++        return this.getOrLoad(SectionPos.of(p_27092_)).map(p_217925_ -> p_217925_.exists(p_27092_, p_27093_)).orElse(false);
+     }
+ 
+     public Optional<Holder<PoiType>> getType(BlockPos p_27178_) {
+-        return this.getOrLoad(SectionPos.asLong(p_27178_)).flatMap(p_217974_ -> p_217974_.getType(p_27178_));
++        return this.getOrLoad(SectionPos.of(p_27178_)).flatMap(p_217974_ -> p_217974_.getType(p_27178_));
+     }
+ 
+     @Deprecated
+     @VisibleForDebug
+     public int getFreeTickets(BlockPos p_148654_) {
+-        return this.getOrLoad(SectionPos.asLong(p_148654_)).map(p_217912_ -> p_217912_.getFreeTickets(p_148654_)).orElse(0);
++        return this.getOrLoad(SectionPos.of(p_148654_)).map(p_217912_ -> p_217912_.getFreeTickets(p_148654_)).orElse(0);
+     }
+ 
+     public int sectionsToVillage(SectionPos p_27099_) {
+         this.distanceTracker.runAllUpdates();
+-        return this.distanceTracker.getLevel(p_27099_.asLong());
++        return this.distanceTracker.getLevel(p_27099_);
+     }
+ 
+-    boolean isVillageCenter(long p_27198_) {
++    boolean isVillageCenter(SectionPos p_27198_) {
+         Optional<PoiSection> optional = this.get(p_27198_);
+         return optional == null
+             ? false
+@@ -198,24 +_,24 @@
+     }
+ 
+     @Override
+-    protected void setDirty(long p_27036_) {
++    protected void setDirty(SectionPos p_27036_) {
+         super.setDirty(p_27036_);
+         this.distanceTracker.update(p_27036_, this.distanceTracker.getLevelFromSource(p_27036_), false);
+     }
+ 
+     @Override
+-    protected void onSectionLoad(long p_27145_) {
++    protected void onSectionLoad(SectionPos p_27145_) {
+         this.distanceTracker.update(p_27145_, this.distanceTracker.getLevelFromSource(p_27145_), false);
+     }
+ 
+     public void checkConsistencyWithBlocks(SectionPos p_281731_, LevelChunkSection p_281893_) {
+-        Util.ifElse(this.getOrLoad(p_281731_.asLong()), p_217898_ -> p_217898_.refresh(p_217967_ -> {
++        Util.ifElse(this.getOrLoad(p_281731_), p_217898_ -> p_217898_.refresh(p_217967_ -> {
+                 if (mayHavePoi(p_281893_)) {
+                     this.updateFromSection(p_281893_, p_281731_, p_217967_);
+                 }
+             }), () -> {
+             if (mayHavePoi(p_281893_)) {
+-                PoiSection poisection = this.getOrCreate(p_281731_.asLong());
++                PoiSection poisection = this.getOrCreate(p_281731_);
+                 this.updateFromSection(p_281893_, p_281731_, poisection::add);
+             }
+         });
+@@ -243,15 +_,15 @@
+         SectionPos.aroundChunk(
+                 new ChunkPos(p_27058_), Math.floorDiv(p_27059_, 16), this.levelHeightAccessor.getMinSection(), this.levelHeightAccessor.getMaxSection()
+             )
+-            .map(p_217979_ -> Pair.of(p_217979_, this.getOrLoad(p_217979_.asLong())))
++            .map(p_217979_ -> Pair.of(p_217979_, this.getOrLoad(p_217979_)))
+             .filter(p_217963_ -> !p_217963_.getSecond().map(PoiSection::isValid).orElse(false))
+             .map(p_217891_ -> p_217891_.getFirst().chunk())
+-            .filter(p_217961_ -> this.loadedChunks.add(p_217961_.toLong()))
+-            .forEach(p_217889_ -> p_27057_.getChunk(p_217889_.x, p_217889_.z, ChunkStatus.EMPTY));
++            .filter(this.loadedChunks::add)
++            .forEach(p_217889_ -> p_27057_.getChunk(p_217889_.x(), p_217889_.z(), ChunkStatus.EMPTY));
+     }
+ 
+     final class DistanceTracker extends SectionTracker {
+-        private final Long2ByteMap levels = new Long2ByteOpenHashMap();
++        private final it.unimi.dsi.fastutil.objects.Object2ByteMap<SectionPos> levels = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
+ 
+         protected DistanceTracker() {
+             super(7, 16, 256);
+@@ -259,19 +_,19 @@
+         }
+ 
+         @Override
+-        protected int getLevelFromSource(long p_27208_) {
++        protected int getLevelFromSource(SectionPos p_27208_) {
+             return PoiManager.this.isVillageCenter(p_27208_) ? 0 : 7;
+         }
+ 
+         @Override
+-        protected int getLevel(long p_27210_) {
+-            return this.levels.get(p_27210_);
++        protected int getLevel(SectionPos p_27210_) {
++            return this.levels.getByte(p_27210_);
+         }
+ 
+         @Override
+-        protected void setLevel(long p_27205_, int p_27206_) {
++        protected void setLevel(SectionPos p_27205_, int p_27206_) {
+             if (p_27206_ > 6) {
+-                this.levels.remove(p_27205_);
++                this.levels.removeByte(p_27205_);
+             } else {
+                 this.levels.put(p_27205_, (byte)p_27206_);
+             }

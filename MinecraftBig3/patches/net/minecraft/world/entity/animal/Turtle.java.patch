@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/Turtle.java
++++ b/net/minecraft/world/entity/animal/Turtle.java
+@@ -684,7 +_,7 @@
+                     int i = Mth.floor(vec31.x);
+                     int j = Mth.floor(vec31.z);
+                     int k = 34;
+-                    if (!this.turtle.level().hasChunksAt(i - 34, j - 34, i + 34, j + 34)) {
++                    if (!this.turtle.level().hasChunksAt(me.alphamode.mcbig.math.BigInteger.val(i - 34), me.alphamode.mcbig.math.BigInteger.val(j - 34), me.alphamode.mcbig.math.BigInteger.val(i + 34), me.alphamode.mcbig.math.BigInteger.val(j + 34))) {
+                         vec31 = null;
+                     }
+                 }

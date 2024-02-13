@@ -1,0 +1,13 @@
+--- a/net/minecraft/util/profiling/jfr/event/ChunkGenerationEvent.java
++++ b/net/minecraft/util/profiling/jfr/event/ChunkGenerationEvent.java
+@@ -43,8 +_,8 @@
+     public ChunkGenerationEvent(ChunkPos p_195543_, ResourceKey<Level> p_195544_, String p_195545_) {
+         this.targetStatus = p_195545_;
+         this.level = p_195544_.toString();
+-        this.chunkPosX = p_195543_.x;
+-        this.chunkPosZ = p_195543_.z;
++        this.chunkPosX = p_195543_.x().intValue();
++        this.chunkPosZ = p_195543_.z().intValue();
+         this.worldPosX = p_195543_.getMinBlockX();
+         this.worldPosZ = p_195543_.getMinBlockZ();
+     }

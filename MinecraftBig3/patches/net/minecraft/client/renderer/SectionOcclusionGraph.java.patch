@@ -1,0 +1,81 @@
+--- a/net/minecraft/client/renderer/SectionOcclusionGraph.java
++++ b/net/minecraft/client/renderer/SectionOcclusionGraph.java
+@@ -165,10 +_,10 @@
+     }
+ 
+     private void queueSectionsWithNewNeighbors(SectionOcclusionGraph.GraphState p_296471_) {
+-        LongIterator longiterator = p_296471_.events.chunksWhichReceivedNeighbors.iterator();
++        it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = p_296471_.events.chunksWhichReceivedNeighbors.iterator();
+ 
+         while(longiterator.hasNext()) {
+-            long i = longiterator.nextLong();
++            ChunkPos i = longiterator.next();
+             List<SectionRenderDispatcher.RenderSection> list = p_296471_.storage.chunksWaitingForNeighbors.get(i);
+             if (list != null && list.get(0).hasAllNeighbors()) {
+                 p_296471_.events.sectionsToPropagateFrom.addAll(list);
+@@ -180,10 +_,10 @@
+     }
+ 
+     private void addNeighbors(SectionOcclusionGraph.GraphEvents p_295866_, ChunkPos p_295968_) {
+-        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x - 1, p_295968_.z));
+-        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x, p_295968_.z - 1));
+-        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x + 1, p_295968_.z));
+-        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x, p_295968_.z + 1));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x().subtract(), p_295968_.z()));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x(), p_295968_.z().subtract()));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x().add(), p_295968_.z()));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x(), p_295968_.z().add()));
+     }
+ 
+     private void initializeQueueForFullUpdate(Camera p_295148_, Queue<SectionOcclusionGraph.Node> p_294801_) {
+@@ -324,7 +_,7 @@
+                         } else if (this.isInViewDistance(blockpos, sectionrenderdispatcher$rendersection1.getOrigin())) {
+                             p_295507_.sectionToNodeMap.put(sectionrenderdispatcher$rendersection1, sectionocclusiongraph$node2);
+                             p_295507_.chunksWaitingForNeighbors
+-                                .computeIfAbsent(ChunkPos.asLong(sectionrenderdispatcher$rendersection1.getOrigin()), p_294377_ -> new ArrayList())
++                                .computeIfAbsent(new ChunkPos(sectionrenderdispatcher$rendersection1.getOrigin()), p_294377_ -> new ArrayList())
+                                 .add(sectionrenderdispatcher$rendersection1);
+                         }
+                     }
+@@ -334,10 +_,10 @@
+     }
+ 
+     private boolean isInViewDistance(BlockPos p_295639_, BlockPos p_295511_) {
+-        int i = SectionPos.blockToSectionCoord(p_295639_.getX());
+-        int j = SectionPos.blockToSectionCoord(p_295639_.getZ());
+-        int k = SectionPos.blockToSectionCoord(p_295511_.getX());
+-        int l = SectionPos.blockToSectionCoord(p_295511_.getZ());
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_295639_.getBigX());
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_295639_.getBigZ());
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.blockToSectionCoord(p_295511_.getBigX());
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(p_295511_.getBigZ());
+         return ChunkTrackingView.isInViewDistance(i, j, this.viewArea.getViewDistance(), k, l);
+     }
+ 
+@@ -358,9 +_,9 @@
+     }
+ 
+     @OnlyIn(Dist.CLIENT)
+-    static record GraphEvents(LongSet chunksWhichReceivedNeighbors, BlockingQueue<SectionRenderDispatcher.RenderSection> sectionsToPropagateFrom) {
++    static record GraphEvents(it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> chunksWhichReceivedNeighbors, BlockingQueue<SectionRenderDispatcher.RenderSection> sectionsToPropagateFrom) {
+         public GraphEvents() {
+-            this(new LongOpenHashSet(), new LinkedBlockingQueue<>());
++            this(new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(), new LinkedBlockingQueue<>());
+         }
+     }
+ 
+@@ -375,12 +_,12 @@
+     static class GraphStorage {
+         public final SectionOcclusionGraph.SectionToNodeMap sectionToNodeMap;
+         public final LinkedHashSet<SectionOcclusionGraph.Node> renderSections;
+-        public final Long2ObjectMap<List<SectionRenderDispatcher.RenderSection>> chunksWaitingForNeighbors;
++        public final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, List<SectionRenderDispatcher.RenderSection>> chunksWaitingForNeighbors;
+ 
+         public GraphStorage(int p_296094_) {
+             this.sectionToNodeMap = new SectionOcclusionGraph.SectionToNodeMap(p_296094_);
+             this.renderSections = new LinkedHashSet<>(p_296094_);
+-            this.chunksWaitingForNeighbors = new Long2ObjectOpenHashMap<>();
++            this.chunksWaitingForNeighbors = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+         }
+     }
+ 

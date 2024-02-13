@@ -1,0 +1,11 @@
+--- a/net/minecraft/core/Vec3i.java
++++ b/net/minecraft/core/Vec3i.java
+@@ -242,4 +_,8 @@
+     public String toShortString() {
+         return this.getX() + ", " + this.getY() + ", " + this.getZ();
+     }
++
++    public me.alphamode.mcbig.core.Vec3l toVec3l() {
++        return new me.alphamode.mcbig.core.Vec3l(getX(), getY(), getZ());
++    }
+ }

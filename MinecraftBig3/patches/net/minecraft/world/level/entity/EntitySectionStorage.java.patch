@@ -1,0 +1,128 @@
+--- a/net/minecraft/world/level/entity/EntitySectionStorage.java
++++ b/net/minecraft/world/level/entity/EntitySectionStorage.java
+@@ -23,11 +_,11 @@
+ 
+ public class EntitySectionStorage<T extends EntityAccess> {
+     private final Class<T> entityClass;
+-    private final Long2ObjectFunction<Visibility> intialSectionVisibility;
+-    private final Long2ObjectMap<EntitySection<T>> sections = new Long2ObjectOpenHashMap<>();
+-    private final LongSortedSet sectionIds = new LongAVLTreeSet();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectFunction<ChunkPos, Visibility> intialSectionVisibility;
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<SectionPos, EntitySection<T>> sections = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> sectionIds = new it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet<>();
+ 
+-    public EntitySectionStorage(Class<T> p_156855_, Long2ObjectFunction<Visibility> p_156856_) {
++    public EntitySectionStorage(Class<T> p_156855_, it.unimi.dsi.fastutil.objects.Object2ObjectFunction<ChunkPos, Visibility> p_156856_) {
+         this.entityClass = p_156855_;
+         this.intialSectionVisibility = p_156856_;
+     }
+@@ -42,15 +_,15 @@
+         int k1 = SectionPos.posToSectionCoord(p_188363_.maxZ + 2.0);
+ 
+         for(int l1 = j; l1 <= i1; ++l1) {
+-            long i2 = SectionPos.asLong(l1, 0, 0);
+-            long j2 = SectionPos.asLong(l1, -1, -1);
+-            LongIterator longiterator = this.sectionIds.subSet(i2, j2 + 1L).iterator();
++            SectionPos i2 = SectionPos.of(l1, 0, 0);
++            SectionPos j2 = SectionPos.of(l1, -1, -1);
++            it.unimi.dsi.fastutil.objects.ObjectIterator<SectionPos> longiterator = this.sectionIds.subSet(i2, j2.offset(1L)).iterator();
+ 
+             while(longiterator.hasNext()) {
+-                long k2 = longiterator.nextLong();
+-                int l2 = SectionPos.y(k2);
+-                int i3 = SectionPos.z(k2);
+-                if (l2 >= k && l2 <= j1 && i3 >= l && i3 <= k1) {
++                SectionPos k2 = longiterator.next();
++                me.alphamode.mcbig.math.BigInteger l2 = k2.y();
++                me.alphamode.mcbig.math.BigInteger i3 = k2.z();
++                if (l2.compareTo(k) >= 0 && l2.compareTo(j1) <= 0 && i3.compareTo(l) >= 0 && i3.compareTo(k1) <= 0) {
+                     EntitySection<T> entitysection = this.sections.get(k2);
+                     if (entitysection != null
+                         && !entitysection.isEmpty()
+@@ -63,50 +_,50 @@
+         }
+     }
+ 
+-    public LongStream getExistingSectionPositionsInChunk(long p_156862_) {
+-        int i = ChunkPos.getX(p_156862_);
+-        int j = ChunkPos.getZ(p_156862_);
+-        LongSortedSet longsortedset = this.getChunkSections(i, j);
++    public java.util.stream.Stream<SectionPos> getExistingSectionPositionsInChunk(ChunkPos p_156862_) {
++        me.alphamode.mcbig.math.BigInteger i = p_156862_.x();
++        me.alphamode.mcbig.math.BigInteger j = p_156862_.z();
++        it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> longsortedset = this.getChunkSections(i, j);
+         if (longsortedset.isEmpty()) {
+-            return LongStream.empty();
++            return java.util.stream.Stream.empty();
+         } else {
+-            OfLong oflong = longsortedset.iterator();
+-            return StreamSupport.longStream(Spliterators.spliteratorUnknownSize(oflong, 1301), false);
++            it.unimi.dsi.fastutil.objects.ObjectIterator<SectionPos> oflong = longsortedset.iterator();
++            return StreamSupport.stream(Spliterators.spliteratorUnknownSize(oflong, 1301), false);
+         }
+     }
+ 
+-    private LongSortedSet getChunkSections(int p_156859_, int p_156860_) {
+-        long i = SectionPos.asLong(p_156859_, 0, p_156860_);
+-        long j = SectionPos.asLong(p_156859_, -1, p_156860_);
+-        return this.sectionIds.subSet(i, j + 1L);
+-    }
+-
+-    public Stream<EntitySection<T>> getExistingSectionsInChunk(long p_156889_) {
+-        return this.getExistingSectionPositionsInChunk(p_156889_).mapToObj(this.sections::get).filter(Objects::nonNull);
+-    }
+-
+-    private static long getChunkKeyFromSectionKey(long p_156900_) {
+-        return ChunkPos.asLong(SectionPos.x(p_156900_), SectionPos.z(p_156900_));
+-    }
+-
+-    public EntitySection<T> getOrCreateSection(long p_156894_) {
++    private it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> getChunkSections(me.alphamode.mcbig.math.BigInteger p_156859_, me.alphamode.mcbig.math.BigInteger p_156860_) {
++        SectionPos i = SectionPos.of(p_156859_, 0, p_156860_);
++        SectionPos j = SectionPos.of(p_156859_, -1, p_156860_);
++        return this.sectionIds.subSet(i, j.offset(1L));
++    }
++
++    public Stream<EntitySection<T>> getExistingSectionsInChunk(ChunkPos p_156889_) {
++        return this.getExistingSectionPositionsInChunk(p_156889_).map(this.sections::get).filter(Objects::nonNull);
++    }
++
++    private static ChunkPos getChunkKeyFromSectionKey(SectionPos p_156900_) {
++        return p_156900_.chunk();
++    }
++
++    public EntitySection<T> getOrCreateSection(SectionPos p_156894_) {
+         return this.sections.computeIfAbsent(p_156894_, this::createSection);
+     }
+ 
+     @Nullable
+-    public EntitySection<T> getSection(long p_156896_) {
++    public EntitySection<T> getSection(SectionPos p_156896_) {
+         return this.sections.get(p_156896_);
+     }
+ 
+-    private EntitySection<T> createSection(long p_156902_) {
+-        long i = getChunkKeyFromSectionKey(p_156902_);
++    private EntitySection<T> createSection(SectionPos p_156902_) {
++        ChunkPos i = getChunkKeyFromSectionKey(p_156902_);
+         Visibility visibility = this.intialSectionVisibility.get(i);
+         this.sectionIds.add(p_156902_);
+         return new EntitySection<>(this.entityClass, visibility);
+     }
+ 
+-    public LongSet getAllChunksWithExistingSections() {
+-        LongSet longset = new LongOpenHashSet();
++    public it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getAllChunksWithExistingSections() {
++        it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+         this.sections.keySet().forEach(p_156886_ -> longset.add(getChunkKeyFromSectionKey(p_156886_)));
+         return longset;
+     }
+@@ -119,7 +_,7 @@
+         this.forEachAccessibleNonEmptySection(p_261843_, p_261463_ -> p_261463_.getEntities(p_261630_, p_261843_, p_261742_));
+     }
+ 
+-    public void remove(long p_156898_) {
++    public void remove(SectionPos p_156898_) {
+         this.sections.remove(p_156898_);
+         this.sectionIds.remove(p_156898_);
+     }

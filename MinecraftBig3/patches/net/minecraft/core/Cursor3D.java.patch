@@ -1,0 +1,90 @@
+--- a/net/minecraft/core/Cursor3D.java
++++ b/net/minecraft/core/Cursor3D.java
+@@ -5,9 +_,9 @@
+     public static final int TYPE_FACE = 1;
+     public static final int TYPE_EDGE = 2;
+     public static final int TYPE_CORNER = 3;
+-    private final int originX;
+-    private final int originY;
+-    private final int originZ;
++    private final me.alphamode.mcbig.math.BigInteger originX;
++    private final me.alphamode.mcbig.math.BigInteger originY;
++    private final me.alphamode.mcbig.math.BigInteger originZ;
+     private final int width;
+     private final int height;
+     private final int depth;
+@@ -17,13 +_,13 @@
+     private int y;
+     private int z;
+ 
+-    public Cursor3D(int p_122298_, int p_122299_, int p_122300_, int p_122301_, int p_122302_, int p_122303_) {
++    public Cursor3D(me.alphamode.mcbig.math.BigInteger p_122298_, me.alphamode.mcbig.math.BigInteger p_122299_, me.alphamode.mcbig.math.BigInteger p_122300_, me.alphamode.mcbig.math.BigInteger p_122301_, me.alphamode.mcbig.math.BigInteger p_122302_, me.alphamode.mcbig.math.BigInteger p_122303_) {
+         this.originX = p_122298_;
+         this.originY = p_122299_;
+         this.originZ = p_122300_;
+-        this.width = p_122301_ - p_122298_ + 1;
+-        this.height = p_122302_ - p_122299_ + 1;
+-        this.depth = p_122303_ - p_122300_ + 1;
++        this.width = p_122301_.subtract(p_122298_).add().intValue();
++        this.height = p_122302_.subtract(p_122299_).add().intValue();
++        this.depth = p_122303_.subtract(p_122300_).add().intValue();
+         this.end = this.width * this.height * this.depth;
+     }
+ 
+@@ -40,32 +_,32 @@
+         }
+     }
+ 
+-    public int nextX() {
+-        return this.originX + this.x;
+-    }
+-
+-    public int nextY() {
+-        return this.originY + this.y;
+-    }
+-
+-    public int nextZ() {
+-        return this.originZ + this.z;
++    public me.alphamode.mcbig.math.BigInteger nextX() {
++        return this.originX.add(this.x);
++    }
++
++    public me.alphamode.mcbig.math.BigInteger nextY() {
++        return this.originY.add(this.y);
++    }
++
++    public me.alphamode.mcbig.math.BigInteger nextZ() {
++        return this.originZ.add(this.z);
+     }
+ 
+     public int getNextType() {
+-        int i = 0;
+-        if (this.x == 0 || this.x == this.width - 1) {
+-            ++i;
+-        }
+-
+-        if (this.y == 0 || this.y == this.height - 1) {
+-            ++i;
+-        }
+-
+-        if (this.z == 0 || this.z == this.depth - 1) {
+-            ++i;
+-        }
+-
+-        return i;
++        int type = 0;
++        if (this.x == TYPE_INSIDE || this.x == this.width - 1) {
++            ++type;
++        }
++
++        if (this.y == TYPE_INSIDE || this.y == this.height - 1) {
++            ++type;
++        }
++
++        if (this.z == TYPE_INSIDE || this.z == this.depth - 1) {
++            ++type;
++        }
++
++        return type;
+     }
+ }

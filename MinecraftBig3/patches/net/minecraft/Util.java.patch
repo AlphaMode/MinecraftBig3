@@ -1,0 +1,19 @@
+--- a/net/minecraft/Util.java
++++ b/net/minecraft/Util.java
+@@ -633,6 +_,16 @@
+         return p_214645_ -> p_137491_.accept(p_137490_ + p_214645_);
+     }
+ 
++    public static DataResult<String[]> fixedSize(java.util.stream.Stream<String> pStream, int pExpectedSize) {
++        String[] aint = pStream.limit(pExpectedSize + 1).toArray(String[]::new);
++        if (aint.length != pExpectedSize) {
++            Supplier<String> supplier = () -> "Input is not a list of " + pExpectedSize + " strings";
++            return aint.length >= pExpectedSize ? DataResult.error(supplier, Arrays.copyOf(aint, pExpectedSize)) : DataResult.error(supplier);
++        } else {
++            return DataResult.success(aint);
++        }
++    }
++
+     public static DataResult<int[]> fixedSize(IntStream p_137540_, int p_137541_) {
+         int[] aint = p_137540_.limit((long)(p_137541_ + 1)).toArray();
+         if (aint.length != p_137541_) {

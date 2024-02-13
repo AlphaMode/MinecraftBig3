@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/level/levelgen/WorldgenRandom.java
++++ b/net/minecraft/world/level/levelgen/WorldgenRandom.java
+@@ -56,7 +_,7 @@
+         this.setSeed(i);
+     }
+ 
+-    public void setLargeFeatureSeed(long p_190069_, int p_190070_, int p_190071_) {
++    public void setLargeFeatureSeed(long p_190069_, long p_190070_, long p_190071_) {
+         this.setSeed(p_190069_);
+         long i = this.nextLong();
+         long j = this.nextLong();
+@@ -64,12 +_,12 @@
+         this.setSeed(k);
+     }
+ 
+-    public void setLargeFeatureWithSalt(long p_190059_, int p_190060_, int p_190061_, int p_190062_) {
++    public void setLargeFeatureWithSalt(long p_190059_, long p_190060_, long p_190061_, long p_190062_) {
+         long i = (long)p_190060_ * 341873128712L + (long)p_190061_ * 132897987541L + p_190059_ + (long)p_190062_;
+         this.setSeed(i);
+     }
+ 
+-    public static RandomSource seedSlimeChunk(int p_224682_, int p_224683_, long p_224684_, long p_224685_) {
++    public static RandomSource seedSlimeChunk(long p_224682_, long p_224683_, long p_224684_, long p_224685_) {
+         return RandomSource.create(
+             p_224684_
+                     + (long)(p_224682_ * p_224682_ * 4987142)

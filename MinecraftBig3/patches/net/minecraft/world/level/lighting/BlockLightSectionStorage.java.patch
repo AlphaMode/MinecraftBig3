@@ -1,0 +1,34 @@
+--- a/net/minecraft/world/level/lighting/BlockLightSectionStorage.java
++++ b/net/minecraft/world/level/lighting/BlockLightSectionStorage.java
+@@ -9,24 +_,24 @@
+ 
+ public class BlockLightSectionStorage extends LayerLightSectionStorage<BlockLightSectionStorage.BlockDataLayerStorageMap> {
+     protected BlockLightSectionStorage(LightChunkGetter p_75511_) {
+-        super(LightLayer.BLOCK, p_75511_, new BlockLightSectionStorage.BlockDataLayerStorageMap(new Long2ObjectOpenHashMap<>()));
++        super(LightLayer.BLOCK, p_75511_, new BlockLightSectionStorage.BlockDataLayerStorageMap(new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>()));
+     }
+ 
+     @Override
+-    protected int getLightValue(long p_75513_) {
+-        long i = SectionPos.blockToSection(p_75513_);
++    protected int getLightValue(BlockPos p_75513_) {
++        SectionPos i = SectionPos.of(p_75513_);
+         DataLayer datalayer = this.getDataLayer(i, false);
+         return datalayer == null
+             ? 0
+             : datalayer.get(
+-                SectionPos.sectionRelative(BlockPos.getX(p_75513_)),
+-                SectionPos.sectionRelative(BlockPos.getY(p_75513_)),
+-                SectionPos.sectionRelative(BlockPos.getZ(p_75513_))
++                SectionPos.sectionRelative(p_75513_.getBigX()),
++                SectionPos.sectionRelative(p_75513_.getBigY()),
++                SectionPos.sectionRelative(p_75513_.getBigZ())
+             );
+     }
+ 
+     protected static final class BlockDataLayerStorageMap extends DataLayerStorageMap<BlockLightSectionStorage.BlockDataLayerStorageMap> {
+-        public BlockDataLayerStorageMap(Long2ObjectOpenHashMap<DataLayer> p_75515_) {
++        public BlockDataLayerStorageMap(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<SectionPos, DataLayer> p_75515_) {
+             super(p_75515_);
+         }
+ 

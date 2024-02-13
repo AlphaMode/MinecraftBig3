@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/biome/FixedBiomeSource.java
++++ b/net/minecraft/world/level/biome/FixedBiomeSource.java
+@@ -31,12 +_,12 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getNoiseBiome(int p_204265_, int p_204266_, int p_204267_, Climate.Sampler p_204268_) {
++    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204265_, me.alphamode.mcbig.math.BigInteger p_204266_, me.alphamode.mcbig.math.BigInteger p_204267_, Climate.Sampler p_204268_) {
+         return this.biome;
+     }
+ 
+     @Override
+-    public Holder<Biome> getNoiseBiome(int p_204261_, int p_204262_, int p_204263_) {
++    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204261_, me.alphamode.mcbig.math.BigInteger p_204262_, me.alphamode.mcbig.math.BigInteger p_204263_) {
+         return this.biome;
+     }
+ 

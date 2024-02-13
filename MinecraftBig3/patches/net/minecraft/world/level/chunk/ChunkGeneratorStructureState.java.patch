@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
++++ b/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
+@@ -187,11 +_,11 @@
+         return this.randomState;
+     }
+ 
+-    public boolean hasStructureChunkInRange(Holder<StructureSet> p_256489_, int p_256593_, int p_256115_, int p_256619_) {
++    public boolean hasStructureChunkInRange(Holder<StructureSet> p_256489_, me.alphamode.mcbig.math.BigInteger p_256593_, me.alphamode.mcbig.math.BigInteger p_256115_, int p_256619_) {
+         StructurePlacement structureplacement = p_256489_.value().placement();
+ 
+-        for(int i = p_256593_ - p_256619_; i <= p_256593_ + p_256619_; ++i) {
+-            for(int j = p_256115_ - p_256619_; j <= p_256115_ + p_256619_; ++j) {
++        for(me.alphamode.mcbig.math.BigInteger i = p_256593_.subtract(p_256619_); i.compareTo(p_256593_.add(p_256619_)) <= 0; i = i.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j = p_256115_.subtract(p_256619_); j.compareTo(p_256115_.add(p_256619_)) <= 0; j = j.add()) {
+                 if (structureplacement.isStructureChunk(this, i, j)) {
+                     return true;
+                 }

@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/DebugLevelSource.java
++++ b/net/minecraft/world/level/levelgen/DebugLevelSource.java
+@@ -63,13 +_,13 @@
+     public void applyBiomeDecoration(WorldGenLevel p_223983_, ChunkAccess p_223984_, StructureManager p_223985_) {
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+         ChunkPos chunkpos = p_223984_.getPos();
+-        int i = chunkpos.x;
+-        int j = chunkpos.z;
++        me.alphamode.mcbig.math.BigInteger i = chunkpos.x();
++        me.alphamode.mcbig.math.BigInteger j = chunkpos.z();
+ 
+         for(int k = 0; k < 16; ++k) {
+             for(int l = 0; l < 16; ++l) {
+-                int i1 = SectionPos.sectionToBlockCoord(i, k);
+-                int j1 = SectionPos.sectionToBlockCoord(j, l);
++                int i1 = SectionPos.sectionToBlockCoord(i, k).intValue();
++                int j1 = SectionPos.sectionToBlockCoord(j, l).intValue();
+                 p_223983_.setBlock(blockpos$mutableblockpos.set(i1, 60, j1), BARRIER, 2);
+                 BlockState blockstate = getBlockStateFor(i1, j1);
+                 p_223983_.setBlock(blockpos$mutableblockpos.set(i1, 70, j1), blockstate, 2);

@@ -1,0 +1,53 @@
+--- a/net/minecraft/world/level/lighting/LevelLightEngine.java
++++ b/net/minecraft/world/level/lighting/LevelLightEngine.java
+@@ -101,10 +_,10 @@
+     public String getDebugData(LightLayer p_75817_, SectionPos p_75818_) {
+         if (p_75817_ == LightLayer.BLOCK) {
+             if (this.blockEngine != null) {
+-                return this.blockEngine.getDebugData(p_75818_.asLong());
++                return this.blockEngine.getDebugData(p_75818_);
+             }
+         } else if (this.skyEngine != null) {
+-            return this.skyEngine.getDebugData(p_75818_.asLong());
++            return this.skyEngine.getDebugData(p_75818_);
+         }
+ 
+         return "n/a";
+@@ -113,10 +_,10 @@
+     public LayerLightSectionStorage.SectionType getDebugSectionType(LightLayer p_285008_, SectionPos p_285336_) {
+         if (p_285008_ == LightLayer.BLOCK) {
+             if (this.blockEngine != null) {
+-                return this.blockEngine.getDebugSectionType(p_285336_.asLong());
++                return this.blockEngine.getDebugSectionType(p_285336_);
+             }
+         } else if (this.skyEngine != null) {
+-            return this.skyEngine.getDebugSectionType(p_285336_.asLong());
++            return this.skyEngine.getDebugSectionType(p_285336_);
+         }
+ 
+         return LayerLightSectionStorage.SectionType.EMPTY;
+@@ -125,10 +_,10 @@
+     public void queueSectionData(LightLayer p_285328_, SectionPos p_284962_, @Nullable DataLayer p_285035_) {
+         if (p_285328_ == LightLayer.BLOCK) {
+             if (this.blockEngine != null) {
+-                this.blockEngine.queueSectionData(p_284962_.asLong(), p_285035_);
++                this.blockEngine.queueSectionData(p_284962_, p_285035_);
+             }
+         } else if (this.skyEngine != null) {
+-            this.skyEngine.queueSectionData(p_284962_.asLong(), p_285035_);
++            this.skyEngine.queueSectionData(p_284962_, p_285035_);
+         }
+     }
+ 
+@@ -149,9 +_,9 @@
+     }
+ 
+     public boolean lightOnInSection(SectionPos p_285319_) {
+-        long i = p_285319_.asLong();
++//        long i = p_285319_.asLong();
+         return this.blockEngine == null
+-            || this.blockEngine.storage.lightOnInSection(i) && (this.skyEngine == null || this.skyEngine.storage.lightOnInSection(i));
++            || this.blockEngine.storage.lightOnInSection(p_285319_) && (this.skyEngine == null || this.skyEngine.storage.lightOnInSection(p_285319_));
+     }
+ 
+     public int getLightSectionCount() {

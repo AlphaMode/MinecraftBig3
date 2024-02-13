@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/BelowZeroRetrogen.java
++++ b/net/minecraft/world/level/levelgen/BelowZeroRetrogen.java
+@@ -114,7 +_,7 @@
+             Predicate<ResourceKey<Biome>> predicate = RETAINED_RETROGEN_BIOMES::contains;
+             return (p_204538_, p_204539_, p_204540_, p_204541_) -> {
+                 Holder<Biome> holder = p_204532_.getNoiseBiome(p_204538_, p_204539_, p_204540_, p_204541_);
+-                return holder.is(predicate) ? holder : p_204533_.getNoiseBiome(p_204538_, 0, p_204540_);
++                return holder.is(predicate) ? holder : p_204533_.getNoiseBiome(p_204538_, me.alphamode.mcbig.math.BigInteger.ZERO, p_204540_);
+             };
+         }
+     }

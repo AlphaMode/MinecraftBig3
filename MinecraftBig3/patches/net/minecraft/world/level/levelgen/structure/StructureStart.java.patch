@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/levelgen/structure/StructureStart.java
++++ b/net/minecraft/world/level/levelgen/structure/StructureStart.java
+@@ -49,7 +_,7 @@
+                 LOGGER.error("Unknown stucture id: {}", s);
+                 return null;
+             } else {
+-                ChunkPos chunkpos = new ChunkPos(p_226859_.getInt("ChunkX"), p_226859_.getInt("ChunkZ"));
++                ChunkPos chunkpos = new ChunkPos(me.alphamode.mcbig.math.BigInteger.val(p_226859_.getString("ChunkX")), me.alphamode.mcbig.math.BigInteger.val(p_226859_.getString("ChunkZ")));
+                 int i = p_226859_.getInt("references");
+                 ListTag listtag = p_226859_.getList("Children", 10);
+ 
+@@ -101,8 +_,8 @@
+         CompoundTag compoundtag = new CompoundTag();
+         if (this.isValid()) {
+             compoundtag.putString("id", p_192661_.registryAccess().registryOrThrow(Registries.STRUCTURE).getKey(this.structure).toString());
+-            compoundtag.putInt("ChunkX", p_192662_.x);
+-            compoundtag.putInt("ChunkZ", p_192662_.z);
++            compoundtag.putString("ChunkX", p_192662_.x().toString());
++            compoundtag.putString("ChunkZ", p_192662_.z().toString());
+             compoundtag.putInt("references", this.references);
+             compoundtag.put("Children", this.pieceContainer.save(p_192661_));
+             return compoundtag;

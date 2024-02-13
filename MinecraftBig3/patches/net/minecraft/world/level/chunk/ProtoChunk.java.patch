@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/level/chunk/ProtoChunk.java
++++ b/net/minecraft/world/level/chunk/ProtoChunk.java
+@@ -226,7 +_,7 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getNoiseBiome(int p_204450_, int p_204451_, int p_204452_) {
++    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204450_, me.alphamode.mcbig.math.BigInteger p_204451_, me.alphamode.mcbig.math.BigInteger p_204452_) {
+         if (this.getHighestGeneratedStatus().isOrAfter(ChunkStatus.BIOMES)) {
+             return super.getNoiseBiome(p_204450_, p_204451_, p_204452_);
+         } else {
+@@ -245,9 +_,9 @@
+     }
+ 
+     public static BlockPos unpackOffsetCoordinates(short p_63228_, int p_63229_, ChunkPos p_63230_) {
+-        int i = SectionPos.sectionToBlockCoord(p_63230_.x, p_63228_ & 15);
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.sectionToBlockCoord(p_63230_.x(), p_63228_ & 15);
+         int j = SectionPos.sectionToBlockCoord(p_63229_, p_63228_ >>> 4 & 15);
+-        int k = SectionPos.sectionToBlockCoord(p_63230_.z, p_63228_ >>> 8 & 15);
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.sectionToBlockCoord(p_63230_.z(), p_63228_ >>> 8 & 15);
+         return new BlockPos(i, j, k);
+     }
+ 

@@ -1,0 +1,68 @@
+--- a/net/minecraft/world/level/levelgen/structure/StructureFeatureIndexSavedData.java
++++ b/net/minecraft/world/level/levelgen/structure/StructureFeatureIndexSavedData.java
+@@ -9,8 +_,8 @@
+ public class StructureFeatureIndexSavedData extends SavedData {
+     private static final String TAG_REMAINING_INDEXES = "Remaining";
+     private static final String TAG_All_INDEXES = "All";
+-    private final LongSet all;
+-    private final LongSet remaining;
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> all;
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> remaining;
+ 
+     public static SavedData.Factory<StructureFeatureIndexSavedData> factory() {
+         return new SavedData.Factory<>(
+@@ -18,44 +_,44 @@
+         );
+     }
+ 
+-    private StructureFeatureIndexSavedData(LongSet p_163532_, LongSet p_163533_) {
++    private StructureFeatureIndexSavedData(it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> p_163532_, it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> p_163533_) {
+         this.all = p_163532_;
+         this.remaining = p_163533_;
+     }
+ 
+     public StructureFeatureIndexSavedData() {
+-        this(new LongOpenHashSet(), new LongOpenHashSet());
++        this(new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(), new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>());
+     }
+ 
+     public static StructureFeatureIndexSavedData load(CompoundTag p_163535_) {
+-        return new StructureFeatureIndexSavedData(new LongOpenHashSet(p_163535_.getLongArray("All")), new LongOpenHashSet(p_163535_.getLongArray("Remaining")));
++        return new StructureFeatureIndexSavedData(net.minecraft.nbt.NbtUtils.readChunks(p_163535_, TAG_All_INDEXES, it.unimi.dsi.fastutil.objects.ObjectOpenHashSet::new), net.minecraft.nbt.NbtUtils.readChunks(p_163535_, TAG_REMAINING_INDEXES, it.unimi.dsi.fastutil.objects.ObjectOpenHashSet::new));
+     }
+ 
+     @Override
+     public CompoundTag save(CompoundTag p_73372_) {
+-        p_73372_.putLongArray("All", this.all.toLongArray());
+-        p_73372_.putLongArray("Remaining", this.remaining.toLongArray());
++        net.minecraft.nbt.NbtUtils.writeChunks(p_73372_, TAG_All_INDEXES, this.all);
++        net.minecraft.nbt.NbtUtils.writeChunks(p_73372_, TAG_REMAINING_INDEXES, this.remaining);
+         return p_73372_;
+     }
+ 
+-    public void addIndex(long p_73366_) {
++    public void addIndex(net.minecraft.world.level.ChunkPos p_73366_) {
+         this.all.add(p_73366_);
+         this.remaining.add(p_73366_);
+     }
+ 
+-    public boolean hasStartIndex(long p_73370_) {
++    public boolean hasStartIndex(net.minecraft.world.level.ChunkPos p_73370_) {
+         return this.all.contains(p_73370_);
+     }
+ 
+-    public boolean hasUnhandledIndex(long p_73374_) {
++    public boolean hasUnhandledIndex(net.minecraft.world.level.ChunkPos p_73374_) {
+         return this.remaining.contains(p_73374_);
+     }
+ 
+-    public void removeIndex(long p_73376_) {
++    public void removeIndex(net.minecraft.world.level.ChunkPos p_73376_) {
+         this.remaining.remove(p_73376_);
+     }
+ 
+-    public LongSet getAll() {
++    public it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> getAll() {
+         return this.all;
+     }
+ }

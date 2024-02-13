@@ -1,0 +1,81 @@
+--- a/net/minecraft/world/level/PathNavigationRegion.java
++++ b/net/minecraft/world/level/PathNavigationRegion.java
+@@ -25,8 +_,8 @@
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ 
+ public class PathNavigationRegion implements BlockGetter, CollisionGetter {
+-    protected final int centerX;
+-    protected final int centerZ;
++    protected final me.alphamode.mcbig.math.BigInteger centerX;
++    protected final me.alphamode.mcbig.math.BigInteger centerZ;
+     protected final ChunkAccess[][] chunks;
+     protected boolean allEmpty;
+     protected final Level level;
+@@ -35,23 +_,23 @@
+     public PathNavigationRegion(Level p_47164_, BlockPos p_47165_, BlockPos p_47166_) {
+         this.level = p_47164_;
+         this.plains = Suppliers.memoize(() -> p_47164_.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS));
+-        this.centerX = SectionPos.blockToSectionCoord(p_47165_.getX());
+-        this.centerZ = SectionPos.blockToSectionCoord(p_47165_.getZ());
+-        int i = SectionPos.blockToSectionCoord(p_47166_.getX());
+-        int j = SectionPos.blockToSectionCoord(p_47166_.getZ());
+-        this.chunks = new ChunkAccess[i - this.centerX + 1][j - this.centerZ + 1];
++        this.centerX = SectionPos.blockToSectionCoord(p_47165_.getBigX());
++        this.centerZ = SectionPos.blockToSectionCoord(p_47165_.getBigZ());
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_47166_.getBigX());
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_47166_.getBigZ());
++        this.chunks = new ChunkAccess[i.subtract(this.centerX).intValue() + 1][j.subtract(this.centerZ).intValue() + 1];
+         ChunkSource chunksource = p_47164_.getChunkSource();
+         this.allEmpty = true;
+ 
+-        for(int k = this.centerX; k <= i; ++k) {
+-            for(int l = this.centerZ; l <= j; ++l) {
+-                this.chunks[k - this.centerX][l - this.centerZ] = chunksource.getChunkNow(k, l);
++        for(me.alphamode.mcbig.math.BigInteger k = this.centerX; k.compareTo(i) <= 0; k = k.add()) {
++            for(me.alphamode.mcbig.math.BigInteger l = this.centerZ; l.compareTo(j) <= 0; l = l.add()) {
++                this.chunks[k.subtract(this.centerX).intValue()][l.subtract(this.centerZ).intValue()] = chunksource.getChunkNow(k, l);
+             }
+         }
+ 
+-        for(int i1 = SectionPos.blockToSectionCoord(p_47165_.getX()); i1 <= SectionPos.blockToSectionCoord(p_47166_.getX()); ++i1) {
+-            for(int j1 = SectionPos.blockToSectionCoord(p_47165_.getZ()); j1 <= SectionPos.blockToSectionCoord(p_47166_.getZ()); ++j1) {
+-                ChunkAccess chunkaccess = this.chunks[i1 - this.centerX][j1 - this.centerZ];
++        for(me.alphamode.mcbig.math.BigInteger i1 = SectionPos.blockToSectionCoord(p_47165_.getBigX()); i1.compareTo(SectionPos.blockToSectionCoord(p_47166_.getBigX())) <= 0; i1 = i1.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j1 = SectionPos.blockToSectionCoord(p_47165_.getBigZ()); j1.compareTo(SectionPos.blockToSectionCoord(p_47166_.getBigZ())) <= 0; j1 = j1.add()) {
++                ChunkAccess chunkaccess = this.chunks[i1.subtract(this.centerX).intValue()][j1.subtract(this.centerZ).intValue()];
+                 if (chunkaccess != null && !chunkaccess.isYSpaceEmpty(p_47165_.getY(), p_47166_.getY())) {
+                     this.allEmpty = false;
+                     return;
+@@ -61,17 +_,17 @@
+     }
+ 
+     private ChunkAccess getChunk(BlockPos p_47186_) {
+-        return this.getChunk(SectionPos.blockToSectionCoord(p_47186_.getX()), SectionPos.blockToSectionCoord(p_47186_.getZ()));
++        return this.getChunk(SectionPos.blockToSectionCoord(p_47186_.getBigX()), SectionPos.blockToSectionCoord(p_47186_.getBigZ()));
+     }
+ 
+-    private ChunkAccess getChunk(int p_47168_, int p_47169_) {
+-        int i = p_47168_ - this.centerX;
+-        int j = p_47169_ - this.centerZ;
++    private ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_47168_, me.alphamode.mcbig.math.BigInteger p_47169_) {
++        int i = p_47168_.subtract(this.centerX).intValue();
++        int j = p_47169_.subtract(this.centerZ).intValue();
+         if (i >= 0 && i < this.chunks.length && j >= 0 && j < this.chunks[i].length) {
+             ChunkAccess chunkaccess = this.chunks[i][j];
+-            return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.level, new ChunkPos(p_47168_, p_47169_), this.plains.get()));
++            return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.level, new ChunkPos(p_47168_.intValue(), p_47169_.intValue()), this.plains.get()));
+         } else {
+-            return new EmptyLevelChunk(this.level, new ChunkPos(p_47168_, p_47169_), this.plains.get());
++            return new EmptyLevelChunk(this.level, new ChunkPos(p_47168_.intValue(), p_47169_.intValue()), this.plains.get());
+         }
+     }
+ 
+@@ -81,7 +_,7 @@
+     }
+ 
+     @Override
+-    public BlockGetter getChunkForCollisions(int p_47173_, int p_47174_) {
++    public BlockGetter getChunkForCollisions(me.alphamode.mcbig.math.BigInteger p_47173_, me.alphamode.mcbig.math.BigInteger p_47174_) {
+         return this.getChunk(p_47173_, p_47174_);
+     }
+ 

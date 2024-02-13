@@ -1,0 +1,83 @@
+--- a/net/minecraft/server/level/ChunkTaskPriorityQueue.java
++++ b/net/minecraft/server/level/ChunkTaskPriorityQueue.java
+@@ -16,12 +_,12 @@
+ 
+ public class ChunkTaskPriorityQueue<T> {
+     public static final int PRIORITY_LEVEL_COUNT = ChunkLevel.MAX_LEVEL + 2;
+-    private final List<Long2ObjectLinkedOpenHashMap<List<Optional<T>>>> taskQueue = IntStream.range(0, PRIORITY_LEVEL_COUNT)
+-        .mapToObj(p_140520_ -> new Long2ObjectLinkedOpenHashMap<List<Optional<T>>>())
++    private final List<it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>>> taskQueue = IntStream.range(0, PRIORITY_LEVEL_COUNT)
++        .mapToObj(p_140520_ -> new it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>>())
+         .collect(Collectors.toList());
+     private volatile int firstQueue = PRIORITY_LEVEL_COUNT;
+     private final String name;
+-    private final LongSet acquired = new LongOpenHashSet();
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> acquired = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<ChunkPos>();
+     private final int maxTasks;
+ 
+     public ChunkTaskPriorityQueue(String p_140516_, int p_140517_) {
+@@ -31,8 +_,8 @@
+ 
+     protected void resortChunkTasks(int p_140522_, ChunkPos p_140523_, int p_140524_) {
+         if (p_140522_ < PRIORITY_LEVEL_COUNT) {
+-            Long2ObjectLinkedOpenHashMap<List<Optional<T>>> long2objectlinkedopenhashmap = this.taskQueue.get(p_140522_);
+-            List<Optional<T>> list = long2objectlinkedopenhashmap.remove(p_140523_.toLong());
++            it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>> long2objectlinkedopenhashmap = this.taskQueue.get(p_140522_);
++            List<Optional<T>> list = long2objectlinkedopenhashmap.remove(p_140523_);
+             if (p_140522_ == this.firstQueue) {
+                 while(this.hasWork() && this.taskQueue.get(this.firstQueue).isEmpty()) {
+                     ++this.firstQueue;
+@@ -40,19 +_,19 @@
+             }
+ 
+             if (list != null && !list.isEmpty()) {
+-                this.taskQueue.get(p_140524_).computeIfAbsent(p_140523_.toLong(), p_140547_ -> Lists.newArrayList()).addAll(list);
++                this.taskQueue.get(p_140524_).computeIfAbsent(p_140523_, p_140547_ -> Lists.newArrayList()).addAll(list);
+                 this.firstQueue = Math.min(this.firstQueue, p_140524_);
+             }
+         }
+     }
+ 
+-    protected void submit(Optional<T> p_140536_, long p_140537_, int p_140538_) {
++    protected void submit(Optional<T> p_140536_, ChunkPos p_140537_, int p_140538_) {
+         this.taskQueue.get(p_140538_).computeIfAbsent(p_140537_, p_140545_ -> Lists.newArrayList()).add(p_140536_);
+         this.firstQueue = Math.min(this.firstQueue, p_140538_);
+     }
+ 
+-    protected void release(long p_140531_, boolean p_140532_) {
+-        for(Long2ObjectLinkedOpenHashMap<List<Optional<T>>> long2objectlinkedopenhashmap : this.taskQueue) {
++    protected void release(ChunkPos p_140531_, boolean p_140532_) {
++        for(it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>> long2objectlinkedopenhashmap : this.taskQueue) {
+             List<Optional<T>> list = long2objectlinkedopenhashmap.get(p_140531_);
+             if (list != null) {
+                 if (p_140532_) {
+@@ -74,7 +_,7 @@
+         this.acquired.remove(p_140531_);
+     }
+ 
+-    private Runnable acquire(long p_140526_) {
++    private Runnable acquire(ChunkPos p_140526_) {
+         return () -> this.acquired.add(p_140526_);
+     }
+ 
+@@ -86,8 +_,8 @@
+             return null;
+         } else {
+             int i = this.firstQueue;
+-            Long2ObjectLinkedOpenHashMap<List<Optional<T>>> long2objectlinkedopenhashmap = this.taskQueue.get(i);
+-            long j = long2objectlinkedopenhashmap.firstLongKey();
++            it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, List<Optional<T>>> long2objectlinkedopenhashmap = this.taskQueue.get(i);
++            ChunkPos j = long2objectlinkedopenhashmap.firstKey();
+             List<Optional<T>> list = long2objectlinkedopenhashmap.removeFirst();
+ 
+             while(this.hasWork() && this.taskQueue.get(this.firstQueue).isEmpty()) {
+@@ -108,7 +_,7 @@
+     }
+ 
+     @VisibleForTesting
+-    LongSet getAcquired() {
+-        return new LongOpenHashSet(this.acquired);
++    it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getAcquired() {
++        return new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(this.acquired);
+     }
+ }

@@ -1,0 +1,37 @@
+--- a/net/minecraft/world/phys/Vec3.java
++++ b/net/minecraft/world/phys/Vec3.java
+@@ -30,23 +_,23 @@
+         return new Vec3(d0, d1, d2);
+     }
+ 
+-    public static Vec3 atLowerCornerOf(Vec3i p_82529_) {
+-        return new Vec3((double)p_82529_.getX(), (double)p_82529_.getY(), (double)p_82529_.getZ());
+-    }
+-
+-    public static Vec3 atLowerCornerWithOffset(Vec3i p_272866_, double p_273680_, double p_273668_, double p_273687_) {
+-        return new Vec3((double)p_272866_.getX() + p_273680_, (double)p_272866_.getY() + p_273668_, (double)p_272866_.getZ() + p_273687_);
+-    }
+-
+-    public static Vec3 atCenterOf(Vec3i p_82513_) {
++    public static Vec3 atLowerCornerOf(me.alphamode.mcbig.core.Vec3l p_82529_) {
++        return new Vec3((double)p_82529_.getBigX().doubleValue(), (double)p_82529_.getBigY().doubleValue(), (double)p_82529_.getBigZ().doubleValue());
++    }
++
++    public static Vec3 atLowerCornerWithOffset(me.alphamode.mcbig.core.Vec3l p_272866_, double p_273680_, double p_273668_, double p_273687_) {
++        return new Vec3((double)p_272866_.getBigX().doubleValue() + p_273680_, (double)p_272866_.getBigY().doubleValue() + p_273668_, (double)p_272866_.getBigZ().doubleValue() + p_273687_);
++    }
++
++    public static Vec3 atCenterOf(me.alphamode.mcbig.core.Vec3l p_82513_) {
+         return atLowerCornerWithOffset(p_82513_, 0.5, 0.5, 0.5);
+     }
+ 
+-    public static Vec3 atBottomCenterOf(Vec3i p_82540_) {
++    public static Vec3 atBottomCenterOf(me.alphamode.mcbig.core.Vec3l p_82540_) {
+         return atLowerCornerWithOffset(p_82540_, 0.5, 0.0, 0.5);
+     }
+ 
+-    public static Vec3 upFromBottomCenterOf(Vec3i p_82515_, double p_82516_) {
++    public static Vec3 upFromBottomCenterOf(me.alphamode.mcbig.core.Vec3l p_82515_, double p_82516_) {
+         return atLowerCornerWithOffset(p_82515_, 0.5, p_82516_, 0.5);
+     }
+ 

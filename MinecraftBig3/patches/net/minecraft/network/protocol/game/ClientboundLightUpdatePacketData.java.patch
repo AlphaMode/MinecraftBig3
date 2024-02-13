@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/protocol/game/ClientboundLightUpdatePacketData.java
++++ b/net/minecraft/network/protocol/game/ClientboundLightUpdatePacketData.java
+@@ -38,7 +_,7 @@
+         }
+     }
+ 
+-    public ClientboundLightUpdatePacketData(FriendlyByteBuf p_195737_, int p_195738_, int p_195739_) {
++    public ClientboundLightUpdatePacketData(FriendlyByteBuf p_195737_, me.alphamode.mcbig.math.BigInteger p_195738_, me.alphamode.mcbig.math.BigInteger p_195739_) {
+         this.skyYMask = p_195737_.readBitSet();
+         this.blockYMask = p_195737_.readBitSet();
+         this.emptySkyYMask = p_195737_.readBitSet();

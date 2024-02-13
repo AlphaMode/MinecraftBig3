@@ -1,0 +1,260 @@
+--- a/net/minecraft/world/level/lighting/SkyLightEngine.java
++++ b/net/minecraft/world/level/lighting/SkyLightEngine.java
+@@ -34,7 +_,7 @@
+         return p_285004_ == 15;
+     }
+ 
+-    private int getLowestSourceY(int p_285058_, int p_285191_, int p_285111_) {
++    private int getLowestSourceY(me.alphamode.mcbig.math.BigInteger p_285058_, me.alphamode.mcbig.math.BigInteger p_285191_, int p_285111_) {
+         ChunkSkyLightSources chunkskylightsources = this.getChunkSources(SectionPos.blockToSectionCoord(p_285058_), SectionPos.blockToSectionCoord(p_285191_));
+         return chunkskylightsources == null
+             ? p_285111_
+@@ -42,24 +_,24 @@
+     }
+ 
+     @Nullable
+-    private ChunkSkyLightSources getChunkSources(int p_285270_, int p_285307_) {
++    private ChunkSkyLightSources getChunkSources(me.alphamode.mcbig.math.BigInteger p_285270_, me.alphamode.mcbig.math.BigInteger p_285307_) {
+         LightChunk lightchunk = this.chunkSource.getChunkForLighting(p_285270_, p_285307_);
+         return lightchunk != null ? lightchunk.getSkyLightSources() : null;
+     }
+ 
+     @Override
+-    protected void checkNode(long p_75859_) {
+-        int i = BlockPos.getX(p_75859_);
+-        int j = BlockPos.getY(p_75859_);
+-        int k = BlockPos.getZ(p_75859_);
+-        long l = SectionPos.blockToSection(p_75859_);
++    protected void checkNode(BlockPos p_75859_) {
++        me.alphamode.mcbig.math.BigInteger i = p_75859_.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = p_75859_.getBigY();
++        me.alphamode.mcbig.math.BigInteger k = p_75859_.getBigZ();
++        SectionPos l = SectionPos.of(p_75859_);
+         int i1 = this.storage.lightOnInSection(l) ? this.getLowestSourceY(i, k, Integer.MAX_VALUE) : Integer.MAX_VALUE;
+         if (i1 != Integer.MAX_VALUE) {
+             this.updateSourcesInColumn(i, k, i1);
+         }
+ 
+         if (this.storage.storingLightForSection(l)) {
+-            boolean flag = j >= i1;
++            boolean flag = j.compareTo(i1) >= 0;
+             if (flag) {
+                 this.enqueueDecrease(p_75859_, REMOVE_SKY_SOURCE_ENTRY);
+                 this.enqueueIncrease(p_75859_, ADD_SKY_SOURCE_ENTRY);
+@@ -75,25 +_,25 @@
+         }
+     }
+ 
+-    private void updateSourcesInColumn(int p_285053_, int p_285140_, int p_285337_) {
++    private void updateSourcesInColumn(me.alphamode.mcbig.math.BigInteger p_285053_, me.alphamode.mcbig.math.BigInteger p_285140_, int p_285337_) {
+         int i = SectionPos.sectionToBlockCoord(this.storage.getBottomSectionY());
+         this.removeSourcesBelow(p_285053_, p_285140_, p_285337_, i);
+         this.addSourcesAbove(p_285053_, p_285140_, p_285337_, i);
+     }
+ 
+-    private void removeSourcesBelow(int p_285475_, int p_285138_, int p_285130_, int p_285112_) {
++    private void removeSourcesBelow(me.alphamode.mcbig.math.BigInteger p_285475_, me.alphamode.mcbig.math.BigInteger p_285138_, int p_285130_, int p_285112_) {
+         if (p_285130_ > p_285112_) {
+-            int i = SectionPos.blockToSectionCoord(p_285475_);
+-            int j = SectionPos.blockToSectionCoord(p_285138_);
++            me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_285475_);
++            me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_285138_);
+             int k = p_285130_ - 1;
+ 
+             for(int l = SectionPos.blockToSectionCoord(k); this.storage.hasLightDataAtOrBelow(l); --l) {
+-                if (this.storage.storingLightForSection(SectionPos.asLong(i, l, j))) {
++                if (this.storage.storingLightForSection(SectionPos.of(i, l, j))) {
+                     int i1 = SectionPos.sectionToBlockCoord(l);
+                     int j1 = i1 + 15;
+ 
+                     for(int k1 = Math.min(j1, k); k1 >= i1; --k1) {
+-                        long l1 = BlockPos.asLong(p_285475_, k1, p_285138_);
++                        BlockPos l1 = new BlockPos(p_285475_, k1, p_285138_);
+                         if (!isSourceLevel(this.storage.getStoredLevel(l1))) {
+                             return;
+                         }
+@@ -106,22 +_,22 @@
+         }
+     }
+ 
+-    private void addSourcesAbove(int p_285241_, int p_285212_, int p_284972_, int p_285134_) {
+-        int i = SectionPos.blockToSectionCoord(p_285241_);
+-        int j = SectionPos.blockToSectionCoord(p_285212_);
++    private void addSourcesAbove(me.alphamode.mcbig.math.BigInteger p_285241_, me.alphamode.mcbig.math.BigInteger p_285212_, int p_284972_, int p_285134_) {
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_285241_);
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_285212_);
+         int k = Math.max(
+-            Math.max(this.getLowestSourceY(p_285241_ - 1, p_285212_, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_ + 1, p_285212_, Integer.MIN_VALUE)),
+-            Math.max(this.getLowestSourceY(p_285241_, p_285212_ - 1, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_, p_285212_ + 1, Integer.MIN_VALUE))
++            Math.max(this.getLowestSourceY(p_285241_.subtract(), p_285212_, Integer.MIN_VALUE), this.getLowestSourceY(p_285241_.add(), p_285212_, Integer.MIN_VALUE)),
++            Math.max(this.getLowestSourceY(p_285241_, p_285212_.subtract(), Integer.MIN_VALUE), this.getLowestSourceY(p_285241_, p_285212_.add(), Integer.MIN_VALUE))
+         );
+         int l = Math.max(p_284972_, p_285134_);
+ 
+-        for(long i1 = SectionPos.asLong(i, SectionPos.blockToSectionCoord(l), j); !this.storage.isAboveData(i1); i1 = SectionPos.offset(i1, Direction.UP)) {
++        for(SectionPos i1 = SectionPos.of(i, SectionPos.blockToSectionCoord(l), j); !this.storage.isAboveData(i1); i1 = i1.relative(Direction.UP)) {
+             if (this.storage.storingLightForSection(i1)) {
+-                int j1 = SectionPos.sectionToBlockCoord(SectionPos.y(i1));
++                int j1 = SectionPos.sectionToBlockCoord(i1.y()).intValue();
+                 int k1 = j1 + 15;
+ 
+                 for(int l1 = Math.max(j1, l); l1 <= k1; ++l1) {
+-                    long i2 = BlockPos.asLong(p_285241_, l1, p_285212_);
++                    BlockPos i2 = new BlockPos(p_285241_, l1, p_285212_);
+                     if (isSourceLevel(this.storage.getStoredLevel(i2))) {
+                         return;
+                     }
+@@ -136,14 +_,14 @@
+     }
+ 
+     @Override
+-    protected void propagateIncrease(long p_285341_, long p_285204_, int p_285003_) {
++    protected void propagateIncrease(BlockPos p_285341_, long p_285204_, int p_285003_) {
+         BlockState blockstate = null;
+         int i = this.countEmptySectionsBelowIfAtBorder(p_285341_);
+ 
+         for(Direction direction : PROPAGATION_DIRECTIONS) {
+             if (LightEngine.QueueEntry.shouldPropagateInDirection(p_285204_, direction)) {
+-                long j = BlockPos.offset(p_285341_, direction);
+-                if (this.storage.storingLightForSection(SectionPos.blockToSection(j))) {
++                BlockPos j = p_285341_.relative(direction);
++                if (this.storage.storingLightForSection(SectionPos.of(j))) {
+                     int k = this.storage.getStoredLevel(j);
+                     int l = p_285003_ - 1;
+                     if (l > k) {
+@@ -175,14 +_,14 @@
+     }
+ 
+     @Override
+-    protected void propagateDecrease(long p_285015_, long p_285395_) {
++    protected void propagateDecrease(BlockPos p_285015_, long p_285395_) {
+         int i = this.countEmptySectionsBelowIfAtBorder(p_285015_);
+         int j = LightEngine.QueueEntry.getFromLevel(p_285395_);
+ 
+         for(Direction direction : PROPAGATION_DIRECTIONS) {
+             if (LightEngine.QueueEntry.shouldPropagateInDirection(p_285395_, direction)) {
+-                long k = BlockPos.offset(p_285015_, direction);
+-                if (this.storage.storingLightForSection(SectionPos.blockToSection(k))) {
++                BlockPos k = p_285015_.relative(direction);
++                if (this.storage.storingLightForSection(SectionPos.of(k))) {
+                     int l = this.storage.getStoredLevel(k);
+                     if (l != 0) {
+                         if (l <= j - 1) {
+@@ -198,14 +_,14 @@
+         }
+     }
+ 
+-    private int countEmptySectionsBelowIfAtBorder(long p_285356_) {
+-        int i = BlockPos.getY(p_285356_);
++    private int countEmptySectionsBelowIfAtBorder(BlockPos p_285356_) {
++        int i = p_285356_.getY();
+         int j = SectionPos.sectionRelative(i);
+         if (j != 0) {
+             return 0;
+         } else {
+-            int k = BlockPos.getX(p_285356_);
+-            int l = BlockPos.getZ(p_285356_);
++            int k = p_285356_.getX();
++            int l = p_285356_.getZ();
+             int i1 = SectionPos.sectionRelative(k);
+             int j1 = SectionPos.sectionRelative(l);
+             if (i1 != 0 && i1 != 15 && j1 != 0 && j1 != 15) {
+@@ -216,7 +_,7 @@
+                 int i2 = SectionPos.blockToSectionCoord(l);
+                 int j2 = 0;
+ 
+-                while(!this.storage.storingLightForSection(SectionPos.asLong(k1, l1 - j2 - 1, i2)) && this.storage.hasLightDataAtOrBelow(l1 - j2 - 1)) {
++                while(!this.storage.storingLightForSection(SectionPos.of(k1, l1 - j2 - 1, i2)) && this.storage.hasLightDataAtOrBelow(l1 - j2 - 1)) {
+                     ++j2;
+                 }
+ 
+@@ -225,25 +_,25 @@
+         }
+     }
+ 
+-    private void propagateFromEmptySections(long p_284965_, Direction p_285308_, int p_284977_, boolean p_285001_, int p_285052_) {
++    private void propagateFromEmptySections(BlockPos p_284965_, Direction p_285308_, int p_284977_, boolean p_285001_, int p_285052_) {
+         if (p_285052_ != 0) {
+-            int i = BlockPos.getX(p_284965_);
+-            int j = BlockPos.getZ(p_284965_);
++            int i = p_284965_.getX();
++            int j = p_284965_.getZ();
+             if (crossedSectionEdge(p_285308_, SectionPos.sectionRelative(i), SectionPos.sectionRelative(j))) {
+-                int k = BlockPos.getY(p_284965_);
++                int k = p_284965_.getY();
+                 int l = SectionPos.blockToSectionCoord(i);
+                 int i1 = SectionPos.blockToSectionCoord(j);
+                 int j1 = SectionPos.blockToSectionCoord(k) - 1;
+                 int k1 = j1 - p_285052_ + 1;
+ 
+                 while(j1 >= k1) {
+-                    if (!this.storage.storingLightForSection(SectionPos.asLong(l, j1, i1))) {
++                    if (!this.storage.storingLightForSection(SectionPos.of(l, j1, i1))) {
+                         --j1;
+                     } else {
+                         int l1 = SectionPos.sectionToBlockCoord(j1);
+ 
+                         for(int i2 = 15; i2 >= 0; --i2) {
+-                            long j2 = BlockPos.asLong(i, l1 + i2, j);
++                            BlockPos j2 = new BlockPos(i, l1 + i2, j);
+                             if (p_285001_) {
+                                 this.storage.setStoredLevel(j2, p_284977_);
+                                 if (p_284977_ > 1) {
+@@ -276,15 +_,15 @@
+     public void setLightEnabled(ChunkPos p_285459_, boolean p_285013_) {
+         super.setLightEnabled(p_285459_, p_285013_);
+         if (p_285013_) {
+-            ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285459_.x, p_285459_.z), this.emptyChunkSources);
++            ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285459_.x(), p_285459_.z()), this.emptyChunkSources);
+             int i = chunkskylightsources.getHighestLowestSourceY() - 1;
+             int j = SectionPos.blockToSectionCoord(i) + 1;
+-            long k = SectionPos.getZeroNode(p_285459_.x, p_285459_.z);
++            SectionPos k = SectionPos.getZeroNode(p_285459_.x(), p_285459_.z());
+             int l = this.storage.getTopSectionY(k);
+             int i1 = Math.max(this.storage.getBottomSectionY(), j);
+ 
+             for(int j1 = l - 1; j1 >= i1; --j1) {
+-                DataLayer datalayer = this.storage.getDataLayerToWrite(SectionPos.asLong(p_285459_.x, j1, p_285459_.z));
++                DataLayer datalayer = this.storage.getDataLayerToWrite(SectionPos.of(p_285459_.x(), j1, p_285459_.z()));
+                 if (datalayer != null && datalayer.isEmpty()) {
+                     datalayer.fill(15);
+                 }
+@@ -294,20 +_,20 @@
+ 
+     @Override
+     public void propagateLightSources(ChunkPos p_285333_) {
+-        long i = SectionPos.getZeroNode(p_285333_.x, p_285333_.z);
++        SectionPos i = SectionPos.getZeroNode(p_285333_.x(), p_285333_.z());
+         this.storage.setLightEnabled(i, true);
+-        ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x, p_285333_.z), this.emptyChunkSources);
+-        ChunkSkyLightSources chunkskylightsources1 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x, p_285333_.z - 1), this.emptyChunkSources);
+-        ChunkSkyLightSources chunkskylightsources2 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x, p_285333_.z + 1), this.emptyChunkSources);
+-        ChunkSkyLightSources chunkskylightsources3 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x - 1, p_285333_.z), this.emptyChunkSources);
+-        ChunkSkyLightSources chunkskylightsources4 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x + 1, p_285333_.z), this.emptyChunkSources);
++        ChunkSkyLightSources chunkskylightsources = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x(), p_285333_.z()), this.emptyChunkSources);
++        ChunkSkyLightSources chunkskylightsources1 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x(), p_285333_.z().subtract()), this.emptyChunkSources);
++        ChunkSkyLightSources chunkskylightsources2 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x(), p_285333_.z().add()), this.emptyChunkSources);
++        ChunkSkyLightSources chunkskylightsources3 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x().subtract(), p_285333_.z()), this.emptyChunkSources);
++        ChunkSkyLightSources chunkskylightsources4 = Objects.requireNonNullElse(this.getChunkSources(p_285333_.x().add(), p_285333_.z()), this.emptyChunkSources);
+         int j = this.storage.getTopSectionY(i);
+         int k = this.storage.getBottomSectionY();
+-        int l = SectionPos.sectionToBlockCoord(p_285333_.x);
+-        int i1 = SectionPos.sectionToBlockCoord(p_285333_.z);
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.sectionToBlockCoord(p_285333_.x());
++        me.alphamode.mcbig.math.BigInteger i1 = SectionPos.sectionToBlockCoord(p_285333_.z());
+ 
+         for(int j1 = j - 1; j1 >= k; --j1) {
+-            long k1 = SectionPos.asLong(p_285333_.x, j1, p_285333_.z);
++            SectionPos k1 = SectionPos.of(p_285333_.x(), j1, p_285333_.z());
+             DataLayer datalayer = this.storage.getDataLayerToWrite(k1);
+             if (datalayer != null) {
+                 int l1 = SectionPos.sectionToBlockCoord(j1);
+@@ -327,7 +_,7 @@
+                             for(int j4 = i2; j4 >= Math.max(l1, l2); --j4) {
+                                 datalayer.set(k2, SectionPos.sectionRelative(j4), j2, 15);
+                                 if (j4 == l2 || j4 < i4) {
+-                                    long k4 = BlockPos.asLong(l + k2, j4, i1 + j2);
++                                    BlockPos k4 = new BlockPos(l.add(k2), j4, i1.add(j2));
+                                     this.enqueueIncrease(k4, LightEngine.QueueEntry.increaseSkySourceInDirections(j4 == l2, j4 < i3, j4 < j3, j4 < k3, j4 < l3));
+                                 }
+                             }

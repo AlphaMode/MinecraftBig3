@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/Slime.java
++++ b/net/minecraft/world/entity/monster/Slime.java
+@@ -306,7 +_,7 @@
+                 }
+ 
+                 ChunkPos chunkpos = new ChunkPos(p_219116_);
+-                boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x, chunkpos.z, ((WorldGenLevel)p_219114_).getSeed(), 987234911L).nextInt(10) == 0;
++                boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x().longValue(), chunkpos.z().longValue(), ((WorldGenLevel)p_219114_).getSeed(), 987234911L).nextInt(10) == 0;
+                 if (p_219117_.nextInt(10) == 0 && flag && p_219116_.getY() < 40) {
+                     return checkMobSpawnRules(p_219113_, p_219114_, p_219115_, p_219116_, p_219117_);
+                 }

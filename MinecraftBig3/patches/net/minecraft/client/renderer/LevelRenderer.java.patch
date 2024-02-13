@@ -1,0 +1,39 @@
+--- a/net/minecraft/client/renderer/LevelRenderer.java
++++ b/net/minecraft/client/renderer/LevelRenderer.java
+@@ -2567,22 +_,30 @@
+         }
+     }
+ 
+-    public void setSectionDirtyWithNeighbors(int p_109491_, int p_109492_, int p_109493_) {
+-        for(int i = p_109493_ - 1; i <= p_109493_ + 1; ++i) {
+-            for(int j = p_109491_ - 1; j <= p_109491_ + 1; ++j) {
+-                for(int k = p_109492_ - 1; k <= p_109492_ + 1; ++k) {
++    public void setSectionDirtyWithNeighbors(me.alphamode.mcbig.math.BigInteger p_109491_, me.alphamode.mcbig.math.BigInteger p_109492_, me.alphamode.mcbig.math.BigInteger p_109493_) {
++        for(me.alphamode.mcbig.math.BigInteger i = p_109493_.subtract(); i.compareTo(p_109493_.add()) <= 0; i = i.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j = p_109491_.subtract(1); j.compareTo(p_109491_.add()) <= 0; j = j.add()) {
++                for(me.alphamode.mcbig.math.BigInteger k = p_109492_.subtract(); k.compareTo(p_109492_.add()) <= 0; k = k.add()) {
+                     this.setSectionDirty(j, k, i);
+                 }
+             }
+         }
+     }
+ 
+-    public void setSectionDirty(int p_109771_, int p_109772_, int p_109773_) {
++    public void setSectionDirty(me.alphamode.mcbig.math.BigInteger p_109771_, me.alphamode.mcbig.math.BigInteger p_109772_, me.alphamode.mcbig.math.BigInteger p_109773_) {
+         this.setSectionDirty(p_109771_, p_109772_, p_109773_, false);
+     }
+ 
+-    private void setSectionDirty(int p_109502_, int p_109503_, int p_109504_, boolean p_109505_) {
++    public void setSectionDirty(int p_109771_, int p_109772_, int p_109773_) {
++        this.setSectionDirty(me.alphamode.mcbig.math.BigInteger.val(p_109771_), me.alphamode.mcbig.math.BigInteger.val(p_109772_), me.alphamode.mcbig.math.BigInteger.val(p_109773_));
++    }
++
++    private void setSectionDirty(me.alphamode.mcbig.math.BigInteger p_109502_, me.alphamode.mcbig.math.BigInteger p_109503_, me.alphamode.mcbig.math.BigInteger p_109504_, boolean p_109505_) {
+         this.viewArea.setDirty(p_109502_, p_109503_, p_109504_, p_109505_);
++    }
++
++    private void setSectionDirty(int p_109502_, int p_109503_, int p_109504_, boolean p_109505_) {
++        this.viewArea.setDirty(me.alphamode.mcbig.math.BigInteger.val(p_109502_), me.alphamode.mcbig.math.BigInteger.val(p_109503_), me.alphamode.mcbig.math.BigInteger.val(p_109504_), p_109505_);
+     }
+ 
+     public void playStreamingMusic(@Nullable SoundEvent p_109515_, BlockPos p_109516_) {

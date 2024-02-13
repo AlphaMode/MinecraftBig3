@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/chunk/EmptyLevelChunk.java
++++ b/net/minecraft/world/level/chunk/EmptyLevelChunk.java
+@@ -76,7 +_,7 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getNoiseBiome(int p_204426_, int p_204427_, int p_204428_) {
++    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204426_, me.alphamode.mcbig.math.BigInteger p_204427_, me.alphamode.mcbig.math.BigInteger p_204428_) {
+         return this.biome;
+     }
+ }

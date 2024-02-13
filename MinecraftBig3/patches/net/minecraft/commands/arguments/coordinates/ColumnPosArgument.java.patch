@@ -1,0 +1,11 @@
+--- a/net/minecraft/commands/arguments/coordinates/ColumnPosArgument.java
++++ b/net/minecraft/commands/arguments/coordinates/ColumnPosArgument.java
+@@ -28,7 +_,7 @@
+ 
+     public static ColumnPos getColumnPos(CommandContext<CommandSourceStack> p_118993_, String p_118994_) {
+         BlockPos blockpos = p_118993_.getArgument(p_118994_, Coordinates.class).getBlockPos(p_118993_.getSource());
+-        return new ColumnPos(blockpos.getX(), blockpos.getZ());
++        return new ColumnPos(blockpos.getBigX(), blockpos.getBigZ());
+     }
+ 
+     public Coordinates parse(StringReader p_118991_) throws CommandSyntaxException {

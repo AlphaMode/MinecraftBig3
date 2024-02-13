@@ -1,0 +1,47 @@
+--- a/net/minecraft/core/Direction.java
++++ b/net/minecraft/core/Direction.java
+@@ -368,6 +_,11 @@
+             }
+ 
+             @Override
++            public me.alphamode.mcbig.math.BigInteger choose(me.alphamode.mcbig.math.BigInteger p_122496_, me.alphamode.mcbig.math.BigInteger p_122497_, me.alphamode.mcbig.math.BigInteger p_122498_) {
++                return p_122496_;
++            }
++
++            @Override
+             public double choose(double p_122492_, double p_122493_, double p_122494_) {
+                 return p_122492_;
+             }
+@@ -379,6 +_,11 @@
+             }
+ 
+             @Override
++            public me.alphamode.mcbig.math.BigInteger choose(me.alphamode.mcbig.math.BigInteger p_122510_, me.alphamode.mcbig.math.BigInteger p_122511_, me.alphamode.mcbig.math.BigInteger p_122512_) {
++                return p_122511_;
++            }
++
++            @Override
+             public double choose(double p_122506_, double p_122507_, double p_122508_) {
+                 return p_122507_;
+             }
+@@ -390,6 +_,11 @@
+             }
+ 
+             @Override
++            public me.alphamode.mcbig.math.BigInteger choose(me.alphamode.mcbig.math.BigInteger p_122524_, me.alphamode.mcbig.math.BigInteger p_122525_, me.alphamode.mcbig.math.BigInteger p_122526_) {
++                return p_122526_;
++            }
++
++            @Override
+             public double choose(double p_122520_, double p_122521_, double p_122522_) {
+                 return p_122522_;
+             }
+@@ -446,6 +_,8 @@
+         }
+ 
+         public abstract int choose(int p_122466_, int p_122467_, int p_122468_);
++
++        public abstract me.alphamode.mcbig.math.BigInteger choose(me.alphamode.mcbig.math.BigInteger p_122466_, me.alphamode.mcbig.math.BigInteger p_122467_, me.alphamode.mcbig.math.BigInteger p_122468_);
+ 
+         public abstract double choose(double p_122463_, double p_122464_, double p_122465_);
+     }

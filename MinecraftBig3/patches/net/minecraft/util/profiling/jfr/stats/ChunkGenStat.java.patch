@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/profiling/jfr/stats/ChunkGenStat.java
++++ b/net/minecraft/util/profiling/jfr/stats/ChunkGenStat.java
+@@ -11,7 +_,7 @@
+         return new ChunkGenStat(
+             p_185605_.getDuration(),
+             new ChunkPos(p_185605_.getInt("chunkPosX"), p_185605_.getInt("chunkPosX")),
+-            new ColumnPos(p_185605_.getInt("worldPosX"), p_185605_.getInt("worldPosZ")),
++            new ColumnPos(me.alphamode.mcbig.math.BigInteger.val(p_185605_.getInt("worldPosX")), me.alphamode.mcbig.math.BigInteger.val(p_185605_.getInt("worldPosZ"))),
+             ChunkStatus.byName(p_185605_.getString("status")),
+             p_185605_.getString("level")
+         );

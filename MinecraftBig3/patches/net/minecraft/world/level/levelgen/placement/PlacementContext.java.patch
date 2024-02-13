@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/placement/PlacementContext.java
++++ b/net/minecraft/world/level/levelgen/placement/PlacementContext.java
+@@ -29,7 +_,7 @@
+     }
+ 
+     public CarvingMask getCarvingMask(ChunkPos p_191822_, GenerationStep.Carving p_191823_) {
+-        return ((ProtoChunk)this.level.getChunk(p_191822_.x, p_191822_.z)).getOrCreateCarvingMask(p_191823_);
++        return ((ProtoChunk)this.level.getChunk(p_191822_.x(), p_191822_.z())).getOrCreateCarvingMask(p_191823_);
+     }
+ 
+     public BlockState getBlockState(BlockPos p_191829_) {

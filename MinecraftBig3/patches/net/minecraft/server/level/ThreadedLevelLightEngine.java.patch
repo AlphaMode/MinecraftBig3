@@ -1,0 +1,117 @@
+--- a/net/minecraft/server/level/ThreadedLevelLightEngine.java
++++ b/net/minecraft/server/level/ThreadedLevelLightEngine.java
+@@ -59,15 +_,15 @@
+     public void checkBlock(BlockPos p_9357_) {
+         BlockPos blockpos = p_9357_.immutable();
+         this.addTask(
+-            SectionPos.blockToSectionCoord(p_9357_.getX()),
+-            SectionPos.blockToSectionCoord(p_9357_.getZ()),
++            SectionPos.blockToSectionCoord(p_9357_.getBigX()),
++            SectionPos.blockToSectionCoord(p_9357_.getBigZ()),
+             ThreadedLevelLightEngine.TaskType.PRE_UPDATE,
+             Util.name(() -> super.checkBlock(blockpos), () -> "checkBlock " + blockpos)
+         );
+     }
+ 
+     protected void updateChunkStatus(ChunkPos p_9331_) {
+-        this.addTask(p_9331_.x, p_9331_.z, () -> 0, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.name(() -> {
++        this.addTask(p_9331_.x(), p_9331_.z(), () -> 0, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.name(() -> {
+             super.retainData(p_9331_, false);
+             super.setLightEnabled(p_9331_, false);
+ 
+@@ -96,8 +_,8 @@
+     @Override
+     public void propagateLightSources(ChunkPos p_285029_) {
+         this.addTask(
+-            p_285029_.x,
+-            p_285029_.z,
++            p_285029_.x(),
++            p_285029_.z(),
+             ThreadedLevelLightEngine.TaskType.PRE_UPDATE,
+             Util.name(() -> super.propagateLightSources(p_285029_), () -> "propagateLight " + p_285029_)
+         );
+@@ -106,8 +_,8 @@
+     @Override
+     public void setLightEnabled(ChunkPos p_9336_, boolean p_9337_) {
+         this.addTask(
+-            p_9336_.x,
+-            p_9336_.z,
++            p_9336_.x(),
++            p_9336_.z(),
+             ThreadedLevelLightEngine.TaskType.PRE_UPDATE,
+             Util.name(() -> super.setLightEnabled(p_9336_, p_9337_), () -> "enableLight " + p_9336_ + " " + p_9337_)
+         );
+@@ -124,24 +_,24 @@
+         );
+     }
+ 
+-    private void addTask(int p_9313_, int p_9314_, ThreadedLevelLightEngine.TaskType p_9315_, Runnable p_9316_) {
+-        this.addTask(p_9313_, p_9314_, this.chunkMap.getChunkQueueLevel(ChunkPos.asLong(p_9313_, p_9314_)), p_9315_, p_9316_);
++    private void addTask(me.alphamode.mcbig.math.BigInteger p_9313_, me.alphamode.mcbig.math.BigInteger p_9314_, ThreadedLevelLightEngine.TaskType p_9315_, Runnable p_9316_) {
++        this.addTask(p_9313_, p_9314_, this.chunkMap.getChunkQueueLevel(new ChunkPos(p_9313_, p_9314_)), p_9315_, p_9316_);
+     }
+ 
+-    private void addTask(int p_9318_, int p_9319_, IntSupplier p_9320_, ThreadedLevelLightEngine.TaskType p_9321_, Runnable p_9322_) {
++    private void addTask(me.alphamode.mcbig.math.BigInteger p_9318_, me.alphamode.mcbig.math.BigInteger p_9319_, IntSupplier p_9320_, ThreadedLevelLightEngine.TaskType p_9321_, Runnable p_9322_) {
+         this.sorterMailbox.tell(ChunkTaskPriorityQueueSorter.message(() -> {
+             this.lightTasks.add(Pair.of(p_9321_, p_9322_));
+             if (this.lightTasks.size() >= 1000) {
+                 this.runUpdate();
+             }
+-        }, ChunkPos.asLong(p_9318_, p_9319_), p_9320_));
++        }, new ChunkPos(p_9318_, p_9319_), p_9320_));
+     }
+ 
+     @Override
+     public void retainData(ChunkPos p_9370_, boolean p_9371_) {
+         this.addTask(
+-            p_9370_.x,
+-            p_9370_.z,
++            p_9370_.x(),
++            p_9370_.z(),
+             () -> 0,
+             ThreadedLevelLightEngine.TaskType.PRE_UPDATE,
+             Util.name(() -> super.retainData(p_9370_, p_9371_), () -> "retainData " + p_9370_)
+@@ -150,7 +_,7 @@
+ 
+     public CompletableFuture<ChunkAccess> initializeLight(ChunkAccess p_285128_, boolean p_285441_) {
+         ChunkPos chunkpos = p_285128_.getPos();
+-        this.addTask(chunkpos.x, chunkpos.z, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.name(() -> {
++        this.addTask(chunkpos.x(), chunkpos.z(), ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.name(() -> {
+             LevelChunkSection[] alevelchunksection = p_285128_.getSections();
+ 
+             for(int i = 0; i < p_285128_.getSectionsCount(); ++i) {
+@@ -165,13 +_,13 @@
+             super.setLightEnabled(chunkpos, p_285441_);
+             super.retainData(chunkpos, false);
+             return p_285128_;
+-        }, p_215135_ -> this.addTask(chunkpos.x, chunkpos.z, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_215135_));
++        }, p_215135_ -> this.addTask(chunkpos.x(), chunkpos.z(), ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_215135_));
+     }
+ 
+     public CompletableFuture<ChunkAccess> lightChunk(ChunkAccess p_9354_, boolean p_9355_) {
+         ChunkPos chunkpos = p_9354_.getPos();
+         p_9354_.setLightCorrect(false);
+-        this.addTask(chunkpos.x, chunkpos.z, ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.name(() -> {
++        this.addTask(chunkpos.x(), chunkpos.z(), ThreadedLevelLightEngine.TaskType.PRE_UPDATE, Util.name(() -> {
+             if (!p_9355_) {
+                 super.propagateLightSources(chunkpos);
+             }
+@@ -180,7 +_,7 @@
+             p_9354_.setLightCorrect(true);
+             this.chunkMap.releaseLightTicket(chunkpos);
+             return p_9354_;
+-        }, p_280982_ -> this.addTask(chunkpos.x, chunkpos.z, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_280982_));
++        }, p_280982_ -> this.addTask(chunkpos.x(), chunkpos.z(), ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_280982_));
+     }
+ 
+     public void tryScheduleUpdate() {
+@@ -217,7 +_,7 @@
+         }
+     }
+ 
+-    public CompletableFuture<?> waitForPendingTasks(int p_301257_, int p_300921_) {
++    public CompletableFuture<?> waitForPendingTasks(me.alphamode.mcbig.math.BigInteger p_301257_, me.alphamode.mcbig.math.BigInteger p_300921_) {
+         return CompletableFuture.runAsync(() -> {
+         }, p_300778_ -> this.addTask(p_301257_, p_300921_, ThreadedLevelLightEngine.TaskType.POST_UPDATE, p_300778_));
+     }

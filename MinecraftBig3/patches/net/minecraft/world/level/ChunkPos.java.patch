@@ -1,0 +1,244 @@
+--- a/net/minecraft/world/level/ChunkPos.java
++++ b/net/minecraft/world/level/ChunkPos.java
+@@ -8,35 +_,30 @@
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.SectionPos;
+ 
+-public class ChunkPos {
++public record ChunkPos(me.alphamode.mcbig.math.BigInteger x, me.alphamode.mcbig.math.BigInteger z) implements java.lang.Comparable<ChunkPos> {
+     private static final int SAFETY_MARGIN = 1056;
+-    public static final long INVALID_CHUNK_POS = asLong(1875066, 1875066);
+-    public static final ChunkPos ZERO = new ChunkPos(0, 0);
++    public static final ChunkPos INVALID_CHUNK_POS = new ChunkPos(1875066, 1875066);
++    public static final ChunkPos ZERO = new ChunkPos(me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.ZERO);
+     private static final long COORD_BITS = 32L;
+     private static final long COORD_MASK = 4294967295L;
+     private static final int REGION_BITS = 5;
+     public static final int REGION_SIZE = 32;
+-    private static final int REGION_MASK = 31;
++    private static final me.alphamode.mcbig.math.BigInteger REGION_MASK = me.alphamode.mcbig.math.BigInteger.constant(31);
+     public static final int REGION_MAX_INDEX = 31;
+-    public final int x;
+-    public final int z;
+     private static final int HASH_A = 1664525;
+     private static final int HASH_C = 1013904223;
+     private static final int HASH_Z_XOR = -559038737;
+ 
+-    public ChunkPos(int p_45582_, int p_45583_) {
+-        this.x = p_45582_;
+-        this.z = p_45583_;
++    public ChunkPos(long x, long z) {
++        this(me.alphamode.mcbig.math.BigInteger.val(x), me.alphamode.mcbig.math.BigInteger.val(z));
+     }
+ 
+     public ChunkPos(BlockPos p_45587_) {
+-        this.x = SectionPos.blockToSectionCoord(p_45587_.getX());
+-        this.z = SectionPos.blockToSectionCoord(p_45587_.getZ());
++        this(SectionPos.blockToSectionCoord(p_45587_.getBigX()), SectionPos.blockToSectionCoord(p_45587_.getBigZ()));
+     }
+ 
+     public ChunkPos(long p_45585_) {
+-        this.x = (int)p_45585_;
+-        this.z = (int)(p_45585_ >> 32);
++        this(me.alphamode.mcbig.math.BigInteger.val((int)p_45585_), me.alphamode.mcbig.math.BigInteger.val((int)(p_45585_ >> 32)));
+     }
+ 
+     public static ChunkPos minFromRegion(int p_220338_, int p_220339_) {
+@@ -47,10 +_,6 @@
+         return new ChunkPos((p_220341_ << 5) + 31, (p_220342_ << 5) + 31);
+     }
+ 
+-    public long toLong() {
+-        return asLong(this.x, this.z);
+-    }
+-
+     public static long asLong(int p_45590_, int p_45591_) {
+         return (long)p_45590_ & 4294967295L | ((long)p_45591_ & 4294967295L) << 32;
+     }
+@@ -67,14 +_,14 @@
+         return (int)(p_45603_ >>> 32 & 4294967295L);
+     }
+ 
+-    @Override
+-    public int hashCode() {
+-        return hash(this.x, this.z);
+-    }
++//    @Override
++//    public int hashCode() {
++//        return hash(this.x, this.z);
++//    }
+ 
+     public static int hash(int p_220344_, int p_220345_) {
+-        int i = 1664525 * p_220344_ + 1013904223;
+-        int j = 1664525 * (p_220345_ ^ -559038737) + 1013904223;
++        int i = HASH_A * p_220344_ + HASH_C;
++        int j = HASH_A * (p_220345_ ^ HASH_Z_XOR) + HASH_C;
+         return i ^ j;
+     }
+ 
+@@ -86,7 +_,7 @@
+             return false;
+         } else {
+             ChunkPos chunkpos = (ChunkPos)p_45607_;
+-            return this.x == chunkpos.x && this.z == chunkpos.z;
++            return this.x.equals(chunkpos.x) && this.z.equals(chunkpos.z);
+         }
+     }
+ 
+@@ -99,11 +_,11 @@
+     }
+ 
+     public int getMinBlockX() {
+-        return SectionPos.sectionToBlockCoord(this.x);
++        return SectionPos.sectionToBlockCoord(this.x).intValue();
+     }
+ 
+     public int getMinBlockZ() {
+-        return SectionPos.sectionToBlockCoord(this.z);
++        return SectionPos.sectionToBlockCoord(this.z).intValue();
+     }
+ 
+     public int getMaxBlockX() {
+@@ -114,20 +_,36 @@
+         return this.getBlockZ(15);
+     }
+ 
++    public me.alphamode.mcbig.math.BigInteger getBigMinBlockX() {
++        return SectionPos.sectionToBlockCoord(this.x);
++    }
++
++    public me.alphamode.mcbig.math.BigInteger getBigMinBlockZ() {
++        return SectionPos.sectionToBlockCoord(this.z);
++    }
++
++    public me.alphamode.mcbig.math.BigInteger getBigMaxBlockX() {
++        return this.getBigBlockX(15);
++    }
++
++    public me.alphamode.mcbig.math.BigInteger getBigMaxBlockZ() {
++        return this.getBigBlockZ(15);
++    }
++
+     public int getRegionX() {
+-        return this.x >> 5;
++        return this.x.shiftRight(REGION_BITS).intValue();
+     }
+ 
+     public int getRegionZ() {
+-        return this.z >> 5;
++        return this.z.shiftRight(REGION_BITS).intValue();
+     }
+ 
+     public int getRegionLocalX() {
+-        return this.x & 31;
++        return this.x.and(REGION_MASK).intValue();
+     }
+ 
+     public int getRegionLocalZ() {
+-        return this.z & 31;
++        return this.z.and(REGION_MASK).intValue();
+     }
+ 
+     public BlockPos getBlockAt(int p_151385_, int p_151386_, int p_151387_) {
+@@ -135,10 +_,18 @@
+     }
+ 
+     public int getBlockX(int p_151383_) {
+-        return SectionPos.sectionToBlockCoord(this.x, p_151383_);
++        return SectionPos.sectionToBlockCoord(this.x, p_151383_).intValue();
+     }
+ 
+     public int getBlockZ(int p_151392_) {
++        return SectionPos.sectionToBlockCoord(this.z, p_151392_).intValue();
++    }
++
++    public me.alphamode.mcbig.math.BigInteger getBigBlockX(int p_151383_) {
++        return SectionPos.sectionToBlockCoord(this.x, p_151383_);
++    }
++
++    public me.alphamode.mcbig.math.BigInteger getBigBlockZ(int p_151392_) {
+         return SectionPos.sectionToBlockCoord(this.z, p_151392_);
+     }
+ 
+@@ -156,32 +_,28 @@
+     }
+ 
+     public int getChessboardDistance(ChunkPos p_45595_) {
+-        return Math.max(Math.abs(this.x - p_45595_.x), Math.abs(this.z - p_45595_.z));
++        return this.x.subtract(p_45595_.x).abs().max(this.z.subtract(p_45595_.z).abs()).intValue();
+     }
+ 
+     public int distanceSquared(ChunkPos p_296302_) {
+         return this.distanceSquared(p_296302_.x, p_296302_.z);
+     }
+ 
+-    public int distanceSquared(long p_294872_) {
+-        return this.distanceSquared(getX(p_294872_), getZ(p_294872_));
+-    }
+-
+-    private int distanceSquared(int p_295272_, int p_296154_) {
+-        int i = p_295272_ - this.x;
+-        int j = p_296154_ - this.z;
++    private int distanceSquared(me.alphamode.mcbig.math.BigInteger p_295272_, me.alphamode.mcbig.math.BigInteger p_296154_) {
++        int i = p_295272_.subtract(this.x).intValue();
++        int j = p_296154_.subtract(this.z).intValue();
+         return i * i + j * j;
+     }
+ 
+     public static Stream<ChunkPos> rangeClosed(ChunkPos p_45597_, int p_45598_) {
+-        return rangeClosed(new ChunkPos(p_45597_.x - p_45598_, p_45597_.z - p_45598_), new ChunkPos(p_45597_.x + p_45598_, p_45597_.z + p_45598_));
++        return rangeClosed(new ChunkPos(p_45597_.x.subtract(p_45598_), p_45597_.z.subtract(p_45598_)), new ChunkPos(p_45597_.x.add(p_45598_), p_45597_.z.add(p_45598_)));
+     }
+ 
+     public static Stream<ChunkPos> rangeClosed(final ChunkPos p_45600_, final ChunkPos p_45601_) {
+-        int i = Math.abs(p_45600_.x - p_45601_.x) + 1;
+-        int j = Math.abs(p_45600_.z - p_45601_.z) + 1;
+-        final int k = p_45600_.x < p_45601_.x ? 1 : -1;
+-        final int l = p_45600_.z < p_45601_.z ? 1 : -1;
++        int i = Math.abs(p_45600_.x.subtract(p_45601_.x).intValue()) + 1;
++        int j = Math.abs(p_45600_.z.subtract(p_45601_.z).intValue()) + 1;
++        final int k = p_45600_.x.compareTo(p_45601_.x) < 0 ? 1 : -1;
++        final int l = p_45600_.z.compareTo(p_45601_.z) < 0 ? 1 : -1;
+         return StreamSupport.stream(new AbstractSpliterator<ChunkPos>((long)(i * j), 64) {
+             @Nullable
+             private ChunkPos pos;
+@@ -191,16 +_,16 @@
+                 if (this.pos == null) {
+                     this.pos = p_45600_;
+                 } else {
+-                    int i1 = this.pos.x;
+-                    int j1 = this.pos.z;
+-                    if (i1 == p_45601_.x) {
+-                        if (j1 == p_45601_.z) {
++                    me.alphamode.mcbig.math.BigInteger i1 = this.pos.x;
++                    me.alphamode.mcbig.math.BigInteger j1 = this.pos.z;
++                    if (i1.equals(p_45601_.x)) {
++                        if (j1.equals(p_45601_.z)) {
+                             return false;
+                         }
+ 
+-                        this.pos = new ChunkPos(p_45600_.x, j1 + l);
++                        this.pos = new ChunkPos(p_45600_.x, j1.add(l));
+                     } else {
+-                        this.pos = new ChunkPos(i1 + k, j1);
++                        this.pos = new ChunkPos(i1.add(k), j1);
+                     }
+                 }
+ 
+@@ -208,5 +_,16 @@
+                 return true;
+             }
+         }, false);
++    }
++
++    @Override
++    public int compareTo(ChunkPos o) {
++        int compareX = this.x.compareTo(o.x);
++        if (compareX != 0) {
++            return compareX;
++        }
++
++        // If x values are equal, compare the z values
++        return this.z.compareTo(o.z);
+     }
+ }

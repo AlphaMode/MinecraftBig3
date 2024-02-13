@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/level/levelgen/structure/Structure.java
++++ b/net/minecraft/world/level/levelgen/structure/Structure.java
+@@ -120,9 +_,9 @@
+                 p_263005_.chunkGenerator
+                     .getBiomeSource()
+                     .getNoiseBiome(
+-                        QuartPos.fromBlock(blockpos.getX()),
+-                        QuartPos.fromBlock(blockpos.getY()),
+-                        QuartPos.fromBlock(blockpos.getZ()),
++                        QuartPos.fromBlock(blockpos.getBigX()),
++                        QuartPos.fromBlock(blockpos.getBigY()),
++                        QuartPos.fromBlock(blockpos.getBigZ()),
+                         p_263005_.randomState.sampler()
+                     )
+             );
+@@ -220,7 +_,7 @@
+ 
+         private static WorldgenRandom makeRandom(long p_226654_, ChunkPos p_226655_) {
+             WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
+-            worldgenrandom.setLargeFeatureSeed(p_226654_, p_226655_.x, p_226655_.z);
++            worldgenrandom.setLargeFeatureSeed(p_226654_, p_226655_.x().longValue(), p_226655_.z().longValue());
+             return worldgenrandom;
+         }
+     }

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
++++ b/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
+@@ -154,7 +_,7 @@
+     @Override
+     protected boolean isValidTarget(LevelReader p_25850_, BlockPos p_25851_) {
+         ChunkAccess chunkaccess = p_25850_.getChunk(
+-            SectionPos.blockToSectionCoord(p_25851_.getX()), SectionPos.blockToSectionCoord(p_25851_.getZ()), ChunkStatus.FULL, false
++            SectionPos.blockToSectionCoord(p_25851_.getBigX()), SectionPos.blockToSectionCoord(p_25851_.getBigZ()), ChunkStatus.FULL, false
+         );
+         if (chunkaccess == null) {
+             return false;

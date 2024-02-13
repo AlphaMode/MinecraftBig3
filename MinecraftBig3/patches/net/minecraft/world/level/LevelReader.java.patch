@@ -1,0 +1,147 @@
+--- a/net/minecraft/world/level/LevelReader.java
++++ b/net/minecraft/world/level/LevelReader.java
+@@ -24,10 +_,14 @@
+ 
+ public interface LevelReader extends BlockAndTintGetter, CollisionGetter, SignalGetter, BiomeManager.NoiseBiomeSource {
+     @Nullable
+-    ChunkAccess getChunk(int p_46823_, int p_46824_, ChunkStatus p_46825_, boolean p_46826_);
++    ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_46823_, me.alphamode.mcbig.math.BigInteger p_46824_, ChunkStatus p_46825_, boolean p_46826_);
+ 
+     @Deprecated
+-    boolean hasChunk(int p_46838_, int p_46839_);
++    boolean hasChunk(me.alphamode.mcbig.math.BigInteger p_46838_, me.alphamode.mcbig.math.BigInteger p_46839_);
++
++    default boolean hasChunk(int p_46838_, int p_46839_) {
++        return hasChunk(me.alphamode.mcbig.math.BigInteger.val(p_46838_), me.alphamode.mcbig.math.BigInteger.val(p_46839_));
++    }
+ 
+     int getHeight(Heightmap.Types p_46827_, int p_46828_, int p_46829_);
+ 
+@@ -40,27 +_,27 @@
+     }
+ 
+     default Stream<BlockState> getBlockStatesIfLoaded(AABB p_46848_) {
+-        int i = Mth.floor(p_46848_.minX);
+-        int j = Mth.floor(p_46848_.maxX);
++        me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.val(Mth.floor(p_46848_.minX));
++        me.alphamode.mcbig.math.BigInteger j = me.alphamode.mcbig.math.BigInteger.val(Mth.floor(p_46848_.maxX));
+         int k = Mth.floor(p_46848_.minY);
+         int l = Mth.floor(p_46848_.maxY);
+-        int i1 = Mth.floor(p_46848_.minZ);
+-        int j1 = Mth.floor(p_46848_.maxZ);
++        me.alphamode.mcbig.math.BigInteger i1 = me.alphamode.mcbig.math.BigInteger.val(Mth.floor(p_46848_.minZ));
++        me.alphamode.mcbig.math.BigInteger j1 = me.alphamode.mcbig.math.BigInteger.val(Mth.floor(p_46848_.maxZ));
+         return this.hasChunksAt(i, k, i1, j, l, j1) ? this.getBlockStates(p_46848_) : Stream.empty();
+     }
+ 
+     @Override
+     default int getBlockTint(BlockPos p_46836_, ColorResolver p_46837_) {
+-        return p_46837_.getColor(this.getBiome(p_46836_).value(), (double)p_46836_.getX(), (double)p_46836_.getZ());
++        return p_46837_.getColor(this.getBiome(p_46836_).value(), (double)p_46836_.getBigX().doubleValue(), (double)p_46836_.getBigZ().doubleValue());
+     }
+ 
+     @Override
+-    default Holder<Biome> getNoiseBiome(int p_204163_, int p_204164_, int p_204165_) {
++    default Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204163_, me.alphamode.mcbig.math.BigInteger p_204164_, me.alphamode.mcbig.math.BigInteger p_204165_) {
+         ChunkAccess chunkaccess = this.getChunk(QuartPos.toSection(p_204163_), QuartPos.toSection(p_204165_), ChunkStatus.BIOMES, false);
+         return chunkaccess != null ? chunkaccess.getNoiseBiome(p_204163_, p_204164_, p_204165_) : this.getUncachedNoiseBiome(p_204163_, p_204164_, p_204165_);
+     }
+ 
+-    Holder<Biome> getUncachedNoiseBiome(int p_204159_, int p_204160_, int p_204161_);
++    Holder<Biome> getUncachedNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204159_, me.alphamode.mcbig.math.BigInteger p_204160_, me.alphamode.mcbig.math.BigInteger p_204161_);
+ 
+     boolean isClientSide();
+ 
+@@ -88,14 +_,14 @@
+     }
+ 
+     default boolean canSeeSkyFromBelowWater(BlockPos p_46862_) {
+-        if (p_46862_.getY() >= this.getSeaLevel()) {
++        if (p_46862_.getBigY().compareTo(this.getSeaLevel()) >= 0) {
+             return this.canSeeSky(p_46862_);
+         } else {
+-            BlockPos blockpos = new BlockPos(p_46862_.getX(), this.getSeaLevel(), p_46862_.getZ());
++            BlockPos blockpos = new BlockPos(p_46862_.getBigX(), me.alphamode.mcbig.math.BigInteger.val(this.getSeaLevel()), p_46862_.getBigZ());
+             if (!this.canSeeSky(blockpos)) {
+                 return false;
+             } else {
+-                for(BlockPos blockpos1 = blockpos.below(); blockpos1.getY() > p_46862_.getY(); blockpos1 = blockpos1.below()) {
++                for(BlockPos blockpos1 = blockpos.below(); blockpos1.getBigY().compareTo(p_46862_.getBigY()) > 0; blockpos1 = blockpos1.below()) {
+                     BlockState blockstate = this.getBlockState(blockpos1);
+                     if (blockstate.getLightBlock(this, blockpos1) > 0 && !blockstate.liquid()) {
+                         return false;
+@@ -119,20 +_,24 @@
+     }
+ 
+     default ChunkAccess getChunk(BlockPos p_46866_) {
+-        return this.getChunk(SectionPos.blockToSectionCoord(p_46866_.getX()), SectionPos.blockToSectionCoord(p_46866_.getZ()));
++        return this.getChunk(SectionPos.blockToSectionCoord(p_46866_.getBigX()), SectionPos.blockToSectionCoord(p_46866_.getBigZ()));
+     }
+ 
+-    default ChunkAccess getChunk(int p_46807_, int p_46808_) {
++    default ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_46807_, me.alphamode.mcbig.math.BigInteger p_46808_) {
+         return this.getChunk(p_46807_, p_46808_, ChunkStatus.FULL, true);
+     }
+ 
+-    default ChunkAccess getChunk(int p_46820_, int p_46821_, ChunkStatus p_46822_) {
++    default ChunkAccess getChunk(int p_46807_, int p_46808_) {
++        return this.getChunk(me.alphamode.mcbig.math.BigInteger.val(p_46807_), me.alphamode.mcbig.math.BigInteger.val(p_46808_));
++    }
++
++    default ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_46820_, me.alphamode.mcbig.math.BigInteger p_46821_, ChunkStatus p_46822_) {
+         return this.getChunk(p_46820_, p_46821_, p_46822_, true);
+     }
+ 
+     @Nullable
+     @Override
+-    default BlockGetter getChunkForCollisions(int p_46845_, int p_46846_) {
++    default BlockGetter getChunkForCollisions(me.alphamode.mcbig.math.BigInteger p_46845_, me.alphamode.mcbig.math.BigInteger p_46846_) {
+         return this.getChunk(p_46845_, p_46846_, ChunkStatus.EMPTY, false);
+     }
+ 
+@@ -174,34 +_,34 @@
+     }
+ 
+     @Deprecated
+-    default boolean hasChunkAt(int p_151578_, int p_151579_) {
++    default boolean hasChunkAt(me.alphamode.mcbig.math.BigInteger p_151578_, me.alphamode.mcbig.math.BigInteger p_151579_) {
+         return this.hasChunk(SectionPos.blockToSectionCoord(p_151578_), SectionPos.blockToSectionCoord(p_151579_));
+     }
+ 
+     @Deprecated
+     default boolean hasChunkAt(BlockPos p_46806_) {
+-        return this.hasChunkAt(p_46806_.getX(), p_46806_.getZ());
++        return this.hasChunkAt(p_46806_.getBigX(), p_46806_.getBigZ());
+     }
+ 
+     @Deprecated
+     default boolean hasChunksAt(BlockPos p_46833_, BlockPos p_46834_) {
+-        return this.hasChunksAt(p_46833_.getX(), p_46833_.getY(), p_46833_.getZ(), p_46834_.getX(), p_46834_.getY(), p_46834_.getZ());
++        return this.hasChunksAt(p_46833_.getBigX(), p_46833_.getY(), p_46833_.getBigZ(), p_46834_.getBigX(), p_46834_.getY(), p_46834_.getBigZ());
+     }
+ 
+     @Deprecated
+-    default boolean hasChunksAt(int p_46813_, int p_46814_, int p_46815_, int p_46816_, int p_46817_, int p_46818_) {
++    default boolean hasChunksAt(me.alphamode.mcbig.math.BigInteger p_46813_, int p_46814_, me.alphamode.mcbig.math.BigInteger p_46815_, me.alphamode.mcbig.math.BigInteger p_46816_, int p_46817_, me.alphamode.mcbig.math.BigInteger p_46818_) {
+         return p_46817_ >= this.getMinBuildHeight() && p_46814_ < this.getMaxBuildHeight() ? this.hasChunksAt(p_46813_, p_46815_, p_46816_, p_46818_) : false;
+     }
+ 
+     @Deprecated
+-    default boolean hasChunksAt(int p_151573_, int p_151574_, int p_151575_, int p_151576_) {
+-        int i = SectionPos.blockToSectionCoord(p_151573_);
+-        int j = SectionPos.blockToSectionCoord(p_151575_);
+-        int k = SectionPos.blockToSectionCoord(p_151574_);
+-        int l = SectionPos.blockToSectionCoord(p_151576_);
++    default boolean hasChunksAt(me.alphamode.mcbig.math.BigInteger p_151573_, me.alphamode.mcbig.math.BigInteger p_151574_, me.alphamode.mcbig.math.BigInteger p_151575_, me.alphamode.mcbig.math.BigInteger p_151576_) {
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_151573_);
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_151575_);
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.blockToSectionCoord(p_151574_);
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(p_151576_);
+ 
+-        for(int i1 = i; i1 <= j; ++i1) {
+-            for(int j1 = k; j1 <= l; ++j1) {
++        for(me.alphamode.mcbig.math.BigInteger i1 = i; i1.compareTo(j) <= 0; i1 = i1.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j1 = k; j1.compareTo(l) <= 0; j1 = j1.add()) {
+                 if (!this.hasChunk(i1, j1)) {
+                     return false;
+                 }

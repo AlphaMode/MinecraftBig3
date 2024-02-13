@@ -1,0 +1,284 @@
+--- a/net/minecraft/world/level/lighting/LayerLightSectionStorage.java
++++ b/net/minecraft/world/level/lighting/LayerLightSectionStorage.java
+@@ -20,15 +_,15 @@
+ public abstract class LayerLightSectionStorage<M extends DataLayerStorageMap<M>> {
+     private final LightLayer layer;
+     protected final LightChunkGetter chunkSource;
+-    protected final Long2ByteMap sectionStates = new Long2ByteOpenHashMap();
+-    private final LongSet columnsWithSources = new LongOpenHashSet();
++    protected final it.unimi.dsi.fastutil.objects.Object2ByteMap<SectionPos> sectionStates = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> columnsWithSources = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+     protected volatile M visibleSectionData;
+     protected final M updatingSectionData;
+-    protected final LongSet changedSections = new LongOpenHashSet();
+-    protected final LongSet sectionsAffectedByLightUpdates = new LongOpenHashSet();
+-    protected final Long2ObjectMap<DataLayer> queuedSections = Long2ObjectMaps.synchronize(new Long2ObjectOpenHashMap<>());
+-    private final LongSet columnsToRetainQueuedDataFor = new LongOpenHashSet();
+-    private final LongSet toRemove = new LongOpenHashSet();
++    protected final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> changedSections = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++    protected final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> sectionsAffectedByLightUpdates = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++    protected final it.unimi.dsi.fastutil.objects.Object2ObjectMap<SectionPos, DataLayer> queuedSections = it.unimi.dsi.fastutil.objects.Object2ObjectMaps.synchronize(new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>());
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> columnsToRetainQueuedDataFor = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> toRemove = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+     protected volatile boolean hasInconsistencies;
+ 
+     protected LayerLightSectionStorage(LightLayer p_75745_, LightChunkGetter p_75746_, M p_75747_) {
+@@ -40,22 +_,22 @@
+         this.sectionStates.defaultReturnValue((byte)0);
+     }
+ 
+-    protected boolean storingLightForSection(long p_75792_) {
++    protected boolean storingLightForSection(SectionPos p_75792_) {
+         return this.getDataLayer(p_75792_, true) != null;
+     }
+ 
+     @Nullable
+-    protected DataLayer getDataLayer(long p_75759_, boolean p_75760_) {
++    protected DataLayer getDataLayer(SectionPos p_75759_, boolean p_75760_) {
+         return this.getDataLayer((M)(p_75760_ ? this.updatingSectionData : this.visibleSectionData), p_75759_);
+     }
+ 
+     @Nullable
+-    protected DataLayer getDataLayer(M p_75762_, long p_75763_) {
++    protected DataLayer getDataLayer(M p_75762_, SectionPos p_75763_) {
+         return p_75762_.getLayer(p_75763_);
+     }
+ 
+     @Nullable
+-    protected DataLayer getDataLayerToWrite(long p_285278_) {
++    protected DataLayer getDataLayerToWrite(SectionPos p_285278_) {
+         DataLayer datalayer = this.updatingSectionData.getLayer(p_285278_);
+         if (datalayer == null) {
+             return null;
+@@ -71,25 +_,25 @@
+     }
+ 
+     @Nullable
+-    public DataLayer getDataLayerData(long p_75794_) {
++    public DataLayer getDataLayerData(SectionPos p_75794_) {
+         DataLayer datalayer = this.queuedSections.get(p_75794_);
+         return datalayer != null ? datalayer : this.getDataLayer(p_75794_, false);
+     }
+ 
+-    protected abstract int getLightValue(long p_75786_);
++    protected abstract int getLightValue(BlockPos p_75786_);
+ 
+-    protected int getStoredLevel(long p_75796_) {
+-        long i = SectionPos.blockToSection(p_75796_);
++    protected int getStoredLevel(BlockPos p_75796_) {
++        SectionPos i = SectionPos.of(p_75796_);
+         DataLayer datalayer = this.getDataLayer(i, true);
+         return datalayer.get(
+-            SectionPos.sectionRelative(BlockPos.getX(p_75796_)),
+-            SectionPos.sectionRelative(BlockPos.getY(p_75796_)),
+-            SectionPos.sectionRelative(BlockPos.getZ(p_75796_))
++            SectionPos.sectionRelative(p_75796_.getBigX()),
++            SectionPos.sectionRelative(p_75796_.getBigY()),
++            SectionPos.sectionRelative(p_75796_.getBigZ())
+         );
+     }
+ 
+-    protected void setStoredLevel(long p_75773_, int p_75774_) {
+-        long i = SectionPos.blockToSection(p_75773_);
++    protected void setStoredLevel(BlockPos p_75773_, int p_75774_) {
++        SectionPos i = SectionPos.of(p_75773_);
+         DataLayer datalayer;
+         if (this.changedSections.add(i)) {
+             datalayer = this.updatingSectionData.copyDataLayer(i);
+@@ -98,29 +_,29 @@
+         }
+ 
+         datalayer.set(
+-            SectionPos.sectionRelative(BlockPos.getX(p_75773_)),
+-            SectionPos.sectionRelative(BlockPos.getY(p_75773_)),
+-            SectionPos.sectionRelative(BlockPos.getZ(p_75773_)),
++            SectionPos.sectionRelative(p_75773_.getBigX()),
++            SectionPos.sectionRelative(p_75773_.getBigY()),
++            SectionPos.sectionRelative(p_75773_.getBigZ()),
+             p_75774_
+         );
+         SectionPos.aroundAndAtBlockPos(p_75773_, this.sectionsAffectedByLightUpdates::add);
+     }
+ 
+-    protected void markSectionAndNeighborsAsAffected(long p_281610_) {
+-        int i = SectionPos.x(p_281610_);
+-        int j = SectionPos.y(p_281610_);
+-        int k = SectionPos.z(p_281610_);
++    protected void markSectionAndNeighborsAsAffected(SectionPos p_281610_) {
++        me.alphamode.mcbig.math.BigInteger i = p_281610_.x();
++        me.alphamode.mcbig.math.BigInteger j = p_281610_.y();
++        me.alphamode.mcbig.math.BigInteger k = p_281610_.z();
+ 
+         for(int l = -1; l <= 1; ++l) {
+             for(int i1 = -1; i1 <= 1; ++i1) {
+                 for(int j1 = -1; j1 <= 1; ++j1) {
+-                    this.sectionsAffectedByLightUpdates.add(SectionPos.asLong(i + i1, j + j1, k + l));
++                    this.sectionsAffectedByLightUpdates.add(SectionPos.of(i.add(i1), j.add(j1), k.add(l)));
+                 }
+             }
+         }
+     }
+ 
+-    protected DataLayer createDataLayer(long p_75797_) {
++    protected DataLayer createDataLayer(SectionPos p_75797_) {
+         DataLayer datalayer = this.queuedSections.get(p_75797_);
+         return datalayer != null ? datalayer : new DataLayer();
+     }
+@@ -133,10 +_,10 @@
+         if (this.hasInconsistencies) {
+             this.hasInconsistencies = false;
+ 
+-            for(long i : this.toRemove) {
++            for(SectionPos i : this.toRemove) {
+                 DataLayer datalayer = this.queuedSections.remove(i);
+                 DataLayer datalayer1 = this.updatingSectionData.removeLayer(i);
+-                if (this.columnsToRetainQueuedDataFor.contains(SectionPos.getZeroNode(i))) {
++                if (this.columnsToRetainQueuedDataFor.contains(SectionPos.getZeroNode(i.x(), i.z()))) {
+                     if (datalayer != null) {
+                         this.queuedSections.put(i, datalayer);
+                     } else if (datalayer1 != null) {
+@@ -147,17 +_,17 @@
+ 
+             this.updatingSectionData.clearCache();
+ 
+-            for(long k : this.toRemove) {
++            for(SectionPos k : this.toRemove) {
+                 this.onNodeRemoved(k);
+                 this.changedSections.add(k);
+             }
+ 
+             this.toRemove.clear();
+-            ObjectIterator<Entry<DataLayer>> objectiterator = Long2ObjectMaps.fastIterator(this.queuedSections);
++            ObjectIterator<it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<SectionPos, DataLayer>> objectiterator = it.unimi.dsi.fastutil.objects.Object2ObjectMaps.fastIterator(this.queuedSections);
+ 
+             while(objectiterator.hasNext()) {
+-                Entry<DataLayer> entry = objectiterator.next();
+-                long j = entry.getLongKey();
++                it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<SectionPos, DataLayer> entry = objectiterator.next();
++                SectionPos j = entry.getKey();
+                 if (this.storingLightForSection(j)) {
+                     DataLayer datalayer2 = entry.getValue();
+                     if (this.updatingSectionData.getLayer(j) != datalayer2) {
+@@ -173,13 +_,13 @@
+         }
+     }
+ 
+-    protected void onNodeAdded(long p_75798_) {
+-    }
+-
+-    protected void onNodeRemoved(long p_75799_) {
+-    }
+-
+-    protected void setLightEnabled(long p_285065_, boolean p_284938_) {
++    protected void onNodeAdded(SectionPos p_75798_) {
++    }
++
++    protected void onNodeRemoved(SectionPos p_75799_) {
++    }
++
++    protected void setLightEnabled(SectionPos p_285065_, boolean p_284938_) {
+         if (p_284938_) {
+             this.columnsWithSources.add(p_285065_);
+         } else {
+@@ -187,12 +_,12 @@
+         }
+     }
+ 
+-    protected boolean lightOnInSection(long p_285433_) {
+-        long i = SectionPos.getZeroNode(p_285433_);
++    protected boolean lightOnInSection(SectionPos p_285433_) {
++        SectionPos i = SectionPos.getZeroNode(p_285433_.x(), p_285433_.z());
+         return this.columnsWithSources.contains(i);
+     }
+ 
+-    public void retainData(long p_75783_, boolean p_75784_) {
++    public void retainData(SectionPos p_75783_, boolean p_75784_) {
+         if (p_75784_) {
+             this.columnsToRetainQueuedDataFor.add(p_75783_);
+         } else {
+@@ -200,7 +_,7 @@
+         }
+     }
+ 
+-    protected void queueSectionData(long p_285403_, @Nullable DataLayer p_285498_) {
++    protected void queueSectionData(SectionPos p_285403_, @Nullable DataLayer p_285498_) {
+         if (p_285498_ != null) {
+             this.queuedSections.put(p_285403_, p_285498_);
+             this.hasInconsistencies = true;
+@@ -209,8 +_,8 @@
+         }
+     }
+ 
+-    protected void updateSectionStatus(long p_75788_, boolean p_75789_) {
+-        byte b0 = this.sectionStates.get(p_75788_);
++    protected void updateSectionStatus(SectionPos p_75788_, boolean p_75789_) {
++        byte b0 = this.sectionStates.getByte(p_75788_);
+         byte b1 = LayerLightSectionStorage.SectionState.hasData(b0, !p_75789_);
+         if (b0 != b1) {
+             this.putSectionState(p_75788_, b1);
+@@ -220,8 +_,8 @@
+                 for(int k = -1; k <= 1; ++k) {
+                     for(int l = -1; l <= 1; ++l) {
+                         if (j != 0 || k != 0 || l != 0) {
+-                            long i1 = SectionPos.offset(p_75788_, j, k, l);
+-                            byte b2 = this.sectionStates.get(i1);
++                            SectionPos i1 = p_75788_.offset(j, k, l);
++                            byte b2 = this.sectionStates.getByte(i1);
+                             this.putSectionState(
+                                 i1, LayerLightSectionStorage.SectionState.neighborCount(b2, LayerLightSectionStorage.SectionState.neighborCount(b2) + i)
+                             );
+@@ -232,17 +_,17 @@
+         }
+     }
+ 
+-    protected void putSectionState(long p_285451_, byte p_285078_) {
++    protected void putSectionState(SectionPos p_285451_, byte p_285078_) {
+         if (p_285078_ != 0) {
+             if (this.sectionStates.put(p_285451_, p_285078_) == 0) {
+                 this.initializeSection(p_285451_);
+             }
+-        } else if (this.sectionStates.remove(p_285451_) != 0) {
++        } else if (this.sectionStates.removeByte(p_285451_) != 0) {
+             this.removeSection(p_285451_);
+         }
+     }
+ 
+-    private void initializeSection(long p_285124_) {
++    private void initializeSection(SectionPos p_285124_) {
+         if (!this.toRemove.remove(p_285124_)) {
+             this.updatingSectionData.setLayer(p_285124_, this.createDataLayer(p_285124_));
+             this.changedSections.add(p_285124_);
+@@ -252,7 +_,7 @@
+         }
+     }
+ 
+-    private void removeSection(long p_285477_) {
++    private void removeSection(SectionPos p_285477_) {
+         this.toRemove.add(p_285477_);
+         this.hasInconsistencies = true;
+     }
+@@ -266,19 +_,19 @@
+         }
+ 
+         if (!this.sectionsAffectedByLightUpdates.isEmpty()) {
+-            LongIterator longiterator = this.sectionsAffectedByLightUpdates.iterator();
++            it.unimi.dsi.fastutil.objects.ObjectIterator<SectionPos> longiterator = this.sectionsAffectedByLightUpdates.iterator();
+ 
+             while(longiterator.hasNext()) {
+-                long i = longiterator.nextLong();
+-                this.chunkSource.onLightUpdate(this.layer, SectionPos.of(i));
++                SectionPos i = longiterator.next();
++                this.chunkSource.onLightUpdate(this.layer, i);
+             }
+ 
+             this.sectionsAffectedByLightUpdates.clear();
+         }
+     }
+ 
+-    public LayerLightSectionStorage.SectionType getDebugSectionType(long p_285114_) {
+-        return LayerLightSectionStorage.SectionState.type(this.sectionStates.get(p_285114_));
++    public LayerLightSectionStorage.SectionType getDebugSectionType(SectionPos p_285114_) {
++        return LayerLightSectionStorage.SectionState.type(this.sectionStates.getByte(p_285114_));
+     }
+ 
+     protected static class SectionState {

@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/level/block/SculkSpreader.java
++++ b/net/minecraft/world/level/block/SculkSpreader.java
+@@ -185,7 +_,7 @@
+     }
+ 
+     public static class ChargeCursor {
+-        private static final ObjectArrayList<Vec3i> NON_CORNER_NEIGHBOURS = Util.make(
++        private static final ObjectArrayList<me.alphamode.mcbig.core.Vec3l> NON_CORNER_NEIGHBOURS = Util.make(
+             new ObjectArrayList<>(18),
+             p_222338_ -> BlockPos.betweenClosedStream(new BlockPos(-1, -1, -1), new BlockPos(1, 1, 1))
+                     .filter(p_222336_ -> (p_222336_.getX() == 0 || p_222336_.getY() == 0 || p_222336_.getZ() == 0) && !p_222336_.equals(BlockPos.ZERO))
+@@ -276,7 +_,7 @@
+                         if (blockpos != null) {
+                             sculkbehaviour.onDischarged(p_222312_, blockstate, this.pos, p_222314_);
+                             this.pos = blockpos.immutable();
+-                            if (p_222315_.isWorldGeneration() && !this.pos.closerThan(new Vec3i(p_222313_.getX(), this.pos.getY(), p_222313_.getZ()), 15.0)) {
++                            if (p_222315_.isWorldGeneration() && !this.pos.closerThan(new me.alphamode.mcbig.core.Vec3l(p_222313_.getBigX(), this.pos.getBigY(), p_222313_.getBigZ()), 15.0)) {
+                                 this.charge = 0;
+                                 return;
+                             }
+@@ -306,7 +_,7 @@
+             return block instanceof SculkBehaviour sculkbehaviour ? sculkbehaviour : SculkBehaviour.DEFAULT;
+         }
+ 
+-        private static List<Vec3i> getRandomizedNonCornerNeighbourOffsets(RandomSource p_222306_) {
++        private static List<me.alphamode.mcbig.core.Vec3l> getRandomizedNonCornerNeighbourOffsets(RandomSource p_222306_) {
+             return Util.shuffledCopy(NON_CORNER_NEIGHBOURS, p_222306_);
+         }
+ 
+@@ -315,7 +_,7 @@
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = p_222309_.mutable();
+             BlockPos.MutableBlockPos blockpos$mutableblockpos1 = p_222309_.mutable();
+ 
+-            for(Vec3i vec3i : getRandomizedNonCornerNeighbourOffsets(p_222310_)) {
++            for(me.alphamode.mcbig.core.Vec3l vec3i : getRandomizedNonCornerNeighbourOffsets(p_222310_)) {
+                 blockpos$mutableblockpos1.setWithOffset(p_222309_, vec3i);
+                 BlockState blockstate = p_222308_.getBlockState(blockpos$mutableblockpos1);
+                 if (blockstate.getBlock() instanceof SculkBehaviour && isMovementUnobstructed(p_222308_, p_222309_, blockpos$mutableblockpos1)) {

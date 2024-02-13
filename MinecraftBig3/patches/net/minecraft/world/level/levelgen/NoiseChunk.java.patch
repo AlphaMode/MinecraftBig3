@@ -1,0 +1,73 @@
+--- a/net/minecraft/world/level/levelgen/NoiseChunk.java
++++ b/net/minecraft/world/level/levelgen/NoiseChunk.java
+@@ -33,7 +_,7 @@
+     final List<NoiseChunk.NoiseInterpolator> interpolators;
+     final List<NoiseChunk.CacheAllInCell> cellCaches;
+     private final Map<DensityFunction, DensityFunction> wrapped = new HashMap<>();
+-    private final Long2IntMap preliminarySurfaceLevel = new Long2IntOpenHashMap();
++    private final it.unimi.dsi.fastutil.objects.Object2IntMap<ColumnPos> preliminarySurfaceLevel = new it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<>();
+     private final Aquifer aquifer;
+     private final DensityFunction initialDensityNoJaggedness;
+     private final NoiseChunk.BlockStateFiller blockStateRule;
+@@ -41,7 +_,7 @@
+     private final NoiseChunk.FlatCache blendAlpha;
+     private final NoiseChunk.FlatCache blendOffset;
+     private final DensityFunctions.BeardifierOrMarker beardifier;
+-    private long lastBlendingDataPos = ChunkPos.INVALID_CHUNK_POS;
++    private ChunkPos lastBlendingDataPos = ChunkPos.INVALID_CHUNK_POS;
+     private Blender.BlendingOutput lastBlendingOutput = new Blender.BlendingOutput(1.0, 0.0);
+     final int noiseSizeXZ;
+     final int cellWidth;
+@@ -194,16 +_,16 @@
+     public int preliminarySurfaceLevel(int p_198257_, int p_198258_) {
+         int i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
+         int j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
+-        return this.preliminarySurfaceLevel.computeIfAbsent(ColumnPos.asLong(i, j), this::computePreliminarySurfaceLevel);
++        return this.preliminarySurfaceLevel.computeIfAbsent(new ColumnPos(me.alphamode.mcbig.math.BigInteger.val(i), me.alphamode.mcbig.math.BigInteger.val(j)), this::computePreliminarySurfaceLevel);
+     }
+ 
+-    private int computePreliminarySurfaceLevel(long p_198250_) {
+-        int i = ColumnPos.getX(p_198250_);
+-        int j = ColumnPos.getZ(p_198250_);
++    private int computePreliminarySurfaceLevel(ColumnPos p_198250_) {
++        me.alphamode.mcbig.math.BigInteger i = p_198250_.x();
++        me.alphamode.mcbig.math.BigInteger j = p_198250_.z();
+         int k = this.noiseSettings.minY();
+ 
+         for(int l = k + this.noiseSettings.height(); l >= k; l -= this.cellHeight) {
+-            if (this.initialDensityNoJaggedness.compute(new DensityFunction.SinglePointContext(i, l, j)) > 0.390625) {
++            if (this.initialDensityNoJaggedness.compute(new DensityFunction.SinglePointContext(i.intValue(), l, j.intValue())) > 0.390625) {
+                 return l;
+             }
+         }
+@@ -336,8 +_,8 @@
+     }
+ 
+     Blender.BlendingOutput getOrComputeBlendingOutput(int p_209245_, int p_209246_) {
+-        long i = ChunkPos.asLong(p_209245_, p_209246_);
+-        if (this.lastBlendingDataPos == i) {
++        ChunkPos i = new ChunkPos(p_209245_, p_209246_);
++        if (this.lastBlendingDataPos.equals(i)) {
+             return this.lastBlendingOutput;
+         } else {
+             this.lastBlendingDataPos = i;
+@@ -463,7 +_,7 @@
+ 
+     static class Cache2D implements DensityFunctions.MarkerOrMarked, NoiseChunk.NoiseChunkDensityFunction {
+         private final DensityFunction function;
+-        private long lastPos2D = ChunkPos.INVALID_CHUNK_POS;
++        private ChunkPos lastPos2D = ChunkPos.INVALID_CHUNK_POS;
+         private double lastValue;
+ 
+         Cache2D(DensityFunction p_209288_) {
+@@ -474,8 +_,8 @@
+         public double compute(DensityFunction.FunctionContext p_209290_) {
+             int i = p_209290_.blockX();
+             int j = p_209290_.blockZ();
+-            long k = ChunkPos.asLong(i, j);
+-            if (this.lastPos2D == k) {
++            ChunkPos k = new ChunkPos(i, j);
++            if (this.lastPos2D.equals(k)) {
+                 return this.lastValue;
+             } else {
+                 this.lastPos2D = k;

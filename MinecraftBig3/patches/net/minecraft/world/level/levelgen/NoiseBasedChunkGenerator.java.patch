@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
++++ b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
+@@ -297,8 +_,8 @@
+ 
+         for(int j = -8; j <= 8; ++j) {
+             for(int k = -8; k <= 8; ++k) {
+-                ChunkPos chunkpos1 = new ChunkPos(chunkpos.x + j, chunkpos.z + k);
+-                ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.x, chunkpos1.z);
++                ChunkPos chunkpos1 = new ChunkPos(chunkpos.x().add(j), chunkpos.z().add(k));
++                ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.x(), chunkpos1.z());
+                 BiomeGenerationSettings biomegenerationsettings = chunkaccess.carverBiome(
+                     () -> this.getBiomeGenerationSettings(
+                             this.biomeSource
+@@ -312,7 +_,7 @@
+ 
+                 for(Holder<ConfiguredWorldCarver<?>> holder : iterable) {
+                     ConfiguredWorldCarver<?> configuredworldcarver = holder.value();
+-                    worldgenrandom.setLargeFeatureSeed(p_224225_ + (long)l, chunkpos1.x, chunkpos1.z);
++                    worldgenrandom.setLargeFeatureSeed(p_224225_ + (long)l, chunkpos1.x().longValue(), chunkpos1.z().longValue());
+                     if (configuredworldcarver.isStartChunk(worldgenrandom)) {
+                         configuredworldcarver.carve(carvingcontext, p_224229_, biomemanager::getBiome, worldgenrandom, aquifer, chunkpos1, carvingmask);
+                     }

@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/chunk/UpgradeData.java
++++ b/net/minecraft/world/level/chunk/UpgradeData.java
+@@ -183,8 +_,8 @@
+ 
+                     for(Direction direction : adirection) {
+                         blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, direction);
+-                        if (SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getX()) == chunkpos.x
+-                            && SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getZ()) == chunkpos.z) {
++                        if (SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getBigX()).equals(chunkpos.x())
++                            && SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getBigZ()).equals(chunkpos.z())) {
+                             blockstate1 = updateState(blockstate1, direction, levelaccessor, blockpos$mutableblockpos, blockpos$mutableblockpos1);
+                         }
+                     }
+@@ -196,7 +_,7 @@
+ 
+         for(int l1 = 0; l1 < this.index.length; ++l1) {
+             if (this.index[l1] != null) {
+-                LOGGER.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.getSectionYFromSectionIndex(l1), chunkpos.x, chunkpos.z);
++                LOGGER.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.getSectionYFromSectionIndex(l1), chunkpos.x(), chunkpos.z());
+             }
+ 
+             this.index[l1] = null;

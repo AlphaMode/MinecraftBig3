@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java
++++ b/net/minecraft/world/level/levelgen/structure/pools/JigsawPlacement.java
+@@ -91,7 +_,7 @@
+                 blockpos = p_227243_;
+             }
+ 
+-            Vec3i vec3i = blockpos.subtract(p_227243_);
++            me.alphamode.mcbig.core.Vec3l vec3i = blockpos.subtract(p_227243_);
+             BlockPos blockpos1 = p_227243_.subtract(vec3i);
+             PoolElementStructurePiece poolelementstructurepiece = new PoolElementStructurePiece(
+                 structuretemplatemanager,

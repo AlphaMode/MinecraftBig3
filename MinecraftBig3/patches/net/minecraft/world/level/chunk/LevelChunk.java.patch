@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/chunk/LevelChunk.java
++++ b/net/minecraft/world/level/chunk/LevelChunk.java
+@@ -371,7 +_,7 @@
+                 return true;
+             } else {
+                 ServerLevel serverlevel = (ServerLevel)levelx;
+-                return this.getFullStatus().isOrAfter(FullChunkStatus.BLOCK_TICKING) && serverlevel.areEntitiesLoaded(ChunkPos.asLong(p_156411_));
++                return this.getFullStatus().isOrAfter(FullChunkStatus.BLOCK_TICKING) && serverlevel.areEntitiesLoaded(new ChunkPos(p_156411_));
+             }
+         }
+     }

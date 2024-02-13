@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/level/dimension/end/EndDragonFight.java
++++ b/net/minecraft/world/level/dimension/end/EndDragonFight.java
+@@ -275,8 +_,8 @@
+     private BlockPattern.BlockPatternMatch findExitPortal() {
+         ChunkPos chunkpos = new ChunkPos(this.origin);
+ 
+-        for(int i = -8 + chunkpos.x; i <= 8 + chunkpos.x; ++i) {
+-            for(int j = -8 + chunkpos.z; j <= 8 + chunkpos.z; ++j) {
++        for(me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.core.BigConstants.Ints.EIGHT.negate().add(chunkpos.x()); i.compareTo(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT.add(chunkpos.x())) <= 0; i = i.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j = me.alphamode.mcbig.core.BigConstants.Ints.EIGHT.negate().add(chunkpos.z()); j.compareTo(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT.add(chunkpos.z())) <= 0; j = j.add()) {
+                 LevelChunk levelchunk = this.level.getChunk(i, j);
+ 
+                 for(BlockEntity blockentity : levelchunk.getBlockEntities().values()) {
+@@ -319,8 +_,8 @@
+         } else {
+             ChunkPos chunkpos = new ChunkPos(this.origin);
+ 
+-            for(int i = -8 + chunkpos.x; i <= 8 + chunkpos.x; ++i) {
+-                for(int j = 8 + chunkpos.z; j <= 8 + chunkpos.z; ++j) {
++            for(me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.core.BigConstants.Ints.EIGHT.negate().add(chunkpos.x()); i.compareTo(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT.add(chunkpos.x())) <= 0; i = i.add()) {
++                for(me.alphamode.mcbig.math.BigInteger j = me.alphamode.mcbig.core.BigConstants.Ints.EIGHT.add(chunkpos.z()); j.compareTo(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT.add(chunkpos.z())) <= 0; j = j.add()) {
+                     ChunkAccess chunkaccess = this.level.getChunk(i, j, ChunkStatus.FULL, false);
+                     if (!(chunkaccess instanceof LevelChunk)) {
+                         return false;

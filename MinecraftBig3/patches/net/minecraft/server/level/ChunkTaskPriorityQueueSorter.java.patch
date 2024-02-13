@@ -1,0 +1,87 @@
+--- a/net/minecraft/server/level/ChunkTaskPriorityQueueSorter.java
++++ b/net/minecraft/server/level/ChunkTaskPriorityQueueSorter.java
+@@ -41,11 +_,11 @@
+         return this.mailbox.hasWork() || this.queues.values().stream().anyMatch(ChunkTaskPriorityQueue::hasWork);
+     }
+ 
+-    public static <T> ChunkTaskPriorityQueueSorter.Message<T> message(Function<ProcessorHandle<Unit>, T> p_143182_, long p_143183_, IntSupplier p_143184_) {
++    public static <T> ChunkTaskPriorityQueueSorter.Message<T> message(Function<ProcessorHandle<Unit>, T> p_143182_, ChunkPos p_143183_, IntSupplier p_143184_) {
+         return new ChunkTaskPriorityQueueSorter.Message<>(p_143182_, p_143183_, p_143184_);
+     }
+ 
+-    public static ChunkTaskPriorityQueueSorter.Message<Runnable> message(Runnable p_140625_, long p_140626_, IntSupplier p_140627_) {
++    public static ChunkTaskPriorityQueueSorter.Message<Runnable> message(Runnable p_140625_, ChunkPos p_140626_, IntSupplier p_140627_) {
+         return new ChunkTaskPriorityQueueSorter.Message<>(p_140634_ -> () -> {
+                 p_140625_.run();
+                 p_140634_.tell(Unit.INSTANCE);
+@@ -53,14 +_,14 @@
+     }
+ 
+     public static ChunkTaskPriorityQueueSorter.Message<Runnable> message(ChunkHolder p_140643_, Runnable p_140644_) {
+-        return message(p_140644_, p_140643_.getPos().toLong(), p_140643_::getQueueLevel);
++        return message(p_140644_, p_140643_.getPos(), p_140643_::getQueueLevel);
+     }
+ 
+     public static <T> ChunkTaskPriorityQueueSorter.Message<T> message(ChunkHolder p_143157_, Function<ProcessorHandle<Unit>, T> p_143158_) {
+-        return message(p_143158_, p_143157_.getPos().toLong(), p_143157_::getQueueLevel);
++        return message(p_143158_, p_143157_.getPos(), p_143157_::getQueueLevel);
+     }
+ 
+-    public static ChunkTaskPriorityQueueSorter.Release release(Runnable p_140629_, long p_140630_, boolean p_140631_) {
++    public static ChunkTaskPriorityQueueSorter.Release release(Runnable p_140629_, ChunkPos p_140630_, boolean p_140631_) {
+         return new ChunkTaskPriorityQueueSorter.Release(p_140629_, p_140630_, p_140631_);
+     }
+ 
+@@ -108,7 +_,7 @@
+         }));
+     }
+ 
+-    private <T> void release(ProcessorHandle<T> p_140570_, long p_140571_, Runnable p_140572_, boolean p_140573_) {
++    private <T> void release(ProcessorHandle<T> p_140570_, ChunkPos p_140571_, Runnable p_140572_, boolean p_140573_) {
+         this.mailbox.tell(new StrictQueue.IntRunnable(1, () -> {
+             ChunkTaskPriorityQueue<Function<ProcessorHandle<Unit>, T>> chunktaskpriorityqueue = this.getQueue(p_140570_);
+             chunktaskpriorityqueue.release(p_140571_, p_140573_);
+@@ -121,7 +_,7 @@
+     }
+ 
+     private <T> void submit(
+-        ProcessorHandle<T> p_140590_, Function<ProcessorHandle<Unit>, T> p_140591_, long p_140592_, IntSupplier p_140593_, boolean p_140594_
++        ProcessorHandle<T> p_140590_, Function<ProcessorHandle<Unit>, T> p_140591_, ChunkPos p_140592_, IntSupplier p_140593_, boolean p_140594_
+     ) {
+         this.mailbox.tell(new StrictQueue.IntRunnable(2, () -> {
+             ChunkTaskPriorityQueue<Function<ProcessorHandle<Unit>, T>> chunktaskpriorityqueue = this.getQueue(p_140590_);
+@@ -171,7 +_,7 @@
+                             + (String)p_212898_.getValue()
+                                 .getAcquired()
+                                 .stream()
+-                                .map(p_212896_ -> p_212896_ + ":" + new ChunkPos(p_212896_))
++                                .map(p_212896_ -> p_212896_ + ":" + p_212896_)
+                                 .collect(Collectors.joining(","))
+                             + "]"
+                 )
+@@ -187,10 +_,10 @@
+ 
+     public static final class Message<T> {
+         final Function<ProcessorHandle<Unit>, T> task;
+-        final long pos;
++        final ChunkPos pos;
+         final IntSupplier level;
+ 
+-        Message(Function<ProcessorHandle<Unit>, T> p_140668_, long p_140669_, IntSupplier p_140670_) {
++        Message(Function<ProcessorHandle<Unit>, T> p_140668_, ChunkPos p_140669_, IntSupplier p_140670_) {
+             this.task = p_140668_;
+             this.pos = p_140669_;
+             this.level = p_140670_;
+@@ -199,10 +_,10 @@
+ 
+     public static final class Release {
+         final Runnable task;
+-        final long pos;
++        final ChunkPos pos;
+         final boolean clearQueue;
+ 
+-        Release(Runnable p_140686_, long p_140687_, boolean p_140688_) {
++        Release(Runnable p_140686_, ChunkPos p_140687_, boolean p_140688_) {
+             this.task = p_140686_;
+             this.pos = p_140687_;
+             this.clearQueue = p_140688_;

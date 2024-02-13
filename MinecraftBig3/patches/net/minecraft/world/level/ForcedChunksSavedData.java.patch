@@ -1,0 +1,52 @@
+--- a/net/minecraft/world/level/ForcedChunksSavedData.java
++++ b/net/minecraft/world/level/ForcedChunksSavedData.java
+@@ -9,31 +_,43 @@
+ public class ForcedChunksSavedData extends SavedData {
+     public static final String FILE_ID = "chunks";
+     private static final String TAG_FORCED = "Forced";
+-    private final LongSet chunks;
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> chunks;
+ 
+     public static SavedData.Factory<ForcedChunksSavedData> factory() {
+         return new SavedData.Factory<>(ForcedChunksSavedData::new, ForcedChunksSavedData::load, DataFixTypes.SAVED_DATA_FORCED_CHUNKS);
+     }
+ 
+-    private ForcedChunksSavedData(LongSet p_151482_) {
++    private ForcedChunksSavedData(it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> p_151482_) {
+         this.chunks = p_151482_;
+     }
+ 
+     public ForcedChunksSavedData() {
+-        this(new LongOpenHashSet());
++        this(new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>());
+     }
+ 
+     public static ForcedChunksSavedData load(CompoundTag p_151484_) {
+-        return new ForcedChunksSavedData(new LongOpenHashSet(p_151484_.getLongArray("Forced")));
++        it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> chunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++        var chunksList = p_151484_.getList(TAG_FORCED, net.minecraft.nbt.Tag.TAG_COMPOUND);
++        chunksList.forEach(tag -> {
++            CompoundTag chunk = (CompoundTag) tag;
++            chunks.add(new net.minecraft.world.level.ChunkPos(me.alphamode.mcbig.math.BigInteger.val(chunk.getString("x")), me.alphamode.mcbig.math.BigInteger.val(chunk.getString("x"))));
++        });
++        return new ForcedChunksSavedData(chunks);
+     }
+ 
+     @Override
+     public CompoundTag save(CompoundTag p_46120_) {
+-        p_46120_.putLongArray("Forced", this.chunks.toLongArray());
++        var chunks = new net.minecraft.nbt.ListTag();
++        this.chunks.forEach(chunkPos -> {
++            CompoundTag chunk = new CompoundTag();
++            chunk.putString("x", chunkPos.x().toString());
++            chunk.putString("z", chunkPos.z().toString());
++        });
++        p_46120_.put(TAG_FORCED, chunks);
+         return p_46120_;
+     }
+ 
+-    public LongSet getChunks() {
++    public it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> getChunks() {
+         return this.chunks;
+     }
+ }

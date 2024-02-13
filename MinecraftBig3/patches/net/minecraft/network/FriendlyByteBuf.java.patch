@@ -1,0 +1,27 @@
+--- a/net/minecraft/network/FriendlyByteBuf.java
++++ b/net/minecraft/network/FriendlyByteBuf.java
+@@ -412,12 +_,22 @@
+         return this;
+     }
+ 
++    public FriendlyByteBuf writeBigInteger(me.alphamode.mcbig.math.BigInteger value) {
++        this.writeLong(value.longValue());
++        return this;
++    }
++
++    public me.alphamode.mcbig.math.BigInteger readBigInteger() {
++        return me.alphamode.mcbig.math.BigInteger.val(this.readLong());
++    }
++
+     public ChunkPos readChunkPos() {
+-        return new ChunkPos(this.readLong());
++        return new ChunkPos(this.readBigInteger(), this.readBigInteger());
+     }
+ 
+     public FriendlyByteBuf writeChunkPos(ChunkPos p_178342_) {
+-        this.writeLong(p_178342_.toLong());
++        this.writeBigInteger(p_178342_.x());
++        this.writeBigInteger(p_178342_.z());
+         return this;
+     }
+ 

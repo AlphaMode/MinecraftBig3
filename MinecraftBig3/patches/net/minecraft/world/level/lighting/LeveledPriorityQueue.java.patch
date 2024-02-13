@@ -1,0 +1,56 @@
+--- a/net/minecraft/world/level/lighting/LeveledPriorityQueue.java
++++ b/net/minecraft/world/level/lighting/LeveledPriorityQueue.java
+@@ -2,17 +_,17 @@
+ 
+ import it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet;
+ 
+-public class LeveledPriorityQueue {
++public class LeveledPriorityQueue<Pos> {
+     private final int levelCount;
+-    private final LongLinkedOpenHashSet[] queues;
++    private final it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<Pos>[] queues;
+     private int firstQueuedLevel;
+ 
+     public LeveledPriorityQueue(int p_278289_, final int p_278259_) {
+         this.levelCount = p_278289_;
+-        this.queues = new LongLinkedOpenHashSet[p_278289_];
++        this.queues = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet[p_278289_];
+ 
+         for(int i = 0; i < p_278289_; ++i) {
+-            this.queues[i] = new LongLinkedOpenHashSet(p_278259_, 0.5F) {
++            this.queues[i] = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet(p_278259_, 0.5F) {
+                 @Override
+                 protected void rehash(int p_278313_) {
+                     if (p_278313_ > p_278259_) {
+@@ -25,9 +_,9 @@
+         this.firstQueuedLevel = p_278289_;
+     }
+ 
+-    public long removeFirstLong() {
+-        LongLinkedOpenHashSet longlinkedopenhashset = this.queues[this.firstQueuedLevel];
+-        long i = longlinkedopenhashset.removeFirstLong();
++    public Pos removeFirstLong() {
++        it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<Pos> longlinkedopenhashset = this.queues[this.firstQueuedLevel];
++        Pos i = longlinkedopenhashset.removeFirst();
+         if (longlinkedopenhashset.isEmpty()) {
+             this.checkFirstQueuedLevel(this.levelCount);
+         }
+@@ -39,15 +_,15 @@
+         return this.firstQueuedLevel >= this.levelCount;
+     }
+ 
+-    public void dequeue(long p_278232_, int p_278338_, int p_278345_) {
+-        LongLinkedOpenHashSet longlinkedopenhashset = this.queues[p_278338_];
++    public void dequeue(Pos p_278232_, int p_278338_, int p_278345_) {
++        it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<Pos> longlinkedopenhashset = this.queues[p_278338_];
+         longlinkedopenhashset.remove(p_278232_);
+         if (longlinkedopenhashset.isEmpty() && this.firstQueuedLevel == p_278338_) {
+             this.checkFirstQueuedLevel(p_278345_);
+         }
+     }
+ 
+-    public void enqueue(long p_278311_, int p_278335_) {
++    public void enqueue(Pos p_278311_, int p_278335_) {
+         this.queues[p_278335_].add(p_278311_);
+         if (this.firstQueuedLevel > p_278335_) {
+             this.firstQueuedLevel = p_278335_;

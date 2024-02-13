@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/DesertPyramidStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/DesertPyramidStructure.java
+@@ -40,7 +_,7 @@
+         ChunkPos p_273334_,
+         PiecesContainer p_273575_
+     ) {
+-        Set<BlockPos> set = SortedArraySet.create(Vec3i::compareTo);
++        Set<BlockPos> set = SortedArraySet.create(me.alphamode.mcbig.core.Vec3l::compareTo);
+ 
+         for(StructurePiece structurepiece : p_273575_.pieces()) {
+             if (structurepiece instanceof DesertPyramidPiece desertpyramidpiece) {

@@ -1,0 +1,46 @@
+--- a/net/minecraft/world/level/block/RespawnAnchorBlock.java
++++ b/net/minecraft/world/level/block/RespawnAnchorBlock.java
+@@ -44,21 +_,21 @@
+     public static final int MIN_CHARGES = 0;
+     public static final int MAX_CHARGES = 4;
+     public static final IntegerProperty CHARGE = BlockStateProperties.RESPAWN_ANCHOR_CHARGES;
+-    private static final ImmutableList<Vec3i> RESPAWN_HORIZONTAL_OFFSETS = ImmutableList.of(
+-        new Vec3i(0, 0, -1),
+-        new Vec3i(-1, 0, 0),
+-        new Vec3i(0, 0, 1),
+-        new Vec3i(1, 0, 0),
+-        new Vec3i(-1, 0, -1),
+-        new Vec3i(1, 0, -1),
+-        new Vec3i(-1, 0, 1),
+-        new Vec3i(1, 0, 1)
++    private static final ImmutableList<me.alphamode.mcbig.core.Vec3l> RESPAWN_HORIZONTAL_OFFSETS = ImmutableList.of(
++        new me.alphamode.mcbig.core.Vec3l(0, 0, -1),
++        new me.alphamode.mcbig.core.Vec3l(-1, 0, 0),
++        new me.alphamode.mcbig.core.Vec3l(0, 0, 1),
++        new me.alphamode.mcbig.core.Vec3l(1, 0, 0),
++        new me.alphamode.mcbig.core.Vec3l(-1, 0, -1),
++        new me.alphamode.mcbig.core.Vec3l(1, 0, -1),
++        new me.alphamode.mcbig.core.Vec3l(-1, 0, 1),
++        new me.alphamode.mcbig.core.Vec3l(1, 0, 1)
+     );
+-    private static final ImmutableList<Vec3i> RESPAWN_OFFSETS = new Builder<Vec3i>()
++    private static final ImmutableList<me.alphamode.mcbig.core.Vec3l> RESPAWN_OFFSETS = new Builder<me.alphamode.mcbig.core.Vec3l>()
+         .addAll(RESPAWN_HORIZONTAL_OFFSETS)
+-        .addAll(RESPAWN_HORIZONTAL_OFFSETS.stream().map(Vec3i::below).iterator())
+-        .addAll(RESPAWN_HORIZONTAL_OFFSETS.stream().map(Vec3i::above).iterator())
+-        .add(new Vec3i(0, 1, 0))
++        .addAll(RESPAWN_HORIZONTAL_OFFSETS.stream().map(me.alphamode.mcbig.core.Vec3l::below).iterator())
++        .addAll(RESPAWN_HORIZONTAL_OFFSETS.stream().map(me.alphamode.mcbig.core.Vec3l::above).iterator())
++        .add(new me.alphamode.mcbig.core.Vec3l(0, 1, 0))
+         .build();
+ 
+     @Override
+@@ -230,7 +_,7 @@
+     private static Optional<Vec3> findStandUpPosition(EntityType<?> p_55844_, CollisionGetter p_55845_, BlockPos p_55846_, boolean p_55847_) {
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-        for(Vec3i vec3i : RESPAWN_OFFSETS) {
++        for(me.alphamode.mcbig.core.Vec3l vec3i : RESPAWN_OFFSETS) {
+             blockpos$mutableblockpos.set(p_55846_).move(vec3i);
+             Vec3 vec3 = DismountHelper.findSafeDismountLocation(p_55844_, p_55845_, blockpos$mutableblockpos, p_55847_);
+             if (vec3 != null) {

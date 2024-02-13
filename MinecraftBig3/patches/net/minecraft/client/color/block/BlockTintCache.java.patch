@@ -1,0 +1,36 @@
+--- a/net/minecraft/client/color/block/BlockTintCache.java
++++ b/net/minecraft/client/color/block/BlockTintCache.java
+@@ -17,7 +_,7 @@
+ public class BlockTintCache {
+     private static final int MAX_CACHE_ENTRIES = 256;
+     private final ThreadLocal<BlockTintCache.LatestCacheInfo> latestChunkOnThread = ThreadLocal.withInitial(BlockTintCache.LatestCacheInfo::new);
+-    private final Long2ObjectLinkedOpenHashMap<BlockTintCache.CacheData> cache = new Long2ObjectLinkedOpenHashMap<>(256, 0.25F);
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, BlockTintCache.CacheData> cache = new it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<>(256, 0.25F);
+     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+     private final ToIntFunction<BlockPos> source;
+ 
+@@ -52,13 +_,13 @@
+         }
+     }
+ 
+-    public void invalidateForChunk(int p_92656_, int p_92657_) {
++    public void invalidateForChunk(me.alphamode.mcbig.math.BigInteger p_92656_, me.alphamode.mcbig.math.BigInteger p_92657_) {
+         try {
+             this.lock.writeLock().lock();
+ 
+             for(int i = -1; i <= 1; ++i) {
+                 for(int j = -1; j <= 1; ++j) {
+-                    long k = ChunkPos.asLong(p_92656_ + i, p_92657_ + j);
++                    ChunkPos k = new ChunkPos(p_92656_.add(i), p_92657_.add(j));
+                     BlockTintCache.CacheData blocktintcache$cachedata = this.cache.remove(k);
+                     if (blocktintcache$cachedata != null) {
+                         blocktintcache$cachedata.invalidate();
+@@ -81,7 +_,7 @@
+     }
+ 
+     private BlockTintCache.CacheData findOrCreateChunkCache(int p_193815_, int p_193816_) {
+-        long i = ChunkPos.asLong(p_193815_, p_193816_);
++        ChunkPos i = new ChunkPos(p_193815_, p_193816_);
+         this.lock.readLock().lock();
+ 
+         try {

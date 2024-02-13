@@ -1,0 +1,16 @@
+--- a/net/minecraft/server/commands/ExecuteCommand.java
++++ b/net/minecraft/server/commands/ExecuteCommand.java
+@@ -493,11 +_,11 @@
+ 
+     private static boolean isChunkLoaded(ServerLevel p_265261_, BlockPos p_265260_) {
+         ChunkPos chunkpos = new ChunkPos(p_265260_);
+-        LevelChunk levelchunk = p_265261_.getChunkSource().getChunkNow(chunkpos.x, chunkpos.z);
++        LevelChunk levelchunk = p_265261_.getChunkSource().getChunkNow(chunkpos.x(), chunkpos.z());
+         if (levelchunk == null) {
+             return false;
+         } else {
+-            return levelchunk.getFullStatus() == FullChunkStatus.ENTITY_TICKING && p_265261_.areEntitiesLoaded(chunkpos.toLong());
++            return levelchunk.getFullStatus() == FullChunkStatus.ENTITY_TICKING && p_265261_.areEntitiesLoaded(chunkpos);
+         }
+     }
+ 

@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/level/chunk/storage/IOWorker.java
++++ b/net/minecraft/world/level/chunk/storage/IOWorker.java
+@@ -45,18 +_,18 @@
+     }
+ 
+     public boolean isOldChunkAround(ChunkPos p_223472_, int p_223473_) {
+-        ChunkPos chunkpos = new ChunkPos(p_223472_.x - p_223473_, p_223472_.z - p_223473_);
+-        ChunkPos chunkpos1 = new ChunkPos(p_223472_.x + p_223473_, p_223472_.z + p_223473_);
++        ChunkPos chunkpos = new ChunkPos(p_223472_.x().subtract(p_223473_), p_223472_.z().subtract(p_223473_));
++        ChunkPos chunkpos1 = new ChunkPos(p_223472_.x().add(p_223473_), p_223472_.z().add(p_223473_));
+ 
+         for(int i = chunkpos.getRegionX(); i <= chunkpos1.getRegionX(); ++i) {
+             for(int j = chunkpos.getRegionZ(); j <= chunkpos1.getRegionZ(); ++j) {
+                 BitSet bitset = this.getOrCreateOldDataForRegion(i, j).join();
+                 if (!bitset.isEmpty()) {
+                     ChunkPos chunkpos2 = ChunkPos.minFromRegion(i, j);
+-                    int k = Math.max(chunkpos.x - chunkpos2.x, 0);
+-                    int l = Math.max(chunkpos.z - chunkpos2.z, 0);
+-                    int i1 = Math.min(chunkpos1.x - chunkpos2.x, 31);
+-                    int j1 = Math.min(chunkpos1.z - chunkpos2.z, 31);
++                    int k = Math.max(chunkpos.x().subtract(chunkpos2.x()).intValue(), 0);
++                    int l = Math.max(chunkpos.z().subtract(chunkpos2.z()).intValue(), 0);
++                    int i1 = Math.min(chunkpos1.x().subtract(chunkpos2.x()).intValue(), 31);
++                    int j1 = Math.min(chunkpos1.z().subtract(chunkpos2.z()).intValue(), 31);
+ 
+                     for(int k1 = k; k1 <= i1; ++k1) {
+                         for(int l1 = l; l1 <= j1; ++l1) {

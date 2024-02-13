@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/NaturalSpawner.java
++++ b/net/minecraft/world/level/NaturalSpawner.java
+@@ -75,7 +_,7 @@
+             if (mobcategory != MobCategory.MISC) {
+                 BlockPos blockpos = entity.blockPosition();
+                 p_186527_.query(
+-                    ChunkPos.asLong(blockpos),
++                    new ChunkPos(blockpos),
+                     p_275163_ -> {
+                         MobSpawnSettings.MobSpawnCost mobspawnsettings$mobspawncost = getRoughBiome(blockpos, p_275163_)
+                             .getMobSettings()
+@@ -98,7 +_,7 @@
+     }
+ 
+     static Biome getRoughBiome(BlockPos p_47096_, ChunkAccess p_47097_) {
+-        return p_47097_.getNoiseBiome(QuartPos.fromBlock(p_47096_.getX()), QuartPos.fromBlock(p_47096_.getY()), QuartPos.fromBlock(p_47096_.getZ())).value();
++        return p_47097_.getNoiseBiome(QuartPos.fromBlock(p_47096_.getBigX()), QuartPos.fromBlock(p_47096_.getBigY()), QuartPos.fromBlock(p_47096_.getBigZ())).value();
+     }
+ 
+     public static void spawnForChunk(
+@@ -486,7 +_,7 @@
+ 
+     @FunctionalInterface
+     public interface ChunkGetter {
+-        void query(long p_47104_, Consumer<LevelChunk> p_47105_);
++        void query(ChunkPos p_47104_, Consumer<LevelChunk> p_47105_);
+     }
+ 
+     @FunctionalInterface

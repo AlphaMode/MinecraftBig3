@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentStructure.java
+@@ -57,7 +_,7 @@
+             return p_228959_;
+         } else {
+             WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.generateUniqueSeed()));
+-            worldgenrandom.setLargeFeatureSeed(p_228958_, p_228957_.x, p_228957_.z);
++            worldgenrandom.setLargeFeatureSeed(p_228958_, p_228957_.x().longValue(), p_228957_.z().longValue());
+             StructurePiece structurepiece = p_228959_.pieces().get(0);
+             BoundingBox boundingbox = structurepiece.getBoundingBox();
+             int i = boundingbox.minX();

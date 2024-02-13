@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/biome/MultiNoiseBiomeSource.java
++++ b/net/minecraft/world/level/biome/MultiNoiseBiomeSource.java
+@@ -63,8 +_,8 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getNoiseBiome(int p_204272_, int p_204273_, int p_204274_, Climate.Sampler p_204275_) {
+-        return this.getNoiseBiome(p_204275_.sample(p_204272_, p_204273_, p_204274_));
++    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204272_, me.alphamode.mcbig.math.BigInteger p_204273_, me.alphamode.mcbig.math.BigInteger p_204274_, Climate.Sampler p_204275_) {
++        return this.getNoiseBiome(p_204275_.sample(p_204272_.intValue(), p_204273_.intValue(), p_204274_.intValue()));
+     }
+ 
+     @VisibleForDebug

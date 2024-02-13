@@ -1,0 +1,99 @@
+--- a/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
++++ b/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
+@@ -81,7 +_,7 @@
+     public static final String SKY_LIGHT_TAG = "SkyLight";
+ 
+     public static ProtoChunk read(ServerLevel p_188231_, PoiManager p_188232_, ChunkPos p_188233_, CompoundTag p_188234_) {
+-        ChunkPos chunkpos = new ChunkPos(p_188234_.getInt("xPos"), p_188234_.getInt("zPos"));
++        ChunkPos chunkpos = new ChunkPos(me.alphamode.mcbig.math.BigInteger.val(p_188234_.getString(X_POS_TAG)), me.alphamode.mcbig.math.BigInteger.val(p_188234_.getString(Z_POS_TAG)));
+         if (!Objects.equals(p_188233_, chunkpos)) {
+             LOGGER.error("Chunk file at {} is in the wrong location; relocating. (Expected {}, got {})", p_188233_, p_188233_, chunkpos);
+         }
+@@ -266,7 +_,7 @@
+     }
+ 
+     private static void logErrors(ChunkPos p_188240_, int p_188241_, String p_188242_) {
+-        LOGGER.error("Recoverable errors when loading section [" + p_188240_.x + ", " + p_188241_ + ", " + p_188240_.z + "]: " + p_188242_);
++        LOGGER.error("Recoverable errors when loading section [" + p_188240_.x() + ", " + p_188241_ + ", " + p_188240_.z() + "]: " + p_188242_);
+     }
+ 
+     private static Codec<PalettedContainerRO<Holder<Biome>>> makeBiomeCodec(Registry<Biome> p_188261_) {
+@@ -278,9 +_,9 @@
+     public static CompoundTag write(ServerLevel p_63455_, ChunkAccess p_63456_) {
+         ChunkPos chunkpos = p_63456_.getPos();
+         CompoundTag compoundtag = NbtUtils.addCurrentDataVersion(new CompoundTag());
+-        compoundtag.putInt("xPos", chunkpos.x);
++        compoundtag.putString(X_POS_TAG, chunkpos.x().toString());
+         compoundtag.putInt("yPos", p_63456_.getMinSection());
+-        compoundtag.putInt("zPos", chunkpos.z);
++        compoundtag.putString(Z_POS_TAG, chunkpos.z().toString());
+         compoundtag.putLong("LastUpdate", p_63455_.getGameTime());
+         compoundtag.putLong("InhabitedTime", p_63456_.getInhabitedTime());
+         compoundtag.putString("Status", BuiltInRegistries.CHUNK_STATUS.getKey(p_63456_.getStatus()).toString());
+@@ -436,7 +_,7 @@
+     }
+ 
+     private static CompoundTag packStructureData(
+-        StructurePieceSerializationContext p_188250_, ChunkPos p_188251_, Map<Structure, StructureStart> p_188252_, Map<Structure, LongSet> p_188253_
++        StructurePieceSerializationContext p_188250_, ChunkPos p_188251_, Map<Structure, StructureStart> p_188252_, Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> p_188253_
+     ) {
+         CompoundTag compoundtag = new CompoundTag();
+         CompoundTag compoundtag1 = new CompoundTag();
+@@ -450,10 +_,17 @@
+         compoundtag.put("starts", compoundtag1);
+         CompoundTag compoundtag2 = new CompoundTag();
+ 
+-        for(Entry<Structure, LongSet> entry1 : p_188253_.entrySet()) {
++        for(Entry<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> entry1 : p_188253_.entrySet()) {
+             if (!entry1.getValue().isEmpty()) {
+                 ResourceLocation resourcelocation1 = registry.getKey(entry1.getKey());
+-                compoundtag2.put(resourcelocation1.toString(), new LongArrayTag(entry1.getValue()));
++                var chunks = new net.minecraft.nbt.ListTag();
++                entry1.getValue().forEach(chunkPos -> {
++                    CompoundTag chunk = new CompoundTag();
++                    chunk.putString(X_POS_TAG, chunkPos.x().toString());
++                    chunk.putString(Z_POS_TAG, chunkPos.z().toString());
++                    chunks.add(chunk);
++                });
++                compoundtag2.put(resourcelocation1.toString(), chunks);
+             }
+         }
+ 
+@@ -482,8 +_,8 @@
+         return map;
+     }
+ 
+-    private static Map<Structure, LongSet> unpackStructureReferences(RegistryAccess p_208155_, ChunkPos p_208156_, CompoundTag p_208157_) {
+-        Map<Structure, LongSet> map = Maps.newHashMap();
++    private static Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> unpackStructureReferences(RegistryAccess p_208155_, ChunkPos p_208156_, CompoundTag p_208157_) {
++        Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> map = Maps.newHashMap();
+         Registry<Structure> registry = p_208155_.registryOrThrow(Registries.STRUCTURE);
+         CompoundTag compoundtag = p_208157_.getCompound("References");
+ 
+@@ -493,17 +_,19 @@
+             if (structure == null) {
+                 LOGGER.warn("Found reference to unknown structure '{}' in chunk {}, discarding", resourcelocation, p_208156_);
+             } else {
+-                long[] along = compoundtag.getLongArray(s);
+-                if (along.length != 0) {
+-                    map.put(structure, new LongOpenHashSet(Arrays.stream(along).filter(p_208153_ -> {
+-                        ChunkPos chunkpos = new ChunkPos(p_208153_);
++                net.minecraft.nbt.ListTag along = compoundtag.getList(s, net.minecraft.nbt.Tag.TAG_COMPOUND);
++                if (along.size() != 0) {
++                    it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> chunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++                    along.forEach(tag -> {
++                        CompoundTag chunk = (CompoundTag) tag;
++                        ChunkPos chunkpos = new ChunkPos(me.alphamode.mcbig.math.BigInteger.val(chunk.getString(X_POS_TAG)), me.alphamode.mcbig.math.BigInteger.val(chunk.getString(Z_POS_TAG)));
+                         if (chunkpos.getChessboardDistance(p_208156_) > 8) {
+                             LOGGER.warn("Found invalid structure reference [ {} @ {} ] for chunk {}.", resourcelocation, chunkpos, p_208156_);
+-                            return false;
+                         } else {
+-                            return true;
++                            chunks.add(chunkpos);
+                         }
+-                    }).toArray()));
++                    });
++                    map.put(structure, chunks);
+                 }
+             }
+         }

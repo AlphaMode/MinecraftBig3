@@ -1,0 +1,60 @@
+--- a/net/minecraft/server/network/PlayerChunkSender.java
++++ b/net/minecraft/server/network/PlayerChunkSender.java
+@@ -26,7 +_,7 @@
+     public static final float MAX_CHUNKS_PER_TICK = 64.0F;
+     private static final float START_CHUNKS_PER_TICK = 9.0F;
+     private static final int MAX_UNACKNOWLEDGED_BATCHES = 10;
+-    private final LongSet pendingChunks = new LongOpenHashSet();
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> pendingChunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<ChunkPos>();
+     private final boolean memoryConnection;
+     private float desiredChunksPerTick = 9.0F;
+     private float batchQuota;
+@@ -38,11 +_,11 @@
+     }
+ 
+     public void markChunkPendingToSend(LevelChunk p_296454_) {
+-        this.pendingChunks.add(p_296454_.getPos().toLong());
++        this.pendingChunks.add(p_296454_.getPos());
+     }
+ 
+     public void dropChunk(ServerPlayer p_294214_, ChunkPos p_294933_) {
+-        if (!this.pendingChunks.remove(p_294933_.toLong()) && p_294214_.isAlive()) {
++        if (!this.pendingChunks.remove(p_294933_) && p_294214_.isAlive()) {
+             p_294214_.connection.send(new ClientboundForgetLevelChunkPacket(p_294933_));
+         }
+     }
+@@ -87,21 +_,20 @@
+                 .stream()
+                 .collect(Comparators.least(i, Comparator.comparingInt(p_295659_::distanceSquared)))
+                 .stream()
+-                .mapToLong(Long::longValue)
+-                .mapToObj(p_296053_::getChunkToSend)
++                .map(p_296053_::getChunkToSend)
+                 .filter(Objects::nonNull)
+                 .toList();
+         } else {
+             list = this.pendingChunks
+-                .longStream()
+-                .mapToObj(p_296053_::getChunkToSend)
++                .stream()
++                .map(p_296053_::getChunkToSend)
+                 .filter(Objects::nonNull)
+                 .sorted(Comparator.comparingInt(p_294268_ -> p_295659_.distanceSquared(p_294268_.getPos())))
+                 .toList();
+         }
+ 
+         for(LevelChunk levelchunk : list) {
+-            this.pendingChunks.remove(levelchunk.getPos().toLong());
++            this.pendingChunks.remove(levelchunk.getPos());
+         }
+ 
+         return list;
+@@ -117,7 +_,7 @@
+         this.maxUnacknowledgedBatches = 10;
+     }
+ 
+-    public boolean isPending(long p_296128_) {
++    public boolean isPending(ChunkPos p_296128_) {
+         return this.pendingChunks.contains(p_296128_);
+     }
+ }

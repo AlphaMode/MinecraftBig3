@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/ticks/SavedTick.java
++++ b/net/minecraft/world/ticks/SavedTick.java
+@@ -34,12 +_,12 @@
+     };
+ 
+     public static <T> void loadTickList(ListTag p_193351_, Function<String, Optional<T>> p_193352_, ChunkPos p_193353_, Consumer<SavedTick<T>> p_193354_) {
+-        long i = p_193353_.toLong();
++//        long i = p_193353_.toLong();
+ 
+         for(int j = 0; j < p_193351_.size(); ++j) {
+             CompoundTag compoundtag = p_193351_.getCompound(j);
+             loadTick(compoundtag, p_193352_).ifPresent(p_210665_ -> {
+-                if (ChunkPos.asLong(p_210665_.pos()) == i) {
++                if (new ChunkPos(p_210665_.pos()).equals(p_193353_)) {
+                     p_193354_.accept(p_210665_);
+                 }
+             });

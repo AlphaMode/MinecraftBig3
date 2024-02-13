@@ -1,0 +1,12 @@
+--- a/net/minecraft/world/level/biome/CheckerboardColumnBiomeSource.java
++++ b/net/minecraft/world/level/biome/CheckerboardColumnBiomeSource.java
+@@ -36,7 +_,7 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getNoiseBiome(int p_204248_, int p_204249_, int p_204250_, Climate.Sampler p_204251_) {
+-        return this.allowedBiomes.get(Math.floorMod((p_204248_ >> this.bitShift) + (p_204250_ >> this.bitShift), this.allowedBiomes.size()));
++    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204248_, me.alphamode.mcbig.math.BigInteger p_204249_, me.alphamode.mcbig.math.BigInteger p_204250_, Climate.Sampler p_204251_) {
++        return this.allowedBiomes.get(me.alphamode.mcbig.math.BigMath.floorMod((p_204248_.shiftRight(this.bitShift)).add(p_204250_.shiftRight(this.bitShift)), this.allowedBiomes.size()).intValue());
+     }
+ }

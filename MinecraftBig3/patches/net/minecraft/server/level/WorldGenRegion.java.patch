@@ -1,0 +1,104 @@
+--- a/net/minecraft/server/level/WorldGenRegion.java
++++ b/net/minecraft/server/level/WorldGenRegion.java
+@@ -115,17 +_,17 @@
+     }
+ 
+     @Override
+-    public ChunkAccess getChunk(int p_9507_, int p_9508_) {
++    public ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_9507_, me.alphamode.mcbig.math.BigInteger p_9508_) {
+         return this.getChunk(p_9507_, p_9508_, ChunkStatus.EMPTY);
+     }
+ 
+     @Nullable
+     @Override
+-    public ChunkAccess getChunk(int p_9514_, int p_9515_, ChunkStatus p_9516_, boolean p_9517_) {
++    public ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_9514_, me.alphamode.mcbig.math.BigInteger p_9515_, ChunkStatus p_9516_, boolean p_9517_) {
+         ChunkAccess chunkaccess;
+         if (this.hasChunk(p_9514_, p_9515_)) {
+-            int i = p_9514_ - this.firstPos.x;
+-            int j = p_9515_ - this.firstPos.z;
++            int i = p_9514_.subtract(this.firstPos.x()).intValue();
++            int j = p_9515_.subtract(this.firstPos.z()).intValue();
+             chunkaccess = this.cache.get(i + j * this.size);
+             if (chunkaccess.getStatus().isOrAfter(p_9516_)) {
+                 return chunkaccess;
+@@ -138,7 +_,7 @@
+             return null;
+         } else {
+             LOGGER.error("Requested chunk : {} {}", p_9514_, p_9515_);
+-            LOGGER.error("Region bounds : {} {} | {} {}", this.firstPos.x, this.firstPos.z, this.lastPos.x, this.lastPos.z);
++            LOGGER.error("Region bounds : {} {} | {} {}", this.firstPos.x(), this.firstPos.z(), this.lastPos.x(), this.lastPos.z());
+             if (chunkaccess != null) {
+                 throw (RuntimeException)Util.pauseInIde(
+                     new RuntimeException(
+@@ -156,13 +_,13 @@
+     }
+ 
+     @Override
+-    public boolean hasChunk(int p_9574_, int p_9575_) {
+-        return p_9574_ >= this.firstPos.x && p_9574_ <= this.lastPos.x && p_9575_ >= this.firstPos.z && p_9575_ <= this.lastPos.z;
++    public boolean hasChunk(me.alphamode.mcbig.math.BigInteger p_9574_, me.alphamode.mcbig.math.BigInteger p_9575_) {
++        return p_9574_.compareTo(this.firstPos.x()) >= 0 && p_9574_.compareTo(this.lastPos.x()) <= 0 && p_9575_.compareTo(this.firstPos.z()) >= 0 && p_9575_.compareTo(this.lastPos.z()) <= 0;
+     }
+ 
+     @Override
+     public BlockState getBlockState(BlockPos p_9587_) {
+-        return this.getChunk(SectionPos.blockToSectionCoord(p_9587_.getX()), SectionPos.blockToSectionCoord(p_9587_.getZ())).getBlockState(p_9587_);
++        return this.getChunk(SectionPos.blockToSectionCoord(p_9587_.getBigX()), SectionPos.blockToSectionCoord(p_9587_.getBigZ())).getBlockState(p_9587_);
+     }
+ 
+     @Override
+@@ -187,7 +_,7 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getUncachedNoiseBiome(int p_203787_, int p_203788_, int p_203789_) {
++    public Holder<Biome> getUncachedNoiseBiome(me.alphamode.mcbig.math.BigInteger p_203787_, me.alphamode.mcbig.math.BigInteger p_203788_, me.alphamode.mcbig.math.BigInteger p_203789_) {
+         return this.level.getUncachedNoiseBiome(p_203787_, p_203788_, p_203789_);
+     }
+ 
+@@ -253,11 +_,11 @@
+ 
+     @Override
+     public boolean ensureCanWrite(BlockPos p_181031_) {
+-        int i = SectionPos.blockToSectionCoord(p_181031_.getX());
+-        int j = SectionPos.blockToSectionCoord(p_181031_.getZ());
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_181031_.getBigX());
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_181031_.getBigZ());
+         ChunkPos chunkpos = this.getCenter();
+-        int k = Math.abs(chunkpos.x - i);
+-        int l = Math.abs(chunkpos.z - j);
++        int k = Math.abs(chunkpos.x().subtract(i).intValue());
++        int l = Math.abs(chunkpos.z().subtract(j).intValue());
+         if (k <= this.writeRadiusCutoff && l <= this.writeRadiusCutoff) {
+             if (this.center.isUpgrading()) {
+                 LevelHeightAccessor levelheightaccessor = this.center.getHeightAccessorForGeneration();
+@@ -328,8 +_,8 @@
+ 
+     @Override
+     public boolean addFreshEntity(Entity p_9580_) {
+-        int i = SectionPos.blockToSectionCoord(p_9580_.getBlockX());
+-        int j = SectionPos.blockToSectionCoord(p_9580_.getBlockZ());
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_9580_.getBigBlockX());
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_9580_.getBigBlockZ());
+         this.getChunk(i, j).addEntity(p_9580_);
+         return true;
+     }
+@@ -372,7 +_,7 @@
+ 
+     @Override
+     public DifficultyInstance getCurrentDifficultyAt(BlockPos p_9585_) {
+-        if (!this.hasChunk(SectionPos.blockToSectionCoord(p_9585_.getX()), SectionPos.blockToSectionCoord(p_9585_.getZ()))) {
++        if (!this.hasChunk(SectionPos.blockToSectionCoord(p_9585_.getBigX()), SectionPos.blockToSectionCoord(p_9585_.getBigZ()))) {
+             throw new RuntimeException("We are asking a region for a chunk out of bound");
+         } else {
+             return new DifficultyInstance(this.level.getDifficulty(), this.level.getDayTime(), 0L, this.level.getMoonBrightness());
+@@ -417,7 +_,7 @@
+ 
+     @Override
+     public int getHeight(Heightmap.Types p_9535_, int p_9536_, int p_9537_) {
+-        return this.getChunk(SectionPos.blockToSectionCoord(p_9536_), SectionPos.blockToSectionCoord(p_9537_)).getHeight(p_9535_, p_9536_ & 15, p_9537_ & 15)
++        return this.getChunk(me.alphamode.mcbig.math.BigInteger.val(SectionPos.blockToSectionCoord(p_9536_)), me.alphamode.mcbig.math.BigInteger.val(SectionPos.blockToSectionCoord(p_9537_))).getHeight(p_9535_, p_9536_ & 15, p_9537_ & 15)
+             + 1;
+     }
+ 

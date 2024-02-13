@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/levelgen/structure/BoundingBox.java
++++ b/net/minecraft/world/level/levelgen/structure/BoundingBox.java
+@@ -61,7 +_,7 @@
+         }
+     }
+ 
+-    public static BoundingBox fromCorners(Vec3i p_162376_, Vec3i p_162377_) {
++    public static BoundingBox fromCorners(me.alphamode.mcbig.core.Vec3l p_162376_, me.alphamode.mcbig.core.Vec3l p_162377_) {
+         return new BoundingBox(
+             Math.min(p_162376_.getX(), p_162377_.getX()),
+             Math.min(p_162376_.getY(), p_162377_.getY()),
+@@ -200,7 +_,7 @@
+     }
+ 
+     @Deprecated
+-    public BoundingBox move(Vec3i p_162374_) {
++    public BoundingBox move(me.alphamode.mcbig.core.Vec3l p_162374_) {
+         return this.move(p_162374_.getX(), p_162374_.getY(), p_162374_.getZ());
+     }
+ 
+@@ -221,7 +_,7 @@
+         );
+     }
+ 
+-    public boolean isInside(Vec3i p_71052_) {
++    public boolean isInside(me.alphamode.mcbig.core.Vec3l p_71052_) {
+         return this.isInside(p_71052_.getX(), p_71052_.getY(), p_71052_.getZ());
+     }
+ 

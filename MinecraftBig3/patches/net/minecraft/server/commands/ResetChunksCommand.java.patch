@@ -1,0 +1,54 @@
+--- a/net/minecraft/server/commands/ResetChunksCommand.java
++++ b/net/minecraft/server/commands/ResetChunksCommand.java
+@@ -61,13 +_,13 @@
+         serverchunkcache.chunkMap.debugReloadGenerator();
+         Vec3 vec3 = p_183685_.getPosition();
+         ChunkPos chunkpos = new ChunkPos(BlockPos.containing(vec3));
+-        int i = chunkpos.z - p_183686_;
+-        int j = chunkpos.z + p_183686_;
+-        int k = chunkpos.x - p_183686_;
+-        int l = chunkpos.x + p_183686_;
++        me.alphamode.mcbig.math.BigInteger i = chunkpos.z().subtract(p_183686_);
++        me.alphamode.mcbig.math.BigInteger j = chunkpos.z().add(p_183686_);
++        me.alphamode.mcbig.math.BigInteger k = chunkpos.x().subtract(p_183686_);
++        me.alphamode.mcbig.math.BigInteger l = chunkpos.x().add(p_183686_);
+ 
+-        for(int i1 = i; i1 <= j; ++i1) {
+-            for(int j1 = k; j1 <= l; ++j1) {
++        for(me.alphamode.mcbig.math.BigInteger i1 = i; i1.compareTo(j) <= 0; i1 = i1.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j1 = k; j1.compareTo(l) <= 0; j1 = j1.add()) {
+                 ChunkPos chunkpos1 = new ChunkPos(j1, i1);
+                 LevelChunk levelchunk = serverchunkcache.getChunk(j1, i1, false);
+                 if (levelchunk != null && (!p_183687_ || !levelchunk.isOldNoiseGeneration())) {
+@@ -95,16 +_,16 @@
+             long k1 = System.currentTimeMillis();
+             CompletableFuture<Unit> completablefuture = CompletableFuture.supplyAsync(() -> Unit.INSTANCE, processormailbox::tell);
+ 
+-            for(int i2 = chunkpos.z - p_183686_; i2 <= chunkpos.z + p_183686_; ++i2) {
+-                for(int j2 = chunkpos.x - p_183686_; j2 <= chunkpos.x + p_183686_; ++j2) {
++            for(me.alphamode.mcbig.math.BigInteger i2 = chunkpos.z().subtract(p_183686_); i2.compareTo(chunkpos.z().add(p_183686_)) <= 0; i2 = i2.add()) {
++                for(me.alphamode.mcbig.math.BigInteger j2 = chunkpos.x().subtract(p_183686_); j2.compareTo(chunkpos.x().add(p_183686_)) <= 0; j2 = j2.add()) {
+                     ChunkPos chunkpos2 = new ChunkPos(j2, i2);
+                     LevelChunk levelchunk1 = serverchunkcache.getChunk(j2, i2, false);
+                     if (levelchunk1 != null && (!p_183687_ || !levelchunk1.isOldNoiseGeneration())) {
+                         List<ChunkAccess> list = Lists.newArrayList();
+                         int k2 = Math.max(1, chunkstatus.getRange());
+ 
+-                        for(int l2 = chunkpos2.z - k2; l2 <= chunkpos2.z + k2; ++l2) {
+-                            for(int i3 = chunkpos2.x - k2; i3 <= chunkpos2.x + k2; ++i3) {
++                        for(me.alphamode.mcbig.math.BigInteger l2 = chunkpos2.z().subtract(k2); l2.compareTo(chunkpos2.z().add(k2)) <= 0; l2 = l2.add()) {
++                            for(me.alphamode.mcbig.math.BigInteger i3 = chunkpos2.x().subtract(k2); i3.compareTo(chunkpos2.x().add(k2)) <= 0; i3 = i3.add()) {
+                                 ChunkAccess chunkaccess = serverchunkcache.getChunk(i3, l2, chunkstatus.getParent(), true);
+                                 ChunkAccess chunkaccess1;
+                                 if (chunkaccess instanceof ImposterProtoChunk) {
+@@ -150,8 +_,8 @@
+ 
+         long l3 = System.currentTimeMillis();
+ 
+-        for(int i4 = chunkpos.z - p_183686_; i4 <= chunkpos.z + p_183686_; ++i4) {
+-            for(int l1 = chunkpos.x - p_183686_; l1 <= chunkpos.x + p_183686_; ++l1) {
++        for(me.alphamode.mcbig.math.BigInteger i4 = chunkpos.z().subtract(p_183686_); i4.compareTo(chunkpos.z().add(p_183686_)) <= 0; i4 = i4.add()) {
++            for(me.alphamode.mcbig.math.BigInteger l1 = chunkpos.x().subtract(p_183686_); l1.compareTo(chunkpos.x().add(p_183686_)) <= 0; l1 = l1.add()) {
+                 ChunkPos chunkpos3 = new ChunkPos(l1, i4);
+                 LevelChunk levelchunk2 = serverchunkcache.getChunk(l1, i4, false);
+                 if (levelchunk2 != null && (!p_183687_ || !levelchunk2.isOldNoiseGeneration())) {

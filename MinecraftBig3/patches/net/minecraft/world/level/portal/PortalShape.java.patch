@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/level/portal/PortalShape.java
++++ b/net/minecraft/world/level/portal/PortalShape.java
+@@ -180,7 +_,7 @@
+         BlockPos blockpos = p_77739_.minCorner;
+         double d2;
+         if (d0 > 0.0) {
+-            double d3 = (double)blockpos.get(p_77740_) + (double)p_77742_.width / 2.0;
++            double d3 = (double)blockpos.getInt(p_77740_) + (double)p_77742_.width / 2.0;
+             d2 = Mth.clamp(Mth.inverseLerp(p_77741_.get(p_77740_) - d3, 0.0, d0), 0.0, 1.0);
+         } else {
+             d2 = 0.5;
+@@ -189,13 +_,13 @@
+         double d5;
+         if (d1 > 0.0) {
+             Direction.Axis direction$axis = Direction.Axis.Y;
+-            d5 = Mth.clamp(Mth.inverseLerp(p_77741_.get(direction$axis) - (double)blockpos.get(direction$axis), 0.0, d1), 0.0, 1.0);
++            d5 = Mth.clamp(Mth.inverseLerp(p_77741_.get(direction$axis) - (double)blockpos.getInt(direction$axis), 0.0, d1), 0.0, 1.0);
+         } else {
+             d5 = 0.0;
+         }
+ 
+         Direction.Axis direction$axis1 = p_77740_ == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X;
+-        double d4 = p_77741_.get(direction$axis1) - ((double)blockpos.get(direction$axis1) + 0.5);
++        double d4 = p_77741_.get(direction$axis1) - ((double)blockpos.getInt(direction$axis1) + 0.5);
+         return new Vec3(d2, d5, d4);
+     }
+ 

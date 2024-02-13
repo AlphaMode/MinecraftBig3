@@ -1,0 +1,100 @@
+--- a/net/minecraft/world/level/Level.java
++++ b/net/minecraft/world/level/Level.java
+@@ -183,16 +_,20 @@
+     }
+ 
+     public LevelChunk getChunkAt(BlockPos p_46746_) {
+-        return this.getChunk(SectionPos.blockToSectionCoord(p_46746_.getX()), SectionPos.blockToSectionCoord(p_46746_.getZ()));
++        return this.getChunk(SectionPos.blockToSectionCoord(p_46746_.getBigX()), SectionPos.blockToSectionCoord(p_46746_.getBigZ()));
+     }
+ 
+-    public LevelChunk getChunk(int p_46727_, int p_46728_) {
++    public LevelChunk getChunk(me.alphamode.mcbig.math.BigInteger p_46727_, me.alphamode.mcbig.math.BigInteger p_46728_) {
+         return (LevelChunk)this.getChunk(p_46727_, p_46728_, ChunkStatus.FULL);
+     }
+ 
++    public LevelChunk getChunk(int p_46727_, int p_46728_) {
++        return getChunk(me.alphamode.mcbig.math.BigInteger.val(p_46727_), me.alphamode.mcbig.math.BigInteger.val(p_46728_));
++    }
++
+     @Nullable
+     @Override
+-    public ChunkAccess getChunk(int p_46502_, int p_46503_, ChunkStatus p_46504_, boolean p_46505_) {
++    public ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_46502_, me.alphamode.mcbig.math.BigInteger p_46503_, ChunkStatus p_46504_, boolean p_46505_) {
+         ChunkAccess chunkaccess = this.getChunkSource().getChunk(p_46502_, p_46503_, p_46504_, p_46505_);
+         if (chunkaccess == null && p_46505_) {
+             throw new IllegalStateException("Should always be able to create a chunk!");
+@@ -319,17 +_,17 @@
+     @Override
+     public int getHeight(Heightmap.Types p_46571_, int p_46572_, int p_46573_) {
+         int i;
+-        if (p_46572_ >= -30000000 && p_46573_ >= -30000000 && p_46572_ < 30000000 && p_46573_ < 30000000) {
++//        if (p_46572_ >= -30000000 && p_46573_ >= -30000000 && p_46572_ < 30000000 && p_46573_ < 30000000) {
+             if (this.hasChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_))) {
+-                i = this.getChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_))
++                i = this.getChunk(me.alphamode.mcbig.math.BigInteger.val(SectionPos.blockToSectionCoord(p_46572_)), me.alphamode.mcbig.math.BigInteger.val(SectionPos.blockToSectionCoord(p_46573_)))
+                         .getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15)
+                     + 1;
+             } else {
+                 i = this.getMinBuildHeight();
+             }
+-        } else {
+-            i = this.getSeaLevel() + 1;
+-        }
++//        } else {
++//            i = this.getSeaLevel() + 1;
++//        }
+ 
+         return i;
+     }
+@@ -344,7 +_,7 @@
+         if (this.isOutsideBuildHeight(p_46732_)) {
+             return Blocks.VOID_AIR.defaultBlockState();
+         } else {
+-            LevelChunk levelchunk = this.getChunk(SectionPos.blockToSectionCoord(p_46732_.getX()), SectionPos.blockToSectionCoord(p_46732_.getZ()));
++            LevelChunk levelchunk = this.getChunk(SectionPos.blockToSectionCoord(p_46732_.getBigX()), SectionPos.blockToSectionCoord(p_46732_.getBigZ()));
+             return levelchunk.getBlockState(p_46732_);
+         }
+     }
+@@ -515,12 +_,12 @@
+         return true;
+     }
+ 
+-    public boolean shouldTickBlocksAt(long p_186456_) {
++    public boolean shouldTickBlocksAt(ChunkPos p_186456_) {
+         return true;
+     }
+ 
+     public boolean shouldTickBlocksAt(BlockPos p_220394_) {
+-        return this.shouldTickBlocksAt(ChunkPos.asLong(p_220394_));
++        return this.shouldTickBlocksAt(new ChunkPos(p_220394_));
+     }
+ 
+     public Explosion explode(
+@@ -716,7 +_,7 @@
+     public boolean isLoaded(BlockPos p_46750_) {
+         return this.isOutsideBuildHeight(p_46750_)
+             ? false
+-            : this.getChunkSource().hasChunk(SectionPos.blockToSectionCoord(p_46750_.getX()), SectionPos.blockToSectionCoord(p_46750_.getZ()));
++            : this.getChunkSource().hasChunk(SectionPos.blockToSectionCoord(p_46750_.getBigX()), SectionPos.blockToSectionCoord(p_46750_.getBigZ()));
+     }
+ 
+     public boolean loadedAndEntityCanStandOnFace(BlockPos p_46579_, Entity p_46580_, Direction p_46581_) {
+@@ -724,7 +_,7 @@
+             return false;
+         } else {
+             ChunkAccess chunkaccess = this.getChunk(
+-                SectionPos.blockToSectionCoord(p_46579_.getX()), SectionPos.blockToSectionCoord(p_46579_.getZ()), ChunkStatus.FULL, false
++                SectionPos.blockToSectionCoord(p_46579_.getBigX()), SectionPos.blockToSectionCoord(p_46579_.getBigZ()), ChunkStatus.FULL, false
+             );
+             return chunkaccess == null ? false : chunkaccess.getBlockState(p_46579_).entityCanStandOnFace(this, p_46579_, p_46580_, p_46581_);
+         }
+@@ -776,7 +_,7 @@
+ 
+     @Nullable
+     @Override
+-    public BlockGetter getChunkForCollisions(int p_46711_, int p_46712_) {
++    public BlockGetter getChunkForCollisions(me.alphamode.mcbig.math.BigInteger p_46711_, me.alphamode.mcbig.math.BigInteger p_46712_) {
+         return this.getChunk(p_46711_, p_46712_, ChunkStatus.FULL, false);
+     }
+ 

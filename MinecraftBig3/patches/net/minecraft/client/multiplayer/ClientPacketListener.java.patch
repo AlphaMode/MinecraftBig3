@@ -1,0 +1,85 @@
+--- a/net/minecraft/client/multiplayer/ClientPacketListener.java
++++ b/net/minecraft/client/multiplayer/ClientPacketListener.java
+@@ -685,8 +_,8 @@
+     @Override
+     public void handleLevelChunkWithLight(ClientboundLevelChunkWithLightPacket p_194241_) {
+         PacketUtils.ensureRunningOnSameThread(p_194241_, this, this.minecraft);
+-        int i = p_194241_.getX();
+-        int j = p_194241_.getZ();
++        me.alphamode.mcbig.math.BigInteger i = p_194241_.getX();
++        me.alphamode.mcbig.math.BigInteger j = p_194241_.getZ();
+         this.updateLevelChunk(i, j, p_194241_.getChunkData());
+         ClientboundLightUpdatePacketData clientboundlightupdatepacketdata = p_194241_.getLightData();
+         this.level.queueLightUpdate(() -> {
+@@ -706,15 +_,15 @@
+             this.level
+                 .getChunkSource()
+                 .replaceBiomes(
+-                    clientboundchunksbiomespacket$chunkbiomedata.pos().x,
+-                    clientboundchunksbiomespacket$chunkbiomedata.pos().z,
++                    clientboundchunksbiomespacket$chunkbiomedata.pos().x(),
++                    clientboundchunksbiomespacket$chunkbiomedata.pos().z(),
+                     clientboundchunksbiomespacket$chunkbiomedata.getReadBuffer()
+                 );
+         }
+ 
+         for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata1 : p_275437_.chunkBiomeData()) {
+             this.level
+-                .onChunkLoaded(new ChunkPos(clientboundchunksbiomespacket$chunkbiomedata1.pos().x, clientboundchunksbiomespacket$chunkbiomedata1.pos().z));
++                .onChunkLoaded(new ChunkPos(clientboundchunksbiomespacket$chunkbiomedata1.pos().x(), clientboundchunksbiomespacket$chunkbiomedata1.pos().z()));
+         }
+ 
+         for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata2 : p_275437_.chunkBiomeData()) {
+@@ -724,7 +_,7 @@
+                         this.minecraft
+                             .levelRenderer
+                             .setSectionDirty(
+-                                clientboundchunksbiomespacket$chunkbiomedata2.pos().x + i, k, clientboundchunksbiomespacket$chunkbiomedata2.pos().z + j
++                                clientboundchunksbiomespacket$chunkbiomedata2.pos().x().add(i), me.alphamode.mcbig.math.BigInteger.val(k), clientboundchunksbiomespacket$chunkbiomedata2.pos().z().add(j)
+                             );
+                     }
+                 }
+@@ -732,7 +_,7 @@
+         }
+     }
+ 
+-    private void updateLevelChunk(int p_194199_, int p_194200_, ClientboundLevelChunkPacketData p_194201_) {
++    private void updateLevelChunk(me.alphamode.mcbig.math.BigInteger p_194199_, me.alphamode.mcbig.math.BigInteger p_194200_, ClientboundLevelChunkPacketData p_194201_) {
+         this.level
+             .getChunkSource()
+             .replaceWithPacketData(
+@@ -740,7 +_,7 @@
+             );
+     }
+ 
+-    private void enableChunkLight(LevelChunk p_194213_, int p_194214_, int p_194215_) {
++    private void enableChunkLight(LevelChunk p_194213_, me.alphamode.mcbig.math.BigInteger p_194214_, me.alphamode.mcbig.math.BigInteger p_194215_) {
+         LevelLightEngine levellightengine = this.level.getChunkSource().getLightEngine();
+         LevelChunkSection[] alevelchunksection = p_194213_.getSections();
+         ChunkPos chunkpos = p_194213_.getPos();
+@@ -2204,13 +_,13 @@
+     @Override
+     public void handleLightUpdatePacket(ClientboundLightUpdatePacket p_194243_) {
+         PacketUtils.ensureRunningOnSameThread(p_194243_, this, this.minecraft);
+-        int i = p_194243_.getX();
+-        int j = p_194243_.getZ();
++        me.alphamode.mcbig.math.BigInteger i = p_194243_.getX();
++        me.alphamode.mcbig.math.BigInteger j = p_194243_.getZ();
+         ClientboundLightUpdatePacketData clientboundlightupdatepacketdata = p_194243_.getLightData();
+         this.level.queueLightUpdate(() -> this.applyLightData(i, j, clientboundlightupdatepacketdata));
+     }
+ 
+-    private void applyLightData(int p_194249_, int p_194250_, ClientboundLightUpdatePacketData p_194251_) {
++    private void applyLightData(me.alphamode.mcbig.math.BigInteger p_194249_, me.alphamode.mcbig.math.BigInteger p_194250_, ClientboundLightUpdatePacketData p_194251_) {
+         LevelLightEngine levellightengine = this.level.getChunkSource().getLightEngine();
+         BitSet bitset = p_194251_.getSkyYMask();
+         BitSet bitset1 = p_194251_.getEmptySkyYMask();
+@@ -2289,7 +_,7 @@
+     }
+ 
+     private void readSectionList(
+-        int p_171735_, int p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_
++        me.alphamode.mcbig.math.BigInteger p_171735_, me.alphamode.mcbig.math.BigInteger p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_
+     ) {
+         for(int i = 0; i < p_171737_.getLightSectionCount(); ++i) {
+             int j = p_171737_.getMinLightSection() + i;

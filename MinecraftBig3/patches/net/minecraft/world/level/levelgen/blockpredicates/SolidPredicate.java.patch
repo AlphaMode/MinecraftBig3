@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/blockpredicates/SolidPredicate.java
++++ b/net/minecraft/world/level/levelgen/blockpredicates/SolidPredicate.java
+@@ -10,7 +_,7 @@
+ public class SolidPredicate extends StateTestingPredicate {
+     public static final Codec<SolidPredicate> CODEC = RecordCodecBuilder.create(p_190538_ -> stateTestingCodec(p_190538_).apply(p_190538_, SolidPredicate::new));
+ 
+-    public SolidPredicate(Vec3i p_190533_) {
++    public SolidPredicate(me.alphamode.mcbig.core.Vec3l p_190533_) {
+         super(p_190533_);
+     }
+ 

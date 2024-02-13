@@ -1,0 +1,53 @@
+--- a/net/minecraft/CrashReportCategory.java
++++ b/net/minecraft/CrashReportCategory.java
+@@ -33,7 +_,7 @@
+         return formatLocation(p_178948_, p_178949_.getX(), p_178949_.getY(), p_178949_.getZ());
+     }
+ 
+-    public static String formatLocation(LevelHeightAccessor p_178943_, int p_178944_, int p_178945_, int p_178946_) {
++    public static String formatLocation(LevelHeightAccessor p_178943_, long p_178944_, long p_178945_, long p_178946_) {
+         StringBuilder stringbuilder = new StringBuilder();
+ 
+         try {
+@@ -48,9 +_,9 @@
+             int i = SectionPos.blockToSectionCoord(p_178944_);
+             int j = SectionPos.blockToSectionCoord(p_178945_);
+             int k = SectionPos.blockToSectionCoord(p_178946_);
+-            int l = p_178944_ & 15;
+-            int i1 = p_178945_ & 15;
+-            int j1 = p_178946_ & 15;
++            long l = p_178944_ & 15;
++            long i1 = p_178945_ & 15;
++            long j1 = p_178946_ & 15;
+             int k1 = SectionPos.sectionToBlockCoord(i);
+             int l1 = p_178943_.getMinBuildHeight();
+             int i2 = SectionPos.sectionToBlockCoord(k);
+@@ -69,18 +_,18 @@
+         stringbuilder.append(", ");
+ 
+         try {
+-            int i3 = p_178944_ >> 9;
+-            int j3 = p_178946_ >> 9;
+-            int k3 = i3 << 5;
+-            int l3 = j3 << 5;
+-            int i4 = (i3 + 1 << 5) - 1;
+-            int j4 = (j3 + 1 << 5) - 1;
+-            int k4 = i3 << 9;
++            long i3 = p_178944_ >> 9;
++            long j3 = p_178946_ >> 9;
++            long k3 = i3 << 5;
++            long l3 = j3 << 5;
++            long i4 = (i3 + 1 << 5) - 1;
++            long j4 = (j3 + 1 << 5) - 1;
++            long k4 = i3 << 9;
+             int l4 = p_178943_.getMinBuildHeight();
+-            int i5 = j3 << 9;
+-            int j5 = (i3 + 1 << 9) - 1;
++            long i5 = j3 << 9;
++            long j5 = (i3 + 1 << 9) - 1;
+             int k5 = p_178943_.getMaxBuildHeight() - 1;
+-            int l5 = (j3 + 1 << 9) - 1;
++            long l5 = (j3 + 1 << 9) - 1;
+             stringbuilder.append(
+                 String.format(
+                     Locale.ROOT, "Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,%d,%d to %d,%d,%d)", i3, j3, k3, l3, i4, j4, k4, l4, i5, j5, k5, l5

@@ -1,0 +1,49 @@
+--- a/net/minecraft/client/multiplayer/ClientLevel.java
++++ b/net/minecraft/client/multiplayer/ClientLevel.java
+@@ -310,7 +_,7 @@
+     }
+ 
+     public void onChunkLoaded(ChunkPos p_171650_) {
+-        this.tintCaches.forEach((p_194154_, p_194155_) -> p_194155_.invalidateForChunk(p_171650_.x, p_171650_.z));
++        this.tintCaches.forEach((p_194154_, p_194155_) -> p_194155_.invalidateForChunk(p_171650_.x(), p_171650_.z()));
+         this.entityStorage.startTicking(p_171650_);
+         this.levelRenderer.onChunkLoaded(p_171650_);
+     }
+@@ -320,7 +_,7 @@
+     }
+ 
+     @Override
+-    public boolean hasChunk(int p_104737_, int p_104738_) {
++    public boolean hasChunk(me.alphamode.mcbig.math.BigInteger p_104737_, me.alphamode.mcbig.math.BigInteger p_104738_) {
+         return true;
+     }
+ 
+@@ -628,8 +_,8 @@
+         this.levelRenderer.setBlockDirty(p_104759_, p_104760_, p_104761_);
+     }
+ 
+-    public void setSectionDirtyWithNeighbors(int p_104794_, int p_104795_, int p_104796_) {
+-        this.levelRenderer.setSectionDirtyWithNeighbors(p_104794_, p_104795_, p_104796_);
++    public void setSectionDirtyWithNeighbors(me.alphamode.mcbig.math.BigInteger p_104794_, int p_104795_, me.alphamode.mcbig.math.BigInteger p_104796_) {
++        this.levelRenderer.setSectionDirtyWithNeighbors(p_104794_, me.alphamode.mcbig.math.BigInteger.val(p_104795_), p_104796_);
+     }
+ 
+     @Override
+@@ -709,7 +_,7 @@
+     }
+ 
+     @Override
+-    public Holder<Biome> getUncachedNoiseBiome(int p_205516_, int p_205517_, int p_205518_) {
++    public Holder<Biome> getUncachedNoiseBiome(me.alphamode.mcbig.math.BigInteger p_205516_, me.alphamode.mcbig.math.BigInteger p_205517_, me.alphamode.mcbig.math.BigInteger p_205518_) {
+         return this.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS);
+     }
+ 
+@@ -855,7 +_,7 @@
+             int l = 0;
+             int i1 = 0;
+             Cursor3D cursor3d = new Cursor3D(
+-                p_104763_.getX() - i, p_104763_.getY(), p_104763_.getZ() - i, p_104763_.getX() + i, p_104763_.getY(), p_104763_.getZ() + i
++                p_104763_.getBigX().subtract(i), p_104763_.getBigY(), p_104763_.getBigZ().subtract(i), p_104763_.getBigX().add(i), p_104763_.getBigY(), p_104763_.getBigZ().add(i)
+             );
+ 
+             int j1;

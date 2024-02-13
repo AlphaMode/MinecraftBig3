@@ -1,0 +1,136 @@
+--- a/net/minecraft/world/level/levelgen/blending/Blender.java
++++ b/net/minecraft/world/level/levelgen/blending/Blender.java
+@@ -36,7 +_,7 @@
+ import org.apache.commons.lang3.mutable.MutableObject;
+ 
+ public class Blender {
+-    private static final Blender EMPTY = new Blender(new Long2ObjectOpenHashMap(), new Long2ObjectOpenHashMap()) {
++    private static final Blender EMPTY = new Blender(new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>(), new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>()) {
+         @Override
+         public Blender.BlendingOutput blendOffsetAndFactor(int p_209724_, int p_209725_) {
+             return new Blender.BlendingOutput(1.0, 0.0);
+@@ -58,8 +_,8 @@
+     private static final int DENSITY_BLENDING_RANGE_CELLS = 2;
+     private static final int DENSITY_BLENDING_RANGE_CHUNKS = QuartPos.toSection(5);
+     private static final double OLD_CHUNK_XZ_RADIUS = 8.0;
+-    private final Long2ObjectOpenHashMap<BlendingData> heightAndBiomeBlendingData;
+-    private final Long2ObjectOpenHashMap<BlendingData> densityBlendingData;
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> heightAndBiomeBlendingData;
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> densityBlendingData;
+ 
+     public static Blender empty() {
+         return EMPTY;
+@@ -73,23 +_,24 @@
+             if (!p_190203_.isOldChunkAround(chunkpos, HEIGHT_BLENDING_RANGE_CHUNKS)) {
+                 return EMPTY;
+             } else {
+-                Long2ObjectOpenHashMap<BlendingData> long2objectopenhashmap = new Long2ObjectOpenHashMap<>();
+-                Long2ObjectOpenHashMap<BlendingData> long2objectopenhashmap1 = new Long2ObjectOpenHashMap<>();
++                it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> long2objectopenhashmap = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
++                it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> long2objectopenhashmap1 = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+                 int i = Mth.square(HEIGHT_BLENDING_RANGE_CHUNKS + 1);
+ 
+                 for(int j = -HEIGHT_BLENDING_RANGE_CHUNKS; j <= HEIGHT_BLENDING_RANGE_CHUNKS; ++j) {
+                     for(int k = -HEIGHT_BLENDING_RANGE_CHUNKS; k <= HEIGHT_BLENDING_RANGE_CHUNKS; ++k) {
+                         if (j * j + k * k <= i) {
+-                            int l = chunkpos.x + j;
+-                            int i1 = chunkpos.z + k;
++                            me.alphamode.mcbig.math.BigInteger l = chunkpos.x().add(j);
++                            me.alphamode.mcbig.math.BigInteger i1 = chunkpos.z().add(k);
+                             BlendingData blendingdata = BlendingData.getOrUpdateBlendingData(p_190203_, l, i1);
+                             if (blendingdata != null) {
+-                                long2objectopenhashmap.put(ChunkPos.asLong(l, i1), blendingdata);
++                                ChunkPos pos = new ChunkPos(l, i1);
++                                long2objectopenhashmap.put(pos, blendingdata);
+                                 if (j >= -DENSITY_BLENDING_RANGE_CHUNKS
+                                     && j <= DENSITY_BLENDING_RANGE_CHUNKS
+                                     && k >= -DENSITY_BLENDING_RANGE_CHUNKS
+                                     && k <= DENSITY_BLENDING_RANGE_CHUNKS) {
+-                                    long2objectopenhashmap1.put(ChunkPos.asLong(l, i1), blendingdata);
++                                    long2objectopenhashmap1.put(pos, blendingdata);
+                                 }
+                             }
+                         }
+@@ -103,7 +_,7 @@
+         }
+     }
+ 
+-    Blender(Long2ObjectOpenHashMap<BlendingData> p_202197_, Long2ObjectOpenHashMap<BlendingData> p_202198_) {
++    Blender(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> p_202197_, it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, BlendingData> p_202198_) {
+         this.heightAndBiomeBlendingData = p_202197_;
+         this.densityBlendingData = p_202198_;
+     }
+@@ -121,8 +_,8 @@
+             this.heightAndBiomeBlendingData
+                 .forEach(
+                     (p_202249_, p_202250_) -> p_202250_.iterateHeights(
+-                            QuartPos.fromSection(ChunkPos.getX(p_202249_)),
+-                            QuartPos.fromSection(ChunkPos.getZ(p_202249_)),
++                            QuartPos.fromSection(p_202249_.x().intValue()),
++                            QuartPos.fromSection(p_202249_.z().intValue()),
+                             (p_190199_, p_190200_, p_190201_) -> {
+                                 double d3 = Mth.length((double)(i - p_190199_), (double)(j - p_190200_));
+                                 if (!(d3 > (double)HEIGHT_BLENDING_RANGE_CELLS)) {
+@@ -169,8 +_,8 @@
+             this.densityBlendingData
+                 .forEach(
+                     (p_202241_, p_202242_) -> p_202242_.iterateDensities(
+-                            QuartPos.fromSection(ChunkPos.getX(p_202241_)),
+-                            QuartPos.fromSection(ChunkPos.getZ(p_202241_)),
++                            QuartPos.fromSection(p_202241_.x().intValue()),
++                            QuartPos.fromSection(p_202241_.z().intValue()),
+                             j - 1,
+                             j + 1,
+                             (p_202230_, p_202231_, p_202232_, p_202233_) -> {
+@@ -237,17 +_,17 @@
+     }
+ 
+     @Nullable
+-    private Holder<Biome> blendBiome(int p_224707_, int p_224708_, int p_224709_) {
++    private Holder<Biome> blendBiome(me.alphamode.mcbig.math.BigInteger p_224707_, me.alphamode.mcbig.math.BigInteger p_224708_, me.alphamode.mcbig.math.BigInteger p_224709_) {
+         MutableDouble mutabledouble = new MutableDouble(Double.POSITIVE_INFINITY);
+         MutableObject<Holder<Biome>> mutableobject = new MutableObject<>();
+         this.heightAndBiomeBlendingData
+             .forEach(
+                 (p_224716_, p_224717_) -> p_224717_.iterateBiomes(
+-                        QuartPos.fromSection(ChunkPos.getX(p_224716_)),
+-                        p_224708_,
+-                        QuartPos.fromSection(ChunkPos.getZ(p_224716_)),
++                        QuartPos.fromSection(p_224716_.x().intValue()),
++                        p_224708_.intValue(),
++                        QuartPos.fromSection(p_224716_.z().intValue()),
+                         (p_224723_, p_224724_, p_224725_) -> {
+-                            double d2 = Mth.length((double)(p_224707_ - p_224723_), (double)(p_224709_ - p_224724_));
++                            double d2 = Mth.length((double)(p_224707_.subtract(p_224723_)).doubleValue(), (double)(p_224709_.subtract(p_224724_)).doubleValue());
+                             if (!(d2 > (double)HEIGHT_BLENDING_RANGE_CELLS)) {
+                                 if (d2 < mutabledouble.doubleValue()) {
+                                     mutableobject.setValue(p_224725_);
+@@ -260,7 +_,7 @@
+         if (mutabledouble.doubleValue() == Double.POSITIVE_INFINITY) {
+             return null;
+         } else {
+-            double d0 = SHIFT_NOISE.getValue((double)p_224707_, 0.0, (double)p_224709_) * 12.0;
++            double d0 = SHIFT_NOISE.getValue((double)p_224707_.doubleValue(), 0.0, (double)p_224709_.doubleValue()) * 12.0;
+             double d1 = Mth.clamp((mutabledouble.doubleValue() + d0) / (double)(HEIGHT_BLENDING_RANGE_CELLS + 1), 0.0, 1.0);
+             return d1 > 0.5 ? null : mutableobject.getValue();
+         }
+@@ -287,7 +_,7 @@
+             }
+ 
+             for(Direction direction : Direction.Plane.HORIZONTAL) {
+-                if (p_197032_.getChunk(chunkpos.x + direction.getStepX(), chunkpos.z + direction.getStepZ()).isOldNoiseGeneration() != flag) {
++                if (p_197032_.getChunk(chunkpos.x().add(direction.getStepX()), chunkpos.z().add(direction.getStepZ())).isOldNoiseGeneration() != flag) {
+                     int i1 = direction == Direction.EAST ? 15 : 0;
+                     int j1 = direction == Direction.WEST ? 0 : 15;
+                     int k1 = direction == Direction.SOUTH ? 15 : 0;
+@@ -324,8 +_,8 @@
+         Builder<Direction8, BlendingData> builder = ImmutableMap.builder();
+ 
+         for(Direction8 direction8 : Direction8.values()) {
+-            int i = chunkpos.x + direction8.getStepX();
+-            int j = chunkpos.z + direction8.getStepZ();
++            me.alphamode.mcbig.math.BigInteger i = chunkpos.x().add(direction8.getStepX());
++            me.alphamode.mcbig.math.BigInteger j = chunkpos.z().add(direction8.getStepZ());
+             BlendingData blendingdata = p_197035_.getChunk(i, j).getBlendingData();
+             if (blendingdata != null) {
+                 builder.put(direction8, blendingdata);

@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/phys/shapes/VoxelShape.java
++++ b/net/minecraft/world/phys/shapes/VoxelShape.java
+@@ -168,9 +_,9 @@
+                 Vec3 vec31 = p_83221_.add(vec3.scale(0.001));
+                 return this.shape
+                         .isFullWide(
+-                            this.findIndex(Direction.Axis.X, vec31.x - (double)p_83223_.getX()),
+-                            this.findIndex(Direction.Axis.Y, vec31.y - (double)p_83223_.getY()),
+-                            this.findIndex(Direction.Axis.Z, vec31.z - (double)p_83223_.getZ())
++                            this.findIndex(Direction.Axis.X, vec31.x - (double)p_83223_.getBigX().doubleValue()),
++                            this.findIndex(Direction.Axis.Y, vec31.y - (double)p_83223_.getBigY().doubleValue()),
++                            this.findIndex(Direction.Axis.Z, vec31.z - (double)p_83223_.getBigZ().doubleValue())
+                         )
+                     ? new BlockHitResult(vec31, Direction.getNearest(vec3.x, vec3.y, vec3.z).getOpposite(), p_83223_, true)
+                     : AABB.clip(this.toAabbs(), p_83221_, p_83222_, p_83223_);

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/blockpredicates/MatchingBlocksPredicate.java
++++ b/net/minecraft/world/level/levelgen/blockpredicates/MatchingBlocksPredicate.java
+@@ -18,7 +_,7 @@
+                 .apply(p_259004_, MatchingBlocksPredicate::new)
+     );
+ 
+-    public MatchingBlocksPredicate(Vec3i p_204690_, HolderSet<Block> p_204691_) {
++    public MatchingBlocksPredicate(me.alphamode.mcbig.core.Vec3l p_204690_, HolderSet<Block> p_204691_) {
+         super(p_204690_);
+         this.blocks = p_204691_;
+     }

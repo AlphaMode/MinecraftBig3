@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/gameevent/vibrations/VibrationSystem.java
++++ b/net/minecraft/world/level/gameevent/vibrations/VibrationSystem.java
+@@ -345,9 +_,9 @@
+         private static boolean areAdjacentChunksTicking(Level p_282735_, BlockPos p_281722_) {
+             ChunkPos chunkpos = new ChunkPos(p_281722_);
+ 
+-            for(int i = chunkpos.x - 1; i <= chunkpos.x + 1; ++i) {
+-                for(int j = chunkpos.z - 1; j <= chunkpos.z + 1; ++j) {
+-                    if (!p_282735_.shouldTickBlocksAt(ChunkPos.asLong(i, j)) || p_282735_.getChunkSource().getChunkNow(i, j) == null) {
++            for(me.alphamode.mcbig.math.BigInteger i = chunkpos.x().subtract(); i.compareTo(chunkpos.x().add()) <= 0; i = i.add()) {
++                for(me.alphamode.mcbig.math.BigInteger j = chunkpos.z().subtract(); j.compareTo(chunkpos.z().add()) <= 0; j = j.add()) {
++                    if (!p_282735_.shouldTickBlocksAt(new ChunkPos(i, j)) || p_282735_.getChunkSource().getChunkNow(i, j) == null) {
+                         return false;
+                     }
+                 }

@@ -1,0 +1,29 @@
+--- a/net/minecraft/network/protocol/game/ClientboundLevelChunkPacketData.java
++++ b/net/minecraft/network/protocol/game/ClientboundLevelChunkPacketData.java
+@@ -43,7 +_,7 @@
+         }
+     }
+ 
+-    public ClientboundLevelChunkPacketData(FriendlyByteBuf p_195653_, int p_195654_, int p_195655_) {
++    public ClientboundLevelChunkPacketData(FriendlyByteBuf p_195653_, me.alphamode.mcbig.math.BigInteger p_195654_, me.alphamode.mcbig.math.BigInteger p_195655_) {
+         this.heightmaps = p_195653_.readNbt();
+         if (this.heightmaps == null) {
+             throw new RuntimeException("Can't read heightmap in packet for [" + p_195654_ + ", " + p_195655_ + "]");
+@@ -88,13 +_,13 @@
+         }
+     }
+ 
+-    public Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> getBlockEntitiesTagsConsumer(int p_195658_, int p_195659_) {
++    public Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> getBlockEntitiesTagsConsumer(me.alphamode.mcbig.math.BigInteger p_195658_, me.alphamode.mcbig.math.BigInteger p_195659_) {
+         return p_195663_ -> this.getBlockEntitiesTags(p_195663_, p_195658_, p_195659_);
+     }
+ 
+-    private void getBlockEntitiesTags(ClientboundLevelChunkPacketData.BlockEntityTagOutput p_195675_, int p_195676_, int p_195677_) {
+-        int i = 16 * p_195676_;
+-        int j = 16 * p_195677_;
++    private void getBlockEntitiesTags(ClientboundLevelChunkPacketData.BlockEntityTagOutput p_195675_, me.alphamode.mcbig.math.BigInteger p_195676_, me.alphamode.mcbig.math.BigInteger p_195677_) {
++        int i = 16 * p_195676_.intValue();
++        int j = 16 * p_195677_.intValue();
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+         for(ClientboundLevelChunkPacketData.BlockEntityInfo clientboundlevelchunkpacketdata$blockentityinfo : this.blockEntitiesData) {

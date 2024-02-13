@@ -1,0 +1,26 @@
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -434,7 +_,7 @@
+ 
+             for(int j1 = 0; j1 < Mth.square(11); ++j1) {
+                 if (k1 >= -5 && k1 <= 5 && j >= -5 && j <= 5) {
+-                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x + k1, chunkpos.z + j));
++                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x().add(k1), chunkpos.z().add(j)));
+                     if (blockpos1 != null) {
+                         p_177898_.setSpawn(blockpos1, 0.0F);
+                         break;
+@@ -499,11 +_,11 @@
+         for(ServerLevel serverlevel1 : this.levels.values()) {
+             ForcedChunksSavedData forcedchunkssaveddata = serverlevel1.getDataStorage().get(ForcedChunksSavedData.factory(), "chunks");
+             if (forcedchunkssaveddata != null) {
+-                LongIterator longiterator = forcedchunkssaveddata.getChunks().iterator();
++                it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = forcedchunkssaveddata.getChunks().iterator();
+ 
+                 while(longiterator.hasNext()) {
+-                    long i = longiterator.nextLong();
+-                    ChunkPos chunkpos = new ChunkPos(i);
++//                    long i = longiterator.next();
++                    ChunkPos chunkpos = longiterator.next();
+                     serverlevel1.getChunkSource().updateChunkForced(chunkpos, true);
+                 }
+             }

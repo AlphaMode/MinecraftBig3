@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/LocalMobCapCalculator.java
++++ b/net/minecraft/world/level/LocalMobCapCalculator.java
+@@ -12,7 +_,7 @@
+ import net.minecraft.world.entity.MobCategory;
+ 
+ public class LocalMobCapCalculator {
+-    private final Long2ObjectMap<List<ServerPlayer>> playersNearChunk = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, List<ServerPlayer>> playersNearChunk = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+     private final Map<ServerPlayer, LocalMobCapCalculator.MobCounts> playerMobCounts = Maps.newHashMap();
+     private final ChunkMap chunkMap;
+ 
+@@ -21,7 +_,7 @@
+     }
+ 
+     private List<ServerPlayer> getPlayersNear(ChunkPos p_186508_) {
+-        return this.playersNearChunk.computeIfAbsent(p_186508_.toLong(), p_186511_ -> this.chunkMap.getPlayersCloseForSpawning(p_186508_));
++        return this.playersNearChunk.computeIfAbsent(p_186508_, p_186511_ -> this.chunkMap.getPlayersCloseForSpawning(p_186508_));
+     }
+ 
+     public void addMob(ChunkPos p_186513_, MobCategory p_186514_) {

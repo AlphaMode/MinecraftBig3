@@ -1,0 +1,121 @@
+--- a/net/minecraft/world/level/levelgen/structure/LegacyStructureDataHandler.java
++++ b/net/minecraft/world/level/levelgen/structure/LegacyStructureDataHandler.java
+@@ -63,7 +_,7 @@
+         "bastion_remnant"
+     );
+     private final boolean hasLegacyData;
+-    private final Map<String, Long2ObjectMap<CompoundTag>> dataMap = Maps.newHashMap();
++    private final Map<String, it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, CompoundTag>> dataMap = Maps.newHashMap();
+     private final Map<String, StructureFeatureIndexSavedData> indexMap = Maps.newHashMap();
+     private final List<String> legacyKeys;
+     private final List<String> currentKeys;
+@@ -81,7 +_,7 @@
+         this.hasLegacyData = flag;
+     }
+ 
+-    public void removeIndex(long p_71319_) {
++    public void removeIndex(ChunkPos p_71319_) {
+         for(String s : this.legacyKeys) {
+             StructureFeatureIndexSavedData structurefeatureindexsaveddata = this.indexMap.get(s);
+             if (structurefeatureindexsaveddata != null && structurefeatureindexsaveddata.hasUnhandledIndex(p_71319_)) {
+@@ -94,7 +_,7 @@
+     public CompoundTag updateFromLegacy(CompoundTag p_71327_) {
+         CompoundTag compoundtag = p_71327_.getCompound("Level");
+         ChunkPos chunkpos = new ChunkPos(compoundtag.getInt("xPos"), compoundtag.getInt("zPos"));
+-        if (this.isUnhandledStructureStart(chunkpos.x, chunkpos.z)) {
++        if (this.isUnhandledStructureStart(chunkpos.x(), chunkpos.z())) {
+             p_71327_ = this.updateStructureStart(p_71327_, chunkpos);
+         }
+ 
+@@ -105,17 +_,17 @@
+             boolean flag = OLD_STRUCTURE_REGISTRY_KEYS.contains(s.toLowerCase(Locale.ROOT));
+             if (!compoundtag2.contains(s, 12) && flag) {
+                 int i = 8;
+-                LongList longlist = new LongArrayList();
++                it.unimi.dsi.fastutil.objects.ObjectList<ChunkPos> longlist = new it.unimi.dsi.fastutil.objects.ObjectArrayList<>();
+ 
+-                for(int j = chunkpos.x - 8; j <= chunkpos.x + 8; ++j) {
+-                    for(int k = chunkpos.z - 8; k <= chunkpos.z + 8; ++k) {
++                for(me.alphamode.mcbig.math.BigInteger j = chunkpos.x().subtract(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT); j.compareTo(chunkpos.x().add(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT)) <= 0; j = j.add()) {
++                    for(me.alphamode.mcbig.math.BigInteger k = chunkpos.z().subtract(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT); k.compareTo(chunkpos.z().add(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT)) <= 0; k = k.add()) {
+                         if (this.hasLegacyStart(j, k, s)) {
+-                            longlist.add(ChunkPos.asLong(j, k));
++                            longlist.add(new ChunkPos(j, k));
+                         }
+                     }
+                 }
+ 
+-                compoundtag2.putLongArray(s, longlist);
++                net.minecraft.nbt.NbtUtils.writeChunks(compoundtag2, s, longlist);
+             }
+         }
+ 
+@@ -125,21 +_,21 @@
+         return p_71327_;
+     }
+ 
+-    private boolean hasLegacyStart(int p_71315_, int p_71316_, String p_71317_) {
++    private boolean hasLegacyStart(me.alphamode.mcbig.math.BigInteger p_71315_, me.alphamode.mcbig.math.BigInteger p_71316_, String p_71317_) {
+         if (!this.hasLegacyData) {
+             return false;
+         } else {
+             return this.dataMap.get(p_71317_) != null
+-                && this.indexMap.get(CURRENT_TO_LEGACY_MAP.get(p_71317_)).hasStartIndex(ChunkPos.asLong(p_71315_, p_71316_));
++                && this.indexMap.get(CURRENT_TO_LEGACY_MAP.get(p_71317_)).hasStartIndex(new ChunkPos(p_71315_, p_71316_));
+         }
+     }
+ 
+-    private boolean isUnhandledStructureStart(int p_71312_, int p_71313_) {
++    private boolean isUnhandledStructureStart(me.alphamode.mcbig.math.BigInteger p_71312_, me.alphamode.mcbig.math.BigInteger p_71313_) {
+         if (!this.hasLegacyData) {
+             return false;
+         } else {
+             for(String s : this.currentKeys) {
+-                if (this.dataMap.get(s) != null && this.indexMap.get(CURRENT_TO_LEGACY_MAP.get(s)).hasUnhandledIndex(ChunkPos.asLong(p_71312_, p_71313_))) {
++                if (this.dataMap.get(s) != null && this.indexMap.get(CURRENT_TO_LEGACY_MAP.get(s)).hasUnhandledIndex(new ChunkPos(p_71312_, p_71313_))) {
+                     return true;
+                 }
+             }
+@@ -154,11 +_,11 @@
+         CompoundTag compoundtag2 = compoundtag1.getCompound("Starts");
+ 
+         for(String s : this.currentKeys) {
+-            Long2ObjectMap<CompoundTag> long2objectmap = this.dataMap.get(s);
++            it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, CompoundTag> long2objectmap = this.dataMap.get(s);
+             if (long2objectmap != null) {
+-                long i = p_71330_.toLong();
+-                if (this.indexMap.get(CURRENT_TO_LEGACY_MAP.get(s)).hasUnhandledIndex(i)) {
+-                    CompoundTag compoundtag3 = long2objectmap.get(i);
++//                long i = p_71330_.toLong();
++                if (this.indexMap.get(CURRENT_TO_LEGACY_MAP.get(s)).hasUnhandledIndex(p_71330_)) {
++                    CompoundTag compoundtag3 = long2objectmap.get(p_71330_);
+                     if (compoundtag3 != null) {
+                         compoundtag2.put(s, compoundtag3);
+                     }
+@@ -189,7 +_,7 @@
+ 
+                 for(String s1 : compoundtag.getAllKeys()) {
+                     CompoundTag compoundtag1 = compoundtag.getCompound(s1);
+-                    long i = ChunkPos.asLong(compoundtag1.getInt("ChunkX"), compoundtag1.getInt("ChunkZ"));
++                    ChunkPos i = new ChunkPos(me.alphamode.mcbig.math.BigInteger.val(compoundtag1.getString("ChunkX")), me.alphamode.mcbig.math.BigInteger.val(compoundtag1.getString("ChunkZ")));
+                     ListTag listtag = compoundtag1.getList("Children", 10);
+                     if (!listtag.isEmpty()) {
+                         String s3 = listtag.getCompound(0).getString("id");
+@@ -200,7 +_,7 @@
+                     }
+ 
+                     String s6 = compoundtag1.getString("id");
+-                    this.dataMap.computeIfAbsent(s6, p_71335_ -> new Long2ObjectOpenHashMap()).put(i, compoundtag1);
++                    this.dataMap.computeIfAbsent(s6, p_71335_ -> new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>()).put(i, compoundtag1);
+                 }
+ 
+                 String s5 = s + "_index";
+@@ -213,7 +_,7 @@
+ 
+                     for(String s2 : compoundtag.getAllKeys()) {
+                         CompoundTag compoundtag2 = compoundtag.getCompound(s2);
+-                        structurefeatureindexsaveddata1.addIndex(ChunkPos.asLong(compoundtag2.getInt("ChunkX"), compoundtag2.getInt("ChunkZ")));
++                        structurefeatureindexsaveddata1.addIndex(new ChunkPos(compoundtag2.getInt("ChunkX"), compoundtag2.getInt("ChunkZ")));
+                     }
+ 
+                     structurefeatureindexsaveddata1.setDirty();

@@ -1,0 +1,125 @@
+--- a/net/minecraft/client/multiplayer/ClientChunkCache.java
++++ b/net/minecraft/client/multiplayer/ClientChunkCache.java
+@@ -49,27 +_,27 @@
+         return this.lightEngine;
+     }
+ 
+-    private static boolean isValidChunk(@Nullable LevelChunk p_104439_, int p_104440_, int p_104441_) {
++    private static boolean isValidChunk(@Nullable LevelChunk p_104439_, me.alphamode.mcbig.math.BigInteger p_104440_, me.alphamode.mcbig.math.BigInteger p_104441_) {
+         if (p_104439_ == null) {
+             return false;
+         } else {
+             ChunkPos chunkpos = p_104439_.getPos();
+-            return chunkpos.x == p_104440_ && chunkpos.z == p_104441_;
++            return chunkpos.x().equals(p_104440_) && chunkpos.z().equals(p_104441_);
+         }
+     }
+ 
+     public void drop(ChunkPos p_295783_) {
+-        if (this.storage.inRange(p_295783_.x, p_295783_.z)) {
+-            int i = this.storage.getIndex(p_295783_.x, p_295783_.z);
++        if (this.storage.inRange(p_295783_.x(), p_295783_.z())) {
++            int i = this.storage.getIndex(p_295783_.x(), p_295783_.z());
+             LevelChunk levelchunk = this.storage.getChunk(i);
+-            if (isValidChunk(levelchunk, p_295783_.x, p_295783_.z)) {
++            if (isValidChunk(levelchunk, p_295783_.x(), p_295783_.z())) {
+                 this.storage.replace(i, levelchunk, null);
+             }
+         }
+     }
+ 
+     @Nullable
+-    public LevelChunk getChunk(int p_104451_, int p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
++    public LevelChunk getChunk(me.alphamode.mcbig.math.BigInteger p_104451_, me.alphamode.mcbig.math.BigInteger p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
+         if (this.storage.inRange(p_104451_, p_104452_)) {
+             LevelChunk levelchunk = this.storage.getChunk(this.storage.getIndex(p_104451_, p_104452_));
+             if (isValidChunk(levelchunk, p_104451_, p_104452_)) {
+@@ -85,7 +_,7 @@
+         return this.level;
+     }
+ 
+-    public void replaceBiomes(int p_275374_, int p_275226_, FriendlyByteBuf p_275745_) {
++    public void replaceBiomes(me.alphamode.mcbig.math.BigInteger p_275374_, me.alphamode.mcbig.math.BigInteger p_275226_, FriendlyByteBuf p_275745_) {
+         if (!this.storage.inRange(p_275374_, p_275226_)) {
+             LOGGER.warn("Ignoring chunk since it's not in the view range: {}, {}", p_275374_, p_275226_);
+         } else {
+@@ -101,8 +_,8 @@
+ 
+     @Nullable
+     public LevelChunk replaceWithPacketData(
+-        int p_194117_,
+-        int p_194118_,
++        me.alphamode.mcbig.math.BigInteger p_194117_,
++        me.alphamode.mcbig.math.BigInteger p_194118_,
+         FriendlyByteBuf p_194119_,
+         CompoundTag p_194120_,
+         Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_194121_
+@@ -131,7 +_,7 @@
+     public void tick(BooleanSupplier p_202421_, boolean p_202422_) {
+     }
+ 
+-    public void updateViewCenter(int p_104460_, int p_104461_) {
++    public void updateViewCenter(me.alphamode.mcbig.math.BigInteger p_104460_, me.alphamode.mcbig.math.BigInteger p_104461_) {
+         this.storage.viewCenterX = p_104460_;
+         this.storage.viewCenterZ = p_104461_;
+     }
+@@ -148,8 +_,8 @@
+                 LevelChunk levelchunk = this.storage.chunks.get(k);
+                 if (levelchunk != null) {
+                     ChunkPos chunkpos = levelchunk.getPos();
+-                    if (clientchunkcache$storage.inRange(chunkpos.x, chunkpos.z)) {
+-                        clientchunkcache$storage.replace(clientchunkcache$storage.getIndex(chunkpos.x, chunkpos.z), levelchunk);
++                    if (clientchunkcache$storage.inRange(chunkpos.x(), chunkpos.z())) {
++                        clientchunkcache$storage.replace(clientchunkcache$storage.getIndex(chunkpos.x(), chunkpos.z()), levelchunk);
+                     }
+                 }
+             }
+@@ -182,8 +_,8 @@
+         final AtomicReferenceArray<LevelChunk> chunks;
+         final int chunkRadius;
+         private final int viewRange;
+-        volatile int viewCenterX;
+-        volatile int viewCenterZ;
++        volatile me.alphamode.mcbig.math.BigInteger viewCenterX = me.alphamode.mcbig.math.BigInteger.ZERO;
++        volatile me.alphamode.mcbig.math.BigInteger viewCenterZ = me.alphamode.mcbig.math.BigInteger.ZERO;
+         int chunkCount;
+ 
+         Storage(int p_104474_) {
+@@ -192,8 +_,8 @@
+             this.chunks = new AtomicReferenceArray<>(this.viewRange * this.viewRange);
+         }
+ 
+-        int getIndex(int p_104482_, int p_104483_) {
+-            return Math.floorMod(p_104483_, this.viewRange) * this.viewRange + Math.floorMod(p_104482_, this.viewRange);
++        int getIndex(me.alphamode.mcbig.math.BigInteger p_104482_, me.alphamode.mcbig.math.BigInteger p_104483_) {
++            return me.alphamode.mcbig.math.BigMath.floorMod(p_104483_, this.viewRange).intValue() * this.viewRange + me.alphamode.mcbig.math.BigMath.floorMod(p_104482_, this.viewRange).intValue();
+         }
+ 
+         protected void replace(int p_104485_, @Nullable LevelChunk p_104486_) {
+@@ -217,8 +_,8 @@
+             return p_104489_;
+         }
+ 
+-        boolean inRange(int p_104501_, int p_104502_) {
+-            return Math.abs(p_104501_ - this.viewCenterX) <= this.chunkRadius && Math.abs(p_104502_ - this.viewCenterZ) <= this.chunkRadius;
++        boolean inRange(me.alphamode.mcbig.math.BigInteger p_104501_, me.alphamode.mcbig.math.BigInteger p_104502_) {
++            return p_104501_.subtract(this.viewCenterX).abs().compareTo(this.chunkRadius) <= 0 && p_104502_.subtract(this.viewCenterZ).abs().compareTo(this.chunkRadius) <= 0;
+         }
+ 
+         @Nullable
+@@ -230,12 +_,12 @@
+             try (FileOutputStream fileoutputstream = new FileOutputStream(p_171623_)) {
+                 int i = ClientChunkCache.this.storage.chunkRadius;
+ 
+-                for(int j = this.viewCenterZ - i; j <= this.viewCenterZ + i; ++j) {
+-                    for(int k = this.viewCenterX - i; k <= this.viewCenterX + i; ++k) {
++                for(me.alphamode.mcbig.math.BigInteger j = this.viewCenterZ.subtract(i); j.compareTo(this.viewCenterZ.add(i)) <= 0; j = j.add()) {
++                    for(me.alphamode.mcbig.math.BigInteger k = this.viewCenterX.subtract(i); k.compareTo(this.viewCenterX.add(i)) <= 0; k = k.add()) {
+                         LevelChunk levelchunk = ClientChunkCache.this.storage.chunks.get(ClientChunkCache.this.storage.getIndex(k, j));
+                         if (levelchunk != null) {
+                             ChunkPos chunkpos = levelchunk.getPos();
+-                            fileoutputstream.write((chunkpos.x + "\t" + chunkpos.z + "\t" + levelchunk.isEmpty() + "\n").getBytes(StandardCharsets.UTF_8));
++                            fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + levelchunk.isEmpty() + "\n").getBytes(StandardCharsets.UTF_8));
+                         }
+                     }
+                 }

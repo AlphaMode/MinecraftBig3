@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/entity/raid/Raid.java
++++ b/net/minecraft/world/entity/raid/Raid.java
+@@ -634,10 +_,10 @@
+                 int j1 = 10;
+                 if (this.level
+                         .hasChunksAt(
+-                            blockpos$mutableblockpos.getX() - 10,
+-                            blockpos$mutableblockpos.getZ() - 10,
+-                            blockpos$mutableblockpos.getX() + 10,
+-                            blockpos$mutableblockpos.getZ() + 10
++                            blockpos$mutableblockpos.getBigX().subtract(me.alphamode.mcbig.core.BigConstants.Ints.TEN),
++                            blockpos$mutableblockpos.getBigZ().subtract(me.alphamode.mcbig.core.BigConstants.Ints.TEN),
++                            blockpos$mutableblockpos.getBigX().add(me.alphamode.mcbig.core.BigConstants.Ints.TEN),
++                            blockpos$mutableblockpos.getBigZ().add(me.alphamode.mcbig.core.BigConstants.Ints.TEN)
+                         )
+                     && this.level.isPositionEntityTicking(blockpos$mutableblockpos)
+                     && (

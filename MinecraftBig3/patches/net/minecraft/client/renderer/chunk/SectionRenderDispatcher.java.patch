@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/chunk/SectionRenderDispatcher.java
++++ b/net/minecraft/client/renderer/chunk/SectionRenderDispatcher.java
+@@ -304,7 +_,7 @@
+ 
+         private boolean doesChunkExistAt(BlockPos p_295253_) {
+             return SectionRenderDispatcher.this.level
+-                    .getChunk(SectionPos.blockToSectionCoord(p_295253_.getX()), SectionPos.blockToSectionCoord(p_295253_.getZ()), ChunkStatus.FULL, false)
++                    .getChunk(SectionPos.blockToSectionCoord(p_295253_.getBigX()), SectionPos.blockToSectionCoord(p_295253_.getBigZ()), ChunkStatus.FULL, false)
+                 != null;
+         }
+ 
