@@ -18,6 +18,39 @@
          return true;
      }
  
+@@ -352,7 +_,7 @@
+         this.connection.getConnection().disconnect(Component.translatable("multiplayer.status.quitting"));
+     }
+ 
+-    public void animateTick(int p_104785_, int p_104786_, int p_104787_) {
++    public void animateTick(me.alphamode.mcbig.math.BigInteger p_104785_, int p_104786_, me.alphamode.mcbig.math.BigInteger p_104787_) {
+         int i = 32;
+         RandomSource randomsource = RandomSource.create();
+         Block block = this.getMarkerParticleTarget();
+@@ -378,11 +_,11 @@
+     }
+ 
+     public void doAnimateTick(
+-        int p_233613_, int p_233614_, int p_233615_, int p_233616_, RandomSource p_233617_, @Nullable Block p_233618_, BlockPos.MutableBlockPos p_233619_
++            me.alphamode.mcbig.math.BigInteger p_233613_, int p_233614_, me.alphamode.mcbig.math.BigInteger p_233615_, int p_233616_, RandomSource p_233617_, @Nullable Block p_233618_, BlockPos.MutableBlockPos p_233619_
+     ) {
+-        int i = p_233613_ + this.random.nextInt(p_233616_) - this.random.nextInt(p_233616_);
++        me.alphamode.mcbig.math.BigInteger i = p_233613_.add(this.random.nextInt(p_233616_) - this.random.nextInt(p_233616_));
+         int j = p_233614_ + this.random.nextInt(p_233616_) - this.random.nextInt(p_233616_);
+-        int k = p_233615_ + this.random.nextInt(p_233616_) - this.random.nextInt(p_233616_);
++        me.alphamode.mcbig.math.BigInteger k = p_233615_.add(this.random.nextInt(p_233616_) - this.random.nextInt(p_233616_));
+         p_233619_.set(i, j, k);
+         BlockState blockstate = this.getBlockState(p_233619_);
+         blockstate.getBlock().animateTick(blockstate, this, p_233619_, p_233617_);
+@@ -398,7 +_,7 @@
+         }
+ 
+         if (p_233618_ == blockstate.getBlock()) {
+-            this.addParticle(new BlockParticleOption(ParticleTypes.BLOCK_MARKER, blockstate), (double)i + 0.5, (double)j + 0.5, (double)k + 0.5, 0.0, 0.0, 0.0);
++            this.addParticle(new BlockParticleOption(ParticleTypes.BLOCK_MARKER, blockstate), (double)i.doubleValue() + 0.5, (double)j + 0.5, (double)k.doubleValue() + 0.5, 0.0, 0.0, 0.0);
+         }
+ 
+         if (!blockstate.isCollisionShapeFullBlock(this, p_233619_)) {
 @@ -410,9 +_,9 @@
                          if (p_264703_.canSpawn(this.random)) {
                              this.addParticle(

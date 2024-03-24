@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/entity/vehicle/AbstractMinecart.java
 +++ b/net/minecraft/world/entity/vehicle/AbstractMinecart.java
+@@ -191,7 +_,7 @@
+             }
+ 
+             double d1 = this.getBoundingBox().maxY;
+-            blockpos$mutableblockpos.set((double)blockpos.getX(), d1, (double)blockpos.getZ());
++            blockpos$mutableblockpos.set((double)blockpos.getBigX().doubleValue(), d1, (double)blockpos.getBigZ().doubleValue());
+ 
+             for(Pose pose1 : immutablelist) {
+                 double d2 = (double)p_38145_.getDimensions(pose1).height;
 @@ -262,11 +_,11 @@
                  this.setDeltaMovement(this.getDeltaMovement().add(0.0, d0, 0.0));
              }

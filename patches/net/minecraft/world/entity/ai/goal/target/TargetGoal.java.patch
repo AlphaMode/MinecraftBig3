@@ -6,8 +6,8 @@
              } else {
 -                int i = node.x - p_26149_.getBlockX();
 -                int j = node.z - p_26149_.getBlockZ();
-+                int i = node.x.subtract(p_26149_.getBigBlockX()).intValue();
-+                int j = node.z.subtract(p_26149_.getBigBlockZ()).intValue();
++                int i = node.x.subtract(p_26149_.getBlockX()).intValue();
++                int j = node.z.subtract(p_26149_.getBlockZ()).intValue();
                  return (double)(i * i + j * j) <= 2.25;
              }
          }

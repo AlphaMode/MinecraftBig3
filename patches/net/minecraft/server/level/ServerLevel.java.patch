@@ -38,6 +38,15 @@
          ProfilerFiller profilerfiller = this.getProfiler();
          profilerfiller.push("thunder");
          if (flag && this.isThundering() && this.random.nextInt(100000) == 0) {
+@@ -468,7 +_,7 @@
+                     if (skeletonhorse != null) {
+                         skeletonhorse.setTrap(true);
+                         skeletonhorse.setAge(0);
+-                        skeletonhorse.setPos((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
++                        skeletonhorse.setPos((double)blockpos.getBigX().doubleValue(), (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue());
+                         this.addFreshEntity(skeletonhorse);
+                     }
+                 }
 @@ -503,7 +_,7 @@
                      for(int l = 0; l < p_8716_; ++l) {
                          BlockPos blockpos1 = this.getBlockRandomPos(i, k, j, 15);

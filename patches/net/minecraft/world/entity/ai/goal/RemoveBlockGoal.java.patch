@@ -1,5 +1,18 @@
 --- a/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
+@@ -83,9 +_,9 @@
+                     ((ServerLevel)level)
+                         .sendParticles(
+                             new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(Items.EGG)),
+-                            (double)blockpos1.getX() + 0.5,
+-                            (double)blockpos1.getY() + 0.7,
+-                            (double)blockpos1.getZ() + 0.5,
++                            (double)blockpos1.getBigX().doubleValue() + 0.5,
++                            (double)blockpos1.getBigY().doubleValue() + 0.7,
++                            (double)blockpos1.getBigZ().doubleValue() + 0.5,
+                             3,
+                             ((double)randomsource.nextFloat() - 0.5) * 0.08,
+                             ((double)randomsource.nextFloat() - 0.5) * 0.08,
 @@ -154,7 +_,7 @@
      @Override
      protected boolean isValidTarget(LevelReader p_25850_, BlockPos p_25851_) {

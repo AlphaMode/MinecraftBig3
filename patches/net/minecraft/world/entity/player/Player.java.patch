@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
+@@ -181,7 +_,7 @@
+         this.gameProfile = p_252153_;
+         this.inventoryMenu = new InventoryMenu(this.inventory, !p_250508_.isClientSide, this);
+         this.containerMenu = this.inventoryMenu;
+-        this.moveTo((double)p_250289_.getX() + 0.5, (double)(p_250289_.getY() + 1), (double)p_250289_.getZ() + 0.5, p_251702_, 0.0F);
++        this.moveTo((double)p_250289_.getBigX().doubleValue() + 0.5, (double)(p_250289_.getY() + 1), (double)p_250289_.getBigZ().doubleValue() + 0.5, p_251702_, 0.0F);
+         this.rotOffs = 180.0F;
+     }
+ 
 @@ -273,8 +_,8 @@
          }
  
@@ -11,3 +20,12 @@
          if (d0 != this.getX() || d1 != this.getZ()) {
              this.setPos(d0, this.getY(), d1);
          }
+@@ -1396,7 +_,7 @@
+             BlockState blockstate1 = p_36131_.getBlockState(p_36132_.above());
+             boolean flag1 = blockstate1.getBlock().isPossibleToRespawnInThis(blockstate1);
+             return flag && flag1
+-                ? Optional.of(new Vec3((double)p_36132_.getX() + 0.5, (double)p_36132_.getY() + 0.1, (double)p_36132_.getZ() + 0.5))
++                ? Optional.of(new Vec3((double)p_36132_.getBigX().doubleValue() + 0.5, (double)p_36132_.getBigY().doubleValue() + 0.1, (double)p_36132_.getBigZ().doubleValue() + 0.5))
+                 : Optional.empty();
+         }
+     }

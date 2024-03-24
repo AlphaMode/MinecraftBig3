@@ -82,7 +82,7 @@
      @Override
      public int hashCode() {
 -        return hash(this.x, this.z);
-+        return hash(this.x.intValue(), this.z.intValue());
++        return hash(this.x.hashCode(), this.z.hashCode());
      }
  
      public static int hash(int p_220344_, int p_220345_) {

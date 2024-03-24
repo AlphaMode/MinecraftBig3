@@ -68,7 +68,7 @@ public class Vec3l implements Comparable<Vec3l> {
 
     @Override
     public int hashCode() {
-        return (this.getBigY().add(this.getBigZ().multiply(31))).multiply(31).add(this.getBigX()).intValue();
+        return (this.getBigY().add(this.getBigZ().multiply(31))).multiply(31).add(this.getBigX()).hashCode();
     }
 
     public int compareTo(Vec3l p_123330_) {

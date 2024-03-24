@@ -92,8 +92,8 @@
      public boolean addFreshEntity(Entity p_9580_) {
 -        int i = SectionPos.blockToSectionCoord(p_9580_.getBlockX());
 -        int j = SectionPos.blockToSectionCoord(p_9580_.getBlockZ());
-+        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_9580_.getBigBlockX());
-+        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_9580_.getBigBlockZ());
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_9580_.getBlockX());
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_9580_.getBlockZ());
          this.getChunk(i, j).addEntity(p_9580_);
          return true;
      }

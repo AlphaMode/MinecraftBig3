@@ -1,9 +1,29 @@
 --- a/net/minecraft/nbt/NbtUtils.java
 +++ b/net/minecraft/nbt/NbtUtils.java
-@@ -662,4 +_,24 @@
+@@ -198,14 +_,14 @@
+     }
+ 
+     public static BlockPos readBlockPos(CompoundTag p_129240_) {
+-        return new BlockPos(p_129240_.getInt("X"), p_129240_.getInt("Y"), p_129240_.getInt("Z"));
++        return new BlockPos(p_129240_.getByteArray("X"), p_129240_.getByteArray("Y"), p_129240_.getByteArray("Z"));
+     }
+ 
+     public static CompoundTag writeBlockPos(BlockPos p_129225_) {
+         CompoundTag compoundtag = new CompoundTag();
+-        compoundtag.putInt("X", p_129225_.getX());
+-        compoundtag.putInt("Y", p_129225_.getY());
+-        compoundtag.putInt("Z", p_129225_.getZ());
++        compoundtag.putByteArray("X", p_129225_.getBigX().toByteArray());
++        compoundtag.putByteArray("Y", p_129225_.getBigY().toByteArray());
++        compoundtag.putByteArray("Z", p_129225_.getBigZ().toByteArray());
+         return compoundtag;
+     }
+ 
+@@ -661,5 +_,25 @@
+ 
      public static int getDataVersion(CompoundTag p_265397_, int p_265399_) {
          return p_265397_.contains("DataVersion", 99) ? p_265397_.getInt("DataVersion") : p_265399_;
-     }
++    }
 +
 +    public static <T extends it.unimi.dsi.fastutil.objects.ObjectCollection<net.minecraft.world.level.ChunkPos>> T readChunks(CompoundTag tag, String key, java.util.function.Supplier<T> consumer) {
 +        T chunks = consumer.get();
@@ -23,5 +43,5 @@
 +            chunksList.add(chunk);
 +        });
 +        tag.put(key, chunksList);
-+    }
+     }
  }

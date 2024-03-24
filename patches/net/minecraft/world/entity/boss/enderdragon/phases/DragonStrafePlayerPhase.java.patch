@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonStrafePlayerPhase.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonStrafePlayerPhase.java
+@@ -2,7 +_,7 @@
+ 
+ import com.mojang.logging.LogUtils;
+ import javax.annotation.Nullable;
+-import net.minecraft.core.Vec3i;
++
+ import net.minecraft.util.Mth;
+ import net.minecraft.world.entity.LivingEntity;
+ import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 @@ -134,7 +_,7 @@
  
      private void navigateToNextPathNode() {
@@ -17,8 +26,8 @@
 -        int l = this.attackTarget.getBlockZ();
 -        double d0 = (double)k - this.dragon.getX();
 -        double d1 = (double)l - this.dragon.getZ();
-+        me.alphamode.mcbig.math.BigInteger k = this.attackTarget.getBigBlockX();
-+        me.alphamode.mcbig.math.BigInteger l = this.attackTarget.getBigBlockZ();
++        me.alphamode.mcbig.math.BigInteger k = this.attackTarget.getBlockX();
++        me.alphamode.mcbig.math.BigInteger l = this.attackTarget.getBlockZ();
 +        double d0 = (double)k.doubleValue() - this.dragon.getX();
 +        double d1 = (double)l.doubleValue() - this.dragon.getZ();
          double d2 = Math.sqrt(d0 * d0 + d1 * d1);

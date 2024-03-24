@@ -11,3 +11,25 @@
                          this.hasDoor = DoorBlock.isWoodenDoor(this.mob.level(), this.doorPos);
                          if (this.hasDoor) {
                              return true;
+@@ -85,8 +_,8 @@
+     @Override
+     public void start() {
+         this.passed = false;
+-        this.doorOpenDirX = (float)((double)this.doorPos.getX() + 0.5 - this.mob.getX());
+-        this.doorOpenDirZ = (float)((double)this.doorPos.getZ() + 0.5 - this.mob.getZ());
++        this.doorOpenDirX = (float)((double)this.doorPos.getBigX().doubleValue() + 0.5 - this.mob.getX());
++        this.doorOpenDirZ = (float)((double)this.doorPos.getBigZ().doubleValue() + 0.5 - this.mob.getZ());
+     }
+ 
+     @Override
+@@ -96,8 +_,8 @@
+ 
+     @Override
+     public void tick() {
+-        float f = (float)((double)this.doorPos.getX() + 0.5 - this.mob.getX());
+-        float f1 = (float)((double)this.doorPos.getZ() + 0.5 - this.mob.getZ());
++        float f = (float)((double)this.doorPos.getBigX().doubleValue() + 0.5 - this.mob.getX());
++        float f1 = (float)((double)this.doorPos.getBigZ().doubleValue() + 0.5 - this.mob.getZ());
+         float f2 = this.doorOpenDirX * f + this.doorOpenDirZ * f1;
+         if (f2 < 0.0F) {
+             this.passed = true;

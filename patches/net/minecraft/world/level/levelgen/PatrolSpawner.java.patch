@@ -15,3 +15,12 @@
                              )) {
                                  return 0;
                              } else {
+@@ -107,7 +_,7 @@
+                     patrollingmonster.findPatrolTarget();
+                 }
+ 
+-                patrollingmonster.setPos((double)p_224534_.getX(), (double)p_224534_.getY(), (double)p_224534_.getZ());
++                patrollingmonster.setPos((double)p_224534_.getBigX().doubleValue(), (double)p_224534_.getBigY().doubleValue(), (double)p_224534_.getBigZ().doubleValue());
+                 patrollingmonster.finalizeSpawn(p_224533_, p_224533_.getCurrentDifficultyAt(p_224534_), MobSpawnType.PATROL, null, null);
+                 p_224533_.addFreshEntityWithPassengers(patrollingmonster);
+                 return true;

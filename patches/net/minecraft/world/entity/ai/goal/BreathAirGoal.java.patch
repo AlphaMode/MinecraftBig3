@@ -19,3 +19,12 @@
          );
          BlockPos blockpos = null;
  
+@@ -61,7 +_,7 @@
+             blockpos = BlockPos.containing(this.mob.getX(), this.mob.getY() + 8.0, this.mob.getZ());
+         }
+ 
+-        this.mob.getNavigation().moveTo((double)blockpos.getX(), (double)(blockpos.getY() + 1), (double)blockpos.getZ(), 1.0);
++        this.mob.getNavigation().moveTo((double)blockpos.getBigX().doubleValue(), (double)(blockpos.getY() + 1), (double)blockpos.getBigZ().doubleValue(), 1.0);
+     }
+ 
+     @Override

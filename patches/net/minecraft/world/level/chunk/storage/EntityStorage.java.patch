@@ -23,12 +23,18 @@
                      return emptyChunk(p_156551_);
                  } else {
                      try {
-@@ -75,7 +_,7 @@
+@@ -70,12 +_,12 @@
+     }
+ 
+     private static ChunkPos readChunkPos(CompoundTag p_156571_) {
+-        int[] aint = p_156571_.getIntArray("Position");
++        long[] aint = p_156571_.getLongArray("Position");
+         return new ChunkPos(aint[0], aint[1]);
      }
  
      private static void writeChunkPos(CompoundTag p_156563_, ChunkPos p_156564_) {
 -        p_156563_.put("Position", new IntArrayTag(new int[]{p_156564_.x, p_156564_.z}));
-+        p_156563_.put("Position", new IntArrayTag(new int[]{p_156564_.x().intValue(), p_156564_.z().intValue()}));
++        p_156563_.put("Position", new net.minecraft.nbt.LongArrayTag(new long[]{p_156564_.x().longValue(), p_156564_.z().longValue()}));
      }
  
      private static ChunkEntities<Entity> emptyChunk(ChunkPos p_156569_) {

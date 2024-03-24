@@ -1,14 +1,5 @@
 --- a/net/minecraft/client/player/LocalPlayer.java
 +++ b/net/minecraft/client/player/LocalPlayer.java
-@@ -197,7 +_,7 @@
- 
-     @Override
-     public void tick() {
--        if (this.level().hasChunkAt(this.getBlockX(), this.getBlockZ())) {
-+        if (this.level().hasChunkAt(this.getBigBlockX(), this.getBigBlockZ())) {
-             super.tick();
-             if (this.isPassenger()) {
-                 this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround()));
 @@ -418,8 +_,8 @@
      private void moveTowardsClosestSpace(double p_108705_, double p_108706_) {
          BlockPos blockpos = BlockPos.containing(p_108705_, this.getY(), p_108706_);

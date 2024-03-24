@@ -9,3 +9,16 @@
      }
  
      @Nullable
+@@ -90,9 +_,9 @@
+ 
+     private void saveMetadata(CompoundTag p_187479_) {
+         this.saveId(p_187479_);
+-        p_187479_.putInt("x", this.worldPosition.getX());
+-        p_187479_.putInt("y", this.worldPosition.getY());
+-        p_187479_.putInt("z", this.worldPosition.getZ());
++        p_187479_.putByteArray("x", this.worldPosition.getBigX().toByteArray());
++        p_187479_.putByteArray("y", this.worldPosition.getBigY().toByteArray());
++        p_187479_.putByteArray("z", this.worldPosition.getBigZ().toByteArray());
+     }
+ 
+     @Nullable

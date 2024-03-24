@@ -51,3 +51,12 @@
          return this;
      }
  
+@@ -672,7 +_,7 @@
+         float f2 = this.readFloat();
+         boolean flag = this.readBoolean();
+         return new BlockHitResult(
+-            new Vec3((double)blockpos.getX() + (double)f, (double)blockpos.getY() + (double)f1, (double)blockpos.getZ() + (double)f2),
++            new Vec3((double)blockpos.getBigX().doubleValue() + (double)f, (double)blockpos.getBigY().doubleValue() + (double)f1, (double)blockpos.getBigZ().doubleValue() + (double)f2),
+             direction,
+             blockpos,
+             flag

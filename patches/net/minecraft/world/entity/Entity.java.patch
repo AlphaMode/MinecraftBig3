@@ -1,5 +1,13 @@
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
+@@ -44,7 +_,6 @@
+ import net.minecraft.network.chat.Component;
+ import net.minecraft.network.chat.HoverEvent;
+ import net.minecraft.network.chat.MutableComponent;
+-import net.minecraft.network.chat.Style;
+ import net.minecraft.network.protocol.Packet;
+ import net.minecraft.network.protocol.game.ClientGamePacketListener;
+ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 @@ -265,7 +_,7 @@
  
      public boolean isColliding(BlockPos p_20040_, BlockState p_20041_) {
@@ -61,15 +69,6 @@
              }
  
              this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate), d0, this.getY() + 0.1, d1, vec3.x * -4.0, 1.5, vec3.z * -4.0);
-@@ -1336,7 +_,7 @@
- 
-     @Deprecated
-     public float getLightLevelDependentMagicValue() {
--        return this.level().hasChunkAt(this.getBlockX(), this.getBlockZ())
-+        return this.level().hasChunkAt(this.getBigBlockX(), this.getBigBlockZ())
-             ? this.level().getLightLevelDependentMagicValue(BlockPos.containing(this.getX(), this.getEyeY(), this.getZ()))
-             : 0.0F;
-     }
 @@ -1350,8 +_,8 @@
      }
  
@@ -81,6 +80,15 @@
          this.xo = d0;
          this.yo = p_20250_;
          this.zo = d1;
+@@ -1367,7 +_,7 @@
+     }
+ 
+     public void moveTo(BlockPos p_20036_, float p_20037_, float p_20038_) {
+-        this.moveTo((double)p_20036_.getX() + 0.5, (double)p_20036_.getY(), (double)p_20036_.getZ() + 0.5, p_20037_, p_20038_);
++        this.moveTo((double)p_20036_.getBigX().doubleValue() + 0.5, (double)p_20036_.getBigY().doubleValue(), (double)p_20036_.getBigZ().doubleValue() + 0.5, p_20037_, p_20038_);
+     }
+ 
+     public void moveTo(double p_20108_, double p_20109_, double p_20110_, float p_20111_, float p_20112_) {
 @@ -1677,9 +_,9 @@
              this.setDeltaMovement(Math.abs(d0) > 10.0 ? 0.0 : d0, Math.abs(d1) > 10.0 ? 0.0 : d1, Math.abs(d2) > 10.0 ? 0.0 : d2);
              double d3 = 3.0000512E7;
@@ -145,15 +153,13 @@
          return !this.level().hasChunksAt(i, k, j, l);
      }
  
-@@ -3222,7 +_,11 @@
+@@ -3221,8 +_,8 @@
+         this.setDeltaMovement(new Vec3(p_20335_, p_20336_, p_20337_));
      }
  
-     public final int getBlockX() {
+-    public final int getBlockX() {
 -        return this.blockPosition.getX();
-+        return this.blockPosition.getBigX().intValue();
-+    }
-+
-+    public final me.alphamode.mcbig.math.BigInteger getBigBlockX() {
++    public final me.alphamode.mcbig.math.BigInteger getBlockX() {
 +        return this.blockPosition.getBigX();
      }
  
@@ -169,15 +175,13 @@
      public final double getY() {
          return this.position.y;
      }
-@@ -3258,7 +_,11 @@
+@@ -3257,8 +_,8 @@
+         return this.position.y + (double)this.eyeHeight;
      }
  
-     public final int getBlockZ() {
+-    public final int getBlockZ() {
 -        return this.blockPosition.getZ();
-+        return this.blockPosition.getBigZ().intValue();
-+    }
-+
-+    public final me.alphamode.mcbig.math.BigInteger getBigBlockZ() {
++    public final me.alphamode.mcbig.math.BigInteger getBlockZ() {
 +        return this.blockPosition.getBigZ();
      }
  

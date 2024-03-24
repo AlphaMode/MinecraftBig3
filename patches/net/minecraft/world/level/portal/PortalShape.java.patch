@@ -25,3 +25,12 @@
          return new Vec3(d2, d5, d4);
      }
  
+@@ -221,7 +_,7 @@
+         double d3 = (d1 - (double)entitydimensions.height) * p_259630_.y();
+         double d4 = 0.5 + p_259630_.z();
+         boolean flag = direction$axis == Direction.Axis.X;
+-        Vec3 vec31 = new Vec3((double)blockpos.getX() + (flag ? d2 : d4), (double)blockpos.getY() + d3, (double)blockpos.getZ() + (flag ? d4 : d2));
++        Vec3 vec31 = new Vec3((double)blockpos.getBigX().doubleValue() + (flag ? d2 : d4), (double)blockpos.getBigY().doubleValue() + d3, (double)blockpos.getBigZ().doubleValue() + (flag ? d4 : d2));
+         Vec3 vec32 = findCollisionFreePosition(vec31, p_259301_, p_259166_, entitydimensions);
+         return new PortalInfo(vec32, vec3, p_259853_ + (float)i, p_259667_);
+     }

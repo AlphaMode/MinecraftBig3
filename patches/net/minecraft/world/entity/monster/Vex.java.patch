@@ -22,3 +22,16 @@
          }
  
          if (this.hasLimitedLife) {
+@@ -376,10 +_,10 @@
+                 BlockPos blockpos1 = blockpos.offset(Vex.this.random.nextInt(15) - 7, Vex.this.random.nextInt(11) - 5, Vex.this.random.nextInt(15) - 7);
+                 if (Vex.this.level().isEmptyBlock(blockpos1)) {
+                     Vex.this.moveControl
+-                        .setWantedPosition((double)blockpos1.getX() + 0.5, (double)blockpos1.getY() + 0.5, (double)blockpos1.getZ() + 0.5, 0.25);
++                        .setWantedPosition((double)blockpos1.getBigX().doubleValue() + 0.5, (double)blockpos1.getBigY().doubleValue() + 0.5, (double)blockpos1.getBigZ().doubleValue() + 0.5, 0.25);
+                     if (Vex.this.getTarget() == null) {
+                         Vex.this.getLookControl()
+-                            .setLookAt((double)blockpos1.getX() + 0.5, (double)blockpos1.getY() + 0.5, (double)blockpos1.getZ() + 0.5, 180.0F, 20.0F);
++                            .setLookAt((double)blockpos1.getBigX().doubleValue() + 0.5, (double)blockpos1.getBigY().doubleValue() + 0.5, (double)blockpos1.getBigZ().doubleValue() + 0.5, 180.0F, 20.0F);
+                     }
+                     break;
+                 }

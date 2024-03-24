@@ -1,5 +1,16 @@
 --- a/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/net/minecraft/world/level/chunk/ChunkGenerator.java
+@@ -166,8 +_,8 @@
+             }
+ 
+             if (!list.isEmpty()) {
+-                int i = SectionPos.blockToSectionCoord(p_223040_.getX());
+-                int j = SectionPos.blockToSectionCoord(p_223040_.getZ());
++                me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_223040_.getBigX());
++                me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_223040_.getBigZ());
+ 
+                 for(int k = 0; k <= p_223041_; ++k) {
+                     boolean flag = false;
 @@ -223,7 +_,7 @@
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
@@ -9,15 +20,28 @@
                  double d1 = blockpos$mutableblockpos.distSqr(p_223185_);
                  boolean flag = pair == null || d1 < d0;
                  if (flag) {
-@@ -261,7 +_,7 @@
+@@ -244,8 +_,8 @@
+         Set<Holder<Structure>> p_223189_,
+         LevelReader p_223190_,
+         StructureManager p_223191_,
+-        int p_223192_,
+-        int p_223193_,
++        me.alphamode.mcbig.math.BigInteger p_223192_,
++        me.alphamode.mcbig.math.BigInteger p_223193_,
+         int p_223194_,
+         boolean p_223195_,
+         long p_223196_,
+@@ -259,8 +_,8 @@
+             for(int k = -p_223194_; k <= p_223194_; ++k) {
+                 boolean flag1 = k == -p_223194_ || k == p_223194_;
                  if (flag || flag1) {
-                     int l = p_223192_ + i * j;
-                     int i1 = p_223193_ + i * k;
--                    ChunkPos chunkpos = p_223197_.getPotentialStructureChunk(p_223196_, l, i1);
-+                    ChunkPos chunkpos = p_223197_.getPotentialStructureChunk(p_223196_, me.alphamode.mcbig.math.BigInteger.val(l), me.alphamode.mcbig.math.BigInteger.val(i1));
+-                    int l = p_223192_ + i * j;
+-                    int i1 = p_223193_ + i * k;
++                    me.alphamode.mcbig.math.BigInteger l = p_223192_.add(i * j);
++                    me.alphamode.mcbig.math.BigInteger i1 = p_223193_.add(i * k);
+                     ChunkPos chunkpos = p_223197_.getPotentialStructureChunk(p_223196_, l, i1);
                      Pair<BlockPos, Holder<Structure>> pair = getStructureGeneratingAt(p_223189_, p_223190_, p_223191_, p_223195_, p_223197_, chunkpos);
                      if (pair != null) {
-                         return pair;
 @@ -289,7 +_,7 @@
                      return Pair.of(p_223203_.getLocatePos(p_223204_), holder);
                  }
