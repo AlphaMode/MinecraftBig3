@@ -1,5 +1,26 @@
 --- a/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
 +++ b/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
+@@ -128,9 +_,9 @@
+                         () -> {
+                             Pair<BlockPos, Holder<Biome>> pair = this.biomeSource
+                                 .findBiomeHorizontal(
+-                                    SectionPos.sectionToBlockCoord(k1, 8),
++                                    me.alphamode.mcbig.math.BigInteger.val(SectionPos.sectionToBlockCoord(k1, 8)),
+                                     0,
+-                                    SectionPos.sectionToBlockCoord(l1, 8),
++                                    me.alphamode.mcbig.math.BigInteger.val(SectionPos.sectionToBlockCoord(l1, 8)),
+                                     112,
+                                     holderset::contains,
+                                     randomsource1,
+@@ -138,7 +_,7 @@
+                                 );
+                             if (pair != null) {
+                                 BlockPos blockpos = pair.getFirst();
+-                                return new ChunkPos(SectionPos.blockToSectionCoord(blockpos.getX()), SectionPos.blockToSectionCoord(blockpos.getZ()));
++                                return new ChunkPos(SectionPos.blockToSectionCoord(blockpos.getBigX()), SectionPos.blockToSectionCoord(blockpos.getBigZ()));
+                             } else {
+                                 return new ChunkPos(k1, l1);
+                             }
 @@ -187,11 +_,11 @@
          return this.randomState;
      }

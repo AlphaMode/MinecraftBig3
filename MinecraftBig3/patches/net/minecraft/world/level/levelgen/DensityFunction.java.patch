@@ -1,0 +1,25 @@
+--- a/net/minecraft/world/level/levelgen/DensityFunction.java
++++ b/net/minecraft/world/level/levelgen/DensityFunction.java
+@@ -66,11 +_,11 @@
+     }
+ 
+     public interface FunctionContext {
+-        int blockX();
++        me.alphamode.mcbig.math.BigInteger blockX();
+ 
+         int blockY();
+ 
+-        int blockZ();
++        me.alphamode.mcbig.math.BigInteger blockZ();
+ 
+         default Blender getBlender() {
+             return Blender.empty();
+@@ -106,7 +_,7 @@
+         }
+     }
+ 
+-    public static record SinglePointContext(int blockX, int blockY, int blockZ) implements DensityFunction.FunctionContext {
++    public static record SinglePointContext(me.alphamode.mcbig.math.BigInteger blockX, int blockY, me.alphamode.mcbig.math.BigInteger blockZ) implements DensityFunction.FunctionContext {
+     }
+ 
+     public interface Visitor {

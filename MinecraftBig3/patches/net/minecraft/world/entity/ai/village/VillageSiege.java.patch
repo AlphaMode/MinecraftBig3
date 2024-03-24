@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/entity/ai/village/VillageSiege.java
++++ b/net/minecraft/world/entity/ai/village/VillageSiege.java
+@@ -112,8 +_,8 @@
+     @Nullable
+     private Vec3 findRandomSpawnPos(ServerLevel p_27010_, BlockPos p_27011_) {
+         for(int i = 0; i < 10; ++i) {
+-            int j = p_27011_.getX() + p_27010_.random.nextInt(16) - 8;
+-            int k = p_27011_.getZ() + p_27010_.random.nextInt(16) - 8;
++            me.alphamode.mcbig.math.BigInteger j = p_27011_.getBigX().add(p_27010_.random.nextInt(16) - 8);
++            me.alphamode.mcbig.math.BigInteger k = p_27011_.getBigZ().add(p_27010_.random.nextInt(16) - 8);
+             int l = p_27010_.getHeight(Heightmap.Types.WORLD_SURFACE, j, k);
+             BlockPos blockpos = new BlockPos(j, l, k);
+             if (p_27010_.isVillage(blockpos) && Monster.checkMonsterSpawnRules(EntityType.ZOMBIE, p_27010_, MobSpawnType.EVENT, blockpos, p_27010_.random)) {

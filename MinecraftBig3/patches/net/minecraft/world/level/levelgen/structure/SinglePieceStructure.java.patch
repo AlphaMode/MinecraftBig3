@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/level/levelgen/structure/SinglePieceStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/SinglePieceStructure.java
+@@ -27,11 +_,11 @@
+ 
+     private void generatePieces(StructurePiecesBuilder p_226547_, Structure.GenerationContext p_226548_) {
+         ChunkPos chunkpos = p_226548_.chunkPos();
+-        p_226547_.addPiece(this.constructor.construct(p_226548_.random(), chunkpos.getMinBlockX(), chunkpos.getMinBlockZ()));
++        p_226547_.addPiece(this.constructor.construct(p_226548_.random(), chunkpos.getBigMinBlockX(), chunkpos.getBigMinBlockZ()));
+     }
+ 
+     @FunctionalInterface
+     protected interface PieceConstructor {
+-        StructurePiece construct(WorldgenRandom p_226550_, int p_226551_, int p_226552_);
++        StructurePiece construct(WorldgenRandom p_226550_, me.alphamode.mcbig.math.BigInteger p_226551_, me.alphamode.mcbig.math.BigInteger p_226552_);
+     }
+ }

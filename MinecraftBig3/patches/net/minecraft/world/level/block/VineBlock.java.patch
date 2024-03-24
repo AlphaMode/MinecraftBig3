@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/VineBlock.java
++++ b/net/minecraft/world/level/block/VineBlock.java
+@@ -281,7 +_,7 @@
+     private boolean canSpread(BlockGetter p_57851_, BlockPos p_57852_) {
+         int i = 4;
+         Iterable<BlockPos> iterable = BlockPos.betweenClosed(
+-            p_57852_.getX() - 4, p_57852_.getY() - 1, p_57852_.getZ() - 4, p_57852_.getX() + 4, p_57852_.getY() + 1, p_57852_.getZ() + 4
++            p_57852_.getBigX().subtract(me.alphamode.mcbig.core.BigConstants.Ints.FOUR), p_57852_.getBigY().subtract(), p_57852_.getBigZ().subtract(me.alphamode.mcbig.core.BigConstants.Ints.FOUR), p_57852_.getBigX().add(me.alphamode.mcbig.core.BigConstants.Ints.FOUR), p_57852_.getBigY().add(), p_57852_.getBigZ().add(me.alphamode.mcbig.core.BigConstants.Ints.FOUR)
+         );
+         int j = 5;
+ 

@@ -23,9 +23,9 @@ public class Vec3l implements Comparable<Vec3l> {
                     p_123313_ -> Stream.of(p_123313_.getBigX().toString(), p_123313_.getBigY().toString(), p_123313_.getBigZ().toString())
             );
     public static final Vec3l ZERO = new Vec3l(BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO);
-    private BigInteger x;
-    private BigInteger y;
-    private BigInteger z;
+    private BigInteger x = BigInteger.ZERO;
+    private BigInteger y = BigInteger.ZERO;
+    private BigInteger z = BigInteger.ZERO;
 
     public static Codec<Vec3l> offsetCodec(int p_194651_) {
         return ExtraCodecs.validate(

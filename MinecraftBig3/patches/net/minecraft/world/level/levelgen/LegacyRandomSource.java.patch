@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/LegacyRandomSource.java
++++ b/net/minecraft/world/level/levelgen/LegacyRandomSource.java
+@@ -61,7 +_,7 @@
+         }
+ 
+         @Override
+-        public RandomSource at(int p_224198_, int p_224199_, int p_224200_) {
++        public RandomSource at(me.alphamode.mcbig.math.BigInteger p_224198_, int p_224199_, me.alphamode.mcbig.math.BigInteger p_224200_) {
+             long i = Mth.getSeed(p_224198_, p_224199_, p_224200_);
+             long j = i ^ this.seed;
+             return new LegacyRandomSource(j);

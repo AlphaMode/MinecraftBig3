@@ -7,18 +7,20 @@
 -            int i = QuartPos.toBlock(p_262550_);
 -            int j = QuartPos.toBlock(p_262551_);
 -            int k = QuartPos.toBlock(p_262552_);
-+            int i = QuartPos.toBlock(p_262550_.intValue());
-+            int j = QuartPos.toBlock(p_262551_.intValue());
-+            int k = QuartPos.toBlock(p_262552_.intValue());
++            me.alphamode.mcbig.math.BigInteger i = QuartPos.toBlock(p_262550_);
++            me.alphamode.mcbig.math.BigInteger j = QuartPos.toBlock(p_262551_);
++            me.alphamode.mcbig.math.BigInteger k = QuartPos.toBlock(p_262552_);
              Holder<Biome> holder = p_262698_.getNoiseBiome(p_262550_, p_262551_, p_262552_);
              if (p_262622_.isInside(i, j, k) && p_262695_.test(holder)) {
                  p_262615_.increment();
-@@ -130,7 +_,7 @@
+@@ -128,8 +_,8 @@
+         } else {
+             List<ChunkAccess> list = new ArrayList<>();
  
-             for(int k = SectionPos.blockToSectionCoord(boundingbox.minZ()); k <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); ++k) {
-                 for(int l = SectionPos.blockToSectionCoord(boundingbox.minX()); l <= SectionPos.blockToSectionCoord(boundingbox.maxX()); ++l) {
--                    ChunkAccess chunkaccess = p_313779_.getChunk(l, k, ChunkStatus.FULL, false);
-+                    ChunkAccess chunkaccess = p_313779_.getChunk(me.alphamode.mcbig.math.BigInteger.val(l), me.alphamode.mcbig.math.BigInteger.val(k), ChunkStatus.FULL, false);
+-            for(int k = SectionPos.blockToSectionCoord(boundingbox.minZ()); k <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); ++k) {
+-                for(int l = SectionPos.blockToSectionCoord(boundingbox.minX()); l <= SectionPos.blockToSectionCoord(boundingbox.maxX()); ++l) {
++            for(me.alphamode.mcbig.math.BigInteger k = SectionPos.blockToSectionCoord(boundingbox.minZ()); k.compareTo(SectionPos.blockToSectionCoord(boundingbox.maxZ())) <= 0; k = k.add()) {
++                for(me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(boundingbox.minX()); l.compareTo(SectionPos.blockToSectionCoord(boundingbox.maxX())) <= 0; l = l.add()) {
+                     ChunkAccess chunkaccess = p_313779_.getChunk(l, k, ChunkStatus.FULL, false);
                      if (chunkaccess == null) {
                          return Either.right(ERROR_NOT_LOADED.create());
-                     }

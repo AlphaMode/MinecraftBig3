@@ -1,0 +1,21 @@
+--- a/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
++++ b/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
+@@ -365,12 +_,12 @@
+             return BlockPos.randomBetweenClosed(
+                 p_263108_.getRandom(),
+                 10,
+-                Mth.floor(aabb1.minX),
+-                Mth.floor(aabb1.minY),
+-                Mth.floor(aabb1.minZ),
+-                Mth.floor(aabb1.maxX),
+-                Mth.floor(aabb1.maxY),
+-                Mth.floor(aabb1.maxZ)
++                Mth.bigFloor(aabb1.minX),
++                Mth.bigFloor(aabb1.minY),
++                Mth.bigFloor(aabb1.minZ),
++                Mth.bigFloor(aabb1.maxX),
++                Mth.bigFloor(aabb1.maxY),
++                Mth.bigFloor(aabb1.maxZ)
+             );
+         }
+     }

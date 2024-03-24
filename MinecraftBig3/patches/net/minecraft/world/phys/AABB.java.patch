@@ -1,0 +1,78 @@
+--- a/net/minecraft/world/phys/AABB.java
++++ b/net/minecraft/world/phys/AABB.java
+@@ -27,12 +_,12 @@
+ 
+     public AABB(BlockPos p_82305_) {
+         this(
+-            (double)p_82305_.getX(),
+-            (double)p_82305_.getY(),
+-            (double)p_82305_.getZ(),
+-            (double)(p_82305_.getX() + 1),
+-            (double)(p_82305_.getY() + 1),
+-            (double)(p_82305_.getZ() + 1)
++            (double)p_82305_.getBigX().doubleValue(),
++            (double)p_82305_.getBigY().doubleValue(),
++            (double)p_82305_.getBigZ().doubleValue(),
++            (double)(p_82305_.getBigX().add()).doubleValue(),
++            (double)(p_82305_.getBigY().add()).doubleValue(),
++            (double)(p_82305_.getBigZ().add()).doubleValue()
+         );
+     }
+ 
+@@ -42,12 +_,12 @@
+ 
+     public static AABB of(BoundingBox p_82322_) {
+         return new AABB(
+-            (double)p_82322_.minX(),
+-            (double)p_82322_.minY(),
+-            (double)p_82322_.minZ(),
+-            (double)(p_82322_.maxX() + 1),
+-            (double)(p_82322_.maxY() + 1),
+-            (double)(p_82322_.maxZ() + 1)
++            (double)p_82322_.minX().doubleValue(),
++            (double)p_82322_.minY().doubleValue(),
++            (double)p_82322_.minZ().doubleValue(),
++            (double)(p_82322_.maxX().add()).doubleValue(),
++            (double)(p_82322_.maxY().add()).doubleValue(),
++            (double)(p_82322_.maxZ().add()).doubleValue()
+         );
+     }
+ 
+@@ -57,12 +_,12 @@
+ 
+     public static AABB encapsulatingFullBlocks(BlockPos p_309165_, BlockPos p_308877_) {
+         return new AABB(
+-            (double)Math.min(p_309165_.getX(), p_308877_.getX()),
+-            (double)Math.min(p_309165_.getY(), p_308877_.getY()),
+-            (double)Math.min(p_309165_.getZ(), p_308877_.getZ()),
+-            (double)(Math.max(p_309165_.getX(), p_308877_.getX()) + 1),
+-            (double)(Math.max(p_309165_.getY(), p_308877_.getY()) + 1),
+-            (double)(Math.max(p_309165_.getZ(), p_308877_.getZ()) + 1)
++            (double)p_309165_.getBigX().min(p_308877_.getBigX()).doubleValue(),
++            (double)p_309165_.getBigY().min(p_308877_.getBigY()).doubleValue(),
++            (double)p_309165_.getBigZ().min(p_308877_.getBigZ()).doubleValue(),
++            (double)(p_309165_.getBigX().max(p_308877_.getBigX()).add()).doubleValue(),
++            (double)(p_309165_.getBigY().max(p_308877_.getBigY()).add()).doubleValue(),
++            (double)(p_309165_.getBigZ().max(p_308877_.getBigZ()).add()).doubleValue()
+         );
+     }
+ 
+@@ -238,12 +_,12 @@
+ 
+     public AABB move(BlockPos p_82339_) {
+         return new AABB(
+-            this.minX + (double)p_82339_.getX(),
+-            this.minY + (double)p_82339_.getY(),
+-            this.minZ + (double)p_82339_.getZ(),
+-            this.maxX + (double)p_82339_.getX(),
+-            this.maxY + (double)p_82339_.getY(),
+-            this.maxZ + (double)p_82339_.getZ()
++            this.minX + (double)p_82339_.getBigX().doubleValue(),
++            this.minY + (double)p_82339_.getBigY().doubleValue(),
++            this.minZ + (double)p_82339_.getBigZ().doubleValue(),
++            this.maxX + (double)p_82339_.getBigX().doubleValue(),
++            this.maxY + (double)p_82339_.getBigY().doubleValue(),
++            this.maxZ + (double)p_82339_.getBigZ().doubleValue()
+         );
+     }
+ 

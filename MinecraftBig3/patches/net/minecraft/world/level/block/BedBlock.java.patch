@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/BedBlock.java
++++ b/net/minecraft/world/level/block/BedBlock.java
+@@ -321,7 +_,7 @@
+     @Override
+     public long getSeed(BlockState p_49522_, BlockPos p_49523_) {
+         BlockPos blockpos = p_49523_.relative(p_49522_.getValue(FACING), p_49522_.getValue(PART) == BedPart.HEAD ? 0 : 1);
+-        return Mth.getSeed(blockpos.getX(), p_49523_.getY(), blockpos.getZ());
++        return Mth.getSeed(blockpos.getBigX(), p_49523_.getY(), blockpos.getBigZ());
+     }
+ 
+     @Override

@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/ShipwreckPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/ShipwreckPieces.java
+@@ -131,12 +_,12 @@
+             Heightmap.Types heightmap$types = this.isBeached ? Heightmap.Types.WORLD_SURFACE_WG : Heightmap.Types.OCEAN_FLOOR_WG;
+             int k = vec3i.getX() * vec3i.getZ();
+             if (k == 0) {
+-                j = p_229363_.getHeight(heightmap$types, this.templatePosition.getX(), this.templatePosition.getZ());
++                j = p_229363_.getHeight(heightmap$types, this.templatePosition.getBigX(), this.templatePosition.getBigZ());
+             } else {
+                 BlockPos blockpos = this.templatePosition.offset(vec3i.getX() - 1, 0, vec3i.getZ() - 1);
+ 
+                 for(BlockPos blockpos1 : BlockPos.betweenClosed(this.templatePosition, blockpos)) {
+-                    int l = p_229363_.getHeight(heightmap$types, blockpos1.getX(), blockpos1.getZ());
++                    int l = p_229363_.getHeight(heightmap$types, blockpos1.getBigX(), blockpos1.getBigZ());
+                     j += l;
+                     i = Math.min(i, l);
+                 }
+@@ -145,7 +_,7 @@
+             }
+ 
+             int i1 = this.isBeached ? i - vec3i.getY() / 2 - p_229366_.nextInt(3) : j;
+-            this.templatePosition = new BlockPos(this.templatePosition.getX(), i1, this.templatePosition.getZ());
++            this.templatePosition = new BlockPos(this.templatePosition.getBigX(), i1, this.templatePosition.getBigZ());
+             super.postProcess(p_229363_, p_229364_, p_229365_, p_229366_, p_229367_, p_229368_, p_229369_);
+         }
+     }

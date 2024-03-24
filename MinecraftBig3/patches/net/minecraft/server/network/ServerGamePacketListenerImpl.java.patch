@@ -1,0 +1,16 @@
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -364,11 +_,11 @@
+     }
+ 
+     private static double clampHorizontal(double p_143610_) {
+-        return Mth.clamp(p_143610_, -3.0E7, 3.0E7);
++        return /*Mth.clamp(*/p_143610_/*, -3.0E7, 3.0E7)*/;
+     }
+ 
+     private static double clampVertical(double p_143654_) {
+-        return Mth.clamp(p_143654_, -2.0E7, 2.0E7);
++        return /*Mth.clamp(*/p_143654_/*, -2.0E7, 2.0E7)*/;
+     }
+ 
+     @Override

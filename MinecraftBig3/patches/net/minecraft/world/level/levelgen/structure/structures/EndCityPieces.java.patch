@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/EndCityPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/EndCityPieces.java
+@@ -278,7 +_,7 @@
+         );
+         BlockPos blockpos = p_227431_.template()
+             .calculateConnectedPosition(p_227431_.placeSettings(), p_227432_, endcitypieces$endcitypiece.placeSettings(), BlockPos.ZERO);
+-        endcitypieces$endcitypiece.move(blockpos.getX(), blockpos.getY(), blockpos.getZ());
++        endcitypieces$endcitypiece.move(blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ());
+         return endcitypieces$endcitypiece;
+     }
+ 

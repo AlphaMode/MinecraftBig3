@@ -9,6 +9,15 @@
                  int i = p_226859_.getInt("references");
                  ListTag listtag = p_226859_.getList("Children", 10);
  
+@@ -85,7 +_,7 @@
+         if (!list.isEmpty()) {
+             BoundingBox boundingbox = list.get(0).boundingBox;
+             BlockPos blockpos = boundingbox.getCenter();
+-            BlockPos blockpos1 = new BlockPos(blockpos.getX(), boundingbox.minY(), blockpos.getZ());
++            BlockPos blockpos1 = new BlockPos(blockpos.getBigX(), boundingbox.minY(), blockpos.getBigZ());
+ 
+             for(StructurePiece structurepiece : list) {
+                 if (structurepiece.getBoundingBox().intersects(p_226855_)) {
 @@ -101,8 +_,8 @@
          CompoundTag compoundtag = new CompoundTag();
          if (this.isValid()) {

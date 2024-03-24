@@ -1,0 +1,76 @@
+--- a/net/minecraft/client/renderer/chunk/RenderRegionCache.java
++++ b/net/minecraft/client/renderer/chunk/RenderRegionCache.java
+@@ -13,22 +_,22 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class RenderRegionCache {
+-    private final Long2ObjectMap<RenderRegionCache.ChunkInfo> chunkInfoCache = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, RenderRegionCache.ChunkInfo> chunkInfoCache = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+ 
+     @Nullable
+     public RenderChunkRegion createRegion(Level p_200466_, BlockPos p_200467_, BlockPos p_200468_, int p_200469_) {
+-        int i = SectionPos.blockToSectionCoord(p_200467_.getX() - p_200469_);
+-        int j = SectionPos.blockToSectionCoord(p_200467_.getZ() - p_200469_);
+-        int k = SectionPos.blockToSectionCoord(p_200468_.getX() + p_200469_);
+-        int l = SectionPos.blockToSectionCoord(p_200468_.getZ() + p_200469_);
+-        RenderRegionCache.ChunkInfo[][] arenderregioncache$chunkinfo = new RenderRegionCache.ChunkInfo[k - i + 1][l - j + 1];
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_200467_.getBigX().subtract(p_200469_));
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_200467_.getBigZ().subtract(p_200469_));
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.blockToSectionCoord(p_200468_.getBigX().add(p_200469_));
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(p_200468_.getBigZ().add(p_200469_));
++        RenderRegionCache.ChunkInfo[][] arenderregioncache$chunkinfo = new RenderRegionCache.ChunkInfo[k.subtract(i).add().intValue()][l.subtract(j).add().intValue()];
+ 
+-        for(int i1 = i; i1 <= k; ++i1) {
+-            for(int j1 = j; j1 <= l; ++j1) {
+-                arenderregioncache$chunkinfo[i1 - i][j1 - j] = this.chunkInfoCache
++        for(me.alphamode.mcbig.math.BigInteger i1 = i; i1.compareTo(k) <= 0; i1 = i1.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j1 = j; j1.compareTo(l) <= 0; j1 = j1.add()) {
++                arenderregioncache$chunkinfo[i1.subtract(i).intValue()][j1.subtract(j).intValue()] = this.chunkInfoCache
+                     .computeIfAbsent(
+-                        ChunkPos.asLong(i1, j1),
+-                        p_200464_ -> new RenderRegionCache.ChunkInfo(p_200466_.getChunk(ChunkPos.getX(p_200464_), ChunkPos.getZ(p_200464_)))
++                        new ChunkPos(i1, j1),
++                        p_200464_ -> new RenderRegionCache.ChunkInfo(p_200466_.getChunk(((ChunkPos)p_200464_).x(), ((ChunkPos)p_200464_).z()))
+                     );
+             }
+         }
+@@ -36,11 +_,11 @@
+         if (isAllEmpty(p_200467_, p_200468_, i, j, arenderregioncache$chunkinfo)) {
+             return null;
+         } else {
+-            RenderChunk[][] arenderchunk = new RenderChunk[k - i + 1][l - j + 1];
++            RenderChunk[][] arenderchunk = new RenderChunk[k.subtract(i).add().intValue()][l.subtract(j).add().intValue()];
+ 
+-            for(int l1 = i; l1 <= k; ++l1) {
+-                for(int k1 = j; k1 <= l; ++k1) {
+-                    arenderchunk[l1 - i][k1 - j] = arenderregioncache$chunkinfo[l1 - i][k1 - j].renderChunk();
++            for(me.alphamode.mcbig.math.BigInteger l1 = i; l1.compareTo(k) <= 0; l1 = l1.add()) {
++                for(me.alphamode.mcbig.math.BigInteger k1 = j; k1.compareTo(l) <= 0; k1 = k1.add()) {
++                    arenderchunk[l1.subtract(i).intValue()][k1.subtract(j).intValue()] = arenderregioncache$chunkinfo[l1.subtract(i).intValue()][k1.subtract(j).intValue()].renderChunk();
+                 }
+             }
+ 
+@@ -48,15 +_,15 @@
+         }
+     }
+ 
+-    private static boolean isAllEmpty(BlockPos p_200471_, BlockPos p_200472_, int p_200473_, int p_200474_, RenderRegionCache.ChunkInfo[][] p_200475_) {
+-        int i = SectionPos.blockToSectionCoord(p_200471_.getX());
+-        int j = SectionPos.blockToSectionCoord(p_200471_.getZ());
+-        int k = SectionPos.blockToSectionCoord(p_200472_.getX());
+-        int l = SectionPos.blockToSectionCoord(p_200472_.getZ());
++    private static boolean isAllEmpty(BlockPos p_200471_, BlockPos p_200472_, me.alphamode.mcbig.math.BigInteger p_200473_, me.alphamode.mcbig.math.BigInteger p_200474_, RenderRegionCache.ChunkInfo[][] p_200475_) {
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_200471_.getBigX());
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_200471_.getBigZ());
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.blockToSectionCoord(p_200472_.getBigX());
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(p_200472_.getBigZ());
+ 
+-        for(int i1 = i; i1 <= k; ++i1) {
+-            for(int j1 = j; j1 <= l; ++j1) {
+-                LevelChunk levelchunk = p_200475_[i1 - p_200473_][j1 - p_200474_].chunk();
++        for(me.alphamode.mcbig.math.BigInteger i1 = i; i1.compareTo(k) <= 0; i1 = i1.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j1 = j; j1.compareTo(l) <= 0; j1 = j1.add()) {
++                LevelChunk levelchunk = p_200475_[i1.subtract(p_200473_).intValue()][j1.subtract(p_200474_).intValue()].chunk();
+                 if (!levelchunk.isYSpaceEmpty(p_200471_.getY(), p_200472_.getY())) {
+                     return false;
+                 }

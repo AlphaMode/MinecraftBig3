@@ -1,0 +1,117 @@
+--- a/net/minecraft/world/level/levelgen/SurfaceSystem.java
++++ b/net/minecraft/world/level/levelgen/SurfaceSystem.java
+@@ -75,8 +_,8 @@
+     ) {
+         final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+         final ChunkPos chunkpos = p_224654_.getPos();
+-        int i = chunkpos.getMinBlockX();
+-        int j = chunkpos.getMinBlockZ();
++        me.alphamode.mcbig.math.BigInteger i = chunkpos.getBigMinBlockX();
++        me.alphamode.mcbig.math.BigInteger j = chunkpos.getBigMinBlockZ();
+         BlockColumn blockcolumn = new BlockColumn() {
+             @Override
+             public BlockState getBlock(int p_190006_) {
+@@ -105,16 +_,16 @@
+ 
+         for(int k = 0; k < 16; ++k) {
+             for(int l = 0; l < 16; ++l) {
+-                int i1 = i + k;
+-                int j1 = j + l;
+-                int k1 = p_224654_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, k, l) + 1;
++                me.alphamode.mcbig.math.BigInteger i1 = i.add(k);
++                me.alphamode.mcbig.math.BigInteger j1 = j.add(l);
++                int k1 = p_224654_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, me.alphamode.mcbig.math.BigInteger.val(k), me.alphamode.mcbig.math.BigInteger.val(l)) + 1;
+                 blockpos$mutableblockpos.setX(i1).setZ(j1);
+                 Holder<Biome> holder = p_224650_.getBiome(blockpos$mutableblockpos1.set(i1, p_224652_ ? 0 : k1, j1));
+                 if (holder.is(Biomes.ERODED_BADLANDS)) {
+                     this.erodedBadlandsExtension(blockcolumn, i1, j1, k1, p_224654_);
+                 }
+ 
+-                int l1 = p_224654_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, k, l) + 1;
++                int l1 = p_224654_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, me.alphamode.mcbig.math.BigInteger.val(k), me.alphamode.mcbig.math.BigInteger.val(l)) + 1;
+                 surfacerules$context.updateXZ(i1, j1);
+                 int i2 = 0;
+                 int j2 = Integer.MIN_VALUE;
+@@ -162,13 +_,13 @@
+         }
+     }
+ 
+-    protected int getSurfaceDepth(int p_189928_, int p_189929_) {
+-        double d0 = this.surfaceNoise.getValue((double)p_189928_, 0.0, (double)p_189929_);
++    protected int getSurfaceDepth(me.alphamode.mcbig.math.BigInteger p_189928_, me.alphamode.mcbig.math.BigInteger p_189929_) {
++        double d0 = this.surfaceNoise.getValue((double)p_189928_.doubleValue(), 0.0, (double)p_189929_.doubleValue());
+         return (int)(d0 * 2.75 + 3.0 + this.noiseRandom.at(p_189928_, 0, p_189929_).nextDouble() * 0.25);
+     }
+ 
+-    protected double getSurfaceSecondary(int p_202190_, int p_202191_) {
+-        return this.surfaceSecondaryNoise.getValue((double)p_202190_, 0.0, (double)p_202191_);
++    protected double getSurfaceSecondary(me.alphamode.mcbig.math.BigInteger p_202190_, me.alphamode.mcbig.math.BigInteger p_202191_) {
++        return this.surfaceSecondaryNoise.getValue((double)p_202190_.doubleValue(), 0.0, (double)p_202191_.doubleValue());
+     }
+ 
+     private boolean isStone(BlockState p_189953_) {
+@@ -189,25 +_,25 @@
+             this, p_189973_.randomState(), p_189975_, p_189976_, p_189974_, p_189973_.registryAccess().registryOrThrow(Registries.BIOME), p_189973_
+         );
+         SurfaceRules.SurfaceRule surfacerules$surfacerule = p_189972_.apply(surfacerules$context);
+-        int i = p_189977_.getX();
++        me.alphamode.mcbig.math.BigInteger i = p_189977_.getBigX();
+         int j = p_189977_.getY();
+-        int k = p_189977_.getZ();
++        me.alphamode.mcbig.math.BigInteger k = p_189977_.getBigZ();
+         surfacerules$context.updateXZ(i, k);
+         surfacerules$context.updateY(1, 1, p_189978_ ? j + 1 : Integer.MIN_VALUE, i, j, k);
+         BlockState blockstate = surfacerules$surfacerule.tryApply(i, j, k);
+         return Optional.ofNullable(blockstate);
+     }
+ 
+-    private void erodedBadlandsExtension(BlockColumn p_189955_, int p_189956_, int p_189957_, int p_189958_, LevelHeightAccessor p_189959_) {
++    private void erodedBadlandsExtension(BlockColumn p_189955_, me.alphamode.mcbig.math.BigInteger p_189956_, me.alphamode.mcbig.math.BigInteger p_189957_, int p_189958_, LevelHeightAccessor p_189959_) {
+         double d0 = 0.2;
+         double d1 = Math.min(
+-            Math.abs(this.badlandsSurfaceNoise.getValue((double)p_189956_, 0.0, (double)p_189957_) * 8.25),
+-            this.badlandsPillarNoise.getValue((double)p_189956_ * 0.2, 0.0, (double)p_189957_ * 0.2) * 15.0
++            Math.abs(this.badlandsSurfaceNoise.getValue((double)p_189956_.doubleValue(), 0.0, (double)p_189957_.doubleValue()) * 8.25),
++            this.badlandsPillarNoise.getValue((double)p_189956_.doubleValue() * 0.2, 0.0, (double)p_189957_.doubleValue() * 0.2) * 15.0
+         );
+         if (!(d1 <= 0.0)) {
+             double d2 = 0.75;
+             double d3 = 1.5;
+-            double d4 = Math.abs(this.badlandsPillarRoofNoise.getValue((double)p_189956_ * 0.75, 0.0, (double)p_189957_ * 0.75) * 1.5);
++            double d4 = Math.abs(this.badlandsPillarRoofNoise.getValue((double)p_189956_.doubleValue() * 0.75, 0.0, (double)p_189957_.doubleValue() * 0.75) * 1.5);
+             double d5 = 64.0 + Math.min(d1 * d1 * 2.5, Math.ceil(d4 * 50.0) + 24.0);
+             int i = Mth.floor(d5);
+             if (p_189958_ <= i) {
+@@ -230,17 +_,17 @@
+     }
+ 
+     private void frozenOceanExtension(
+-        int p_189935_, Biome p_189936_, BlockColumn p_189937_, BlockPos.MutableBlockPos p_189938_, int p_189939_, int p_189940_, int p_189941_
++        int p_189935_, Biome p_189936_, BlockColumn p_189937_, BlockPos.MutableBlockPos p_189938_, me.alphamode.mcbig.math.BigInteger p_189939_, me.alphamode.mcbig.math.BigInteger p_189940_, int p_189941_
+     ) {
+         double d0 = 1.28;
+         double d1 = Math.min(
+-            Math.abs(this.icebergSurfaceNoise.getValue((double)p_189939_, 0.0, (double)p_189940_) * 8.25),
+-            this.icebergPillarNoise.getValue((double)p_189939_ * 1.28, 0.0, (double)p_189940_ * 1.28) * 15.0
++            Math.abs(this.icebergSurfaceNoise.getValue((double)p_189939_.doubleValue(), 0.0, (double)p_189940_.doubleValue()) * 8.25),
++            this.icebergPillarNoise.getValue((double)p_189939_.doubleValue() * 1.28, 0.0, (double)p_189940_.doubleValue() * 1.28) * 15.0
+         );
+         if (!(d1 <= 1.8)) {
+             double d3 = 1.17;
+             double d4 = 1.5;
+-            double d5 = Math.abs(this.icebergPillarRoofNoise.getValue((double)p_189939_ * 1.17, 0.0, (double)p_189940_ * 1.17) * 1.5);
++            double d5 = Math.abs(this.icebergPillarRoofNoise.getValue((double)p_189939_.doubleValue() * 1.17, 0.0, (double)p_189940_.doubleValue() * 1.17) * 1.5);
+             double d6 = Math.min(d1 * d1 * 1.2, Math.ceil(d5 * 40.0) + 14.0);
+             if (p_189936_.shouldMeltFrozenOceanIcebergSlightly(p_189938_.set(p_189939_, 63, p_189940_))) {
+                 d6 -= 2.0;
+@@ -321,8 +_,8 @@
+         }
+     }
+ 
+-    protected BlockState getBand(int p_189931_, int p_189932_, int p_189933_) {
+-        int i = (int)Math.round(this.clayBandsOffsetNoise.getValue((double)p_189931_, 0.0, (double)p_189933_) * 4.0);
++    protected BlockState getBand(me.alphamode.mcbig.math.BigInteger p_189931_, int p_189932_, me.alphamode.mcbig.math.BigInteger p_189933_) {
++        int i = (int)Math.round(this.clayBandsOffsetNoise.getValue((double)p_189931_.doubleValue(), 0.0, (double)p_189933_.doubleValue()) * 4.0);
+         return this.clayBands[(p_189932_ + i + this.clayBands.length) % this.clayBands.length];
+     }
+ }

@@ -1,5 +1,43 @@
 --- a/net/minecraft/world/level/chunk/ProtoChunk.java
 +++ b/net/minecraft/world/level/chunk/ProtoChunk.java
+@@ -90,7 +_,7 @@
+             LevelChunkSection levelchunksection = this.getSection(this.getSectionIndex(i));
+             return levelchunksection.hasOnlyAir()
+                 ? Blocks.AIR.defaultBlockState()
+-                : levelchunksection.getBlockState(p_63264_.getX() & 15, i & 15, p_63264_.getZ() & 15);
++                : levelchunksection.getBlockState(p_63264_.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), i & 15, p_63264_.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue());
+         }
+     }
+ 
+@@ -103,16 +_,16 @@
+             LevelChunkSection levelchunksection = this.getSection(this.getSectionIndex(i));
+             return levelchunksection.hasOnlyAir()
+                 ? Fluids.EMPTY.defaultFluidState()
+-                : levelchunksection.getFluidState(p_63239_.getX() & 15, i & 15, p_63239_.getZ() & 15);
++                : levelchunksection.getFluidState(p_63239_.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), i & 15, p_63239_.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue());
+         }
+     }
+ 
+     @Nullable
+     @Override
+     public BlockState setBlockState(BlockPos p_63217_, BlockState p_63218_, boolean p_63219_) {
+-        int i = p_63217_.getX();
++        me.alphamode.mcbig.math.BigInteger i = p_63217_.getBigX();
+         int j = p_63217_.getY();
+-        int k = p_63217_.getZ();
++        me.alphamode.mcbig.math.BigInteger k = p_63217_.getBigZ();
+         if (j >= this.getMinBuildHeight() && j < this.getMaxBuildHeight()) {
+             int l = this.getSectionIndex(j);
+             LevelChunkSection levelchunksection = this.getSection(l);
+@@ -199,7 +_,7 @@
+         if (belowzeroretrogen != null && p_223433_.isValid()) {
+             BoundingBox boundingbox = p_223433_.getBoundingBox();
+             LevelHeightAccessor levelheightaccessor = this.getHeightAccessorForGeneration();
+-            if (boundingbox.minY() < levelheightaccessor.getMinBuildHeight() || boundingbox.maxY() >= levelheightaccessor.getMaxBuildHeight()) {
++            if (boundingbox.minY().longValue() < levelheightaccessor.getMinBuildHeight() || boundingbox.maxY().longValue() >= levelheightaccessor.getMaxBuildHeight()) {
+                 return;
+             }
+         }
 @@ -226,7 +_,7 @@
      }
  
@@ -9,7 +47,23 @@
          if (this.getHighestGeneratedStatus().isOrAfter(ChunkStatus.BIOMES)) {
              return super.getNoiseBiome(p_204450_, p_204451_, p_204452_);
          } else {
-@@ -245,9 +_,9 @@
+@@ -235,19 +_,19 @@
+     }
+ 
+     public static short packOffsetCoordinates(BlockPos p_63281_) {
+-        int i = p_63281_.getX();
+-        int j = p_63281_.getY();
+-        int k = p_63281_.getZ();
+-        int l = i & 15;
+-        int i1 = j & 15;
+-        int j1 = k & 15;
++        me.alphamode.mcbig.math.BigInteger i = p_63281_.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = p_63281_.getBigY();
++        me.alphamode.mcbig.math.BigInteger k = p_63281_.getBigZ();
++        int l = i.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue();
++        int i1 = j.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue();
++        int j1 = k.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue();
+         return (short)(l | i1 << 4 | j1 << 8);
      }
  
      public static BlockPos unpackOffsetCoordinates(short p_63228_, int p_63229_, ChunkPos p_63230_) {

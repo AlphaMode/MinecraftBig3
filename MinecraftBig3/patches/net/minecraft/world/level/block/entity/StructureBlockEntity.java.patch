@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/level/block/entity/StructureBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/StructureBlockEntity.java
+@@ -259,18 +_,18 @@
+         } else {
+             BlockPos blockpos = this.getBlockPos();
+             int i = 80;
+-            BlockPos blockpos1 = new BlockPos(blockpos.getX() - 80, this.level.getMinBuildHeight(), blockpos.getZ() - 80);
+-            BlockPos blockpos2 = new BlockPos(blockpos.getX() + 80, this.level.getMaxBuildHeight() - 1, blockpos.getZ() + 80);
++            BlockPos blockpos1 = new BlockPos(blockpos.getBigX().subtract(80), this.level.getMinBuildHeight(), blockpos.getBigZ().subtract(80));
++            BlockPos blockpos2 = new BlockPos(blockpos.getBigX().add(80), this.level.getMaxBuildHeight() - 1, blockpos.getBigZ().add(80));
+             Stream<BlockPos> stream = this.getRelatedCorners(blockpos1, blockpos2);
+             return calculateEnclosingBoundingBox(blockpos, stream)
+                 .filter(
+                     p_155790_ -> {
+-                        int j = p_155790_.maxX() - p_155790_.minX();
+-                        int k = p_155790_.maxY() - p_155790_.minY();
+-                        int l = p_155790_.maxZ() - p_155790_.minZ();
++                        int j = p_155790_.maxX().subtract(p_155790_.minX()).intValue();
++                        int k = p_155790_.maxY().subtract(p_155790_.minY()).intValue();
++                        int l = p_155790_.maxZ().subtract(p_155790_.minZ()).intValue();
+                         if (j > 1 && k > 1 && l > 1) {
+                             this.structurePos = new BlockPos(
+-                                p_155790_.minX() - blockpos.getX() + 1, p_155790_.minY() - blockpos.getY() + 1, p_155790_.minZ() - blockpos.getZ() + 1
++                                p_155790_.minX().subtract(blockpos.getBigX()).add(), p_155790_.minY().subtract(blockpos.getBigY()).add(), p_155790_.minZ().subtract(blockpos.getBigZ()).add()
+                             );
+                             this.structureSize = new Vec3i(j - 1, k - 1, l - 1);
+                             this.setChanged();

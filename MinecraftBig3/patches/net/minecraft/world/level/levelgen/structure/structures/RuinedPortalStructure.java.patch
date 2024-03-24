@@ -1,0 +1,35 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure.java
+@@ -119,8 +_,8 @@
+             BoundingBox boundingbox = structuretemplate.getBoundingBox(blockpos1, rotation, blockpos, mirror);
+             BlockPos blockpos2 = boundingbox.getCenter();
+             int i = chunkgenerator.getBaseHeight(
+-                    blockpos2.getX(),
+-                    blockpos2.getZ(),
++                    blockpos2.getBigX(),
++                    blockpos2.getBigZ(),
+                     RuinedPortalPiece.getHeightMapType(ruinedportalstructure$setup3.placement()),
+                     levelheightaccessor,
+                     randomstate
+@@ -148,9 +_,9 @@
+                                 p_229285_.chunkGenerator()
+                                     .getBiomeSource()
+                                     .getNoiseBiome(
+-                                        QuartPos.fromBlock(blockpos3.getX()),
+-                                        QuartPos.fromBlock(blockpos3.getY()),
+-                                        QuartPos.fromBlock(blockpos3.getZ()),
++                                        QuartPos.fromBlock(blockpos3.getBigX()),
++                                        QuartPos.fromBlock(blockpos3.getBigY()),
++                                        QuartPos.fromBlock(blockpos3.getBigZ()),
+                                         randomstate.sampler()
+                                     )
+                             );
+@@ -229,7 +_,7 @@
+             new BlockPos(p_229273_.maxX(), 0, p_229273_.maxZ())
+         );
+         List<NoiseColumn> list = list1.stream()
+-            .map(p_229280_ -> p_229268_.getBaseColumn(p_229280_.getX(), p_229280_.getZ(), p_229274_, p_229275_))
++            .map(p_229280_ -> p_229268_.getBaseColumn(p_229280_.getBigX(), p_229280_.getBigZ(), p_229274_, p_229275_))
+             .collect(Collectors.toList());
+         Heightmap.Types heightmap$types = p_229269_ == RuinedPortalPiece.VerticalPlacement.ON_OCEAN_FLOOR
+             ? Heightmap.Types.OCEAN_FLOOR_WG

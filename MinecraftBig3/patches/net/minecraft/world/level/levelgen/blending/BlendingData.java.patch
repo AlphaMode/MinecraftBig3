@@ -25,3 +25,34 @@
              if (p_197066_.getChunk(i, j).isOldNoiseGeneration() == p_197069_) {
                  set.add(direction8);
              }
+@@ -180,7 +_,7 @@
+     private int getHeightAtXZ(ChunkAccess p_190311_, int p_190312_, int p_190313_) {
+         int i;
+         if (p_190311_.hasPrimedHeightmap(Heightmap.Types.WORLD_SURFACE_WG)) {
+-            i = Math.min(p_190311_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, p_190312_, p_190313_) + 1, this.areaWithOldGeneration.getMaxBuildHeight());
++            i = Math.min(p_190311_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, me.alphamode.mcbig.math.BigInteger.val(p_190312_), me.alphamode.mcbig.math.BigInteger.val(p_190313_)) + 1, this.areaWithOldGeneration.getMaxBuildHeight());
+         } else {
+             i = this.areaWithOldGeneration.getMaxBuildHeight();
+         }
+@@ -307,11 +_,11 @@
+         }
+     }
+ 
+-    protected void iterateHeights(int p_190296_, int p_190297_, BlendingData.HeightConsumer p_190298_) {
++    protected void iterateHeights(me.alphamode.mcbig.math.BigInteger p_190296_, me.alphamode.mcbig.math.BigInteger p_190297_, BlendingData.HeightConsumer p_190298_) {
+         for(int i = 0; i < this.heights.length; ++i) {
+             double d0 = this.heights[i];
+             if (d0 != Double.MAX_VALUE) {
+-                p_190298_.consume(p_190296_ + getX(i), p_190297_ + getZ(i), d0);
++                p_190298_.consume(p_190296_.add(getX(i)), p_190297_.add(getZ(i)), d0);
+             }
+         }
+     }
+@@ -397,6 +_,6 @@
+     }
+ 
+     protected interface HeightConsumer {
+-        void consume(int p_190367_, int p_190368_, double p_190369_);
++        void consume(me.alphamode.mcbig.math.BigInteger p_190367_, me.alphamode.mcbig.math.BigInteger p_190368_, double p_190369_);
+     }
+ }

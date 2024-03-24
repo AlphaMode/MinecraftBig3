@@ -1,0 +1,49 @@
+--- a/net/minecraft/client/renderer/chunk/RenderChunkRegion.java
++++ b/net/minecraft/client/renderer/chunk/RenderChunkRegion.java
+@@ -16,12 +_,12 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class RenderChunkRegion implements BlockAndTintGetter {
+-    private final int centerX;
+-    private final int centerZ;
++    private final me.alphamode.mcbig.math.BigInteger centerX;
++    private final me.alphamode.mcbig.math.BigInteger centerZ;
+     protected final RenderChunk[][] chunks;
+     protected final Level level;
+ 
+-    RenderChunkRegion(Level p_200456_, int p_200457_, int p_200458_, RenderChunk[][] p_200459_) {
++    RenderChunkRegion(Level p_200456_, me.alphamode.mcbig.math.BigInteger p_200457_, me.alphamode.mcbig.math.BigInteger p_200458_, RenderChunk[][] p_200459_) {
+         this.level = p_200456_;
+         this.centerX = p_200457_;
+         this.centerZ = p_200458_;
+@@ -30,15 +_,15 @@
+ 
+     @Override
+     public BlockState getBlockState(BlockPos p_112947_) {
+-        int i = SectionPos.blockToSectionCoord(p_112947_.getX()) - this.centerX;
+-        int j = SectionPos.blockToSectionCoord(p_112947_.getZ()) - this.centerZ;
++        int i = SectionPos.blockToSectionCoord(p_112947_.getBigX()).subtract(this.centerX).intValue();
++        int j = SectionPos.blockToSectionCoord(p_112947_.getBigZ()).subtract(this.centerZ).intValue();
+         return this.chunks[i][j].getBlockState(p_112947_);
+     }
+ 
+     @Override
+     public FluidState getFluidState(BlockPos p_112943_) {
+-        int i = SectionPos.blockToSectionCoord(p_112943_.getX()) - this.centerX;
+-        int j = SectionPos.blockToSectionCoord(p_112943_.getZ()) - this.centerZ;
++        int i = SectionPos.blockToSectionCoord(p_112943_.getBigX()).subtract(this.centerX).intValue();
++        int j = SectionPos.blockToSectionCoord(p_112943_.getBigZ()).subtract(this.centerZ).intValue();
+         return this.chunks[i][j].getBlockState(p_112943_).getFluidState();
+     }
+ 
+@@ -55,8 +_,8 @@
+     @Nullable
+     @Override
+     public BlockEntity getBlockEntity(BlockPos p_112945_) {
+-        int i = SectionPos.blockToSectionCoord(p_112945_.getX()) - this.centerX;
+-        int j = SectionPos.blockToSectionCoord(p_112945_.getZ()) - this.centerZ;
++        int i = SectionPos.blockToSectionCoord(p_112945_.getBigX()).subtract(this.centerX).intValue();
++        int j = SectionPos.blockToSectionCoord(p_112945_.getBigZ()).subtract(this.centerZ).intValue();
+         return this.chunks[i][j].getBlockEntity(p_112945_);
+     }
+ 

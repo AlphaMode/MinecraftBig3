@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/level/block/DoublePlantBlock.java
++++ b/net/minecraft/world/level/block/DoublePlantBlock.java
+@@ -125,6 +_,6 @@
+ 
+     @Override
+     public long getSeed(BlockState p_52891_, BlockPos p_52892_) {
+-        return Mth.getSeed(p_52892_.getX(), p_52892_.below(p_52891_.getValue(HALF) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), p_52892_.getZ());
++        return Mth.getSeed(p_52892_.getBigX(), p_52892_.below(p_52891_.getValue(HALF) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), p_52892_.getBigZ());
+     }
+ }

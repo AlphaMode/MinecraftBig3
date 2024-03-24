@@ -147,7 +147,12 @@
  
          while(!longset.isEmpty()) {
              this.permanentStorage.flush(false);
-@@ -297,10 +_,10 @@
+@@ -293,14 +_,14 @@
+     }
+ 
+     public boolean canPositionTick(BlockPos p_202168_) {
+-        return this.chunkVisibility.get(ChunkPos.asLong(p_202168_)).isTicking();
++        return this.chunkVisibility.get(new ChunkPos(p_202168_)).isTicking();
      }
  
      public boolean canPositionTick(ChunkPos p_202166_) {

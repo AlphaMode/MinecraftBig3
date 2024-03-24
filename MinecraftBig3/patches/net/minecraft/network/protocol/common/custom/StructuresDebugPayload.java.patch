@@ -1,0 +1,26 @@
+--- a/net/minecraft/network/protocol/common/custom/StructuresDebugPayload.java
++++ b/net/minecraft/network/protocol/common/custom/StructuresDebugPayload.java
+@@ -29,16 +_,16 @@
+     }
+ 
+     static BoundingBox readBoundingBox(FriendlyByteBuf p_294387_) {
+-        return new BoundingBox(p_294387_.readInt(), p_294387_.readInt(), p_294387_.readInt(), p_294387_.readInt(), p_294387_.readInt(), p_294387_.readInt());
++        return new BoundingBox(p_294387_.readBigInteger(), p_294387_.readBigInteger(), p_294387_.readBigInteger(), p_294387_.readBigInteger(), p_294387_.readBigInteger(), p_294387_.readBigInteger());
+     }
+ 
+     static void writeBoundingBox(FriendlyByteBuf p_296195_, BoundingBox p_294095_) {
+-        p_296195_.writeInt(p_294095_.minX());
+-        p_296195_.writeInt(p_294095_.minY());
+-        p_296195_.writeInt(p_294095_.minZ());
+-        p_296195_.writeInt(p_294095_.maxX());
+-        p_296195_.writeInt(p_294095_.maxY());
+-        p_296195_.writeInt(p_294095_.maxZ());
++        p_296195_.writeBigInteger(p_294095_.minX());
++        p_296195_.writeBigInteger(p_294095_.minY());
++        p_296195_.writeBigInteger(p_294095_.minZ());
++        p_296195_.writeBigInteger(p_294095_.maxX());
++        p_296195_.writeBigInteger(p_294095_.maxY());
++        p_296195_.writeBigInteger(p_294095_.maxZ());
+     }
+ 
+     public static record PieceInfo(BoundingBox boundingBox, boolean isStart) {

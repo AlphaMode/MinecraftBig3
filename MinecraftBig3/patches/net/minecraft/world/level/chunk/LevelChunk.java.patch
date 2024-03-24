@@ -1,5 +1,86 @@
 --- a/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/net/minecraft/world/level/chunk/LevelChunk.java
+@@ -174,9 +_,9 @@
+ 
+     @Override
+     public BlockState getBlockState(BlockPos p_62923_) {
+-        int i = p_62923_.getX();
++        me.alphamode.mcbig.math.BigInteger i = p_62923_.getBigX();
+         int j = p_62923_.getY();
+-        int k = p_62923_.getZ();
++        me.alphamode.mcbig.math.BigInteger k = p_62923_.getBigZ();
+         if (this.level.isDebug()) {
+             BlockState blockstate = null;
+             if (j == 60) {
+@@ -184,7 +_,7 @@
+             }
+ 
+             if (j == 70) {
+-                blockstate = DebugLevelSource.getBlockStateFor(i, k);
++                blockstate = DebugLevelSource.getBlockStateFor(i.intValue(), k.intValue());
+             }
+ 
+             return blockstate == null ? Blocks.AIR.defaultBlockState() : blockstate;
+@@ -194,7 +_,7 @@
+                 if (l >= 0 && l < this.sections.length) {
+                     LevelChunkSection levelchunksection = this.sections[l];
+                     if (!levelchunksection.hasOnlyAir()) {
+-                        return levelchunksection.getBlockState(i & 15, j & 15, k & 15);
++                        return levelchunksection.getBlockState(i.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), j & 15, k.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue());
+                     }
+                 }
+ 
+@@ -202,7 +_,7 @@
+             } catch (Throwable throwable) {
+                 CrashReport crashreport = CrashReport.forThrowable(throwable, "Getting block state");
+                 CrashReportCategory crashreportcategory = crashreport.addCategory("Block being got");
+-                crashreportcategory.setDetail("Location", () -> CrashReportCategory.formatLocation(this, i, j, k));
++                crashreportcategory.setDetail("Location", () -> CrashReportCategory.formatLocation(this, i.longValue(), j, k.longValue()));
+                 throw new ReportedException(crashreport);
+             }
+         }
+@@ -210,16 +_,16 @@
+ 
+     @Override
+     public FluidState getFluidState(BlockPos p_62895_) {
+-        return this.getFluidState(p_62895_.getX(), p_62895_.getY(), p_62895_.getZ());
++        return this.getFluidState(p_62895_.getBigX(), p_62895_.getBigY(), p_62895_.getBigZ());
+     }
+ 
+-    public FluidState getFluidState(int p_62815_, int p_62816_, int p_62817_) {
++    public FluidState getFluidState(me.alphamode.mcbig.math.BigInteger p_62815_, me.alphamode.mcbig.math.BigInteger p_62816_, me.alphamode.mcbig.math.BigInteger p_62817_) {
+         try {
+-            int i = this.getSectionIndex(p_62816_);
++            int i = this.getSectionIndex(p_62816_.intValue());
+             if (i >= 0 && i < this.sections.length) {
+                 LevelChunkSection levelchunksection = this.sections[i];
+                 if (!levelchunksection.hasOnlyAir()) {
+-                    return levelchunksection.getFluidState(p_62815_ & 15, p_62816_ & 15, p_62817_ & 15);
++                    return levelchunksection.getFluidState(p_62815_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), p_62816_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), p_62817_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue());
+                 }
+             }
+ 
+@@ -227,7 +_,7 @@
+         } catch (Throwable throwable) {
+             CrashReport crashreport = CrashReport.forThrowable(throwable, "Getting fluid state");
+             CrashReportCategory crashreportcategory = crashreport.addCategory("Block being got");
+-            crashreportcategory.setDetail("Location", () -> CrashReportCategory.formatLocation(this, p_62815_, p_62816_, p_62817_));
++            crashreportcategory.setDetail("Location", () -> CrashReportCategory.formatLocation(this, p_62815_.longValue(), p_62816_.longValue(), p_62817_.longValue()));
+             throw new ReportedException(crashreport);
+         }
+     }
+@@ -241,9 +_,9 @@
+         if (flag && p_62866_.isAir()) {
+             return null;
+         } else {
+-            int j = p_62865_.getX() & 15;
++            int j = p_62865_.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue();
+             int k = i & 15;
+-            int l = p_62865_.getZ() & 15;
++            int l = p_62865_.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue();
+             BlockState blockstate = levelchunksection.setBlockState(j, k, l, p_62866_);
+             if (blockstate == p_62866_) {
+                 return null;
 @@ -371,7 +_,7 @@
                  return true;
              } else {

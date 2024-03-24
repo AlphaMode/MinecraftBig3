@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/EnchantmentTableBlock.java
++++ b/net/minecraft/world/level/block/EnchantmentTableBlock.java
+@@ -35,7 +_,7 @@
+ public class EnchantmentTableBlock extends BaseEntityBlock {
+     public static final MapCodec<EnchantmentTableBlock> CODEC = simpleCodec(EnchantmentTableBlock::new);
+     protected static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0);
+-    public static final List<BlockPos> BOOKSHELF_OFFSETS = BlockPos.betweenClosedStream(-2, 0, -2, 2, 1, 2)
++    public static final List<BlockPos> BOOKSHELF_OFFSETS = BlockPos.betweenClosedStream(me.alphamode.mcbig.core.BigConstants.Ints.TWO.negate(), me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.core.BigConstants.Ints.TWO.negate(), me.alphamode.mcbig.core.BigConstants.Ints.TWO, me.alphamode.mcbig.math.BigInteger.ONE, me.alphamode.mcbig.core.BigConstants.Ints.TWO)
+         .filter(p_207914_ -> Math.abs(p_207914_.getX()) == 2 || Math.abs(p_207914_.getZ()) == 2)
+         .map(BlockPos::immutable)
+         .toList();

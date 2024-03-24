@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/placement/InSquarePlacement.java
++++ b/net/minecraft/world/level/levelgen/placement/InSquarePlacement.java
+@@ -15,8 +_,8 @@
+ 
+     @Override
+     public Stream<BlockPos> getPositions(PlacementContext p_226348_, RandomSource p_226349_, BlockPos p_226350_) {
+-        int i = p_226349_.nextInt(16) + p_226350_.getX();
+-        int j = p_226349_.nextInt(16) + p_226350_.getZ();
++        me.alphamode.mcbig.math.BigInteger i = p_226350_.getBigX().add(p_226349_.nextInt(16));
++        me.alphamode.mcbig.math.BigInteger j = p_226350_.getBigZ().add(p_226349_.nextInt(16));
+         return Stream.of(new BlockPos(i, p_226350_.getY(), j));
+     }
+ 

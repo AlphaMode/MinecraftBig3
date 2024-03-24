@@ -1,0 +1,37 @@
+--- a/net/minecraft/world/level/BlockGetter.java
++++ b/net/minecraft/world/level/BlockGetter.java
+@@ -121,9 +_,9 @@
+             double d3 = Mth.lerp(-1.0E-7, p_151362_.x, p_151363_.x);
+             double d4 = Mth.lerp(-1.0E-7, p_151362_.y, p_151363_.y);
+             double d5 = Mth.lerp(-1.0E-7, p_151362_.z, p_151363_.z);
+-            int i = Mth.floor(d3);
+-            int j = Mth.floor(d4);
+-            int k = Mth.floor(d5);
++            me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(d3);
++            me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(d4);
++            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(d5);
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i, j, k);
+             T t = p_151365_.apply(p_151364_, blockpos$mutableblockpos);
+             if (t != null) {
+@@ -145,17 +_,17 @@
+                 while(d12 <= 1.0 || d13 <= 1.0 || d14 <= 1.0) {
+                     if (d12 < d13) {
+                         if (d12 < d14) {
+-                            i += l;
++                            i = i.add(l);
+                             d12 += d9;
+                         } else {
+-                            k += j1;
++                            k = k.add(j1);
+                             d14 += d11;
+                         }
+                     } else if (d13 < d14) {
+-                        j += i1;
++                        j = j.add(i1);
+                         d13 += d10;
+                     } else {
+-                        k += j1;
++                        k = k.add(j1);
+                         d14 += d11;
+                     }
+ 

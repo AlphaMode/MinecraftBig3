@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/TemplateStructurePiece.java
++++ b/net/minecraft/world/level/levelgen/structure/TemplateStructurePiece.java
+@@ -126,7 +_,7 @@
+ 
+     @Deprecated
+     @Override
+-    public void move(int p_73668_, int p_73669_, int p_73670_) {
++    public void move(me.alphamode.mcbig.math.BigInteger p_73668_, me.alphamode.mcbig.math.BigInteger p_73669_, me.alphamode.mcbig.math.BigInteger p_73670_) {
+         super.move(p_73668_, p_73669_, p_73670_);
+         this.templatePosition = this.templatePosition.offset(p_73668_, p_73669_, p_73670_);
+     }

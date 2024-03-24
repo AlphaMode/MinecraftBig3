@@ -1,5 +1,14 @@
 --- a/net/minecraft/client/gui/components/DebugScreenOverlay.java
 +++ b/net/minecraft/client/gui/components/DebugScreenOverlay.java
+@@ -254,7 +_,7 @@
+                 "P: " + this.minecraft.particleEngine.countParticles() + ". T: " + this.minecraft.level.getEntityCount(),
+                 this.minecraft.level.gatherChunkSourceStats(),
+                 "",
+-                String.format(Locale.ROOT, "Chunk-relative: %d %d %d", blockpos.getX() & 15, blockpos.getY() & 15, blockpos.getZ() & 15)
++                String.format(Locale.ROOT, "Chunk-relative: %d %d %d", blockpos.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), blockpos.getBigY().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), blockpos.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue())
+             );
+         } else {
+             Entity entity = this.minecraft.getCameraEntity();
 @@ -274,7 +_,7 @@
              }
  
@@ -9,7 +18,27 @@
              List<String> list = Lists.newArrayList(
                  "Minecraft "
                      + SharedConstants.getCurrentVersion().getName()
-@@ -323,9 +_,9 @@
+@@ -310,22 +_,22 @@
+             list.add(
+                 String.format(
+                     Locale.ROOT,
+-                    "Block: %d %d %d [%d %d %d]",
+-                    blockpos.getX(),
+-                    blockpos.getY(),
+-                    blockpos.getZ(),
+-                    blockpos.getX() & 15,
+-                    blockpos.getY() & 15,
+-                    blockpos.getZ() & 15
++                    "Block: %s %s %s [%d %d %d]",
++                    blockpos.getBigX(),
++                    blockpos.getBigY(),
++                    blockpos.getBigZ(),
++                    blockpos.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(),
++                    blockpos.getBigY().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(),
++                    blockpos.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue()
+                 )
+             );
+             list.add(
                  String.format(
                      Locale.ROOT,
                      "Chunk: %d %d %d [%d %d in r.%d.%d.mca]",
@@ -21,6 +50,24 @@
                      chunkpos.getRegionLocalX(),
                      chunkpos.getRegionLocalZ(),
                      chunkpos.getRegionX(),
+@@ -353,7 +_,7 @@
+                         stringbuilder.append(" ")
+                             .append(HEIGHTMAP_NAMES.get(heightmap$types))
+                             .append(": ")
+-                            .append(levelchunk.getHeight(heightmap$types, blockpos.getX(), blockpos.getZ()));
++                            .append(levelchunk.getHeight(heightmap$types, blockpos.getBigX(), blockpos.getBigZ()));
+                     }
+                 }
+ 
+@@ -365,7 +_,7 @@
+                     if (heightmap$types1.keepAfterWorldgen()) {
+                         stringbuilder.append(" ").append(HEIGHTMAP_NAMES.get(heightmap$types1)).append(": ");
+                         if (levelchunk1 != null) {
+-                            stringbuilder.append(levelchunk1.getHeight(heightmap$types1, blockpos.getX(), blockpos.getZ()));
++                            stringbuilder.append(levelchunk1.getHeight(heightmap$types1, blockpos.getBigX(), blockpos.getBigZ()));
+                         } else {
+                             stringbuilder.append("??");
+                         }
 @@ -470,7 +_,7 @@
              }
  
@@ -39,3 +86,21 @@
          }
  
          return this.clientChunk;
+@@ -515,7 +_,7 @@
+                 BlockPos blockpos = ((BlockHitResult)this.block).getBlockPos();
+                 BlockState blockstate = this.minecraft.level.getBlockState(blockpos);
+                 list.add("");
+-                list.add(ChatFormatting.UNDERLINE + "Targeted Block: " + blockpos.getX() + ", " + blockpos.getY() + ", " + blockpos.getZ());
++                list.add(ChatFormatting.UNDERLINE + "Targeted Block: " + blockpos.getBigX() + ", " + blockpos.getBigY() + ", " + blockpos.getBigZ());
+                 list.add(String.valueOf(BuiltInRegistries.BLOCK.getKey(blockstate.getBlock())));
+ 
+                 for(Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
+@@ -529,7 +_,7 @@
+                 BlockPos blockpos1 = ((BlockHitResult)this.liquid).getBlockPos();
+                 FluidState fluidstate = this.minecraft.level.getFluidState(blockpos1);
+                 list.add("");
+-                list.add(ChatFormatting.UNDERLINE + "Targeted Fluid: " + blockpos1.getX() + ", " + blockpos1.getY() + ", " + blockpos1.getZ());
++                list.add(ChatFormatting.UNDERLINE + "Targeted Fluid: " + blockpos1.getBigX() + ", " + blockpos1.getBigY() + ", " + blockpos1.getBigZ());
+                 list.add(String.valueOf(BuiltInRegistries.FLUID.getKey(fluidstate.getType())));
+ 
+                 for(Entry<Property<?>, Comparable<?>> entry1 : fluidstate.getValues().entrySet()) {

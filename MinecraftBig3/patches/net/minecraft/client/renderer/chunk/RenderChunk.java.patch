@@ -1,0 +1,41 @@
+--- a/net/minecraft/client/renderer/chunk/RenderChunk.java
++++ b/net/minecraft/client/renderer/chunk/RenderChunk.java
+@@ -50,9 +_,9 @@
+     }
+ 
+     public BlockState getBlockState(BlockPos p_200454_) {
+-        int i = p_200454_.getX();
++        me.alphamode.mcbig.math.BigInteger i = p_200454_.getBigX();
+         int j = p_200454_.getY();
+-        int k = p_200454_.getZ();
++        me.alphamode.mcbig.math.BigInteger k = p_200454_.getBigZ();
+         if (this.debug) {
+             BlockState blockstate = null;
+             if (j == 60) {
+@@ -60,7 +_,7 @@
+             }
+ 
+             if (j == 70) {
+-                blockstate = DebugLevelSource.getBlockStateFor(i, k);
++                blockstate = DebugLevelSource.getBlockStateFor(i.intValue(), k.intValue());
+             }
+ 
+             return blockstate == null ? Blocks.AIR.defaultBlockState() : blockstate;
+@@ -72,7 +_,7 @@
+                 if (l >= 0 && l < this.sections.size()) {
+                     PalettedContainer<BlockState> palettedcontainer = this.sections.get(l);
+                     if (palettedcontainer != null) {
+-                        return palettedcontainer.get(i & 15, j & 15, k & 15);
++                        return palettedcontainer.get(i.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), j & 15, k.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue());
+                     }
+                 }
+ 
+@@ -80,7 +_,7 @@
+             } catch (Throwable throwable) {
+                 CrashReport crashreport = CrashReport.forThrowable(throwable, "Getting block state");
+                 CrashReportCategory crashreportcategory = crashreport.addCategory("Block being got");
+-                crashreportcategory.setDetail("Location", () -> CrashReportCategory.formatLocation(this.wrapped, i, j, k));
++                crashreportcategory.setDetail("Location", () -> CrashReportCategory.formatLocation(this.wrapped, i.longValue(), j, k.longValue()));
+                 throw new ReportedException(crashreport);
+             }
+         }

@@ -45,6 +45,22 @@
                  throw new ReportedException(crashreport);
              }
          }
+@@ -405,12 +_,12 @@
+ 
+     private static BoundingBox getWritableArea(ChunkAccess p_187718_) {
+         ChunkPos chunkpos = p_187718_.getPos();
+-        int i = chunkpos.getMinBlockX();
+-        int j = chunkpos.getMinBlockZ();
++        me.alphamode.mcbig.math.BigInteger i = chunkpos.getBigMinBlockX();
++        me.alphamode.mcbig.math.BigInteger j = chunkpos.getBigMinBlockZ();
+         LevelHeightAccessor levelheightaccessor = p_187718_.getHeightAccessorForGeneration();
+         int k = levelheightaccessor.getMinBuildHeight() + 1;
+         int l = levelheightaccessor.getMaxBuildHeight() - 1;
+-        return new BoundingBox(i, k, j, i + 15, l, j + 15);
++        return new BoundingBox(i, me.alphamode.mcbig.math.BigInteger.val(k), j, i.add(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN), me.alphamode.mcbig.math.BigInteger.val(l), j.add(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN));
+     }
+ 
+     public abstract void buildSurface(WorldGenRegion p_223050_, StructureManager p_223051_, RandomState p_223052_, ChunkAccess p_223053_);
 @@ -430,9 +_,9 @@
      public WeightedRandomList<MobSpawnSettings.SpawnerData> getMobsAt(
          Holder<Biome> p_223134_, StructureManager p_223135_, MobCategory p_223136_, BlockPos p_223137_
@@ -75,16 +91,18 @@
                              int i = 0;
          
                              for(StructureSet.StructureSelectionEntry structureset$structureselectionentry1 : arraylist) {
-@@ -562,15 +_,15 @@
+@@ -562,19 +_,19 @@
      public void createReferences(WorldGenLevel p_223077_, StructureManager p_223078_, ChunkAccess p_223079_) {
          int i = 8;
          ChunkPos chunkpos = p_223079_.getPos();
 -        int j = chunkpos.x;
 -        int k = chunkpos.z;
+-        int l = chunkpos.getMinBlockX();
+-        int i1 = chunkpos.getMinBlockZ();
 +        me.alphamode.mcbig.math.BigInteger j = chunkpos.x();
 +        me.alphamode.mcbig.math.BigInteger k = chunkpos.z();
-         int l = chunkpos.getMinBlockX();
-         int i1 = chunkpos.getMinBlockZ();
++        me.alphamode.mcbig.math.BigInteger l = chunkpos.getBigMinBlockX();
++        me.alphamode.mcbig.math.BigInteger i1 = chunkpos.getBigMinBlockZ();
          SectionPos sectionpos = SectionPos.bottomOf(p_223079_);
  
 -        for(int j1 = j - 8; j1 <= j + 8; ++j1) {
@@ -96,3 +114,30 @@
  
                  for(StructureStart structurestart : p_223077_.getChunk(j1, k1).getAllStarts().values()) {
                      try {
+-                        if (structurestart.isValid() && structurestart.getBoundingBox().intersects(l, i1, l + 15, i1 + 15)) {
++                        if (structurestart.isValid() && structurestart.getBoundingBox().intersects(l, i1, l.add(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN), i1.add(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN))) {
+                             p_223078_.addReferenceForStructure(sectionpos, structurestart.getStructure(), l1, p_223079_);
+                             DebugPackets.sendStructurePacket(p_223077_, structurestart);
+                         }
+@@ -602,15 +_,15 @@
+ 
+     public abstract int getMinY();
+ 
+-    public abstract int getBaseHeight(int p_223032_, int p_223033_, Heightmap.Types p_223034_, LevelHeightAccessor p_223035_, RandomState p_223036_);
+-
+-    public abstract NoiseColumn getBaseColumn(int p_223028_, int p_223029_, LevelHeightAccessor p_223030_, RandomState p_223031_);
+-
+-    public int getFirstFreeHeight(int p_223222_, int p_223223_, Heightmap.Types p_223224_, LevelHeightAccessor p_223225_, RandomState p_223226_) {
++    public abstract int getBaseHeight(me.alphamode.mcbig.math.BigInteger p_223032_, me.alphamode.mcbig.math.BigInteger p_223033_, Heightmap.Types p_223034_, LevelHeightAccessor p_223035_, RandomState p_223036_);
++
++    public abstract NoiseColumn getBaseColumn(me.alphamode.mcbig.math.BigInteger p_223028_, me.alphamode.mcbig.math.BigInteger p_223029_, LevelHeightAccessor p_223030_, RandomState p_223031_);
++
++    public int getFirstFreeHeight(me.alphamode.mcbig.math.BigInteger p_223222_, me.alphamode.mcbig.math.BigInteger p_223223_, Heightmap.Types p_223224_, LevelHeightAccessor p_223225_, RandomState p_223226_) {
+         return this.getBaseHeight(p_223222_, p_223223_, p_223224_, p_223225_, p_223226_);
+     }
+ 
+-    public int getFirstOccupiedHeight(int p_223236_, int p_223237_, Heightmap.Types p_223238_, LevelHeightAccessor p_223239_, RandomState p_223240_) {
++    public int getFirstOccupiedHeight(me.alphamode.mcbig.math.BigInteger p_223236_, me.alphamode.mcbig.math.BigInteger p_223237_, Heightmap.Types p_223238_, LevelHeightAccessor p_223239_, RandomState p_223240_) {
+         return this.getBaseHeight(p_223236_, p_223237_, p_223238_, p_223239_, p_223240_) - 1;
+     }
+ 

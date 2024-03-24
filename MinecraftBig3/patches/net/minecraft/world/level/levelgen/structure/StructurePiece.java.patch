@@ -1,0 +1,361 @@
+--- a/net/minecraft/world/level/levelgen/structure/StructurePiece.java
++++ b/net/minecraft/world/level/levelgen/structure/StructurePiece.java
+@@ -80,10 +_,10 @@
+         this.setOrientation(i == -1 ? null : Direction.from2DDataValue(i));
+     }
+ 
+-    protected static BoundingBox makeBoundingBox(int p_163542_, int p_163543_, int p_163544_, Direction p_163545_, int p_163546_, int p_163547_, int p_163548_) {
++    protected static BoundingBox makeBoundingBox(me.alphamode.mcbig.math.BigInteger p_163542_, int p_163543_, me.alphamode.mcbig.math.BigInteger p_163544_, Direction p_163545_, int p_163546_, int p_163547_, int p_163548_) {
+         return p_163545_.getAxis() == Direction.Axis.Z
+-            ? new BoundingBox(p_163542_, p_163543_, p_163544_, p_163542_ + p_163546_ - 1, p_163543_ + p_163547_ - 1, p_163544_ + p_163548_ - 1)
+-            : new BoundingBox(p_163542_, p_163543_, p_163544_, p_163542_ + p_163548_ - 1, p_163543_ + p_163547_ - 1, p_163544_ + p_163546_ - 1);
++            ? new BoundingBox(p_163542_, p_163543_, p_163544_, p_163542_.add(p_163546_).subtract(), p_163543_ + p_163547_ - 1, p_163544_.add(p_163548_).subtract())
++            : new BoundingBox(p_163542_, p_163543_, p_163544_, p_163542_.add(p_163548_).subtract(), p_163543_ + p_163547_ - 1, p_163544_.add(p_163546_).subtract());
+     }
+ 
+     protected static Direction getRandomHorizontalDirection(RandomSource p_226761_) {
+@@ -132,20 +_,30 @@
+     }
+ 
+     public boolean isCloseToChunk(ChunkPos p_73412_, int p_73413_) {
+-        int i = p_73412_.getMinBlockX();
+-        int j = p_73412_.getMinBlockZ();
+-        return this.boundingBox.intersects(i - p_73413_, j - p_73413_, i + 15 + p_73413_, j + 15 + p_73413_);
++        me.alphamode.mcbig.math.BigInteger i = p_73412_.getBigMinBlockX();
++        me.alphamode.mcbig.math.BigInteger j = p_73412_.getBigMinBlockZ();
++        return this.boundingBox.intersects(i.subtract(p_73413_), j.subtract(p_73413_), i.add(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).add(p_73413_), j.add(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).add(p_73413_));
+     }
+ 
+     public BlockPos getLocatorPosition() {
+         return new BlockPos(this.boundingBox.getCenter());
+     }
+ 
+-    protected BlockPos.MutableBlockPos getWorldPos(int p_163583_, int p_163584_, int p_163585_) {
++    protected BlockPos.MutableBlockPos getWorldPos(me.alphamode.mcbig.math.BigInteger p_163583_, me.alphamode.mcbig.math.BigInteger p_163584_, me.alphamode.mcbig.math.BigInteger p_163585_) {
+         return new BlockPos.MutableBlockPos(this.getWorldX(p_163583_, p_163585_), this.getWorldY(p_163584_), this.getWorldZ(p_163583_, p_163585_));
+     }
+ 
+-    protected int getWorldX(int p_73393_, int p_73394_) {
++    protected BlockPos.MutableBlockPos getWorldPos(int p_163583_, int p_163584_, int p_163585_) {
++        me.alphamode.mcbig.math.BigInteger x = me.alphamode.mcbig.math.BigInteger.val(p_163583_);
++        me.alphamode.mcbig.math.BigInteger z = me.alphamode.mcbig.math.BigInteger.val(p_163585_);
++        return new BlockPos.MutableBlockPos(this.getWorldX(x, z), this.getWorldY(me.alphamode.mcbig.math.BigInteger.val(p_163584_)), this.getWorldZ(x, z));
++    }
++
++    protected me.alphamode.mcbig.math.BigInteger getWorldX(int p_73393_, int p_73394_) {
++        return getWorldX(me.alphamode.mcbig.math.BigInteger.val(p_73393_), me.alphamode.mcbig.math.BigInteger.val(p_73394_));
++    }
++
++    protected me.alphamode.mcbig.math.BigInteger getWorldX(me.alphamode.mcbig.math.BigInteger p_73393_, me.alphamode.mcbig.math.BigInteger p_73394_) {
+         Direction direction = this.getOrientation();
+         if (direction == null) {
+             return p_73393_;
+@@ -153,34 +_,38 @@
+             switch(direction) {
+                 case NORTH:
+                 case SOUTH:
+-                    return this.boundingBox.minX() + p_73393_;
++                    return this.boundingBox.minX().add(p_73393_);
+                 case WEST:
+-                    return this.boundingBox.maxX() - p_73394_;
++                    return this.boundingBox.maxX().subtract(p_73394_);
+                 case EAST:
+-                    return this.boundingBox.minX() + p_73394_;
++                    return this.boundingBox.minX().add(p_73394_);
+                 default:
+                     return p_73393_;
+             }
+         }
+     }
+ 
+-    protected int getWorldY(int p_73545_) {
+-        return this.getOrientation() == null ? p_73545_ : p_73545_ + this.boundingBox.minY();
+-    }
+-
+-    protected int getWorldZ(int p_73526_, int p_73527_) {
++    protected me.alphamode.mcbig.math.BigInteger getWorldY(me.alphamode.mcbig.math.BigInteger p_73545_) {
++        return this.getOrientation() == null ? p_73545_ : p_73545_.add(this.boundingBox.minY());
++    }
++
++    protected me.alphamode.mcbig.math.BigInteger getWorldZ(int p_73526_, int p_73527_) {
++        return getWorldZ(me.alphamode.mcbig.math.BigInteger.val(p_73526_), me.alphamode.mcbig.math.BigInteger.val(p_73527_));
++    }
++
++    protected me.alphamode.mcbig.math.BigInteger getWorldZ(me.alphamode.mcbig.math.BigInteger p_73526_, me.alphamode.mcbig.math.BigInteger p_73527_) {
+         Direction direction = this.getOrientation();
+         if (direction == null) {
+             return p_73527_;
+         } else {
+             switch(direction) {
+                 case NORTH:
+-                    return this.boundingBox.maxZ() - p_73527_;
++                    return this.boundingBox.maxZ().subtract(p_73527_);
+                 case SOUTH:
+-                    return this.boundingBox.minZ() + p_73527_;
++                    return this.boundingBox.minZ().add(p_73527_);
+                 case WEST:
+                 case EAST:
+-                    return this.boundingBox.minZ() + p_73526_;
++                    return this.boundingBox.minZ().add(p_73526_);
+                 default:
+                     return p_73527_;
+             }
+@@ -188,6 +_,10 @@
+     }
+ 
+     protected void placeBlock(WorldGenLevel p_73435_, BlockState p_73436_, int p_73437_, int p_73438_, int p_73439_, BoundingBox p_73440_) {
++        placeBlock(p_73435_, p_73436_, me.alphamode.mcbig.math.BigInteger.val(p_73437_), me.alphamode.mcbig.math.BigInteger.val(p_73438_), me.alphamode.mcbig.math.BigInteger.val(p_73439_), p_73440_);
++    }
++
++    protected void placeBlock(WorldGenLevel p_73435_, BlockState p_73436_, me.alphamode.mcbig.math.BigInteger p_73437_, me.alphamode.mcbig.math.BigInteger p_73438_, me.alphamode.mcbig.math.BigInteger p_73439_, BoundingBox p_73440_) {
+         BlockPos blockpos = this.getWorldPos(p_73437_, p_73438_, p_73439_);
+         if (p_73440_.isInside(blockpos)) {
+             if (this.canBeReplaced(p_73435_, p_73437_, p_73438_, p_73439_, p_73440_)) {
+@@ -212,21 +_,30 @@
+         }
+     }
+ 
+-    protected boolean canBeReplaced(LevelReader p_163553_, int p_163554_, int p_163555_, int p_163556_, BoundingBox p_163557_) {
++    protected boolean canBeReplaced(LevelReader p_163553_, me.alphamode.mcbig.math.BigInteger p_163554_, me.alphamode.mcbig.math.BigInteger p_163555_, me.alphamode.mcbig.math.BigInteger p_163556_, BoundingBox p_163557_) {
+         return true;
+     }
+ 
++    protected BlockState getBlock(BlockGetter p_73399_, me.alphamode.mcbig.math.BigInteger p_73400_, me.alphamode.mcbig.math.BigInteger p_73401_, me.alphamode.mcbig.math.BigInteger p_73402_, BoundingBox p_73403_) {
++        BlockPos blockpos = this.getWorldPos(p_73400_, p_73401_, p_73402_);
++        return !p_73403_.isInside(blockpos) ? Blocks.AIR.defaultBlockState() : p_73399_.getBlockState(blockpos);
++    }
++
+     protected BlockState getBlock(BlockGetter p_73399_, int p_73400_, int p_73401_, int p_73402_, BoundingBox p_73403_) {
+         BlockPos blockpos = this.getWorldPos(p_73400_, p_73401_, p_73402_);
+         return !p_73403_.isInside(blockpos) ? Blocks.AIR.defaultBlockState() : p_73399_.getBlockState(blockpos);
+     }
+ 
+     protected boolean isInterior(LevelReader p_73415_, int p_73416_, int p_73417_, int p_73418_, BoundingBox p_73419_) {
+-        BlockPos blockpos = this.getWorldPos(p_73416_, p_73417_ + 1, p_73418_);
++        return isInterior(p_73415_, me.alphamode.mcbig.math.BigInteger.val(p_73416_), me.alphamode.mcbig.math.BigInteger.val(p_73417_), me.alphamode.mcbig.math.BigInteger.val(p_73418_), p_73419_);
++    }
++
++    protected boolean isInterior(LevelReader p_73415_, me.alphamode.mcbig.math.BigInteger p_73416_, me.alphamode.mcbig.math.BigInteger p_73417_, me.alphamode.mcbig.math.BigInteger p_73418_, BoundingBox p_73419_) {
++        BlockPos blockpos = this.getWorldPos(p_73416_, p_73417_.add(), p_73418_);
+         if (!p_73419_.isInside(blockpos)) {
+             return false;
+         } else {
+-            return blockpos.getY() < p_73415_.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos.getX(), blockpos.getZ());
++            return blockpos.getY() < p_73415_.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos.getBigX(), blockpos.getBigZ());
+         }
+     }
+ 
+@@ -236,30 +_,50 @@
+         for(int i = p_73539_; i <= p_73542_; ++i) {
+             for(int j = p_73538_; j <= p_73541_; ++j) {
+                 for(int k = p_73540_; k <= p_73543_; ++k) {
+-                    this.placeBlock(p_73536_, Blocks.AIR.defaultBlockState(), j, i, k, p_73537_);
++                    this.placeBlock(p_73536_, Blocks.AIR.defaultBlockState(), me.alphamode.mcbig.math.BigInteger.val(j), me.alphamode.mcbig.math.BigInteger.val(i), me.alphamode.mcbig.math.BigInteger.val(k), p_73537_);
+                 }
+             }
+         }
++    }
++
++    protected void generateBox(
++            WorldGenLevel p_73442_,
++            BoundingBox p_73443_,
++            int p_73444_,
++            int p_73445_,
++            int p_73446_,
++            int p_73447_,
++            int p_73448_,
++            int p_73449_,
++            BlockState p_73450_,
++            BlockState p_73451_,
++            boolean p_73452_
++    ) {
++        generateBox(p_73442_, p_73443_,
++                me.alphamode.mcbig.math.BigInteger.val(p_73444_), me.alphamode.mcbig.math.BigInteger.val(p_73445_), me.alphamode.mcbig.math.BigInteger.val(p_73446_),
++                me.alphamode.mcbig.math.BigInteger.val(p_73447_), me.alphamode.mcbig.math.BigInteger.val(p_73448_), me.alphamode.mcbig.math.BigInteger.val(p_73449_),
++                p_73450_, p_73451_, p_73452_
++        );
+     }
+ 
+     protected void generateBox(
+         WorldGenLevel p_73442_,
+         BoundingBox p_73443_,
+-        int p_73444_,
+-        int p_73445_,
+-        int p_73446_,
+-        int p_73447_,
+-        int p_73448_,
+-        int p_73449_,
++        me.alphamode.mcbig.math.BigInteger p_73444_,
++        me.alphamode.mcbig.math.BigInteger p_73445_,
++        me.alphamode.mcbig.math.BigInteger p_73446_,
++        me.alphamode.mcbig.math.BigInteger p_73447_,
++        me.alphamode.mcbig.math.BigInteger p_73448_,
++        me.alphamode.mcbig.math.BigInteger p_73449_,
+         BlockState p_73450_,
+         BlockState p_73451_,
+         boolean p_73452_
+     ) {
+-        for(int i = p_73445_; i <= p_73448_; ++i) {
+-            for(int j = p_73444_; j <= p_73447_; ++j) {
+-                for(int k = p_73446_; k <= p_73449_; ++k) {
++        for(me.alphamode.mcbig.math.BigInteger i = p_73445_; i.compareTo(p_73448_) <= 0; i = i.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j = p_73444_; j.compareTo(p_73447_) <= 0; j = j.add()) {
++                for(me.alphamode.mcbig.math.BigInteger k = p_73446_; k.compareTo(p_73449_) <= 0; k = k.add()) {
+                     if (!p_73452_ || !this.getBlock(p_73442_, j, i, k, p_73443_).isAir()) {
+-                        if (i != p_73445_ && i != p_73448_ && j != p_73444_ && j != p_73447_ && k != p_73446_ && k != p_73449_) {
++                        if (!java.util.Objects.equals(i, p_73445_) && !java.util.Objects.equals(i, p_73448_) && !java.util.Objects.equals(j, p_73444_) && !java.util.Objects.equals(j, p_73447_) && !java.util.Objects.equals(k, p_73446_) && !java.util.Objects.equals(k, p_73449_)) {
+                             this.placeBlock(p_73442_, p_73451_, j, i, k, p_73443_);
+                         } else {
+                             this.placeBlock(p_73442_, p_73450_, j, i, k, p_73443_);
+@@ -304,11 +_,11 @@
+         for(int i = p_226780_; i <= p_226783_; ++i) {
+             for(int j = p_226779_; j <= p_226782_; ++j) {
+                 for(int k = p_226781_; k <= p_226784_; ++k) {
+-                    if (!p_226785_ || !this.getBlock(p_226777_, j, i, k, p_226778_).isAir()) {
++                    if (!p_226785_ || !this.getBlock(p_226777_, me.alphamode.mcbig.math.BigInteger.val(j), me.alphamode.mcbig.math.BigInteger.val(i), me.alphamode.mcbig.math.BigInteger.val(k), p_226778_).isAir()) {
+                         p_226787_.next(
+                             p_226786_, j, i, k, i == p_226780_ || i == p_226783_ || j == p_226779_ || j == p_226782_ || k == p_226781_ || k == p_226784_
+                         );
+-                        this.placeBlock(p_226777_, p_226787_.getNext(), j, i, k, p_226778_);
++                        this.placeBlock(p_226777_, p_226787_.getNext(), me.alphamode.mcbig.math.BigInteger.val(j), me.alphamode.mcbig.math.BigInteger.val(i), me.alphamode.mcbig.math.BigInteger.val(k), p_226778_);
+                     }
+                 }
+             }
+@@ -326,12 +_,12 @@
+         this.generateBox(
+             p_226829_,
+             p_226830_,
+-            p_226831_.minX(),
+-            p_226831_.minY(),
+-            p_226831_.minZ(),
+-            p_226831_.maxX(),
+-            p_226831_.maxY(),
+-            p_226831_.maxZ(),
++            p_226831_.minX().intValue(),
++            p_226831_.minY().intValue(),
++            p_226831_.minZ().intValue(),
++            p_226831_.maxX().intValue(),
++            p_226831_.maxY().intValue(),
++            p_226831_.maxZ().intValue(),
+             p_226832_,
+             p_226833_,
+             p_226834_
+@@ -357,13 +_,16 @@
+         for(int i = p_226794_; i <= p_226797_; ++i) {
+             for(int j = p_226793_; j <= p_226796_; ++j) {
+                 for(int k = p_226795_; k <= p_226798_; ++k) {
++                    me.alphamode.mcbig.math.BigInteger x = me.alphamode.mcbig.math.BigInteger.val(j);
++                    me.alphamode.mcbig.math.BigInteger y = me.alphamode.mcbig.math.BigInteger.val(i);
++                    me.alphamode.mcbig.math.BigInteger z = me.alphamode.mcbig.math.BigInteger.val(k);
+                     if (!(p_226791_.nextFloat() > p_226792_)
+-                        && (!p_226801_ || !this.getBlock(p_226789_, j, i, k, p_226790_).isAir())
+-                        && (!p_226802_ || this.isInterior(p_226789_, j, i, k, p_226790_))) {
++                        && (!p_226801_ || !this.getBlock(p_226789_, x, y, z, p_226790_).isAir())
++                        && (!p_226802_ || this.isInterior(p_226789_, x, y, z, p_226790_))) {
+                         if (i != p_226794_ && i != p_226797_ && j != p_226793_ && j != p_226796_ && k != p_226795_ && k != p_226798_) {
+-                            this.placeBlock(p_226789_, p_226800_, j, i, k, p_226790_);
++                            this.placeBlock(p_226789_, p_226800_, x, y, z, p_226790_);
+                         } else {
+-                            this.placeBlock(p_226789_, p_226799_, j, i, k, p_226790_);
++                            this.placeBlock(p_226789_, p_226799_, x, y, z, p_226790_);
+                         }
+                     }
+                 }
+@@ -382,36 +_,36 @@
+         BlockState p_226811_
+     ) {
+         if (p_226806_.nextFloat() < p_226807_) {
+-            this.placeBlock(p_226804_, p_226811_, p_226808_, p_226809_, p_226810_, p_226805_);
++            this.placeBlock(p_226804_, p_226811_, me.alphamode.mcbig.math.BigInteger.val(p_226808_), me.alphamode.mcbig.math.BigInteger.val(p_226809_), me.alphamode.mcbig.math.BigInteger.val(p_226810_), p_226805_);
+         }
+     }
+ 
+     protected void generateUpperHalfSphere(
+         WorldGenLevel p_73454_,
+         BoundingBox p_73455_,
+-        int p_73456_,
+-        int p_73457_,
+-        int p_73458_,
+-        int p_73459_,
+-        int p_73460_,
+-        int p_73461_,
++        me.alphamode.mcbig.math.BigInteger p_73456_,
++        me.alphamode.mcbig.math.BigInteger p_73457_,
++        me.alphamode.mcbig.math.BigInteger p_73458_,
++        me.alphamode.mcbig.math.BigInteger p_73459_,
++        me.alphamode.mcbig.math.BigInteger p_73460_,
++        me.alphamode.mcbig.math.BigInteger p_73461_,
+         BlockState p_73462_,
+         boolean p_73463_
+     ) {
+-        float f = (float)(p_73459_ - p_73456_ + 1);
+-        float f1 = (float)(p_73460_ - p_73457_ + 1);
+-        float f2 = (float)(p_73461_ - p_73458_ + 1);
+-        float f3 = (float)p_73456_ + f / 2.0F;
+-        float f4 = (float)p_73458_ + f2 / 2.0F;
+-
+-        for(int i = p_73457_; i <= p_73460_; ++i) {
+-            float f5 = (float)(i - p_73457_) / f1;
+-
+-            for(int j = p_73456_; j <= p_73459_; ++j) {
+-                float f6 = ((float)j - f3) / (f * 0.5F);
+-
+-                for(int k = p_73458_; k <= p_73461_; ++k) {
+-                    float f7 = ((float)k - f4) / (f2 * 0.5F);
++        float f = (float)(p_73459_.subtract(p_73456_).intValue() + 1);
++        float f1 = (float)(p_73460_.subtract(p_73457_).intValue() + 1);
++        float f2 = (float)(p_73461_.subtract(p_73458_).intValue() + 1);
++        float f3 = (float)p_73456_.intValue() + f / 2.0F;
++        float f4 = (float)p_73458_.intValue() + f2 / 2.0F;
++
++        for(me.alphamode.mcbig.math.BigInteger i = p_73457_; i.compareTo(p_73460_) <= 0; i = i.add()) {
++            float f5 = (float)(i.subtract(p_73457_).floatValue()) / f1;
++
++            for(me.alphamode.mcbig.math.BigInteger j = p_73456_; j.compareTo(p_73459_) <= 0; j = j.add()) {
++                float f6 = ((float)j.floatValue() - f3) / (f * 0.5F);
++
++                for(me.alphamode.mcbig.math.BigInteger k = p_73458_; k.compareTo(p_73461_) <= 0; k = k.add()) {
++                    float f7 = ((float)k.floatValue() - f4) / (f2 * 0.5F);
+                     if (!p_73463_ || !this.getBlock(p_73454_, j, i, k, p_73455_).isAir()) {
+                         float f8 = f6 * f6 + f5 * f5 + f7 * f7;
+                         if (f8 <= 1.05F) {
+@@ -424,7 +_,7 @@
+     }
+ 
+     protected void fillColumnDown(WorldGenLevel p_73529_, BlockState p_73530_, int p_73531_, int p_73532_, int p_73533_, BoundingBox p_73534_) {
+-        BlockPos.MutableBlockPos blockpos$mutableblockpos = this.getWorldPos(p_73531_, p_73532_, p_73533_);
++        BlockPos.MutableBlockPos blockpos$mutableblockpos = this.getWorldPos(me.alphamode.mcbig.math.BigInteger.val(p_73531_), me.alphamode.mcbig.math.BigInteger.val(p_73532_), me.alphamode.mcbig.math.BigInteger.val(p_73533_));
+         if (p_73534_.isInside(blockpos$mutableblockpos)) {
+             while(
+                 this.isReplaceableByStructures(p_73529_.getBlockState(blockpos$mutableblockpos))
+@@ -447,7 +_,7 @@
+     protected boolean createChest(
+         WorldGenLevel p_226812_, BoundingBox p_226813_, RandomSource p_226814_, int p_226815_, int p_226816_, int p_226817_, ResourceLocation p_226818_
+     ) {
+-        return this.createChest(p_226812_, p_226813_, p_226814_, this.getWorldPos(p_226815_, p_226816_, p_226817_), p_226818_, null);
++        return this.createChest(p_226812_, p_226813_, p_226814_, this.getWorldPos(me.alphamode.mcbig.math.BigInteger.val(p_226815_), me.alphamode.mcbig.math.BigInteger.val(p_226816_), me.alphamode.mcbig.math.BigInteger.val(p_226817_)), p_226818_, null);
+     }
+ 
+     public static BlockState reorient(BlockGetter p_73408_, BlockPos p_73409_, BlockState p_73410_) {
+@@ -529,10 +_,10 @@
+         Direction p_226826_,
+         ResourceLocation p_226827_
+     ) {
+-        BlockPos blockpos = this.getWorldPos(p_226823_, p_226824_, p_226825_);
++        BlockPos blockpos = this.getWorldPos(me.alphamode.mcbig.math.BigInteger.val(p_226823_), me.alphamode.mcbig.math.BigInteger.val(p_226824_), me.alphamode.mcbig.math.BigInteger.val(p_226825_));
+         if (p_226821_.isInside(blockpos) && !p_226820_.getBlockState(blockpos).is(Blocks.DISPENSER)) {
+             this.placeBlock(
+-                p_226820_, Blocks.DISPENSER.defaultBlockState().setValue(DispenserBlock.FACING, p_226826_), p_226823_, p_226824_, p_226825_, p_226821_
++                p_226820_, Blocks.DISPENSER.defaultBlockState().setValue(DispenserBlock.FACING, p_226826_), me.alphamode.mcbig.math.BigInteger.val(p_226823_), me.alphamode.mcbig.math.BigInteger.val(p_226824_), me.alphamode.mcbig.math.BigInteger.val(p_226825_), p_226821_
+             );
+             BlockEntity blockentity = p_226820_.getBlockEntity(blockpos);
+             if (blockentity instanceof DispenserBlockEntity) {
+@@ -545,7 +_,7 @@
+         }
+     }
+ 
+-    public void move(int p_73395_, int p_73396_, int p_73397_) {
++    public void move(me.alphamode.mcbig.math.BigInteger p_73395_, me.alphamode.mcbig.math.BigInteger p_73396_, me.alphamode.mcbig.math.BigInteger p_73397_) {
+         this.boundingBox.move(p_73395_, p_73396_, p_73397_);
+     }
+ 

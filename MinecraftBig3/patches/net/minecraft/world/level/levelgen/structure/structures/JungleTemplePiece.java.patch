@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/JungleTemplePiece.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/JungleTemplePiece.java
+@@ -36,7 +_,7 @@
+     private boolean placedTrap2;
+     private static final JungleTemplePiece.MossStoneSelector STONE_SELECTOR = new JungleTemplePiece.MossStoneSelector();
+ 
+-    public JungleTemplePiece(RandomSource p_227668_, int p_227669_, int p_227670_) {
++    public JungleTemplePiece(RandomSource p_227668_, me.alphamode.mcbig.math.BigInteger p_227669_, me.alphamode.mcbig.math.BigInteger p_227670_) {
+         super(StructurePieceType.JUNGLE_PYRAMID_PIECE, p_227669_, 64, p_227670_, 12, 10, 15, getRandomHorizontalDirection(p_227668_));
+     }
+ 

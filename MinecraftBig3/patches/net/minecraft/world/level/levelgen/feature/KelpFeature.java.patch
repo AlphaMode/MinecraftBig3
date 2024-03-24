@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/feature/KelpFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/KelpFeature.java
+@@ -21,8 +_,8 @@
+         WorldGenLevel worldgenlevel = p_159956_.level();
+         BlockPos blockpos = p_159956_.origin();
+         RandomSource randomsource = p_159956_.random();
+-        int j = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX(), blockpos.getZ());
+-        BlockPos blockpos1 = new BlockPos(blockpos.getX(), j, blockpos.getZ());
++        int j = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getBigX(), blockpos.getBigZ());
++        BlockPos blockpos1 = new BlockPos(blockpos.getBigX(), j, blockpos.getBigZ());
+         if (worldgenlevel.getBlockState(blockpos1).is(Blocks.WATER)) {
+             BlockState blockstate = Blocks.KELP.defaultBlockState();
+             BlockState blockstate1 = Blocks.KELP_PLANT.defaultBlockState();

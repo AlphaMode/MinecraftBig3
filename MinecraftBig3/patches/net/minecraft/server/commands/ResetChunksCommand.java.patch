@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/ResetChunksCommand.java
 +++ b/net/minecraft/server/commands/ResetChunksCommand.java
-@@ -61,13 +_,13 @@
+@@ -61,23 +_,23 @@
          serverchunkcache.chunkMap.debugReloadGenerator();
          Vec3 vec3 = p_183685_.getPosition();
          ChunkPos chunkpos = new ChunkPos(BlockPos.containing(vec3));
@@ -20,6 +20,22 @@
                  ChunkPos chunkpos1 = new ChunkPos(j1, i1);
                  LevelChunk levelchunk = serverchunkcache.getChunk(j1, i1, false);
                  if (levelchunk != null && (!p_183687_ || !levelchunk.isOldNoiseGeneration())) {
+                     for(BlockPos blockpos : BlockPos.betweenClosed(
+-                        chunkpos1.getMinBlockX(),
+-                        serverlevel.getMinBuildHeight(),
+-                        chunkpos1.getMinBlockZ(),
+-                        chunkpos1.getMaxBlockX(),
+-                        serverlevel.getMaxBuildHeight() - 1,
+-                        chunkpos1.getMaxBlockZ()
++                        chunkpos1.getBigMinBlockX(),
++                        me.alphamode.mcbig.math.BigInteger.val(serverlevel.getMinBuildHeight()),
++                        chunkpos1.getBigMinBlockZ(),
++                        chunkpos1.getBigMaxBlockX(),
++                        me.alphamode.mcbig.math.BigInteger.val(serverlevel.getMaxBuildHeight() - 1),
++                        chunkpos1.getBigMaxBlockZ()
+                     )) {
+                         serverlevel.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 16);
+                     }
 @@ -95,16 +_,16 @@
              long k1 = System.currentTimeMillis();
              CompletableFuture<Unit> completablefuture = CompletableFuture.supplyAsync(() -> Unit.INSTANCE, processormailbox::tell);
@@ -41,7 +57,7 @@
                                  ChunkAccess chunkaccess = serverchunkcache.getChunk(i3, l2, chunkstatus.getParent(), true);
                                  ChunkAccess chunkaccess1;
                                  if (chunkaccess instanceof ImposterProtoChunk) {
-@@ -150,8 +_,8 @@
+@@ -150,18 +_,18 @@
  
          long l3 = System.currentTimeMillis();
  
@@ -52,3 +68,19 @@
                  ChunkPos chunkpos3 = new ChunkPos(l1, i4);
                  LevelChunk levelchunk2 = serverchunkcache.getChunk(l1, i4, false);
                  if (levelchunk2 != null && (!p_183687_ || !levelchunk2.isOldNoiseGeneration())) {
+                     for(BlockPos blockpos1 : BlockPos.betweenClosed(
+-                        chunkpos3.getMinBlockX(),
+-                        serverlevel.getMinBuildHeight(),
+-                        chunkpos3.getMinBlockZ(),
+-                        chunkpos3.getMaxBlockX(),
+-                        serverlevel.getMaxBuildHeight() - 1,
+-                        chunkpos3.getMaxBlockZ()
++                        chunkpos3.getBigMinBlockX(),
++                        me.alphamode.mcbig.math.BigInteger.val(serverlevel.getMinBuildHeight()),
++                        chunkpos3.getBigMinBlockZ(),
++                        chunkpos3.getBigMaxBlockX(),
++                        me.alphamode.mcbig.math.BigInteger.val(serverlevel.getMaxBuildHeight() - 1),
++                        chunkpos3.getBigMaxBlockZ()
+                     )) {
+                         serverchunkcache.blockChanged(blockpos1);
+                     }

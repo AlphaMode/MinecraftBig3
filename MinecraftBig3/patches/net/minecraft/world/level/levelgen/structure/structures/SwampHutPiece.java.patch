@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/SwampHutPiece.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/SwampHutPiece.java
+@@ -26,7 +_,7 @@
+     private boolean spawnedWitch;
+     private boolean spawnedCat;
+ 
+-    public SwampHutPiece(RandomSource p_229952_, int p_229953_, int p_229954_) {
++    public SwampHutPiece(RandomSource p_229952_, me.alphamode.mcbig.math.BigInteger p_229953_, me.alphamode.mcbig.math.BigInteger p_229954_) {
+         super(StructurePieceType.SWAMPLAND_HUT, p_229953_, 64, p_229954_, 7, 7, 9, getRandomHorizontalDirection(p_229952_));
+     }
+ 

@@ -18,3 +18,18 @@
                  p_223983_.setBlock(blockpos$mutableblockpos.set(i1, 60, j1), BARRIER, 2);
                  BlockState blockstate = getBlockStateFor(i1, j1);
                  p_223983_.setBlock(blockpos$mutableblockpos.set(i1, 70, j1), blockstate, 2);
+@@ -85,12 +_,12 @@
+     }
+ 
+     @Override
+-    public int getBaseHeight(int p_223964_, int p_223965_, Heightmap.Types p_223966_, LevelHeightAccessor p_223967_, RandomState p_223968_) {
++    public int getBaseHeight(me.alphamode.mcbig.math.BigInteger p_223964_, me.alphamode.mcbig.math.BigInteger p_223965_, Heightmap.Types p_223966_, LevelHeightAccessor p_223967_, RandomState p_223968_) {
+         return 0;
+     }
+ 
+     @Override
+-    public NoiseColumn getBaseColumn(int p_223959_, int p_223960_, LevelHeightAccessor p_223961_, RandomState p_223962_) {
++    public NoiseColumn getBaseColumn(me.alphamode.mcbig.math.BigInteger p_223959_, me.alphamode.mcbig.math.BigInteger p_223960_, LevelHeightAccessor p_223961_, RandomState p_223962_) {
+         return new NoiseColumn(0, new BlockState[0]);
+     }
+ 

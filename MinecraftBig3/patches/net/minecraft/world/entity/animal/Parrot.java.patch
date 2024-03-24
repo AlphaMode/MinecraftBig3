@@ -1,0 +1,21 @@
+--- a/net/minecraft/world/entity/animal/Parrot.java
++++ b/net/minecraft/world/entity/animal/Parrot.java
+@@ -486,12 +_,12 @@
+             BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
+ 
+             for(BlockPos blockpos1 : BlockPos.betweenClosed(
+-                Mth.floor(this.mob.getX() - 3.0),
+-                Mth.floor(this.mob.getY() - 6.0),
+-                Mth.floor(this.mob.getZ() - 3.0),
+-                Mth.floor(this.mob.getX() + 3.0),
+-                Mth.floor(this.mob.getY() + 6.0),
+-                Mth.floor(this.mob.getZ() + 3.0)
++                Mth.bigFloor(this.mob.getX() - 3.0),
++                Mth.bigFloor(this.mob.getY() - 6.0),
++                Mth.bigFloor(this.mob.getZ() - 3.0),
++                Mth.bigFloor(this.mob.getX() + 3.0),
++                Mth.bigFloor(this.mob.getY() + 6.0),
++                Mth.bigFloor(this.mob.getZ() + 3.0)
+             )) {
+                 if (!blockpos.equals(blockpos1)) {
+                     BlockState blockstate = this.mob.level().getBlockState(blockpos$mutableblockpos1.setWithOffset(blockpos1, Direction.DOWN));

@@ -12,12 +12,32 @@
                          -1,
                          0.15F,
                          true,
-@@ -99,7 +_,7 @@
-                 for(int l = j - 12; l <= j + 12; ++l) {
+@@ -90,13 +_,13 @@
+         ChunkData(IntegratedServer p_113382_, double p_113383_, double p_113384_) {
+             ClientLevel clientlevel = ChunkDebugRenderer.this.minecraft.level;
+             ResourceKey<Level> resourcekey = clientlevel.dimension();
+-            int i = SectionPos.posToSectionCoord(p_113383_);
+-            int j = SectionPos.posToSectionCoord(p_113384_);
++            me.alphamode.mcbig.math.BigInteger i = SectionPos.posToSectionCoord(p_113383_);
++            me.alphamode.mcbig.math.BigInteger j = SectionPos.posToSectionCoord(p_113384_);
+             Builder<ChunkPos, String> builder = ImmutableMap.builder();
+             ClientChunkCache clientchunkcache = clientlevel.getChunkSource();
+ 
+-            for(int k = i - 12; k <= i + 12; ++k) {
+-                for(int l = j - 12; l <= j + 12; ++l) {
++            for(me.alphamode.mcbig.math.BigInteger k = i.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE); k.compareTo(i.add(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE)) <= 0; k = k.add()) {
++                for(me.alphamode.mcbig.math.BigInteger l = j.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE); l.compareTo(j.add(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE)) <= 0; l = l.add()) {
                      ChunkPos chunkpos = new ChunkPos(k, l);
                      String s = "";
--                    LevelChunk levelchunk = clientchunkcache.getChunk(k, l, false);
-+                    LevelChunk levelchunk = clientchunkcache.getChunk(me.alphamode.mcbig.math.BigInteger.val(k), me.alphamode.mcbig.math.BigInteger.val(l), false);
-                     s = s + "Client: ";
-                     if (levelchunk == null) {
-                         s = s + "0n/a\n";
+                     LevelChunk levelchunk = clientchunkcache.getChunk(k, l, false);
+@@ -121,8 +_,8 @@
+                     Builder<ChunkPos, String> builder1 = ImmutableMap.builder();
+                     ServerChunkCache serverchunkcache = serverlevel.getChunkSource();
+ 
+-                    for(int i1 = i - 12; i1 <= i + 12; ++i1) {
+-                        for(int j1 = j - 12; j1 <= j + 12; ++j1) {
++                    for(me.alphamode.mcbig.math.BigInteger i1 = i.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE); i1.compareTo(i.add(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE)) <= 0; i1 = i1.add()) {
++                        for(me.alphamode.mcbig.math.BigInteger j1 = j.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE); j1.compareTo(j.add(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE)) <= 0; j1 = j1.add()) {
+                             ChunkPos chunkpos1 = new ChunkPos(i1, j1);
+                             builder1.put(chunkpos1, "Server: " + serverchunkcache.getChunkDebugData(chunkpos1));
+                         }

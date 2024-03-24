@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/biome/TheEndBiomeSource.java
 +++ b/net/minecraft/world/level/biome/TheEndBiomeSource.java
-@@ -57,10 +_,10 @@
+@@ -57,17 +_,17 @@
      }
  
      @Override
@@ -8,10 +8,22 @@
 -        int i = QuartPos.toBlock(p_204292_);
 -        int j = QuartPos.toBlock(p_204293_);
 -        int k = QuartPos.toBlock(p_204294_);
+-        int l = SectionPos.blockToSectionCoord(i);
+-        int i1 = SectionPos.blockToSectionCoord(k);
+-        if ((long)l * (long)l + (long)i1 * (long)i1 <= 4096L) {
 +    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204292_, me.alphamode.mcbig.math.BigInteger p_204293_, me.alphamode.mcbig.math.BigInteger p_204294_, Climate.Sampler p_204295_) {
-+        int i = QuartPos.toBlock(p_204292_.intValue());
++        me.alphamode.mcbig.math.BigInteger i = QuartPos.toBlock(p_204292_);
 +        int j = QuartPos.toBlock(p_204293_.intValue());
-+        int k = QuartPos.toBlock(p_204294_.intValue());
-         int l = SectionPos.blockToSectionCoord(i);
-         int i1 = SectionPos.blockToSectionCoord(k);
-         if ((long)l * (long)l + (long)i1 * (long)i1 <= 4096L) {
++        me.alphamode.mcbig.math.BigInteger k = QuartPos.toBlock(p_204294_);
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(i);
++        me.alphamode.mcbig.math.BigInteger i1 = SectionPos.blockToSectionCoord(k);
++        if ((long)l.longValue() * (long)l.longValue() + (long)i1.longValue() * (long)i1.longValue() <= 4096L) {
+             return this.end;
+         } else {
+-            int j1 = (SectionPos.blockToSectionCoord(i) * 2 + 1) * 8;
+-            int k1 = (SectionPos.blockToSectionCoord(k) * 2 + 1) * 8;
++            me.alphamode.mcbig.math.BigInteger j1 = (SectionPos.blockToSectionCoord(i).multiply(me.alphamode.mcbig.core.BigConstants.Ints.TWO).add()).multiply(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT);
++            me.alphamode.mcbig.math.BigInteger k1 = (SectionPos.blockToSectionCoord(k).multiply(me.alphamode.mcbig.core.BigConstants.Ints.TWO).add()).multiply(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT);
+             double d0 = p_204295_.erosion().compute(new DensityFunction.SinglePointContext(j1, j, k1));
+             if (d0 > 0.25) {
+                 return this.highlands;

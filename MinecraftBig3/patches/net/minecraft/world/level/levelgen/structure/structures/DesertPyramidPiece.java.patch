@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/DesertPyramidPiece.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/DesertPyramidPiece.java
+@@ -27,7 +_,7 @@
+     private final List<BlockPos> potentialSuspiciousSandWorldPositions = new ArrayList<>();
+     private BlockPos randomCollapsedRoofPos = BlockPos.ZERO;
+ 
+-    public DesertPyramidPiece(RandomSource p_227399_, int p_227400_, int p_227401_) {
++    public DesertPyramidPiece(RandomSource p_227399_, me.alphamode.mcbig.math.BigInteger p_227400_, me.alphamode.mcbig.math.BigInteger p_227401_) {
+         super(StructurePieceType.DESERT_PYRAMID_PIECE, p_227400_, 64, p_227401_, 21, 15, 21, getRandomHorizontalDirection(p_227399_));
+     }
+ 
+@@ -516,7 +_,7 @@
+         RandomSource randomsource = RandomSource.create(p_273438_.getSeed()).forkPositional().at(this.getWorldPos(p_272638_, p_272826_, p_273026_));
+         int l = randomsource.nextIntBetweenInclusive(p_272638_, p_272750_);
+         int k = randomsource.nextIntBetweenInclusive(p_273026_, p_272639_);
+-        this.randomCollapsedRoofPos = new BlockPos(this.getWorldX(l, k), this.getWorldY(p_272826_), this.getWorldZ(l, k));
++        this.randomCollapsedRoofPos = new BlockPos(this.getWorldX(l, k), this.getWorldY(me.alphamode.mcbig.math.BigInteger.val(p_272826_)), this.getWorldZ(l, k));
+     }
+ 
+     public List<BlockPos> getPotentialSuspiciousSandWorldPositions() {

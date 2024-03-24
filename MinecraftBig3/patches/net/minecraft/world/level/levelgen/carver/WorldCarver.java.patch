@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/levelgen/carver/WorldCarver.java
++++ b/net/minecraft/world/level/levelgen/carver/WorldCarver.java
+@@ -90,12 +_,12 @@
+             BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
+ 
+             for(int j2 = k; j2 <= l; ++j2) {
+-                int k2 = chunkpos.getBlockX(j2);
+-                double d3 = ((double)k2 + 0.5 - p_190759_) / p_190762_;
++                me.alphamode.mcbig.math.BigInteger k2 = chunkpos.getBlockX(j2);
++                double d3 = ((double)k2.doubleValue() + 0.5 - p_190759_) / p_190762_;
+ 
+                 for(int l2 = l1; l2 <= i2; ++l2) {
+-                    int i3 = chunkpos.getBlockZ(l2);
+-                    double d4 = ((double)i3 + 0.5 - p_190761_) / p_190762_;
++                    me.alphamode.mcbig.math.BigInteger i3 = chunkpos.getBlockZ(l2);
++                    double d4 = ((double)i3.doubleValue() + 0.5 - p_190761_) / p_190762_;
+                     if (!(d3 * d3 + d4 * d4 >= 1.0)) {
+                         MutableBoolean mutableboolean = new MutableBoolean(false);
+ 
+@@ -178,7 +_,7 @@
+             return LAVA.createLegacyBlock();
+         } else {
+             BlockState blockstate = p_159422_.computeSubstance(
+-                new DensityFunction.SinglePointContext(p_159421_.getX(), p_159421_.getY(), p_159421_.getZ()), 0.0
++                new DensityFunction.SinglePointContext(p_159421_.getBigX(), p_159421_.getY(), p_159421_.getBigZ()), 0.0
+             );
+             if (blockstate == null) {
+                 return isDebugEnabled(p_159420_) ? p_159420_.debugSettings.getBarrierState() : null;

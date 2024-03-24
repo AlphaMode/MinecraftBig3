@@ -27,6 +27,74 @@
          return this.chunkSource.chunkMap.getDistanceManager().inBlockTickingRange(p_184059_);
      }
  
+@@ -452,8 +_,8 @@
+     public void tickChunk(LevelChunk p_8715_, int p_8716_) {
+         ChunkPos chunkpos = p_8715_.getPos();
+         boolean flag = this.isRaining();
+-        int i = chunkpos.getMinBlockX();
+-        int j = chunkpos.getMinBlockZ();
++        me.alphamode.mcbig.math.BigInteger i = chunkpos.getBigMinBlockX();
++        me.alphamode.mcbig.math.BigInteger j = chunkpos.getBigMinBlockZ();
+         ProfilerFiller profilerfiller = this.getProfiler();
+         profilerfiller.push("thunder");
+         if (flag && this.isThundering() && this.random.nextInt(100000) == 0) {
+@@ -503,7 +_,7 @@
+                     for(int l = 0; l < p_8716_; ++l) {
+                         BlockPos blockpos1 = this.getBlockRandomPos(i, k, j, 15);
+                         profilerfiller.push("randomTick");
+-                        BlockState blockstate = levelchunksection.getBlockState(blockpos1.getX() - i, blockpos1.getY() - k, blockpos1.getZ() - j);
++                        BlockState blockstate = levelchunksection.getBlockState(blockpos1.getBigX().subtract(i).intValue(), blockpos1.getBigY().subtract(k).intValue(), blockpos1.getBigZ().subtract(j).intValue());
+                         if (blockstate.isRandomlyTicking()) {
+                             blockstate.randomTick(this, blockpos1, this.random);
+                         }
+@@ -559,7 +_,7 @@
+         Optional<BlockPos> optional = this.getPoiManager()
+             .findClosest(
+                 p_215059_ -> p_215059_.is(PoiTypes.LIGHTNING_ROD),
+-                p_184055_ -> p_184055_.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, p_184055_.getX(), p_184055_.getZ()) - 1,
++                p_184055_ -> p_184055_.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, p_184055_.getBigX(), p_184055_.getBigZ()) - 1,
+                 p_143249_,
+                 128,
+                 PoiManager.Occupancy.ANY
+@@ -926,9 +_,9 @@
+     public void destroyBlockProgress(int p_8612_, BlockPos p_8613_, int p_8614_) {
+         for(ServerPlayer serverplayer : this.server.getPlayerList().getPlayers()) {
+             if (serverplayer != null && serverplayer.level() == this && serverplayer.getId() != p_8612_) {
+-                double d0 = (double)p_8613_.getX() - serverplayer.getX();
+-                double d1 = (double)p_8613_.getY() - serverplayer.getY();
+-                double d2 = (double)p_8613_.getZ() - serverplayer.getZ();
++                double d0 = (double)p_8613_.getBigX().doubleValue() - serverplayer.getX();
++                double d1 = (double)p_8613_.getBigY().doubleValue() - serverplayer.getY();
++                double d2 = (double)p_8613_.getBigZ().doubleValue() - serverplayer.getZ();
+                 if (d0 * d0 + d1 * d1 + d2 * d2 < 1024.0) {
+                     serverplayer.connection.send(new ClientboundBlockDestructionPacket(p_8612_, p_8613_, p_8614_));
+                 }
+@@ -993,9 +_,9 @@
+             .getPlayerList()
+             .broadcast(
+                 p_8684_,
+-                (double)p_8686_.getX(),
+-                (double)p_8686_.getY(),
+-                (double)p_8686_.getZ(),
++                (double)p_8686_.getBigX().doubleValue(),
++                (double)p_8686_.getBigY().doubleValue(),
++                (double)p_8686_.getBigZ().doubleValue(),
+                 64.0,
+                 this.dimension(),
+                 new ClientboundLevelEventPacket(p_8685_, p_8686_, p_8687_, false)
+@@ -1138,9 +_,9 @@
+                         .getPlayerList()
+                         .broadcast(
+                             null,
+-                            (double)blockeventdata.pos().getX(),
+-                            (double)blockeventdata.pos().getY(),
+-                            (double)blockeventdata.pos().getZ(),
++                            (double)blockeventdata.pos().getBigX().doubleValue(),
++                            (double)blockeventdata.pos().getBigY().doubleValue(),
++                            (double)blockeventdata.pos().getBigZ().doubleValue(),
+                             64.0,
+                             this.dimension(),
+                             new ClientboundBlockEventPacket(blockeventdata.pos(), blockeventdata.block(), blockeventdata.paramA(), blockeventdata.paramB())
 @@ -1318,23 +_,23 @@
          this.getServer().getPlayerList().broadcastAll(new ClientboundSetDefaultSpawnPositionPacket(p_8734_, p_8735_));
      }
@@ -57,6 +125,24 @@
          }
  
          forcedchunkssaveddata.setDirty(flag);
+@@ -1580,12 +_,12 @@
+ 
+     public static void makeObsidianPlatform(ServerLevel p_8618_) {
+         BlockPos blockpos = END_SPAWN_POINT;
+-        int i = blockpos.getX();
+-        int j = blockpos.getY() - 2;
+-        int k = blockpos.getZ();
+-        BlockPos.betweenClosed(i - 2, j + 1, k - 2, i + 2, j + 3, k + 2)
++        me.alphamode.mcbig.math.BigInteger i = blockpos.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = blockpos.getBigY().subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWO);
++        me.alphamode.mcbig.math.BigInteger k = blockpos.getBigZ();
++        BlockPos.betweenClosed(i.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWO), j.add(), k.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWO), i.add(me.alphamode.mcbig.core.BigConstants.Ints.TWO), j.add(me.alphamode.mcbig.core.BigConstants.Ints.THREE), k.add(me.alphamode.mcbig.core.BigConstants.Ints.TWO))
+             .forEach(p_207578_ -> p_8618_.setBlockAndUpdate(p_207578_, Blocks.AIR.defaultBlockState()));
+-        BlockPos.betweenClosed(i - 2, j, k - 2, i + 2, j, k + 2)
++        BlockPos.betweenClosed(i.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWO), j, k.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWO), i.add(me.alphamode.mcbig.core.BigConstants.Ints.TWO), j, k.add(me.alphamode.mcbig.core.BigConstants.Ints.TWO))
+             .forEach(p_184101_ -> p_8618_.setBlockAndUpdate(p_184101_, Blocks.OBSIDIAN.defaultBlockState()));
+     }
+ 
 @@ -1621,16 +_,16 @@
          return "Chunks[S] W: " + this.chunkSource.gatherStats() + " E: " + this.entityManager.gatherStats();
      }

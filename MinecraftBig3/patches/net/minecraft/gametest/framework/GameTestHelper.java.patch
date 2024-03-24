@@ -1,0 +1,11 @@
+--- a/net/minecraft/gametest/framework/GameTestHelper.java
++++ b/net/minecraft/gametest/framework/GameTestHelper.java
+@@ -634,7 +_,7 @@
+ 
+     public void assertSameBlockStates(BoundingBox p_177225_, BlockPos p_177226_) {
+         BlockPos.betweenClosedStream(p_177225_).forEach(p_177267_ -> {
+-            BlockPos blockpos = p_177226_.offset(p_177267_.getX() - p_177225_.minX(), p_177267_.getY() - p_177225_.minY(), p_177267_.getZ() - p_177225_.minZ());
++            BlockPos blockpos = p_177226_.offset(p_177267_.getBigX().subtract(p_177225_.minX()), p_177267_.getBigY().subtract(p_177225_.minY()), p_177267_.getBigZ().subtract(p_177225_.minZ()));
+             this.assertSameBlockState(p_177267_, blockpos);
+         });
+     }

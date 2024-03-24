@@ -30,7 +30,7 @@
              DataLayer datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i);
              if (datalayer == null) {
 -                for(p_164458_ = BlockPos.getFlatIndex(p_164458_);
-+                for(p_164458_ = new BlockPos(p_164458_.getX(), 0, p_164458_.getZ());
++                for(p_164458_ = new BlockPos(p_164458_.getBigX(), 0, p_164458_.getBigZ());
                      datalayer == null;
                      datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i)
                  ) {

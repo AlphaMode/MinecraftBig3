@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/entity/ai/behavior/LongJumpToRandomPos.java
++++ b/net/minecraft/world/entity/ai/behavior/LongJumpToRandomPos.java
+@@ -110,16 +_,16 @@
+         this.findJumpTries = 20;
+         this.initialPosition = Optional.of(p_147677_.position());
+         BlockPos blockpos = p_147677_.blockPosition();
+-        int i = blockpos.getX();
+-        int j = blockpos.getY();
+-        int k = blockpos.getZ();
++        me.alphamode.mcbig.math.BigInteger i = blockpos.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = blockpos.getBigY();
++        me.alphamode.mcbig.math.BigInteger k = blockpos.getBigZ();
+         this.jumpCandidates = BlockPos.betweenClosedStream(
+-                i - this.maxLongJumpWidth,
+-                j - this.maxLongJumpHeight,
+-                k - this.maxLongJumpWidth,
+-                i + this.maxLongJumpWidth,
+-                j + this.maxLongJumpHeight,
+-                k + this.maxLongJumpWidth
++                i.subtract(this.maxLongJumpWidth),
++                j.subtract(this.maxLongJumpHeight),
++                k.subtract(this.maxLongJumpWidth),
++                i.add(this.maxLongJumpWidth),
++                j.add(this.maxLongJumpHeight),
++                k.add(this.maxLongJumpWidth)
+             )
+             .filter(p_217317_ -> !p_217317_.equals(blockpos))
+             .map(p_217314_ -> new LongJumpToRandomPos.PossibleJump(p_217314_.immutable(), Mth.ceil(blockpos.distSqr(p_217314_))))

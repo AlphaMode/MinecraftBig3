@@ -1,0 +1,19 @@
+--- a/net/minecraft/server/commands/CloneCommands.java
++++ b/net/minecraft/server/commands/CloneCommands.java
+@@ -244,12 +_,12 @@
+                 List<CloneCommands.CloneBlockInfo> list2 = Lists.newArrayList();
+                 Deque<BlockPos> deque = Lists.newLinkedList();
+                 BlockPos blockpos4 = new BlockPos(
+-                    boundingbox1.minX() - boundingbox.minX(), boundingbox1.minY() - boundingbox.minY(), boundingbox1.minZ() - boundingbox.minZ()
++                    boundingbox1.minX().subtract(boundingbox.minX()), boundingbox1.minY().subtract(boundingbox.minY()), boundingbox1.minZ().subtract(boundingbox.minZ())
+                 );
+ 
+-                for(int k = boundingbox.minZ(); k <= boundingbox.maxZ(); ++k) {
+-                    for(int l = boundingbox.minY(); l <= boundingbox.maxY(); ++l) {
+-                        for(int i1 = boundingbox.minX(); i1 <= boundingbox.maxX(); ++i1) {
++                for(me.alphamode.mcbig.math.BigInteger k = boundingbox.minZ(); k.compareTo(boundingbox.maxZ()) <= 0; k = k.add()) {
++                    for(me.alphamode.mcbig.math.BigInteger l = boundingbox.minY(); l.compareTo(boundingbox.maxY()) <= 0; l = l.add()) {
++                        for(me.alphamode.mcbig.math.BigInteger i1 = boundingbox.minX(); i1.compareTo(boundingbox.maxX()) <= 0; i1 = i1.add()) {
+                             BlockPos blockpos5 = new BlockPos(i1, l, k);
+                             BlockPos blockpos6 = blockpos5.offset(blockpos4);
+                             BlockInWorld blockinworld = new BlockInWorld(serverlevel, blockpos5, false);

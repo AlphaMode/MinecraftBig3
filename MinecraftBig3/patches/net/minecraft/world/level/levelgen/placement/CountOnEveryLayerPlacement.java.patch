@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/levelgen/placement/CountOnEveryLayerPlacement.java
++++ b/net/minecraft/world/level/levelgen/placement/CountOnEveryLayerPlacement.java
+@@ -41,8 +_,8 @@
+             flag = false;
+ 
+             for(int j = 0; j < this.count.sample(p_226330_); ++j) {
+-                int k = p_226330_.nextInt(16) + p_226331_.getX();
+-                int l = p_226330_.nextInt(16) + p_226331_.getZ();
++                me.alphamode.mcbig.math.BigInteger k = p_226331_.getBigX().add(p_226330_.nextInt(16));
++                me.alphamode.mcbig.math.BigInteger l = p_226331_.getBigZ().add(p_226330_.nextInt(16));
+                 int i1 = p_226329_.getHeight(Heightmap.Types.MOTION_BLOCKING, k, l);
+                 int j1 = findOnGroundYPosition(p_226329_, k, i1, l, i);
+                 if (j1 != Integer.MAX_VALUE) {
+@@ -62,7 +_,7 @@
+         return PlacementModifierType.COUNT_ON_EVERY_LAYER;
+     }
+ 
+-    private static int findOnGroundYPosition(PlacementContext p_191613_, int p_191614_, int p_191615_, int p_191616_, int p_191617_) {
++    private static int findOnGroundYPosition(PlacementContext p_191613_, me.alphamode.mcbig.math.BigInteger p_191614_, int p_191615_, me.alphamode.mcbig.math.BigInteger p_191616_, int p_191617_) {
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_191614_, p_191615_, p_191616_);
+         int i = 0;
+         BlockState blockstate = p_191613_.getBlockState(blockpos$mutableblockpos);

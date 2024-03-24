@@ -1,0 +1,45 @@
+--- a/net/minecraft/client/multiplayer/prediction/BlockStatePredictionHandler.java
++++ b/net/minecraft/client/multiplayer/prediction/BlockStatePredictionHandler.java
+@@ -13,14 +_,14 @@
+ 
+ @OnlyIn(Dist.CLIENT)
+ public class BlockStatePredictionHandler implements AutoCloseable {
+-    private final Long2ObjectOpenHashMap<BlockStatePredictionHandler.ServerVerifiedState> serverVerifiedStates = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<BlockPos, BlockStatePredictionHandler.ServerVerifiedState> serverVerifiedStates = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+     private int currentSequenceNr;
+     private boolean isPredicting;
+ 
+     public void retainKnownServerState(BlockPos p_233868_, BlockState p_233869_, LocalPlayer p_233870_) {
+         this.serverVerifiedStates
+             .compute(
+-                p_233868_.asLong(),
++                p_233868_,
+                 (p_311460_, p_311461_) -> p_311461_ != null
+                         ? p_311461_.setSequence(this.currentSequenceNr)
+                         : new BlockStatePredictionHandler.ServerVerifiedState(this.currentSequenceNr, p_233869_, p_233870_.position())
+@@ -28,7 +_,7 @@
+     }
+ 
+     public boolean updateKnownServerState(BlockPos p_233865_, BlockState p_233866_) {
+-        BlockStatePredictionHandler.ServerVerifiedState blockstatepredictionhandler$serververifiedstate = this.serverVerifiedStates.get(p_233865_.asLong());
++        BlockStatePredictionHandler.ServerVerifiedState blockstatepredictionhandler$serververifiedstate = this.serverVerifiedStates.get(p_233865_);
+         if (blockstatepredictionhandler$serververifiedstate == null) {
+             return false;
+         } else {
+@@ -38,13 +_,13 @@
+     }
+ 
+     public void endPredictionsUpTo(int p_233857_, ClientLevel p_233858_) {
+-        ObjectIterator<Entry<BlockStatePredictionHandler.ServerVerifiedState>> objectiterator = this.serverVerifiedStates.long2ObjectEntrySet().iterator();
++        ObjectIterator<it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<BlockPos, BlockStatePredictionHandler.ServerVerifiedState>> objectiterator = this.serverVerifiedStates.object2ObjectEntrySet().iterator();
+ 
+         while(objectiterator.hasNext()) {
+-            Entry<BlockStatePredictionHandler.ServerVerifiedState> entry = objectiterator.next();
++            it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<BlockPos, BlockStatePredictionHandler.ServerVerifiedState> entry = objectiterator.next();
+             BlockStatePredictionHandler.ServerVerifiedState blockstatepredictionhandler$serververifiedstate = entry.getValue();
+             if (blockstatepredictionhandler$serververifiedstate.sequence <= p_233857_) {
+-                BlockPos blockpos = BlockPos.of(entry.getLongKey());
++                BlockPos blockpos = entry.getKey();
+                 objectiterator.remove();
+                 p_233858_.syncBlockState(
+                     blockpos, blockstatepredictionhandler$serververifiedstate.blockState, blockstatepredictionhandler$serververifiedstate.playerPos

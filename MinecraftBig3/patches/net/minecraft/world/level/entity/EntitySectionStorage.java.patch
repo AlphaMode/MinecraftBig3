@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/entity/EntitySectionStorage.java
 +++ b/net/minecraft/world/level/entity/EntitySectionStorage.java
-@@ -23,11 +_,11 @@
+@@ -23,34 +_,34 @@
  
  public class EntitySectionStorage<T extends EntityAccess> {
      private final Class<T> entityClass;
@@ -16,15 +16,29 @@
          this.entityClass = p_156855_;
          this.intialSectionVisibility = p_156856_;
      }
-@@ -42,15 +_,15 @@
-         int k1 = SectionPos.posToSectionCoord(p_188363_.maxZ + 2.0);
  
-         for(int l1 = j; l1 <= i1; ++l1) {
+     public void forEachAccessibleNonEmptySection(AABB p_188363_, AbortableIterationConsumer<EntitySection<T>> p_261588_) {
+         int i = 2;
+-        int j = SectionPos.posToSectionCoord(p_188363_.minX - 2.0);
+-        int k = SectionPos.posToSectionCoord(p_188363_.minY - 4.0);
+-        int l = SectionPos.posToSectionCoord(p_188363_.minZ - 2.0);
+-        int i1 = SectionPos.posToSectionCoord(p_188363_.maxX + 2.0);
+-        int j1 = SectionPos.posToSectionCoord(p_188363_.maxY + 0.0);
+-        int k1 = SectionPos.posToSectionCoord(p_188363_.maxZ + 2.0);
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.posToSectionCoord(p_188363_.minX - 2.0);
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.posToSectionCoord(p_188363_.minY - 4.0);
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.posToSectionCoord(p_188363_.minZ - 2.0);
++        me.alphamode.mcbig.math.BigInteger i1 = SectionPos.posToSectionCoord(p_188363_.maxX + 2.0);
++        me.alphamode.mcbig.math.BigInteger j1 = SectionPos.posToSectionCoord(p_188363_.maxY + 0.0);
++        me.alphamode.mcbig.math.BigInteger k1 = SectionPos.posToSectionCoord(p_188363_.maxZ + 2.0);
+ 
+-        for(int l1 = j; l1 <= i1; ++l1) {
 -            long i2 = SectionPos.asLong(l1, 0, 0);
 -            long j2 = SectionPos.asLong(l1, -1, -1);
 -            LongIterator longiterator = this.sectionIds.subSet(i2, j2 + 1L).iterator();
-+            SectionPos i2 = SectionPos.of(l1, 0, 0);
-+            SectionPos j2 = SectionPos.of(l1, -1, -1);
++        for(me.alphamode.mcbig.math.BigInteger l1 = j; l1.compareTo(i1) <= 0; l1 = l1.add()) {
++            SectionPos i2 = SectionPos.of(l1, me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.ZERO);
++            SectionPos j2 = SectionPos.of(l1, me.alphamode.mcbig.math.BigInteger.ONE.negate(), me.alphamode.mcbig.math.BigInteger.ONE.negate());
 +            it.unimi.dsi.fastutil.objects.ObjectIterator<SectionPos> longiterator = this.sectionIds.subSet(i2, j2.offset(1L)).iterator();
  
              while(longiterator.hasNext()) {

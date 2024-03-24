@@ -1,14 +1,17 @@
 --- a/net/minecraft/world/level/levelgen/blending/Blender.java
 +++ b/net/minecraft/world/level/levelgen/blending/Blender.java
-@@ -36,7 +_,7 @@
+@@ -36,9 +_,9 @@
  import org.apache.commons.lang3.mutable.MutableObject;
  
  public class Blender {
 -    private static final Blender EMPTY = new Blender(new Long2ObjectOpenHashMap(), new Long2ObjectOpenHashMap()) {
 +    private static final Blender EMPTY = new Blender(new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>(), new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>()) {
          @Override
-         public Blender.BlendingOutput blendOffsetAndFactor(int p_209724_, int p_209725_) {
+-        public Blender.BlendingOutput blendOffsetAndFactor(int p_209724_, int p_209725_) {
++        public Blender.BlendingOutput blendOffsetAndFactor(me.alphamode.mcbig.math.BigInteger p_209724_, me.alphamode.mcbig.math.BigInteger p_209725_) {
              return new Blender.BlendingOutput(1.0, 0.0);
+         }
+ 
 @@ -58,8 +_,8 @@
      private static final int DENSITY_BLENDING_RANGE_CELLS = 2;
      private static final int DENSITY_BLENDING_RANGE_CHUNKS = QuartPos.toSection(5);
@@ -51,7 +54,7 @@
                                  }
                              }
                          }
-@@ -103,7 +_,7 @@
+@@ -103,14 +_,14 @@
          }
      }
  
@@ -60,18 +63,43 @@
          this.heightAndBiomeBlendingData = p_202197_;
          this.densityBlendingData = p_202198_;
      }
-@@ -121,8 +_,8 @@
+ 
+-    public Blender.BlendingOutput blendOffsetAndFactor(int p_209719_, int p_209720_) {
+-        int i = QuartPos.fromBlock(p_209719_);
+-        int j = QuartPos.fromBlock(p_209720_);
++    public Blender.BlendingOutput blendOffsetAndFactor(me.alphamode.mcbig.math.BigInteger p_209719_, me.alphamode.mcbig.math.BigInteger p_209720_) {
++        me.alphamode.mcbig.math.BigInteger i = QuartPos.fromBlock(p_209719_);
++        me.alphamode.mcbig.math.BigInteger j = QuartPos.fromBlock(p_209720_);
+         double d0 = this.getBlendingDataValue(i, 0, j, BlendingData::getHeight);
+         if (d0 != Double.MAX_VALUE) {
+             return new Blender.BlendingOutput(0.0, heightToOffset(d0));
+@@ -121,10 +_,10 @@
              this.heightAndBiomeBlendingData
                  .forEach(
                      (p_202249_, p_202250_) -> p_202250_.iterateHeights(
 -                            QuartPos.fromSection(ChunkPos.getX(p_202249_)),
 -                            QuartPos.fromSection(ChunkPos.getZ(p_202249_)),
-+                            QuartPos.fromSection(p_202249_.x().intValue()),
-+                            QuartPos.fromSection(p_202249_.z().intValue()),
++                            QuartPos.fromSection(p_202249_.x()),
++                            QuartPos.fromSection(p_202249_.z()),
                              (p_190199_, p_190200_, p_190201_) -> {
-                                 double d3 = Mth.length((double)(i - p_190199_), (double)(j - p_190200_));
+-                                double d3 = Mth.length((double)(i - p_190199_), (double)(j - p_190200_));
++                                double d3 = Mth.length((double)(i.subtract(p_190199_).intValue()), (double)(j.subtract(p_190200_).intValue()));
                                  if (!(d3 > (double)HEIGHT_BLENDING_RANGE_CELLS)) {
-@@ -169,8 +_,8 @@
+                                     if (d3 < mutabledouble2.doubleValue()) {
+                                         mutabledouble2.setValue(d3);
+@@ -156,9 +_,9 @@
+     }
+ 
+     public double blendDensity(DensityFunction.FunctionContext p_209721_, double p_209722_) {
+-        int i = QuartPos.fromBlock(p_209721_.blockX());
++        me.alphamode.mcbig.math.BigInteger i = QuartPos.fromBlock(p_209721_.blockX());
+         int j = p_209721_.blockY() / 8;
+-        int k = QuartPos.fromBlock(p_209721_.blockZ());
++        me.alphamode.mcbig.math.BigInteger k = QuartPos.fromBlock(p_209721_.blockZ());
+         double d0 = this.getBlendingDataValue(i, j, k, BlendingData::getDensity);
+         if (d0 != Double.MAX_VALUE) {
+             return d0;
+@@ -169,12 +_,12 @@
              this.densityBlendingData
                  .forEach(
                      (p_202241_, p_202242_) -> p_202242_.iterateDensities(
@@ -82,6 +110,58 @@
                              j - 1,
                              j + 1,
                              (p_202230_, p_202231_, p_202232_, p_202233_) -> {
+-                                double d3 = Mth.length((double)(i - p_202230_), (double)((j - p_202231_) * 2), (double)(k - p_202232_));
++                                double d3 = Mth.length((double)(i.subtract(p_202230_).intValue()), (double)((j - p_202231_) * 2), (double)(k.subtract(p_202232_).intValue()));
+                                 if (!(d3 > 2.0)) {
+                                     if (d3 < mutabledouble2.doubleValue()) {
+                                         mutabledouble2.setValue(d3);
+@@ -197,24 +_,24 @@
+         }
+     }
+ 
+-    private double getBlendingDataValue(int p_190175_, int p_190176_, int p_190177_, Blender.CellValueGetter p_190178_) {
+-        int i = QuartPos.toSection(p_190175_);
+-        int j = QuartPos.toSection(p_190177_);
+-        boolean flag = (p_190175_ & 3) == 0;
+-        boolean flag1 = (p_190177_ & 3) == 0;
++    private double getBlendingDataValue(me.alphamode.mcbig.math.BigInteger p_190175_, int p_190176_, me.alphamode.mcbig.math.BigInteger p_190177_, Blender.CellValueGetter p_190178_) {
++        me.alphamode.mcbig.math.BigInteger i = QuartPos.toSection(p_190175_);
++        me.alphamode.mcbig.math.BigInteger j = QuartPos.toSection(p_190177_);
++        boolean flag = (p_190175_.and(me.alphamode.mcbig.core.BigConstants.Ints.THREE).intValue()) == 0;
++        boolean flag1 = (p_190177_.and(me.alphamode.mcbig.core.BigConstants.Ints.THREE).intValue()) == 0;
+         double d0 = this.getBlendingDataValue(p_190178_, i, j, p_190175_, p_190176_, p_190177_);
+         if (d0 == Double.MAX_VALUE) {
+             if (flag && flag1) {
+-                d0 = this.getBlendingDataValue(p_190178_, i - 1, j - 1, p_190175_, p_190176_, p_190177_);
++                d0 = this.getBlendingDataValue(p_190178_, i.subtract(), j.subtract(), p_190175_, p_190176_, p_190177_);
+             }
+ 
+             if (d0 == Double.MAX_VALUE) {
+                 if (flag) {
+-                    d0 = this.getBlendingDataValue(p_190178_, i - 1, j, p_190175_, p_190176_, p_190177_);
++                    d0 = this.getBlendingDataValue(p_190178_, i.subtract(), j, p_190175_, p_190176_, p_190177_);
+                 }
+ 
+                 if (d0 == Double.MAX_VALUE && flag1) {
+-                    d0 = this.getBlendingDataValue(p_190178_, i, j - 1, p_190175_, p_190176_, p_190177_);
++                    d0 = this.getBlendingDataValue(p_190178_, i, j.subtract(), p_190175_, p_190176_, p_190177_);
+                 }
+             }
+         }
+@@ -222,10 +_,10 @@
+         return d0;
+     }
+ 
+-    private double getBlendingDataValue(Blender.CellValueGetter p_190212_, int p_190213_, int p_190214_, int p_190215_, int p_190216_, int p_190217_) {
+-        BlendingData blendingdata = this.heightAndBiomeBlendingData.get(ChunkPos.asLong(p_190213_, p_190214_));
++    private double getBlendingDataValue(Blender.CellValueGetter p_190212_, me.alphamode.mcbig.math.BigInteger p_190213_, me.alphamode.mcbig.math.BigInteger p_190214_, me.alphamode.mcbig.math.BigInteger p_190215_, int p_190216_, me.alphamode.mcbig.math.BigInteger p_190217_) {
++        BlendingData blendingdata = this.heightAndBiomeBlendingData.get(new ChunkPos(p_190213_, p_190214_));
+         return blendingdata != null
+-            ? p_190212_.get(blendingdata, p_190215_ - QuartPos.fromSection(p_190213_), p_190216_, p_190217_ - QuartPos.fromSection(p_190214_))
++            ? p_190212_.get(blendingdata, p_190215_.subtract(QuartPos.fromSection(p_190213_)).intValue(), p_190216_, p_190217_.subtract(QuartPos.fromSection(p_190214_)).intValue())
+             : Double.MAX_VALUE;
+     }
+ 
 @@ -237,17 +_,17 @@
      }
  
@@ -123,6 +203,15 @@
                      int i1 = direction == Direction.EAST ? 15 : 0;
                      int j1 = direction == Direction.WEST ? 0 : 15;
                      int k1 = direction == Direction.SOUTH ? 15 : 0;
+@@ -295,7 +_,7 @@
+ 
+                     for(int i2 = i1; i2 <= j1; ++i2) {
+                         for(int j2 = k1; j2 <= l1; ++j2) {
+-                            int k2 = Math.min(j, p_197033_.getHeight(Heightmap.Types.MOTION_BLOCKING, i2, j2)) + 1;
++                            int k2 = Math.min(j, p_197033_.getHeight(Heightmap.Types.MOTION_BLOCKING, me.alphamode.mcbig.math.BigInteger.val(i2), me.alphamode.mcbig.math.BigInteger.val(j2))) + 1;
+ 
+                             for(int l2 = i; l2 < k2; ++l2) {
+                                 generateBorderTick(p_197033_, blockpos$mutableblockpos.setWithOffset(blockpos, i2, l2, j2));
 @@ -324,8 +_,8 @@
          Builder<Direction8, BlendingData> builder = ImmutableMap.builder();
  

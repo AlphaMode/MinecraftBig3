@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/feature/DiskFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/DiskFeature.java
+@@ -26,8 +_,8 @@
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+         for(BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-l, 0, -l), blockpos.offset(l, 0, l))) {
+-            int i1 = blockpos1.getX() - blockpos.getX();
+-            int j1 = blockpos1.getZ() - blockpos.getZ();
++            int i1 = blockpos1.getBigX().subtract(blockpos.getBigX()).intValue();
++            int j1 = blockpos1.getBigZ().subtract(blockpos.getBigZ()).intValue();
+             if (i1 * i1 + j1 * j1 <= l * l) {
+                 flag |= this.placeColumn(diskconfiguration, worldgenlevel, randomsource, j, k, blockpos$mutableblockpos.set(blockpos1));
+             }

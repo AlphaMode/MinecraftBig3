@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/commands/SetBlockCommand.java
++++ b/net/minecraft/server/commands/SetBlockCommand.java
+@@ -102,7 +_,7 @@
+                 throw ERROR_FAILED.create();
+             } else {
+                 serverlevel.blockUpdated(p_138609_, p_138610_.getState().getBlock());
+-                p_138608_.sendSuccess(() -> Component.translatable("commands.setblock.success", p_138609_.getX(), p_138609_.getY(), p_138609_.getZ()), true);
++                p_138608_.sendSuccess(() -> Component.translatable("commands.setblock.success", p_138609_.getBigX(), p_138609_.getBigY(), p_138609_.getBigZ()), true);
+                 return 1;
+             }
+         }

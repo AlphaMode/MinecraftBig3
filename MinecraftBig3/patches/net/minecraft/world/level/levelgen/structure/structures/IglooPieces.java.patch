@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/IglooPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/IglooPieces.java
+@@ -116,8 +_,8 @@
+             StructurePlaceSettings structureplacesettings = makeSettings(this.placeSettings.getRotation(), resourcelocation);
+             BlockPos blockpos = IglooPieces.OFFSETS.get(resourcelocation);
+             BlockPos blockpos1 = this.templatePosition
+-                .offset(StructureTemplate.calculateRelativePosition(structureplacesettings, new BlockPos(3 - blockpos.getX(), 0, -blockpos.getZ())));
+-            int i = p_227568_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, blockpos1.getX(), blockpos1.getZ());
++                .offset(StructureTemplate.calculateRelativePosition(structureplacesettings, new BlockPos(me.alphamode.mcbig.core.BigConstants.Ints.THREE.subtract(blockpos.getBigX()), 0, blockpos.getBigZ().negate())));
++            int i = p_227568_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, blockpos1.getBigX(), blockpos1.getBigZ());
+             BlockPos blockpos2 = this.templatePosition;
+             this.templatePosition = this.templatePosition.offset(0, i - 90 - 1, 0);
+             super.postProcess(p_227568_, p_227569_, p_227570_, p_227571_, p_227572_, p_227573_, p_227574_);

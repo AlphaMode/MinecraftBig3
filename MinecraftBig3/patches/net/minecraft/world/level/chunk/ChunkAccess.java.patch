@@ -18,6 +18,24 @@
      protected final Map<BlockPos, CompoundTag> pendingBlockEntities = Maps.newHashMap();
      protected final Map<BlockPos, BlockEntity> blockEntities = Maps.newHashMap();
      protected final LevelHeightAccessor levelHeightAccessor;
+@@ -178,7 +_,7 @@
+         return this.heightmaps.get(p_187659_) != null;
+     }
+ 
+-    public int getHeight(Heightmap.Types p_62080_, int p_62081_, int p_62082_) {
++    public int getHeight(Heightmap.Types p_62080_, me.alphamode.mcbig.math.BigInteger p_62081_, me.alphamode.mcbig.math.BigInteger p_62082_) {
+         Heightmap heightmap = this.heightmaps.get(p_62080_);
+         if (heightmap == null) {
+             if (SharedConstants.IS_RUNNING_IN_IDE && this instanceof LevelChunk) {
+@@ -189,7 +_,7 @@
+             heightmap = this.heightmaps.get(p_62080_);
+         }
+ 
+-        return heightmap.getFirstAvailable(p_62081_ & 15, p_62082_ & 15) - 1;
++        return heightmap.getFirstAvailable(p_62081_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), p_62082_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue()) - 1;
+     }
+ 
+     public ChunkPos getPos() {
 @@ -219,23 +_,23 @@
      }
  

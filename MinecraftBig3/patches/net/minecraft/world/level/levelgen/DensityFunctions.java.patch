@@ -1,0 +1,99 @@
+--- a/net/minecraft/world/level/levelgen/DensityFunctions.java
++++ b/net/minecraft/world/level/levelgen/DensityFunctions.java
+@@ -518,20 +_,20 @@
+             this.islandNoise = new SimplexNoise(randomsource);
+         }
+ 
+-        private static float getHeightValue(SimplexNoise p_224063_, int p_224064_, int p_224065_) {
+-            int i = p_224064_ / 2;
+-            int j = p_224065_ / 2;
+-            int k = p_224064_ % 2;
+-            int l = p_224065_ % 2;
+-            float f = 100.0F - Mth.sqrt((float)(p_224064_ * p_224064_ + p_224065_ * p_224065_)) * 8.0F;
++        private static float getHeightValue(SimplexNoise p_224063_, me.alphamode.mcbig.math.BigInteger p_224064_, me.alphamode.mcbig.math.BigInteger p_224065_) {
++            me.alphamode.mcbig.math.BigInteger i = p_224064_.divide(me.alphamode.mcbig.core.BigConstants.Ints.TWO);
++            me.alphamode.mcbig.math.BigInteger j = p_224065_.divide(me.alphamode.mcbig.core.BigConstants.Ints.TWO);
++            int k = p_224064_.remainder(2).intValue();
++            int l = p_224065_.remainder(2).intValue();
++            float f = 100.0F - Mth.sqrt((float)(p_224064_.multiply(p_224064_).add(p_224065_.multiply(p_224065_))).floatValue()) * 8.0F;
+             f = Mth.clamp(f, -100.0F, 80.0F);
+ 
+             for(int i1 = -12; i1 <= 12; ++i1) {
+                 for(int j1 = -12; j1 <= 12; ++j1) {
+-                    long k1 = (long)(i + i1);
+-                    long l1 = (long)(j + j1);
+-                    if (k1 * k1 + l1 * l1 > 4096L && p_224063_.getValue((double)k1, (double)l1) < -0.9F) {
+-                        float f1 = (Mth.abs((float)k1) * 3439.0F + Mth.abs((float)l1) * 147.0F) % 13.0F + 9.0F;
++                    me.alphamode.mcbig.math.BigInteger k1 = (i.add(i1));
++                    me.alphamode.mcbig.math.BigInteger l1 = (j.add(j1));
++                    if (k1.multiply(k1).add(l1.multiply(l1)).compareTo(me.alphamode.mcbig.core.BigConstants.Ints.WORLD_HEIGHT_LIMIT) > 0 && p_224063_.getValue((double)k1.doubleValue(), (double)l1.doubleValue()) < -0.9F) {
++                        float f1 = (Mth.abs((float)k1.floatValue()) * 3439.0F + Mth.abs((float)l1.floatValue()) * 147.0F) % 13.0F + 9.0F;
+                         float f2 = (float)(k - i1 * 2);
+                         float f3 = (float)(l - j1 * 2);
+                         float f4 = 100.0F - Mth.sqrt(f2 * f2 + f3 * f3) * f1;
+@@ -546,7 +_,7 @@
+ 
+         @Override
+         public double compute(DensityFunction.FunctionContext p_208633_) {
+-            return ((double)getHeightValue(this.islandNoise, p_208633_.blockX() / 8, p_208633_.blockZ() / 8) - 8.0) / 128.0;
++            return ((double)getHeightValue(this.islandNoise, p_208633_.blockX().divide(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT), p_208633_.blockZ().divide(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT)) - 8.0) / 128.0;
+         }
+ 
+         @Override
+@@ -790,7 +_,7 @@
+         @Override
+         public double compute(DensityFunction.FunctionContext p_208800_) {
+             return this.noise
+-                .getValue((double)p_208800_.blockX() * this.xzScale, (double)p_208800_.blockY() * this.yScale, (double)p_208800_.blockZ() * this.xzScale);
++                .getValue((double)p_208800_.blockX().doubleValue() * this.xzScale, (double)p_208800_.blockY() * this.yScale, (double)p_208800_.blockZ().doubleValue() * this.xzScale);
+         }
+ 
+         @Override
+@@ -909,7 +_,7 @@
+ 
+         @Override
+         public double compute(DensityFunction.FunctionContext p_208864_) {
+-            return this.compute((double)p_208864_.blockX(), (double)p_208864_.blockY(), (double)p_208864_.blockZ());
++            return this.compute((double)p_208864_.blockX().doubleValue(), (double)p_208864_.blockY(), (double)p_208864_.blockZ().doubleValue());
+         }
+ 
+         @Override
+@@ -930,7 +_,7 @@
+ 
+         @Override
+         public double compute(DensityFunction.FunctionContext p_208884_) {
+-            return this.compute((double)p_208884_.blockX(), 0.0, (double)p_208884_.blockZ());
++            return this.compute((double)p_208884_.blockX().doubleValue(), 0.0, (double)p_208884_.blockZ().doubleValue());
+         }
+ 
+         @Override
+@@ -951,7 +_,7 @@
+ 
+         @Override
+         public double compute(DensityFunction.FunctionContext p_208904_) {
+-            return this.compute((double)p_208904_.blockZ(), (double)p_208904_.blockX(), 0.0);
++            return this.compute((double)p_208904_.blockZ().doubleValue(), (double)p_208904_.blockX().doubleValue(), 0.0);
+         }
+ 
+         @Override
+@@ -1006,9 +_,9 @@
+ 
+         @Override
+         public double compute(DensityFunction.FunctionContext p_208945_) {
+-            double d0 = (double)p_208945_.blockX() * this.xzScale + this.shiftX.compute(p_208945_);
++            double d0 = (double)p_208945_.blockX().doubleValue() * this.xzScale + this.shiftX.compute(p_208945_);
+             double d1 = (double)p_208945_.blockY() * this.yScale + this.shiftY.compute(p_208945_);
+-            double d2 = (double)p_208945_.blockZ() * this.xzScale + this.shiftZ.compute(p_208945_);
++            double d2 = (double)p_208945_.blockZ().doubleValue() * this.xzScale + this.shiftZ.compute(p_208945_);
+             return this.noise.getValue(d0, d1, d2);
+         }
+ 
+@@ -1269,7 +_,7 @@
+         @Override
+         public double transform(DensityFunction.FunctionContext p_208440_, double p_208441_) {
+             double d0 = this.rarityValueMapper.mapper.get(p_208441_);
+-            return d0 * Math.abs(this.noise.getValue((double)p_208440_.blockX() / d0, (double)p_208440_.blockY() / d0, (double)p_208440_.blockZ() / d0));
++            return d0 * Math.abs(this.noise.getValue((double)p_208440_.blockX().doubleValue() / d0, (double)p_208440_.blockY() / d0, (double)p_208440_.blockZ().doubleValue() / d0));
+         }
+ 
+         @Override

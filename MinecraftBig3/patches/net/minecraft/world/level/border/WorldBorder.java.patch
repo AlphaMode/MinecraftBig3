@@ -1,0 +1,75 @@
+--- a/net/minecraft/world/level/border/WorldBorder.java
++++ b/net/minecraft/world/level/border/WorldBorder.java
+@@ -29,40 +_,40 @@
+     public static final WorldBorder.Settings DEFAULT_SETTINGS = new WorldBorder.Settings(0.0, 0.0, 0.2, 5.0, 5, 15, 5.999997E7F, 0L, 0.0);
+ 
+     public boolean isWithinBounds(BlockPos p_61938_) {
+-        return (double)(p_61938_.getX() + 1) > this.getMinX()
++        return true/*(double)(p_61938_.getX() + 1) > this.getMinX()
+             && (double)p_61938_.getX() < this.getMaxX()
+             && (double)(p_61938_.getZ() + 1) > this.getMinZ()
+-            && (double)p_61938_.getZ() < this.getMaxZ();
++            && (double)p_61938_.getZ() < this.getMaxZ()*/;
+     }
+ 
+     public boolean isWithinBounds(ChunkPos p_61928_) {
+-        return (double)p_61928_.getMaxBlockX() > this.getMinX()
++        return true/*(double)p_61928_.getMaxBlockX() > this.getMinX()
+             && (double)p_61928_.getMinBlockX() < this.getMaxX()
+             && (double)p_61928_.getMaxBlockZ() > this.getMinZ()
+-            && (double)p_61928_.getMinBlockZ() < this.getMaxZ();
++            && (double)p_61928_.getMinBlockZ() < this.getMaxZ()*/;
+     }
+ 
+     public boolean isWithinBounds(double p_156094_, double p_156095_) {
+-        return p_156094_ > this.getMinX() && p_156094_ < this.getMaxX() && p_156095_ > this.getMinZ() && p_156095_ < this.getMaxZ();
++        return true/*p_156094_ > this.getMinX() && p_156094_ < this.getMaxX() && p_156095_ > this.getMinZ() && p_156095_ < this.getMaxZ()*/;
+     }
+ 
+     public boolean isWithinBounds(double p_187563_, double p_187564_, double p_187565_) {
+-        return p_187563_ > this.getMinX() - p_187565_
++        return true/*p_187563_ > this.getMinX() - p_187565_
+             && p_187563_ < this.getMaxX() + p_187565_
+             && p_187564_ > this.getMinZ() - p_187565_
+-            && p_187564_ < this.getMaxZ() + p_187565_;
++            && p_187564_ < this.getMaxZ() + p_187565_*/;
+     }
+ 
+     public boolean isWithinBounds(AABB p_61936_) {
+-        return p_61936_.maxX > this.getMinX() && p_61936_.minX < this.getMaxX() && p_61936_.maxZ > this.getMinZ() && p_61936_.minZ < this.getMaxZ();
++        return true/*p_61936_.maxX > this.getMinX() && p_61936_.minX < this.getMaxX() && p_61936_.maxZ > this.getMinZ() && p_61936_.minZ < this.getMaxZ()*/;
+     }
+ 
+     public BlockPos clampToBounds(double p_187570_, double p_187571_, double p_187572_) {
+-        return BlockPos.containing(Mth.clamp(p_187570_, this.getMinX(), this.getMaxX()), p_187571_, Mth.clamp(p_187572_, this.getMinZ(), this.getMaxZ()));
++        return BlockPos.containing(p_187570_, p_187571_, p_187572_);//BlockPos.containing(Mth.clamp(p_187570_, this.getMinX(), this.getMaxX()), p_187571_, Mth.clamp(p_187572_, this.getMinZ(), this.getMaxZ()));
+     }
+ 
+     public double getDistanceToBorder(Entity p_61926_) {
+-        return this.getDistanceToBorder(p_61926_.getX(), p_61926_.getZ());
++        return 10;//this.getDistanceToBorder(p_61926_.getX(), p_61926_.getZ());
+     }
+ 
+     public VoxelShape getCollisionShape() {
+@@ -80,8 +_,8 @@
+     }
+ 
+     public boolean isInsideCloseToBorder(Entity p_187567_, AABB p_187568_) {
+-        double d0 = Math.max(Mth.absMax(p_187568_.getXsize(), p_187568_.getZsize()), 1.0);
+-        return this.getDistanceToBorder(p_187567_) < d0 * 2.0 && this.isWithinBounds(p_187567_.getX(), p_187567_.getZ(), d0);
++//        double d0 = Math.max(Mth.absMax(p_187568_.getXsize(), p_187568_.getZsize()), 1.0);
++        return false;//this.getDistanceToBorder(p_187567_) < d0 * 2.0 && this.isWithinBounds(p_187567_.getX(), p_187567_.getZ(), d0);
+     }
+ 
+     public BorderStatus getStatus() {
+@@ -447,8 +_,8 @@
+         }
+ 
+         public static WorldBorder.Settings read(DynamicLike<?> p_62038_, WorldBorder.Settings p_62039_) {
+-            double d0 = Mth.clamp(p_62038_.get("BorderCenterX").asDouble(p_62039_.centerX), -2.9999984E7, 2.9999984E7);
+-            double d1 = Mth.clamp(p_62038_.get("BorderCenterZ").asDouble(p_62039_.centerZ), -2.9999984E7, 2.9999984E7);
++            double d0 = /*Mth.clamp(*/p_62038_.get("BorderCenterX").asDouble(p_62039_.centerX)/*, -2.9999984E7, 2.9999984E7)*/;
++            double d1 = /*Mth.clamp(*/p_62038_.get("BorderCenterZ").asDouble(p_62039_.centerZ)/*, -2.9999984E7, 2.9999984E7)*/;
+             double d2 = p_62038_.get("BorderSize").asDouble(p_62039_.size);
+             long i = p_62038_.get("BorderSizeLerpTime").asLong(p_62039_.sizeLerpTime);
+             double d3 = p_62038_.get("BorderSizeLerpTarget").asDouble(p_62039_.sizeLerpTarget);

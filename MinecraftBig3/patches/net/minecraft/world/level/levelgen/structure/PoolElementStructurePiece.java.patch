@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/PoolElementStructurePiece.java
++++ b/net/minecraft/world/level/levelgen/structure/PoolElementStructurePiece.java
+@@ -110,7 +_,7 @@
+     }
+ 
+     @Override
+-    public void move(int p_72616_, int p_72617_, int p_72618_) {
++    public void move(me.alphamode.mcbig.math.BigInteger p_72616_, me.alphamode.mcbig.math.BigInteger p_72617_, me.alphamode.mcbig.math.BigInteger p_72618_) {
+         super.move(p_72616_, p_72617_, p_72618_);
+         this.position = this.position.offset(p_72616_, p_72617_, p_72618_);
+     }

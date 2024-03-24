@@ -1,12 +1,17 @@
 --- a/net/minecraft/util/Mth.java
 +++ b/net/minecraft/util/Mth.java
-@@ -66,6 +_,11 @@
+@@ -66,6 +_,16 @@
          return p_14108_ < (double)i ? i - 1 : i;
      }
  
 +    public static me.alphamode.mcbig.math.BigInteger bigFloor(double p_14108_) {
 +        me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.val((long)p_14108_);
 +        return p_14108_ < (double)i.doubleValue() ? i.subtract(me.alphamode.mcbig.math.BigInteger.ONE) : i;
++    }
++
++    public static me.alphamode.mcbig.math.BigInteger bigFloor(me.alphamode.mcbig.math.BigDecimal p_14108_) {
++        me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.val((long)p_14108_.doubleValue());
++        return p_14108_.compareTo(i.toBigDecimal()) < 0 ? i.subtract(me.alphamode.mcbig.math.BigInteger.ONE) : i;
 +    }
 +
      public static long lfloor(double p_14135_) {
@@ -28,12 +33,32 @@
      public static int clamp(int p_14046_, int p_14047_, int p_14048_) {
          return Math.min(Math.max(p_14046_, p_14047_), p_14048_);
      }
-@@ -276,7 +_,7 @@
+@@ -276,13 +_,13 @@
      }
  
      @Deprecated
 -    public static long getSeed(Vec3i p_14058_) {
+-        return getSeed(p_14058_.getX(), p_14058_.getY(), p_14058_.getZ());
 +    public static long getSeed(me.alphamode.mcbig.core.Vec3l p_14058_) {
-         return getSeed(p_14058_.getX(), p_14058_.getY(), p_14058_.getZ());
++        return getSeed(p_14058_.getBigX(), p_14058_.getY(), p_14058_.getBigZ());
      }
  
+     @Deprecated
+-    public static long getSeed(int p_14131_, int p_14132_, int p_14133_) {
+-        long i = (long)(p_14131_ * 3129871) ^ (long)p_14133_ * 116129781L ^ (long)p_14132_;
++    public static long getSeed(me.alphamode.mcbig.math.BigInteger p_14131_, int p_14132_, me.alphamode.mcbig.math.BigInteger p_14133_) {
++        long i = (long)(p_14131_.multiply(3129871)).longValue() ^ (long)p_14133_.multiply(116129781L).longValue() ^ (long)p_14132_;
+         i = i * i * 42317861L + i * 11L;
+         return i >> 16;
+     }
+@@ -505,6 +_,10 @@
+ 
+     public static double lerp(double p_14140_, double p_14141_, double p_14142_) {
+         return p_14141_ + p_14140_ * (p_14142_ - p_14141_);
++    }
++
++    public static me.alphamode.mcbig.math.BigDecimal lerp(double p_14140_, me.alphamode.mcbig.math.BigDecimal p_14141_, me.alphamode.mcbig.math.BigDecimal p_14142_) {
++        return p_14141_.add(me.alphamode.mcbig.math.BigDecimal.val(p_14140_).multiply((p_14142_.subtract(p_14141_))));
+     }
+ 
+     public static double lerp2(double p_14013_, double p_14014_, double p_14015_, double p_14016_, double p_14017_, double p_14018_) {

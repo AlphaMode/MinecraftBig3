@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/level/levelgen/carver/CanyonWorldCarver.java
++++ b/net/minecraft/world/level/levelgen/carver/CanyonWorldCarver.java
+@@ -32,9 +_,9 @@
+         CarvingMask p_224820_
+     ) {
+         int i = (this.getRange() * 2 - 1) * 16;
+-        double d0 = (double)p_224819_.getBlockX(p_224817_.nextInt(16));
++        double d0 = (double)p_224819_.getBlockX(p_224817_.nextInt(16)).doubleValue();
+         int j = p_224814_.y.sample(p_224817_, p_224813_);
+-        double d1 = (double)p_224819_.getBlockZ(p_224817_.nextInt(16));
++        double d1 = (double)p_224819_.getBlockZ(p_224817_.nextInt(16)).doubleValue();
+         float f = p_224817_.nextFloat() * (float) (Math.PI * 2);
+         float f1 = p_224814_.verticalRotation.sample(p_224817_);
+         double d2 = (double)p_224814_.yScale.sample(p_224817_);

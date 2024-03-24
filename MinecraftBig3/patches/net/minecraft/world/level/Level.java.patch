@@ -1,5 +1,19 @@
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
+@@ -171,11 +_,11 @@
+     }
+ 
+     public static boolean isInSpawnableBounds(BlockPos p_46742_) {
+-        return !isOutsideSpawnableHeight(p_46742_.getY()) && isInWorldBoundsHorizontal(p_46742_);
++        return true;//!isOutsideSpawnableHeight(p_46742_.getY()) && isInWorldBoundsHorizontal(p_46742_);
+     }
+ 
+     private static boolean isInWorldBoundsHorizontal(BlockPos p_46458_) {
+-        return p_46458_.getX() >= -30000000 && p_46458_.getZ() >= -30000000 && p_46458_.getX() < 30000000 && p_46458_.getZ() < 30000000;
++        return true;//p_46458_.getX() >= -30000000 && p_46458_.getZ() >= -30000000 && p_46458_.getX() < 30000000 && p_46458_.getZ() < 30000000;
+     }
+ 
+     private static boolean isOutsideSpawnableHeight(int p_46725_) {
 @@ -183,16 +_,20 @@
      }
  
@@ -24,16 +38,19 @@
          ChunkAccess chunkaccess = this.getChunkSource().getChunk(p_46502_, p_46503_, p_46504_, p_46505_);
          if (chunkaccess == null && p_46505_) {
              throw new IllegalStateException("Should always be able to create a chunk!");
-@@ -319,17 +_,17 @@
+@@ -317,19 +_,19 @@
+     }
+ 
      @Override
-     public int getHeight(Heightmap.Types p_46571_, int p_46572_, int p_46573_) {
+-    public int getHeight(Heightmap.Types p_46571_, int p_46572_, int p_46573_) {
++    public int getHeight(Heightmap.Types p_46571_, me.alphamode.mcbig.math.BigInteger p_46572_, me.alphamode.mcbig.math.BigInteger p_46573_) {
          int i;
 -        if (p_46572_ >= -30000000 && p_46573_ >= -30000000 && p_46572_ < 30000000 && p_46573_ < 30000000) {
 +//        if (p_46572_ >= -30000000 && p_46573_ >= -30000000 && p_46572_ < 30000000 && p_46573_ < 30000000) {
              if (this.hasChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_))) {
--                i = this.getChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_))
-+                i = this.getChunk(me.alphamode.mcbig.math.BigInteger.val(SectionPos.blockToSectionCoord(p_46572_)), me.alphamode.mcbig.math.BigInteger.val(SectionPos.blockToSectionCoord(p_46573_)))
-                         .getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15)
+                 i = this.getChunk(SectionPos.blockToSectionCoord(p_46572_), SectionPos.blockToSectionCoord(p_46573_))
+-                        .getHeight(p_46571_, p_46572_ & 15, p_46573_ & 15)
++                        .getHeight(p_46571_, p_46572_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN), p_46573_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN))
                      + 1;
              } else {
                  i = this.getMinBuildHeight();
@@ -56,6 +73,28 @@
              return levelchunk.getBlockState(p_46732_);
          }
      }
+@@ -374,7 +_,7 @@
+     @Override
+     public void playSound(@Nullable Player p_46560_, BlockPos p_46561_, SoundEvent p_46562_, SoundSource p_46563_, float p_46564_, float p_46565_) {
+         this.playSound(
+-            p_46560_, (double)p_46561_.getX() + 0.5, (double)p_46561_.getY() + 0.5, (double)p_46561_.getZ() + 0.5, p_46562_, p_46563_, p_46564_, p_46565_
++            p_46560_, (double)p_46561_.getBigX().doubleValue() + 0.5, (double)p_46561_.getBigY().doubleValue() + 0.5, (double)p_46561_.getBigZ().doubleValue() + 0.5, p_46562_, p_46563_, p_46564_, p_46565_
+         );
+     }
+ 
+@@ -428,9 +_,9 @@
+ 
+     public void playLocalSound(BlockPos p_250938_, SoundEvent p_252209_, SoundSource p_249161_, float p_249980_, float p_250277_, boolean p_250151_) {
+         this.playLocalSound(
+-            (double)p_250938_.getX() + 0.5,
+-            (double)p_250938_.getY() + 0.5,
+-            (double)p_250938_.getZ() + 0.5,
++            (double)p_250938_.getBigX().doubleValue() + 0.5,
++            (double)p_250938_.getBigY().doubleValue() + 0.5,
++            (double)p_250938_.getBigZ().doubleValue() + 0.5,
+             p_252209_,
+             p_249161_,
+             p_249980_,
 @@ -515,12 +_,12 @@
          return true;
      }
@@ -98,3 +137,16 @@
          return this.getChunk(p_46711_, p_46712_, ChunkStatus.FULL, false);
      }
  
+@@ -1049,10 +_,10 @@
+ 
+     public abstract RecipeManager getRecipeManager();
+ 
+-    public BlockPos getBlockRandomPos(int p_46497_, int p_46498_, int p_46499_, int p_46500_) {
++    public BlockPos getBlockRandomPos(me.alphamode.mcbig.math.BigInteger p_46497_, int p_46498_, me.alphamode.mcbig.math.BigInteger p_46499_, int p_46500_) {
+         this.randValue = this.randValue * 3 + 1013904223;
+         int i = this.randValue >> 2;
+-        return new BlockPos(p_46497_ + (i & 15), p_46498_ + (i >> 16 & p_46500_), p_46499_ + (i >> 8 & 15));
++        return new BlockPos(p_46497_.add((i & 15)), p_46498_ + (i >> 16 & p_46500_), p_46499_.add((i >> 8 & 15)));
+     }
+ 
+     public boolean noSave() {

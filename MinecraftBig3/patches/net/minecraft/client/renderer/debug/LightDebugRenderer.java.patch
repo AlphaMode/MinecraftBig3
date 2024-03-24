@@ -1,0 +1,30 @@
+--- a/net/minecraft/client/renderer/debug/LightDebugRenderer.java
++++ b/net/minecraft/client/renderer/debug/LightDebugRenderer.java
+@@ -26,21 +_,21 @@
+     public void render(PoseStack p_113587_, MultiBufferSource p_113588_, double p_113589_, double p_113590_, double p_113591_) {
+         Level level = this.minecraft.level;
+         BlockPos blockpos = BlockPos.containing(p_113589_, p_113590_, p_113591_);
+-        LongSet longset = new LongOpenHashSet();
++        it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> longset = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+ 
+         for(BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-10, -10, -10), blockpos.offset(10, 10, 10))) {
+             int i = level.getBrightness(LightLayer.SKY, blockpos1);
+             float f = (float)(15 - i) / 15.0F * 0.5F + 0.16F;
+             int j = Mth.hsvToRgb(f, 0.9F, 0.9F);
+-            long k = SectionPos.blockToSection(blockpos1.asLong());
++            SectionPos k = SectionPos.of(blockpos1);
+             if (longset.add(k)) {
+                 DebugRenderer.renderFloatingText(
+                     p_113587_,
+                     p_113588_,
+-                    level.getChunkSource().getLightEngine().getDebugData(LightLayer.SKY, SectionPos.of(k)),
+-                    (double)SectionPos.sectionToBlockCoord(SectionPos.x(k), 8),
+-                    (double)SectionPos.sectionToBlockCoord(SectionPos.y(k), 8),
+-                    (double)SectionPos.sectionToBlockCoord(SectionPos.z(k), 8),
++                    level.getChunkSource().getLightEngine().getDebugData(LightLayer.SKY, k),
++                    (double)SectionPos.sectionToBlockCoord(k.x(), 8).doubleValue(),
++                    (double)SectionPos.sectionToBlockCoord(k.y(), 8).doubleValue(),
++                    (double)SectionPos.sectionToBlockCoord(k.z(), 8).doubleValue(),
+                     16711680,
+                     0.3F
+                 );

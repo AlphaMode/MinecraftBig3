@@ -1,0 +1,21 @@
+--- a/net/minecraft/world/entity/ai/goal/TryFindWaterGoal.java
++++ b/net/minecraft/world/entity/ai/goal/TryFindWaterGoal.java
+@@ -22,12 +_,12 @@
+         BlockPos blockpos = null;
+ 
+         for(BlockPos blockpos1 : BlockPos.betweenClosed(
+-            Mth.floor(this.mob.getX() - 2.0),
+-            Mth.floor(this.mob.getY() - 2.0),
+-            Mth.floor(this.mob.getZ() - 2.0),
+-            Mth.floor(this.mob.getX() + 2.0),
+-            this.mob.getBlockY(),
+-            Mth.floor(this.mob.getZ() + 2.0)
++            Mth.bigFloor(this.mob.getX() - 2.0),
++            Mth.bigFloor(this.mob.getY() - 2.0),
++            Mth.bigFloor(this.mob.getZ() - 2.0),
++            Mth.bigFloor(this.mob.getX() + 2.0),
++            me.alphamode.mcbig.math.BigInteger.val(this.mob.getBlockY()),
++            Mth.bigFloor(this.mob.getZ() + 2.0)
+         )) {
+             if (this.mob.level().getFluidState(blockpos1).is(FluidTags.WATER)) {
+                 blockpos = blockpos1;

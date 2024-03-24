@@ -1,0 +1,59 @@
+--- a/net/minecraft/world/level/biome/Biome.java
++++ b/net/minecraft/world/level/biome/Biome.java
+@@ -64,8 +_,8 @@
+     private final BiomeGenerationSettings generationSettings;
+     private final MobSpawnSettings mobSettings;
+     private final BiomeSpecialEffects specialEffects;
+-    private final ThreadLocal<Long2FloatLinkedOpenHashMap> temperatureCache = ThreadLocal.withInitial(() -> Util.make(() -> {
+-            Long2FloatLinkedOpenHashMap long2floatlinkedopenhashmap = new Long2FloatLinkedOpenHashMap(1024, 0.25F) {
++    private final ThreadLocal<it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos>> temperatureCache = ThreadLocal.withInitial(() -> Util.make(() -> {
++            it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos> long2floatlinkedopenhashmap = new it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<>(1024, 0.25F) {
+                 @Override
+                 protected void rehash(int p_47580_) {
+                 }
+@@ -104,7 +_,7 @@
+     private float getHeightAdjustedTemperature(BlockPos p_47529_) {
+         float f = this.climateSettings.temperatureModifier.modifyTemperature(p_47529_, this.getBaseTemperature());
+         if (p_47529_.getY() > 80) {
+-            float f1 = (float)(TEMPERATURE_NOISE.getValue((double)((float)p_47529_.getX() / 8.0F), (double)((float)p_47529_.getZ() / 8.0F), false) * 8.0);
++            float f1 = (float)(TEMPERATURE_NOISE.getValue((double)((float)p_47529_.getBigX().floatValue() / 8.0F), (double)((float)p_47529_.getBigZ().floatValue() / 8.0F), false) * 8.0);
+             return f - (f1 + (float)p_47529_.getY() - 80.0F) * 0.05F / 40.0F;
+         } else {
+             return f;
+@@ -113,9 +_,9 @@
+ 
+     @Deprecated
+     private float getTemperature(BlockPos p_47506_) {
+-        long i = p_47506_.asLong();
+-        Long2FloatLinkedOpenHashMap long2floatlinkedopenhashmap = this.temperatureCache.get();
+-        float f = long2floatlinkedopenhashmap.get(i);
++//        long i = p_47506_.asLong();
++        it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos> long2floatlinkedopenhashmap = this.temperatureCache.get();
++        float f = long2floatlinkedopenhashmap.get(p_47506_);
+         if (!Float.isNaN(f)) {
+             return f;
+         } else {
+@@ -124,7 +_,7 @@
+                 long2floatlinkedopenhashmap.removeFirstFloat();
+             }
+ 
+-            long2floatlinkedopenhashmap.put(i, f1);
++            long2floatlinkedopenhashmap.put(p_47506_, f1);
+             return f1;
+         }
+     }
+@@ -383,11 +_,11 @@
+         FROZEN("frozen") {
+             @Override
+             public float modifyTemperature(BlockPos p_47774_, float p_47775_) {
+-                double d0 = Biome.FROZEN_TEMPERATURE_NOISE.getValue((double)p_47774_.getX() * 0.05, (double)p_47774_.getZ() * 0.05, false) * 7.0;
+-                double d1 = Biome.BIOME_INFO_NOISE.getValue((double)p_47774_.getX() * 0.2, (double)p_47774_.getZ() * 0.2, false);
++                double d0 = Biome.FROZEN_TEMPERATURE_NOISE.getValue((double)p_47774_.getBigX().doubleValue() * 0.05, (double)p_47774_.getBigZ().doubleValue() * 0.05, false) * 7.0;
++                double d1 = Biome.BIOME_INFO_NOISE.getValue((double)p_47774_.getBigX().doubleValue() * 0.2, (double)p_47774_.getBigZ().doubleValue() * 0.2, false);
+                 double d2 = d0 + d1;
+                 if (d2 < 0.3) {
+-                    double d3 = Biome.BIOME_INFO_NOISE.getValue((double)p_47774_.getX() * 0.09, (double)p_47774_.getZ() * 0.09, false);
++                    double d3 = Biome.BIOME_INFO_NOISE.getValue((double)p_47774_.getBigX().doubleValue() * 0.09, (double)p_47774_.getBigZ().doubleValue() * 0.09, false);
+                     if (d3 < 0.8) {
+                         return 0.2F;
+                     }

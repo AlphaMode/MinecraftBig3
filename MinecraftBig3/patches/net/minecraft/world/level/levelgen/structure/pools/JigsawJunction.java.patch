@@ -1,0 +1,73 @@
+--- a/net/minecraft/world/level/levelgen/structure/pools/JigsawJunction.java
++++ b/net/minecraft/world/level/levelgen/structure/pools/JigsawJunction.java
+@@ -6,13 +_,13 @@
+ import com.mojang.serialization.DynamicOps;
+ 
+ public class JigsawJunction {
+-    private final int sourceX;
++    private final me.alphamode.mcbig.math.BigInteger sourceX;
+     private final int sourceGroundY;
+-    private final int sourceZ;
++    private final me.alphamode.mcbig.math.BigInteger sourceZ;
+     private final int deltaY;
+     private final StructureTemplatePool.Projection destProjection;
+ 
+-    public JigsawJunction(int p_210247_, int p_210248_, int p_210249_, int p_210250_, StructureTemplatePool.Projection p_210251_) {
++    public JigsawJunction(me.alphamode.mcbig.math.BigInteger p_210247_, int p_210248_, me.alphamode.mcbig.math.BigInteger p_210249_, int p_210250_, StructureTemplatePool.Projection p_210251_) {
+         this.sourceX = p_210247_;
+         this.sourceGroundY = p_210248_;
+         this.sourceZ = p_210249_;
+@@ -20,7 +_,7 @@
+         this.destProjection = p_210251_;
+     }
+ 
+-    public int getSourceX() {
++    public me.alphamode.mcbig.math.BigInteger getSourceX() {
+         return this.sourceX;
+     }
+ 
+@@ -28,7 +_,7 @@
+         return this.sourceGroundY;
+     }
+ 
+-    public int getSourceZ() {
++    public me.alphamode.mcbig.math.BigInteger getSourceZ() {
+         return this.sourceZ;
+     }
+ 
+@@ -42,9 +_,9 @@
+ 
+     public <T> Dynamic<T> serialize(DynamicOps<T> p_210256_) {
+         Builder<T, T> builder = ImmutableMap.builder();
+-        builder.put(p_210256_.createString("source_x"), p_210256_.createInt(this.sourceX))
++        builder.put(p_210256_.createString("source_x"), p_210256_.createString(this.sourceX.toString()))
+             .put(p_210256_.createString("source_ground_y"), p_210256_.createInt(this.sourceGroundY))
+-            .put(p_210256_.createString("source_z"), p_210256_.createInt(this.sourceZ))
++            .put(p_210256_.createString("source_z"), p_210256_.createString(this.sourceZ.toString()))
+             .put(p_210256_.createString("delta_y"), p_210256_.createInt(this.deltaY))
+             .put(p_210256_.createString("dest_proj"), p_210256_.createString(this.destProjection.getName()));
+         return new Dynamic<>(p_210256_, p_210256_.createMap(builder.build()));
+@@ -52,9 +_,9 @@
+ 
+     public static <T> JigsawJunction deserialize(Dynamic<T> p_210254_) {
+         return new JigsawJunction(
+-            p_210254_.get("source_x").asInt(0),
++            me.alphamode.mcbig.math.BigInteger.val(p_210254_.get("source_x").asString("0")),
+             p_210254_.get("source_ground_y").asInt(0),
+-            p_210254_.get("source_z").asInt(0),
++            me.alphamode.mcbig.math.BigInteger.val(p_210254_.get("source_z").asString("0")),
+             p_210254_.get("delta_y").asInt(0),
+             StructureTemplatePool.Projection.byName(p_210254_.get("dest_proj").asString(""))
+         );
+@@ -82,9 +_,9 @@
+ 
+     @Override
+     public int hashCode() {
+-        int i = this.sourceX;
++        int i = this.sourceX.intValue();
+         i = 31 * i + this.sourceGroundY;
+-        i = 31 * i + this.sourceZ;
++        i = 31 * i + this.sourceZ.intValue();
+         i = 31 * i + this.deltaY;
+         return 31 * i + this.destProjection.hashCode();
+     }

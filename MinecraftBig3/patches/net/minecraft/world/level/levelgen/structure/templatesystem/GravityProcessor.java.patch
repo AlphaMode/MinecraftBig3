@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/level/levelgen/structure/templatesystem/GravityProcessor.java
++++ b/net/minecraft/world/level/levelgen/structure/templatesystem/GravityProcessor.java
+@@ -49,9 +_,9 @@
+         }
+ 
+         BlockPos blockpos = p_74113_.pos();
+-        int i = p_74109_.getHeight(heightmap$types, blockpos.getX(), blockpos.getZ()) + this.offset;
++        int i = p_74109_.getHeight(heightmap$types, blockpos.getBigX(), blockpos.getBigZ()) + this.offset;
+         int j = p_74112_.pos().getY();
+-        return new StructureTemplate.StructureBlockInfo(new BlockPos(blockpos.getX(), i + j, blockpos.getZ()), p_74113_.state(), p_74113_.nbt());
++        return new StructureTemplate.StructureBlockInfo(new BlockPos(blockpos.getBigX(), i + j, blockpos.getBigZ()), p_74113_.state(), p_74113_.nbt());
+     }
+ 
+     @Override

@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/OceanRuinPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/OceanRuinPieces.java
+@@ -342,8 +_,8 @@
+             ChunkPos p_229034_,
+             BlockPos p_229035_
+         ) {
+-            int i = p_229029_.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, this.templatePosition.getX(), this.templatePosition.getZ());
+-            this.templatePosition = new BlockPos(this.templatePosition.getX(), i, this.templatePosition.getZ());
++            int i = p_229029_.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, this.templatePosition.getBigX(), this.templatePosition.getBigZ());
++            this.templatePosition = new BlockPos(this.templatePosition.getBigX(), i, this.templatePosition.getBigZ());
+             BlockPos blockpos = StructureTemplate.transform(
+                     new BlockPos(this.template.getSize().getX() - 1, 0, this.template.getSize().getZ() - 1),
+                     Mirror.NONE,
+@@ -352,7 +_,7 @@
+                 )
+                 .offset(this.templatePosition);
+             this.templatePosition = new BlockPos(
+-                this.templatePosition.getX(), this.getHeight(this.templatePosition, p_229029_, blockpos), this.templatePosition.getZ()
++                this.templatePosition.getBigX(), this.getHeight(this.templatePosition, p_229029_, blockpos), this.templatePosition.getBigZ()
+             );
+             super.postProcess(p_229029_, p_229030_, p_229031_, p_229032_, p_229033_, p_229034_, p_229035_);
+         }

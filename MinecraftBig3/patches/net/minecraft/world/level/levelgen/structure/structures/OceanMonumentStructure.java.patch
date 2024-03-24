@@ -1,6 +1,28 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentStructure.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentStructure.java
-@@ -57,7 +_,7 @@
+@@ -28,8 +_,8 @@
+ 
+     @Override
+     public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext p_228964_) {
+-        int i = p_228964_.chunkPos().getBlockX(9);
+-        int j = p_228964_.chunkPos().getBlockZ(9);
++        me.alphamode.mcbig.math.BigInteger i = p_228964_.chunkPos().getBlockX(9);
++        me.alphamode.mcbig.math.BigInteger j = p_228964_.chunkPos().getBlockZ(9);
+ 
+         for(Holder<Biome> holder : p_228964_.biomeSource()
+             .getBiomesWithin(i, p_228964_.chunkGenerator().getSeaLevel(), j, 29, p_228964_.randomState().sampler())) {
+@@ -42,8 +_,8 @@
+     }
+ 
+     private static StructurePiece createTopPiece(ChunkPos p_228961_, WorldgenRandom p_228962_) {
+-        int i = p_228961_.getMinBlockX() - 29;
+-        int j = p_228961_.getMinBlockZ() - 29;
++        me.alphamode.mcbig.math.BigInteger i = p_228961_.getBigMinBlockX().subtract(29);
++        me.alphamode.mcbig.math.BigInteger j = p_228961_.getBigMinBlockZ().subtract(29);
+         Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(p_228962_);
+         return new OceanMonumentPieces.MonumentBuilding(p_228962_, i, j, direction);
+     }
+@@ -57,11 +_,11 @@
              return p_228959_;
          } else {
              WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.generateUniqueSeed()));
@@ -8,4 +30,10 @@
 +            worldgenrandom.setLargeFeatureSeed(p_228958_, p_228957_.x().longValue(), p_228957_.z().longValue());
              StructurePiece structurepiece = p_228959_.pieces().get(0);
              BoundingBox boundingbox = structurepiece.getBoundingBox();
-             int i = boundingbox.minX();
+-            int i = boundingbox.minX();
+-            int j = boundingbox.minZ();
++            me.alphamode.mcbig.math.BigInteger i = boundingbox.minX();
++            me.alphamode.mcbig.math.BigInteger j = boundingbox.minZ();
+             Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(worldgenrandom);
+             Direction direction1 = Objects.requireNonNullElse(structurepiece.getOrientation(), direction);
+             StructurePiece structurepiece1 = new OceanMonumentPieces.MonumentBuilding(worldgenrandom, i, j, direction1);

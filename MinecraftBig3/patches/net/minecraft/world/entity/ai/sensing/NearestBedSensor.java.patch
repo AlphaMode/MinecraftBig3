@@ -1,0 +1,37 @@
+--- a/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
++++ b/net/minecraft/world/entity/ai/sensing/NearestBedSensor.java
+@@ -24,7 +_,7 @@
+     private static final int CACHE_TIMEOUT = 40;
+     private static final int BATCH_SIZE = 5;
+     private static final int RATE = 20;
+-    private final Long2LongMap batchCache = new Long2LongOpenHashMap();
++    private final it.unimi.dsi.fastutil.objects.Object2LongMap<BlockPos> batchCache = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>();
+     private int triedCount;
+     private long lastUpdate;
+ 
+@@ -43,13 +_,13 @@
+             this.lastUpdate = p_26685_.getGameTime() + (long)p_26685_.getRandom().nextInt(20);
+             PoiManager poimanager = p_26685_.getPoiManager();
+             Predicate<BlockPos> predicate = p_26688_ -> {
+-                long i = p_26688_.asLong();
+-                if (this.batchCache.containsKey(i)) {
++//                long i = p_26688_.asLong();
++                if (this.batchCache.containsKey(p_26688_)) {
+                     return false;
+                 } else if (++this.triedCount >= 5) {
+                     return false;
+                 } else {
+-                    this.batchCache.put(i, this.lastUpdate + 40L);
++                    this.batchCache.put(p_26688_, this.lastUpdate + 40L);
+                     return true;
+                 }
+             };
+@@ -65,7 +_,7 @@
+                     p_26686_.getBrain().setMemory(MemoryModuleType.NEAREST_BED, blockpos);
+                 }
+             } else if (this.triedCount < 5) {
+-                this.batchCache.long2LongEntrySet().removeIf(p_217821_ -> p_217821_.getLongValue() < this.lastUpdate);
++                this.batchCache.object2LongEntrySet().removeIf(p_217821_ -> p_217821_.getLongValue() < this.lastUpdate);
+             }
+         }
+     }

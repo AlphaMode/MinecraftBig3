@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/entity/player/Player.java
++++ b/net/minecraft/world/entity/player/Player.java
+@@ -273,8 +_,8 @@
+         }
+ 
+         int i = 29999999;
+-        double d0 = Mth.clamp(this.getX(), -2.9999999E7, 2.9999999E7);
+-        double d1 = Mth.clamp(this.getZ(), -2.9999999E7, 2.9999999E7);
++        double d0 = /*Mth.clamp(*/this.getX()/*, -2.9999999E7, 2.9999999E7)*/;
++        double d1 = /*Mth.clamp(*/this.getZ()/*, -2.9999999E7, 2.9999999E7)*/;
+         if (d0 != this.getX() || d1 != this.getZ()) {
+             this.setPos(d0, this.getY(), d1);
+         }

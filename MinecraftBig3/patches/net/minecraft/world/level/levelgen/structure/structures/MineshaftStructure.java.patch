@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/MineshaftStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/MineshaftStructure.java
+@@ -3,7 +_,7 @@
+ import com.mojang.datafixers.util.Either;
+ import com.mojang.serialization.Codec;
+ import com.mojang.serialization.codecs.RecordCodecBuilder;
+-import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
++
+ import java.util.Optional;
+ import java.util.function.IntFunction;
+ import net.minecraft.core.BlockPos;
+@@ -56,7 +_,7 @@
+         if (this.type == MineshaftStructure.Type.MESA) {
+             BlockPos blockpos = p_227966_.getBoundingBox().getCenter();
+             int j = chunkgenerator.getBaseHeight(
+-                blockpos.getX(), blockpos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227967_.heightAccessor(), p_227967_.randomState()
++                blockpos.getBigX(), blockpos.getBigZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227967_.heightAccessor(), p_227967_.randomState()
+             );
+             int k = j <= i ? i : Mth.randomBetweenInclusive(worldgenrandom, i, j);
+             int l = k - blockpos.getY();

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/LightningRodBlock.java
++++ b/net/minecraft/world/level/block/LightningRodBlock.java
+@@ -105,7 +_,7 @@
+     public void animateTick(BlockState p_221405_, Level p_221406_, BlockPos p_221407_, RandomSource p_221408_) {
+         if (p_221406_.isThundering()
+             && (long)p_221406_.random.nextInt(200) <= p_221406_.getGameTime() % 200L
+-            && p_221407_.getY() == p_221406_.getHeight(Heightmap.Types.WORLD_SURFACE, p_221407_.getX(), p_221407_.getZ()) - 1) {
++            && p_221407_.getY() == p_221406_.getHeight(Heightmap.Types.WORLD_SURFACE, p_221407_.getBigX(), p_221407_.getBigZ()) - 1) {
+             ParticleUtils.spawnParticlesAlongAxis(
+                 p_221405_.getValue(FACING).getAxis(), p_221406_, p_221407_, 0.125, ParticleTypes.ELECTRIC_SPARK, UniformInt.of(1, 2)
+             );

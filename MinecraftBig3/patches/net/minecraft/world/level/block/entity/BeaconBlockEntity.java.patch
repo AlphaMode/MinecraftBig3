@@ -1,0 +1,43 @@
+--- a/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
+@@ -112,9 +_,9 @@
+     }
+ 
+     public static void tick(Level p_155108_, BlockPos p_155109_, BlockState p_155110_, BeaconBlockEntity p_155111_) {
+-        int i = p_155109_.getX();
++        me.alphamode.mcbig.math.BigInteger i = p_155109_.getBigX();
+         int j = p_155109_.getY();
+-        int k = p_155109_.getZ();
++        me.alphamode.mcbig.math.BigInteger k = p_155109_.getBigZ();
+         BlockPos blockpos;
+         if (p_155111_.lastCheckY < j) {
+             blockpos = p_155109_;
+@@ -187,7 +_,7 @@
+                     playSound(p_155108_, p_155109_, SoundEvents.BEACON_ACTIVATE);
+ 
+                     for(ServerPlayer serverplayer : p_155108_.getEntitiesOfClass(
+-                        ServerPlayer.class, new AABB((double)i, (double)j, (double)k, (double)i, (double)(j - 4), (double)k).inflate(10.0, 5.0, 10.0)
++                        ServerPlayer.class, new AABB((double)i.doubleValue(), (double)j, (double)k.doubleValue(), (double)i.doubleValue(), (double)(j - 4), (double)k.doubleValue()).inflate(10.0, 5.0, 10.0)
+                     )) {
+                         CriteriaTriggers.CONSTRUCT_BEACON.trigger(serverplayer, p_155111_.levels);
+                     }
+@@ -198,7 +_,7 @@
+         }
+     }
+ 
+-    private static int updateBase(Level p_155093_, int p_155094_, int p_155095_, int p_155096_) {
++    private static int updateBase(Level p_155093_, me.alphamode.mcbig.math.BigInteger p_155094_, int p_155095_, me.alphamode.mcbig.math.BigInteger p_155096_) {
+         int i = 0;
+ 
+         for(int j = 1; j <= 4; i = j++) {
+@@ -209,8 +_,8 @@
+ 
+             boolean flag = true;
+ 
+-            for(int l = p_155094_ - j; l <= p_155094_ + j && flag; ++l) {
+-                for(int i1 = p_155096_ - j; i1 <= p_155096_ + j; ++i1) {
++            for(me.alphamode.mcbig.math.BigInteger l = p_155094_.subtract(j); l.compareTo(p_155094_.add(j)) <= 0 && flag; l = l.add()) {
++                for(me.alphamode.mcbig.math.BigInteger i1 = p_155096_.subtract(j); i1.compareTo(p_155096_.add(j)) <= 0; i1 = i1.add()) {
+                     if (!p_155093_.getBlockState(new BlockPos(l, k, i1)).is(BlockTags.BEACON_BASE_BLOCKS)) {
+                         flag = false;
+                         break;

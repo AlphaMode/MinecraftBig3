@@ -48,6 +48,15 @@
          if (levelchunkticks != null) {
              levelchunkticks.setOnTickAdded(null);
          }
+@@ -72,7 +_,7 @@
+ 
+     @Override
+     public void schedule(ScheduledTick<T> p_193252_) {
+-        long i = ChunkPos.asLong(p_193252_.pos());
++        ChunkPos i = new ChunkPos(p_193252_.pos());
+         LevelChunkTicks<T> levelchunkticks = this.allContainers.get(i);
+         if (levelchunkticks == null) {
+             Util.pauseInIde(new IllegalStateException("Trying to schedule tick in not loaded position " + p_193252_.pos()));
 @@ -101,11 +_,11 @@
      }
  
@@ -72,6 +81,37 @@
      }
  
      private void drainFromCurrentContainer(Queue<LevelChunkTicks<T>> p_193268_, LevelChunkTicks<T> p_193269_, long p_193270_, int p_193271_) {
+@@ -201,7 +_,7 @@
+ 
+     @Override
+     public boolean hasScheduledTick(BlockPos p_193254_, T p_193255_) {
+-        LevelChunkTicks<T> levelchunkticks = this.allContainers.get(ChunkPos.asLong(p_193254_));
++        LevelChunkTicks<T> levelchunkticks = this.allContainers.get(new ChunkPos(p_193254_));
+         return levelchunkticks != null && levelchunkticks.hasScheduledTick(p_193254_, p_193255_);
+     }
+ 
+@@ -218,14 +_,14 @@
+     }
+ 
+     private void forContainersInArea(BoundingBox p_193237_, LevelTicks.PosAndContainerConsumer<T> p_193238_) {
+-        int i = SectionPos.posToSectionCoord((double)p_193237_.minX());
+-        int j = SectionPos.posToSectionCoord((double)p_193237_.minZ());
+-        int k = SectionPos.posToSectionCoord((double)p_193237_.maxX());
+-        int l = SectionPos.posToSectionCoord((double)p_193237_.maxZ());
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.posToSectionCoord(p_193237_.minX().toBigDecimal());
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.posToSectionCoord(p_193237_.minZ().toBigDecimal());
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.posToSectionCoord(p_193237_.maxX().toBigDecimal());
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.posToSectionCoord(p_193237_.maxZ().toBigDecimal());
+ 
+-        for(int i1 = i; i1 <= k; ++i1) {
+-            for(int j1 = j; j1 <= l; ++j1) {
+-                long k1 = ChunkPos.asLong(i1, j1);
++        for(me.alphamode.mcbig.math.BigInteger i1 = i; i1.compareTo(k) <= 0; i1 = i1.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j1 = j; j1.compareTo(l) <= 0; j1 = j1.add()) {
++                ChunkPos k1 = new ChunkPos(i1, j1);
+                 LevelChunkTicks<T> levelchunkticks = this.allContainers.get(k1);
+                 if (levelchunkticks != null) {
+                     p_193238_.accept(k1, levelchunkticks);
 @@ -244,7 +_,7 @@
                  if (scheduledtick1 != null) {
                      this.updateContainerScheduling(scheduledtick1);
@@ -95,3 +135,11 @@
          List<ScheduledTick<T>> list = new ArrayList<>();
          Predicate<ScheduledTick<T>> predicate = p_200922_ -> p_265172_.isInside(p_200922_.pos());
          p_265554_.alreadyRunThisTick.stream().filter(predicate).forEach(list::add);
+@@ -285,6 +_,6 @@
+ 
+     @FunctionalInterface
+     interface PosAndContainerConsumer<T> {
+-        void accept(long p_193289_, LevelChunkTicks<T> p_193290_);
++        void accept(ChunkPos p_193289_, LevelChunkTicks<T> p_193290_);
+     }
+ }

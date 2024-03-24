@@ -1,0 +1,30 @@
+--- a/net/minecraft/world/level/levelgen/feature/TreeFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/TreeFeature.java
+@@ -180,7 +_,7 @@
+ 
+         for(BlockPos blockpos : Lists.newArrayList(Sets.union(p_225255_, p_225256_))) {
+             if (p_225253_.isInside(blockpos)) {
+-                discretevoxelshape.fill(blockpos.getX() - p_225253_.minX(), blockpos.getY() - p_225253_.minY(), blockpos.getZ() - p_225253_.minZ());
++                discretevoxelshape.fill(blockpos.getBigX().subtract(p_225253_.minX()).intValue(), blockpos.getBigY().subtract(p_225253_.minY()).intValue(), blockpos.getBigZ().subtract(p_225253_.minZ()).intValue());
+             }
+         }
+ 
+@@ -203,14 +_,14 @@
+                         setBlockKnownShape(p_225252_, blockpos1, blockstate.setValue(BlockStateProperties.DISTANCE, Integer.valueOf(k1)));
+                     }
+ 
+-                    discretevoxelshape.fill(blockpos1.getX() - p_225253_.minX(), blockpos1.getY() - p_225253_.minY(), blockpos1.getZ() - p_225253_.minZ());
++                    discretevoxelshape.fill(blockpos1.getBigX().subtract(p_225253_.minX()).intValue(), blockpos1.getBigY().subtract(p_225253_.minY()).intValue(), blockpos1.getBigZ().subtract(p_225253_.minZ()).intValue());
+ 
+                     for(Direction direction : Direction.values()) {
+                         blockpos$mutableblockpos.setWithOffset(blockpos1, direction);
+                         if (p_225253_.isInside(blockpos$mutableblockpos)) {
+-                            int k = blockpos$mutableblockpos.getX() - p_225253_.minX();
+-                            int l = blockpos$mutableblockpos.getY() - p_225253_.minY();
+-                            int i1 = blockpos$mutableblockpos.getZ() - p_225253_.minZ();
++                            int k = blockpos$mutableblockpos.getBigX().subtract(p_225253_.minX()).intValue();
++                            int l = blockpos$mutableblockpos.getBigY().subtract(p_225253_.minY()).intValue();
++                            int i1 = blockpos$mutableblockpos.getBigZ().subtract(p_225253_.minZ()).intValue();
+                             if (!discretevoxelshape.isFull(k, l, i1)) {
+                                 BlockState blockstate1 = p_225252_.getBlockState(blockpos$mutableblockpos);
+                                 OptionalInt optionalint = LeavesBlock.getOptionalDistanceAt(blockstate1);

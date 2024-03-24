@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/material/LavaFluid.java
++++ b/net/minecraft/world/level/material/LavaFluid.java
+@@ -47,9 +_,9 @@
+         BlockPos blockpos = p_230568_.above();
+         if (p_230567_.getBlockState(blockpos).isAir() && !p_230567_.getBlockState(blockpos).isSolidRender(p_230567_, blockpos)) {
+             if (p_230570_.nextInt(100) == 0) {
+-                double d0 = (double)p_230568_.getX() + p_230570_.nextDouble();
+-                double d1 = (double)p_230568_.getY() + 1.0;
+-                double d2 = (double)p_230568_.getZ() + p_230570_.nextDouble();
++                double d0 = (double)p_230568_.getBigX().doubleValue() + p_230570_.nextDouble();
++                double d1 = (double)p_230568_.getBigY().doubleValue() + 1.0;
++                double d2 = (double)p_230568_.getBigZ().doubleValue() + p_230570_.nextDouble();
+                 p_230567_.addParticle(ParticleTypes.LAVA, d0, d1, d2, 0.0, 0.0, 0.0);
+                 p_230567_.playLocalSound(
+                     d0, d1, d2, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.2F + p_230570_.nextFloat() * 0.2F, 0.9F + p_230570_.nextFloat() * 0.15F, false
+@@ -58,9 +_,9 @@
+ 
+             if (p_230570_.nextInt(200) == 0) {
+                 p_230567_.playLocalSound(
+-                    (double)p_230568_.getX(),
+-                    (double)p_230568_.getY(),
+-                    (double)p_230568_.getZ(),
++                    (double)p_230568_.getBigX().doubleValue(),
++                    (double)p_230568_.getBigY().doubleValue(),
++                    (double)p_230568_.getBigZ().doubleValue(),
+                     SoundEvents.LAVA_AMBIENT,
+                     SoundSource.BLOCKS,
+                     0.2F + p_230570_.nextFloat() * 0.2F,

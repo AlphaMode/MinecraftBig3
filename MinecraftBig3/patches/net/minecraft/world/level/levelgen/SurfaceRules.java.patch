@@ -1,0 +1,151 @@
+--- a/net/minecraft/world/level/levelgen/SurfaceRules.java
++++ b/net/minecraft/world/level/levelgen/SurfaceRules.java
+@@ -272,11 +_,11 @@
+         private final NoiseChunk noiseChunk;
+         private final Function<BlockPos, Holder<Biome>> biomeGetter;
+         final WorldGenerationContext context;
+-        private long lastPreliminarySurfaceCellOrigin = Long.MAX_VALUE;
++        private ChunkPos lastPreliminarySurfaceCellOrigin = new ChunkPos(Long.MAX_VALUE, Long.MAX_VALUE);
+         private final int[] preliminarySurfaceCache = new int[4];
+         long lastUpdateXZ = -9223372036854775807L;
+-        int blockX;
+-        int blockZ;
++        me.alphamode.mcbig.math.BigInteger blockX;
++        me.alphamode.mcbig.math.BigInteger blockZ;
+         int surfaceDepth;
+         private long lastSurfaceDepth2Update = this.lastUpdateXZ - 1L;
+         private double surfaceSecondary;
+@@ -307,7 +_,7 @@
+             this.context = p_224622_;
+         }
+ 
+-        protected void updateXZ(int p_189570_, int p_189571_) {
++        protected void updateXZ(me.alphamode.mcbig.math.BigInteger p_189570_, me.alphamode.mcbig.math.BigInteger p_189571_) {
+             ++this.lastUpdateXZ;
+             ++this.lastUpdateY;
+             this.blockX = p_189570_;
+@@ -315,7 +_,7 @@
+             this.surfaceDepth = this.system.getSurfaceDepth(p_189570_, p_189571_);
+         }
+ 
+-        protected void updateY(int p_189577_, int p_189578_, int p_189579_, int p_189580_, int p_189581_, int p_189582_) {
++        protected void updateY(int p_189577_, int p_189578_, int p_189579_, me.alphamode.mcbig.math.BigInteger p_189580_, int p_189581_, me.alphamode.mcbig.math.BigInteger p_189582_) {
+             ++this.lastUpdateY;
+             this.biome = Suppliers.memoize(() -> this.biomeGetter.apply(this.pos.set(p_189580_, p_189581_, p_189582_)));
+             this.blockY = p_189581_;
+@@ -333,32 +_,32 @@
+             return this.surfaceSecondary;
+         }
+ 
+-        private static int blockCoordToSurfaceCell(int p_198281_) {
+-            return p_198281_ >> 4;
++        private static me.alphamode.mcbig.math.BigInteger blockCoordToSurfaceCell(me.alphamode.mcbig.math.BigInteger p_198281_) {
++            return p_198281_.shiftRight(4);
+         }
+ 
+-        private static int surfaceCellToBlockCoord(int p_198283_) {
+-            return p_198283_ << 4;
++        private static me.alphamode.mcbig.math.BigInteger surfaceCellToBlockCoord(me.alphamode.mcbig.math.BigInteger p_198283_) {
++            return p_198283_.shiftLeft(4);
+         }
+ 
+         protected int getMinSurfaceLevel() {
+             if (this.lastMinSurfaceLevelUpdate != this.lastUpdateXZ) {
+                 this.lastMinSurfaceLevelUpdate = this.lastUpdateXZ;
+-                int i = blockCoordToSurfaceCell(this.blockX);
+-                int j = blockCoordToSurfaceCell(this.blockZ);
+-                long k = ChunkPos.asLong(i, j);
+-                if (this.lastPreliminarySurfaceCellOrigin != k) {
++                me.alphamode.mcbig.math.BigInteger i = blockCoordToSurfaceCell(this.blockX);
++                me.alphamode.mcbig.math.BigInteger j = blockCoordToSurfaceCell(this.blockZ);
++                ChunkPos k = new ChunkPos(i, j);
++                if (!this.lastPreliminarySurfaceCellOrigin.equals(k)) {
+                     this.lastPreliminarySurfaceCellOrigin = k;
+                     this.preliminarySurfaceCache[0] = this.noiseChunk.preliminarySurfaceLevel(surfaceCellToBlockCoord(i), surfaceCellToBlockCoord(j));
+-                    this.preliminarySurfaceCache[1] = this.noiseChunk.preliminarySurfaceLevel(surfaceCellToBlockCoord(i + 1), surfaceCellToBlockCoord(j));
+-                    this.preliminarySurfaceCache[2] = this.noiseChunk.preliminarySurfaceLevel(surfaceCellToBlockCoord(i), surfaceCellToBlockCoord(j + 1));
+-                    this.preliminarySurfaceCache[3] = this.noiseChunk.preliminarySurfaceLevel(surfaceCellToBlockCoord(i + 1), surfaceCellToBlockCoord(j + 1));
++                    this.preliminarySurfaceCache[1] = this.noiseChunk.preliminarySurfaceLevel(surfaceCellToBlockCoord(i.add()), surfaceCellToBlockCoord(j));
++                    this.preliminarySurfaceCache[2] = this.noiseChunk.preliminarySurfaceLevel(surfaceCellToBlockCoord(i), surfaceCellToBlockCoord(j.add()));
++                    this.preliminarySurfaceCache[3] = this.noiseChunk.preliminarySurfaceLevel(surfaceCellToBlockCoord(i.add()), surfaceCellToBlockCoord(j.add()));
+                 }
+ 
+                 int l = Mth.floor(
+                     Mth.lerp2(
+-                        (double)((float)(this.blockX & 15) / 16.0F),
+-                        (double)((float)(this.blockZ & 15) / 16.0F),
++                        (double)((float)(this.blockX.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue()) / 16.0F),
++                        (double)((float)(this.blockZ.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue()) / 16.0F),
+                         (double)this.preliminarySurfaceCache[0],
+                         (double)this.preliminarySurfaceCache[1],
+                         (double)this.preliminarySurfaceCache[2],
+@@ -396,18 +_,18 @@
+ 
+             @Override
+             protected boolean compute() {
+-                int i = this.context.blockX & 15;
+-                int j = this.context.blockZ & 15;
+-                int k = Math.max(j - 1, 0);
+-                int l = Math.min(j + 1, 15);
++                me.alphamode.mcbig.math.BigInteger i = this.context.blockX.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN);
++                me.alphamode.mcbig.math.BigInteger j = this.context.blockZ.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN);
++                me.alphamode.mcbig.math.BigInteger k = j.subtract().max(me.alphamode.mcbig.math.BigInteger.ZERO);
++                me.alphamode.mcbig.math.BigInteger l = j.add().min(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN);
+                 ChunkAccess chunkaccess = this.context.chunk;
+                 int i1 = chunkaccess.getHeight(Heightmap.Types.WORLD_SURFACE_WG, i, k);
+                 int j1 = chunkaccess.getHeight(Heightmap.Types.WORLD_SURFACE_WG, i, l);
+                 if (j1 >= i1 + 4) {
+                     return true;
+                 } else {
+-                    int k1 = Math.max(i - 1, 0);
+-                    int l1 = Math.min(i + 1, 15);
++                    me.alphamode.mcbig.math.BigInteger k1 = i.subtract().max(me.alphamode.mcbig.math.BigInteger.ZERO);
++                    me.alphamode.mcbig.math.BigInteger l1 = i.add().min(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN);
+                     int i2 = chunkaccess.getHeight(Heightmap.Types.WORLD_SURFACE_WG, k1, j);
+                     int j2 = chunkaccess.getHeight(Heightmap.Types.WORLD_SURFACE_WG, l1, j);
+                     return i2 >= j2 + 4;
+@@ -524,7 +_,7 @@
+ 
+                 @Override
+                 protected boolean compute() {
+-                    double d0 = normalnoise.getValue((double)this.context.blockX, 0.0, (double)this.context.blockZ);
++                    double d0 = normalnoise.getValue((double)this.context.blockX.doubleValue(), 0.0, (double)this.context.blockZ.doubleValue());
+                     return d0 >= NoiseThresholdConditionSource.this.minThreshold && d0 <= NoiseThresholdConditionSource.this.maxThreshold;
+                 }
+             }
+@@ -573,7 +_,7 @@
+     static record SequenceRule(List<SurfaceRules.SurfaceRule> rules) implements SurfaceRules.SurfaceRule {
+         @Nullable
+         @Override
+-        public BlockState tryApply(int p_189694_, int p_189695_, int p_189696_) {
++        public BlockState tryApply(me.alphamode.mcbig.math.BigInteger p_189694_, int p_189695_, me.alphamode.mcbig.math.BigInteger p_189696_) {
+             for(SurfaceRules.SurfaceRule surfacerules$surfacerule : this.rules) {
+                 BlockState blockstate = surfacerules$surfacerule.tryApply(p_189694_, p_189695_, p_189696_);
+                 if (blockstate != null) {
+@@ -612,7 +_,7 @@
+ 
+     static record StateRule(BlockState state) implements SurfaceRules.SurfaceRule {
+         @Override
+-        public BlockState tryApply(int p_189721_, int p_189722_, int p_189723_) {
++        public BlockState tryApply(me.alphamode.mcbig.math.BigInteger p_189721_, int p_189722_, me.alphamode.mcbig.math.BigInteger p_189723_) {
+             return this.state;
+         }
+     }
+@@ -676,7 +_,7 @@
+ 
+     protected interface SurfaceRule {
+         @Nullable
+-        BlockState tryApply(int p_189774_, int p_189775_, int p_189776_);
++        BlockState tryApply(me.alphamode.mcbig.math.BigInteger p_189774_, int p_189775_, me.alphamode.mcbig.math.BigInteger p_189776_);
+     }
+ 
+     static enum Temperature implements SurfaceRules.ConditionSource {
+@@ -697,7 +_,7 @@
+     static record TestRule(SurfaceRules.Condition condition, SurfaceRules.SurfaceRule followup) implements SurfaceRules.SurfaceRule {
+         @Nullable
+         @Override
+-        public BlockState tryApply(int p_189805_, int p_189806_, int p_189807_) {
++        public BlockState tryApply(me.alphamode.mcbig.math.BigInteger p_189805_, int p_189806_, me.alphamode.mcbig.math.BigInteger p_189807_) {
+             return !this.condition.test() ? null : this.followup.tryApply(p_189805_, p_189806_, p_189807_);
+         }
+     }

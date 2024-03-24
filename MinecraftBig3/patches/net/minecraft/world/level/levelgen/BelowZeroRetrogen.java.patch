@@ -1,5 +1,23 @@
 --- a/net/minecraft/world/level/levelgen/BelowZeroRetrogen.java
 +++ b/net/minecraft/world/level/levelgen/BelowZeroRetrogen.java
+@@ -74,7 +_,7 @@
+ 
+     public static void replaceOldBedrock(ProtoChunk p_188475_) {
+         int i = 4;
+-        BlockPos.betweenClosed(0, 0, 0, 15, 4, 15).forEach(p_188492_ -> {
++        BlockPos.betweenClosed(me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN, me.alphamode.mcbig.core.BigConstants.Ints.FOUR, me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).forEach(p_188492_ -> {
+             if (p_188475_.getBlockState(p_188492_).is(Blocks.BEDROCK)) {
+                 p_188475_.setBlockState(p_188492_, Blocks.DEEPSLATE.defaultBlockState(), false);
+             }
+@@ -89,7 +_,7 @@
+         for(int k = 0; k < 16; ++k) {
+             for(int l = 0; l < 16; ++l) {
+                 if (this.hasBedrockHole(k, l)) {
+-                    BlockPos.betweenClosed(k, i, l, k, j, l).forEach(p_198219_ -> p_198222_.setBlockState(p_198219_, Blocks.AIR.defaultBlockState(), false));
++                    BlockPos.betweenClosed(me.alphamode.mcbig.math.BigInteger.val(k), me.alphamode.mcbig.math.BigInteger.val(i), me.alphamode.mcbig.math.BigInteger.val(l), me.alphamode.mcbig.math.BigInteger.val(k), me.alphamode.mcbig.math.BigInteger.val(j), me.alphamode.mcbig.math.BigInteger.val(l)).forEach(p_198219_ -> p_198222_.setBlockState(p_198219_, Blocks.AIR.defaultBlockState(), false));
+                 }
+             }
+         }
 @@ -114,7 +_,7 @@
              Predicate<ResourceKey<Biome>> predicate = RETAINED_RETROGEN_BIOMES::contains;
              return (p_204538_, p_204539_, p_204540_, p_204541_) -> {

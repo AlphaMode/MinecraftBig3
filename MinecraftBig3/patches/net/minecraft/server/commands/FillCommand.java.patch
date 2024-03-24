@@ -1,0 +1,37 @@
+--- a/net/minecraft/server/commands/FillCommand.java
++++ b/net/minecraft/server/commands/FillCommand.java
+@@ -199,22 +_,22 @@
+     static enum Mode {
+         REPLACE((p_137433_, p_137434_, p_137435_, p_137436_) -> p_137435_),
+         OUTLINE(
+-            (p_137428_, p_137429_, p_137430_, p_137431_) -> p_137429_.getX() != p_137428_.minX()
+-                        && p_137429_.getX() != p_137428_.maxX()
+-                        && p_137429_.getY() != p_137428_.minY()
+-                        && p_137429_.getY() != p_137428_.maxY()
+-                        && p_137429_.getZ() != p_137428_.minZ()
+-                        && p_137429_.getZ() != p_137428_.maxZ()
++            (p_137428_, p_137429_, p_137430_, p_137431_) -> !java.util.Objects.equals(p_137429_.getBigX(), p_137428_.minX())
++                        && !java.util.Objects.equals(p_137429_.getBigX(), p_137428_.maxX())
++                        && !java.util.Objects.equals(p_137429_.getBigY(), p_137428_.minY())
++                        && !java.util.Objects.equals(p_137429_.getBigY(), p_137428_.maxY())
++                        && !java.util.Objects.equals(p_137429_.getBigZ(), p_137428_.minZ())
++                        && !java.util.Objects.equals(p_137429_.getBigZ(), p_137428_.maxZ())
+                     ? null
+                     : p_137430_
+         ),
+         HOLLOW(
+-            (p_137423_, p_137424_, p_137425_, p_137426_) -> p_137424_.getX() != p_137423_.minX()
+-                        && p_137424_.getX() != p_137423_.maxX()
+-                        && p_137424_.getY() != p_137423_.minY()
+-                        && p_137424_.getY() != p_137423_.maxY()
+-                        && p_137424_.getZ() != p_137423_.minZ()
+-                        && p_137424_.getZ() != p_137423_.maxZ()
++            (p_137423_, p_137424_, p_137425_, p_137426_) -> !java.util.Objects.equals(p_137424_.getBigX(), p_137423_.minX())
++                        && !java.util.Objects.equals(p_137424_.getBigX(), p_137423_.maxX())
++                        && !java.util.Objects.equals(p_137424_.getBigY(), p_137423_.minY())
++                        && !java.util.Objects.equals(p_137424_.getBigY(), p_137423_.maxY())
++                        && !java.util.Objects.equals(p_137424_.getBigZ(), p_137423_.minZ())
++                        && !java.util.Objects.equals(p_137424_.getBigZ(), p_137423_.maxZ())
+                     ? FillCommand.HOLLOW_CORE
+                     : p_137425_
+         ),

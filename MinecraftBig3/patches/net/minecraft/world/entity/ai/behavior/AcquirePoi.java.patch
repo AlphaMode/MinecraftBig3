@@ -1,0 +1,32 @@
+--- a/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
++++ b/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
+@@ -45,7 +_,7 @@
+         int i = 5;
+         int j = 20;
+         MutableLong mutablelong = new MutableLong(0L);
+-        Long2ObjectMap<AcquirePoi.JitteredLinearRetry> long2objectmap = new Long2ObjectOpenHashMap<>();
++        it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, AcquirePoi.JitteredLinearRetry> long2objectmap = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+         OneShot<PathfinderMob> oneshot = BehaviorBuilder.create(
+             p_258276_ -> p_258276_.group(p_258276_.absent(p_260194_))
+                     .apply(
+@@ -61,9 +_,9 @@
+                                 } else {
+                                     mutablelong.setValue(p_258294_ + 20L + (long)p_258292_.getRandom().nextInt(20));
+                                     PoiManager poimanager = p_258292_.getPoiManager();
+-                                    long2objectmap.long2ObjectEntrySet().removeIf(p_22338_ -> !p_22338_.getValue().isStillValid(p_258294_));
++                                    long2objectmap.object2ObjectEntrySet().removeIf(p_22338_ -> !p_22338_.getValue().isStillValid(p_258294_));
+                                     Predicate<BlockPos> predicate = p_258266_ -> {
+-                                        AcquirePoi.JitteredLinearRetry acquirepoi$jitteredlinearretry = long2objectmap.get(p_258266_.asLong());
++                                        AcquirePoi.JitteredLinearRetry acquirepoi$jitteredlinearretry = long2objectmap.get(p_258266_);
+                                         if (acquirepoi$jitteredlinearretry == null) {
+                                             return true;
+                                         } else if (!acquirepoi$jitteredlinearretry.shouldRetry(p_258294_)) {
+@@ -91,7 +_,7 @@
+                                     } else {
+                                         for(Pair<Holder<PoiType>, BlockPos> pair : set) {
+                                             long2objectmap.computeIfAbsent(
+-                                                pair.getSecond().asLong(), p_264881_ -> new AcquirePoi.JitteredLinearRetry(p_258292_.random, p_258294_)
++                                                pair.getSecond(), p_264881_ -> new AcquirePoi.JitteredLinearRetry(p_258292_.random, p_258294_)
+                                             );
+                                         }
+                                     }

@@ -1,0 +1,308 @@
+--- a/net/minecraft/world/level/levelgen/Aquifer.java
++++ b/net/minecraft/world/level/levelgen/Aquifer.java
+@@ -31,7 +_,7 @@
+             @Nullable
+             @Override
+             public BlockState computeSubstance(DensityFunction.FunctionContext p_208172_, double p_208173_) {
+-                return p_208173_ > 0.0 ? null : p_188375_.computeFluid(p_208172_.blockX(), p_208172_.blockY(), p_208172_.blockZ()).at(p_208172_.blockY());
++                return p_208173_ > 0.0 ? null : p_188375_.computeFluid(p_208172_.blockX(), me.alphamode.mcbig.math.BigInteger.val(p_208172_.blockY()), p_208172_.blockZ()).at(p_208172_.blockY());
+             }
+ 
+             @Override
+@@ -47,7 +_,7 @@
+     boolean shouldScheduleFluidUpdate();
+ 
+     public interface FluidPicker {
+-        Aquifer.FluidStatus computeFluid(int p_188397_, int p_188398_, int p_188399_);
++        Aquifer.FluidStatus computeFluid(me.alphamode.mcbig.math.BigInteger p_188397_, me.alphamode.mcbig.math.BigInteger p_188398_, me.alphamode.mcbig.math.BigInteger p_188399_);
+     }
+ 
+     public static final class FluidStatus {
+@@ -83,14 +_,14 @@
+         private final DensityFunction lavaNoise;
+         private final PositionalRandomFactory positionalRandomFactory;
+         private final Aquifer.FluidStatus[] aquiferCache;
+-        private final long[] aquiferLocationCache;
++        private final BlockPos[] aquiferLocationCache;
+         private final Aquifer.FluidPicker globalFluidPicker;
+         private final DensityFunction erosion;
+         private final DensityFunction depth;
+         private boolean shouldScheduleFluidUpdate;
+-        private final int minGridX;
+-        private final int minGridY;
+-        private final int minGridZ;
++        private final me.alphamode.mcbig.math.BigInteger minGridX;
++        private final me.alphamode.mcbig.math.BigInteger minGridY;
++        private final me.alphamode.mcbig.math.BigInteger minGridZ;
+         private final int gridSizeX;
+         private final int gridSizeZ;
+         private static final int[][] SURFACE_SAMPLING_OFFSETS_IN_CHUNKS = new int[][]{
+@@ -114,76 +_,76 @@
+             this.erosion = p_223893_.erosion();
+             this.depth = p_223893_.depth();
+             this.positionalRandomFactory = p_223894_;
+-            this.minGridX = this.gridX(p_223892_.getMinBlockX()) - 1;
++            this.minGridX = this.gridX(p_223892_.getBigMinBlockX()).subtract();
+             this.globalFluidPicker = p_223897_;
+-            int i = this.gridX(p_223892_.getMaxBlockX()) + 1;
+-            this.gridSizeX = i - this.minGridX + 1;
+-            this.minGridY = this.gridY(p_223895_) - 1;
+-            int j = this.gridY(p_223895_ + p_223896_) + 1;
+-            int k = j - this.minGridY + 1;
+-            this.minGridZ = this.gridZ(p_223892_.getMinBlockZ()) - 1;
+-            int l = this.gridZ(p_223892_.getMaxBlockZ()) + 1;
+-            this.gridSizeZ = l - this.minGridZ + 1;
+-            int i1 = this.gridSizeX * k * this.gridSizeZ;
++            me.alphamode.mcbig.math.BigInteger i = this.gridX(p_223892_.getBigMaxBlockX()).add();
++            this.gridSizeX = i.subtract(this.minGridX).add().intValue();
++            this.minGridY = this.gridY(me.alphamode.mcbig.math.BigInteger.val(p_223895_)).subtract();
++            me.alphamode.mcbig.math.BigInteger j = this.gridY(me.alphamode.mcbig.math.BigInteger.val(p_223895_).add(me.alphamode.mcbig.math.BigInteger.val(p_223896_))).add();
++            me.alphamode.mcbig.math.BigInteger k = j.subtract(this.minGridY).add();
++            this.minGridZ = this.gridZ(p_223892_.getBigMinBlockZ()).subtract();
++            me.alphamode.mcbig.math.BigInteger l = this.gridZ(p_223892_.getBigMaxBlockZ()).add();
++            this.gridSizeZ = l.subtract(this.minGridZ).add().intValue();
++            int i1 = this.gridSizeX * k.intValue() * this.gridSizeZ;
+             this.aquiferCache = new Aquifer.FluidStatus[i1];
+-            this.aquiferLocationCache = new long[i1];
+-            Arrays.fill(this.aquiferLocationCache, Long.MAX_VALUE);
++            this.aquiferLocationCache = new BlockPos[i1];
++            Arrays.fill(this.aquiferLocationCache, BlockPos.MAX_VALUE);
+         }
+ 
+-        private int getIndex(int p_158028_, int p_158029_, int p_158030_) {
+-            int i = p_158028_ - this.minGridX;
+-            int j = p_158029_ - this.minGridY;
+-            int k = p_158030_ - this.minGridZ;
++        private int getIndex(me.alphamode.mcbig.math.BigInteger p_158028_, me.alphamode.mcbig.math.BigInteger p_158029_, me.alphamode.mcbig.math.BigInteger p_158030_) {
++            int i = p_158028_.subtract(this.minGridX).intValue();
++            int j = p_158029_.subtract(this.minGridY).intValue();
++            int k = p_158030_.subtract(this.minGridZ).intValue();
+             return (j * this.gridSizeZ + k) * this.gridSizeX + i;
+         }
+ 
+         @Nullable
+         @Override
+         public BlockState computeSubstance(DensityFunction.FunctionContext p_208186_, double p_208187_) {
+-            int i = p_208186_.blockX();
+-            int j = p_208186_.blockY();
+-            int k = p_208186_.blockZ();
++            me.alphamode.mcbig.math.BigInteger i = p_208186_.blockX();
++            me.alphamode.mcbig.math.BigInteger j = me.alphamode.mcbig.math.BigInteger.val(p_208186_.blockY());
++            me.alphamode.mcbig.math.BigInteger k = p_208186_.blockZ();
+             if (p_208187_ > 0.0) {
+                 this.shouldScheduleFluidUpdate = false;
+                 return null;
+             } else {
+                 Aquifer.FluidStatus aquifer$fluidstatus = this.globalFluidPicker.computeFluid(i, j, k);
+-                if (aquifer$fluidstatus.at(j).is(Blocks.LAVA)) {
++                if (aquifer$fluidstatus.at(j.intValue()).is(Blocks.LAVA)) {
+                     this.shouldScheduleFluidUpdate = false;
+                     return Blocks.LAVA.defaultBlockState();
+                 } else {
+-                    int l = Math.floorDiv(i - 5, 16);
+-                    int i1 = Math.floorDiv(j + 1, 12);
+-                    int j1 = Math.floorDiv(k - 5, 16);
++                    me.alphamode.mcbig.math.BigInteger l = me.alphamode.mcbig.math.BigMath.floorDiv(i.subtract(5), 16);
++                    me.alphamode.mcbig.math.BigInteger i1 = me.alphamode.mcbig.math.BigMath.floorDiv(j.add(), 12);
++                    me.alphamode.mcbig.math.BigInteger j1 = me.alphamode.mcbig.math.BigMath.floorDiv(k.subtract(5), 16);
+                     int k1 = Integer.MAX_VALUE;
+                     int l1 = Integer.MAX_VALUE;
+                     int i2 = Integer.MAX_VALUE;
+-                    long j2 = 0L;
+-                    long k2 = 0L;
+-                    long l2 = 0L;
++                    BlockPos j2 = BlockPos.ZERO;
++                    BlockPos k2 = BlockPos.ZERO;
++                    BlockPos l2 = BlockPos.ZERO;
+ 
+                     for(int i3 = 0; i3 <= 1; ++i3) {
+                         for(int j3 = -1; j3 <= 1; ++j3) {
+                             for(int k3 = 0; k3 <= 1; ++k3) {
+-                                int l3 = l + i3;
+-                                int i4 = i1 + j3;
+-                                int j4 = j1 + k3;
++                                me.alphamode.mcbig.math.BigInteger l3 = l.add(i3);
++                                me.alphamode.mcbig.math.BigInteger i4 = i1.add(j3);
++                                me.alphamode.mcbig.math.BigInteger j4 = j1.add(k3);
+                                 int k4 = this.getIndex(l3, i4, j4);
+-                                long i5 = this.aquiferLocationCache[k4];
+-                                long l4;
+-                                if (i5 != Long.MAX_VALUE) {
++                                BlockPos i5 = this.aquiferLocationCache[k4];
++                                BlockPos l4;
++                                if (!java.util.Objects.equals(i5, BlockPos.MAX_VALUE)) {
+                                     l4 = i5;
+                                 } else {
+-                                    RandomSource randomsource = this.positionalRandomFactory.at(l3, i4, j4);
+-                                    l4 = BlockPos.asLong(
+-                                        l3 * 16 + randomsource.nextInt(10), i4 * 12 + randomsource.nextInt(9), j4 * 16 + randomsource.nextInt(10)
++                                    RandomSource randomsource = this.positionalRandomFactory.at(l3, i4.intValue(), j4);
++                                    l4 = new BlockPos(
++                                        l3.multiply(16L).add(randomsource.nextInt(10)), i4.multiply(12L).add(randomsource.nextInt(9)), j4.multiply(16L).add(randomsource.nextInt(10))
+                                     );
+                                     this.aquiferLocationCache[k4] = l4;
+                                 }
+ 
+-                                int i6 = BlockPos.getX(l4) - i;
+-                                int j5 = BlockPos.getY(l4) - j;
+-                                int k5 = BlockPos.getZ(l4) - k;
++                                int i6 = l4.getBigX().subtract(i).intValue();
++                                int j5 = l4.getBigY().subtract(j).intValue();
++                                int k5 = l4.getBigZ().subtract(k).intValue();
+                                 int l5 = i6 * i6 + j5 * j5 + k5 * k5;
+                                 if (k1 >= l5) {
+                                     l2 = k2;
+@@ -207,11 +_,11 @@
+ 
+                     Aquifer.FluidStatus aquifer$fluidstatus1 = this.getAquiferStatus(j2);
+                     double d1 = similarity(k1, l1);
+-                    BlockState blockstate = aquifer$fluidstatus1.at(j);
++                    BlockState blockstate = aquifer$fluidstatus1.at(j.intValue());
+                     if (d1 <= 0.0) {
+                         this.shouldScheduleFluidUpdate = d1 >= FLOWING_UPDATE_SIMULARITY;
+                         return blockstate;
+-                    } else if (blockstate.is(Blocks.WATER) && this.globalFluidPicker.computeFluid(i, j - 1, k).at(j - 1).is(Blocks.LAVA)) {
++                    } else if (blockstate.is(Blocks.WATER) && this.globalFluidPicker.computeFluid(i, j.subtract(), k).at(j.subtract().intValue()).is(Blocks.LAVA)) {
+                         this.shouldScheduleFluidUpdate = true;
+                         return blockstate;
+                     } else {
+@@ -319,25 +_,25 @@
+             }
+         }
+ 
+-        private int gridX(int p_158040_) {
+-            return Math.floorDiv(p_158040_, 16);
+-        }
+-
+-        private int gridY(int p_158046_) {
+-            return Math.floorDiv(p_158046_, 12);
+-        }
+-
+-        private int gridZ(int p_158048_) {
+-            return Math.floorDiv(p_158048_, 16);
+-        }
+-
+-        private Aquifer.FluidStatus getAquiferStatus(long p_188446_) {
+-            int i = BlockPos.getX(p_188446_);
+-            int j = BlockPos.getY(p_188446_);
+-            int k = BlockPos.getZ(p_188446_);
+-            int l = this.gridX(i);
+-            int i1 = this.gridY(j);
+-            int j1 = this.gridZ(k);
++        private me.alphamode.mcbig.math.BigInteger gridX(me.alphamode.mcbig.math.BigInteger p_158040_) {
++            return me.alphamode.mcbig.math.BigMath.floorDiv(p_158040_, 16);
++        }
++
++        private me.alphamode.mcbig.math.BigInteger gridY(me.alphamode.mcbig.math.BigInteger p_158046_) {
++            return me.alphamode.mcbig.math.BigMath.floorDiv(p_158046_, 12);
++        }
++
++        private me.alphamode.mcbig.math.BigInteger gridZ(me.alphamode.mcbig.math.BigInteger p_158048_) {
++            return me.alphamode.mcbig.math.BigMath.floorDiv(p_158048_, 16);
++        }
++
++        private Aquifer.FluidStatus getAquiferStatus(BlockPos p_188446_) {
++            me.alphamode.mcbig.math.BigInteger i = p_188446_.getBigX();
++            me.alphamode.mcbig.math.BigInteger j = p_188446_.getBigY();
++            me.alphamode.mcbig.math.BigInteger k = p_188446_.getBigZ();
++            me.alphamode.mcbig.math.BigInteger l = this.gridX(i);
++            me.alphamode.mcbig.math.BigInteger i1 = this.gridY(j);
++            me.alphamode.mcbig.math.BigInteger j1 = this.gridZ(k);
+             int k1 = this.getIndex(l, i1, j1);
+             Aquifer.FluidStatus aquifer$fluidstatus = this.aquiferCache[k1];
+             if (aquifer$fluidstatus != null) {
+@@ -349,26 +_,26 @@
+             }
+         }
+ 
+-        private Aquifer.FluidStatus computeFluid(int p_188448_, int p_188449_, int p_188450_) {
++        private Aquifer.FluidStatus computeFluid(me.alphamode.mcbig.math.BigInteger p_188448_, me.alphamode.mcbig.math.BigInteger p_188449_, me.alphamode.mcbig.math.BigInteger p_188450_) {
+             Aquifer.FluidStatus aquifer$fluidstatus = this.globalFluidPicker.computeFluid(p_188448_, p_188449_, p_188450_);
+             int i = Integer.MAX_VALUE;
+-            int j = p_188449_ + 12;
+-            int k = p_188449_ - 12;
++            me.alphamode.mcbig.math.BigInteger j = p_188449_.add(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE);
++            me.alphamode.mcbig.math.BigInteger k = p_188449_.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE);
+             boolean flag = false;
+ 
+             for(int[] aint : SURFACE_SAMPLING_OFFSETS_IN_CHUNKS) {
+-                int l = p_188448_ + SectionPos.sectionToBlockCoord(aint[0]);
+-                int i1 = p_188450_ + SectionPos.sectionToBlockCoord(aint[1]);
++                me.alphamode.mcbig.math.BigInteger l = p_188448_.add(SectionPos.sectionToBlockCoord(aint[0]));
++                me.alphamode.mcbig.math.BigInteger i1 = p_188450_.add(SectionPos.sectionToBlockCoord(aint[1]));
+                 int j1 = this.noiseChunk.preliminarySurfaceLevel(l, i1);
+                 int k1 = j1 + 8;
+                 boolean flag1 = aint[0] == 0 && aint[1] == 0;
+-                if (flag1 && k > k1) {
++                if (flag1 && k.intValue() > k1) {
+                     return aquifer$fluidstatus;
+                 }
+ 
+-                boolean flag2 = j > k1;
++                boolean flag2 = j.intValue() > k1;
+                 if (flag2 || flag1) {
+-                    Aquifer.FluidStatus aquifer$fluidstatus1 = this.globalFluidPicker.computeFluid(l, k1, i1);
++                    Aquifer.FluidStatus aquifer$fluidstatus1 = this.globalFluidPicker.computeFluid(l, me.alphamode.mcbig.math.BigInteger.val(k1), i1);
+                     if (!aquifer$fluidstatus1.at(k1).isAir()) {
+                         if (flag1) {
+                             flag = true;
+@@ -387,15 +_,15 @@
+             return new Aquifer.FluidStatus(l1, this.computeFluidType(p_188448_, p_188449_, p_188450_, aquifer$fluidstatus, l1));
+         }
+ 
+-        private int computeSurfaceLevel(int p_223910_, int p_223911_, int p_223912_, Aquifer.FluidStatus p_223913_, int p_223914_, boolean p_223915_) {
+-            DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(p_223910_, p_223911_, p_223912_);
++        private int computeSurfaceLevel(me.alphamode.mcbig.math.BigInteger p_223910_, me.alphamode.mcbig.math.BigInteger p_223911_, me.alphamode.mcbig.math.BigInteger p_223912_, Aquifer.FluidStatus p_223913_, int p_223914_, boolean p_223915_) {
++            DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(p_223910_, p_223911_.intValue(), p_223912_);
+             double d0;
+             double d1;
+             if (OverworldBiomeBuilder.isDeepDarkRegion(this.erosion, this.depth, densityfunction$singlepointcontext)) {
+                 d0 = -1.0;
+                 d1 = -1.0;
+             } else {
+-                int i = p_223914_ + 8 - p_223911_;
++                int i = p_223914_ + 8 - p_223911_.intValue();
+                 int j = 64;
+                 double d2 = p_223915_ ? Mth.clampedMap((double)i, 0.0, 64.0, 1.0, 0.0) : 0.0;
+                 double d3 = Mth.clamp(this.fluidLevelFloodednessNoise.compute(densityfunction$singlepointcontext), -1.0, 1.0);
+@@ -417,29 +_,29 @@
+             return k;
+         }
+ 
+-        private int computeRandomizedFluidSurfaceLevel(int p_223899_, int p_223900_, int p_223901_, int p_223902_) {
++        private int computeRandomizedFluidSurfaceLevel(me.alphamode.mcbig.math.BigInteger p_223899_, me.alphamode.mcbig.math.BigInteger p_223900_, me.alphamode.mcbig.math.BigInteger p_223901_, int p_223902_) {
+             int i = 16;
+             int j = 40;
+-            int k = Math.floorDiv(p_223899_, 16);
+-            int l = Math.floorDiv(p_223900_, 40);
+-            int i1 = Math.floorDiv(p_223901_, 16);
+-            int j1 = l * 40 + 20;
++            me.alphamode.mcbig.math.BigInteger k = me.alphamode.mcbig.math.BigMath.floorDiv(p_223899_, 16);
++            me.alphamode.mcbig.math.BigInteger l = me.alphamode.mcbig.math.BigMath.floorDiv(p_223900_, 40);
++            me.alphamode.mcbig.math.BigInteger i1 = me.alphamode.mcbig.math.BigMath.floorDiv(p_223901_, 16);
++            int j1 = l.intValue() * 40 + 20;
+             int k1 = 10;
+-            double d0 = this.fluidLevelSpreadNoise.compute(new DensityFunction.SinglePointContext(k, l, i1)) * 10.0;
++            double d0 = this.fluidLevelSpreadNoise.compute(new DensityFunction.SinglePointContext(k, l.intValue(), i1)) * 10.0;
+             int l1 = Mth.quantize(d0, 3);
+             int i2 = j1 + l1;
+             return Math.min(p_223902_, i2);
+         }
+ 
+-        private BlockState computeFluidType(int p_223904_, int p_223905_, int p_223906_, Aquifer.FluidStatus p_223907_, int p_223908_) {
++        private BlockState computeFluidType(me.alphamode.mcbig.math.BigInteger p_223904_, me.alphamode.mcbig.math.BigInteger p_223905_, me.alphamode.mcbig.math.BigInteger p_223906_, Aquifer.FluidStatus p_223907_, int p_223908_) {
+             BlockState blockstate = p_223907_.fluidType;
+             if (p_223908_ <= -10 && p_223908_ != DimensionType.WAY_BELOW_MIN_Y && p_223907_.fluidType != Blocks.LAVA.defaultBlockState()) {
+                 int i = 64;
+                 int j = 40;
+-                int k = Math.floorDiv(p_223904_, 64);
+-                int l = Math.floorDiv(p_223905_, 40);
+-                int i1 = Math.floorDiv(p_223906_, 64);
+-                double d0 = this.lavaNoise.compute(new DensityFunction.SinglePointContext(k, l, i1));
++                me.alphamode.mcbig.math.BigInteger k = me.alphamode.mcbig.math.BigMath.floorDiv(p_223904_, 64);
++                me.alphamode.mcbig.math.BigInteger l = me.alphamode.mcbig.math.BigMath.floorDiv(p_223905_, 40);
++                me.alphamode.mcbig.math.BigInteger i1 = me.alphamode.mcbig.math.BigMath.floorDiv(p_223906_, 64);
++                double d0 = this.lavaNoise.compute(new DensityFunction.SinglePointContext(k, l.intValue(), i1));
+                 if (Math.abs(d0) > 0.3) {
+                     blockstate = Blocks.LAVA.defaultBlockState();
+                 }

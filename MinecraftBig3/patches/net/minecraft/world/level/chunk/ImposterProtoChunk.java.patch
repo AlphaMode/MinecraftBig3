@@ -1,6 +1,12 @@
 --- a/net/minecraft/world/level/chunk/ImposterProtoChunk.java
 +++ b/net/minecraft/world/level/chunk/ImposterProtoChunk.java
-@@ -126,7 +_,7 @@
+@@ -121,12 +_,12 @@
+     }
+ 
+     @Override
+-    public int getHeight(Heightmap.Types p_62702_, int p_62703_, int p_62704_) {
++    public int getHeight(Heightmap.Types p_62702_, me.alphamode.mcbig.math.BigInteger p_62703_, me.alphamode.mcbig.math.BigInteger p_62704_) {
+         return this.wrapped.getHeight(this.fixType(p_62702_), p_62703_, p_62704_);
      }
  
      @Override

@@ -1,6 +1,6 @@
 --- a/net/minecraft/gametest/framework/StructureUtils.java
 +++ b/net/minecraft/gametest/framework/StructureUtils.java
-@@ -125,7 +_,7 @@
+@@ -125,24 +_,24 @@
      }
  
      private static void forceLoadChunks(BoundingBox p_308909_, ServerLevel p_127859_) {
@@ -9,3 +9,41 @@
      }
  
      public static void clearSpaceForStructure(BoundingBox p_127850_, ServerLevel p_127852_) {
+-        int i = p_127850_.minY() - 1;
++        int i = p_127850_.minY().intValue() - 1;
+         BoundingBox boundingbox = new BoundingBox(
+-            p_127850_.minX() - 2, p_127850_.minY() - 3, p_127850_.minZ() - 3, p_127850_.maxX() + 3, p_127850_.maxY() + 20, p_127850_.maxZ() + 3
++            p_127850_.minX().subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWO), p_127850_.minY().subtract(me.alphamode.mcbig.core.BigConstants.Ints.THREE), p_127850_.minZ().subtract(me.alphamode.mcbig.core.BigConstants.Ints.THREE), p_127850_.maxX().add(me.alphamode.mcbig.core.BigConstants.Ints.THREE), p_127850_.maxY().add(20), p_127850_.maxZ().add(me.alphamode.mcbig.core.BigConstants.Ints.THREE)
+         );
+         BlockPos.betweenClosedStream(boundingbox).forEach(p_177748_ -> clearBlock(i, p_177748_, p_127852_));
+         p_127852_.getBlockTicks().clearArea(boundingbox);
+         p_127852_.clearBlockEvents(boundingbox);
+         AABB aabb = new AABB(
+-            (double)boundingbox.minX(),
+-            (double)boundingbox.minY(),
+-            (double)boundingbox.minZ(),
+-            (double)boundingbox.maxX(),
+-            (double)boundingbox.maxY(),
+-            (double)boundingbox.maxZ()
++            (double)boundingbox.minX().doubleValue(),
++            (double)boundingbox.minY().doubleValue(),
++            (double)boundingbox.minZ().doubleValue(),
++            (double)boundingbox.maxX().doubleValue(),
++            (double)boundingbox.maxY().doubleValue(),
++            (double)boundingbox.maxZ().doubleValue()
+         );
+         List<Entity> list = p_127852_.getEntitiesOfClass(Entity.class, aabb, p_177750_ -> !(p_177750_ instanceof Player));
+         list.forEach(Entity::discard);
+@@ -156,9 +_,9 @@
+     public static BoundingBox getStructureBoundingBox(BlockPos p_177761_, Vec3i p_177762_, Rotation p_177763_) {
+         BlockPos blockpos = getTransformedFarCorner(p_177761_, p_177762_, p_177763_);
+         BoundingBox boundingbox = BoundingBox.fromCorners(p_177761_, blockpos);
+-        int i = Math.min(boundingbox.minX(), boundingbox.maxX());
+-        int j = Math.min(boundingbox.minZ(), boundingbox.maxZ());
+-        return boundingbox.move(p_177761_.getX() - i, 0, p_177761_.getZ() - j);
++        me.alphamode.mcbig.math.BigInteger i = boundingbox.minX().min(boundingbox.maxX());
++        me.alphamode.mcbig.math.BigInteger j = boundingbox.minZ().min(boundingbox.maxZ());
++        return boundingbox.move(p_177761_.getBigX().subtract(i), me.alphamode.mcbig.math.BigInteger.ZERO, p_177761_.getBigZ().subtract(j));
+     }
+ 
+     public static Optional<BlockPos> findStructureBlockContainingPos(BlockPos p_127854_, int p_127855_, ServerLevel p_127856_) {

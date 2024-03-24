@@ -1,13 +1,29 @@
 --- a/net/minecraft/client/renderer/debug/HeightMapRenderer.java
 +++ b/net/minecraft/client/renderer/debug/HeightMapRenderer.java
-@@ -44,8 +_,8 @@
+@@ -44,20 +_,20 @@
  
                      for(int k = 0; k < 16; ++k) {
                          for(int l = 0; l < 16; ++l) {
 -                            int i1 = SectionPos.sectionToBlockCoord(chunkpos.x, k);
 -                            int j1 = SectionPos.sectionToBlockCoord(chunkpos.z, l);
-+                            int i1 = SectionPos.sectionToBlockCoord(chunkpos.x(), k).intValue();
-+                            int j1 = SectionPos.sectionToBlockCoord(chunkpos.z(), l).intValue();
++                            me.alphamode.mcbig.math.BigInteger i1 = SectionPos.sectionToBlockCoord(chunkpos.x(), k);
++                            me.alphamode.mcbig.math.BigInteger j1 = SectionPos.sectionToBlockCoord(chunkpos.z(), l);
                              float f = (float)(
                                  (double)((float)levelaccessor.getHeight(heightmap$types, i1, j1) + (float)heightmap$types.ordinal() * 0.09375F) - p_113579_
                              );
+                             LevelRenderer.addChainedFilledBoxVertices(
+                                 p_113576_,
+                                 vertexconsumer,
+-                                (double)((float)i1 + 0.25F) - p_113578_,
++                                (double)((float)i1.floatValue() + 0.25F) - p_113578_,
+                                 (double)f,
+-                                (double)((float)j1 + 0.25F) - p_113580_,
+-                                (double)((float)i1 + 0.75F) - p_113578_,
++                                (double)((float)j1.floatValue() + 0.25F) - p_113580_,
++                                (double)((float)i1.floatValue() + 0.75F) - p_113578_,
+                                 (double)(f + 0.09375F),
+-                                (double)((float)j1 + 0.75F) - p_113580_,
++                                (double)((float)j1.floatValue() + 0.75F) - p_113580_,
+                                 vector3f.x(),
+                                 vector3f.y(),
+                                 vector3f.z(),

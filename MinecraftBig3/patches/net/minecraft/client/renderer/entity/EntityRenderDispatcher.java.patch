@@ -1,0 +1,19 @@
+--- a/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
++++ b/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
+@@ -381,11 +_,11 @@
+                         }
+ 
+                         AABB aabb = voxelshape.bounds();
+-                        double d0 = (double)p_277911_.getX() + aabb.minX;
+-                        double d1 = (double)p_277911_.getX() + aabb.maxX;
+-                        double d2 = (double)p_277911_.getY() + aabb.minY;
+-                        double d3 = (double)p_277911_.getZ() + aabb.minZ;
+-                        double d4 = (double)p_277911_.getZ() + aabb.maxZ;
++                        double d0 = (double)p_277911_.getBigX().doubleValue() + aabb.minX;
++                        double d1 = (double)p_277911_.getBigX().doubleValue() + aabb.maxX;
++                        double d2 = (double)p_277911_.getBigY().doubleValue() + aabb.minY;
++                        double d3 = (double)p_277911_.getBigZ().doubleValue() + aabb.minZ;
++                        double d4 = (double)p_277911_.getBigZ().doubleValue() + aabb.maxZ;
+                         float f2 = (float)(d0 - p_277682_);
+                         float f3 = (float)(d1 - p_277682_);
+                         float f4 = (float)(d2 - p_278099_);

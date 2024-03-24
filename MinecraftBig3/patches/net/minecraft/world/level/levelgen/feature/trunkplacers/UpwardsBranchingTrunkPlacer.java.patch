@@ -1,0 +1,39 @@
+--- a/net/minecraft/world/level/levelgen/feature/trunkplacers/UpwardsBranchingTrunkPlacer.java
++++ b/net/minecraft/world/level/levelgen/feature/trunkplacers/UpwardsBranchingTrunkPlacer.java
+@@ -66,7 +_,7 @@
+ 
+         for(int i = 0; i < p_226228_; ++i) {
+             int j = p_226229_.getY() + i;
+-            if (this.placeLog(p_226225_, p_226226_, p_226227_, blockpos$mutableblockpos.set(p_226229_.getX(), j, p_226229_.getZ()), p_226230_)
++            if (this.placeLog(p_226225_, p_226226_, p_226227_, blockpos$mutableblockpos.set(p_226229_.getBigX(), j, p_226229_.getBigZ()), p_226230_)
+                 && i < p_226228_ - 1
+                 && p_226227_.nextFloat() < this.placeBranchPerLogProbability) {
+                 Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(p_226227_);
+@@ -77,7 +_,7 @@
+             }
+ 
+             if (i == p_226228_ - 1) {
+-                list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.set(p_226229_.getX(), j + 1, p_226229_.getZ()), 0, false));
++                list.add(new FoliagePlacer.FoliageAttachment(blockpos$mutableblockpos.set(p_226229_.getBigX(), j + 1, p_226229_.getBigZ()), 0, false));
+             }
+         }
+ 
+@@ -98,14 +_,14 @@
+         int p_226223_
+     ) {
+         int i = p_226220_ + p_226222_;
+-        int j = p_226219_.getX();
+-        int k = p_226219_.getZ();
++        me.alphamode.mcbig.math.BigInteger j = p_226219_.getBigX();
++        me.alphamode.mcbig.math.BigInteger k = p_226219_.getBigZ();
+ 
+         for(int l = p_226222_; l < p_226216_ && p_226223_ > 0; --p_226223_) {
+             if (l >= 1) {
+                 int i1 = p_226220_ + l;
+-                j += p_226221_.getStepX();
+-                k += p_226221_.getStepZ();
++                j = j.add(p_226221_.getStepX());
++                k = k.add(p_226221_.getStepZ());
+                 i = i1;
+                 if (this.placeLog(p_226213_, p_226214_, p_226215_, p_226219_.set(j, i1, k), p_226217_)) {
+                     i = i1 + 1;

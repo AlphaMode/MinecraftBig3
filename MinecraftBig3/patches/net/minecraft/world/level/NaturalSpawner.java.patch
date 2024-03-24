@@ -18,6 +18,26 @@
      }
  
      public static void spawnForChunk(
+@@ -221,7 +_,7 @@
+         if (p_47028_ <= 576.0) {
+             return false;
+         } else if (p_47025_.getSharedSpawnPos()
+-            .closerToCenterThan(new Vec3((double)p_47027_.getX() + 0.5, (double)p_47027_.getY(), (double)p_47027_.getZ() + 0.5), 24.0)) {
++            .closerToCenterThan(new Vec3((double)p_47027_.getBigX().doubleValue() + 0.5, (double)p_47027_.getBigY().doubleValue(), (double)p_47027_.getBigZ().doubleValue() + 0.5), 24.0)) {
+             return false;
+         } else {
+             return Objects.equals(new ChunkPos(p_47027_), p_47026_.getPos()) || p_47025_.isNaturalSpawningAllowed(p_47027_);
+@@ -326,8 +_,8 @@
+ 
+     private static BlockPos getRandomPosWithin(Level p_47063_, LevelChunk p_47064_) {
+         ChunkPos chunkpos = p_47064_.getPos();
+-        int i = chunkpos.getMinBlockX() + p_47063_.random.nextInt(16);
+-        int j = chunkpos.getMinBlockZ() + p_47063_.random.nextInt(16);
++        me.alphamode.mcbig.math.BigInteger i = chunkpos.getBigMinBlockX().add(p_47063_.random.nextInt(16));
++        me.alphamode.mcbig.math.BigInteger j = chunkpos.getBigMinBlockZ().add(p_47063_.random.nextInt(16));
+         int k = p_47064_.getHeight(Heightmap.Types.WORLD_SURFACE, i, j) + 1;
+         int l = Mth.randomBetweenInclusive(p_47063_.random, p_47063_.getMinBuildHeight(), k);
+         return new BlockPos(i, l, j);
 @@ -486,7 +_,7 @@
  
      @FunctionalInterface

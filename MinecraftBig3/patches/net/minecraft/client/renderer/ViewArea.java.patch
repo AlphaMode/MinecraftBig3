@@ -1,6 +1,39 @@
 --- a/net/minecraft/client/renderer/ViewArea.java
 +++ b/net/minecraft/client/renderer/ViewArea.java
-@@ -97,10 +_,10 @@
+@@ -72,35 +_,35 @@
+     }
+ 
+     public void repositionCamera(double p_110851_, double p_110852_) {
+-        int i = Mth.ceil(p_110851_);
+-        int j = Mth.ceil(p_110852_);
++        me.alphamode.mcbig.math.BigInteger i = Mth.bigCeil(p_110851_);
++        me.alphamode.mcbig.math.BigInteger j = Mth.bigCeil(p_110852_);
+ 
+         for(int k = 0; k < this.sectionGridSizeX; ++k) {
+             int l = this.sectionGridSizeX * 16;
+-            int i1 = i - 8 - l / 2;
+-            int j1 = i1 + Math.floorMod(k * 16 - i1, l);
++            me.alphamode.mcbig.math.BigInteger i1 = i.subtract(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT).subtract(l / 2);
++            me.alphamode.mcbig.math.BigInteger j1 = i1.add(me.alphamode.mcbig.math.BigMath.floorMod(me.alphamode.mcbig.math.BigInteger.val(k * 16L).subtract(i1), l));
+ 
+             for(int k1 = 0; k1 < this.sectionGridSizeZ; ++k1) {
+                 int l1 = this.sectionGridSizeZ * 16;
+-                int i2 = j - 8 - l1 / 2;
+-                int j2 = i2 + Math.floorMod(k1 * 16 - i2, l1);
++                me.alphamode.mcbig.math.BigInteger i2 = j.subtract(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT).subtract(l1 / 2);
++                me.alphamode.mcbig.math.BigInteger j2 = i2.add(me.alphamode.mcbig.math.BigMath.floorMod(me.alphamode.mcbig.math.BigInteger.val(k1 * 16L).subtract(i2), l1));
+ 
+                 for(int k2 = 0; k2 < this.sectionGridSizeY; ++k2) {
+                     int l2 = this.level.getMinBuildHeight() + k2 * 16;
+                     SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection = this.sections[this.getSectionIndex(k, k2, k1)];
+                     BlockPos blockpos = sectionrenderdispatcher$rendersection.getOrigin();
+-                    if (j1 != blockpos.getX() || l2 != blockpos.getY() || j2 != blockpos.getZ()) {
+-                        sectionrenderdispatcher$rendersection.setOrigin(j1, l2, j2);
++                        if (!java.util.Objects.equals(j1, blockpos.getBigX()) || l2 != blockpos.getY() || !java.util.Objects.equals(j2, blockpos.getBigZ())) {
++                        sectionrenderdispatcher$rendersection.setOrigin(j1, me.alphamode.mcbig.math.BigInteger.val(l2), j2);
+                     }
+                 }
+             }
          }
      }
  

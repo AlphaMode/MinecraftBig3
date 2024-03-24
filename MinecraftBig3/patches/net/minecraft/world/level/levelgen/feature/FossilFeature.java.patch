@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/levelgen/feature/FossilFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/FossilFeature.java
+@@ -35,12 +_,12 @@
+         StructureTemplate structuretemplate1 = structuretemplatemanager.getOrCreate(fossilfeatureconfiguration.overlayStructures.get(i));
+         ChunkPos chunkpos = new ChunkPos(blockpos);
+         BoundingBox boundingbox = new BoundingBox(
+-            chunkpos.getMinBlockX() - 16,
++            chunkpos.getBigMinBlockX().subtract(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN),
+             worldgenlevel.getMinBuildHeight(),
+-            chunkpos.getMinBlockZ() - 16,
+-            chunkpos.getMaxBlockX() + 16,
++            chunkpos.getBigMinBlockZ().subtract(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN),
++            chunkpos.getBigMaxBlockX().add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN),
+             worldgenlevel.getMaxBuildHeight(),
+-            chunkpos.getMaxBlockZ() + 16
++            chunkpos.getBigMaxBlockZ().add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)
+         );
+         StructurePlaceSettings structureplacesettings = new StructurePlaceSettings().setRotation(rotation).setBoundingBox(boundingbox).setRandom(randomsource);
+         Vec3i vec3i = structuretemplate.getSize(rotation);
+@@ -49,7 +_,7 @@
+ 
+         for(int k = 0; k < vec3i.getX(); ++k) {
+             for(int l = 0; l < vec3i.getZ(); ++l) {
+-                j = Math.min(j, worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos1.getX() + k, blockpos1.getZ() + l));
++                j = Math.min(j, worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos1.getBigX().add(k), blockpos1.getBigZ().add(l)));
+             }
+         }
+ 

@@ -26,6 +26,30 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         return new BigDecimal(this.value - val);
     }
 
+    public BigDecimal add(BigDecimal val) {
+        return new BigDecimal(this.value + val.value);
+    }
+
+    public BigDecimal add(double val) {
+        return new BigDecimal(this.value + val);
+    }
+
+    public BigDecimal multiply(BigDecimal val) {
+        return new BigDecimal(this.value * val.value);
+    }
+
+    public BigDecimal multiply(double val) {
+        return new BigDecimal(this.value * val);
+    }
+
+    public BigDecimal divide(double val) {
+        return new BigDecimal(this.value / val);
+    }
+
+    public BigDecimal divide(BigDecimal val) {
+        return new BigDecimal(this.value / val.value);
+    }
+
     @Override
     public int intValue() {
         return (int) this.value;

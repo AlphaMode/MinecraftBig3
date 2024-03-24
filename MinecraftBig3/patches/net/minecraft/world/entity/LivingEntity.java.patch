@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/entity/LivingEntity.java
++++ b/net/minecraft/world/entity/LivingEntity.java
+@@ -1569,9 +_,9 @@
+ 
+     protected void playBlockFallSound() {
+         if (!this.isSilent()) {
+-            int i = Mth.floor(this.getX());
+-            int j = Mth.floor(this.getY() - 0.2F);
+-            int k = Mth.floor(this.getZ());
++            me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(this.getX());
++            me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(this.getY() - 0.2F);
++            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(this.getZ());
+             BlockState blockstate = this.level().getBlockState(new BlockPos(i, j, k));
+             if (!blockstate.isAir()) {
+                 SoundType soundtype = blockstate.getSoundType();

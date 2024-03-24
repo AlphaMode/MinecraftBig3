@@ -31,3 +31,16 @@
                              LevelChunkSection levelchunksection = chunkaccess.getSection(i);
                              levelchunksection.acquire();
                              return levelchunksection;
+@@ -51,9 +_,9 @@
+         if (levelchunksection == null) {
+             return Blocks.AIR.defaultBlockState();
+         } else {
+-            int i = SectionPos.sectionRelative(p_156111_.getX());
+-            int j = SectionPos.sectionRelative(p_156111_.getY());
+-            int k = SectionPos.sectionRelative(p_156111_.getZ());
++            int i = SectionPos.sectionRelative(p_156111_.getBigX());
++            int j = SectionPos.sectionRelative(p_156111_.getBigY());
++            int k = SectionPos.sectionRelative(p_156111_.getBigZ());
+             return levelchunksection.getBlockState(i, j, k);
+         }
+     }

@@ -1,5 +1,66 @@
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
+@@ -265,7 +_,7 @@
+ 
+     public boolean isColliding(BlockPos p_20040_, BlockState p_20041_) {
+         VoxelShape voxelshape = p_20041_.getCollisionShape(this.level(), p_20040_, CollisionContext.of(this));
+-        VoxelShape voxelshape1 = voxelshape.move((double)p_20040_.getX(), (double)p_20040_.getY(), (double)p_20040_.getZ());
++        VoxelShape voxelshape1 = voxelshape.move((double)p_20040_.getBigX().doubleValue(), (double)p_20040_.getBigY().doubleValue(), (double)p_20040_.getBigZ().doubleValue());
+         return Shapes.joinIsNotEmpty(voxelshape1, Shapes.create(this.getBoundingBox()), BooleanOp.AND);
+     }
+ 
+@@ -821,9 +_,9 @@
+                     : blockpos;
+             }
+         } else {
+-            int i = Mth.floor(this.position.x);
+-            int j = Mth.floor(this.position.y - (double)p_216987_);
+-            int k = Mth.floor(this.position.z);
++            me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(this.position.x);
++            me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(this.position.y - (double)p_216987_);
++            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(this.position.z);
+             return new BlockPos(i, j, k);
+         }
+     }
+@@ -985,9 +_,9 @@
+         if (this.level().hasChunksAt(blockpos, blockpos1)) {
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-            for(int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
+-                for(int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
+-                    for(int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
++            for(me.alphamode.mcbig.math.BigInteger i = blockpos.getBigX(); i.compareTo(blockpos1.getBigX()) <= 0; i = i.add()) {
++                for(me.alphamode.mcbig.math.BigInteger j = blockpos.getBigY(); j.compareTo(blockpos1.getBigY()) <= 0; j = j.add()) {
++                    for(me.alphamode.mcbig.math.BigInteger k = blockpos.getBigZ(); k.compareTo(blockpos1.getBigZ()) <= 0; k = k.add()) {
+                         if (!this.isAlive()) {
+                             return;
+                         }
+@@ -1163,7 +_,7 @@
+     private boolean isInRain() {
+         BlockPos blockpos = this.blockPosition();
+         return this.level().isRainingAt(blockpos)
+-            || this.level().isRainingAt(BlockPos.containing((double)blockpos.getX(), this.getBoundingBox().maxY, (double)blockpos.getZ()));
++            || this.level().isRainingAt(BlockPos.containing((double)blockpos.getBigX().doubleValue(), this.getBoundingBox().maxY, (double)blockpos.getBigZ().doubleValue()));
+     }
+ 
+     private boolean isInBubbleColumn() {
+@@ -1297,12 +_,12 @@
+             BlockPos blockpos1 = this.blockPosition();
+             double d0 = this.getX() + (this.random.nextDouble() - 0.5) * (double)this.dimensions.width;
+             double d1 = this.getZ() + (this.random.nextDouble() - 0.5) * (double)this.dimensions.width;
+-            if (blockpos1.getX() != blockpos.getX()) {
+-                d0 = Mth.clamp(d0, (double)blockpos.getX(), (double)blockpos.getX() + 1.0);
++            if (!java.util.Objects.equals(blockpos1.getBigX(), blockpos.getBigX())) {
++                d0 = Mth.clamp(d0, (double)blockpos.getBigX().doubleValue(), (double)blockpos.getBigX().doubleValue() + 1.0);
+             }
+ 
+-            if (blockpos1.getZ() != blockpos.getZ()) {
+-                d1 = Mth.clamp(d1, (double)blockpos.getZ(), (double)blockpos.getZ() + 1.0);
++            if (!java.util.Objects.equals(blockpos1.getBigZ(), blockpos.getBigZ())) {
++                d1 = Mth.clamp(d1, (double)blockpos.getBigZ().doubleValue(), (double)blockpos.getBigZ().doubleValue() + 1.0);
+             }
+ 
+             this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate), d0, this.getY() + 0.1, d1, vec3.x * -4.0, 1.5, vec3.z * -4.0);
 @@ -1336,7 +_,7 @@
  
      @Deprecated
@@ -9,6 +70,57 @@
              ? this.level().getLightLevelDependentMagicValue(BlockPos.containing(this.getX(), this.getEyeY(), this.getZ()))
              : 0.0F;
      }
+@@ -1350,8 +_,8 @@
+     }
+ 
+     public void absMoveTo(double p_20249_, double p_20250_, double p_20251_) {
+-        double d0 = Mth.clamp(p_20249_, -3.0E7, 3.0E7);
+-        double d1 = Mth.clamp(p_20251_, -3.0E7, 3.0E7);
++        double d0 = p_20249_;//Mth.clamp(p_20249_, -3.0E7, 3.0E7);
++        double d1 = p_20251_;//Mth.clamp(p_20251_, -3.0E7, 3.0E7);
+         this.xo = d0;
+         this.yo = p_20250_;
+         this.zo = d1;
+@@ -1677,9 +_,9 @@
+             this.setDeltaMovement(Math.abs(d0) > 10.0 ? 0.0 : d0, Math.abs(d1) > 10.0 ? 0.0 : d1, Math.abs(d2) > 10.0 ? 0.0 : d2);
+             double d3 = 3.0000512E7;
+             this.setPosRaw(
+-                Mth.clamp(listtag.getDouble(0), -3.0000512E7, 3.0000512E7),
+-                Mth.clamp(listtag.getDouble(1), -2.0E7, 2.0E7),
+-                Mth.clamp(listtag.getDouble(2), -3.0000512E7, 3.0000512E7)
++                /*Mth.clamp(*/listtag.getDouble(0),/*, -3.0000512E7, 3.0000512E7)*/
++                /*Mth.clamp(*/listtag.getDouble(1),/*, -2.0E7, 2.0E7),*/
++                /*Mth.clamp(*/listtag.getDouble(2)/*, -3.0000512E7, 3.0000512E7)*/
+             );
+             this.setYRot(listtag2.getFloat(0));
+             this.setXRot(listtag2.getFloat(1));
+@@ -1828,7 +_,7 @@
+                             && blockstate.isSuffocating(this.level(), p_201942_)
+                             && Shapes.joinIsNotEmpty(
+                                 blockstate.getCollisionShape(this.level(), p_201942_)
+-                                    .move((double)p_201942_.getX(), (double)p_201942_.getY(), (double)p_201942_.getZ()),
++                                    .move((double)p_201942_.getBigX().doubleValue(), (double)p_201942_.getBigY().doubleValue(), (double)p_201942_.getBigZ().doubleValue()),
+                                 Shapes.create(aabb),
+                                 BooleanOp.AND
+                             );
+@@ -2346,7 +_,7 @@
+ 
+     protected void moveTowardsClosestSpace(double p_20315_, double p_20316_, double p_20317_) {
+         BlockPos blockpos = BlockPos.containing(p_20315_, p_20316_, p_20317_);
+-        Vec3 vec3 = new Vec3(p_20315_ - (double)blockpos.getX(), p_20316_ - (double)blockpos.getY(), p_20317_ - (double)blockpos.getZ());
++        Vec3 vec3 = new Vec3(p_20315_ - (double)blockpos.getBigX().doubleValue(), p_20316_ - (double)blockpos.getBigY().doubleValue(), p_20317_ - (double)blockpos.getBigZ().doubleValue());
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+         Direction direction = Direction.UP;
+         double d0 = Double.MAX_VALUE;
+@@ -2566,7 +_,7 @@
+             }
+ 
+             return new PortalInfo(
+-                new Vec3((double)blockpos.getX() + 0.5, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5),
++                new Vec3((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue() + 0.5),
+                 this.getDeltaMovement(),
+                 this.getYRot(),
+                 this.getXRot()
 @@ -2686,7 +_,7 @@
          if (this.level() instanceof ServerLevel) {
              ChunkPos chunkpos = new ChunkPos(BlockPos.containing(p_20325_, p_20326_, p_20327_));

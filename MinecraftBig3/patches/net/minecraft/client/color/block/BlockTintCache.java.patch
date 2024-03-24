@@ -9,6 +9,33 @@
      private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
      private final ToIntFunction<BlockPos> source;
  
+@@ -26,11 +_,11 @@
+     }
+ 
+     public int getColor(BlockPos p_193813_) {
+-        int i = SectionPos.blockToSectionCoord(p_193813_.getX());
+-        int j = SectionPos.blockToSectionCoord(p_193813_.getZ());
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_193813_.getBigX());
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_193813_.getBigZ());
+         BlockTintCache.LatestCacheInfo blocktintcache$latestcacheinfo = this.latestChunkOnThread.get();
+-        if (blocktintcache$latestcacheinfo.x != i
+-            || blocktintcache$latestcacheinfo.z != j
++        if (!blocktintcache$latestcacheinfo.x.equals(i)
++            || !blocktintcache$latestcacheinfo.z.equals(j)
+             || blocktintcache$latestcacheinfo.cache == null
+             || blocktintcache$latestcacheinfo.cache.isInvalidated()) {
+             blocktintcache$latestcacheinfo.x = i;
+@@ -39,8 +_,8 @@
+         }
+ 
+         int[] aint = blocktintcache$latestcacheinfo.cache.getLayer(p_193813_.getY());
+-        int k = p_193813_.getX() & 15;
+-        int l = p_193813_.getZ() & 15;
++        int k = p_193813_.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue();
++        int l = p_193813_.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue();
+         int i1 = l << 4 | k;
+         int j1 = aint[i1];
+         if (j1 != -1) {
 @@ -52,13 +_,13 @@
          }
      }
@@ -25,12 +52,25 @@
                      BlockTintCache.CacheData blocktintcache$cachedata = this.cache.remove(k);
                      if (blocktintcache$cachedata != null) {
                          blocktintcache$cachedata.invalidate();
-@@ -81,7 +_,7 @@
+@@ -80,8 +_,8 @@
+         }
      }
  
-     private BlockTintCache.CacheData findOrCreateChunkCache(int p_193815_, int p_193816_) {
+-    private BlockTintCache.CacheData findOrCreateChunkCache(int p_193815_, int p_193816_) {
 -        long i = ChunkPos.asLong(p_193815_, p_193816_);
++    private BlockTintCache.CacheData findOrCreateChunkCache(me.alphamode.mcbig.math.BigInteger p_193815_, me.alphamode.mcbig.math.BigInteger p_193816_) {
 +        ChunkPos i = new ChunkPos(p_193815_, p_193816_);
          this.lock.readLock().lock();
  
          try {
+@@ -167,8 +_,8 @@
+ 
+     @OnlyIn(Dist.CLIENT)
+     static class LatestCacheInfo {
+-        public int x = Integer.MIN_VALUE;
+-        public int z = Integer.MIN_VALUE;
++        public me.alphamode.mcbig.math.BigInteger x = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
++        public me.alphamode.mcbig.math.BigInteger z = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
+         @Nullable
+         BlockTintCache.CacheData cache;
+ 

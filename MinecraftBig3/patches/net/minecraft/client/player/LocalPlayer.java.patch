@@ -9,3 +9,23 @@
              super.tick();
              if (this.isPassenger()) {
                  this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround()));
+@@ -418,8 +_,8 @@
+     private void moveTowardsClosestSpace(double p_108705_, double p_108706_) {
+         BlockPos blockpos = BlockPos.containing(p_108705_, this.getY(), p_108706_);
+         if (this.suffocatesAt(blockpos)) {
+-            double d0 = p_108705_ - (double)blockpos.getX();
+-            double d1 = p_108706_ - (double)blockpos.getZ();
++            double d0 = p_108705_ - (double)blockpos.getBigX().doubleValue();
++            double d1 = p_108706_ - (double)blockpos.getBigZ().doubleValue();
+             Direction direction = null;
+             double d2 = Double.MAX_VALUE;
+             Direction[] adirection = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH};
+@@ -447,7 +_,7 @@
+     private boolean suffocatesAt(BlockPos p_108747_) {
+         AABB aabb = this.getBoundingBox();
+         AABB aabb1 = new AABB(
+-                (double)p_108747_.getX(), aabb.minY, (double)p_108747_.getZ(), (double)p_108747_.getX() + 1.0, aabb.maxY, (double)p_108747_.getZ() + 1.0
++                (double)p_108747_.getBigX().doubleValue(), aabb.minY, (double)p_108747_.getBigZ().doubleValue(), (double)p_108747_.getBigX().doubleValue() + 1.0, aabb.maxY, (double)p_108747_.getBigZ().doubleValue() + 1.0
+             )
+             .deflate(1.0E-7);
+         return this.level().collidesWithSuffocatingBlock(this, aabb1);

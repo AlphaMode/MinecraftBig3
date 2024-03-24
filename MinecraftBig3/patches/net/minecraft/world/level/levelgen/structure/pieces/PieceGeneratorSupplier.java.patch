@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/level/levelgen/structure/pieces/PieceGeneratorSupplier.java
++++ b/net/minecraft/world/level/levelgen/structure/pieces/PieceGeneratorSupplier.java
+@@ -43,12 +_,12 @@
+         RegistryAccess registryAccess
+     ) {
+         public boolean validBiomeOnTop(Heightmap.Types p_197381_) {
+-            int i = this.chunkPos.getMiddleBlockX();
+-            int j = this.chunkPos.getMiddleBlockZ();
++            me.alphamode.mcbig.math.BigInteger i = this.chunkPos.getBigMiddleBlockX();
++            me.alphamode.mcbig.math.BigInteger j = this.chunkPos.getBigMiddleBlockZ();
+             int k = this.chunkGenerator.getFirstOccupiedHeight(i, j, p_197381_, this.heightAccessor, this.randomState);
+             Holder<Biome> holder = this.chunkGenerator
+                 .getBiomeSource()
+-                .getNoiseBiome(QuartPos.fromBlock(i), QuartPos.fromBlock(k), QuartPos.fromBlock(j), this.randomState.sampler());
++                .getNoiseBiome(QuartPos.fromBlock(i), me.alphamode.mcbig.math.BigInteger.val(QuartPos.fromBlock(k)), QuartPos.fromBlock(j), this.randomState.sampler());
+             return this.validBiome.test(holder);
+         }
+     }

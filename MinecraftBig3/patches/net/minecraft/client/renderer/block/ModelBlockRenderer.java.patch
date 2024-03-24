@@ -1,0 +1,65 @@
+--- a/net/minecraft/client/renderer/block/ModelBlockRenderer.java
++++ b/net/minecraft/client/renderer/block/ModelBlockRenderer.java
+@@ -944,8 +_,8 @@
+     @OnlyIn(Dist.CLIENT)
+     static class Cache {
+         private boolean enabled;
+-        private final Long2IntLinkedOpenHashMap colorCache = Util.make(() -> {
+-            Long2IntLinkedOpenHashMap long2intlinkedopenhashmap = new Long2IntLinkedOpenHashMap(100, 0.25F) {
++        private final it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap<BlockPos> colorCache = Util.make(() -> {
++            it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap<BlockPos> long2intlinkedopenhashmap = new it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap<>(100, 0.25F) {
+                 @Override
+                 protected void rehash(int p_111238_) {
+                 }
+@@ -953,8 +_,8 @@
+             long2intlinkedopenhashmap.defaultReturnValue(Integer.MAX_VALUE);
+             return long2intlinkedopenhashmap;
+         });
+-        private final Long2FloatLinkedOpenHashMap brightnessCache = Util.make(() -> {
+-            Long2FloatLinkedOpenHashMap long2floatlinkedopenhashmap = new Long2FloatLinkedOpenHashMap(100, 0.25F) {
++        private final it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos> brightnessCache = Util.make(() -> {
++            it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<BlockPos> long2floatlinkedopenhashmap = new it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap<>(100, 0.25F) {
+                 @Override
+                 protected void rehash(int p_111245_) {
+                 }
+@@ -977,9 +_,9 @@
+         }
+ 
+         public int getLightColor(BlockState p_111222_, BlockAndTintGetter p_111223_, BlockPos p_111224_) {
+-            long i = p_111224_.asLong();
++//            long i = p_111224_.asLong();
+             if (this.enabled) {
+-                int j = this.colorCache.get(i);
++                int j = this.colorCache.getInt(p_111224_);
+                 if (j != Integer.MAX_VALUE) {
+                     return j;
+                 }
+@@ -991,16 +_,16 @@
+                     this.colorCache.removeFirstInt();
+                 }
+ 
+-                this.colorCache.put(i, k);
++                this.colorCache.put(p_111224_, k);
+             }
+ 
+             return k;
+         }
+ 
+         public float getShadeBrightness(BlockState p_111227_, BlockAndTintGetter p_111228_, BlockPos p_111229_) {
+-            long i = p_111229_.asLong();
++//            long i = p_111229_.asLong();
+             if (this.enabled) {
+-                float f = this.brightnessCache.get(i);
++                float f = this.brightnessCache.getFloat(p_111229_);
+                 if (!Float.isNaN(f)) {
+                     return f;
+                 }
+@@ -1012,7 +_,7 @@
+                     this.brightnessCache.removeFirstFloat();
+                 }
+ 
+-                this.brightnessCache.put(i, f1);
++                this.brightnessCache.put(p_111229_, f1);
+             }
+ 
+             return f1;

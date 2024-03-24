@@ -1,5 +1,25 @@
 --- a/net/minecraft/world/level/chunk/UpgradeData.java
 +++ b/net/minecraft/world/level/chunk/UpgradeData.java
+@@ -131,14 +_,14 @@
+             boolean flag3 = set.contains(Direction.NORTH);
+             boolean flag4 = set.size() == 1;
+             ChunkPos chunkpos = p_63344_.getPos();
+-            int k = chunkpos.getMinBlockX() + (!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 1);
+-            int l = chunkpos.getMinBlockX() + (!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 14);
+-            int i1 = chunkpos.getMinBlockZ() + (!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 1);
+-            int j1 = chunkpos.getMinBlockZ() + (!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 14);
++            me.alphamode.mcbig.math.BigInteger k = chunkpos.getBigMinBlockX().add((!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 1));
++            me.alphamode.mcbig.math.BigInteger l = chunkpos.getBigMinBlockX().add((!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 14));
++            me.alphamode.mcbig.math.BigInteger i1 = chunkpos.getBigMinBlockZ().add((!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 1));
++            me.alphamode.mcbig.math.BigInteger j1 = chunkpos.getBigMinBlockZ().add((!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 14));
+             Direction[] adirection = Direction.values();
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-            for(BlockPos blockpos : BlockPos.betweenClosed(k, level.getMinBuildHeight(), i1, l, level.getMaxBuildHeight() - 1, j1)) {
++            for(BlockPos blockpos : BlockPos.betweenClosed(k, me.alphamode.mcbig.math.BigInteger.val(level.getMinBuildHeight()), i1, l, me.alphamode.mcbig.math.BigInteger.val(level.getMaxBuildHeight() - 1), j1)) {
+                 BlockState blockstate = level.getBlockState(blockpos);
+                 BlockState blockstate1 = blockstate;
+ 
 @@ -183,8 +_,8 @@
  
                      for(Direction direction : adirection) {

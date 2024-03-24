@@ -1,29 +1,394 @@
 --- a/net/minecraft/world/level/levelgen/structure/BoundingBox.java
 +++ b/net/minecraft/world/level/levelgen/structure/BoundingBox.java
-@@ -61,7 +_,7 @@
+@@ -20,125 +_,134 @@
+ 
+ public class BoundingBox {
+     private static final Logger LOGGER = LogUtils.getLogger();
+-    public static final Codec<BoundingBox> CODEC = Codec.INT_STREAM
++    private static final BoundingBox INFINITE = new BoundingBox(me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MIN_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MIN_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MIN_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MAX_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MAX_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MAX_VALUE));
++    public static final Codec<BoundingBox> CODEC = me.alphamode.mcbig.core.ModdedCodec.STRING_STREAM
+         .<BoundingBox>comapFlatMap(
+             p_162383_ -> Util.fixedSize(p_162383_, 6)
+-                    .map(p_162385_ -> new BoundingBox(p_162385_[0], p_162385_[1], p_162385_[2], p_162385_[3], p_162385_[4], p_162385_[5])),
+-            p_162391_ -> IntStream.of(p_162391_.minX, p_162391_.minY, p_162391_.minZ, p_162391_.maxX, p_162391_.maxY, p_162391_.maxZ)
++                    .map(p_162385_ -> new BoundingBox(me.alphamode.mcbig.math.BigInteger.val(p_162385_[0]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[1]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[2]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[3]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[4]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[5]))),
++            p_162391_ -> Stream.of(p_162391_.minX.toString(), p_162391_.minY.toString(), p_162391_.minZ.toString(), p_162391_.maxX.toString(), p_162391_.maxY.toString(), p_162391_.maxZ.toString())
+         )
+         .stable();
+-    private int minX;
+-    private int minY;
+-    private int minZ;
+-    private int maxX;
+-    private int maxY;
+-    private int maxZ;
++    private me.alphamode.mcbig.math.BigInteger minX;
++    private me.alphamode.mcbig.math.BigInteger minY;
++    private me.alphamode.mcbig.math.BigInteger minZ;
++    private me.alphamode.mcbig.math.BigInteger maxX;
++    private me.alphamode.mcbig.math.BigInteger maxY;
++    private me.alphamode.mcbig.math.BigInteger maxZ;
+ 
+     public BoundingBox(BlockPos p_162364_) {
+-        this(p_162364_.getX(), p_162364_.getY(), p_162364_.getZ(), p_162364_.getX(), p_162364_.getY(), p_162364_.getZ());
++        this(p_162364_.getBigX(), p_162364_.getBigY(), p_162364_.getBigZ(), p_162364_.getBigX(), p_162364_.getBigY(), p_162364_.getBigZ());
+     }
+ 
+     public BoundingBox(int p_71001_, int p_71002_, int p_71003_, int p_71004_, int p_71005_, int p_71006_) {
++        this(me.alphamode.mcbig.math.BigInteger.val(p_71001_), me.alphamode.mcbig.math.BigInteger.val(p_71002_), me.alphamode.mcbig.math.BigInteger.val(p_71003_), me.alphamode.mcbig.math.BigInteger.val(p_71004_), me.alphamode.mcbig.math.BigInteger.val(p_71005_), me.alphamode.mcbig.math.BigInteger.val(p_71006_));
++    }
++
++    public BoundingBox(me.alphamode.mcbig.math.BigInteger p_71001_, int p_71002_, me.alphamode.mcbig.math.BigInteger p_71003_, me.alphamode.mcbig.math.BigInteger p_71004_, int p_71005_, me.alphamode.mcbig.math.BigInteger p_71006_) {
++        this(p_71001_, me.alphamode.mcbig.math.BigInteger.val(p_71002_), p_71003_, p_71004_, me.alphamode.mcbig.math.BigInteger.val(p_71005_), p_71006_);
++    }
++
++    public BoundingBox(me.alphamode.mcbig.math.BigInteger p_71001_, me.alphamode.mcbig.math.BigInteger p_71002_, me.alphamode.mcbig.math.BigInteger p_71003_, me.alphamode.mcbig.math.BigInteger p_71004_, me.alphamode.mcbig.math.BigInteger p_71005_, me.alphamode.mcbig.math.BigInteger p_71006_) {
+         this.minX = p_71001_;
+         this.minY = p_71002_;
+         this.minZ = p_71003_;
+         this.maxX = p_71004_;
+         this.maxY = p_71005_;
+         this.maxZ = p_71006_;
+-        if (p_71004_ < p_71001_ || p_71005_ < p_71002_ || p_71006_ < p_71003_) {
++        if (p_71004_.compareTo(p_71001_) < 0 || p_71005_.compareTo(p_71002_) < 0 || p_71006_.compareTo(p_71003_) < 0) {
+             String s = "Invalid bounding box data, inverted bounds for: " + this;
+             if (SharedConstants.IS_RUNNING_IN_IDE) {
+                 throw new IllegalStateException(s);
+             }
+ 
+             LOGGER.error(s);
+-            this.minX = Math.min(p_71001_, p_71004_);
+-            this.minY = Math.min(p_71002_, p_71005_);
+-            this.minZ = Math.min(p_71003_, p_71006_);
+-            this.maxX = Math.max(p_71001_, p_71004_);
+-            this.maxY = Math.max(p_71002_, p_71005_);
+-            this.maxZ = Math.max(p_71003_, p_71006_);
++            this.minX = p_71001_.min(p_71004_);
++            this.minY = p_71002_.min(p_71005_);
++            this.minZ = p_71003_.min(p_71006_);
++            this.maxX = p_71001_.max(p_71004_);
++            this.maxY = p_71002_.max(p_71005_);
++            this.maxZ = p_71003_.max(p_71006_);
          }
      }
  
 -    public static BoundingBox fromCorners(Vec3i p_162376_, Vec3i p_162377_) {
 +    public static BoundingBox fromCorners(me.alphamode.mcbig.core.Vec3l p_162376_, me.alphamode.mcbig.core.Vec3l p_162377_) {
          return new BoundingBox(
-             Math.min(p_162376_.getX(), p_162377_.getX()),
-             Math.min(p_162376_.getY(), p_162377_.getY()),
-@@ -200,7 +_,7 @@
+-            Math.min(p_162376_.getX(), p_162377_.getX()),
+-            Math.min(p_162376_.getY(), p_162377_.getY()),
+-            Math.min(p_162376_.getZ(), p_162377_.getZ()),
+-            Math.max(p_162376_.getX(), p_162377_.getX()),
+-            Math.max(p_162376_.getY(), p_162377_.getY()),
+-            Math.max(p_162376_.getZ(), p_162377_.getZ())
++            p_162376_.getBigX().min(p_162377_.getBigX()),
++            p_162376_.getBigY().min(p_162377_.getBigY()),
++            p_162376_.getBigZ().min(p_162377_.getBigZ()),
++            p_162376_.getBigX().max(p_162377_.getBigX()),
++            p_162376_.getBigY().max(p_162377_.getBigY()),
++            p_162376_.getBigZ().max(p_162377_.getBigZ())
+         );
+     }
+ 
+     public static BoundingBox infinite() {
+-        return new BoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
++        return INFINITE;//new BoundingBox(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+     }
+ 
+     public static BoundingBox orientBox(
+-        int p_71032_, int p_71033_, int p_71034_, int p_71035_, int p_71036_, int p_71037_, int p_71038_, int p_71039_, int p_71040_, Direction p_71041_
++            me.alphamode.mcbig.math.BigInteger p_71032_, me.alphamode.mcbig.math.BigInteger p_71033_, me.alphamode.mcbig.math.BigInteger p_71034_, int p_71035_, int p_71036_, int p_71037_, int p_71038_, int p_71039_, int p_71040_, Direction p_71041_
+     ) {
+         switch(p_71041_) {
+             case SOUTH:
+             default:
+                 return new BoundingBox(
+-                    p_71032_ + p_71035_,
+-                    p_71033_ + p_71036_,
+-                    p_71034_ + p_71037_,
+-                    p_71032_ + p_71038_ - 1 + p_71035_,
+-                    p_71033_ + p_71039_ - 1 + p_71036_,
+-                    p_71034_ + p_71040_ - 1 + p_71037_
++                    p_71032_.add(p_71035_),
++                    p_71033_.add(p_71036_),
++                    p_71034_.add(p_71037_),
++                    p_71032_.add(p_71038_).subtract().add(p_71035_),
++                    p_71033_.add(p_71039_).subtract().add(p_71036_),
++                    p_71034_.add(p_71040_).subtract().add(p_71037_)
+                 );
+             case NORTH:
+                 return new BoundingBox(
+-                    p_71032_ + p_71035_,
+-                    p_71033_ + p_71036_,
+-                    p_71034_ - p_71040_ + 1 + p_71037_,
+-                    p_71032_ + p_71038_ - 1 + p_71035_,
+-                    p_71033_ + p_71039_ - 1 + p_71036_,
+-                    p_71034_ + p_71037_
++                    p_71032_.add(p_71035_),
++                    p_71033_.add(p_71036_),
++                    p_71034_.subtract(p_71040_).add().add(p_71037_),
++                    p_71032_.add(p_71038_).subtract().add(p_71035_),
++                    p_71033_.add(p_71039_).subtract().add(p_71036_),
++                    p_71034_.add(p_71037_)
+                 );
+             case WEST:
+                 return new BoundingBox(
+-                    p_71032_ - p_71040_ + 1 + p_71037_,
+-                    p_71033_ + p_71036_,
+-                    p_71034_ + p_71035_,
+-                    p_71032_ + p_71037_,
+-                    p_71033_ + p_71039_ - 1 + p_71036_,
+-                    p_71034_ + p_71038_ - 1 + p_71035_
++                    p_71032_.subtract(p_71040_).add().add(p_71037_),
++                    p_71033_.add(p_71036_),
++                    p_71034_.add(p_71035_),
++                    p_71032_.add(p_71037_),
++                    p_71033_.add(p_71039_).subtract().add(p_71036_),
++                    p_71034_.add(p_71038_).subtract().add(p_71035_)
+                 );
+             case EAST:
+                 return new BoundingBox(
+-                    p_71032_ + p_71037_,
+-                    p_71033_ + p_71036_,
+-                    p_71034_ + p_71035_,
+-                    p_71032_ + p_71040_ - 1 + p_71037_,
+-                    p_71033_ + p_71039_ - 1 + p_71036_,
+-                    p_71034_ + p_71038_ - 1 + p_71035_
++                    p_71032_.add(p_71037_),
++                    p_71033_.add(p_71036_),
++                    p_71034_.add(p_71035_),
++                    p_71032_.add(p_71040_).subtract().add(p_71037_),
++                    p_71033_.add(p_71039_).subtract().add(p_71036_),
++                    p_71034_.add(p_71038_).subtract().add(p_71035_)
+                 );
+         }
+     }
+ 
+     public Stream<ChunkPos> intersectingChunks() {
+-        int i = SectionPos.blockToSectionCoord(this.minX());
+-        int j = SectionPos.blockToSectionCoord(this.minZ());
+-        int k = SectionPos.blockToSectionCoord(this.maxX());
+-        int l = SectionPos.blockToSectionCoord(this.maxZ());
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(this.minX());
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(this.minZ());
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.blockToSectionCoord(this.maxX());
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(this.maxZ());
+         return ChunkPos.rangeClosed(new ChunkPos(i, j), new ChunkPos(k, l));
+     }
+ 
+     public boolean intersects(BoundingBox p_71050_) {
+-        return this.maxX >= p_71050_.minX
+-            && this.minX <= p_71050_.maxX
+-            && this.maxZ >= p_71050_.minZ
+-            && this.minZ <= p_71050_.maxZ
+-            && this.maxY >= p_71050_.minY
+-            && this.minY <= p_71050_.maxY;
++        return this.maxX.compareTo(p_71050_.minX) >= 0
++            && this.minX.compareTo(p_71050_.maxX) <= 0
++            && this.maxZ.compareTo(p_71050_.minZ) >= 0
++            && this.minZ.compareTo(p_71050_.maxZ) <= 0
++            && this.maxY.compareTo(p_71050_.minY) >= 0
++            && this.minY.compareTo(p_71050_.maxY) <= 0;
+     }
+ 
+-    public boolean intersects(int p_71020_, int p_71021_, int p_71022_, int p_71023_) {
+-        return this.maxX >= p_71020_ && this.minX <= p_71022_ && this.maxZ >= p_71021_ && this.minZ <= p_71023_;
++    public boolean intersects(me.alphamode.mcbig.math.BigInteger p_71020_, me.alphamode.mcbig.math.BigInteger p_71021_, me.alphamode.mcbig.math.BigInteger p_71022_, me.alphamode.mcbig.math.BigInteger p_71023_) {
++        return this.maxX.compareTo(p_71020_) >= 0 && this.minX.compareTo(p_71022_) <= 0 && this.maxZ.compareTo(p_71021_) >= 0 && this.minZ.compareTo(p_71023_) <= 0;
+     }
+ 
+     public static Optional<BoundingBox> encapsulatingPositions(Iterable<BlockPos> p_162379_) {
+@@ -168,91 +_,91 @@
+ 
+     @Deprecated
+     public BoundingBox encapsulate(BoundingBox p_162387_) {
+-        this.minX = Math.min(this.minX, p_162387_.minX);
+-        this.minY = Math.min(this.minY, p_162387_.minY);
+-        this.minZ = Math.min(this.minZ, p_162387_.minZ);
+-        this.maxX = Math.max(this.maxX, p_162387_.maxX);
+-        this.maxY = Math.max(this.maxY, p_162387_.maxY);
+-        this.maxZ = Math.max(this.maxZ, p_162387_.maxZ);
++        this.minX = this.minX.min(p_162387_.minX);
++        this.minY = this.minY.min(p_162387_.minY);
++        this.minZ = this.minZ.min(p_162387_.minZ);
++        this.maxX = this.maxX.max(p_162387_.maxX);
++        this.maxY = this.maxY.max(p_162387_.maxY);
++        this.maxZ = this.maxZ.max(p_162387_.maxZ);
+         return this;
      }
  
      @Deprecated
+     public BoundingBox encapsulate(BlockPos p_162372_) {
+-        this.minX = Math.min(this.minX, p_162372_.getX());
+-        this.minY = Math.min(this.minY, p_162372_.getY());
+-        this.minZ = Math.min(this.minZ, p_162372_.getZ());
+-        this.maxX = Math.max(this.maxX, p_162372_.getX());
+-        this.maxY = Math.max(this.maxY, p_162372_.getY());
+-        this.maxZ = Math.max(this.maxZ, p_162372_.getZ());
+-        return this;
+-    }
+-
+-    @Deprecated
+-    public BoundingBox move(int p_162368_, int p_162369_, int p_162370_) {
+-        this.minX += p_162368_;
+-        this.minY += p_162369_;
+-        this.minZ += p_162370_;
+-        this.maxX += p_162368_;
+-        this.maxY += p_162369_;
+-        this.maxZ += p_162370_;
+-        return this;
+-    }
+-
+-    @Deprecated
 -    public BoundingBox move(Vec3i p_162374_) {
+-        return this.move(p_162374_.getX(), p_162374_.getY(), p_162374_.getZ());
++        this.minX = this.minX.min(p_162372_.getBigX());
++        this.minY = this.minY.min(p_162372_.getBigY());
++        this.minZ = this.minZ.min(p_162372_.getBigZ());
++        this.maxX = this.maxX.max(p_162372_.getBigX());
++        this.maxY = this.maxY.max(p_162372_.getBigY());
++        this.maxZ = this.maxZ.max(p_162372_.getBigZ());
++        return this;
++    }
++
++    @Deprecated
++    public BoundingBox move(me.alphamode.mcbig.math.BigInteger p_162368_, me.alphamode.mcbig.math.BigInteger p_162369_, me.alphamode.mcbig.math.BigInteger p_162370_) {
++        this.minX = this.minX.add(p_162368_);
++        this.minY = this.minY.add(p_162369_);
++        this.minZ = this.minZ.add(p_162370_);
++        this.maxX = this.maxX.add(p_162368_);
++        this.maxY = this.maxY.add(p_162369_);
++        this.maxZ = this.maxZ.add(p_162370_);
++        return this;
++    }
++
++    @Deprecated
 +    public BoundingBox move(me.alphamode.mcbig.core.Vec3l p_162374_) {
-         return this.move(p_162374_.getX(), p_162374_.getY(), p_162374_.getZ());
++        return this.move(p_162374_.getBigX(), p_162374_.getBigY(), p_162374_.getBigZ());
      }
  
-@@ -221,7 +_,7 @@
+     public BoundingBox moved(int p_71046_, int p_71047_, int p_71048_) {
+         return new BoundingBox(
+-            this.minX + p_71046_, this.minY + p_71047_, this.minZ + p_71048_, this.maxX + p_71046_, this.maxY + p_71047_, this.maxZ + p_71048_
++            this.minX.add(p_71046_), this.minY.add(p_71047_), this.minZ.add(p_71048_), this.maxX.add(p_71046_), this.maxY.add(p_71047_), this.maxZ.add(p_71048_)
+         );
+     }
+ 
+     public BoundingBox inflatedBy(int p_191962_) {
+         return new BoundingBox(
+-            this.minX() - p_191962_,
+-            this.minY() - p_191962_,
+-            this.minZ() - p_191962_,
+-            this.maxX() + p_191962_,
+-            this.maxY() + p_191962_,
+-            this.maxZ() + p_191962_
++            this.minX().subtract(p_191962_),
++            this.minY().subtract(p_191962_),
++            this.minZ().subtract(p_191962_),
++            this.maxX().add(p_191962_),
++            this.maxY().add(p_191962_),
++            this.maxZ().add(p_191962_)
          );
      }
  
 -    public boolean isInside(Vec3i p_71052_) {
+-        return this.isInside(p_71052_.getX(), p_71052_.getY(), p_71052_.getZ());
 +    public boolean isInside(me.alphamode.mcbig.core.Vec3l p_71052_) {
-         return this.isInside(p_71052_.getX(), p_71052_.getY(), p_71052_.getZ());
++        return this.isInside(p_71052_.getBigX(), p_71052_.getBigY(), p_71052_.getBigZ());
      }
  
+-    public boolean isInside(int p_261671_, int p_261537_, int p_261678_) {
+-        return p_261671_ >= this.minX
+-            && p_261671_ <= this.maxX
+-            && p_261678_ >= this.minZ
+-            && p_261678_ <= this.maxZ
+-            && p_261537_ >= this.minY
+-            && p_261537_ <= this.maxY;
++    public boolean isInside(me.alphamode.mcbig.math.BigInteger p_261671_, me.alphamode.mcbig.math.BigInteger p_261537_, me.alphamode.mcbig.math.BigInteger p_261678_) {
++        return p_261671_.compareTo(this.minX) >= 0
++            && p_261671_.compareTo(this.maxX) <= 0
++            && p_261678_.compareTo(this.minZ) >= 0
++            && p_261678_.compareTo(this.maxZ) <= 0
++            && p_261537_.compareTo(this.minY) >= 0
++            && p_261537_.compareTo(this.maxY) <= 0;
+     }
+ 
+     public Vec3i getLength() {
+-        return new Vec3i(this.maxX - this.minX, this.maxY - this.minY, this.maxZ - this.minZ);
++        return new Vec3i(this.maxX.subtract(this.minX).intValue(), this.maxY.subtract(this.minY).intValue(), this.maxZ.subtract(this.minZ).intValue());
+     }
+ 
+     public int getXSpan() {
+-        return this.maxX - this.minX + 1;
++        return this.maxX.subtract(this.minX).intValue() + 1;
+     }
+ 
+     public int getYSpan() {
+-        return this.maxY - this.minY + 1;
++        return this.maxY.subtract(this.minY).intValue() + 1;
+     }
+ 
+     public int getZSpan() {
+-        return this.maxZ - this.minZ + 1;
++        return this.maxZ.subtract(this.minZ).intValue() + 1;
+     }
+ 
+     public BlockPos getCenter() {
+         return new BlockPos(
+-            this.minX + (this.maxX - this.minX + 1) / 2, this.minY + (this.maxY - this.minY + 1) / 2, this.minZ + (this.maxZ - this.minZ + 1) / 2
++            this.minX.add((this.maxX.subtract(this.minX).add()).divide(me.alphamode.mcbig.core.BigConstants.Ints.TWO)), this.minY.add((this.maxY.subtract(this.minY).add()).divide(me.alphamode.mcbig.core.BigConstants.Ints.TWO)), this.minZ.add((this.maxZ.subtract(this.minZ).add()).divide(me.alphamode.mcbig.core.BigConstants.Ints.TWO))
+         );
+     }
+ 
+@@ -288,12 +_,12 @@
+             return false;
+         } else {
+             BoundingBox boundingbox = (BoundingBox)p_162393_;
+-            return this.minX == boundingbox.minX
+-                && this.minY == boundingbox.minY
+-                && this.minZ == boundingbox.minZ
+-                && this.maxX == boundingbox.maxX
+-                && this.maxY == boundingbox.maxY
+-                && this.maxZ == boundingbox.maxZ;
++            return this.minX.equals(boundingbox.minX)
++                && this.minY.equals(boundingbox.minY)
++                && this.minZ.equals(boundingbox.minZ)
++                && this.maxX.equals(boundingbox.maxX)
++                && this.maxY.equals(boundingbox.maxY)
++                && this.maxZ.equals(boundingbox.maxZ);
+         }
+     }
+ 
+@@ -302,27 +_,27 @@
+         return Objects.hash(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
+     }
+ 
+-    public int minX() {
++    public me.alphamode.mcbig.math.BigInteger minX() {
+         return this.minX;
+     }
+ 
+-    public int minY() {
++    public me.alphamode.mcbig.math.BigInteger minY() {
+         return this.minY;
+     }
+ 
+-    public int minZ() {
++    public me.alphamode.mcbig.math.BigInteger minZ() {
+         return this.minZ;
+     }
+ 
+-    public int maxX() {
++    public me.alphamode.mcbig.math.BigInteger maxX() {
+         return this.maxX;
+     }
+ 
+-    public int maxY() {
++    public me.alphamode.mcbig.math.BigInteger maxY() {
+         return this.maxY;
+     }
+ 
+-    public int maxZ() {
++    public me.alphamode.mcbig.math.BigInteger maxZ() {
+         return this.maxZ;
+     }
+ }

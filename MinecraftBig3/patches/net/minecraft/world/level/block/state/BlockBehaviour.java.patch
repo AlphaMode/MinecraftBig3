@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/block/state/BlockBehaviour.java
++++ b/net/minecraft/world/level/block/state/BlockBehaviour.java
+@@ -1213,7 +_,7 @@
+                 case XYZ:
+                     this.offsetFunction = Optional.of((p_272562_, p_272563_, p_272564_) -> {
+                         Block block = p_272562_.getBlock();
+-                        long i = Mth.getSeed(p_272564_.getX(), 0, p_272564_.getZ());
++                        long i = Mth.getSeed(p_272564_.getBigX(), 0, p_272564_.getBigZ());
+                         double d0 = ((double)((float)(i >> 4 & 15L) / 15.0F) - 1.0) * (double)block.getMaxVerticalOffset();
+                         float f = block.getMaxHorizontalOffset();
+                         double d1 = Mth.clamp(((double)((float)(i & 15L) / 15.0F) - 0.5) * 0.5, (double)(-f), (double)f);
+@@ -1224,7 +_,7 @@
+                 case XZ:
+                     this.offsetFunction = Optional.of((p_272565_, p_272566_, p_272567_) -> {
+                         Block block = p_272565_.getBlock();
+-                        long i = Mth.getSeed(p_272567_.getX(), 0, p_272567_.getZ());
++                        long i = Mth.getSeed(p_272567_.getBigX(), 0, p_272567_.getBigZ());
+                         float f = block.getMaxHorizontalOffset();
+                         double d0 = Mth.clamp(((double)((float)(i & 15L) / 15.0F) - 0.5) * 0.5, (double)(-f), (double)f);
+                         double d1 = Mth.clamp(((double)((float)(i >> 8 & 15L) / 15.0F) - 0.5) * 0.5, (double)(-f), (double)f);

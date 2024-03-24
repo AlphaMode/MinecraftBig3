@@ -1,0 +1,72 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentPieces.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/OceanMonumentPieces.java
+@@ -166,7 +_,7 @@
+         private OceanMonumentPieces.RoomDefinition coreRoom;
+         private final List<OceanMonumentPieces.OceanMonumentPiece> childPieces = Lists.newArrayList();
+ 
+-        public MonumentBuilding(RandomSource p_228648_, int p_228649_, int p_228650_, Direction p_228651_) {
++        public MonumentBuilding(RandomSource p_228648_, me.alphamode.mcbig.math.BigInteger p_228649_, me.alphamode.mcbig.math.BigInteger p_228650_, Direction p_228651_) {
+             super(StructurePieceType.OCEAN_MONUMENT_BUILDING, p_228651_, 0, makeBoundingBox(p_228649_, 39, p_228650_, p_228651_, 58, 23, 58));
+             this.setOrientation(p_228651_);
+             List<OceanMonumentPieces.RoomDefinition> list = this.generateRoomGraph(p_228648_);
+@@ -336,7 +_,7 @@
+             ChunkPos p_228664_,
+             BlockPos p_228665_
+         ) {
+-            int i = Math.max(p_228659_.getSeaLevel(), 64) - this.boundingBox.minY();
++            int i = Math.max(p_228659_.getSeaLevel(), 64) - this.boundingBox.minY().intValue();
+             this.generateWaterBox(p_228659_, p_228663_, 0, 0, 0, 58, i, 58);
+             this.generateWing(false, 0, p_228659_, p_228662_, p_228663_);
+             this.generateWing(true, 33, p_228659_, p_228662_, p_228663_);
+@@ -1467,20 +_,20 @@
+             int j = i % 5;
+             int k = i / 5 % 5;
+             int l = i / 25;
+-            BoundingBox boundingbox = makeBoundingBox(0, 0, 0, p_228875_, p_228877_ * 8, p_228878_ * 4, p_228879_ * 8);
++            BoundingBox boundingbox = makeBoundingBox(me.alphamode.mcbig.math.BigInteger.ZERO, 0, me.alphamode.mcbig.math.BigInteger.ZERO, p_228875_, p_228877_ * 8, p_228878_ * 4, p_228879_ * 8);
+             switch(p_228875_) {
+                 case NORTH:
+-                    boundingbox.move(j * 8, l * 4, -(k + p_228879_) * 8 + 1);
++                    boundingbox.move(me.alphamode.mcbig.math.BigInteger.val(j * 8), me.alphamode.mcbig.math.BigInteger.val(l * 4), me.alphamode.mcbig.math.BigInteger.val(-(k + p_228879_) * 8 + 1));
+                     break;
+                 case SOUTH:
+-                    boundingbox.move(j * 8, l * 4, k * 8);
++                    boundingbox.move(me.alphamode.mcbig.math.BigInteger.val(j * 8), me.alphamode.mcbig.math.BigInteger.val(l * 4), me.alphamode.mcbig.math.BigInteger.val(k * 8));
+                     break;
+                 case WEST:
+-                    boundingbox.move(-(k + p_228879_) * 8 + 1, l * 4, j * 8);
++                    boundingbox.move(me.alphamode.mcbig.math.BigInteger.val(-(k + p_228879_) * 8 + 1), me.alphamode.mcbig.math.BigInteger.val(l * 4), me.alphamode.mcbig.math.BigInteger.val(j * 8));
+                     break;
+                 case EAST:
+                 default:
+-                    boundingbox.move(k * 8, l * 4, j * 8);
++                    boundingbox.move(me.alphamode.mcbig.math.BigInteger.val(k * 8), me.alphamode.mcbig.math.BigInteger.val(l * 4), me.alphamode.mcbig.math.BigInteger.val(j * 8));
+             }
+ 
+             return boundingbox;
+@@ -1502,7 +_,7 @@
+                     for(int k = p_228885_; k <= p_228888_; ++k) {
+                         BlockState blockstate = this.getBlock(p_228881_, j, i, k, p_228882_);
+                         if (!FILL_KEEP.contains(blockstate.getBlock())) {
+-                            if (this.getWorldY(i) >= p_228881_.getSeaLevel() && blockstate != FILL_BLOCK) {
++                            if (this.getWorldY(me.alphamode.mcbig.math.BigInteger.val(i)).intValue() >= p_228881_.getSeaLevel() && blockstate != FILL_BLOCK) {
+                                 this.placeBlock(p_228881_, Blocks.AIR.defaultBlockState(), j, i, k, p_228882_);
+                             } else {
+                                 this.placeBlock(p_228881_, FILL_BLOCK, j, i, k, p_228882_);
+@@ -1551,11 +_,11 @@
+         }
+ 
+         protected boolean chunkIntersects(BoundingBox p_228866_, int p_228867_, int p_228868_, int p_228869_, int p_228870_) {
+-            int i = this.getWorldX(p_228867_, p_228868_);
+-            int j = this.getWorldZ(p_228867_, p_228868_);
+-            int k = this.getWorldX(p_228869_, p_228870_);
+-            int l = this.getWorldZ(p_228869_, p_228870_);
+-            return p_228866_.intersects(Math.min(i, k), Math.min(j, l), Math.max(i, k), Math.max(j, l));
++            me.alphamode.mcbig.math.BigInteger i = this.getWorldX(p_228867_, p_228868_);
++            me.alphamode.mcbig.math.BigInteger j = this.getWorldZ(p_228867_, p_228868_);
++            me.alphamode.mcbig.math.BigInteger k = this.getWorldX(p_228869_, p_228870_);
++            me.alphamode.mcbig.math.BigInteger l = this.getWorldZ(p_228869_, p_228870_);
++            return p_228866_.intersects(i.min(k), j.min(l), i.max(k), j.max(l));
+         }
+ 
+         protected void spawnElder(WorldGenLevel p_251919_, BoundingBox p_248944_, int p_251311_, int p_249326_, int p_252095_) {

@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/levelgen/structure/pieces/StructurePiecesBuilder.java
++++ b/net/minecraft/world/level/levelgen/structure/pieces/StructurePiecesBuilder.java
+@@ -25,7 +_,7 @@
+     @Deprecated
+     public void offsetPiecesVertically(int p_192782_) {
+         for(StructurePiece structurepiece : this.pieces) {
+-            structurepiece.move(0, p_192782_, 0);
++            structurepiece.move(me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.val(p_192782_), me.alphamode.mcbig.math.BigInteger.ZERO);
+         }
+     }
+ 
+@@ -38,7 +_,7 @@
+             j += p_226968_.nextInt(i - j);
+         }
+ 
+-        int k = j - boundingbox.maxY();
++        int k = j - boundingbox.maxY().intValue();
+         this.offsetPiecesVertically(k);
+         return k;
+     }
+@@ -54,7 +_,7 @@
+             j = p_226972_;
+         }
+ 
+-        int k = j - boundingbox.minY();
++        int k = j - boundingbox.minY().intValue();
+         this.offsetPiecesVertically(k);
+     }
+ 

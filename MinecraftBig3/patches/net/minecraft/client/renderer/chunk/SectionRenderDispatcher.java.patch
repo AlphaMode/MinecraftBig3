@@ -1,6 +1,12 @@
 --- a/net/minecraft/client/renderer/chunk/SectionRenderDispatcher.java
 +++ b/net/minecraft/client/renderer/chunk/SectionRenderDispatcher.java
-@@ -304,7 +_,7 @@
+@@ -299,12 +_,12 @@
+ 
+         public RenderSection(int p_295197_, int p_295159_, int p_294506_, int p_294392_) {
+             this.index = p_295197_;
+-            this.setOrigin(p_295159_, p_294506_, p_294392_);
++            this.setOrigin(me.alphamode.mcbig.math.BigInteger.val(p_295159_), me.alphamode.mcbig.math.BigInteger.val(p_294506_), me.alphamode.mcbig.math.BigInteger.val(p_294392_));
+         }
  
          private boolean doesChunkExistAt(BlockPos p_295253_) {
              return SectionRenderDispatcher.this.level
@@ -9,3 +15,64 @@
                  != null;
          }
  
+@@ -328,11 +_,11 @@
+             return this.buffers.get(p_294497_);
+         }
+ 
+-        public void setOrigin(int p_294148_, int p_295137_, int p_295706_) {
++        public void setOrigin(me.alphamode.mcbig.math.BigInteger p_294148_, me.alphamode.mcbig.math.BigInteger p_295137_, me.alphamode.mcbig.math.BigInteger p_295706_) {
+             this.reset();
+             this.origin.set(p_294148_, p_295137_, p_295706_);
+             this.bb = new AABB(
+-                (double)p_294148_, (double)p_295137_, (double)p_295706_, (double)(p_294148_ + 16), (double)(p_295137_ + 16), (double)(p_295706_ + 16)
++                (double)p_294148_.doubleValue(), (double)p_295137_.doubleValue(), (double)p_295706_.doubleValue(), (double)(p_294148_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).doubleValue(), (double)(p_295137_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).doubleValue(), (double)(p_295706_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).doubleValue()
+             );
+ 
+             for(Direction direction : Direction.values()) {
+@@ -469,11 +_,11 @@
+             sectionrenderdispatcher$rendersection$compiletask.doTask(SectionRenderDispatcher.this.fixedBuffers);
+         }
+ 
+-        public boolean isAxisAlignedWith(int p_295743_, int p_295344_, int p_295518_) {
++        public boolean isAxisAlignedWith(me.alphamode.mcbig.math.BigInteger p_295743_, me.alphamode.mcbig.math.BigInteger p_295344_, me.alphamode.mcbig.math.BigInteger p_295518_) {
+             BlockPos blockpos = this.getOrigin();
+-            return p_295743_ == SectionPos.blockToSectionCoord(blockpos.getX())
+-                || p_295518_ == SectionPos.blockToSectionCoord(blockpos.getZ())
+-                || p_295344_ == SectionPos.blockToSectionCoord(blockpos.getY());
++            return p_295743_ == SectionPos.blockToSectionCoord(blockpos.getBigX())
++                || p_295518_ == SectionPos.blockToSectionCoord(blockpos.getBigZ())
++                || p_295344_ == SectionPos.blockToSectionCoord(blockpos.getBigY());
+         }
+ 
+         @OnlyIn(Dist.CLIENT)
+@@ -616,7 +_,7 @@
+                             }
+ 
+                             posestack.pushPose();
+-                            posestack.translate((float)(blockpos2.getX() & 15), (float)(blockpos2.getY() & 15), (float)(blockpos2.getZ() & 15));
++                            posestack.translate((float)(blockpos2.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).floatValue()), (float)(blockpos2.getBigY().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).floatValue()), (float)(blockpos2.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).floatValue()));
+                             blockrenderdispatcher.renderBatched(blockstate, blockpos2, renderchunkregion, posestack, bufferbuilder2, true, randomsource);
+                             posestack.popPose();
+                         }
+@@ -627,7 +_,7 @@
+                         if (!bufferbuilder1.isCurrentBatchEmpty()) {
+                             bufferbuilder1.setQuadSorting(
+                                 VertexSorting.byDistance(
+-                                    p_294894_ - (float)blockpos.getX(), p_295437_ - (float)blockpos.getY(), p_294465_ - (float)blockpos.getZ()
++                                    p_294894_ - (float)blockpos.getBigX().floatValue(), p_295437_ - (float)blockpos.getBigY().floatValue(), p_294465_ - (float)blockpos.getBigZ().floatValue()
+                                 )
+                             );
+                             sectionrenderdispatcher$rendersection$rebuildtask$compileresults.transparencyState = bufferbuilder1.getSortState();
+@@ -712,9 +_,9 @@
+                         bufferbuilder.restoreSortState(bufferbuilder$sortstate);
+                         bufferbuilder.setQuadSorting(
+                             VertexSorting.byDistance(
+-                                f - (float)RenderSection.this.origin.getX(),
+-                                f1 - (float)RenderSection.this.origin.getY(),
+-                                f2 - (float)RenderSection.this.origin.getZ()
++                                f - (float)RenderSection.this.origin.getBigX().floatValue(),
++                                f1 - (float)RenderSection.this.origin.getBigY().floatValue(),
++                                f2 - (float)RenderSection.this.origin.getBigZ().floatValue()
+                             )
+                         );
+                         this.compiledSection.transparencyState = bufferbuilder.getSortState();

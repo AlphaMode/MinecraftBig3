@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/LevelReader.java
 +++ b/net/minecraft/world/level/LevelReader.java
-@@ -24,10 +_,14 @@
+@@ -24,12 +_,20 @@
  
  public interface LevelReader extends BlockAndTintGetter, CollisionGetter, SignalGetter, BiomeManager.NoiseBiomeSource {
      @Nullable
@@ -9,13 +9,21 @@
  
      @Deprecated
 -    boolean hasChunk(int p_46838_, int p_46839_);
+-
+-    int getHeight(Heightmap.Types p_46827_, int p_46828_, int p_46829_);
 +    boolean hasChunk(me.alphamode.mcbig.math.BigInteger p_46838_, me.alphamode.mcbig.math.BigInteger p_46839_);
 +
 +    default boolean hasChunk(int p_46838_, int p_46839_) {
 +        return hasChunk(me.alphamode.mcbig.math.BigInteger.val(p_46838_), me.alphamode.mcbig.math.BigInteger.val(p_46839_));
 +    }
++
++    int getHeight(Heightmap.Types p_46827_, me.alphamode.mcbig.math.BigInteger p_46828_, me.alphamode.mcbig.math.BigInteger p_46829_);
++
++    default int getHeight(Heightmap.Types p_46827_, int p_46828_, int p_46829_) {
++        return getHeight(p_46827_, me.alphamode.mcbig.math.BigInteger.val(p_46828_), me.alphamode.mcbig.math.BigInteger.val(p_46829_));
++    }
  
-     int getHeight(Heightmap.Types p_46827_, int p_46828_, int p_46829_);
+     int getSkyDarken();
  
 @@ -40,27 +_,27 @@
      }
@@ -23,14 +31,14 @@
      default Stream<BlockState> getBlockStatesIfLoaded(AABB p_46848_) {
 -        int i = Mth.floor(p_46848_.minX);
 -        int j = Mth.floor(p_46848_.maxX);
-+        me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.val(Mth.floor(p_46848_.minX));
-+        me.alphamode.mcbig.math.BigInteger j = me.alphamode.mcbig.math.BigInteger.val(Mth.floor(p_46848_.maxX));
++        me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(p_46848_.minX);
++        me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(p_46848_.maxX);
          int k = Mth.floor(p_46848_.minY);
          int l = Mth.floor(p_46848_.maxY);
 -        int i1 = Mth.floor(p_46848_.minZ);
 -        int j1 = Mth.floor(p_46848_.maxZ);
-+        me.alphamode.mcbig.math.BigInteger i1 = me.alphamode.mcbig.math.BigInteger.val(Mth.floor(p_46848_.minZ));
-+        me.alphamode.mcbig.math.BigInteger j1 = me.alphamode.mcbig.math.BigInteger.val(Mth.floor(p_46848_.maxZ));
++        me.alphamode.mcbig.math.BigInteger i1 = Mth.bigFloor(p_46848_.minZ);
++        me.alphamode.mcbig.math.BigInteger j1 = Mth.bigFloor(p_46848_.maxZ);
          return this.hasChunksAt(i, k, i1, j, l, j1) ? this.getBlockStates(p_46848_) : Stream.empty();
      }
  
@@ -52,6 +60,15 @@
  
      boolean isClientSide();
  
+@@ -80,7 +_,7 @@
+     }
+ 
+     default BlockPos getHeightmapPos(Heightmap.Types p_46830_, BlockPos p_46831_) {
+-        return new BlockPos(p_46831_.getX(), this.getHeight(p_46830_, p_46831_.getX(), p_46831_.getZ()), p_46831_.getZ());
++        return new BlockPos(p_46831_.getBigX(), this.getHeight(p_46830_, p_46831_.getBigX(), p_46831_.getBigZ()), p_46831_.getBigZ());
+     }
+ 
+     default boolean isEmptyBlock(BlockPos p_46860_) {
 @@ -88,14 +_,14 @@
      }
  
@@ -99,7 +116,43 @@
          return this.getChunk(p_46845_, p_46846_, ChunkStatus.EMPTY, false);
      }
  
-@@ -174,34 +_,34 @@
+@@ -141,17 +_,17 @@
+     }
+ 
+     default boolean containsAnyLiquid(AABB p_46856_) {
+-        int i = Mth.floor(p_46856_.minX);
+-        int j = Mth.ceil(p_46856_.maxX);
+-        int k = Mth.floor(p_46856_.minY);
+-        int l = Mth.ceil(p_46856_.maxY);
+-        int i1 = Mth.floor(p_46856_.minZ);
+-        int j1 = Mth.ceil(p_46856_.maxZ);
++        me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(p_46856_.minX);
++        me.alphamode.mcbig.math.BigInteger j = Mth.bigCeil(p_46856_.maxX);
++        me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(p_46856_.minY);
++        me.alphamode.mcbig.math.BigInteger l = Mth.bigCeil(p_46856_.maxY);
++        me.alphamode.mcbig.math.BigInteger i1 = Mth.bigFloor(p_46856_.minZ);
++        me.alphamode.mcbig.math.BigInteger j1 = Mth.bigCeil(p_46856_.maxZ);
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-        for(int k1 = i; k1 < j; ++k1) {
+-            for(int l1 = k; l1 < l; ++l1) {
+-                for(int i2 = i1; i2 < j1; ++i2) {
++        for(me.alphamode.mcbig.math.BigInteger k1 = i; k1.compareTo(j) < 0; k1 = k1.add()) {
++            for(me.alphamode.mcbig.math.BigInteger l1 = k; l1.compareTo(l) < 0; l1 = l1.add()) {
++                for(me.alphamode.mcbig.math.BigInteger i2 = i1; i2.compareTo(j1) < 0; i2 = i2.add()) {
+                     BlockState blockstate = this.getBlockState(blockpos$mutableblockpos.set(k1, l1, i2));
+                     if (!blockstate.getFluidState().isEmpty()) {
+                         return true;
+@@ -168,40 +_,40 @@
+     }
+ 
+     default int getMaxLocalRawBrightness(BlockPos p_46850_, int p_46851_) {
+-        return p_46850_.getX() >= -30000000 && p_46850_.getZ() >= -30000000 && p_46850_.getX() < 30000000 && p_46850_.getZ() < 30000000
+-            ? this.getRawBrightness(p_46850_, p_46851_)
+-            : 15;
++        return/* p_46850_.getX() >= -30000000 && p_46850_.getZ() >= -30000000 && p_46850_.getX() < 30000000 && p_46850_.getZ() < 30000000
++            ? */this.getRawBrightness(p_46850_, p_46851_)/*
++            : 15*/;
      }
  
      @Deprecated

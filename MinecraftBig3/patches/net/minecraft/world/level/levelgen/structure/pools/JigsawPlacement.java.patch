@@ -9,3 +9,109 @@
              BlockPos blockpos1 = p_227243_.subtract(vec3i);
              PoolElementStructurePiece poolelementstructurepiece = new PoolElementStructurePiece(
                  structuretemplatemanager,
+@@ -102,18 +_,18 @@
+                 structurepoolelement.getBoundingBox(structuretemplatemanager, blockpos1, rotation)
+             );
+             BoundingBox boundingbox = poolelementstructurepiece.getBoundingBox();
+-            int i = (boundingbox.maxX() + boundingbox.minX()) / 2;
+-            int j = (boundingbox.maxZ() + boundingbox.minZ()) / 2;
+-            int k;
++            me.alphamode.mcbig.math.BigInteger i = (boundingbox.maxX().add(boundingbox.minX())).divide(me.alphamode.mcbig.core.BigConstants.Ints.TWO);
++            me.alphamode.mcbig.math.BigInteger j = (boundingbox.maxZ().add(boundingbox.minZ())).divide(me.alphamode.mcbig.core.BigConstants.Ints.TWO);
++            me.alphamode.mcbig.math.BigInteger k;
+             if (p_227245_.isPresent()) {
+-                k = p_227243_.getY() + chunkgenerator.getFirstFreeHeight(i, j, p_227245_.get(), levelheightaccessor, p_227239_.randomState());
++                k = p_227243_.getBigY().add(chunkgenerator.getFirstFreeHeight(i, j, p_227245_.get(), levelheightaccessor, p_227239_.randomState()));
+             } else {
+-                k = blockpos1.getY();
++                k = blockpos1.getBigY();
+             }
+ 
+-            int l = boundingbox.minY() + poolelementstructurepiece.getGroundLevelDelta();
+-            poolelementstructurepiece.move(0, k - l, 0);
+-            int i1 = k + vec3i.getY();
++            int l = boundingbox.minY().intValue() + poolelementstructurepiece.getGroundLevelDelta();
++            poolelementstructurepiece.move(me.alphamode.mcbig.math.BigInteger.ZERO, k.subtract(l), me.alphamode.mcbig.math.BigInteger.ZERO);
++            me.alphamode.mcbig.math.BigInteger i1 = k.add(vec3i.getBigY());
+             return Optional.of(
+                 new Structure.GenerationStub(
+                     new BlockPos(i, i1, j),
+@@ -122,12 +_,12 @@
+                         list.add(poolelementstructurepiece);
+                         if (p_227242_ > 0) {
+                             AABB aabb = new AABB(
+-                                (double)(i - p_227246_),
+-                                (double)(i1 - p_227246_),
+-                                (double)(j - p_227246_),
+-                                (double)(i + p_227246_ + 1),
+-                                (double)(i1 + p_227246_ + 1),
+-                                (double)(j + p_227246_ + 1)
++                                (double)(i.subtract(p_227246_).doubleValue()),
++                                (double)(i1.subtract(p_227246_)).doubleValue(),
++                                (double)(j.subtract(p_227246_).doubleValue()),
++                                (double)(i.add(p_227246_).add().doubleValue()),
++                                (double)(i1.add(p_227246_).add()).doubleValue(),
++                                (double)(j.add(p_227246_).add().doubleValue())
+                             );
+                             VoxelShape voxelshape = Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST);
+                             addPieces(
+@@ -282,7 +_,7 @@
+             boolean flag = structuretemplatepool$projection == StructureTemplatePool.Projection.RIGID;
+             MutableObject<VoxelShape> mutableobject = new MutableObject<>();
+             BoundingBox boundingbox = p_227265_.getBoundingBox();
+-            int i = boundingbox.minY();
++            int i = boundingbox.minY().intValue();
+ 
+             label134:
+             for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : structurepoolelement.getShuffledJigsawBlocks(
+@@ -377,7 +_,7 @@
+                                             BlockPos blockpos3 = structuretemplate$structureblockinfo1.pos();
+                                             BlockPos blockpos4 = blockpos2.subtract(blockpos3);
+                                             BoundingBox boundingbox2 = structurepoolelement1.getBoundingBox(this.structureTemplateManager, blockpos4, rotation1);
+-                                            int j1 = boundingbox2.minY();
++                                            int j1 = boundingbox2.minY().intValue();
+                                             StructureTemplatePool.Projection structuretemplatepool$projection1 = structurepoolelement1.getProjection();
+                                             boolean flag2 = structuretemplatepool$projection1 == StructureTemplatePool.Projection.RIGID;
+                                             int k1 = blockpos3.getY();
+@@ -389,7 +_,7 @@
+                                                 if (k == -1) {
+                                                     k = this.chunkGenerator
+                                                         .getFirstFreeHeight(
+-                                                            blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_
++                                                            blockpos1.getBigX(), blockpos1.getBigZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_
+                                                         );
+                                                 }
+ 
+@@ -400,8 +_,8 @@
+                                             BoundingBox boundingbox3 = boundingbox2.moved(0, j2, 0);
+                                             BlockPos blockpos5 = blockpos4.offset(0, j2, 0);
+                                             if (i1 > 0) {
+-                                                int k2 = Math.max(i1 + 1, boundingbox3.maxY() - boundingbox3.minY());
+-                                                boundingbox3.encapsulate(new BlockPos(boundingbox3.minX(), boundingbox3.minY() + k2, boundingbox3.minZ()));
++                                                int k2 = Math.max(i1 + 1, boundingbox3.maxY().subtract(boundingbox3.minY()).intValue());
++                                                boundingbox3.encapsulate(new BlockPos(boundingbox3.minX(), boundingbox3.minY().add(k2), boundingbox3.minZ()));
+                                             }
+ 
+                                             if (!Shapes.joinIsNotEmpty(
+@@ -432,7 +_,7 @@
+                                                     if (k == -1) {
+                                                         k = this.chunkGenerator
+                                                             .getFirstFreeHeight(
+-                                                                blockpos1.getX(), blockpos1.getZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_
++                                                                blockpos1.getBigX(), blockpos1.getBigZ(), Heightmap.Types.WORLD_SURFACE_WG, p_227269_, p_227270_
+                                                             );
+                                                     }
+ 
+@@ -440,10 +_,10 @@
+                                                 }
+ 
+                                                 p_227265_.addJunction(
+-                                                    new JigsawJunction(blockpos2.getX(), i3 - j + j3, blockpos2.getZ(), l1, structuretemplatepool$projection1)
++                                                    new JigsawJunction(blockpos2.getBigX(), i3 - j + j3, blockpos2.getBigZ(), l1, structuretemplatepool$projection1)
+                                                 );
+                                                 poolelementstructurepiece.addJunction(
+-                                                    new JigsawJunction(blockpos1.getX(), i3 - k1 + l2, blockpos1.getZ(), -l1, structuretemplatepool$projection)
++                                                    new JigsawJunction(blockpos1.getBigX(), i3 - k1 + l2, blockpos1.getBigZ(), -l1, structuretemplatepool$projection)
+                                                 );
+                                                 this.pieces.add(poolelementstructurepiece);
+                                                 if (p_227267_ + 1 <= this.maxDepth) {

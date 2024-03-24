@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/feature/SeaPickleFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/SeaPickleFeature.java
+@@ -26,8 +_,8 @@
+         for(int k = 0; k < j; ++k) {
+             int l = randomsource.nextInt(8) - randomsource.nextInt(8);
+             int i1 = randomsource.nextInt(8) - randomsource.nextInt(8);
+-            int j1 = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + l, blockpos.getZ() + i1);
+-            BlockPos blockpos1 = new BlockPos(blockpos.getX() + l, j1, blockpos.getZ() + i1);
++            int j1 = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getBigX().add(l), blockpos.getBigZ().add(i1));
++            BlockPos blockpos1 = new BlockPos(blockpos.getBigX().add(l), j1, blockpos.getBigZ().add(i1));
+             BlockState blockstate = Blocks.SEA_PICKLE.defaultBlockState().setValue(SeaPickleBlock.PICKLES, Integer.valueOf(randomsource.nextInt(4) + 1));
+             if (worldgenlevel.getBlockState(blockpos1).is(Blocks.WATER) && blockstate.canSurvive(worldgenlevel, blockpos1)) {
+                 worldgenlevel.setBlock(blockpos1, blockstate, 2);

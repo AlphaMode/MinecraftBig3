@@ -1,6 +1,17 @@
 --- a/net/minecraft/world/level/levelgen/NoiseChunk.java
 +++ b/net/minecraft/world/level/levelgen/NoiseChunk.java
-@@ -33,7 +_,7 @@
+@@ -26,14 +_,14 @@
+     final int cellCountXZ;
+     final int cellCountY;
+     final int cellNoiseMinY;
+-    private final int firstCellX;
+-    private final int firstCellZ;
+-    final int firstNoiseX;
+-    final int firstNoiseZ;
++    private final me.alphamode.mcbig.math.BigInteger firstCellX;
++    private final me.alphamode.mcbig.math.BigInteger firstCellZ;
++    final me.alphamode.mcbig.math.BigInteger firstNoiseX;
++    final me.alphamode.mcbig.math.BigInteger firstNoiseZ;
      final List<NoiseChunk.NoiseInterpolator> interpolators;
      final List<NoiseChunk.CacheAllInCell> cellCaches;
      private final Map<DensityFunction, DensityFunction> wrapped = new HashMap<>();
@@ -9,7 +20,7 @@
      private final Aquifer aquifer;
      private final DensityFunction initialDensityNoJaggedness;
      private final NoiseChunk.BlockStateFiller blockStateRule;
-@@ -41,7 +_,7 @@
+@@ -41,16 +_,16 @@
      private final NoiseChunk.FlatCache blendAlpha;
      private final NoiseChunk.FlatCache blendOffset;
      private final DensityFunctions.BeardifierOrMarker beardifier;
@@ -18,34 +29,183 @@
      private Blender.BlendingOutput lastBlendingOutput = new Blender.BlendingOutput(1.0, 0.0);
      final int noiseSizeXZ;
      final int cellWidth;
-@@ -194,16 +_,16 @@
-     public int preliminarySurfaceLevel(int p_198257_, int p_198258_) {
-         int i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
-         int j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
--        return this.preliminarySurfaceLevel.computeIfAbsent(ColumnPos.asLong(i, j), this::computePreliminarySurfaceLevel);
-+        return this.preliminarySurfaceLevel.computeIfAbsent(new ColumnPos(me.alphamode.mcbig.math.BigInteger.val(i), me.alphamode.mcbig.math.BigInteger.val(j)), this::computePreliminarySurfaceLevel);
+     final int cellHeight;
+     boolean interpolating;
+     boolean fillingCell;
+-    private int cellStartBlockX;
++    private me.alphamode.mcbig.math.BigInteger cellStartBlockX;
+     int cellStartBlockY;
+-    private int cellStartBlockZ;
++    private me.alphamode.mcbig.math.BigInteger cellStartBlockZ;
+     int inCellX;
+     int inCellY;
+     int inCellZ;
+@@ -90,14 +_,14 @@
+         NoiseSettings noisesettings = p_224356_.noiseSettings().clampToHeightAccessor(p_224353_);
+         ChunkPos chunkpos = p_224353_.getPos();
+         int i = 16 / noisesettings.getCellWidth();
+-        return new NoiseChunk(i, p_224354_, chunkpos.getMinBlockX(), chunkpos.getMinBlockZ(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
++        return new NoiseChunk(i, p_224354_, chunkpos.getBigMinBlockX(), chunkpos.getBigMinBlockZ(), noisesettings, p_224355_, p_224356_, p_224357_, p_224358_);
      }
  
+     public NoiseChunk(
+         int p_224343_,
+         RandomState p_224344_,
+-        int p_224345_,
+-        int p_224346_,
++        me.alphamode.mcbig.math.BigInteger p_224345_,
++        me.alphamode.mcbig.math.BigInteger p_224346_,
+         NoiseSettings p_224347_,
+         DensityFunctions.BeardifierOrMarker p_224348_,
+         NoiseGeneratorSettings p_224349_,
+@@ -110,8 +_,8 @@
+         this.cellCountXZ = p_224343_;
+         this.cellCountY = Mth.floorDiv(p_224347_.height(), this.cellHeight);
+         this.cellNoiseMinY = Mth.floorDiv(p_224347_.minY(), this.cellHeight);
+-        this.firstCellX = Math.floorDiv(p_224345_, this.cellWidth);
+-        this.firstCellZ = Math.floorDiv(p_224346_, this.cellWidth);
++        this.firstCellX = me.alphamode.mcbig.math.BigMath.floorDiv(p_224345_, this.cellWidth);
++        this.firstCellZ = me.alphamode.mcbig.math.BigMath.floorDiv(p_224346_, this.cellWidth);
+         this.interpolators = Lists.newArrayList();
+         this.cellCaches = Lists.newArrayList();
+         this.firstNoiseX = QuartPos.fromBlock(p_224345_);
+@@ -123,12 +_,12 @@
+         this.blendOffset = new NoiseChunk.FlatCache(new NoiseChunk.BlendOffset(), false);
+ 
+         for(int i = 0; i <= this.noiseSizeXZ; ++i) {
+-            int j = this.firstNoiseX + i;
+-            int k = QuartPos.toBlock(j);
++            me.alphamode.mcbig.math.BigInteger j = this.firstNoiseX.add(i);
++            me.alphamode.mcbig.math.BigInteger k = QuartPos.toBlock(j);
+ 
+             for(int l = 0; l <= this.noiseSizeXZ; ++l) {
+-                int i1 = this.firstNoiseZ + l;
+-                int j1 = QuartPos.toBlock(i1);
++                me.alphamode.mcbig.math.BigInteger i1 = this.firstNoiseZ.add(l);
++                me.alphamode.mcbig.math.BigInteger j1 = QuartPos.toBlock(i1);
+                 Blender.BlendingOutput blender$blendingoutput = p_224351_.blendOffsetAndFactor(k, j1);
+                 this.blendAlpha.values[i][l] = blender$blendingoutput.alpha();
+                 this.blendOffset.values[i][l] = blender$blendingoutput.blendingOffset();
+@@ -140,8 +_,8 @@
+         if (!p_224349_.isAquifersEnabled()) {
+             this.aquifer = Aquifer.createDisabled(p_224350_);
+         } else {
+-            int k1 = SectionPos.blockToSectionCoord(p_224345_);
+-            int l1 = SectionPos.blockToSectionCoord(p_224346_);
++            me.alphamode.mcbig.math.BigInteger k1 = SectionPos.blockToSectionCoord(p_224345_);
++            me.alphamode.mcbig.math.BigInteger l1 = SectionPos.blockToSectionCoord(p_224346_);
+             this.aquifer = Aquifer.create(this, new ChunkPos(k1, l1), noiserouter1, p_224344_.aquiferRandom(), p_224347_.minY(), p_224347_.height(), p_224350_);
+         }
+ 
+@@ -177,8 +_,8 @@
+     }
+ 
+     @Override
+-    public int blockX() {
+-        return this.cellStartBlockX + this.inCellX;
++    public me.alphamode.mcbig.math.BigInteger blockX() {
++        return this.cellStartBlockX.add(this.inCellX);
+     }
+ 
+     @Override
+@@ -187,19 +_,23 @@
+     }
+ 
+     @Override
+-    public int blockZ() {
+-        return this.cellStartBlockZ + this.inCellZ;
++    public me.alphamode.mcbig.math.BigInteger blockZ() {
++        return this.cellStartBlockZ.add(this.inCellZ);
+     }
+ 
+     public int preliminarySurfaceLevel(int p_198257_, int p_198258_) {
+-        int i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
+-        int j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
+-        return this.preliminarySurfaceLevel.computeIfAbsent(ColumnPos.asLong(i, j), this::computePreliminarySurfaceLevel);
+-    }
+-
 -    private int computePreliminarySurfaceLevel(long p_198250_) {
 -        int i = ColumnPos.getX(p_198250_);
 -        int j = ColumnPos.getZ(p_198250_);
++        return preliminarySurfaceLevel(me.alphamode.mcbig.math.BigInteger.val(p_198257_), me.alphamode.mcbig.math.BigInteger.val(p_198258_));
++    }
++
++    public int preliminarySurfaceLevel(me.alphamode.mcbig.math.BigInteger p_198257_, me.alphamode.mcbig.math.BigInteger p_198258_) {
++        me.alphamode.mcbig.math.BigInteger i = QuartPos.toBlock(QuartPos.fromBlock(p_198257_));
++        me.alphamode.mcbig.math.BigInteger j = QuartPos.toBlock(QuartPos.fromBlock(p_198258_));
++        return this.preliminarySurfaceLevel.computeIfAbsent(new ColumnPos(i, j), this::computePreliminarySurfaceLevel);
++    }
++
 +    private int computePreliminarySurfaceLevel(ColumnPos p_198250_) {
 +        me.alphamode.mcbig.math.BigInteger i = p_198250_.x();
 +        me.alphamode.mcbig.math.BigInteger j = p_198250_.z();
          int k = this.noiseSettings.minY();
  
          for(int l = k + this.noiseSettings.height(); l >= k; l -= this.cellHeight) {
--            if (this.initialDensityNoJaggedness.compute(new DensityFunction.SinglePointContext(i, l, j)) > 0.390625) {
-+            if (this.initialDensityNoJaggedness.compute(new DensityFunction.SinglePointContext(i.intValue(), l, j.intValue())) > 0.390625) {
-                 return l;
-             }
-         }
-@@ -336,8 +_,8 @@
+@@ -216,13 +_,13 @@
+         return this.blender;
      }
  
-     Blender.BlendingOutput getOrComputeBlendingOutput(int p_209245_, int p_209246_) {
+-    private void fillSlice(boolean p_209221_, int p_209222_) {
+-        this.cellStartBlockX = p_209222_ * this.cellWidth;
++    private void fillSlice(boolean p_209221_, me.alphamode.mcbig.math.BigInteger p_209222_) {
++        this.cellStartBlockX = p_209222_.multiply(this.cellWidth);
+         this.inCellX = 0;
+ 
+         for(int i = 0; i < this.cellCountXZ + 1; ++i) {
+-            int j = this.firstCellZ + i;
+-            this.cellStartBlockZ = j * this.cellWidth;
++            me.alphamode.mcbig.math.BigInteger j = this.firstCellZ.add(i);
++            this.cellStartBlockZ = j.multiply(this.cellWidth);
+             this.inCellZ = 0;
+             ++this.arrayInterpolationCounter;
+ 
+@@ -246,8 +_,8 @@
+     }
+ 
+     public void advanceCellX(int p_188750_) {
+-        this.fillSlice(false, this.firstCellX + p_188750_ + 1);
+-        this.cellStartBlockX = (this.firstCellX + p_188750_) * this.cellWidth;
++        this.fillSlice(false, this.firstCellX.add(p_188750_).add());
++        this.cellStartBlockX = (this.firstCellX.add(p_188750_)).multiply(this.cellWidth);
+     }
+ 
+     public NoiseChunk forIndex(int p_209240_) {
+@@ -284,7 +_,7 @@
+         this.interpolators.forEach(p_209205_ -> p_209205_.selectCellYZ(p_188811_, p_188812_));
+         this.fillingCell = true;
+         this.cellStartBlockY = (p_188811_ + this.cellNoiseMinY) * this.cellHeight;
+-        this.cellStartBlockZ = (this.firstCellZ + p_188812_) * this.cellWidth;
++        this.cellStartBlockZ = (this.firstCellZ.add(p_188812_)).multiply(this.cellWidth);
+         ++this.arrayInterpolationCounter;
+ 
+         for(NoiseChunk.CacheAllInCell noisechunk$cacheallincell : this.cellCaches) {
+@@ -300,13 +_,13 @@
+         this.interpolators.forEach(p_209238_ -> p_209238_.updateForY(p_209193_));
+     }
+ 
+-    public void updateForX(int p_209231_, double p_209232_) {
+-        this.inCellX = p_209231_ - this.cellStartBlockX;
++    public void updateForX(me.alphamode.mcbig.math.BigInteger p_209231_, double p_209232_) {
++        this.inCellX = p_209231_.subtract(this.cellStartBlockX).intValue();
+         this.interpolators.forEach(p_209229_ -> p_209229_.updateForX(p_209232_));
+     }
+ 
+-    public void updateForZ(int p_209242_, double p_209243_) {
+-        this.inCellZ = p_209242_ - this.cellStartBlockZ;
++    public void updateForZ(me.alphamode.mcbig.math.BigInteger p_209242_, double p_209243_) {
++        this.inCellZ = p_209242_.subtract(this.cellStartBlockZ).intValue();
+         ++this.interpolationCounter;
+         this.interpolators.forEach(p_209188_ -> p_209188_.updateForZ(p_209243_));
+     }
+@@ -335,9 +_,9 @@
+         return this.cellHeight;
+     }
+ 
+-    Blender.BlendingOutput getOrComputeBlendingOutput(int p_209245_, int p_209246_) {
 -        long i = ChunkPos.asLong(p_209245_, p_209246_);
 -        if (this.lastBlendingDataPos == i) {
++    Blender.BlendingOutput getOrComputeBlendingOutput(me.alphamode.mcbig.math.BigInteger p_209245_, me.alphamode.mcbig.math.BigInteger p_209246_) {
 +        ChunkPos i = new ChunkPos(p_209245_, p_209246_);
 +        if (this.lastBlendingDataPos.equals(i)) {
              return this.lastBlendingOutput;
@@ -60,14 +220,50 @@
          private double lastValue;
  
          Cache2D(DensityFunction p_209288_) {
-@@ -474,8 +_,8 @@
+@@ -472,10 +_,10 @@
+ 
+         @Override
          public double compute(DensityFunction.FunctionContext p_209290_) {
-             int i = p_209290_.blockX();
-             int j = p_209290_.blockZ();
+-            int i = p_209290_.blockX();
+-            int j = p_209290_.blockZ();
 -            long k = ChunkPos.asLong(i, j);
 -            if (this.lastPos2D == k) {
++            me.alphamode.mcbig.math.BigInteger i = p_209290_.blockX();
++            me.alphamode.mcbig.math.BigInteger j = p_209290_.blockZ();
 +            ChunkPos k = new ChunkPos(i, j);
 +            if (this.lastPos2D.equals(k)) {
                  return this.lastValue;
              } else {
                  this.lastPos2D = k;
+@@ -607,12 +_,12 @@
+             this.values = new double[NoiseChunk.this.noiseSizeXZ + 1][NoiseChunk.this.noiseSizeXZ + 1];
+             if (p_209331_) {
+                 for(int i = 0; i <= NoiseChunk.this.noiseSizeXZ; ++i) {
+-                    int j = NoiseChunk.this.firstNoiseX + i;
+-                    int k = QuartPos.toBlock(j);
++                    me.alphamode.mcbig.math.BigInteger j = NoiseChunk.this.firstNoiseX.add(i);
++                    me.alphamode.mcbig.math.BigInteger k = QuartPos.toBlock(j);
+ 
+                     for(int l = 0; l <= NoiseChunk.this.noiseSizeXZ; ++l) {
+-                        int i1 = NoiseChunk.this.firstNoiseZ + l;
+-                        int j1 = QuartPos.toBlock(i1);
++                        me.alphamode.mcbig.math.BigInteger i1 = NoiseChunk.this.firstNoiseZ.add(l);
++                        me.alphamode.mcbig.math.BigInteger j1 = QuartPos.toBlock(i1);
+                         this.values[i][l] = p_209330_.compute(new DensityFunction.SinglePointContext(k, 0, j1));
+                     }
+                 }
+@@ -621,10 +_,10 @@
+ 
+         @Override
+         public double compute(DensityFunction.FunctionContext p_209333_) {
+-            int i = QuartPos.fromBlock(p_209333_.blockX());
+-            int j = QuartPos.fromBlock(p_209333_.blockZ());
+-            int k = i - NoiseChunk.this.firstNoiseX;
+-            int l = j - NoiseChunk.this.firstNoiseZ;
++            me.alphamode.mcbig.math.BigInteger i = QuartPos.fromBlock(p_209333_.blockX());
++            me.alphamode.mcbig.math.BigInteger j = QuartPos.fromBlock(p_209333_.blockZ());
++            int k = i.subtract(NoiseChunk.this.firstNoiseX).intValue();
++            int l = j.subtract(NoiseChunk.this.firstNoiseZ).intValue();
+             int i1 = this.values.length;
+             return k >= 0 && l >= 0 && k < i1 && l < i1 ? this.values[k][l] : this.noiseFiller.compute(p_209333_);
+         }

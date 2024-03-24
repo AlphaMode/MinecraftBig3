@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/XoroshiroRandomSource.java
++++ b/net/minecraft/world/level/levelgen/XoroshiroRandomSource.java
+@@ -116,7 +_,7 @@
+         }
+ 
+         @Override
+-        public RandomSource at(int p_224691_, int p_224692_, int p_224693_) {
++        public RandomSource at(me.alphamode.mcbig.math.BigInteger p_224691_, int p_224692_, me.alphamode.mcbig.math.BigInteger p_224693_) {
+             long i = Mth.getSeed(p_224691_, p_224692_, p_224693_);
+             long j = i ^ this.seedLo;
+             return new XoroshiroRandomSource(j, this.seedHi);

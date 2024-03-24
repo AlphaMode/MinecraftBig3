@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/placement/HeightmapPlacement.java
++++ b/net/minecraft/world/level/levelgen/placement/HeightmapPlacement.java
+@@ -25,8 +_,8 @@
+ 
+     @Override
+     public Stream<BlockPos> getPositions(PlacementContext p_226344_, RandomSource p_226345_, BlockPos p_226346_) {
+-        int i = p_226346_.getX();
+-        int j = p_226346_.getZ();
++        me.alphamode.mcbig.math.BigInteger i = p_226346_.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = p_226346_.getBigZ();
+         int k = p_226344_.getHeight(this.heightmap, i, j);
+         return k > p_226344_.getMinBuildHeight() ? Stream.of(new BlockPos(i, k, j)) : Stream.of();
+     }

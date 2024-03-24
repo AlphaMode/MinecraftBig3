@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/level/levelgen/synth/BlendedNoise.java
++++ b/net/minecraft/world/level/levelgen/synth/BlendedNoise.java
+@@ -85,9 +_,9 @@
+ 
+     @Override
+     public double compute(DensityFunction.FunctionContext p_210621_) {
+-        double d0 = (double)p_210621_.blockX() * this.xzMultiplier;
++        double d0 = (double)p_210621_.blockX().doubleValue() * this.xzMultiplier;
+         double d1 = (double)p_210621_.blockY() * this.yMultiplier;
+-        double d2 = (double)p_210621_.blockZ() * this.xzMultiplier;
++        double d2 = (double)p_210621_.blockZ().doubleValue() * this.xzMultiplier;
+         double d3 = d0 / this.xzFactor;
+         double d4 = d1 / this.yFactor;
+         double d5 = d2 / this.xzFactor;

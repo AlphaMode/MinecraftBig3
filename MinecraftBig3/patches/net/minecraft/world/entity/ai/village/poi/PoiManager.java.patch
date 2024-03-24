@@ -99,6 +99,19 @@
                  this.updateFromSection(p_281893_, p_281731_, poisection::add);
              }
          });
+@@ -230,9 +_,9 @@
+             .forEach(
+                 p_217902_ -> {
+                     BlockState blockstate = p_27070_.getBlockState(
+-                        SectionPos.sectionRelative(p_217902_.getX()),
+-                        SectionPos.sectionRelative(p_217902_.getY()),
+-                        SectionPos.sectionRelative(p_217902_.getZ())
++                        SectionPos.sectionRelative(p_217902_.getBigX()),
++                        SectionPos.sectionRelative(p_217902_.getBigY()),
++                        SectionPos.sectionRelative(p_217902_.getBigZ())
+                     );
+                     PoiTypes.forState(blockstate).ifPresent(p_217931_ -> p_27072_.accept(p_217902_, p_217931_));
+                 }
 @@ -243,15 +_,15 @@
          SectionPos.aroundChunk(
                  new ChunkPos(p_27058_), Math.floorDiv(p_27059_, 16), this.levelHeightAccessor.getMinSection(), this.levelHeightAccessor.getMaxSection()

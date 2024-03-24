@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/MapItem.java
++++ b/net/minecraft/world/item/MapItem.java
+@@ -141,7 +_,7 @@
+                                         for(int j3 = 0; j3 < i; ++j3) {
+                                             blockpos$mutableblockpos.set(j2 + i4, 0, k2 + j3);
+                                             int k3 = levelchunk.getHeight(
+-                                                    Heightmap.Types.WORLD_SURFACE, blockpos$mutableblockpos.getX(), blockpos$mutableblockpos.getZ()
++                                                    Heightmap.Types.WORLD_SURFACE, blockpos$mutableblockpos.getBigX(), blockpos$mutableblockpos.getBigZ()
+                                                 )
+                                                 + 1;
+                                             BlockState blockstate;

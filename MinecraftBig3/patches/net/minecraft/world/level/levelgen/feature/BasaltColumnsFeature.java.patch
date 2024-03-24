@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/feature/BasaltColumnsFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BasaltColumnsFeature.java
+@@ -52,7 +_,7 @@
+             boolean flag1 = false;
+ 
+             for(BlockPos blockpos1 : BlockPos.randomBetweenClosed(
+-                randomsource, l, blockpos.getX() - k, blockpos.getY(), blockpos.getZ() - k, blockpos.getX() + k, blockpos.getY(), blockpos.getZ() + k
++                randomsource, l, blockpos.getBigX().subtract(k), blockpos.getBigY(), blockpos.getBigZ().subtract(k), blockpos.getBigX().add(k), blockpos.getBigY(), blockpos.getBigZ().add(k)
+             )) {
+                 int i1 = j - blockpos1.distManhattan(blockpos);
+                 if (i1 >= 0) {
+@@ -68,7 +_,7 @@
+         boolean flag = false;
+ 
+         for(BlockPos blockpos : BlockPos.betweenClosed(
+-            p_65170_.getX() - p_65172_, p_65170_.getY(), p_65170_.getZ() - p_65172_, p_65170_.getX() + p_65172_, p_65170_.getY(), p_65170_.getZ() + p_65172_
++            p_65170_.getBigX().subtract(p_65172_), p_65170_.getBigY(), p_65170_.getBigZ().subtract(p_65172_), p_65170_.getBigX().add(p_65172_), p_65170_.getBigY(), p_65170_.getBigZ().add(p_65172_)
+         )) {
+             int i = blockpos.distManhattan(p_65170_);
+             BlockPos blockpos1 = isAirOrLavaOcean(p_65168_, p_65169_, blockpos)

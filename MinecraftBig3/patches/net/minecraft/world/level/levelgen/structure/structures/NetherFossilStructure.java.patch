@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/NetherFossilStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/NetherFossilStructure.java
+@@ -32,8 +_,8 @@
+     @Override
+     public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext p_228576_) {
+         WorldgenRandom worldgenrandom = p_228576_.random();
+-        int i = p_228576_.chunkPos().getMinBlockX() + worldgenrandom.nextInt(16);
+-        int j = p_228576_.chunkPos().getMinBlockZ() + worldgenrandom.nextInt(16);
++        me.alphamode.mcbig.math.BigInteger i = p_228576_.chunkPos().getBigMinBlockX().add(worldgenrandom.nextInt(16));
++        me.alphamode.mcbig.math.BigInteger j = p_228576_.chunkPos().getBigMinBlockZ().add(worldgenrandom.nextInt(16));
+         int k = p_228576_.chunkGenerator().getSeaLevel();
+         WorldGenerationContext worldgenerationcontext = new WorldGenerationContext(p_228576_.chunkGenerator(), p_228576_.heightAccessor());
+         int l = this.height.sample(worldgenrandom, worldgenerationcontext);

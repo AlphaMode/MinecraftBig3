@@ -1,5 +1,14 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
+@@ -422,7 +_,7 @@
+             int i = serverchunkcache.getGenerator().getSpawnHeight(p_177897_);
+             if (i < p_177897_.getMinBuildHeight()) {
+                 BlockPos blockpos = chunkpos.getWorldPosition();
+-                i = p_177897_.getHeight(Heightmap.Types.WORLD_SURFACE, blockpos.getX() + 8, blockpos.getZ() + 8);
++                i = p_177897_.getHeight(Heightmap.Types.WORLD_SURFACE, blockpos.getBigX().add(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT), blockpos.getBigZ().add(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT));
+             }
+ 
+             p_177898_.setSpawn(chunkpos.getWorldPosition().offset(8, i, 8), 0.0F);
 @@ -434,7 +_,7 @@
  
              for(int j1 = 0; j1 < Mth.square(11); ++j1) {

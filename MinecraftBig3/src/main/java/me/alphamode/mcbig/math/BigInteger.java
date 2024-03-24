@@ -4,16 +4,27 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.ByteBuffer;
+
 public class BigInteger extends Number implements Comparable<BigInteger> {
     public static final Codec<BigInteger> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.LONG.fieldOf("value").forGetter(bigInteger -> bigInteger.value)
-    ).apply(instance, BigInteger::new));
+            Codec.STRING.fieldOf("value").forGetter(bigInteger -> Long.toString(bigInteger.value))
+    ).apply(instance, BigInteger::val));
     public static final BigInteger ZERO = new BigInteger(0);
     public static final BigInteger ONE = new BigInteger(1);
     private final long value;
 
     public BigInteger(long backing) {
         this.value = backing;
+    }
+
+    public BigInteger(byte[] bytes) {
+        long result = 0;
+        for (int i = 0; i < Long.BYTES; i++) {
+            result <<= Byte.SIZE;
+            result |= (bytes[i] & 0xFF);
+        }
+        this.value = result;
     }
 
     public static BigInteger constant(long val) {
@@ -102,6 +113,14 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         return new BigInteger(this.value * val);
     }
 
+    public BigInteger remainder(long val) {
+        return new BigInteger(this.value % val);
+    }
+
+    public BigInteger remainder(BigInteger val) {
+        return new BigInteger(this.value % val.value);
+    }
+
     public BigInteger negate() {
         return new BigInteger(-this.value);
     }
@@ -175,5 +194,23 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
 
     public BigInteger and(BigInteger other) {
         return BigInteger.val(this.value & other.value);
+    }
+
+    public BigInteger divide(int i) {
+        return new BigInteger(this.value / i);
+    }
+
+    public BigInteger divide(BigInteger i) {
+        return new BigInteger(this.value / i.value);
+    }
+
+    public byte[] toByteArray() {
+        long l = this.value;
+        byte[] result = new byte[Long.BYTES];
+        for (int i = Long.BYTES - 1; i >= 0; i--) {
+            result[i] = (byte)(l & 0xFF);
+            l >>= Byte.SIZE;
+        }
+        return result;
     }
 }

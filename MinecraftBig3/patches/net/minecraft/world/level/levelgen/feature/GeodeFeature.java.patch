@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/feature/GeodeFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/GeodeFeature.java
+@@ -98,7 +_,7 @@
+         Predicate<BlockState> predicate = isReplaceable(geodeconfiguration.geodeBlockSettings.cannotReplace);
+ 
+         for(BlockPos blockpos3 : BlockPos.betweenClosed(blockpos.offset(i, i, i), blockpos.offset(j, j, j))) {
+-            double d8 = normalnoise.getValue((double)blockpos3.getX(), (double)blockpos3.getY(), (double)blockpos3.getZ()) * geodeconfiguration.noiseMultiplier;
++            double d8 = normalnoise.getValue((double)blockpos3.getBigX().doubleValue(), (double)blockpos3.getBigY().doubleValue(), (double)blockpos3.getBigZ().doubleValue()) * geodeconfiguration.noiseMultiplier;
+             double d6 = 0.0;
+             double d7 = 0.0;
+ 

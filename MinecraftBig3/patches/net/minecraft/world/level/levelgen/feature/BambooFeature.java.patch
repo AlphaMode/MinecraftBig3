@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/levelgen/feature/BambooFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BambooFeature.java
+@@ -42,10 +_,10 @@
+                 if (randomsource.nextFloat() < probabilityfeatureconfiguration.probability) {
+                     int k = randomsource.nextInt(4) + 1;
+ 
+-                    for(int l = blockpos.getX() - k; l <= blockpos.getX() + k; ++l) {
+-                        for(int i1 = blockpos.getZ() - k; i1 <= blockpos.getZ() + k; ++i1) {
+-                            int j1 = l - blockpos.getX();
+-                            int k1 = i1 - blockpos.getZ();
++                    for(me.alphamode.mcbig.math.BigInteger l = blockpos.getBigX().subtract(k); l.compareTo(blockpos.getBigX().add(k)) <= 0; l = l.add()) {
++                        for(me.alphamode.mcbig.math.BigInteger i1 = blockpos.getBigZ().subtract(k); i1.compareTo(blockpos.getBigZ().add(k)) <= 0; i1 = i1.add()) {
++                            int j1 = l.subtract(blockpos.getBigX()).intValue();
++                            int k1 = i1.subtract(blockpos.getBigZ()).intValue();
+                             if (j1 * j1 + k1 * k1 <= k * k) {
+                                 blockpos$mutableblockpos1.set(l, worldgenlevel.getHeight(Heightmap.Types.WORLD_SURFACE, l, i1) - 1, i1);
+                                 if (isDirt(worldgenlevel.getBlockState(blockpos$mutableblockpos1))) {

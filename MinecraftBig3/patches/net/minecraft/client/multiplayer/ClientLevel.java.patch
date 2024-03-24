@@ -18,6 +18,19 @@
          return true;
      }
  
+@@ -410,9 +_,9 @@
+                         if (p_264703_.canSpawn(this.random)) {
+                             this.addParticle(
+                                 p_264703_.getOptions(),
+-                                (double)p_233619_.getX() + this.random.nextDouble(),
+-                                (double)p_233619_.getY() + this.random.nextDouble(),
+-                                (double)p_233619_.getZ() + this.random.nextDouble(),
++                                (double)p_233619_.getBigX().doubleValue() + this.random.nextDouble(),
++                                (double)p_233619_.getBigY().doubleValue() + this.random.nextDouble(),
++                                (double)p_233619_.getBigZ().doubleValue() + this.random.nextDouble(),
+                                 0.0,
+                                 0.0,
+                                 0.0
 @@ -628,8 +_,8 @@
          this.levelRenderer.setBlockDirty(p_104759_, p_104760_, p_104761_);
      }

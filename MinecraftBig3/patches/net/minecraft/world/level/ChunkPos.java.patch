@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/ChunkPos.java
 +++ b/net/minecraft/world/level/ChunkPos.java
-@@ -8,35 +_,30 @@
+@@ -8,35 +_,26 @@
  import net.minecraft.core.BlockPos;
  import net.minecraft.core.SectionPos;
  
@@ -34,17 +34,16 @@
      public ChunkPos(BlockPos p_45587_) {
 -        this.x = SectionPos.blockToSectionCoord(p_45587_.getX());
 -        this.z = SectionPos.blockToSectionCoord(p_45587_.getZ());
+-    }
+-
+-    public ChunkPos(long p_45585_) {
+-        this.x = (int)p_45585_;
+-        this.z = (int)(p_45585_ >> 32);
 +        this(SectionPos.blockToSectionCoord(p_45587_.getBigX()), SectionPos.blockToSectionCoord(p_45587_.getBigZ()));
      }
  
-     public ChunkPos(long p_45585_) {
--        this.x = (int)p_45585_;
--        this.z = (int)(p_45585_ >> 32);
-+        this(me.alphamode.mcbig.math.BigInteger.val((int)p_45585_), me.alphamode.mcbig.math.BigInteger.val((int)(p_45585_ >> 32)));
-     }
- 
      public static ChunkPos minFromRegion(int p_220338_, int p_220339_) {
-@@ -47,10 +_,6 @@
+@@ -47,18 +_,10 @@
          return new ChunkPos((p_220341_ << 5) + 31, (p_220342_ << 5) + 31);
      }
  
@@ -54,6 +53,14 @@
 -
      public static long asLong(int p_45590_, int p_45591_) {
          return (long)p_45590_ & 4294967295L | ((long)p_45591_ & 4294967295L) << 32;
+     }
+ 
+-    public static long asLong(BlockPos p_151389_) {
+-        return asLong(SectionPos.blockToSectionCoord(p_151389_.getX()), SectionPos.blockToSectionCoord(p_151389_.getZ()));
+-    }
+-
+     public static int getX(long p_45593_) {
+         return (int)(p_45593_ & 4294967295L);
      }
 @@ -67,14 +_,14 @@
          return (int)(p_45603_ >>> 32 & 4294967295L);
@@ -76,7 +83,7 @@
          return i ^ j;
      }
  
-@@ -86,7 +_,7 @@
+@@ -86,59 +_,83 @@
              return false;
          } else {
              ChunkPos chunkpos = (ChunkPos)p_45607_;
@@ -85,7 +92,21 @@
          }
      }
  
-@@ -99,11 +_,11 @@
+     public int getMiddleBlockX() {
+-        return this.getBlockX(8);
++        return this.getBlockX(8).intValue();
+     }
+ 
+     public int getMiddleBlockZ() {
++        return this.getBlockZ(8).intValue();
++    }
++
++    public me.alphamode.mcbig.math.BigInteger getBigMiddleBlockX() {
++        return this.getBlockX(8);
++    }
++
++    public me.alphamode.mcbig.math.BigInteger getBigMiddleBlockZ() {
+         return this.getBlockZ(8);
      }
  
      public int getMinBlockX() {
@@ -99,10 +120,14 @@
      }
  
      public int getMaxBlockX() {
-@@ -114,20 +_,36 @@
-         return this.getBlockZ(15);
+-        return this.getBlockX(15);
++        return this.getBlockX(15).intValue();
      }
  
+     public int getMaxBlockZ() {
++        return this.getBlockZ(15).intValue();
++    }
++
 +    public me.alphamode.mcbig.math.BigInteger getBigMinBlockX() {
 +        return SectionPos.sectionToBlockCoord(this.x);
 +    }
@@ -112,13 +137,13 @@
 +    }
 +
 +    public me.alphamode.mcbig.math.BigInteger getBigMaxBlockX() {
-+        return this.getBigBlockX(15);
++        return this.getBlockX(15);
 +    }
 +
 +    public me.alphamode.mcbig.math.BigInteger getBigMaxBlockZ() {
-+        return this.getBigBlockZ(15);
-+    }
-+
+         return this.getBlockZ(15);
+     }
+ 
      public int getRegionX() {
 -        return this.x >> 5;
 +        return this.x.shiftRight(REGION_BITS).intValue();
@@ -140,23 +165,16 @@
      }
  
      public BlockPos getBlockAt(int p_151385_, int p_151386_, int p_151387_) {
-@@ -135,10 +_,18 @@
+         return new BlockPos(this.getBlockX(p_151385_), p_151386_, this.getBlockZ(p_151387_));
      }
  
-     public int getBlockX(int p_151383_) {
--        return SectionPos.sectionToBlockCoord(this.x, p_151383_);
-+        return SectionPos.sectionToBlockCoord(this.x, p_151383_).intValue();
+-    public int getBlockX(int p_151383_) {
++    public me.alphamode.mcbig.math.BigInteger getBlockX(int p_151383_) {
+         return SectionPos.sectionToBlockCoord(this.x, p_151383_);
      }
  
-     public int getBlockZ(int p_151392_) {
-+        return SectionPos.sectionToBlockCoord(this.z, p_151392_).intValue();
-+    }
-+
-+    public me.alphamode.mcbig.math.BigInteger getBigBlockX(int p_151383_) {
-+        return SectionPos.sectionToBlockCoord(this.x, p_151383_);
-+    }
-+
-+    public me.alphamode.mcbig.math.BigInteger getBigBlockZ(int p_151392_) {
+-    public int getBlockZ(int p_151392_) {
++    public me.alphamode.mcbig.math.BigInteger getBlockZ(int p_151392_) {
          return SectionPos.sectionToBlockCoord(this.z, p_151392_);
      }
  

@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
+@@ -94,9 +_,9 @@
+ 
+             for(int l3 = 0; l3 < 2; ++l3) {
+                 for(int j4 = 0; j4 < 3; ++j4) {
+-                    int l4 = blockpos.getX() + randomsource.nextInt(j * 2 + 1) - j;
++                    me.alphamode.mcbig.math.BigInteger l4 = blockpos.getBigX().add(randomsource.nextInt(j * 2 + 1) - j);
+                     int i5 = blockpos.getY();
+-                    int j5 = blockpos.getZ() + randomsource.nextInt(k1 * 2 + 1) - k1;
++                    me.alphamode.mcbig.math.BigInteger j5 = blockpos.getBigZ().add(randomsource.nextInt(k1 * 2 + 1) - k1);
+                     BlockPos blockpos2 = new BlockPos(l4, i5, j5);
+                     if (worldgenlevel.isEmptyBlock(blockpos2)) {
+                         int j3 = 0;

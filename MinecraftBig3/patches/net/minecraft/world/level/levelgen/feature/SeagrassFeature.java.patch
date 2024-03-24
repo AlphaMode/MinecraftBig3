@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/feature/SeagrassFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/SeagrassFeature.java
+@@ -25,8 +_,8 @@
+         ProbabilityFeatureConfiguration probabilityfeatureconfiguration = p_160318_.config();
+         int i = randomsource.nextInt(8) - randomsource.nextInt(8);
+         int j = randomsource.nextInt(8) - randomsource.nextInt(8);
+-        int k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + i, blockpos.getZ() + j);
+-        BlockPos blockpos1 = new BlockPos(blockpos.getX() + i, k, blockpos.getZ() + j);
++        int k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getBigX().add(i), blockpos.getBigZ().add(j));
++        BlockPos blockpos1 = new BlockPos(blockpos.getBigX().add(i), k, blockpos.getBigZ().add(j));
+         if (worldgenlevel.getBlockState(blockpos1).is(Blocks.WATER)) {
+             boolean flag1 = randomsource.nextDouble() < (double)probabilityfeatureconfiguration.probability;
+             BlockState blockstate = flag1 ? Blocks.TALL_SEAGRASS.defaultBlockState() : Blocks.SEAGRASS.defaultBlockState();

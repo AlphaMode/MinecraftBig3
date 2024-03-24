@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionStructure.java
+@@ -53,10 +_,10 @@
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+         int i = p_230227_.getMinBuildHeight();
+         BoundingBox boundingbox = p_230233_.calculateBoundingBox();
+-        int j = boundingbox.minY();
++        int j = boundingbox.minY().intValue();
+ 
+-        for(int k = p_230231_.minX(); k <= p_230231_.maxX(); ++k) {
+-            for(int l = p_230231_.minZ(); l <= p_230231_.maxZ(); ++l) {
++        for(me.alphamode.mcbig.math.BigInteger k = p_230231_.minX(); k.compareTo(p_230231_.maxX()) <= 0; k = k.add()) {
++            for(me.alphamode.mcbig.math.BigInteger l = p_230231_.minZ(); l.compareTo(p_230231_.maxZ()) <= 0; l = l.add()) {
+                 blockpos$mutableblockpos.set(k, j, l);
+                 if (!p_230227_.isEmptyBlock(blockpos$mutableblockpos)
+                     && boundingbox.isInside(blockpos$mutableblockpos)

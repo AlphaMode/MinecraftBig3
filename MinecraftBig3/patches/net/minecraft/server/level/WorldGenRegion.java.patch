@@ -93,12 +93,14 @@
              throw new RuntimeException("We are asking a region for a chunk out of bound");
          } else {
              return new DifficultyInstance(this.level.getDifficulty(), this.level.getDayTime(), 0L, this.level.getMoonBrightness());
-@@ -417,7 +_,7 @@
+@@ -416,8 +_,8 @@
+     }
  
      @Override
-     public int getHeight(Heightmap.Types p_9535_, int p_9536_, int p_9537_) {
+-    public int getHeight(Heightmap.Types p_9535_, int p_9536_, int p_9537_) {
 -        return this.getChunk(SectionPos.blockToSectionCoord(p_9536_), SectionPos.blockToSectionCoord(p_9537_)).getHeight(p_9535_, p_9536_ & 15, p_9537_ & 15)
-+        return this.getChunk(me.alphamode.mcbig.math.BigInteger.val(SectionPos.blockToSectionCoord(p_9536_)), me.alphamode.mcbig.math.BigInteger.val(SectionPos.blockToSectionCoord(p_9537_))).getHeight(p_9535_, p_9536_ & 15, p_9537_ & 15)
++    public int getHeight(Heightmap.Types p_9535_, me.alphamode.mcbig.math.BigInteger p_9536_, me.alphamode.mcbig.math.BigInteger p_9537_) {
++        return this.getChunk(SectionPos.blockToSectionCoord(p_9536_), SectionPos.blockToSectionCoord(p_9537_)).getHeight(p_9535_, p_9536_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN), p_9537_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN))
              + 1;
      }
  

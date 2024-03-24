@@ -1,13 +1,9 @@
 --- a/net/minecraft/world/level/biome/BiomeResolver.java
 +++ b/net/minecraft/world/level/biome/BiomeResolver.java
-@@ -3,5 +_,9 @@
+@@ -3,5 +_,5 @@
  import net.minecraft.core.Holder;
  
  public interface BiomeResolver {
 -    Holder<Biome> getNoiseBiome(int p_204221_, int p_204222_, int p_204223_, Climate.Sampler p_204224_);
 +    Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204221_, me.alphamode.mcbig.math.BigInteger p_204222_, me.alphamode.mcbig.math.BigInteger p_204223_, Climate.Sampler p_204224_);
-+
-+    default Holder<Biome> getNoiseBiome(int p_204221_, int p_204222_, int p_204223_, Climate.Sampler p_204224_) {
-+        return getNoiseBiome(me.alphamode.mcbig.math.BigInteger.val(p_204221_), me.alphamode.mcbig.math.BigInteger.val(p_204222_), me.alphamode.mcbig.math.BigInteger.val(p_204223_), p_204224_);
-+    }
  }

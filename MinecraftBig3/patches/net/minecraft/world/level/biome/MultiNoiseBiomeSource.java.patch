@@ -7,7 +7,19 @@
 -    public Holder<Biome> getNoiseBiome(int p_204272_, int p_204273_, int p_204274_, Climate.Sampler p_204275_) {
 -        return this.getNoiseBiome(p_204275_.sample(p_204272_, p_204273_, p_204274_));
 +    public Holder<Biome> getNoiseBiome(me.alphamode.mcbig.math.BigInteger p_204272_, me.alphamode.mcbig.math.BigInteger p_204273_, me.alphamode.mcbig.math.BigInteger p_204274_, Climate.Sampler p_204275_) {
-+        return this.getNoiseBiome(p_204275_.sample(p_204272_.intValue(), p_204273_.intValue(), p_204274_.intValue()));
++        return this.getNoiseBiome(p_204275_.sample(p_204272_, p_204273_.intValue(), p_204274_));
      }
  
      @VisibleForDebug
+@@ -74,9 +_,9 @@
+ 
+     @Override
+     public void addDebugInfo(List<String> p_207895_, BlockPos p_207896_, Climate.Sampler p_207897_) {
+-        int i = QuartPos.fromBlock(p_207896_.getX());
++        me.alphamode.mcbig.math.BigInteger i = QuartPos.fromBlock(p_207896_.getBigX());
+         int j = QuartPos.fromBlock(p_207896_.getY());
+-        int k = QuartPos.fromBlock(p_207896_.getZ());
++        me.alphamode.mcbig.math.BigInteger k = QuartPos.fromBlock(p_207896_.getBigZ());
+         Climate.TargetPoint climate$targetpoint = p_207897_.sample(i, j, k);
+         float f = Climate.unquantizeCoord(climate$targetpoint.continentalness());
+         float f1 = Climate.unquantizeCoord(climate$targetpoint.erosion());

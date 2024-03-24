@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/levelgen/placement/RandomOffsetPlacement.java
++++ b/net/minecraft/world/level/levelgen/placement/RandomOffsetPlacement.java
+@@ -39,9 +_,9 @@
+ 
+     @Override
+     public Stream<BlockPos> getPositions(PlacementContext p_226393_, RandomSource p_226394_, BlockPos p_226395_) {
+-        int i = p_226395_.getX() + this.xzSpread.sample(p_226394_);
+-        int j = p_226395_.getY() + this.ySpread.sample(p_226394_);
+-        int k = p_226395_.getZ() + this.xzSpread.sample(p_226394_);
++        me.alphamode.mcbig.math.BigInteger i = p_226395_.getBigX().add(this.xzSpread.sample(p_226394_));
++        me.alphamode.mcbig.math.BigInteger j = p_226395_.getBigY().add(this.ySpread.sample(p_226394_));
++        me.alphamode.mcbig.math.BigInteger k = p_226395_.getBigZ().add(this.xzSpread.sample(p_226394_));
+         return Stream.of(new BlockPos(i, j, k));
+     }
+ 

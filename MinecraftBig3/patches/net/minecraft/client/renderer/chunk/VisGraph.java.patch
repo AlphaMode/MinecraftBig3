@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/chunk/VisGraph.java
++++ b/net/minecraft/client/renderer/chunk/VisGraph.java
+@@ -49,7 +_,7 @@
+     }
+ 
+     private static int getIndex(BlockPos p_112976_) {
+-        return getIndex(p_112976_.getX() & 15, p_112976_.getY() & 15, p_112976_.getZ() & 15);
++        return getIndex(p_112976_.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), p_112976_.getBigY().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(), p_112976_.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue());
+     }
+ 
+     private static int getIndex(int p_112962_, int p_112963_, int p_112964_) {

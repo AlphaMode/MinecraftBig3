@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/levelgen/FlatLevelSource.java
++++ b/net/minecraft/world/level/levelgen/FlatLevelSource.java
+@@ -98,7 +_,7 @@
+     }
+ 
+     @Override
+-    public int getBaseHeight(int p_224160_, int p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
++    public int getBaseHeight(me.alphamode.mcbig.math.BigInteger p_224160_, me.alphamode.mcbig.math.BigInteger p_224161_, Heightmap.Types p_224162_, LevelHeightAccessor p_224163_, RandomState p_224164_) {
+         List<BlockState> list = this.settings.getLayers();
+ 
+         for(int i = Math.min(list.size(), p_224163_.getMaxBuildHeight()) - 1; i >= 0; --i) {
+@@ -112,7 +_,7 @@
+     }
+ 
+     @Override
+-    public NoiseColumn getBaseColumn(int p_224155_, int p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
++    public NoiseColumn getBaseColumn(me.alphamode.mcbig.math.BigInteger p_224155_, me.alphamode.mcbig.math.BigInteger p_224156_, LevelHeightAccessor p_224157_, RandomState p_224158_) {
+         return new NoiseColumn(
+             p_224157_.getMinBuildHeight(),
+             this.settings

@@ -1,0 +1,21 @@
+--- a/net/minecraft/world/level/block/ChestBlock.java
++++ b/net/minecraft/world/level/block/ChestBlock.java
+@@ -338,12 +_,12 @@
+         List<Cat> list = p_51564_.getEntitiesOfClass(
+             Cat.class,
+             new AABB(
+-                (double)p_51565_.getX(),
+-                (double)(p_51565_.getY() + 1),
+-                (double)p_51565_.getZ(),
+-                (double)(p_51565_.getX() + 1),
+-                (double)(p_51565_.getY() + 2),
+-                (double)(p_51565_.getZ() + 1)
++                (double)p_51565_.getBigX().doubleValue(),
++                (double)(p_51565_.getBigY().add()).doubleValue(),
++                (double)p_51565_.getBigZ().doubleValue(),
++                (double)(p_51565_.getBigX().add()).doubleValue(),
++                (double)(p_51565_.getBigY().add(me.alphamode.mcbig.core.BigConstants.Ints.TWO)).doubleValue(),
++                (double)(p_51565_.getBigZ().add()).doubleValue()
+             )
+         );
+         if (!list.isEmpty()) {

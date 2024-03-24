@@ -1,5 +1,14 @@
 --- a/net/minecraft/server/commands/ExecuteCommand.java
 +++ b/net/minecraft/server/commands/ExecuteCommand.java
+@@ -208,7 +_,7 @@
+                                     if (!serverlevel.hasChunk(SectionPos.blockToSectionCoord(d0), SectionPos.blockToSectionCoord(d1))) {
+                                         throw BlockPosArgument.ERROR_NOT_LOADED.create();
+                                     } else {
+-                                        int i = serverlevel.getHeight(HeightmapTypeArgument.getHeightmap(p_274814_, "heightmap"), Mth.floor(d0), Mth.floor(d1));
++                                        int i = serverlevel.getHeight(HeightmapTypeArgument.getHeightmap(p_274814_, "heightmap"), Mth.bigFloor(d0), Mth.bigFloor(d1));
+                                         return p_274814_.getSource().withPosition(new Vec3(d0, (double)i, d1));
+                                     }
+                                 }))
 @@ -493,11 +_,11 @@
  
      private static boolean isChunkLoaded(ServerLevel p_265261_, BlockPos p_265260_) {
@@ -14,3 +23,25 @@
          }
      }
  
+@@ -839,7 +_,7 @@
+         BoundingBox boundingbox = BoundingBox.fromCorners(p_137038_, p_137039_);
+         BoundingBox boundingbox1 = BoundingBox.fromCorners(p_137040_, p_137040_.offset(boundingbox.getLength()));
+         BlockPos blockpos = new BlockPos(
+-            boundingbox1.minX() - boundingbox.minX(), boundingbox1.minY() - boundingbox.minY(), boundingbox1.minZ() - boundingbox.minZ()
++            boundingbox1.minX().subtract(boundingbox.minX()), boundingbox1.minY().subtract(boundingbox.minY()), boundingbox1.minZ().subtract(boundingbox.minZ())
+         );
+         int i = boundingbox.getXSpan() * boundingbox.getYSpan() * boundingbox.getZSpan();
+         if (i > 32768) {
+@@ -847,9 +_,9 @@
+         } else {
+             int j = 0;
+ 
+-            for(int k = boundingbox.minZ(); k <= boundingbox.maxZ(); ++k) {
+-                for(int l = boundingbox.minY(); l <= boundingbox.maxY(); ++l) {
+-                    for(int i1 = boundingbox.minX(); i1 <= boundingbox.maxX(); ++i1) {
++            for(me.alphamode.mcbig.math.BigInteger k = boundingbox.minZ(); k.compareTo(boundingbox.maxZ()) <= 0; k = k.add()) {
++                for(me.alphamode.mcbig.math.BigInteger l = boundingbox.minY(); l.compareTo(boundingbox.maxY()) <= 0; l = l.add()) {
++                    for(me.alphamode.mcbig.math.BigInteger i1 = boundingbox.minX(); i1.compareTo(boundingbox.maxX()) <= 0; i1 = i1.add()) {
+                         BlockPos blockpos1 = new BlockPos(i1, l, k);
+                         BlockPos blockpos2 = blockpos1.offset(blockpos);
+                         BlockState blockstate = p_137037_.getBlockState(blockpos1);

@@ -1,0 +1,25 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalPiece.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalPiece.java
+@@ -203,8 +_,8 @@
+     }
+ 
+     private void addNetherrackDripColumnsBelowPortal(RandomSource p_229118_, LevelAccessor p_229119_) {
+-        for(int i = this.boundingBox.minX() + 1; i < this.boundingBox.maxX(); ++i) {
+-            for(int j = this.boundingBox.minZ() + 1; j < this.boundingBox.maxZ(); ++j) {
++        for(me.alphamode.mcbig.math.BigInteger i = this.boundingBox.minX().add(); i.compareTo(this.boundingBox.maxX()) < 0; i = i.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j = this.boundingBox.minZ().add(); j.compareTo(this.boundingBox.maxZ()) < 0; j = j.add()) {
+                 BlockPos blockpos = new BlockPos(i, this.boundingBox.minY(), j);
+                 if (p_229119_.getBlockState(blockpos).is(Blocks.NETHERRACK)) {
+                     this.addNetherrackDripColumn(p_229118_, p_229119_, blockpos.below());
+@@ -246,9 +_,9 @@
+                     float f = afloat[j2];
+                     if (p_229179_.nextDouble() < (double)f) {
+                         int k2 = getSurfaceY(p_229180_, k1, l1, this.verticalPlacement);
+-                        int l2 = flag ? k2 : Math.min(this.boundingBox.minY(), k2);
++                        int l2 = flag ? k2 : Math.min(this.boundingBox.minY().intValue(), k2);
+                         blockpos$mutableblockpos.set(k1, l2, l1);
+-                        if (Math.abs(l2 - this.boundingBox.minY()) <= 3 && this.canBlockBeReplacedByNetherrackOrMagma(p_229180_, blockpos$mutableblockpos)) {
++                        if (Math.abs(l2 - this.boundingBox.minY().intValue()) <= 3 && this.canBlockBeReplacedByNetherrackOrMagma(p_229180_, blockpos$mutableblockpos)) {
+                             this.placeNetherrackOrMagma(p_229179_, p_229180_, blockpos$mutableblockpos);
+                             if (this.properties.overgrown) {
+                                 this.maybeAddLeavesAbove(p_229179_, p_229180_, blockpos$mutableblockpos);

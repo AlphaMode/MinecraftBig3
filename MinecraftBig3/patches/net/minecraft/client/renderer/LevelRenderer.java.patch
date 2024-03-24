@@ -1,6 +1,204 @@
 --- a/net/minecraft/client/renderer/LevelRenderer.java
 +++ b/net/minecraft/client/renderer/LevelRenderer.java
-@@ -2567,22 +_,30 @@
+@@ -177,7 +_,7 @@
+     private final RunningTrimmedMean frameTimes = new RunningTrimmedMean(100);
+     private int ticks;
+     private final Int2ObjectMap<BlockDestructionProgress> destroyingBlocks = new Int2ObjectOpenHashMap<>();
+-    private final Long2ObjectMap<SortedSet<BlockDestructionProgress>> destructionProgress = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, SortedSet<BlockDestructionProgress>> destructionProgress = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+     private final Map<BlockPos, SoundInstance> playingRecords = Maps.newHashMap();
+     @Nullable
+     private RenderTarget entityTarget;
+@@ -195,9 +_,9 @@
+     private RenderTarget cloudsTarget;
+     @Nullable
+     private PostChain transparencyChain;
+-    private int lastCameraSectionX = Integer.MIN_VALUE;
+-    private int lastCameraSectionY = Integer.MIN_VALUE;
+-    private int lastCameraSectionZ = Integer.MIN_VALUE;
++    private me.alphamode.mcbig.math.BigInteger lastCameraSectionX = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
++    private me.alphamode.mcbig.math.BigInteger lastCameraSectionY = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
++    private me.alphamode.mcbig.math.BigInteger lastCameraSectionZ = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
+     private double prevCamX = Double.MIN_VALUE;
+     private double prevCamY = Double.MIN_VALUE;
+     private double prevCamZ = Double.MIN_VALUE;
+@@ -439,7 +_,7 @@
+                         this.minecraft
+                             .level
+                             .addParticle(
+-                                particleoptions, (double)blockpos1.getX() + d0, (double)blockpos1.getY() + d4, (double)blockpos1.getZ() + d1, 0.0, 0.0, 0.0
++                                particleoptions, (double)blockpos1.getBigX().doubleValue() + d0, (double)blockpos1.getBigY().doubleValue() + d4, (double)blockpos1.getBigZ().doubleValue() + d1, 0.0, 0.0, 0.0
+                             );
+                     }
+                 }
+@@ -688,9 +_,9 @@
+     }
+ 
+     public void setLevel(@Nullable ClientLevel p_109702_) {
+-        this.lastCameraSectionX = Integer.MIN_VALUE;
+-        this.lastCameraSectionY = Integer.MIN_VALUE;
+-        this.lastCameraSectionZ = Integer.MIN_VALUE;
++        this.lastCameraSectionX = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
++        this.lastCameraSectionY = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
++        this.lastCameraSectionZ = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
+         this.entityRenderDispatcher.setLevel(p_109702_);
+         this.level = p_109702_;
+         if (p_109702_ != null) {
+@@ -822,10 +_,10 @@
+         double d0 = this.minecraft.player.getX();
+         double d1 = this.minecraft.player.getY();
+         double d2 = this.minecraft.player.getZ();
+-        int i = SectionPos.posToSectionCoord(d0);
+-        int j = SectionPos.posToSectionCoord(d1);
+-        int k = SectionPos.posToSectionCoord(d2);
+-        if (this.lastCameraSectionX != i || this.lastCameraSectionY != j || this.lastCameraSectionZ != k) {
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.posToSectionCoord(d0);
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.posToSectionCoord(d1);
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.posToSectionCoord(d2);
++        if (!this.lastCameraSectionX.equals(i) || !this.lastCameraSectionY.equals(j) || !this.lastCameraSectionZ.equals(k)) {
+             this.lastCameraSectionX = i;
+             this.lastCameraSectionY = j;
+             this.lastCameraSectionZ = k;
+@@ -1058,8 +_,8 @@
+                     BlockPos blockpos4 = blockentity1.getBlockPos();
+                     MultiBufferSource multibuffersource1 = multibuffersource$buffersource;
+                     p_109600_.pushPose();
+-                    p_109600_.translate((double)blockpos4.getX() - d0, (double)blockpos4.getY() - d1, (double)blockpos4.getZ() - d2);
+-                    SortedSet<BlockDestructionProgress> sortedset = this.destructionProgress.get(blockpos4.asLong());
++                    p_109600_.translate((double)blockpos4.getBigX().doubleValue() - d0, (double)blockpos4.getBigY().doubleValue() - d1, (double)blockpos4.getBigZ().doubleValue() - d2);
++                    SortedSet<BlockDestructionProgress> sortedset = this.destructionProgress.get(blockpos4);
+                     if (sortedset != null && !sortedset.isEmpty()) {
+                         int j = sortedset.last().getProgress();
+                         if (j >= 0) {
+@@ -1087,7 +_,7 @@
+             for(BlockEntity blockentity : this.globalBlockEntities) {
+                 BlockPos blockpos3 = blockentity.getBlockPos();
+                 p_109600_.pushPose();
+-                p_109600_.translate((double)blockpos3.getX() - d0, (double)blockpos3.getY() - d1, (double)blockpos3.getZ() - d2);
++                p_109600_.translate((double)blockpos3.getBigX().doubleValue() - d0, (double)blockpos3.getBigY().doubleValue() - d1, (double)blockpos3.getBigZ().doubleValue() - d2);
+                 this.blockEntityRenderDispatcher.render(blockentity, f, p_109600_, multibuffersource$buffersource);
+                 p_109600_.popPose();
+             }
+@@ -1112,17 +_,17 @@
+ 
+         profilerfiller.popPush("destroyProgress");
+ 
+-        for(Entry<SortedSet<BlockDestructionProgress>> entry : this.destructionProgress.long2ObjectEntrySet()) {
+-            BlockPos blockpos2 = BlockPos.of(entry.getLongKey());
+-            double d3 = (double)blockpos2.getX() - d0;
+-            double d4 = (double)blockpos2.getY() - d1;
+-            double d5 = (double)blockpos2.getZ() - d2;
++        for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<BlockPos, SortedSet<BlockDestructionProgress>> entry : this.destructionProgress.object2ObjectEntrySet()) {
++            BlockPos blockpos2 = entry.getKey();
++            double d3 = (double)blockpos2.getBigX().doubleValue() - d0;
++            double d4 = (double)blockpos2.getBigY().doubleValue() - d1;
++            double d5 = (double)blockpos2.getBigZ().doubleValue() - d2;
+             if (!(d3 * d3 + d4 * d4 + d5 * d5 > 1024.0)) {
+                 SortedSet<BlockDestructionProgress> sortedset1 = entry.getValue();
+                 if (sortedset1 != null && !sortedset1.isEmpty()) {
+                     int k = sortedset1.last().getProgress();
+                     p_109600_.pushPose();
+-                    p_109600_.translate((double)blockpos2.getX() - d0, (double)blockpos2.getY() - d1, (double)blockpos2.getZ() - d2);
++                    p_109600_.translate((double)blockpos2.getBigX().doubleValue() - d0, (double)blockpos2.getBigY().doubleValue() - d1, (double)blockpos2.getBigZ().doubleValue() - d2);
+                     PoseStack.Pose posestack$pose1 = p_109600_.last();
+                     VertexConsumer vertexconsumer1 = new SheetedDecalTextureGenerator(
+                         this.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(k)),
+@@ -1274,12 +_,12 @@
+             double d1 = p_294761_ - this.yTransparentOld;
+             double d2 = p_294297_ - this.zTransparentOld;
+             if (d0 * d0 + d1 * d1 + d2 * d2 > 1.0) {
+-                int j = SectionPos.posToSectionCoord(p_295577_);
+-                int k = SectionPos.posToSectionCoord(p_294761_);
+-                int l = SectionPos.posToSectionCoord(p_294297_);
+-                boolean flag = j != SectionPos.posToSectionCoord(this.xTransparentOld)
+-                    || l != SectionPos.posToSectionCoord(this.zTransparentOld)
+-                    || k != SectionPos.posToSectionCoord(this.yTransparentOld);
++                me.alphamode.mcbig.math.BigInteger j = SectionPos.posToSectionCoord(p_295577_);
++                me.alphamode.mcbig.math.BigInteger k = SectionPos.posToSectionCoord(p_294761_);
++                me.alphamode.mcbig.math.BigInteger l = SectionPos.posToSectionCoord(p_294297_);
++                boolean flag = !j.equals(SectionPos.posToSectionCoord(this.xTransparentOld))
++                    || !l.equals(SectionPos.posToSectionCoord(this.zTransparentOld))
++                    || !k.equals(SectionPos.posToSectionCoord(this.yTransparentOld));
+                 this.xTransparentOld = p_295577_;
+                 this.yTransparentOld = p_294761_;
+                 this.zTransparentOld = p_294297_;
+@@ -1360,9 +_,9 @@
+                 BlockPos blockpos = sectionrenderdispatcher$rendersection1.getOrigin();
+                 if (uniform != null) {
+                     uniform.set(
+-                        (float)((double)blockpos.getX() - p_295577_),
+-                        (float)((double)blockpos.getY() - p_294761_),
+-                        (float)((double)blockpos.getZ() - p_294297_)
++                        (float)((double)blockpos.getBigX().doubleValue() - p_295577_),
++                        (float)((double)blockpos.getBigY().doubleValue() - p_294761_),
++                        (float)((double)blockpos.getBigZ().doubleValue() - p_294297_)
+                     );
+                     uniform.upload();
+                 }
+@@ -1393,7 +_,7 @@
+                 if (sectionocclusiongraph$node != null) {
+                     BlockPos blockpos = sectionrenderdispatcher$rendersection.getOrigin();
+                     p_271014_.pushPose();
+-                    p_271014_.translate((double)blockpos.getX() - d0, (double)blockpos.getY() - d1, (double)blockpos.getZ() - d2);
++                    p_271014_.translate((double)blockpos.getBigX().doubleValue() - d0, (double)blockpos.getBigY().doubleValue() - d1, (double)blockpos.getBigZ().doubleValue() - d2);
+                     Matrix4f matrix4f = p_271014_.last().pose();
+                     if (this.minecraft.sectionPath) {
+                         VertexConsumer vertexconsumer1 = p_270107_.getBuffer(RenderType.lines());
+@@ -1586,7 +_,7 @@
+     }
+ 
+     private void removeProgress(BlockDestructionProgress p_109766_) {
+-        long i = p_109766_.getPos().asLong();
++        BlockPos i = p_109766_.getPos();
+         Set<BlockDestructionProgress> set = this.destructionProgress.get(i);
+         set.remove(p_109766_);
+         if (set.isEmpty()) {
+@@ -2226,9 +_,9 @@
+             p_109638_,
+             p_109639_,
+             p_109645_.getShape(this.level, p_109644_, CollisionContext.of(p_109640_)),
+-            (double)p_109644_.getX() - p_109641_,
+-            (double)p_109644_.getY() - p_109642_,
+-            (double)p_109644_.getZ() - p_109643_,
++            (double)p_109644_.getBigX().doubleValue() - p_109641_,
++            (double)p_109644_.getBigY().doubleValue() - p_109642_,
++            (double)p_109644_.getBigZ().doubleValue() - p_109643_,
+             0.0F,
+             0.0F,
+             0.0F,
+@@ -2542,19 +_,19 @@
+     }
+ 
+     private void setBlockDirty(BlockPos p_109733_, boolean p_109734_) {
+-        for(int i = p_109733_.getZ() - 1; i <= p_109733_.getZ() + 1; ++i) {
+-            for(int j = p_109733_.getX() - 1; j <= p_109733_.getX() + 1; ++j) {
+-                for(int k = p_109733_.getY() - 1; k <= p_109733_.getY() + 1; ++k) {
++        for(me.alphamode.mcbig.math.BigInteger i = p_109733_.getBigZ().subtract(); i.compareTo(p_109733_.getBigZ().add()) <= 0; i = i.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j = p_109733_.getBigX().subtract(); j.compareTo(p_109733_.getBigX().add()) <= 0; j = j.add()) {
++                for(me.alphamode.mcbig.math.BigInteger k = p_109733_.getBigY().subtract(); k.compareTo(p_109733_.getBigY().add()) <= 0; k = k.add()) {
+                     this.setSectionDirty(SectionPos.blockToSectionCoord(j), SectionPos.blockToSectionCoord(k), SectionPos.blockToSectionCoord(i), p_109734_);
+                 }
+             }
+         }
+     }
+ 
+-    public void setBlocksDirty(int p_109495_, int p_109496_, int p_109497_, int p_109498_, int p_109499_, int p_109500_) {
+-        for(int i = p_109497_ - 1; i <= p_109500_ + 1; ++i) {
+-            for(int j = p_109495_ - 1; j <= p_109498_ + 1; ++j) {
+-                for(int k = p_109496_ - 1; k <= p_109499_ + 1; ++k) {
++    public void setBlocksDirty(me.alphamode.mcbig.math.BigInteger p_109495_, me.alphamode.mcbig.math.BigInteger p_109496_, me.alphamode.mcbig.math.BigInteger p_109497_, me.alphamode.mcbig.math.BigInteger p_109498_, me.alphamode.mcbig.math.BigInteger p_109499_, me.alphamode.mcbig.math.BigInteger p_109500_) {
++        for(me.alphamode.mcbig.math.BigInteger i = p_109497_.subtract(); i.compareTo(p_109500_.add()) <= 0; i = i.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j = p_109495_.subtract(); j.compareTo(p_109498_.add()) <= 0; j = j.add()) {
++                for(me.alphamode.mcbig.math.BigInteger k = p_109496_.subtract(); k.compareTo(p_109499_.add()) <= 0; k = k.add()) {
+                     this.setSectionDirty(SectionPos.blockToSectionCoord(j), SectionPos.blockToSectionCoord(k), SectionPos.blockToSectionCoord(i));
+                 }
+             }
+@@ -2563,25 +_,25 @@
+ 
+     public void setBlockDirty(BlockPos p_109722_, BlockState p_109723_, BlockState p_109724_) {
+         if (this.minecraft.getModelManager().requiresRender(p_109723_, p_109724_)) {
+-            this.setBlocksDirty(p_109722_.getX(), p_109722_.getY(), p_109722_.getZ(), p_109722_.getX(), p_109722_.getY(), p_109722_.getZ());
++            this.setBlocksDirty(p_109722_.getBigX(), p_109722_.getBigY(), p_109722_.getBigZ(), p_109722_.getBigX(), p_109722_.getBigY(), p_109722_.getBigZ());
          }
      }
  
@@ -24,16 +222,207 @@
      }
  
 -    private void setSectionDirty(int p_109502_, int p_109503_, int p_109504_, boolean p_109505_) {
-+    public void setSectionDirty(int p_109771_, int p_109772_, int p_109773_) {
-+        this.setSectionDirty(me.alphamode.mcbig.math.BigInteger.val(p_109771_), me.alphamode.mcbig.math.BigInteger.val(p_109772_), me.alphamode.mcbig.math.BigInteger.val(p_109773_));
-+    }
-+
 +    private void setSectionDirty(me.alphamode.mcbig.math.BigInteger p_109502_, me.alphamode.mcbig.math.BigInteger p_109503_, me.alphamode.mcbig.math.BigInteger p_109504_, boolean p_109505_) {
          this.viewArea.setDirty(p_109502_, p_109503_, p_109504_, p_109505_);
-+    }
-+
-+    private void setSectionDirty(int p_109502_, int p_109503_, int p_109504_, boolean p_109505_) {
-+        this.viewArea.setDirty(me.alphamode.mcbig.math.BigInteger.val(p_109502_), me.alphamode.mcbig.math.BigInteger.val(p_109503_), me.alphamode.mcbig.math.BigInteger.val(p_109504_), p_109505_);
      }
  
-     public void playStreamingMusic(@Nullable SoundEvent p_109515_, BlockPos p_109516_) {
+@@ -2716,9 +_,9 @@
+             case 1038:
+                 Camera camera = this.minecraft.gameRenderer.getMainCamera();
+                 if (camera.isInitialized()) {
+-                    double d0 = (double)p_109508_.getX() - camera.getPosition().x;
+-                    double d1 = (double)p_109508_.getY() - camera.getPosition().y;
+-                    double d2 = (double)p_109508_.getZ() - camera.getPosition().z;
++                    double d0 = (double)p_109508_.getBigX().doubleValue() - camera.getPosition().x;
++                    double d1 = (double)p_109508_.getBigY().doubleValue() - camera.getPosition().y;
++                    double d2 = (double)p_109508_.getBigZ().doubleValue() - camera.getPosition().z;
+                     double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                     double d4 = camera.getPosition().x;
+                     double d5 = camera.getPosition().y;
+@@ -3041,9 +_,9 @@
+                     this.level
+                         .addParticle(
+                             ParticleTypes.LARGE_SMOKE,
+-                            (double)p_234306_.getX() + randomsource.nextDouble(),
+-                            (double)p_234306_.getY() + 1.2,
+-                            (double)p_234306_.getZ() + randomsource.nextDouble(),
++                            (double)p_234306_.getBigX().doubleValue() + randomsource.nextDouble(),
++                            (double)p_234306_.getBigY().doubleValue() + 1.2,
++                            (double)p_234306_.getBigZ().doubleValue() + randomsource.nextDouble(),
+                             0.0,
+                             0.0,
+                             0.0
+@@ -3062,9 +_,9 @@
+                     );
+ 
+                 for(int j2 = 0; j2 < 5; ++j2) {
+-                    double d9 = (double)p_234306_.getX() + randomsource.nextDouble() * 0.6 + 0.2;
+-                    double d14 = (double)p_234306_.getY() + randomsource.nextDouble() * 0.6 + 0.2;
+-                    double d19 = (double)p_234306_.getZ() + randomsource.nextDouble() * 0.6 + 0.2;
++                    double d9 = (double)p_234306_.getBigX().doubleValue() + randomsource.nextDouble() * 0.6 + 0.2;
++                    double d14 = (double)p_234306_.getBigY().doubleValue() + randomsource.nextDouble() * 0.6 + 0.2;
++                    double d19 = (double)p_234306_.getBigZ().doubleValue() + randomsource.nextDouble() * 0.6 + 0.2;
+                     this.level.addParticle(ParticleTypes.SMOKE, d9, d14, d19, 0.0, 0.0, 0.0);
+                 }
+                 break;
+@@ -3072,9 +_,9 @@
+                 this.level.playLocalSound(p_234306_, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+ 
+                 for(int i2 = 0; i2 < 16; ++i2) {
+-                    double d8 = (double)p_234306_.getX() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
+-                    double d13 = (double)p_234306_.getY() + 0.8125;
+-                    double d18 = (double)p_234306_.getZ() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
++                    double d8 = (double)p_234306_.getBigX().doubleValue() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
++                    double d13 = (double)p_234306_.getBigY().doubleValue() + 0.8125;
++                    double d18 = (double)p_234306_.getBigZ().doubleValue() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
+                     this.level.addParticle(ParticleTypes.SMOKE, d8, d13, d18, 0.0, 0.0, 0.0);
+                 }
+                 break;
+@@ -3140,9 +_,9 @@
+                 this.level.playLocalSound(p_234306_, SoundEvents.SPLASH_POTION_BREAK, SoundSource.NEUTRAL, 1.0F, randomsource.nextFloat() * 0.1F + 0.9F, false);
+                 break;
+             case 2003:
+-                double d0 = (double)p_234306_.getX() + 0.5;
+-                double d2 = (double)p_234306_.getY();
+-                double d4 = (double)p_234306_.getZ() + 0.5;
++                double d0 = (double)p_234306_.getBigX().doubleValue() + 0.5;
++                double d2 = (double)p_234306_.getBigY().doubleValue();
++                double d4 = (double)p_234306_.getBigZ().doubleValue() + 0.5;
+ 
+                 for(int l2 = 0; l2 < 8; ++l2) {
+                     this.addParticle(
+@@ -3167,9 +_,9 @@
+                 break;
+             case 2004:
+                 for(int k = 0; k < 20; ++k) {
+-                    double d3 = (double)p_234306_.getX() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
+-                    double d5 = (double)p_234306_.getY() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
+-                    double d10 = (double)p_234306_.getZ() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
++                    double d3 = (double)p_234306_.getBigX().doubleValue() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
++                    double d5 = (double)p_234306_.getBigY().doubleValue() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
++                    double d10 = (double)p_234306_.getBigZ().doubleValue() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
+                     this.level.addParticle(ParticleTypes.SMOKE, d3, d5, d10, 0.0, 0.0, 0.0);
+                     this.level.addParticle(ParticleTypes.FLAME, d3, d5, d10, 0.0, 0.0, 0.0);
+                 }
+@@ -3187,9 +_,9 @@
+                     Particle particle = this.addParticleInternal(
+                         ParticleTypes.DRAGON_BREATH,
+                         false,
+-                        (double)p_234306_.getX() + d11 * 0.1,
+-                        (double)p_234306_.getY() + 0.3,
+-                        (double)p_234306_.getZ() + d20 * 0.1,
++                        (double)p_234306_.getBigX().doubleValue() + d11 * 0.1,
++                        (double)p_234306_.getBigY().doubleValue() + 0.3,
++                        (double)p_234306_.getBigZ().doubleValue() + d20 * 0.1,
+                         d11,
+                         d16,
+                         d20
+@@ -3209,7 +_,7 @@
+             case 2008:
+                 this.level
+                     .addParticle(
+-                        ParticleTypes.EXPLOSION, (double)p_234306_.getX() + 0.5, (double)p_234306_.getY() + 0.5, (double)p_234306_.getZ() + 0.5, 0.0, 0.0, 0.0
++                        ParticleTypes.EXPLOSION, (double)p_234306_.getBigX().doubleValue() + 0.5, (double)p_234306_.getBigY().doubleValue() + 0.5, (double)p_234306_.getBigZ().doubleValue() + 0.5, 0.0, 0.0, 0.0
+                     );
+                 break;
+             case 2009:
+@@ -3217,9 +_,9 @@
+                     this.level
+                         .addParticle(
+                             ParticleTypes.CLOUD,
+-                            (double)p_234306_.getX() + randomsource.nextDouble(),
+-                            (double)p_234306_.getY() + 1.2,
+-                            (double)p_234306_.getZ() + randomsource.nextDouble(),
++                            (double)p_234306_.getBigX().doubleValue() + randomsource.nextDouble(),
++                            (double)p_234306_.getBigY().doubleValue() + 1.2,
++                            (double)p_234306_.getBigZ().doubleValue() + randomsource.nextDouble(),
+                             0.0,
+                             0.0,
+                             0.0
+@@ -3234,9 +_,9 @@
+                     .addParticle(
+                         ParticleTypes.EXPLOSION_EMITTER,
+                         true,
+-                        (double)p_234306_.getX() + 0.5,
+-                        (double)p_234306_.getY() + 0.5,
+-                        (double)p_234306_.getZ() + 0.5,
++                        (double)p_234306_.getBigX().doubleValue() + 0.5,
++                        (double)p_234306_.getBigY().doubleValue() + 0.5,
++                        (double)p_234306_.getBigZ().doubleValue() + 0.5,
+                         0.0,
+                         0.0,
+                         0.0
+@@ -3322,9 +_,9 @@
+                         this.level
+                             .addParticle(
+                                 ParticleTypes.SCULK_CHARGE_POP,
+-                                (double)p_234306_.getX() + 0.5 + (double)(f12 * f8),
+-                                (double)p_234306_.getY() + 0.5 + (double)(f14 * f8),
+-                                (double)p_234306_.getZ() + 0.5 + (double)(f15 * f8),
++                                (double)p_234306_.getBigX().doubleValue() + 0.5 + (double)(f12 * f8),
++                                (double)p_234306_.getBigY().doubleValue() + 0.5 + (double)(f14 * f8),
++                                (double)p_234306_.getBigZ().doubleValue() + 0.5 + (double)(f15 * f8),
+                                 (double)(f12 * 0.07F),
+                                 (double)(f14 * 0.07F),
+                                 (double)(f15 * 0.07F)
+@@ -3338,9 +_,9 @@
+                         .addParticle(
+                             new ShriekParticleOption(l * 5),
+                             false,
+-                            (double)p_234306_.getX() + 0.5,
+-                            (double)p_234306_.getY() + SculkShriekerBlock.TOP_Y,
+-                            (double)p_234306_.getZ() + 0.5,
++                            (double)p_234306_.getBigX().doubleValue() + 0.5,
++                            (double)p_234306_.getBigY().doubleValue() + SculkShriekerBlock.TOP_Y,
++                            (double)p_234306_.getBigZ().doubleValue() + 0.5,
+                             0.0,
+                             0.0,
+                             0.0
+@@ -3352,9 +_,9 @@
+                 if (!flag) {
+                     this.level
+                         .playLocalSound(
+-                            (double)p_234306_.getX() + 0.5,
+-                            (double)p_234306_.getY() + SculkShriekerBlock.TOP_Y,
+-                            (double)p_234306_.getZ() + 0.5,
++                            (double)p_234306_.getBigX().doubleValue() + 0.5,
++                            (double)p_234306_.getBigY().doubleValue() + SculkShriekerBlock.TOP_Y,
++                            (double)p_234306_.getBigZ().doubleValue() + 0.5,
+                             SoundEvents.SCULK_SHRIEKER_SHRIEK,
+                             SoundSource.BLOCKS,
+                             2.0F,
+@@ -3427,9 +_,9 @@
+             }
+ 
+             if (blockdestructionprogress1 == null
+-                || blockdestructionprogress1.getPos().getX() != p_109776_.getX()
+-                || blockdestructionprogress1.getPos().getY() != p_109776_.getY()
+-                || blockdestructionprogress1.getPos().getZ() != p_109776_.getZ()) {
++                || !java.util.Objects.equals(blockdestructionprogress1.getPos().getBigX(), p_109776_.getBigX())
++                || !java.util.Objects.equals(blockdestructionprogress1.getPos().getBigY(), p_109776_.getBigY())
++                || !java.util.Objects.equals(blockdestructionprogress1.getPos().getBigZ(), p_109776_.getBigZ())) {
+                 blockdestructionprogress1 = new BlockDestructionProgress(p_109775_, p_109776_);
+                 this.destroyingBlocks.put(p_109775_, blockdestructionprogress1);
+             }
+@@ -3437,7 +_,7 @@
+             blockdestructionprogress1.setProgress(p_109777_);
+             blockdestructionprogress1.updateTick(this.ticks);
+             this.destructionProgress
+-                .computeIfAbsent(blockdestructionprogress1.getPos().asLong(), p_234254_ -> Sets.newTreeSet())
++                .computeIfAbsent(blockdestructionprogress1.getPos(), p_234254_ -> Sets.newTreeSet())
+                 .add(blockdestructionprogress1);
+         } else {
+             BlockDestructionProgress blockdestructionprogress = this.destroyingBlocks.remove(p_109775_);
+@@ -3527,9 +_,9 @@
+         int i = direction.getStepX();
+         int j = direction.getStepY();
+         int k = direction.getStepZ();
+-        double d0 = (double)p_307603_.getX() + (double)i * 0.6 + 0.5;
+-        double d1 = (double)p_307603_.getY() + (double)j * 0.6 + 0.5;
+-        double d2 = (double)p_307603_.getZ() + (double)k * 0.6 + 0.5;
++        double d0 = (double)p_307603_.getBigX().doubleValue() + (double)i * 0.6 + 0.5;
++        double d1 = (double)p_307603_.getBigY().doubleValue() + (double)j * 0.6 + 0.5;
++        double d2 = (double)p_307603_.getBigZ().doubleValue() + (double)k * 0.6 + 0.5;
+ 
+         for(int l = 0; l < 10; ++l) {
+             double d3 = p_307547_.nextDouble() * 0.2 + 0.01;
