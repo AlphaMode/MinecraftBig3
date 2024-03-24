@@ -79,7 +79,7 @@
      @Override
      public void setLightEnabled(ChunkPos p_285116_, boolean p_285522_) {
 -        this.storage.setLightEnabled(SectionPos.getZeroNode(p_285116_.x, p_285116_.z), p_285522_);
-+        this.storage.setLightEnabled(SectionPos.getZeroNode(p_285116_.x().intValue(), p_285116_.z().intValue()), p_285522_);
++        this.storage.setLightEnabled(SectionPos.getZeroNode(p_285116_.x(), p_285116_.z()), p_285522_);
      }
  
      @Override
