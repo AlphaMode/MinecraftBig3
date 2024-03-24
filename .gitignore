@@ -1,42 +1,47 @@
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+#eclipse
+**/bin
+**/.settings
+**/.classpath
+*.project
+tests/.eclipse
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
+#In case people make their workspace in the repo
+/eclipse/
+
+#idea
+/.idea
+/*/out
+/classes
 *.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+#gradle
+/build
+/.gradle
+/*/build
+/*/.gradle
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+#occupational hazards
+/projects/**/*.launch
+/repo/
+.run
+src/generated/resources/.cache/
+tests/src/generated/resources/.cache/
 
-### VS Code ###
-.vscode/
+#Patch rejects
+#/patches-/
+#*.patch.rej
+#/projects/*/rejects/
 
-### Mac OS ###
-.DS_Store
+# FML changelog
+changelog.txt
+*.py
+*.7z
+/logs/
+
+build
+**/build
+
+**/eclipse/
+**/runs/
+
+**/out/
