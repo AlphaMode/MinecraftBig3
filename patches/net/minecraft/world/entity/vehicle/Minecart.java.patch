@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/vehicle/Minecart.java
++++ b/net/minecraft/world/entity/vehicle/Minecart.java
+@@ -36,7 +_,7 @@
+     }
+ 
+     @Override
+-    public void activateMinecart(int p_38478_, int p_38479_, int p_38480_, boolean p_38481_) {
++    public void activateMinecart(me.alphamode.mcbig.math.BigInteger p_38478_, me.alphamode.mcbig.math.BigInteger p_38479_, me.alphamode.mcbig.math.BigInteger p_38480_, boolean p_38481_) {
+         if (p_38481_) {
+             if (this.isVehicle()) {
+                 this.ejectPassengers();

@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/entity/monster/Vex.java
++++ b/net/minecraft/world/entity/monster/Vex.java
+@@ -117,7 +_,7 @@
+     public void readAdditionalSaveData(CompoundTag p_34008_) {
+         super.readAdditionalSaveData(p_34008_);
+         if (p_34008_.contains("BoundX")) {
+-            this.boundOrigin = new BlockPos(p_34008_.getInt("BoundX"), p_34008_.getInt("BoundY"), p_34008_.getInt("BoundZ"));
++            this.boundOrigin = new BlockPos(p_34008_.getByteArray("BoundX"), p_34008_.getByteArray("BoundY"), p_34008_.getByteArray("BoundZ"));
+         }
+ 
+         if (p_34008_.contains("LifeTicks")) {
+@@ -137,9 +_,9 @@
+     public void addAdditionalSaveData(CompoundTag p_34015_) {
+         super.addAdditionalSaveData(p_34015_);
+         if (this.boundOrigin != null) {
+-            p_34015_.putInt("BoundX", this.boundOrigin.getX());
+-            p_34015_.putInt("BoundY", this.boundOrigin.getY());
+-            p_34015_.putInt("BoundZ", this.boundOrigin.getZ());
++            p_34015_.putByteArray("BoundX", this.boundOrigin.getBigX().toByteArray());
++            p_34015_.putByteArray("BoundY", this.boundOrigin.getBigY().toByteArray());
++            p_34015_.putByteArray("BoundZ", this.boundOrigin.getBigZ().toByteArray());
+         }
+ 
+         if (this.hasLimitedLife) {

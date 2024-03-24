@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java
++++ b/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java
+@@ -48,13 +_,13 @@
+                 if (!this.pathToPosition.closerToCenterThan(this.mob.position(), (double)this.mob.getBbWidth())
+                     && (
+                         !(this.mob.getY() > (double)this.pathToPosition.getY())
+-                            || !BlockPos.containing((double)this.pathToPosition.getX(), this.mob.getY(), (double)this.pathToPosition.getZ())
++                            || !BlockPos.containing((double)this.pathToPosition.getBigX().doubleValue(), this.mob.getY(), (double)this.pathToPosition.getBigZ().doubleValue())
+                                 .closerToCenterThan(this.mob.position(), (double)this.mob.getBbWidth())
+                     )) {
+                     this.mob
+                         .getMoveControl()
+                         .setWantedPosition(
+-                            (double)this.pathToPosition.getX(), (double)this.pathToPosition.getY(), (double)this.pathToPosition.getZ(), this.speedModifier
++                            (double)this.pathToPosition.getBigX().doubleValue(), (double)this.pathToPosition.getBigY().doubleValue(), (double)this.pathToPosition.getBigZ().doubleValue(), this.speedModifier
+                         );
+                 } else {
+                     this.pathToPosition = null;

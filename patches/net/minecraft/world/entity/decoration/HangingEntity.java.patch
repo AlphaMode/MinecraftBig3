@@ -1,0 +1,21 @@
+--- a/net/minecraft/world/entity/decoration/HangingEntity.java
++++ b/net/minecraft/world/entity/decoration/HangingEntity.java
+@@ -183,14 +_,14 @@
+     @Override
+     public void addAdditionalSaveData(CompoundTag p_31736_) {
+         BlockPos blockpos = this.getPos();
+-        p_31736_.putInt("TileX", blockpos.getX());
+-        p_31736_.putInt("TileY", blockpos.getY());
+-        p_31736_.putInt("TileZ", blockpos.getZ());
++        p_31736_.putByteArray("TileX", blockpos.getBigX().toByteArray());
++        p_31736_.putByteArray("TileY", blockpos.getBigY().toByteArray());
++        p_31736_.putByteArray("TileZ", blockpos.getBigZ().toByteArray());
+     }
+ 
+     @Override
+     public void readAdditionalSaveData(CompoundTag p_31730_) {
+-        BlockPos blockpos = new BlockPos(p_31730_.getInt("TileX"), p_31730_.getInt("TileY"), p_31730_.getInt("TileZ"));
++        BlockPos blockpos = new BlockPos(p_31730_.getByteArray("TileX"), p_31730_.getByteArray("TileY"), p_31730_.getByteArray("TileZ"));
+         if (!blockpos.closerThan(this.blockPosition(), 16.0)) {
+             LOGGER.error("Hanging entity at invalid position: {}", blockpos);
+         } else {

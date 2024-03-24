@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/entity/EntityType.java
++++ b/net/minecraft/world/entity/EntityType.java
+@@ -743,16 +_,16 @@
+         } else {
+             double d0;
+             if (p_262685_) {
+-                t.setPos((double)p_262595_.getX() + 0.5, (double)(p_262595_.getY() + 1), (double)p_262595_.getZ() + 0.5);
++                t.setPos((double)p_262595_.getBigX().doubleValue() + 0.5, (double)(p_262595_.getBigY().doubleValue() + 1), (double)p_262595_.getBigZ().doubleValue() + 0.5);
+                 d0 = getYOffset(p_262637_, p_262595_, p_262588_, t.getBoundingBox());
+             } else {
+                 d0 = 0.0;
+             }
+ 
+             t.moveTo(
+-                (double)p_262595_.getX() + 0.5,
+-                (double)p_262595_.getY() + d0,
+-                (double)p_262595_.getZ() + 0.5,
++                (double)p_262595_.getBigX().doubleValue() + 0.5,
++                (double)p_262595_.getBigY().doubleValue() + d0,
++                (double)p_262595_.getBigZ().doubleValue() + 0.5,
+                 Mth.wrapDegrees(p_262637_.random.nextFloat() * 360.0F),
+                 0.0F
+             );

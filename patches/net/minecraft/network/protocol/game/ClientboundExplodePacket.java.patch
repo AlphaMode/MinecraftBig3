@@ -1,0 +1,42 @@
+--- a/net/minecraft/network/protocol/game/ClientboundExplodePacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundExplodePacket.java
+@@ -66,13 +_,13 @@
+         this.y = p_178845_.readDouble();
+         this.z = p_178845_.readDouble();
+         this.power = p_178845_.readFloat();
+-        int i = Mth.floor(this.x);
+-        int j = Mth.floor(this.y);
+-        int k = Mth.floor(this.z);
++        me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(this.x);
++        me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(this.y);
++        me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(this.z);
+         this.toBlow = p_178845_.readList(p_178850_ -> {
+-            int l = p_178850_.readByte() + i;
+-            int i1 = p_178850_.readByte() + j;
+-            int j1 = p_178850_.readByte() + k;
++            me.alphamode.mcbig.math.BigInteger l = me.alphamode.mcbig.math.BigInteger.val(p_178850_.readByte()).add(i);
++            me.alphamode.mcbig.math.BigInteger i1 = me.alphamode.mcbig.math.BigInteger.val(p_178850_.readByte()).add(j);
++            me.alphamode.mcbig.math.BigInteger j1 = me.alphamode.mcbig.math.BigInteger.val(p_178850_.readByte()).add(k);
+             return new BlockPos(l, i1, j1);
+         });
+         this.knockbackX = p_178845_.readFloat();
+@@ -99,13 +_,13 @@
+         p_132129_.writeDouble(this.y);
+         p_132129_.writeDouble(this.z);
+         p_132129_.writeFloat(this.power);
+-        int i = Mth.floor(this.x);
+-        int j = Mth.floor(this.y);
+-        int k = Mth.floor(this.z);
++        me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(this.x);
++        me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(this.y);
++        me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(this.z);
+         p_132129_.writeCollection(this.toBlow, (p_293728_, p_293729_) -> {
+-            int l = p_293729_.getX() - i;
+-            int i1 = p_293729_.getY() - j;
+-            int j1 = p_293729_.getZ() - k;
++            int l = p_293729_.getBigX().subtract(i).intValue();
++            int i1 = p_293729_.getBigY().subtract(j).intValue();
++            int j1 = p_293729_.getBigZ().subtract(k).intValue();
+             p_293728_.writeByte(l);
+             p_293728_.writeByte(i1);
+             p_293728_.writeByte(j1);

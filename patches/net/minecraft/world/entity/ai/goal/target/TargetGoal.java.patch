@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/entity/ai/goal/target/TargetGoal.java
++++ b/net/minecraft/world/entity/ai/goal/target/TargetGoal.java
+@@ -123,8 +_,8 @@
+             if (node == null) {
+                 return false;
+             } else {
+-                int i = node.x - p_26149_.getBlockX();
+-                int j = node.z - p_26149_.getBlockZ();
++                int i = node.x.subtract(p_26149_.getBigBlockX()).intValue();
++                int j = node.z.subtract(p_26149_.getBigBlockZ()).intValue();
+                 return (double)(i * i + j * j) <= 2.25;
+             }
+         }

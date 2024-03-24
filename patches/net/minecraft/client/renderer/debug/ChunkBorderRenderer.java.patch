@@ -1,0 +1,13 @@
+--- a/net/minecraft/client/renderer/debug/ChunkBorderRenderer.java
++++ b/net/minecraft/client/renderer/debug/ChunkBorderRenderer.java
+@@ -28,8 +_,8 @@
+         float f = (float)((double)this.minecraft.level.getMinBuildHeight() - p_113361_);
+         float f1 = (float)((double)this.minecraft.level.getMaxBuildHeight() - p_113361_);
+         ChunkPos chunkpos = entity.chunkPosition();
+-        float f2 = (float)((double)chunkpos.getMinBlockX() - p_113360_);
+-        float f3 = (float)((double)chunkpos.getMinBlockZ() - p_113362_);
++        float f2 = (float)((double)chunkpos.getBigMinBlockX().doubleValue() - p_113360_);
++        float f3 = (float)((double)chunkpos.getBigMinBlockZ().doubleValue() - p_113362_);
+         VertexConsumer vertexconsumer = p_113359_.getBuffer(RenderType.debugLineStrip(1.0));
+         Matrix4f matrix4f = p_113358_.last().pose();
+ 

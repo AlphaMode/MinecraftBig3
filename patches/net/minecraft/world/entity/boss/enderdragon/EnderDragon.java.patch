@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
++++ b/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
+@@ -610,7 +_,7 @@
+                 int j1 = Math.max(
+                     this.level().getSeaLevel() + 10, this.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(l, 0, i1)).getY() + j
+                 );
+-                this.nodes[i] = new Node(l, j1, i1);
++                this.nodes[i] = new Node(me.alphamode.mcbig.math.BigInteger.val(l), me.alphamode.mcbig.math.BigInteger.val(j1), me.alphamode.mcbig.math.BigInteger.val(i1));
+             }
+ 
+             this.nodeAdjacency[0] = 6146;
+@@ -645,7 +_,7 @@
+     public int findClosestNode(double p_31171_, double p_31172_, double p_31173_) {
+         float f = 10000.0F;
+         int i = 0;
+-        Node node = new Node(Mth.floor(p_31171_), Mth.floor(p_31172_), Mth.floor(p_31173_));
++        Node node = new Node(Mth.bigFloor(p_31171_), Mth.bigFloor(p_31172_), Mth.bigFloor(p_31173_));
+         int j = 0;
+         if (this.dragonFight == null || this.dragonFight.getCrystalsAlive() == 0) {
+             j = 12;

@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/entity/ai/goal/MoveThroughVillageGoal.java
++++ b/net/minecraft/world/entity/ai/goal/MoveThroughVillageGoal.java
+@@ -109,9 +_,9 @@
+ 
+                             for(int i = 0; i < this.path.getNodeCount(); ++i) {
+                                 Node node = this.path.getNode(i);
+-                                BlockPos blockpos1 = new BlockPos(node.x, node.y + 1, node.z);
++                                BlockPos blockpos1 = new BlockPos(node.x, node.y.add(), node.z);
+                                 if (DoorBlock.isWoodenDoor(this.mob.level(), blockpos1)) {
+-                                    this.path = this.mob.getNavigation().createPath((double)node.x, (double)node.y, (double)node.z, 0);
++                                    this.path = this.mob.getNavigation().createPath((double)node.x.doubleValue(), (double)node.y.doubleValue(), (double)node.z.doubleValue(), 0);
+                                     break;
+                                 }
+                             }

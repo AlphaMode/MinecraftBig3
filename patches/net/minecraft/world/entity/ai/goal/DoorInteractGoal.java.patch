@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/entity/ai/goal/DoorInteractGoal.java
++++ b/net/minecraft/world/entity/ai/goal/DoorInteractGoal.java
+@@ -59,8 +_,8 @@
+             if (path != null && !path.isDone() && groundpathnavigation.canOpenDoors()) {
+                 for(int i = 0; i < Math.min(path.getNextNodeIndex() + 2, path.getNodeCount()); ++i) {
+                     Node node = path.getNode(i);
+-                    this.doorPos = new BlockPos(node.x, node.y + 1, node.z);
+-                    if (!(this.mob.distanceToSqr((double)this.doorPos.getX(), this.mob.getY(), (double)this.doorPos.getZ()) > 2.25)) {
++                    this.doorPos = new BlockPos(node.x, node.y.add(), node.z);
++                    if (!(this.mob.distanceToSqr((double)this.doorPos.getBigX().doubleValue(), this.mob.getY(), (double)this.doorPos.getBigZ().doubleValue()) > 2.25)) {
+                         this.hasDoor = DoorBlock.isWoodenDoor(this.mob.level(), this.doorPos);
+                         if (this.hasDoor) {
+                             return true;

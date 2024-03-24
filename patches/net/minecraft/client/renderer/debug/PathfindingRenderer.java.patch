@@ -1,0 +1,98 @@
+--- a/net/minecraft/client/renderer/debug/PathfindingRenderer.java
++++ b/net/minecraft/client/renderer/debug/PathfindingRenderer.java
+@@ -97,12 +_,12 @@
+                         p_270399_,
+                         p_270359_,
+                         new AABB(
+-                                (double)((float)node.x + 0.5F - p_270841_),
+-                                (double)((float)node.y + 0.01F * (float)i),
+-                                (double)((float)node.z + 0.5F - p_270841_),
+-                                (double)((float)node.x + 0.5F + p_270841_),
+-                                (double)((float)node.y + 0.25F + 0.01F * (float)i),
+-                                (double)((float)node.z + 0.5F + p_270841_)
++                                (double)((float)node.x.floatValue() + 0.5F - p_270841_),
++                                (double)((float)node.y.floatValue() + 0.01F * (float)i),
++                                (double)((float)node.z.floatValue() + 0.5F - p_270841_),
++                                (double)((float)node.x.floatValue() + 0.5F + p_270841_),
++                                (double)((float)node.y.floatValue() + 0.25F + 0.01F * (float)i),
++                                (double)((float)node.z.floatValue() + 0.5F + p_270841_)
+                             )
+                             .move(-p_270187_, -p_270252_, -p_270371_),
+                         f,
+@@ -122,12 +_,12 @@
+                         p_270399_,
+                         p_270359_,
+                         new AABB(
+-                                (double)((float)node1.x + 0.5F - p_270841_ / 2.0F),
+-                                (double)((float)node1.y + 0.01F),
+-                                (double)((float)node1.z + 0.5F - p_270841_ / 2.0F),
+-                                (double)((float)node1.x + 0.5F + p_270841_ / 2.0F),
+-                                (double)node1.y + 0.1,
+-                                (double)((float)node1.z + 0.5F + p_270841_ / 2.0F)
++                                (double)((float)node1.x.floatValue() + 0.5F - p_270841_ / 2.0F),
++                                (double)((float)node1.y.floatValue() + 0.01F),
++                                (double)((float)node1.z.floatValue() + 0.5F - p_270841_ / 2.0F),
++                                (double)((float)node1.x.floatValue() + 0.5F + p_270841_ / 2.0F),
++                                (double)node1.y.floatValue() + 0.1,
++                                (double)((float)node1.z.floatValue() + 0.5F + p_270841_ / 2.0F)
+                             )
+                             .move(-p_270187_, -p_270252_, -p_270371_),
+                         1.0F,
+@@ -144,12 +_,12 @@
+                         p_270399_,
+                         p_270359_,
+                         new AABB(
+-                                (double)((float)node3.x + 0.5F - p_270841_ / 2.0F),
+-                                (double)((float)node3.y + 0.01F),
+-                                (double)((float)node3.z + 0.5F - p_270841_ / 2.0F),
+-                                (double)((float)node3.x + 0.5F + p_270841_ / 2.0F),
+-                                (double)node3.y + 0.1,
+-                                (double)((float)node3.z + 0.5F + p_270841_ / 2.0F)
++                                (double)((float)node3.x.floatValue() + 0.5F - p_270841_ / 2.0F),
++                                (double)((float)node3.y.floatValue() + 0.01F),
++                                (double)((float)node3.z.floatValue() + 0.5F - p_270841_ / 2.0F),
++                                (double)((float)node3.x.floatValue() + 0.5F + p_270841_ / 2.0F),
++                                (double)node3.y.floatValue() + 0.1,
++                                (double)((float)node3.z.floatValue() + 0.5F + p_270841_ / 2.0F)
+                             )
+                             .move(-p_270187_, -p_270252_, -p_270371_),
+                         0.8F,
+@@ -169,9 +_,9 @@
+                         p_270399_,
+                         p_270359_,
+                         String.valueOf(node2.type),
+-                        (double)node2.x + 0.5,
+-                        (double)node2.y + 0.75,
+-                        (double)node2.z + 0.5,
++                        (double)node2.x.doubleValue() + 0.5,
++                        (double)node2.y.doubleValue() + 0.75,
++                        (double)node2.z.doubleValue() + 0.5,
+                         -1,
+                         0.02F,
+                         true,
+@@ -182,9 +_,9 @@
+                         p_270399_,
+                         p_270359_,
+                         String.format(Locale.ROOT, "%.2f", node2.costMalus),
+-                        (double)node2.x + 0.5,
+-                        (double)node2.y + 0.25,
+-                        (double)node2.z + 0.5,
++                        (double)node2.x.doubleValue() + 0.5,
++                        (double)node2.y.doubleValue() + 0.25,
++                        (double)node2.z.doubleValue() + 0.5,
+                         -1,
+                         0.02F,
+                         true,
+@@ -207,9 +_,9 @@
+                 int i1 = j & 0xFF;
+                 p_270602_.vertex(
+                         p_270666_.last().pose(),
+-                        (float)((double)node.x - p_270524_ + 0.5),
+-                        (float)((double)node.y - p_270163_ + 0.5),
+-                        (float)((double)node.z - p_270176_ + 0.5)
++                        (float)((double)node.x.doubleValue() - p_270524_ + 0.5),
++                        (float)((double)node.y.doubleValue() - p_270163_ + 0.5),
++                        (float)((double)node.z.doubleValue() - p_270176_ + 0.5)
+                     )
+                     .color(k, l, i1, 255)
+                     .endVertex();

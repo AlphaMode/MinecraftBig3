@@ -1,0 +1,34 @@
+--- a/net/minecraft/world/entity/ai/util/RandomPos.java
++++ b/net/minecraft/world/entity/ai/util/RandomPos.java
+@@ -104,23 +_,23 @@
+     }
+ 
+     public static BlockPos generateRandomPosTowardDirection(PathfinderMob p_217864_, int p_217865_, RandomSource p_217866_, BlockPos p_217867_) {
+-        int i = p_217867_.getX();
+-        int j = p_217867_.getZ();
++        me.alphamode.mcbig.math.BigInteger i = p_217867_.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = p_217867_.getBigZ();
+         if (p_217864_.hasRestriction() && p_217865_ > 1) {
+             BlockPos blockpos = p_217864_.getRestrictCenter();
+-            if (p_217864_.getX() > (double)blockpos.getX()) {
+-                i -= p_217866_.nextInt(p_217865_ / 2);
++            if (p_217864_.getX() > (double)blockpos.getBigX().doubleValue()) {
++                i = i.subtract(p_217866_.nextInt(p_217865_ / 2));
+             } else {
+-                i += p_217866_.nextInt(p_217865_ / 2);
++                i = i.add(p_217866_.nextInt(p_217865_ / 2));
+             }
+ 
+             if (p_217864_.getZ() > (double)blockpos.getZ()) {
+-                j -= p_217866_.nextInt(p_217865_ / 2);
++                j = j.subtract(p_217866_.nextInt(p_217865_ / 2));
+             } else {
+-                j += p_217866_.nextInt(p_217865_ / 2);
++                j = j.add(p_217866_.nextInt(p_217865_ / 2));
+             }
+         }
+ 
+-        return BlockPos.containing((double)i + p_217864_.getX(), (double)p_217867_.getY() + p_217864_.getY(), (double)j + p_217864_.getZ());
++        return BlockPos.containing((double)i.doubleValue() + p_217864_.getX(), (double)p_217867_.getBigY().doubleValue() + p_217864_.getY(), (double)j.doubleValue() + p_217864_.getZ());
+     }
+ }

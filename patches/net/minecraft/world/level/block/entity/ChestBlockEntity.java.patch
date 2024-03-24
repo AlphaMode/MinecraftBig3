@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/block/entity/ChestBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/ChestBlockEntity.java
+@@ -97,9 +_,9 @@
+     static void playSound(Level p_155339_, BlockPos p_155340_, BlockState p_155341_, SoundEvent p_155342_) {
+         ChestType chesttype = p_155341_.getValue(ChestBlock.TYPE);
+         if (chesttype != ChestType.LEFT) {
+-            double d0 = (double)p_155340_.getX() + 0.5;
+-            double d1 = (double)p_155340_.getY() + 0.5;
+-            double d2 = (double)p_155340_.getZ() + 0.5;
++            double d0 = (double)p_155340_.getBigX().doubleValue() + 0.5;
++            double d1 = (double)p_155340_.getBigY().doubleValue() + 0.5;
++            double d2 = (double)p_155340_.getBigZ().doubleValue() + 0.5;
+             if (chesttype == ChestType.RIGHT) {
+                 Direction direction = ChestBlock.getConnectedDirection(p_155341_);
+                 d0 += (double)direction.getStepX() * 0.5;

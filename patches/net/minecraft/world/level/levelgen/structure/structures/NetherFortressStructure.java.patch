@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/NetherFortressStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/NetherFortressStructure.java
+@@ -30,7 +_,7 @@
+     @Override
+     public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext p_228523_) {
+         ChunkPos chunkpos = p_228523_.chunkPos();
+-        BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 64, chunkpos.getMinBlockZ());
++        BlockPos blockpos = new BlockPos(chunkpos.getBigMinBlockX(), 64, chunkpos.getBigMinBlockZ());
+         return Optional.of(new Structure.GenerationStub(blockpos, p_228526_ -> generatePieces(p_228526_, p_228523_)));
+     }
+ 

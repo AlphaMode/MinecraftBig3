@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/entity/projectile/EyeOfEnder.java
++++ b/net/minecraft/world/entity/projectile/EyeOfEnder.java
+@@ -66,9 +_,9 @@
+     }
+ 
+     public void signalTo(BlockPos p_36968_) {
+-        double d0 = (double)p_36968_.getX();
++        double d0 = (double)p_36968_.getBigX().doubleValue();
+         int i = p_36968_.getY();
+-        double d1 = (double)p_36968_.getZ();
++        double d1 = (double)p_36968_.getBigZ().doubleValue();
+         double d2 = d0 - this.getX();
+         double d3 = d1 - this.getZ();
+         double d4 = Math.sqrt(d2 * d2 + d3 * d3);

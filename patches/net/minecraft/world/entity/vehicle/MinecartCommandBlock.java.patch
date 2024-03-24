@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/vehicle/MinecartCommandBlock.java
++++ b/net/minecraft/world/entity/vehicle/MinecartCommandBlock.java
+@@ -76,7 +_,7 @@
+     }
+ 
+     @Override
+-    public void activateMinecart(int p_38517_, int p_38518_, int p_38519_, boolean p_38520_) {
++    public void activateMinecart(me.alphamode.mcbig.math.BigInteger p_38517_, me.alphamode.mcbig.math.BigInteger p_38518_, me.alphamode.mcbig.math.BigInteger p_38519_, boolean p_38520_) {
+         if (p_38520_ && this.tickCount - this.lastActivated >= 4) {
+             this.getCommandBlock().performCommand(this.level());
+             this.lastActivated = this.tickCount;

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/Pig.java
++++ b/net/minecraft/world/entity/animal/Pig.java
+@@ -197,7 +_,7 @@
+                 AABB aabb = p_29487_.getLocalBoundsForPose(pose);
+ 
+                 for(int[] aint1 : aint) {
+-                    blockpos$mutableblockpos.set(blockpos.getX() + aint1[0], blockpos.getY(), blockpos.getZ() + aint1[1]);
++                    blockpos$mutableblockpos.set(blockpos.getBigX().add(aint1[0]), blockpos.getBigY(), blockpos.getBigZ().add(aint1[1]));
+                     double d0 = this.level().getBlockFloorHeight(blockpos$mutableblockpos);
+                     if (DismountHelper.isBlockFloorValid(d0)) {
+                         Vec3 vec3 = Vec3.upFromBottomCenterOf(blockpos$mutableblockpos, d0);

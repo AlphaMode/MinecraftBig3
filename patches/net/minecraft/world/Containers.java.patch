@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/Containers.java
++++ b/net/minecraft/world/Containers.java
+@@ -12,7 +_,7 @@
+ 
+ public class Containers {
+     public static void dropContents(Level p_19003_, BlockPos p_19004_, Container p_19005_) {
+-        dropContents(p_19003_, (double)p_19004_.getX(), (double)p_19004_.getY(), (double)p_19004_.getZ(), p_19005_);
++        dropContents(p_19003_, (double)p_19004_.getBigX().doubleValue(), (double)p_19004_.getBigY().doubleValue(), (double)p_19004_.getBigZ().doubleValue(), p_19005_);
+     }
+ 
+     public static void dropContents(Level p_18999_, Entity p_19000_, Container p_19001_) {
+@@ -26,7 +_,7 @@
+     }
+ 
+     public static void dropContents(Level p_19011_, BlockPos p_19012_, NonNullList<ItemStack> p_19013_) {
+-        p_19013_.forEach(p_19009_ -> dropItemStack(p_19011_, (double)p_19012_.getX(), (double)p_19012_.getY(), (double)p_19012_.getZ(), p_19009_));
++        p_19013_.forEach(p_19009_ -> dropItemStack(p_19011_, (double)p_19012_.getBigX().doubleValue(), (double)p_19012_.getBigY().doubleValue(), (double)p_19012_.getBigZ().doubleValue(), p_19009_));
+     }
+ 
+     public static void dropItemStack(Level p_18993_, double p_18994_, double p_18995_, double p_18996_, ItemStack p_18997_) {

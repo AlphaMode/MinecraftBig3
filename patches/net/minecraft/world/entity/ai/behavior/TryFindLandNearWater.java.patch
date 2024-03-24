@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/TryFindLandNearWater.java
++++ b/net/minecraft/world/entity/ai/behavior/TryFindLandNearWater.java
+@@ -37,7 +_,7 @@
+             
+                                     label45:
+                                     for(BlockPos blockpos1 : BlockPos.withinManhattan(blockpos, p_259739_, p_259739_, p_259739_)) {
+-                                        if ((blockpos1.getX() != blockpos.getX() || blockpos1.getZ() != blockpos.getZ())
++                                        if ((!blockpos1.getBigX().equals(blockpos.getBigX()) || !blockpos1.getBigZ().equals(blockpos.getBigZ()))
+                                             && p_259876_.getBlockState(blockpos1).getCollisionShape(p_259876_, blockpos1, collisioncontext).isEmpty()
+                                             && !p_259876_.getBlockState(blockpos$mutableblockpos.setWithOffset(blockpos1, Direction.DOWN))
+                                                 .getCollisionShape(p_259876_, blockpos1, collisioncontext)

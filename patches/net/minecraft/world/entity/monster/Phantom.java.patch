@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/entity/monster/Phantom.java
++++ b/net/minecraft/world/entity/monster/Phantom.java
+@@ -172,7 +_,7 @@
+     public void readAdditionalSaveData(CompoundTag p_33132_) {
+         super.readAdditionalSaveData(p_33132_);
+         if (p_33132_.contains("AX")) {
+-            this.anchorPoint = new BlockPos(p_33132_.getInt("AX"), p_33132_.getInt("AY"), p_33132_.getInt("AZ"));
++            this.anchorPoint = new BlockPos(p_33132_.getByteArray("AX"), p_33132_.getByteArray("AY"), p_33132_.getByteArray("AZ"));
+         }
+ 
+         this.setPhantomSize(p_33132_.getInt("Size"));
+@@ -181,9 +_,9 @@
+     @Override
+     public void addAdditionalSaveData(CompoundTag p_33141_) {
+         super.addAdditionalSaveData(p_33141_);
+-        p_33141_.putInt("AX", this.anchorPoint.getX());
+-        p_33141_.putInt("AY", this.anchorPoint.getY());
+-        p_33141_.putInt("AZ", this.anchorPoint.getZ());
++        p_33141_.putByteArray("AX", this.anchorPoint.getBigX().toByteArray());
++        p_33141_.putByteArray("AY", this.anchorPoint.getBigY().toByteArray());
++        p_33141_.putByteArray("AZ", this.anchorPoint.getBigZ().toByteArray());
+         p_33141_.putInt("Size", this.getPhantomSize());
+     }
+ 

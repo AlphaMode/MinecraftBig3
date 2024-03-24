@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/JigsawStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/JigsawStructure.java
+@@ -104,7 +_,7 @@
+     public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext p_227636_) {
+         ChunkPos chunkpos = p_227636_.chunkPos();
+         int i = this.startHeight.sample(p_227636_.random(), new WorldGenerationContext(p_227636_.chunkGenerator(), p_227636_.heightAccessor()));
+-        BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), i, chunkpos.getMinBlockZ());
++        BlockPos blockpos = new BlockPos(chunkpos.getBigMinBlockX(), i, chunkpos.getBigMinBlockZ());
+         return JigsawPlacement.addPieces(
+             p_227636_,
+             this.startPool,

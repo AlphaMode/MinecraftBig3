@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/control/MoveControl.java
++++ b/net/minecraft/world/entity/ai/control/MoveControl.java
+@@ -122,7 +_,7 @@
+             NodeEvaluator nodeevaluator = pathnavigation.getNodeEvaluator();
+             if (nodeevaluator != null
+                 && nodeevaluator.getBlockPathType(
+-                        this.mob.level(), Mth.floor(this.mob.getX() + (double)p_24997_), this.mob.getBlockY(), Mth.floor(this.mob.getZ() + (double)p_24998_)
++                        this.mob.level(), Mth.bigFloor(this.mob.getX() + (double)p_24997_), this.mob.getBigBlockY(), Mth.bigFloor(this.mob.getZ() + (double)p_24998_)
+                     )
+                     != BlockPathTypes.WALKABLE) {
+                 return false;

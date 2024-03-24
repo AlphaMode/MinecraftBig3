@@ -1,0 +1,39 @@
+--- a/net/minecraft/world/level/levelgen/feature/trunkplacers/DarkOakTrunkPlacer.java
++++ b/net/minecraft/world/level/levelgen/feature/trunkplacers/DarkOakTrunkPlacer.java
+@@ -47,17 +_,17 @@
+         Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(p_226088_);
+         int i = p_226089_ - p_226088_.nextInt(4);
+         int j = 2 - p_226088_.nextInt(3);
+-        int k = p_226090_.getX();
++        me.alphamode.mcbig.math.BigInteger k = p_226090_.getBigX();
+         int l = p_226090_.getY();
+-        int i1 = p_226090_.getZ();
+-        int j1 = k;
+-        int k1 = i1;
++        me.alphamode.mcbig.math.BigInteger i1 = p_226090_.getBigZ();
++        me.alphamode.mcbig.math.BigInteger j1 = k;
++        me.alphamode.mcbig.math.BigInteger k1 = i1;
+         int l1 = l + p_226089_ - 1;
+ 
+         for(int i2 = 0; i2 < p_226089_; ++i2) {
+             if (i2 >= i && j > 0) {
+-                j1 += direction.getStepX();
+-                k1 += direction.getStepZ();
++                j1 = j1.add(direction.getStepX());
++                k1 = k1.add(direction.getStepZ());
+                 --j;
+             }
+ 
+@@ -79,10 +_,10 @@
+                     int j3 = p_226088_.nextInt(3) + 2;
+ 
+                     for(int k2 = 0; k2 < j3; ++k2) {
+-                        this.placeLog(p_226086_, p_226087_, p_226088_, new BlockPos(k + l2, l1 - k2 - 1, i1 + i3), p_226091_);
++                        this.placeLog(p_226086_, p_226087_, p_226088_, new BlockPos(k.add(l2), l1 - k2 - 1, i1.add(i3)), p_226091_);
+                     }
+ 
+-                    list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(j1 + l2, l1, k1 + i3), 0, false));
++                    list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(j1.add(l2), l1, k1.add(i3)), 0, false));
+                 }
+             }
+         }

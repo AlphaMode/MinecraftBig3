@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/feature/foliageplacers/MegaPineFoliagePlacer.java
++++ b/net/minecraft/world/level/levelgen/feature/foliageplacers/MegaPineFoliagePlacer.java
+@@ -53,7 +_,7 @@
+                 i1 = l;
+             }
+ 
+-            this.placeLeavesRow(p_225678_, p_273345_, p_225680_, p_225681_, new BlockPos(blockpos.getX(), j, blockpos.getZ()), i1, 0, p_225683_.doubleTrunk());
++            this.placeLeavesRow(p_225678_, p_273345_, p_225680_, p_225681_, new BlockPos(blockpos.getBigX(), j, blockpos.getBigZ()), i1, 0, p_225683_.doubleTrunk());
+             i = l;
+         }
+     }

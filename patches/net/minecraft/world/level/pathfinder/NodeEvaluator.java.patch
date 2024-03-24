@@ -1,0 +1,29 @@
+--- a/net/minecraft/world/level/pathfinder/NodeEvaluator.java
++++ b/net/minecraft/world/level/pathfinder/NodeEvaluator.java
+@@ -35,11 +_,11 @@
+     }
+ 
+     protected Node getNode(BlockPos p_77350_) {
+-        return this.getNode(p_77350_.getX(), p_77350_.getY(), p_77350_.getZ());
++        return this.getNode(p_77350_.getBigX(), p_77350_.getBigY(), p_77350_.getBigZ());
+     }
+ 
+-    protected Node getNode(int p_77325_, int p_77326_, int p_77327_) {
+-        return this.nodes.computeIfAbsent(Node.createHash(p_77325_, p_77326_, p_77327_), p_77332_ -> new Node(p_77325_, p_77326_, p_77327_));
++    protected Node getNode(me.alphamode.mcbig.math.BigInteger p_77325_, me.alphamode.mcbig.math.BigInteger p_77326_, me.alphamode.mcbig.math.BigInteger p_77327_) {
++        return this.nodes.computeIfAbsent(Node.createHash(p_77325_.intValue(), p_77326_.intValue(), p_77327_.intValue()), p_77332_ -> new Node(p_77325_, p_77326_, p_77327_));
+     }
+ 
+     public abstract Node getStart();
+@@ -52,9 +_,9 @@
+ 
+     public abstract int getNeighbors(Node[] p_77353_, Node p_77354_);
+ 
+-    public abstract BlockPathTypes getBlockPathType(BlockGetter p_77337_, int p_77338_, int p_77339_, int p_77340_, Mob p_77341_);
++    public abstract BlockPathTypes getBlockPathType(BlockGetter p_77337_, me.alphamode.mcbig.math.BigInteger p_77338_, me.alphamode.mcbig.math.BigInteger p_77339_, me.alphamode.mcbig.math.BigInteger p_77340_, Mob p_77341_);
+ 
+-    public abstract BlockPathTypes getBlockPathType(BlockGetter p_77333_, int p_77334_, int p_77335_, int p_77336_);
++    public abstract BlockPathTypes getBlockPathType(BlockGetter p_77333_, me.alphamode.mcbig.math.BigInteger p_77334_, me.alphamode.mcbig.math.BigInteger p_77335_, me.alphamode.mcbig.math.BigInteger p_77336_);
+ 
+     public void setCanPassDoors(boolean p_77352_) {
+         this.canPassDoors = p_77352_;

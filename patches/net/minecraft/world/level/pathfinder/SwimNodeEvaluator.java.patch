@@ -1,0 +1,85 @@
+--- a/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java
++++ b/net/minecraft/world/level/pathfinder/SwimNodeEvaluator.java
+@@ -17,7 +_,7 @@
+ 
+ public class SwimNodeEvaluator extends NodeEvaluator {
+     private final boolean allowBreaching;
+-    private final Long2ObjectMap<BlockPathTypes> pathTypesByPosCache = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, BlockPathTypes> pathTypesByPosCache = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+ 
+     public SwimNodeEvaluator(boolean p_77457_) {
+         this.allowBreaching = p_77457_;
+@@ -38,13 +_,13 @@
+     @Override
+     public Node getStart() {
+         return this.getNode(
+-            Mth.floor(this.mob.getBoundingBox().minX), Mth.floor(this.mob.getBoundingBox().minY + 0.5), Mth.floor(this.mob.getBoundingBox().minZ)
++            Mth.bigFloor(this.mob.getBoundingBox().minX), Mth.bigFloor(this.mob.getBoundingBox().minY + 0.5), Mth.bigFloor(this.mob.getBoundingBox().minZ)
+         );
+     }
+ 
+     @Override
+     public Target getGoal(double p_77459_, double p_77460_, double p_77461_) {
+-        return this.getTargetFromNode(this.getNode(Mth.floor(p_77459_), Mth.floor(p_77460_), Mth.floor(p_77461_)));
++        return this.getTargetFromNode(this.getNode(Mth.bigFloor(p_77459_), Mth.bigFloor(p_77460_), Mth.bigFloor(p_77461_)));
+     }
+ 
+     @Override
+@@ -53,7 +_,7 @@
+         Map<Direction, Node> map = Maps.newEnumMap(Direction.class);
+ 
+         for(Direction direction : Direction.values()) {
+-            Node node = this.findAcceptedNode(p_77484_.x + direction.getStepX(), p_77484_.y + direction.getStepY(), p_77484_.z + direction.getStepZ());
++            Node node = this.findAcceptedNode(p_77484_.x.add(direction.getStepX()), p_77484_.y.add(direction.getStepY()), p_77484_.z.add(direction.getStepZ()));
+             map.put(direction, node);
+             if (this.isNodeValid(node)) {
+                 p_77483_[i++] = node;
+@@ -63,7 +_,7 @@
+         for(Direction direction1 : Direction.Plane.HORIZONTAL) {
+             Direction direction2 = direction1.getClockWise();
+             Node node1 = this.findAcceptedNode(
+-                p_77484_.x + direction1.getStepX() + direction2.getStepX(), p_77484_.y, p_77484_.z + direction1.getStepZ() + direction2.getStepZ()
++                p_77484_.x.add(direction1.getStepX() + direction2.getStepX()), p_77484_.y, p_77484_.z.add(direction1.getStepZ() + direction2.getStepZ())
+             );
+             if (this.isDiagonalNodeValid(node1, map.get(direction1), map.get(direction2))) {
+                 p_77483_[i++] = node1;
+@@ -82,7 +_,7 @@
+     }
+ 
+     @Nullable
+-    protected Node findAcceptedNode(int p_263032_, int p_263066_, int p_263105_) {
++    protected Node findAcceptedNode(me.alphamode.mcbig.math.BigInteger p_263032_, me.alphamode.mcbig.math.BigInteger p_263066_, me.alphamode.mcbig.math.BigInteger p_263105_) {
+         Node node = null;
+         BlockPathTypes blockpathtypes = this.getCachedBlockType(p_263032_, p_263066_, p_263105_);
+         if (this.allowBreaching && blockpathtypes == BlockPathTypes.BREACH || blockpathtypes == BlockPathTypes.WATER) {
+@@ -100,23 +_,23 @@
+         return node;
+     }
+ 
+-    protected BlockPathTypes getCachedBlockType(int p_192968_, int p_192969_, int p_192970_) {
++    protected BlockPathTypes getCachedBlockType(me.alphamode.mcbig.math.BigInteger p_192968_, me.alphamode.mcbig.math.BigInteger p_192969_, me.alphamode.mcbig.math.BigInteger p_192970_) {
+         return this.pathTypesByPosCache
+-            .computeIfAbsent(BlockPos.asLong(p_192968_, p_192969_, p_192970_), p_192957_ -> this.getBlockPathType(this.level, p_192968_, p_192969_, p_192970_));
++            .computeIfAbsent(new BlockPos(p_192968_, p_192969_, p_192970_), p_192957_ -> this.getBlockPathType(this.level, p_192968_, p_192969_, p_192970_));
+     }
+ 
+     @Override
+-    public BlockPathTypes getBlockPathType(BlockGetter p_77467_, int p_77468_, int p_77469_, int p_77470_) {
++    public BlockPathTypes getBlockPathType(BlockGetter p_77467_, me.alphamode.mcbig.math.BigInteger p_77468_, me.alphamode.mcbig.math.BigInteger p_77469_, me.alphamode.mcbig.math.BigInteger p_77470_) {
+         return this.getBlockPathType(p_77467_, p_77468_, p_77469_, p_77470_, this.mob);
+     }
+ 
+     @Override
+-    public BlockPathTypes getBlockPathType(BlockGetter p_77472_, int p_77473_, int p_77474_, int p_77475_, Mob p_77476_) {
++    public BlockPathTypes getBlockPathType(BlockGetter p_77472_, me.alphamode.mcbig.math.BigInteger p_77473_, me.alphamode.mcbig.math.BigInteger p_77474_, me.alphamode.mcbig.math.BigInteger p_77475_, Mob p_77476_) {
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-        for(int i = p_77473_; i < p_77473_ + this.entityWidth; ++i) {
+-            for(int j = p_77474_; j < p_77474_ + this.entityHeight; ++j) {
+-                for(int k = p_77475_; k < p_77475_ + this.entityDepth; ++k) {
++        for(me.alphamode.mcbig.math.BigInteger i = p_77473_; i.compareTo(p_77473_.add(this.entityWidth)) < 0; i = i.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j = p_77474_; j.compareTo(p_77474_.add(this.entityHeight)) < 0; j = j.add()) {
++                for(me.alphamode.mcbig.math.BigInteger k = p_77475_; k.compareTo(p_77475_.add(this.entityDepth)) < 0; k = k.add()) {
+                     FluidState fluidstate = p_77472_.getFluidState(blockpos$mutableblockpos.set(i, j, k));
+                     BlockState blockstate = p_77472_.getBlockState(blockpos$mutableblockpos.set(i, j, k));
+                     if (fluidstate.isEmpty()

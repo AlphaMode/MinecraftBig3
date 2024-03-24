@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/BlockEntity.java
++++ b/net/minecraft/world/level/block/entity/BlockEntity.java
+@@ -31,7 +_,7 @@
+     }
+ 
+     public static BlockPos getPosFromTag(CompoundTag p_187473_) {
+-        return new BlockPos(p_187473_.getInt("x"), p_187473_.getInt("y"), p_187473_.getInt("z"));
++        return new BlockPos(p_187473_.getByteArray("x"), p_187473_.getByteArray("y"), p_187473_.getByteArray("z"));
+     }
+ 
+     @Nullable

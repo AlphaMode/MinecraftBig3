@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/vehicle/MinecartTNT.java
++++ b/net/minecraft/world/entity/vehicle/MinecartTNT.java
+@@ -128,7 +_,7 @@
+     }
+ 
+     @Override
+-    public void activateMinecart(int p_38659_, int p_38660_, int p_38661_, boolean p_38662_) {
++    public void activateMinecart(me.alphamode.mcbig.math.BigInteger p_38659_, me.alphamode.mcbig.math.BigInteger p_38660_, me.alphamode.mcbig.math.BigInteger p_38661_, boolean p_38662_) {
+         if (p_38662_ && this.fuse < 0) {
+             this.primeFuse();
+         }

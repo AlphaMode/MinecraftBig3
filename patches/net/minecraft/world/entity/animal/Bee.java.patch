@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/Bee.java
++++ b/net/minecraft/world/entity/animal/Bee.java
+@@ -837,7 +_,7 @@
+ 
+         private boolean pathfindDirectlyTowards(BlockPos p_27991_) {
+             Bee.this.navigation.setMaxVisitedNodesMultiplier(10.0F);
+-            Bee.this.navigation.moveTo((double)p_27991_.getX(), (double)p_27991_.getY(), (double)p_27991_.getZ(), 1.0);
++            Bee.this.navigation.moveTo((double)p_27991_.getBigX().doubleValue(), (double)p_27991_.getBigY().doubleValue(), (double)p_27991_.getBigZ().doubleValue(), 1.0);
+             return Bee.this.navigation.getPath() != null && Bee.this.navigation.getPath().canReach();
+         }
+ 

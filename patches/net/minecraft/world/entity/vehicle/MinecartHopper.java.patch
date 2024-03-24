@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/vehicle/MinecartHopper.java
++++ b/net/minecraft/world/entity/vehicle/MinecartHopper.java
+@@ -47,7 +_,7 @@
+     }
+ 
+     @Override
+-    public void activateMinecart(int p_38596_, int p_38597_, int p_38598_, boolean p_38599_) {
++    public void activateMinecart(me.alphamode.mcbig.math.BigInteger p_38596_, me.alphamode.mcbig.math.BigInteger p_38597_, me.alphamode.mcbig.math.BigInteger p_38598_, boolean p_38599_) {
+         boolean flag = !p_38599_;
+         if (flag != this.isEnabled()) {
+             this.setEnabled(flag);

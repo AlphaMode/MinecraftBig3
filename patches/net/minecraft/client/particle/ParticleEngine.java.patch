@@ -1,0 +1,15 @@
+--- a/net/minecraft/client/particle/ParticleEngine.java
++++ b/net/minecraft/client/particle/ParticleEngine.java
+@@ -503,9 +_,9 @@
+                                 this.add(
+                                     new TerrainParticle(
+                                         this.level,
+-                                        (double)p_107356_.getX() + d7,
+-                                        (double)p_107356_.getY() + d8,
+-                                        (double)p_107356_.getZ() + d9,
++                                        (double)p_107356_.getBigX().doubleValue() + d7,
++                                        (double)p_107356_.getBigY().doubleValue() + d8,
++                                        (double)p_107356_.getBigZ().doubleValue() + d9,
+                                         d4 - 0.5,
+                                         d5 - 0.5,
+                                         d6 - 0.5,

@@ -1,0 +1,65 @@
+--- a/net/minecraft/world/level/levelgen/feature/trunkplacers/FancyTrunkPlacer.java
++++ b/net/minecraft/world/level/levelgen/feature/trunkplacers/FancyTrunkPlacer.java
+@@ -65,11 +_,11 @@
+                     BlockPos blockpos = p_226097_.offset(Mth.floor(d4), j1 - 1, Mth.floor(d5));
+                     BlockPos blockpos1 = blockpos.above(5);
+                     if (this.makeLimb(p_226093_, p_226094_, p_226095_, blockpos, blockpos1, false, p_226098_)) {
+-                        int l1 = p_226097_.getX() - blockpos.getX();
+-                        int i2 = p_226097_.getZ() - blockpos.getZ();
++                        int l1 = p_226097_.getBigX().subtract(blockpos.getBigX()).intValue();
++                        int i2 = p_226097_.getBigZ().subtract(blockpos.getBigZ()).intValue();
+                         double d6 = (double)blockpos.getY() - Math.sqrt((double)(l1 * l1 + i2 * i2)) * 0.381;
+                         int j2 = d6 > (double)i1 ? i1 : (int)d6;
+-                        BlockPos blockpos2 = new BlockPos(p_226097_.getX(), j2, p_226097_.getZ());
++                        BlockPos blockpos2 = new BlockPos(p_226097_.getBigX(), j2, p_226097_.getBigZ());
+                         if (this.makeLimb(p_226093_, p_226094_, p_226095_, blockpos2, blockpos, false, p_226098_)) {
+                             list.add(new FancyTrunkPlacer.FoliageCoords(blockpos, blockpos2.getY()));
+                         }
+@@ -103,11 +_,11 @@
+         if (!p_226113_ && Objects.equals(p_226111_, p_226112_)) {
+             return true;
+         } else {
+-            BlockPos blockpos = p_226112_.offset(-p_226111_.getX(), -p_226111_.getY(), -p_226111_.getZ());
++            BlockPos blockpos = p_226112_.offset(p_226111_.getBigX().negate(), p_226111_.getBigY().negate(), p_226111_.getBigZ().negate());
+             int i = this.getSteps(blockpos);
+-            float f = (float)blockpos.getX() / (float)i;
+-            float f1 = (float)blockpos.getY() / (float)i;
+-            float f2 = (float)blockpos.getZ() / (float)i;
++            float f = (float)blockpos.getBigX().floatValue() / (float)i;
++            float f1 = (float)blockpos.getBigY().floatValue() / (float)i;
++            float f2 = (float)blockpos.getBigZ().floatValue() / (float)i;
+ 
+             for(int j = 0; j <= i; ++j) {
+                 BlockPos blockpos1 = p_226111_.offset(Mth.floor(0.5F + (float)j * f), Mth.floor(0.5F + (float)j * f1), Mth.floor(0.5F + (float)j * f2));
+@@ -130,16 +_,16 @@
+     }
+ 
+     private int getSteps(BlockPos p_70128_) {
+-        int i = Mth.abs(p_70128_.getX());
+-        int j = Mth.abs(p_70128_.getY());
+-        int k = Mth.abs(p_70128_.getZ());
+-        return Math.max(i, Math.max(j, k));
++        me.alphamode.mcbig.math.BigInteger i = p_70128_.getBigX().abs();
++        me.alphamode.mcbig.math.BigInteger j = p_70128_.getBigY().abs();
++        me.alphamode.mcbig.math.BigInteger k = p_70128_.getBigZ().abs();
++        return i.max(j.max(k)).intValue();
+     }
+ 
+     private Direction.Axis getLogAxis(BlockPos p_70130_, BlockPos p_70131_) {
+         Direction.Axis direction$axis = Direction.Axis.Y;
+-        int i = Math.abs(p_70131_.getX() - p_70130_.getX());
+-        int j = Math.abs(p_70131_.getZ() - p_70130_.getZ());
++        int i = Math.abs(p_70131_.getBigX().subtract(p_70130_.getBigX()).intValue());
++        int j = Math.abs(p_70131_.getBigZ().subtract(p_70130_.getBigZ()).intValue());
+         int k = Math.max(i, j);
+         if (k > 0) {
+             if (i == k) {
+@@ -167,7 +_,7 @@
+     ) {
+         for(FancyTrunkPlacer.FoliageCoords fancytrunkplacer$foliagecoords : p_226105_) {
+             int i = fancytrunkplacer$foliagecoords.getBranchBase();
+-            BlockPos blockpos = new BlockPos(p_226104_.getX(), i, p_226104_.getZ());
++            BlockPos blockpos = new BlockPos(p_226104_.getBigX(), i, p_226104_.getBigZ());
+             if (!blockpos.equals(fancytrunkplacer$foliagecoords.attachment.pos()) && this.trimBranches(p_226103_, i - p_226104_.getY())) {
+                 this.makeLimb(p_226100_, p_226101_, p_226102_, blockpos, fancytrunkplacer$foliagecoords.attachment.pos(), true, p_226106_);
+             }

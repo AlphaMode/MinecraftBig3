@@ -1,0 +1,44 @@
+--- a/net/minecraft/world/level/levelgen/feature/trunkplacers/ForkingTrunkPlacer.java
++++ b/net/minecraft/world/level/levelgen/feature/trunkplacers/ForkingTrunkPlacer.java
+@@ -44,15 +_,15 @@
+         int i = p_226119_ - p_226118_.nextInt(4) - 1;
+         int j = 3 - p_226118_.nextInt(3);
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-        int k = p_226120_.getX();
+-        int l = p_226120_.getZ();
++        me.alphamode.mcbig.math.BigInteger k = p_226120_.getBigX();
++        me.alphamode.mcbig.math.BigInteger l = p_226120_.getBigZ();
+         OptionalInt optionalint = OptionalInt.empty();
+ 
+         for(int i1 = 0; i1 < p_226119_; ++i1) {
+             int j1 = p_226120_.getY() + i1;
+             if (i1 >= i && j > 0) {
+-                k += direction.getStepX();
+-                l += direction.getStepZ();
++                k = k.add(direction.getStepX());
++                l = l.add(direction.getStepZ());
+                 --j;
+             }
+ 
+@@ -65,8 +_,8 @@
+             list.add(new FoliagePlacer.FoliageAttachment(new BlockPos(k, optionalint.getAsInt(), l), 1, false));
+         }
+ 
+-        k = p_226120_.getX();
+-        l = p_226120_.getZ();
++        k = p_226120_.getBigX();
++        l = p_226120_.getBigZ();
+         Direction direction1 = Direction.Plane.HORIZONTAL.getRandomDirection(p_226118_);
+         if (direction1 != direction) {
+             int j2 = i - p_226118_.nextInt(2) - 1;
+@@ -76,8 +_,8 @@
+             for(int l1 = j2; l1 < p_226119_ && k1 > 0; --k1) {
+                 if (l1 >= 1) {
+                     int i2 = p_226120_.getY() + l1;
+-                    k += direction1.getStepX();
+-                    l += direction1.getStepZ();
++                    k = k.add(direction1.getStepX());
++                    l = l.add(direction1.getStepZ());
+                     if (this.placeLog(p_226116_, p_226117_, p_226118_, blockpos$mutableblockpos.set(k, i2, l), p_226121_)) {
+                         optionalint = OptionalInt.of(i2 + 1);
+                     }

@@ -1,0 +1,144 @@
+--- a/net/minecraft/world/level/pathfinder/Node.java
++++ b/net/minecraft/world/level/pathfinder/Node.java
+@@ -7,9 +_,9 @@
+ import net.minecraft.world.phys.Vec3;
+ 
+ public class Node {
+-    public final int x;
+-    public final int y;
+-    public final int z;
++    public final me.alphamode.mcbig.math.BigInteger x;
++    public final me.alphamode.mcbig.math.BigInteger y;
++    public final me.alphamode.mcbig.math.BigInteger z;
+     private final int hash;
+     public int heapIdx = -1;
+     public float g;
+@@ -22,14 +_,14 @@
+     public float costMalus;
+     public BlockPathTypes type = BlockPathTypes.BLOCKED;
+ 
+-    public Node(int p_77285_, int p_77286_, int p_77287_) {
++    public Node(me.alphamode.mcbig.math.BigInteger p_77285_, me.alphamode.mcbig.math.BigInteger p_77286_, me.alphamode.mcbig.math.BigInteger p_77287_) {
+         this.x = p_77285_;
+         this.y = p_77286_;
+         this.z = p_77287_;
+-        this.hash = createHash(p_77285_, p_77286_, p_77287_);
++        this.hash = createHash(p_77285_.intValue(), p_77286_.intValue(), p_77287_.intValue());
+     }
+ 
+-    public Node cloneAndMove(int p_77290_, int p_77291_, int p_77292_) {
++    public Node cloneAndMove(me.alphamode.mcbig.math.BigInteger p_77290_, me.alphamode.mcbig.math.BigInteger p_77291_, me.alphamode.mcbig.math.BigInteger p_77292_) {
+         Node node = new Node(p_77290_, p_77291_, p_77292_);
+         node.heapIdx = this.heapIdx;
+         node.g = this.g;
+@@ -48,50 +_,50 @@
+     }
+ 
+     public float distanceTo(Node p_77294_) {
+-        float f = (float)(p_77294_.x - this.x);
+-        float f1 = (float)(p_77294_.y - this.y);
+-        float f2 = (float)(p_77294_.z - this.z);
++        float f = (float)(p_77294_.x.subtract(this.x)).floatValue();
++        float f1 = (float)(p_77294_.y.subtract(this.y)).floatValue();
++        float f2 = (float)(p_77294_.z.subtract(this.z)).floatValue();
+         return Mth.sqrt(f * f + f1 * f1 + f2 * f2);
+     }
+ 
+     public float distanceToXZ(Node p_230614_) {
+-        float f = (float)(p_230614_.x - this.x);
+-        float f1 = (float)(p_230614_.z - this.z);
++        float f = (float)(p_230614_.x.subtract(this.x)).floatValue();
++        float f1 = (float)(p_230614_.z.subtract(this.z)).floatValue();
+         return Mth.sqrt(f * f + f1 * f1);
+     }
+ 
+     public float distanceTo(BlockPos p_164698_) {
+-        float f = (float)(p_164698_.getX() - this.x);
+-        float f1 = (float)(p_164698_.getY() - this.y);
+-        float f2 = (float)(p_164698_.getZ() - this.z);
++        float f = (float)(p_164698_.getBigX().subtract(this.x)).floatValue();
++        float f1 = (float)(p_164698_.getBigY().subtract(this.y)).floatValue();
++        float f2 = (float)(p_164698_.getBigZ().subtract(this.z)).floatValue();
+         return Mth.sqrt(f * f + f1 * f1 + f2 * f2);
+     }
+ 
+     public float distanceToSqr(Node p_77300_) {
+-        float f = (float)(p_77300_.x - this.x);
+-        float f1 = (float)(p_77300_.y - this.y);
+-        float f2 = (float)(p_77300_.z - this.z);
++        float f = (float)(p_77300_.x.subtract(this.x)).floatValue();
++        float f1 = (float)(p_77300_.y.subtract(this.y)).floatValue();
++        float f2 = (float)(p_77300_.z.subtract(this.z)).floatValue();
+         return f * f + f1 * f1 + f2 * f2;
+     }
+ 
+     public float distanceToSqr(BlockPos p_164703_) {
+-        float f = (float)(p_164703_.getX() - this.x);
+-        float f1 = (float)(p_164703_.getY() - this.y);
+-        float f2 = (float)(p_164703_.getZ() - this.z);
++        float f = (float)(p_164703_.getBigX().subtract(this.x)).floatValue();
++        float f1 = (float)(p_164703_.getBigY().subtract(this.y)).floatValue();
++        float f2 = (float)(p_164703_.getBigZ().subtract(this.z)).floatValue();
+         return f * f + f1 * f1 + f2 * f2;
+     }
+ 
+     public float distanceManhattan(Node p_77305_) {
+-        float f = (float)Math.abs(p_77305_.x - this.x);
+-        float f1 = (float)Math.abs(p_77305_.y - this.y);
+-        float f2 = (float)Math.abs(p_77305_.z - this.z);
++        float f = (float)p_77305_.x.subtract(this.x).abs().floatValue();
++        float f1 = (float)p_77305_.y.subtract(this.y).abs().floatValue();
++        float f2 = (float)p_77305_.z.subtract(this.z).abs().floatValue();
+         return f + f1 + f2;
+     }
+ 
+     public float distanceManhattan(BlockPos p_77307_) {
+-        float f = (float)Math.abs(p_77307_.getX() - this.x);
+-        float f1 = (float)Math.abs(p_77307_.getY() - this.y);
+-        float f2 = (float)Math.abs(p_77307_.getZ() - this.z);
++        float f = (float)p_77307_.getBigX().subtract(this.x).abs().floatValue();
++        float f1 = (float)p_77307_.getBigY().subtract(this.y).abs().floatValue();
++        float f2 = (float)p_77307_.getBigZ().subtract(this.z).abs().floatValue();
+         return f + f1 + f2;
+     }
+ 
+@@ -100,7 +_,7 @@
+     }
+ 
+     public Vec3 asVec3() {
+-        return new Vec3((double)this.x, (double)this.y, (double)this.z);
++        return new Vec3((double)this.x.doubleValue(), (double)this.y.doubleValue(), (double)this.z.doubleValue());
+     }
+ 
+     @Override
+@@ -109,7 +_,7 @@
+             return false;
+         } else {
+             Node node = (Node)p_77309_;
+-            return this.hash == node.hash && this.x == node.x && this.y == node.y && this.z == node.z;
++            return this.hash == node.hash && this.x.equals(node.x) && this.y.equals(node.y) && this.z.equals(node.z);
+         }
+     }
+ 
+@@ -128,9 +_,9 @@
+     }
+ 
+     public void writeToStream(FriendlyByteBuf p_164700_) {
+-        p_164700_.writeInt(this.x);
+-        p_164700_.writeInt(this.y);
+-        p_164700_.writeInt(this.z);
++        p_164700_.writeBigInteger(this.x);
++        p_164700_.writeBigInteger(this.y);
++        p_164700_.writeBigInteger(this.z);
+         p_164700_.writeFloat(this.walkedDistance);
+         p_164700_.writeFloat(this.costMalus);
+         p_164700_.writeBoolean(this.closed);
+@@ -139,7 +_,7 @@
+     }
+ 
+     public static Node createFromStream(FriendlyByteBuf p_77302_) {
+-        Node node = new Node(p_77302_.readInt(), p_77302_.readInt(), p_77302_.readInt());
++        Node node = new Node(p_77302_.readBigInteger(),p_77302_.readBigInteger(), p_77302_.readBigInteger());
+         readContents(p_77302_, node);
+         return node;
+     }

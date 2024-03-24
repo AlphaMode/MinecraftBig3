@@ -1,0 +1,113 @@
+--- a/net/minecraft/world/entity/vehicle/AbstractMinecart.java
++++ b/net/minecraft/world/entity/vehicle/AbstractMinecart.java
+@@ -262,11 +_,11 @@
+                 this.setDeltaMovement(this.getDeltaMovement().add(0.0, d0, 0.0));
+             }
+ 
+-            int k = Mth.floor(this.getX());
+-            int i = Mth.floor(this.getY());
+-            int j = Mth.floor(this.getZ());
+-            if (this.level().getBlockState(new BlockPos(k, i - 1, j)).is(BlockTags.RAILS)) {
+-                --i;
++            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(this.getX());
++            me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(this.getY());
++            me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(this.getZ());
++            if (this.level().getBlockState(new BlockPos(k, i.subtract(), j)).is(BlockTags.RAILS)) {
++                i = i.subtract();
+             }
+ 
+             BlockPos blockpos = new BlockPos(k, i, j);
+@@ -336,7 +_,7 @@
+         return (this.isInWater() ? 4.0 : 8.0) / 20.0;
+     }
+ 
+-    public void activateMinecart(int p_38111_, int p_38112_, int p_38113_, boolean p_38114_) {
++    public void activateMinecart(me.alphamode.mcbig.math.BigInteger p_38111_, me.alphamode.mcbig.math.BigInteger p_38112_, me.alphamode.mcbig.math.BigInteger p_38113_, boolean p_38114_) {
+     }
+ 
+     protected void comeOffTrack() {
+@@ -536,19 +_,19 @@
+ 
+     @Nullable
+     public Vec3 getPosOffs(double p_38097_, double p_38098_, double p_38099_, double p_38100_) {
+-        int i = Mth.floor(p_38097_);
+-        int j = Mth.floor(p_38098_);
+-        int k = Mth.floor(p_38099_);
+-        if (this.level().getBlockState(new BlockPos(i, j - 1, k)).is(BlockTags.RAILS)) {
+-            --j;
++        me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(p_38097_);
++        me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(p_38098_);
++        me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(p_38099_);
++        if (this.level().getBlockState(new BlockPos(i, j.subtract(), k)).is(BlockTags.RAILS)) {
++            j = j.subtract();
+         }
+ 
+         BlockState blockstate = this.level().getBlockState(new BlockPos(i, j, k));
+         if (BaseRailBlock.isRail(blockstate)) {
+             RailShape railshape = blockstate.getValue(((BaseRailBlock)blockstate.getBlock()).getShapeProperty());
+-            p_38098_ = (double)j;
++            p_38098_ = (double)j.doubleValue();
+             if (railshape.isAscending()) {
+-                p_38098_ = (double)(j + 1);
++                p_38098_ = (double)(j.add()).doubleValue();
+             }
+ 
+             Pair<Vec3i, Vec3i> pair = exits(railshape);
+@@ -561,9 +_,9 @@
+             d1 /= d2;
+             p_38097_ += d0 * p_38100_;
+             p_38099_ += d1 * p_38100_;
+-            if (vec3i.getY() != 0 && Mth.floor(p_38097_) - i == vec3i.getX() && Mth.floor(p_38099_) - k == vec3i.getZ()) {
++            if (vec3i.getY() != 0 && Mth.bigFloor(p_38097_).subtract(i).intValue() == vec3i.getX() && Mth.bigFloor(p_38099_).subtract(k).intValue() == vec3i.getZ()) {
+                 p_38098_ += (double)vec3i.getY();
+-            } else if (vec3i1.getY() != 0 && Mth.floor(p_38097_) - i == vec3i1.getX() && Mth.floor(p_38099_) - k == vec3i1.getZ()) {
++            } else if (vec3i1.getY() != 0 && Mth.bigFloor(p_38097_).subtract(i).intValue() == vec3i1.getX() && Mth.bigFloor(p_38099_).subtract(k).intValue() == vec3i1.getZ()) {
+                 p_38098_ += (double)vec3i1.getY();
+             }
+ 
+@@ -575,11 +_,11 @@
+ 
+     @Nullable
+     public Vec3 getPos(double p_38180_, double p_38181_, double p_38182_) {
+-        int i = Mth.floor(p_38180_);
+-        int j = Mth.floor(p_38181_);
+-        int k = Mth.floor(p_38182_);
+-        if (this.level().getBlockState(new BlockPos(i, j - 1, k)).is(BlockTags.RAILS)) {
+-            --j;
++        me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(p_38180_);
++        me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(p_38181_);
++        me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(p_38182_);
++        if (this.level().getBlockState(new BlockPos(i, j.subtract(), k)).is(BlockTags.RAILS)) {
++            j = j.subtract();
+         }
+ 
+         BlockState blockstate = this.level().getBlockState(new BlockPos(i, j, k));
+@@ -588,20 +_,20 @@
+             Pair<Vec3i, Vec3i> pair = exits(railshape);
+             Vec3i vec3i = pair.getFirst();
+             Vec3i vec3i1 = pair.getSecond();
+-            double d0 = (double)i + 0.5 + (double)vec3i.getX() * 0.5;
+-            double d1 = (double)j + 0.0625 + (double)vec3i.getY() * 0.5;
+-            double d2 = (double)k + 0.5 + (double)vec3i.getZ() * 0.5;
+-            double d3 = (double)i + 0.5 + (double)vec3i1.getX() * 0.5;
+-            double d4 = (double)j + 0.0625 + (double)vec3i1.getY() * 0.5;
+-            double d5 = (double)k + 0.5 + (double)vec3i1.getZ() * 0.5;
++            double d0 = (double)i.doubleValue() + 0.5 + (double)vec3i.getX() * 0.5;
++            double d1 = (double)j.doubleValue() + 0.0625 + (double)vec3i.getY() * 0.5;
++            double d2 = (double)k.doubleValue() + 0.5 + (double)vec3i.getZ() * 0.5;
++            double d3 = (double)i.doubleValue() + 0.5 + (double)vec3i1.getX() * 0.5;
++            double d4 = (double)j.doubleValue() + 0.0625 + (double)vec3i1.getY() * 0.5;
++            double d5 = (double)k.doubleValue() + 0.5 + (double)vec3i1.getZ() * 0.5;
+             double d6 = d3 - d0;
+             double d7 = (d4 - d1) * 2.0;
+             double d8 = d5 - d2;
+             double d9;
+             if (d6 == 0.0) {
+-                d9 = p_38182_ - (double)k;
++                d9 = p_38182_ - (double)k.doubleValue();
+             } else if (d8 == 0.0) {
+-                d9 = p_38180_ - (double)i;
++                d9 = p_38180_ - (double)i.doubleValue();
+             } else {
+                 double d10 = p_38180_ - d0;
+                 double d11 = p_38182_ - d2;
