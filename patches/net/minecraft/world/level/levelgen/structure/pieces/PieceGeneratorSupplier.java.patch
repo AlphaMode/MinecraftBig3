@@ -6,8 +6,8 @@
          public boolean validBiomeOnTop(Heightmap.Types p_197381_) {
 -            int i = this.chunkPos.getMiddleBlockX();
 -            int j = this.chunkPos.getMiddleBlockZ();
-+            me.alphamode.mcbig.math.BigInteger i = this.chunkPos.getBigMiddleBlockX();
-+            me.alphamode.mcbig.math.BigInteger j = this.chunkPos.getBigMiddleBlockZ();
++            me.alphamode.mcbig.math.BigInteger i = this.chunkPos.getMiddleBlockX();
++            me.alphamode.mcbig.math.BigInteger j = this.chunkPos.getMiddleBlockZ();
              int k = this.chunkGenerator.getFirstOccupiedHeight(i, j, p_197381_, this.heightAccessor, this.randomState);
              Holder<Biome> holder = this.chunkGenerator
                  .getBiomeSource()

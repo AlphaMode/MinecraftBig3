@@ -9,6 +9,15 @@
  import java.util.Optional;
  import java.util.function.IntFunction;
  import net.minecraft.core.BlockPos;
+@@ -37,7 +_,7 @@
+     public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext p_227964_) {
+         p_227964_.random().nextDouble();
+         ChunkPos chunkpos = p_227964_.chunkPos();
+-        BlockPos blockpos = new BlockPos(chunkpos.getMiddleBlockX(), 50, chunkpos.getMinBlockZ());
++        BlockPos blockpos = new BlockPos(chunkpos.getMiddleBlockX(), 50, chunkpos.getBigMinBlockZ());
+         StructurePiecesBuilder structurepiecesbuilder = new StructurePiecesBuilder();
+         int i = this.generatePiecesAndAdjust(structurepiecesbuilder, p_227964_);
+         return Optional.of(new Structure.GenerationStub(blockpos.offset(0, i, 0), Either.right(structurepiecesbuilder)));
 @@ -56,7 +_,7 @@
          if (this.type == MineshaftStructure.Type.MESA) {
              BlockPos blockpos = p_227966_.getBoundingBox().getCenter();

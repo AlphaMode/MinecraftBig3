@@ -33,6 +33,17 @@
      public static int clamp(int p_14046_, int p_14047_, int p_14048_) {
          return Math.min(Math.max(p_14046_, p_14047_), p_14048_);
      }
+@@ -161,6 +_,10 @@
+         return Math.floorMod(p_14101_, p_14102_);
+     }
+ 
++    public static int positiveModulo(me.alphamode.mcbig.math.BigInteger p_14101_, int p_14102_) {
++        return me.alphamode.mcbig.math.BigMath.floorMod(p_14101_, p_14102_).intValue();
++    }
++
+     public static float positiveModulo(float p_14092_, float p_14093_) {
+         return (p_14092_ % p_14093_ + p_14093_) % p_14093_;
+     }
 @@ -276,13 +_,13 @@
      }
  

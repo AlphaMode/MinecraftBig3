@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/ChunkPos.java
 +++ b/net/minecraft/world/level/ChunkPos.java
-@@ -8,35 +_,26 @@
+@@ -8,57 +_,44 @@
  import net.minecraft.core.BlockPos;
  import net.minecraft.core.SectionPos;
  
@@ -29,6 +29,10 @@
 -        this.z = p_45583_;
 +    public ChunkPos(long x, long z) {
 +        this(me.alphamode.mcbig.math.BigInteger.val(x), me.alphamode.mcbig.math.BigInteger.val(z));
++    }
++
++    public ChunkPos(byte[] x, byte[] z) {
++        this(new me.alphamode.mcbig.math.BigInteger(x), new me.alphamode.mcbig.math.BigInteger(z));
      }
  
      public ChunkPos(BlockPos p_45587_) {
@@ -39,18 +43,29 @@
 -    public ChunkPos(long p_45585_) {
 -        this.x = (int)p_45585_;
 -        this.z = (int)(p_45585_ >> 32);
-+        this(SectionPos.blockToSectionCoord(p_45587_.getBigX()), SectionPos.blockToSectionCoord(p_45587_.getBigZ()));
-     }
- 
-     public static ChunkPos minFromRegion(int p_220338_, int p_220339_) {
-@@ -47,18 +_,10 @@
-         return new ChunkPos((p_220341_ << 5) + 31, (p_220342_ << 5) + 31);
-     }
- 
--    public long toLong() {
--        return asLong(this.x, this.z);
 -    }
 -
+-    public static ChunkPos minFromRegion(int p_220338_, int p_220339_) {
+-        return new ChunkPos(p_220338_ << 5, p_220339_ << 5);
+-    }
+-
+-    public static ChunkPos maxFromRegion(int p_220341_, int p_220342_) {
+-        return new ChunkPos((p_220341_ << 5) + 31, (p_220342_ << 5) + 31);
+-    }
+-
+-    public long toLong() {
+-        return asLong(this.x, this.z);
++        this(SectionPos.blockToSectionCoord(p_45587_.getBigX()), SectionPos.blockToSectionCoord(p_45587_.getBigZ()));
++    }
++
++    public static ChunkPos minFromRegion(me.alphamode.mcbig.math.BigInteger p_220338_, me.alphamode.mcbig.math.BigInteger p_220339_) {
++        return new ChunkPos(p_220338_.shiftLeft(5), p_220339_.shiftLeft(5));
++    }
++
++    public static ChunkPos maxFromRegion(me.alphamode.mcbig.math.BigInteger p_220341_, me.alphamode.mcbig.math.BigInteger p_220342_) {
++        return new ChunkPos((p_220341_.shiftLeft(5)).add(me.alphamode.mcbig.core.BigConstants.Ints.THIRTY_ONE), (p_220342_.shiftLeft(5)).add(me.alphamode.mcbig.core.BigConstants.Ints.THIRTY_ONE));
+     }
+ 
      public static long asLong(int p_45590_, int p_45591_) {
          return (long)p_45590_ & 4294967295L | ((long)p_45591_ & 4294967295L) << 32;
      }
@@ -62,18 +77,13 @@
      public static int getX(long p_45593_) {
          return (int)(p_45593_ & 4294967295L);
      }
-@@ -67,14 +_,14 @@
-         return (int)(p_45603_ >>> 32 & 4294967295L);
-     }
+@@ -69,12 +_,12 @@
  
--    @Override
--    public int hashCode() {
+     @Override
+     public int hashCode() {
 -        return hash(this.x, this.z);
--    }
-+//    @Override
-+//    public int hashCode() {
-+//        return hash(this.x, this.z);
-+//    }
++        return hash(this.x.intValue(), this.z.intValue());
+     }
  
      public static int hash(int p_220344_, int p_220345_) {
 -        int i = 1664525 * p_220344_ + 1013904223;
@@ -83,7 +93,7 @@
          return i ^ j;
      }
  
-@@ -86,59 +_,83 @@
+@@ -86,59 +_,75 @@
              return false;
          } else {
              ChunkPos chunkpos = (ChunkPos)p_45607_;
@@ -92,20 +102,13 @@
          }
      }
  
-     public int getMiddleBlockX() {
--        return this.getBlockX(8);
-+        return this.getBlockX(8).intValue();
+-    public int getMiddleBlockX() {
++    public me.alphamode.mcbig.math.BigInteger getMiddleBlockX() {
+         return this.getBlockX(8);
      }
  
-     public int getMiddleBlockZ() {
-+        return this.getBlockZ(8).intValue();
-+    }
-+
-+    public me.alphamode.mcbig.math.BigInteger getBigMiddleBlockX() {
-+        return this.getBlockX(8);
-+    }
-+
-+    public me.alphamode.mcbig.math.BigInteger getBigMiddleBlockZ() {
+-    public int getMiddleBlockZ() {
++    public me.alphamode.mcbig.math.BigInteger getMiddleBlockZ() {
          return this.getBlockZ(8);
      }
  
@@ -144,14 +147,16 @@
          return this.getBlockZ(15);
      }
  
-     public int getRegionX() {
+-    public int getRegionX() {
 -        return this.x >> 5;
-+        return this.x.shiftRight(REGION_BITS).intValue();
++    public me.alphamode.mcbig.math.BigInteger getRegionX() {
++        return this.x.shiftRight(REGION_BITS);
      }
  
-     public int getRegionZ() {
+-    public int getRegionZ() {
 -        return this.z >> 5;
-+        return this.z.shiftRight(REGION_BITS).intValue();
++    public me.alphamode.mcbig.math.BigInteger getRegionZ() {
++        return this.z.shiftRight(REGION_BITS);
      }
  
      public int getRegionLocalX() {
@@ -178,7 +183,12 @@
          return SectionPos.sectionToBlockCoord(this.z, p_151392_);
      }
  
-@@ -156,32 +_,28 @@
+@@ -152,36 +_,32 @@
+     }
+ 
+     public BlockPos getWorldPosition() {
+-        return new BlockPos(this.getMinBlockX(), 0, this.getMinBlockZ());
++        return new BlockPos(this.getBigMinBlockX(), 0, this.getBigMinBlockZ());
      }
  
      public int getChessboardDistance(ChunkPos p_45595_) {

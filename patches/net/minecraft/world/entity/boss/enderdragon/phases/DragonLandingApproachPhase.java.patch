@@ -1,11 +1,34 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonLandingApproachPhase.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonLandingApproachPhase.java
-@@ -80,7 +_,7 @@
+@@ -56,7 +_,7 @@
+                 .getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EndPodiumFeature.getLocation(this.dragon.getFightOrigin()));
+             Player player = this.dragon
+                 .level()
+-                .getNearestPlayer(NEAR_EGG_TARGETING, this.dragon, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
++                .getNearestPlayer(NEAR_EGG_TARGETING, this.dragon, (double)blockpos.getBigX().doubleValue(), (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue());
+             int j;
+             if (player != null) {
+                 Vec3 vec3 = new Vec3(player.getX(), 0.0, player.getZ()).normalize();
+@@ -65,7 +_,7 @@
+                 j = this.dragon.findClosestNode(40.0, (double)blockpos.getY(), 0.0);
+             }
+ 
+-            Node node = new Node(blockpos.getX(), blockpos.getY(), blockpos.getZ());
++            Node node = new Node(blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ());
+             this.currentPath = this.dragon.findPath(i, j, node);
+             if (this.currentPath != null) {
+                 this.currentPath.advance();
+@@ -80,10 +_,10 @@
  
      private void navigateToNextPathNode() {
          if (this.currentPath != null && !this.currentPath.isDone()) {
 -            Vec3i vec3i = this.currentPath.getNextNodePos();
 +            me.alphamode.mcbig.core.Vec3l vec3i = this.currentPath.getNextNodePos();
              this.currentPath.advance();
-             double d0 = (double)vec3i.getX();
-             double d1 = (double)vec3i.getZ();
+-            double d0 = (double)vec3i.getX();
+-            double d1 = (double)vec3i.getZ();
++            double d0 = (double)vec3i.getBigX().doubleValue();
++            double d1 = (double)vec3i.getBigZ().doubleValue();
+ 
+             double d2;
+             do {

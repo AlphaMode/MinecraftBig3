@@ -140,7 +140,7 @@
                      int l = this.storage.getStoredLevel(k);
                      if (l != 0) {
                          if (l <= j - 1) {
-@@ -198,14 +_,14 @@
+@@ -198,25 +_,25 @@
          }
      }
  
@@ -154,13 +154,18 @@
          } else {
 -            int k = BlockPos.getX(p_285356_);
 -            int l = BlockPos.getZ(p_285356_);
-+            int k = p_285356_.getX();
-+            int l = p_285356_.getZ();
++            me.alphamode.mcbig.math.BigInteger k = p_285356_.getBigX();
++            me.alphamode.mcbig.math.BigInteger l = p_285356_.getBigZ();
              int i1 = SectionPos.sectionRelative(k);
              int j1 = SectionPos.sectionRelative(l);
              if (i1 != 0 && i1 != 15 && j1 != 0 && j1 != 15) {
-@@ -216,7 +_,7 @@
-                 int i2 = SectionPos.blockToSectionCoord(l);
+                 return 0;
+             } else {
+-                int k1 = SectionPos.blockToSectionCoord(k);
++                me.alphamode.mcbig.math.BigInteger k1 = SectionPos.blockToSectionCoord(k);
+                 int l1 = SectionPos.blockToSectionCoord(i);
+-                int i2 = SectionPos.blockToSectionCoord(l);
++                me.alphamode.mcbig.math.BigInteger i2 = SectionPos.blockToSectionCoord(l);
                  int j2 = 0;
  
 -                while(!this.storage.storingLightForSection(SectionPos.asLong(k1, l1 - j2 - 1, i2)) && this.storage.hasLightDataAtOrBelow(l1 - j2 - 1)) {
@@ -177,13 +182,15 @@
          if (p_285052_ != 0) {
 -            int i = BlockPos.getX(p_284965_);
 -            int j = BlockPos.getZ(p_284965_);
-+            int i = p_284965_.getX();
-+            int j = p_284965_.getZ();
++            me.alphamode.mcbig.math.BigInteger i = p_284965_.getBigX();
++            me.alphamode.mcbig.math.BigInteger j = p_284965_.getBigZ();
              if (crossedSectionEdge(p_285308_, SectionPos.sectionRelative(i), SectionPos.sectionRelative(j))) {
 -                int k = BlockPos.getY(p_284965_);
+-                int l = SectionPos.blockToSectionCoord(i);
+-                int i1 = SectionPos.blockToSectionCoord(j);
 +                int k = p_284965_.getY();
-                 int l = SectionPos.blockToSectionCoord(i);
-                 int i1 = SectionPos.blockToSectionCoord(j);
++                me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(i);
++                me.alphamode.mcbig.math.BigInteger i1 = SectionPos.blockToSectionCoord(j);
                  int j1 = SectionPos.blockToSectionCoord(k) - 1;
                  int k1 = j1 - p_285052_ + 1;
  

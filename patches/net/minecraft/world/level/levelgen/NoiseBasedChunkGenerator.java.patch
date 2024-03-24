@@ -141,3 +141,12 @@
          return p_198236_;
      }
  
+@@ -457,7 +_,7 @@
+             ChunkPos chunkpos = p_64379_.getCenter();
+             Holder<Biome> holder = p_64379_.getBiome(chunkpos.getWorldPosition().atY(p_64379_.getMaxBuildHeight() - 1));
+             WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.generateUniqueSeed()));
+-            worldgenrandom.setDecorationSeed(p_64379_.getSeed(), chunkpos.getMinBlockX(), chunkpos.getMinBlockZ());
++            worldgenrandom.setDecorationSeed(p_64379_.getSeed(), chunkpos.getBigMinBlockX(), chunkpos.getBigMinBlockZ());
+             NaturalSpawner.spawnMobsForChunkGeneration(p_64379_, holder, chunkpos, worldgenrandom);
+         }
+     }

@@ -73,6 +73,19 @@
          if (k <= this.writeRadiusCutoff && l <= this.writeRadiusCutoff) {
              if (this.center.isUpgrading()) {
                  LevelHeightAccessor levelheightaccessor = this.center.getHeightAccessorForGeneration();
+@@ -304,9 +_,9 @@
+                     }
+                 } else {
+                     CompoundTag compoundtag = new CompoundTag();
+-                    compoundtag.putInt("x", p_9539_.getX());
+-                    compoundtag.putInt("y", p_9539_.getY());
+-                    compoundtag.putInt("z", p_9539_.getZ());
++                    compoundtag.putByteArray("x", p_9539_.getBigX().toByteArray());
++                    compoundtag.putByteArray("y", p_9539_.getBigY().toByteArray());
++                    compoundtag.putByteArray("z", p_9539_.getBigZ().toByteArray());
+                     compoundtag.putString("id", "DUMMY");
+                     chunkaccess.setBlockEntityNbt(compoundtag);
+                 }
 @@ -328,8 +_,8 @@
  
      @Override

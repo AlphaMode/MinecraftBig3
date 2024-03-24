@@ -28,6 +28,63 @@
      }
  
      private void initializeQueueForFullUpdate(Camera p_295148_, Queue<SectionOcclusionGraph.Node> p_294801_) {
+@@ -195,15 +_,15 @@
+             LevelHeightAccessor levelheightaccessor = this.viewArea.getLevelHeightAccessor();
+             boolean flag = blockpos.getY() > levelheightaccessor.getMinBuildHeight();
+             int j = flag ? levelheightaccessor.getMaxBuildHeight() - 8 : levelheightaccessor.getMinBuildHeight() + 8;
+-            int k = Mth.floor(vec3.x / 16.0) * 16;
+-            int l = Mth.floor(vec3.z / 16.0) * 16;
++            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(vec3.x / 16.0).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN);
++            me.alphamode.mcbig.math.BigInteger l = Mth.bigFloor(vec3.z / 16.0).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN);
+             int i1 = this.viewArea.getViewDistance();
+             List<SectionOcclusionGraph.Node> list = Lists.newArrayList();
+ 
+             for(int j1 = -i1; j1 <= i1; ++j1) {
+                 for(int k1 = -i1; k1 <= i1; ++k1) {
+                     SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection1 = this.viewArea
+-                        .getRenderSectionAt(new BlockPos(k + SectionPos.sectionToBlockCoord(j1, 8), j, l + SectionPos.sectionToBlockCoord(k1, 8)));
++                        .getRenderSectionAt(new BlockPos(k.add(SectionPos.sectionToBlockCoord(j1, 8)), j, l.add(SectionPos.sectionToBlockCoord(k1, 8))));
+                     if (sectionrenderdispatcher$rendersection1 != null && this.isInViewDistance(blockpos, sectionrenderdispatcher$rendersection1.getOrigin())) {
+                         Direction direction = flag ? Direction.DOWN : Direction.UP;
+                         SectionOcclusionGraph.Node sectionocclusiongraph$node = new SectionOcclusionGraph.Node(
+@@ -242,7 +_,7 @@
+         Consumer<SectionRenderDispatcher.RenderSection> p_295393_
+     ) {
+         int i = 16;
+-        BlockPos blockpos = new BlockPos(Mth.floor(p_294343_.x / 16.0) * 16, Mth.floor(p_294343_.y / 16.0) * 16, Mth.floor(p_294343_.z / 16.0) * 16);
++        BlockPos blockpos = new BlockPos(Mth.bigFloor(p_294343_.x / 16.0).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN), Mth.bigFloor(p_294343_.y / 16.0).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN), Mth.bigFloor(p_294343_.z / 16.0).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN));
+         BlockPos blockpos1 = blockpos.offset(8, 8, 8);
+ 
+         while(!p_295598_.isEmpty()) {
+@@ -252,9 +_,9 @@
+                 p_295393_.accept(sectionocclusiongraph$node.section);
+             }
+ 
+-            boolean flag = Math.abs(sectionrenderdispatcher$rendersection.getOrigin().getX() - blockpos.getX()) > 60
+-                || Math.abs(sectionrenderdispatcher$rendersection.getOrigin().getY() - blockpos.getY()) > 60
+-                || Math.abs(sectionrenderdispatcher$rendersection.getOrigin().getZ() - blockpos.getZ()) > 60;
++            boolean flag = sectionrenderdispatcher$rendersection.getOrigin().getBigX().subtract(blockpos.getBigX()).abs().intValue() > 60
++                || sectionrenderdispatcher$rendersection.getOrigin().getBigY().subtract(blockpos.getBigY()).abs().intValue() > 60
++                || sectionrenderdispatcher$rendersection.getOrigin().getBigZ().subtract(blockpos.getBigZ()).abs().intValue() > 60;
+ 
+             for(Direction direction : DIRECTIONS) {
+                 SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection1 = this.getRelativeFrom(
+@@ -281,11 +_,11 @@
+                     if (p_295668_ && flag) {
+                         BlockPos blockpos2 = sectionrenderdispatcher$rendersection1.getOrigin();
+                         BlockPos blockpos3 = blockpos2.offset(
+-                            (direction.getAxis() == Direction.Axis.X ? blockpos1.getX() <= blockpos2.getX() : blockpos1.getX() >= blockpos2.getX()) ? 0 : 16,
+-                            (direction.getAxis() == Direction.Axis.Y ? blockpos1.getY() <= blockpos2.getY() : blockpos1.getY() >= blockpos2.getY()) ? 0 : 16,
+-                            (direction.getAxis() == Direction.Axis.Z ? blockpos1.getZ() <= blockpos2.getZ() : blockpos1.getZ() >= blockpos2.getZ()) ? 0 : 16
++                            (direction.getAxis() == Direction.Axis.X ? blockpos1.getBigX().compareTo(blockpos2.getBigX()) <= 0 : blockpos1.getBigX().compareTo(blockpos2.getBigX()) >= 0) ? 0 : 16,
++                            (direction.getAxis() == Direction.Axis.Y ? blockpos1.getBigY().compareTo(blockpos2.getBigY()) <= 0 : blockpos1.getBigY().compareTo(blockpos2.getBigY()) >= 0) ? 0 : 16,
++                            (direction.getAxis() == Direction.Axis.Z ? blockpos1.getBigZ().compareTo(blockpos2.getBigZ()) <= 0 : blockpos1.getBigZ().compareTo(blockpos2.getBigZ()) >= 0) ? 0 : 16
+                         );
+-                        Vec3 vec31 = new Vec3((double)blockpos3.getX(), (double)blockpos3.getY(), (double)blockpos3.getZ());
++                        Vec3 vec31 = new Vec3((double)blockpos3.getBigX().doubleValue(), (double)blockpos3.getBigY().doubleValue(), (double)blockpos3.getBigZ().doubleValue());
+                         Vec3 vec3 = p_294343_.subtract(vec31).normalize().scale(CEILED_SECTION_DIAGONAL);
+                         boolean flag2 = true;
+ 
 @@ -324,7 +_,7 @@
                          } else if (this.isInViewDistance(blockpos, sectionrenderdispatcher$rendersection1.getOrigin())) {
                              p_295507_.sectionToNodeMap.put(sectionrenderdispatcher$rendersection1, sectionocclusiongraph$node2);

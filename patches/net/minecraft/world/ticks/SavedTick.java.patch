@@ -15,3 +15,25 @@
                      p_193354_.accept(p_210665_);
                  }
              });
+@@ -48,7 +_,7 @@
+ 
+     public static <T> Optional<SavedTick<T>> loadTick(CompoundTag p_210670_, Function<String, Optional<T>> p_210671_) {
+         return p_210671_.apply(p_210670_.getString("i")).map(p_210668_ -> {
+-            BlockPos blockpos = new BlockPos(p_210670_.getInt("x"), p_210670_.getInt("y"), p_210670_.getInt("z"));
++            BlockPos blockpos = new BlockPos(p_210670_.getByteArray("x"), p_210670_.getByteArray("y"), p_210670_.getByteArray("z"));
+             return new SavedTick<>(p_210668_, blockpos, p_210670_.getInt("t"), TickPriority.byValue(p_210670_.getInt("p")));
+         });
+     }
+@@ -56,9 +_,9 @@
+     private static CompoundTag saveTick(String p_193339_, BlockPos p_193340_, int p_193341_, TickPriority p_193342_) {
+         CompoundTag compoundtag = new CompoundTag();
+         compoundtag.putString("i", p_193339_);
+-        compoundtag.putInt("x", p_193340_.getX());
+-        compoundtag.putInt("y", p_193340_.getY());
+-        compoundtag.putInt("z", p_193340_.getZ());
++        compoundtag.putByteArray("x", p_193340_.getBigX().toByteArray());
++        compoundtag.putByteArray("y", p_193340_.getBigY().toByteArray());
++        compoundtag.putByteArray("z", p_193340_.getBigZ().toByteArray());
+         compoundtag.putInt("t", p_193341_);
+         compoundtag.putInt("p", p_193342_.getValue());
+         return compoundtag;

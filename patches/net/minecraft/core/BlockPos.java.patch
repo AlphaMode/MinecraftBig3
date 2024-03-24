@@ -30,13 +30,17 @@
      private static final int PACKED_X_LENGTH = 1 + Mth.log2(Mth.smallestEncompassingPowerOfTwo(30000000));
      private static final int PACKED_Z_LENGTH = PACKED_X_LENGTH;
      public static final int PACKED_Y_LENGTH = 64 - PACKED_X_LENGTH - PACKED_Z_LENGTH;
-@@ -46,40 +_,28 @@
+@@ -46,40 +_,32 @@
      private static final int Z_OFFSET = PACKED_Y_LENGTH;
      private static final int X_OFFSET = PACKED_Y_LENGTH + PACKED_Z_LENGTH;
  
 -    public BlockPos(int p_121869_, int p_121870_, int p_121871_) {
 +    public BlockPos(long p_121869_, long p_121870_, long p_121871_) {
 +        super(me.alphamode.mcbig.math.BigInteger.val(p_121869_), me.alphamode.mcbig.math.BigInteger.val(p_121870_), me.alphamode.mcbig.math.BigInteger.val(p_121871_));
++    }
++
++    public BlockPos(byte[] p_121869_, byte[] p_121870_, byte[] p_121871_) {
++        super(new me.alphamode.mcbig.math.BigInteger(p_121869_), new me.alphamode.mcbig.math.BigInteger(p_121870_), new me.alphamode.mcbig.math.BigInteger(p_121871_));
 +    }
 +
 +    public BlockPos(me.alphamode.mcbig.math.BigInteger p_121869_, me.alphamode.mcbig.math.BigInteger p_121870_, me.alphamode.mcbig.math.BigInteger p_121871_) {

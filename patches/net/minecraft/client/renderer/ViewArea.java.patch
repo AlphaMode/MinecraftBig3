@@ -48,3 +48,14 @@
          SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection = this.sections[this.getSectionIndex(i, j, k)];
          sectionrenderdispatcher$rendersection.setDirty(p_110863_);
      }
+@@ -109,8 +_,8 @@
+     protected SectionRenderDispatcher.RenderSection getRenderSectionAt(BlockPos p_294239_) {
+         int i = Mth.floorDiv(p_294239_.getY() - this.level.getMinBuildHeight(), 16);
+         if (i >= 0 && i < this.sectionGridSizeY) {
+-            int j = Mth.positiveModulo(Mth.floorDiv(p_294239_.getX(), 16), this.sectionGridSizeX);
+-            int k = Mth.positiveModulo(Mth.floorDiv(p_294239_.getZ(), 16), this.sectionGridSizeZ);
++            int j = Mth.positiveModulo(me.alphamode.mcbig.math.BigMath.floorDiv(p_294239_.getBigX(), 16), this.sectionGridSizeX);
++            int k = Mth.positiveModulo(me.alphamode.mcbig.math.BigMath.floorDiv(p_294239_.getBigZ(), 16), this.sectionGridSizeZ);
+             return this.sections[this.getSectionIndex(j, i, k)];
+         } else {
+             return null;

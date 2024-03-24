@@ -22,7 +22,7 @@
          this.map = p_75523_;
          this.clearCache();
          this.cacheEnabled = true;
-@@ -19,19 +_,19 @@
+@@ -19,22 +_,22 @@
  
      public abstract M copy();
  
@@ -44,7 +44,11 @@
 +    public DataLayer getLayer(SectionPos p_75533_) {
          if (this.cacheEnabled) {
              for(int i = 0; i < 2; ++i) {
-                 if (p_75533_ == this.lastSectionKeys[i]) {
+-                if (p_75533_ == this.lastSectionKeys[i]) {
++                if (p_75533_.equals(this.lastSectionKeys[i])) {
+                     return this.lastSections[i];
+                 }
+             }
 @@ -59,17 +_,17 @@
      }
  

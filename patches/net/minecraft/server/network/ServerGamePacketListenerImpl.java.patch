@@ -14,3 +14,12 @@
      }
  
      @Override
+@@ -1094,7 +_,7 @@
+                     int i = this.player.level().getMaxBuildHeight();
+                     if (blockpos.getY() < i) {
+                         if (this.awaitingPositionFromClient == null
+-                            && this.player.distanceToSqr((double)blockpos.getX() + 0.5, (double)blockpos.getY() + 0.5, (double)blockpos.getZ() + 0.5) < 64.0
++                            && this.player.distanceToSqr((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue() + 0.5, (double)blockpos.getBigZ().doubleValue() + 0.5) < 64.0
+                             && serverlevel.mayInteract(this.player, blockpos)) {
+                             InteractionResult interactionresult = this.player
+                                 .gameMode

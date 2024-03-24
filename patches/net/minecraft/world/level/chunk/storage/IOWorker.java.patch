@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/chunk/storage/IOWorker.java
 +++ b/net/minecraft/world/level/chunk/storage/IOWorker.java
+@@ -36,7 +_,7 @@
+     private final ProcessorMailbox<StrictQueue.IntRunnable> mailbox;
+     private final RegionFileStorage storage;
+     private final Map<ChunkPos, IOWorker.PendingStore> pendingWrites = Maps.newLinkedHashMap();
+-    private final Long2ObjectLinkedOpenHashMap<CompletableFuture<BitSet>> regionCacheForBlender = new Long2ObjectLinkedOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, CompletableFuture<BitSet>> regionCacheForBlender = new it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<>();
+     private static final int REGION_CACHE_SIZE = 1024;
+ 
+     protected IOWorker(Path p_196930_, boolean p_196931_, String p_196932_) {
 @@ -45,18 +_,18 @@
      }
  
@@ -9,8 +18,10 @@
 +        ChunkPos chunkpos = new ChunkPos(p_223472_.x().subtract(p_223473_), p_223472_.z().subtract(p_223473_));
 +        ChunkPos chunkpos1 = new ChunkPos(p_223472_.x().add(p_223473_), p_223472_.z().add(p_223473_));
  
-         for(int i = chunkpos.getRegionX(); i <= chunkpos1.getRegionX(); ++i) {
-             for(int j = chunkpos.getRegionZ(); j <= chunkpos1.getRegionZ(); ++j) {
+-        for(int i = chunkpos.getRegionX(); i <= chunkpos1.getRegionX(); ++i) {
+-            for(int j = chunkpos.getRegionZ(); j <= chunkpos1.getRegionZ(); ++j) {
++        for(me.alphamode.mcbig.math.BigInteger i = chunkpos.getRegionX(); i.compareTo(chunkpos1.getRegionX()) <= 0; i = i.add()) {
++            for(me.alphamode.mcbig.math.BigInteger j = chunkpos.getRegionZ(); j.compareTo(chunkpos1.getRegionZ()) <= 0; j = j.add()) {
                  BitSet bitset = this.getOrCreateOldDataForRegion(i, j).join();
                  if (!bitset.isEmpty()) {
                      ChunkPos chunkpos2 = ChunkPos.minFromRegion(i, j);
@@ -25,3 +36,23 @@
  
                      for(int k1 = k; k1 <= i1; ++k1) {
                          for(int l1 = l; l1 <= j1; ++l1) {
+@@ -73,8 +_,8 @@
+         return false;
+     }
+ 
+-    private CompletableFuture<BitSet> getOrCreateOldDataForRegion(int p_223464_, int p_223465_) {
+-        long i = ChunkPos.asLong(p_223464_, p_223465_);
++    private CompletableFuture<BitSet> getOrCreateOldDataForRegion(me.alphamode.mcbig.math.BigInteger p_223464_, me.alphamode.mcbig.math.BigInteger p_223465_) {
++        ChunkPos i = new ChunkPos(p_223464_, p_223465_);
+         synchronized(this.regionCacheForBlender) {
+             CompletableFuture<BitSet> completablefuture = this.regionCacheForBlender.getAndMoveToFirst(i);
+             if (completablefuture == null) {
+@@ -89,7 +_,7 @@
+         }
+     }
+ 
+-    private CompletableFuture<BitSet> createOldDataForRegion(int p_223490_, int p_223491_) {
++    private CompletableFuture<BitSet> createOldDataForRegion(me.alphamode.mcbig.math.BigInteger p_223490_, me.alphamode.mcbig.math.BigInteger p_223491_) {
+         return CompletableFuture.supplyAsync(
+             () -> {
+                 ChunkPos chunkpos = ChunkPos.minFromRegion(p_223490_, p_223491_);

@@ -63,6 +63,7 @@ public class BigConstants {
         public static final BigInteger FIFTEEN = BigInteger.constant(15);
         public static final BigInteger SIXTEEN = BigInteger.constant(16);
         public static final BigInteger SIXTY = BigInteger.constant(60);
+        public static final BigInteger THIRTY_ONE = BigInteger.constant(31);
         public static final BigInteger THIRTY_TWO = BigInteger.constant(32);
         public static final BigInteger SEVEN = BigInteger.constant(7);
     }

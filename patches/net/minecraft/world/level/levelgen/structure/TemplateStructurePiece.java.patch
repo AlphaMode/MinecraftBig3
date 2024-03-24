@@ -1,5 +1,27 @@
 --- a/net/minecraft/world/level/levelgen/structure/TemplateStructurePiece.java
 +++ b/net/minecraft/world/level/levelgen/structure/TemplateStructurePiece.java
+@@ -56,7 +_,7 @@
+         super(p_226894_, p_226895_);
+         this.setOrientation(Direction.NORTH);
+         this.templateName = p_226895_.getString("Template");
+-        this.templatePosition = new BlockPos(p_226895_.getInt("TPX"), p_226895_.getInt("TPY"), p_226895_.getInt("TPZ"));
++        this.templatePosition = new BlockPos(p_226895_.getByteArray("TPX"), p_226895_.getByteArray("TPY"), p_226895_.getByteArray("TPZ"));
+         ResourceLocation resourcelocation = this.makeTemplateLocation();
+         this.template = p_226896_.getOrCreate(resourcelocation);
+         this.placeSettings = p_226897_.apply(resourcelocation);
+@@ -69,9 +_,9 @@
+ 
+     @Override
+     protected void addAdditionalSaveData(StructurePieceSerializationContext p_192690_, CompoundTag p_192691_) {
+-        p_192691_.putInt("TPX", this.templatePosition.getX());
+-        p_192691_.putInt("TPY", this.templatePosition.getY());
+-        p_192691_.putInt("TPZ", this.templatePosition.getZ());
++        p_192691_.putByteArray("TPX", this.templatePosition.getBigX().toByteArray());
++        p_192691_.putByteArray("TPY", this.templatePosition.getBigY().toByteArray());
++        p_192691_.putByteArray("TPZ", this.templatePosition.getBigZ().toByteArray());
+         p_192691_.putString("Template", this.templateName);
+     }
+ 
 @@ -126,7 +_,7 @@
  
      @Deprecated

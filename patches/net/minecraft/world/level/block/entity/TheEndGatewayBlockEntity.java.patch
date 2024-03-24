@@ -1,5 +1,42 @@
 --- a/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
+@@ -184,7 +_,7 @@
+                 }
+ 
+                 entity.setPortalCooldown();
+-                entity.teleportToWithTicket((double)blockpos1.getX() + 0.5, (double)blockpos1.getY(), (double)blockpos1.getZ() + 0.5);
++                entity.teleportToWithTicket((double)blockpos1.getBigX().doubleValue() + 0.5, (double)blockpos1.getBigY().doubleValue(), (double)blockpos1.getBigZ().doubleValue() + 0.5);
+             }
+ 
+             triggerCooldown(p_155829_, p_155830_, p_155831_, p_155833_);
+@@ -247,7 +_,7 @@
+             for(int j = -p_59945_; j <= p_59945_; ++j) {
+                 if (i != 0 || j != 0 || p_59946_) {
+                     for(int k = p_59943_.getMaxBuildHeight() - 1; k > (blockpos == null ? p_59943_.getMinBuildHeight() : blockpos.getY()); --k) {
+-                        BlockPos blockpos1 = new BlockPos(p_59944_.getX() + i, k, p_59944_.getZ() + j);
++                        BlockPos blockpos1 = new BlockPos(p_59944_.getBigX().add(i), k, p_59944_.getBigZ().add(j));
+                         BlockState blockstate = p_59943_.getBlockState(blockpos1);
+                         if (blockstate.isCollisionShapeFullBlock(p_59943_, blockpos1) && (p_59946_ || !blockstate.is(Blocks.BEDROCK))) {
+                             blockpos = blockpos1;
+@@ -262,15 +_,15 @@
+     }
+ 
+     private static LevelChunk getChunk(Level p_59948_, Vec3 p_59949_) {
+-        return p_59948_.getChunk(Mth.floor(p_59949_.x / 16.0), Mth.floor(p_59949_.z / 16.0));
++        return p_59948_.getChunk(Mth.bigFloor(p_59949_.x / 16.0), Mth.bigFloor(p_59949_.z / 16.0));
+     }
+ 
+     @Nullable
+     private static BlockPos findValidSpawnInChunk(LevelChunk p_59954_) {
+         ChunkPos chunkpos = p_59954_.getPos();
+-        BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 30, chunkpos.getMinBlockZ());
++        BlockPos blockpos = new BlockPos(chunkpos.getBigMinBlockX(), 30, chunkpos.getBigMinBlockZ());
+         int i = p_59954_.getHighestSectionPosition() + 16 - 1;
+-        BlockPos blockpos1 = new BlockPos(chunkpos.getMaxBlockX(), i, chunkpos.getMaxBlockZ());
++        BlockPos blockpos1 = new BlockPos(chunkpos.getBigMaxBlockX(), i, chunkpos.getBigMaxBlockZ());
+         BlockPos blockpos2 = null;
+         double d0 = 0.0;
+ 
 @@ -281,7 +_,7 @@
              if (blockstate.is(Blocks.END_STONE)
                  && !p_59954_.getBlockState(blockpos4).isCollisionShapeFullBlock(p_59954_, blockpos4)

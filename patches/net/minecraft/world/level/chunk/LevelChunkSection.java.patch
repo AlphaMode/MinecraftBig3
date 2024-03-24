@@ -1,11 +1,19 @@
 --- a/net/minecraft/world/level/chunk/LevelChunkSection.java
 +++ b/net/minecraft/world/level/chunk/LevelChunkSection.java
-@@ -184,7 +_,7 @@
+@@ -177,14 +_,14 @@
+         return this.biomes.get(p_204434_, p_204435_, p_204436_);
+     }
+ 
+-    public void fillBiomesFromNoise(BiomeResolver p_282075_, Climate.Sampler p_283084_, int p_282310_, int p_281510_, int p_283057_) {
++    public void fillBiomesFromNoise(BiomeResolver p_282075_, Climate.Sampler p_283084_, me.alphamode.mcbig.math.BigInteger p_282310_, int p_281510_, me.alphamode.mcbig.math.BigInteger p_283057_) {
+         PalettedContainer<Holder<Biome>> palettedcontainer = this.biomes.recreate();
+         int i = 4;
+ 
          for(int j = 0; j < 4; ++j) {
              for(int k = 0; k < 4; ++k) {
                  for(int l = 0; l < 4; ++l) {
 -                    palettedcontainer.getAndSetUnchecked(j, k, l, p_282075_.getNoiseBiome(p_282310_ + j, p_281510_ + k, p_283057_ + l, p_283084_));
-+                    palettedcontainer.getAndSetUnchecked(j, k, l, p_282075_.getNoiseBiome(me.alphamode.mcbig.math.BigInteger.val(p_282310_ + j), me.alphamode.mcbig.math.BigInteger.val(p_281510_ + k), me.alphamode.mcbig.math.BigInteger.val(p_283057_ + l), p_283084_));
++                    palettedcontainer.getAndSetUnchecked(j, k, l, p_282075_.getNoiseBiome(p_282310_.add(j), me.alphamode.mcbig.math.BigInteger.val(p_281510_ + k), p_283057_.add(l), p_283084_));
                  }
              }
          }

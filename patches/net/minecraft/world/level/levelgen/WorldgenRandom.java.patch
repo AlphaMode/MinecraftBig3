@@ -1,5 +1,19 @@
 --- a/net/minecraft/world/level/levelgen/WorldgenRandom.java
 +++ b/net/minecraft/world/level/levelgen/WorldgenRandom.java
+@@ -42,11 +_,11 @@
+         }
+     }
+ 
+-    public long setDecorationSeed(long p_64691_, int p_64692_, int p_64693_) {
++    public long setDecorationSeed(long p_64691_, me.alphamode.mcbig.math.BigInteger p_64692_, me.alphamode.mcbig.math.BigInteger p_64693_) {
+         this.setSeed(p_64691_);
+         long i = this.nextLong() | 1L;
+         long j = this.nextLong() | 1L;
+-        long k = (long)p_64692_ * i + (long)p_64693_ * j ^ p_64691_;
++        long k = (long)p_64692_.longValue() * i + (long)p_64693_.longValue() * j ^ p_64691_;
+         this.setSeed(k);
+         return k;
+     }
 @@ -56,7 +_,7 @@
          this.setSeed(i);
      }

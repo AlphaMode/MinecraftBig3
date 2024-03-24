@@ -41,12 +41,13 @@
              list.add(
                  String.format(
                      Locale.ROOT,
-                     "Chunk: %d %d %d [%d %d in r.%d.%d.mca]",
+-                    "Chunk: %d %d %d [%d %d in r.%d.%d.mca]",
 -                    chunkpos.x,
-+                    chunkpos.x().longValue(),
++                    "Chunk: %s %d %s [%d %d in r.%s.%s.mca]",
++                    chunkpos.x(),
                      SectionPos.blockToSectionCoord(blockpos.getY()),
 -                    chunkpos.z,
-+                    chunkpos.z().longValue(),
++                    chunkpos.z(),
                      chunkpos.getRegionLocalX(),
                      chunkpos.getRegionLocalZ(),
                      chunkpos.getRegionX(),

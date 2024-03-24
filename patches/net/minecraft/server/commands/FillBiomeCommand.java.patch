@@ -1,6 +1,20 @@
 --- a/net/minecraft/server/commands/FillBiomeCommand.java
 +++ b/net/minecraft/server/commands/FillBiomeCommand.java
-@@ -92,9 +_,9 @@
+@@ -80,21 +_,21 @@
+         );
+     }
+ 
+-    private static int quantize(int p_261998_) {
++    private static me.alphamode.mcbig.math.BigInteger quantize(me.alphamode.mcbig.math.BigInteger p_261998_) {
+         return QuartPos.toBlock(QuartPos.fromBlock(p_261998_));
+     }
+ 
+     private static BlockPos quantize(BlockPos p_262148_) {
+-        return new BlockPos(quantize(p_262148_.getX()), quantize(p_262148_.getY()), quantize(p_262148_.getZ()));
++        return new BlockPos(quantize(p_262148_.getBigX()), quantize(p_262148_.getBigY()), quantize(p_262148_.getBigZ()));
+     }
+ 
+     private static BiomeResolver makeResolver(
          MutableInt p_262615_, ChunkAccess p_262698_, BoundingBox p_262622_, Holder<Biome> p_262705_, Predicate<Holder<Biome>> p_262695_
      ) {
          return (p_262550_, p_262551_, p_262552_, p_262553_) -> {

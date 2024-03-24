@@ -1,5 +1,27 @@
 --- a/net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate.java
 +++ b/net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate.java
+@@ -87,10 +_,10 @@
+             List<StructureTemplate.StructureBlockInfo> list1 = Lists.newArrayList();
+             List<StructureTemplate.StructureBlockInfo> list2 = Lists.newArrayList();
+             BlockPos blockpos1 = new BlockPos(
+-                Math.min(p_163804_.getX(), blockpos.getX()), Math.min(p_163804_.getY(), blockpos.getY()), Math.min(p_163804_.getZ(), blockpos.getZ())
++                p_163804_.getBigX().min(blockpos.getBigX()), p_163804_.getBigY().min(blockpos.getBigY()), p_163804_.getBigZ().min(blockpos.getBigZ())
+             );
+             BlockPos blockpos2 = new BlockPos(
+-                Math.max(p_163804_.getX(), blockpos.getX()), Math.max(p_163804_.getY(), blockpos.getY()), Math.max(p_163804_.getZ(), blockpos.getZ())
++                p_163804_.getBigX().max(blockpos.getBigX()), p_163804_.getBigY().max(blockpos.getBigY()), p_163804_.getBigZ().max(blockpos.getBigZ())
+             );
+             this.size = p_163805_;
+ 
+@@ -163,7 +_,7 @@
+         this.entityInfoList.clear();
+ 
+         for(Entity entity : list) {
+-            Vec3 vec3 = new Vec3(entity.getX() - (double)p_74502_.getX(), entity.getY() - (double)p_74502_.getY(), entity.getZ() - (double)p_74502_.getZ());
++            Vec3 vec3 = new Vec3(entity.getX() - (double)p_74502_.getBigX().doubleValue(), entity.getY() - (double)p_74502_.getBigY().doubleValue(), entity.getZ() - (double)p_74502_.getBigZ().doubleValue());
+             CompoundTag compoundtag = new CompoundTag();
+             entity.save(compoundtag);
+             BlockPos blockpos;
 @@ -232,12 +_,12 @@
                  List<BlockPos> list1 = Lists.newArrayListWithCapacity(p_230332_.shouldKeepLiquids() ? list.size() : 0);
                  List<BlockPos> list2 = Lists.newArrayListWithCapacity(p_230332_.shouldKeepLiquids() ? list.size() : 0);
@@ -73,3 +95,53 @@
              BlockPos blockpos1 = blockpos.relative(p_74494_);
              BlockState blockstate = p_74511_.getBlockState(blockpos);
              BlockState blockstate1 = p_74511_.getBlockState(blockpos1);
+@@ -440,7 +_,7 @@
+             if (p_74529_ == null || p_74529_.isInside(blockpos)) {
+                 CompoundTag compoundtag = structuretemplate$structureentityinfo.nbt.copy();
+                 Vec3 vec3 = transform(structuretemplate$structureentityinfo.pos, p_74526_, p_74527_, p_74528_);
+-                Vec3 vec31 = vec3.add((double)p_74525_.getX(), (double)p_74525_.getY(), (double)p_74525_.getZ());
++                Vec3 vec31 = vec3.add((double)p_74525_.getBigX().doubleValue(), (double)p_74525_.getBigY().doubleValue(), (double)p_74525_.getBigZ().doubleValue());
+                 ListTag listtag = new ListTag();
+                 listtag.add(DoubleTag.valueOf(vec31.x));
+                 listtag.add(DoubleTag.valueOf(vec31.y));
+@@ -486,30 +_,30 @@
+     }
+ 
+     public static BlockPos transform(BlockPos p_74594_, Mirror p_74595_, Rotation p_74596_, BlockPos p_74597_) {
+-        int i = p_74594_.getX();
+-        int j = p_74594_.getY();
+-        int k = p_74594_.getZ();
++        me.alphamode.mcbig.math.BigInteger i = p_74594_.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = p_74594_.getBigY();
++        me.alphamode.mcbig.math.BigInteger k = p_74594_.getBigZ();
+         boolean flag = true;
+         switch(p_74595_) {
+             case LEFT_RIGHT:
+-                k = -k;
++                k = k.negate();
+                 break;
+             case FRONT_BACK:
+-                i = -i;
++                i = i.negate();
+                 break;
+             default:
+                 flag = false;
+         }
+ 
+-        int l = p_74597_.getX();
+-        int i1 = p_74597_.getZ();
++        me.alphamode.mcbig.math.BigInteger l = p_74597_.getBigX();
++        me.alphamode.mcbig.math.BigInteger i1 = p_74597_.getBigZ();
+         switch(p_74596_) {
+             case COUNTERCLOCKWISE_90:
+-                return new BlockPos(l - i1 + k, j, l + i1 - i);
++                return new BlockPos(l.subtract(i1).add(k), j, l.add(i1).subtract(i));
+             case CLOCKWISE_90:
+-                return new BlockPos(l + i1 - k, j, i1 - l + i);
++                return new BlockPos(l.add(i1).subtract(k), j, i1.subtract(l).add(i));
+             case CLOCKWISE_180:
+-                return new BlockPos(l + l - i, j, i1 + i1 - k);
++                return new BlockPos(l.add(l).subtract(i), j, i1.add(i1).subtract(k));
+             default:
+                 return flag ? new BlockPos(i, j, k) : p_74594_;
+         }

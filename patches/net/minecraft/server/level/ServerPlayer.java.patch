@@ -18,3 +18,25 @@
                  if (blockpos1 != null) {
                      this.moveTo(blockpos1, 0.0F, 0.0F);
                      if (p_9202_.noCollision(this)) {
+@@ -338,7 +_,7 @@
+         }
+ 
+         if (p_9131_.contains("SpawnX", 99) && p_9131_.contains("SpawnY", 99) && p_9131_.contains("SpawnZ", 99)) {
+-            this.respawnPosition = new BlockPos(p_9131_.getInt("SpawnX"), p_9131_.getInt("SpawnY"), p_9131_.getInt("SpawnZ"));
++            this.respawnPosition = new BlockPos(p_9131_.getByteArray("SpawnX"), p_9131_.getByteArray("SpawnY"), p_9131_.getByteArray("SpawnZ"));
+             this.respawnForced = p_9131_.getBoolean("SpawnForced");
+             this.respawnAngle = p_9131_.getFloat("SpawnAngle");
+             if (p_9131_.contains("SpawnDimension")) {
+@@ -381,9 +_,9 @@
+         p_9197_.put("recipeBook", this.recipeBook.toNbt());
+         p_9197_.putString("Dimension", this.level().dimension().location().toString());
+         if (this.respawnPosition != null) {
+-            p_9197_.putInt("SpawnX", this.respawnPosition.getX());
+-            p_9197_.putInt("SpawnY", this.respawnPosition.getY());
+-            p_9197_.putInt("SpawnZ", this.respawnPosition.getZ());
++            p_9197_.putByteArray("SpawnX", this.respawnPosition.getBigX().toByteArray());
++            p_9197_.putByteArray("SpawnY", this.respawnPosition.getBigY().toByteArray());
++            p_9197_.putByteArray("SpawnZ", this.respawnPosition.getBigZ().toByteArray());
+             p_9197_.putBoolean("SpawnForced", this.respawnForced);
+             p_9197_.putFloat("SpawnAngle", this.respawnAngle);
+             ResourceLocation.CODEC

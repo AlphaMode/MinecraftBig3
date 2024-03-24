@@ -18,11 +18,13 @@
          for(String s : this.legacyKeys) {
              StructureFeatureIndexSavedData structurefeatureindexsaveddata = this.indexMap.get(s);
              if (structurefeatureindexsaveddata != null && structurefeatureindexsaveddata.hasUnhandledIndex(p_71319_)) {
-@@ -94,7 +_,7 @@
+@@ -93,8 +_,8 @@
+ 
      public CompoundTag updateFromLegacy(CompoundTag p_71327_) {
          CompoundTag compoundtag = p_71327_.getCompound("Level");
-         ChunkPos chunkpos = new ChunkPos(compoundtag.getInt("xPos"), compoundtag.getInt("zPos"));
+-        ChunkPos chunkpos = new ChunkPos(compoundtag.getInt("xPos"), compoundtag.getInt("zPos"));
 -        if (this.isUnhandledStructureStart(chunkpos.x, chunkpos.z)) {
++        ChunkPos chunkpos = new ChunkPos(compoundtag.getByteArray("xPos"), compoundtag.getByteArray("zPos"));
 +        if (this.isUnhandledStructureStart(chunkpos.x(), chunkpos.z())) {
              p_71327_ = this.updateStructureStart(p_71327_, chunkpos);
          }
@@ -97,7 +99,7 @@
                  for(String s1 : compoundtag.getAllKeys()) {
                      CompoundTag compoundtag1 = compoundtag.getCompound(s1);
 -                    long i = ChunkPos.asLong(compoundtag1.getInt("ChunkX"), compoundtag1.getInt("ChunkZ"));
-+                    ChunkPos i = new ChunkPos(me.alphamode.mcbig.math.BigInteger.val(compoundtag1.getString("ChunkX")), me.alphamode.mcbig.math.BigInteger.val(compoundtag1.getString("ChunkZ")));
++                    ChunkPos i = new ChunkPos(new me.alphamode.mcbig.math.BigInteger(compoundtag1.getByteArray("ChunkX")), new me.alphamode.mcbig.math.BigInteger(compoundtag1.getByteArray("ChunkZ")));
                      ListTag listtag = compoundtag1.getList("Children", 10);
                      if (!listtag.isEmpty()) {
                          String s3 = listtag.getCompound(0).getString("id");
@@ -115,7 +117,7 @@
                      for(String s2 : compoundtag.getAllKeys()) {
                          CompoundTag compoundtag2 = compoundtag.getCompound(s2);
 -                        structurefeatureindexsaveddata1.addIndex(ChunkPos.asLong(compoundtag2.getInt("ChunkX"), compoundtag2.getInt("ChunkZ")));
-+                        structurefeatureindexsaveddata1.addIndex(new ChunkPos(compoundtag2.getInt("ChunkX"), compoundtag2.getInt("ChunkZ")));
++                        structurefeatureindexsaveddata1.addIndex(new ChunkPos(compoundtag2.getByteArray("ChunkX"), compoundtag2.getByteArray("ChunkZ")));
                      }
  
                      structurefeatureindexsaveddata1.setDirty();

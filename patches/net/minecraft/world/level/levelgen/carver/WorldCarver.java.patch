@@ -1,22 +1,59 @@
 --- a/net/minecraft/world/level/levelgen/carver/WorldCarver.java
 +++ b/net/minecraft/world/level/levelgen/carver/WorldCarver.java
-@@ -90,12 +_,12 @@
+@@ -72,37 +_,37 @@
+         WorldCarver.CarveSkipChecker p_190765_
+     ) {
+         ChunkPos chunkpos = p_190756_.getPos();
+-        double d0 = (double)chunkpos.getMiddleBlockX();
+-        double d1 = (double)chunkpos.getMiddleBlockZ();
++        double d0 = (double)chunkpos.getMiddleBlockX().doubleValue();
++        double d1 = (double)chunkpos.getMiddleBlockZ().doubleValue();
+         double d2 = 16.0 + p_190762_ * 2.0;
+         if (!(Math.abs(p_190759_ - d0) > d2) && !(Math.abs(p_190761_ - d1) > d2)) {
+-            int i = chunkpos.getMinBlockX();
+-            int j = chunkpos.getMinBlockZ();
+-            int k = Math.max(Mth.floor(p_190759_ - p_190762_) - i - 1, 0);
+-            int l = Math.min(Mth.floor(p_190759_ + p_190762_) - i, 15);
++            me.alphamode.mcbig.math.BigInteger i = chunkpos.getBigMinBlockX();
++            me.alphamode.mcbig.math.BigInteger j = chunkpos.getBigMinBlockZ();
++            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(p_190759_ - p_190762_).subtract(i).subtract().max(me.alphamode.mcbig.math.BigInteger.ZERO);
++            me.alphamode.mcbig.math.BigInteger l = Mth.bigFloor(p_190759_ + p_190762_).subtract(i).min(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN);
+             int i1 = Math.max(Mth.floor(p_190760_ - p_190763_) - 1, p_190754_.getMinGenY() + 1);
+             int j1 = p_190756_.isUpgrading() ? 0 : 7;
+             int k1 = Math.min(Mth.floor(p_190760_ + p_190763_) + 1, p_190754_.getMinGenY() + p_190754_.getGenDepth() - 1 - j1);
+-            int l1 = Math.max(Mth.floor(p_190761_ - p_190762_) - j - 1, 0);
+-            int i2 = Math.min(Mth.floor(p_190761_ + p_190762_) - j, 15);
++            me.alphamode.mcbig.math.BigInteger l1 = Mth.bigFloor(p_190761_ - p_190762_).subtract(j).subtract().max(me.alphamode.mcbig.math.BigInteger.ZERO);
++            me.alphamode.mcbig.math.BigInteger i2 = Mth.bigFloor(p_190761_ + p_190762_).subtract(j).min(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN);
+             boolean flag = false;
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
              BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
  
-             for(int j2 = k; j2 <= l; ++j2) {
+-            for(int j2 = k; j2 <= l; ++j2) {
 -                int k2 = chunkpos.getBlockX(j2);
 -                double d3 = ((double)k2 + 0.5 - p_190759_) / p_190762_;
-+                me.alphamode.mcbig.math.BigInteger k2 = chunkpos.getBlockX(j2);
++            for(me.alphamode.mcbig.math.BigInteger j2 = k; j2.compareTo(l) <= 0; j2 = j2.add()) {
++                me.alphamode.mcbig.math.BigInteger k2 = chunkpos.getBlockX(j2.intValue());
 +                double d3 = ((double)k2.doubleValue() + 0.5 - p_190759_) / p_190762_;
  
-                 for(int l2 = l1; l2 <= i2; ++l2) {
+-                for(int l2 = l1; l2 <= i2; ++l2) {
 -                    int i3 = chunkpos.getBlockZ(l2);
 -                    double d4 = ((double)i3 + 0.5 - p_190761_) / p_190762_;
-+                    me.alphamode.mcbig.math.BigInteger i3 = chunkpos.getBlockZ(l2);
++                for(me.alphamode.mcbig.math.BigInteger l2 = l1; l2.compareTo(i2) <= 0; l2 = l2.add()) {
++                    me.alphamode.mcbig.math.BigInteger i3 = chunkpos.getBlockZ(l2.intValue());
 +                    double d4 = ((double)i3.doubleValue() + 0.5 - p_190761_) / p_190762_;
                      if (!(d3 * d3 + d4 * d4 >= 1.0)) {
                          MutableBoolean mutableboolean = new MutableBoolean(false);
  
+                         for(int j3 = k1; j3 > i1; --j3) {
+                             double d5 = ((double)j3 - 0.5 - p_190760_) / p_190763_;
+-                            if (!p_190765_.shouldSkip(p_190754_, d3, d5, d4, j3) && (!p_190764_.get(j2, j3, l2) || isDebugEnabled(p_190755_))) {
+-                                p_190764_.set(j2, j3, l2);
++                            if (!p_190765_.shouldSkip(p_190754_, d3, d5, d4, j3) && (!p_190764_.get(j2.intValue(), j3, l2.intValue()) || isDebugEnabled(p_190755_))) {
++                                p_190764_.set(j2.intValue(), j3, l2.intValue());
+                                 blockpos$mutableblockpos.set(k2, j3, i3);
+                                 flag |= this.carveBlock(
+                                     p_190754_,
 @@ -178,7 +_,7 @@
              return LAVA.createLegacyBlock();
          } else {
@@ -26,3 +63,14 @@
              );
              if (blockstate == null) {
                  return isDebugEnabled(p_159420_) ? p_159420_.debugSettings.getBarrierState() : null;
+@@ -219,8 +_,8 @@
+     }
+ 
+     protected static boolean canReach(ChunkPos p_159368_, double p_159369_, double p_159370_, int p_159371_, int p_159372_, float p_159373_) {
+-        double d0 = (double)p_159368_.getMiddleBlockX();
+-        double d1 = (double)p_159368_.getMiddleBlockZ();
++        double d0 = (double)p_159368_.getMiddleBlockX().doubleValue();
++        double d1 = (double)p_159368_.getMiddleBlockZ().doubleValue();
+         double d2 = p_159369_ - d0;
+         double d3 = p_159370_ - d1;
+         double d4 = (double)(p_159372_ - p_159371_);

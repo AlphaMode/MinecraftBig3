@@ -36,3 +36,25 @@
          this.timeoutTimer = 0L;
          this.timeoutLimit = 0.0;
          this.isStuck = false;
+@@ -336,9 +_,9 @@
+                 Node node1 = i + 1 < this.path.getNodeCount() ? this.path.getNode(i + 1) : null;
+                 BlockState blockstate = this.level.getBlockState(new BlockPos(node.x, node.y, node.z));
+                 if (blockstate.is(BlockTags.CAULDRONS)) {
+-                    this.path.replaceNode(i, node.cloneAndMove(node.x, node.y + 1, node.z));
+-                    if (node1 != null && node.y >= node1.y) {
+-                        this.path.replaceNode(i + 1, node.cloneAndMove(node1.x, node.y + 1, node1.z));
++                    this.path.replaceNode(i, node.cloneAndMove(node.x, node.y.add(), node.z));
++                    if (node1 != null && node.y.compareTo(node1.y) >= 0) {
++                        this.path.replaceNode(i + 1, node.cloneAndMove(node1.x, node.y.add(), node1.z));
+                     }
+                 }
+             }
+@@ -383,7 +_,7 @@
+             return false;
+         } else if (this.path != null && !this.path.isDone() && this.path.getNodeCount() != 0) {
+             Node node = this.path.getEndNode();
+-            Vec3 vec3 = new Vec3(((double)node.x + this.mob.getX()) / 2.0, ((double)node.y + this.mob.getY()) / 2.0, ((double)node.z + this.mob.getZ()) / 2.0);
++            Vec3 vec3 = new Vec3(((double)node.x.doubleValue() + this.mob.getX()) / 2.0, ((double)node.y.doubleValue() + this.mob.getY()) / 2.0, ((double)node.z.doubleValue() + this.mob.getZ()) / 2.0);
+             return p_200904_.closerToCenterThan(vec3, (double)(this.path.getNodeCount() - this.path.getNextNodeIndex()));
+         } else {
+             return false;

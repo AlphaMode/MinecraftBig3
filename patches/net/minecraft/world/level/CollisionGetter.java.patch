@@ -9,3 +9,12 @@
  
      default boolean isUnobstructed(@Nullable Entity p_45750_, VoxelShape p_45751_) {
          return true;
+@@ -28,7 +_,7 @@
+ 
+     default boolean isUnobstructed(BlockState p_45753_, BlockPos p_45754_, CollisionContext p_45755_) {
+         VoxelShape voxelshape = p_45753_.getCollisionShape(this, p_45754_, p_45755_);
+-        return voxelshape.isEmpty() || this.isUnobstructed(null, voxelshape.move((double)p_45754_.getX(), (double)p_45754_.getY(), (double)p_45754_.getZ()));
++        return voxelshape.isEmpty() || this.isUnobstructed(null, voxelshape.move((double)p_45754_.getBigX().doubleValue(), (double)p_45754_.getBigY().doubleValue(), (double)p_45754_.getBigZ().doubleValue()));
+     }
+ 
+     default boolean isUnobstructed(Entity p_45785_) {

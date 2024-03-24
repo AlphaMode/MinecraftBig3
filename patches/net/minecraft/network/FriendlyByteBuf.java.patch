@@ -18,12 +18,12 @@
 +    }
 +
 +    public FriendlyByteBuf writeBigInteger(me.alphamode.mcbig.math.BigInteger value) {
-+        this.writeLong(value.longValue());
++        this.writeByteArray(value.toByteArray());
 +        return this;
 +    }
 +
 +    public me.alphamode.mcbig.math.BigInteger readBigInteger() {
-+        return me.alphamode.mcbig.math.BigInteger.val(this.readLong());
++        return new me.alphamode.mcbig.math.BigInteger(this.readByteArray());
      }
  
      public ChunkPos readChunkPos() {

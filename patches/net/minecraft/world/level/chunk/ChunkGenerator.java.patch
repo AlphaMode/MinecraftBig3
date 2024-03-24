@@ -27,8 +27,12 @@
                  StructureStart structurestart = p_223201_.getStartForStructure(SectionPos.bottomOf(chunkaccess), holder.value(), chunkaccess);
                  if (structurestart != null && structurestart.isValid() && (!p_223202_ || tryAddReference(p_223201_, structurestart))) {
                      return Pair.of(p_223203_.getLocatePos(structurestart.getChunkPos()), holder);
-@@ -321,7 +_,7 @@
-             long i = worldgenrandom.setDecorationSeed(p_223087_.getSeed(), blockpos.getX(), blockpos.getZ());
+@@ -318,10 +_,10 @@
+             Map<Integer, List<Structure>> map = registry.stream().collect(Collectors.groupingBy(p_223103_ -> p_223103_.step().ordinal()));
+             List<FeatureSorter.StepFeatureData> list = this.featuresPerStep.get();
+             WorldgenRandom worldgenrandom = new WorldgenRandom(new XoroshiroRandomSource(RandomSupport.generateUniqueSeed()));
+-            long i = worldgenrandom.setDecorationSeed(p_223087_.getSeed(), blockpos.getX(), blockpos.getZ());
++            long i = worldgenrandom.setDecorationSeed(p_223087_.getSeed(), blockpos.getBigX(), blockpos.getBigZ());
              Set<Holder<Biome>> set = new ObjectArraySet<>();
              ChunkPos.rangeClosed(sectionpos.chunk(), 1).forEach(p_223093_ -> {
 -                ChunkAccess chunkaccess = p_223087_.getChunk(p_223093_.x, p_223093_.z);

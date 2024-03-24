@@ -6,8 +6,8 @@
          ChunkPos chunkpos = p_226586_.chunkPos();
 -        int i = chunkpos.getMiddleBlockX();
 -        int j = chunkpos.getMiddleBlockZ();
-+        me.alphamode.mcbig.math.BigInteger i = chunkpos.getBigMiddleBlockX();
-+        me.alphamode.mcbig.math.BigInteger j = chunkpos.getBigMiddleBlockZ();
++        me.alphamode.mcbig.math.BigInteger i = chunkpos.getMiddleBlockX();
++        me.alphamode.mcbig.math.BigInteger j = chunkpos.getMiddleBlockZ();
          int k = p_226586_.chunkGenerator().getFirstOccupiedHeight(i, j, p_226587_, p_226586_.heightAccessor(), p_226586_.randomState());
          return Optional.of(new Structure.GenerationStub(new BlockPos(i, k, j), p_226588_));
      }

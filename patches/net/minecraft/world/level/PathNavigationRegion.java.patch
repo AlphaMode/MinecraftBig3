@@ -46,7 +46,7 @@
                  if (chunkaccess != null && !chunkaccess.isYSpaceEmpty(p_47165_.getY(), p_47166_.getY())) {
                      this.allEmpty = false;
                      return;
-@@ -61,17 +_,17 @@
+@@ -61,12 +_,12 @@
      }
  
      private ChunkAccess getChunk(BlockPos p_47186_) {
@@ -62,14 +62,7 @@
 +        int j = p_47169_.subtract(this.centerZ).intValue();
          if (i >= 0 && i < this.chunks.length && j >= 0 && j < this.chunks[i].length) {
              ChunkAccess chunkaccess = this.chunks[i][j];
--            return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.level, new ChunkPos(p_47168_, p_47169_), this.plains.get()));
-+            return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.level, new ChunkPos(p_47168_.intValue(), p_47169_.intValue()), this.plains.get()));
-         } else {
--            return new EmptyLevelChunk(this.level, new ChunkPos(p_47168_, p_47169_), this.plains.get());
-+            return new EmptyLevelChunk(this.level, new ChunkPos(p_47168_.intValue(), p_47169_.intValue()), this.plains.get());
-         }
-     }
- 
+             return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.level, new ChunkPos(p_47168_, p_47169_), this.plains.get()));
 @@ -81,7 +_,7 @@
      }
  

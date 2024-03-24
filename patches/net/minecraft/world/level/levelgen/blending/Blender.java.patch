@@ -194,6 +194,15 @@
              double d1 = Mth.clamp((mutabledouble.doubleValue() + d0) / (double)(HEIGHT_BLENDING_RANGE_CELLS + 1), 0.0, 1.0);
              return d1 > 0.5 ? null : mutableobject.getValue();
          }
+@@ -270,7 +_,7 @@
+         ChunkPos chunkpos = p_197033_.getPos();
+         boolean flag = p_197033_.isOldNoiseGeneration();
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-        BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 0, chunkpos.getMinBlockZ());
++        BlockPos blockpos = new BlockPos(chunkpos.getBigMinBlockX(), 0, chunkpos.getBigMinBlockZ());
+         BlendingData blendingdata = p_197033_.getBlendingData();
+         if (blendingdata != null) {
+             int i = blendingdata.getAreaWithOldGeneration().getMinBuildHeight();
 @@ -287,7 +_,7 @@
              }
  

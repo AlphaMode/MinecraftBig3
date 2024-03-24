@@ -51,7 +51,7 @@
          return this.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS);
      }
  
-@@ -855,7 +_,7 @@
+@@ -855,14 +_,14 @@
              int l = 0;
              int i1 = 0;
              Cursor3D cursor3d = new Cursor3D(
@@ -60,3 +60,11 @@
              );
  
              int j1;
+             for(BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(); cursor3d.advance(); i1 += j1 & 0xFF) {
+                 blockpos$mutableblockpos.set(cursor3d.nextX(), cursor3d.nextY(), cursor3d.nextZ());
+                 j1 = p_104764_.getColor(
+-                    this.getBiome(blockpos$mutableblockpos).value(), (double)blockpos$mutableblockpos.getX(), (double)blockpos$mutableblockpos.getZ()
++                    this.getBiome(blockpos$mutableblockpos).value(), (double)blockpos$mutableblockpos.getBigX().doubleValue(), (double)blockpos$mutableblockpos.getBigZ().doubleValue()
+                 );
+                 k += (j1 & 0xFF0000) >> 16;
+                 l += (j1 & 0xFF00) >> 8;

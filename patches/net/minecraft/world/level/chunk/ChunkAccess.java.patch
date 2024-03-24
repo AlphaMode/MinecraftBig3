@@ -65,7 +65,7 @@
          this.structuresRefences.clear();
          this.structuresRefences.putAll(p_187663_);
          this.unsaved = true;
-@@ -413,17 +_,17 @@
+@@ -413,25 +_,25 @@
      }
  
      @Override
@@ -78,7 +78,7 @@
 +            int l = Mth.clamp(p_204348_.intValue(), i, k);
              int j = this.getSectionIndex(QuartPos.toBlock(l));
 -            return this.sections[j].getNoiseBiome(p_204347_ & 3, l & 3, p_204349_ & 3);
-+            return this.sections[j].getNoiseBiome(p_204347_.intValue() & 3, l & 3, p_204349_.intValue() & 3);
++            return this.sections[j].getNoiseBiome(p_204347_.and(me.alphamode.mcbig.core.BigConstants.Ints.THREE).intValue(), l & 3, p_204349_.and(me.alphamode.mcbig.core.BigConstants.Ints.THREE).intValue());
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Getting biome");
              CrashReportCategory crashreportcategory = crashreport.addCategory("Biome being got");
@@ -87,3 +87,13 @@
              throw new ReportedException(crashreport);
          }
      }
+ 
+     public void fillBiomesFromNoise(BiomeResolver p_187638_, Climate.Sampler p_187639_) {
+         ChunkPos chunkpos = this.getPos();
+-        int i = QuartPos.fromBlock(chunkpos.getMinBlockX());
+-        int j = QuartPos.fromBlock(chunkpos.getMinBlockZ());
++        me.alphamode.mcbig.math.BigInteger i = QuartPos.fromBlock(chunkpos.getBigMinBlockX());
++        me.alphamode.mcbig.math.BigInteger j = QuartPos.fromBlock(chunkpos.getBigMinBlockZ());
+         LevelHeightAccessor levelheightaccessor = this.getHeightAccessorForGeneration();
+ 
+         for(int k = levelheightaccessor.getMinSection(); k < levelheightaccessor.getMaxSection(); ++k) {

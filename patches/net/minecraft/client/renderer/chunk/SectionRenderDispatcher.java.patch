@@ -39,9 +39,9 @@
 -            return p_295743_ == SectionPos.blockToSectionCoord(blockpos.getX())
 -                || p_295518_ == SectionPos.blockToSectionCoord(blockpos.getZ())
 -                || p_295344_ == SectionPos.blockToSectionCoord(blockpos.getY());
-+            return p_295743_ == SectionPos.blockToSectionCoord(blockpos.getBigX())
-+                || p_295518_ == SectionPos.blockToSectionCoord(blockpos.getBigZ())
-+                || p_295344_ == SectionPos.blockToSectionCoord(blockpos.getBigY());
++            return p_295743_.equals(SectionPos.blockToSectionCoord(blockpos.getBigX()))
++                || p_295518_.equals(SectionPos.blockToSectionCoord(blockpos.getBigZ()))
++                || p_295344_.equals(SectionPos.blockToSectionCoord(blockpos.getBigY()));
          }
  
          @OnlyIn(Dist.CLIENT)

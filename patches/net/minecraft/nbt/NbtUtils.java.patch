@@ -9,7 +9,7 @@
 +        T chunks = consumer.get();
 +        tag.getList(key, Tag.TAG_COMPOUND).forEach(chunkTag -> {
 +            CompoundTag chunk = (CompoundTag) chunkTag;
-+            chunks.add(new net.minecraft.world.level.ChunkPos(me.alphamode.mcbig.math.BigInteger.val(chunk.getString("xPos")), me.alphamode.mcbig.math.BigInteger.val(chunk.getString("zPos"))));
++            chunks.add(new net.minecraft.world.level.ChunkPos(chunk.getByteArray("xPos"), chunk.getByteArray("zPos")));
 +        });
 +        return chunks;
 +    }
@@ -18,8 +18,8 @@
 +        ListTag chunksList = new ListTag();
 +        chunks.forEach(chunkPos -> {
 +            CompoundTag chunk = new CompoundTag();
-+            chunk.putString("xPos", chunkPos.x().toString());
-+            chunk.putString("zPos", chunkPos.z().toString());
++            chunk.putByteArray("xPos", chunkPos.x().toByteArray());
++            chunk.putByteArray("zPos", chunkPos.z().toByteArray());
 +            chunksList.add(chunk);
 +        });
 +        tag.put(key, chunksList);

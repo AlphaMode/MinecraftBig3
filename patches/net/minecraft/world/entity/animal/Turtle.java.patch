@@ -1,5 +1,31 @@
 --- a/net/minecraft/world/entity/animal/Turtle.java
 +++ b/net/minecraft/world/entity/animal/Turtle.java
+@@ -146,9 +_,9 @@
+     @Override
+     public void addAdditionalSaveData(CompoundTag p_30176_) {
+         super.addAdditionalSaveData(p_30176_);
+-        p_30176_.putInt("HomePosX", this.getHomePos().getX());
+-        p_30176_.putInt("HomePosY", this.getHomePos().getY());
+-        p_30176_.putInt("HomePosZ", this.getHomePos().getZ());
++        p_30176_.putByteArray("HomePosX", this.getHomePos().getBigX().toByteArray());
++        p_30176_.putByteArray("HomePosY", this.getHomePos().getBigY().toByteArray());
++        p_30176_.putByteArray("HomePosZ", this.getHomePos().getBigZ().toByteArray());
+         p_30176_.putBoolean("HasEgg", this.hasEgg());
+         p_30176_.putInt("TravelPosX", this.getTravelPos().getX());
+         p_30176_.putInt("TravelPosY", this.getTravelPos().getY());
+@@ -157,9 +_,9 @@
+ 
+     @Override
+     public void readAdditionalSaveData(CompoundTag p_30162_) {
+-        int i = p_30162_.getInt("HomePosX");
+-        int j = p_30162_.getInt("HomePosY");
+-        int k = p_30162_.getInt("HomePosZ");
++        byte[] i = p_30162_.getByteArray("HomePosX");
++        byte[] j = p_30162_.getByteArray("HomePosY");
++        byte[] k = p_30162_.getByteArray("HomePosZ");
+         this.setHomePos(new BlockPos(i, j, k));
+         super.readAdditionalSaveData(p_30162_);
+         this.setHasEgg(p_30162_.getBoolean("HasEgg"));
 @@ -684,7 +_,7 @@
                      int i = Mth.floor(vec31.x);
                      int j = Mth.floor(vec31.z);

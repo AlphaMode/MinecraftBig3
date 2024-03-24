@@ -9,3 +9,20 @@
          if (!configuredfeature.place(serverlevel, serverlevel.getChunkSource().getGenerator(), serverlevel.getRandom(), p_214578_)) {
              throw ERROR_FEATURE_FAILED.create();
          } else {
+@@ -292,12 +_,12 @@
+                             chunkgenerator,
+                             serverlevel.getRandom(),
+                             new BoundingBox(
+-                                p_313498_.getMinBlockX(),
++                                p_313498_.getBigMinBlockX(),
+                                 serverlevel.getMinBuildHeight(),
+-                                p_313498_.getMinBlockZ(),
+-                                p_313498_.getMaxBlockX(),
++                                p_313498_.getBigMinBlockZ(),
++                                p_313498_.getBigMaxBlockX(),
+                                 serverlevel.getMaxBuildHeight(),
+-                                p_313498_.getMaxBlockZ()
++                                p_313498_.getBigMaxBlockZ()
+                             ),
+                             p_313498_
+                         )
