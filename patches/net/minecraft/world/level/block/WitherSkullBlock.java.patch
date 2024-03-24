@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/block/WitherSkullBlock.java
++++ b/net/minecraft/world/level/block/WitherSkullBlock.java
+@@ -60,9 +_,9 @@
+                         CarvedPumpkinBlock.clearPatternBlocks(p_58256_, blockpattern$blockpatternmatch);
+                         BlockPos blockpos = blockpattern$blockpatternmatch.getBlock(1, 2, 0).getPos();
+                         witherboss.moveTo(
+-                            (double)blockpos.getX() + 0.5,
+-                            (double)blockpos.getY() + 0.55,
+-                            (double)blockpos.getZ() + 0.5,
++                            (double)blockpos.getBigX().doubleValue() + 0.5,
++                            (double)blockpos.getBigY().doubleValue() + 0.55,
++                            (double)blockpos.getBigZ().doubleValue() + 0.5,
+                             blockpattern$blockpatternmatch.getForwards().getAxis() == Direction.Axis.X ? 0.0F : 90.0F,
+                             0.0F
+                         );

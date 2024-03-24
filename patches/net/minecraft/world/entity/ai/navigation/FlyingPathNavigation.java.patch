@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
++++ b/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
+@@ -55,7 +_,7 @@
+                 this.followThePath();
+             } else if (this.path != null && !this.path.isDone()) {
+                 Vec3 vec3 = this.path.getNextEntityPos(this.mob);
+-                if (this.mob.getBlockX() == Mth.floor(vec3.x) && this.mob.getBlockY() == Mth.floor(vec3.y) && this.mob.getBlockZ() == Mth.floor(vec3.z)) {
++                if (this.mob.getBlockX().equals(Mth.bigFloor(vec3.x)) && this.mob.getBlockY() == Mth.floor(vec3.y) && this.mob.getBlockZ().equals(Mth.bigFloor(vec3.z))) {
+                     this.path.advance();
+                 }
+             }

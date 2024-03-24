@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/Shulker.java
++++ b/net/minecraft/world/entity/monster/Shulker.java
+@@ -394,7 +_,7 @@
+                         this.unRide();
+                         this.setAttachFace(direction);
+                         this.playSound(SoundEvents.SHULKER_TELEPORT, 1.0F, 1.0F);
+-                        this.setPos((double)blockpos1.getX() + 0.5, (double)blockpos1.getY(), (double)blockpos1.getZ() + 0.5);
++                        this.setPos((double)blockpos1.getBigX().doubleValue() + 0.5, (double)blockpos1.getBigY().doubleValue(), (double)blockpos1.getBigZ().doubleValue() + 0.5);
+                         this.level().gameEvent(GameEvent.TELEPORT, blockpos, GameEvent.Context.of(this));
+                         this.entityData.set(DATA_PEEK_ID, (byte)0);
+                         this.setTarget(null);

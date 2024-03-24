@@ -1,0 +1,19 @@
+--- a/net/minecraft/world/entity/ai/goal/StrollThroughVillageGoal.java
++++ b/net/minecraft/world/entity/ai/goal/StrollThroughVillageGoal.java
+@@ -63,7 +_,7 @@
+                 Vec3 vec33 = vec3.subtract(vec31).normalize().scale(10.0).add(vec31);
+                 BlockPos blockpos = BlockPos.containing(vec33);
+                 blockpos = this.mob.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos);
+-                if (!pathnavigation.moveTo((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), 1.0)) {
++                if (!pathnavigation.moveTo((double)blockpos.getBigX().doubleValue(), (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue(), 1.0)) {
+                     this.moveRandomly();
+                 }
+             }
+@@ -77,6 +_,6 @@
+             .getHeightmapPos(
+                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, this.mob.blockPosition().offset(-8 + randomsource.nextInt(16), 0, -8 + randomsource.nextInt(16))
+             );
+-        this.mob.getNavigation().moveTo((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), 1.0);
++        this.mob.getNavigation().moveTo((double)blockpos.getBigX().doubleValue(), (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue(), 1.0);
+     }
+ }

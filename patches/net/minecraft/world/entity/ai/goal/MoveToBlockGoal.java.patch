@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/ai/goal/MoveToBlockGoal.java
++++ b/net/minecraft/world/entity/ai/goal/MoveToBlockGoal.java
+@@ -63,7 +_,7 @@
+     protected void moveMobToBlock() {
+         this.mob
+             .getNavigation()
+-            .moveTo((double)this.blockPos.getX() + 0.5, (double)(this.blockPos.getY() + 1), (double)this.blockPos.getZ() + 0.5, this.speedModifier);
++            .moveTo((double)this.blockPos.getBigX().doubleValue() + 0.5, (double)(this.blockPos.getY() + 1), (double)this.blockPos.getBigZ().doubleValue() + 0.5, this.speedModifier);
+     }
+ 
+     public double acceptedDistance() {
+@@ -86,7 +_,7 @@
+             this.reachedTarget = false;
+             ++this.tryTicks;
+             if (this.shouldRecalculatePath()) {
+-                this.mob.getNavigation().moveTo((double)blockpos.getX() + 0.5, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5, this.speedModifier);
++                this.mob.getNavigation().moveTo((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getY(), (double)blockpos.getBigZ().doubleValue() + 0.5, this.speedModifier);
+             }
+         } else {
+             this.reachedTarget = true;

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/storage/loot/functions/ExplorationMapFunction.java
++++ b/net/minecraft/world/level/storage/loot/functions/ExplorationMapFunction.java
+@@ -83,7 +_,7 @@
+                     this.destination, BlockPos.containing(vec3), this.searchRadius, this.skipKnownStructures
+                 );
+                 if (blockpos != null) {
+-                    ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), this.zoom, true, true);
++                    ItemStack itemstack = MapItem.create(serverlevel, blockpos.getBigX(), blockpos.getBigZ(), this.zoom, true, true);
+                     MapItem.renderBiomePreviewMap(serverlevel, itemstack);
+                     MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", this.mapDecoration);
+                     return itemstack;

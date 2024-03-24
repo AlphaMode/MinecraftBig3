@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/raid/Raids.java
++++ b/net/minecraft/world/entity/raid/Raids.java
+@@ -104,7 +_,7 @@
+ 
+                 for(PoiRecord poirecord : list) {
+                     BlockPos blockpos2 = poirecord.getPos();
+-                    vec3 = vec3.add((double)blockpos2.getX(), (double)blockpos2.getY(), (double)blockpos2.getZ());
++                    vec3 = vec3.add((double)blockpos2.getBigX().doubleValue(), (double)blockpos2.getBigY().doubleValue(), (double)blockpos2.getBigZ().doubleValue());
+                     ++i;
+                 }
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/placement/NoiseBasedCountPlacement.java
++++ b/net/minecraft/world/level/levelgen/placement/NoiseBasedCountPlacement.java
+@@ -32,7 +_,7 @@
+ 
+     @Override
+     protected int count(RandomSource p_226352_, BlockPos p_226353_) {
+-        double d0 = Biome.BIOME_INFO_NOISE.getValue((double)p_226353_.getX() / this.noiseFactor, (double)p_226353_.getZ() / this.noiseFactor, false);
++        double d0 = Biome.BIOME_INFO_NOISE.getValue((double)p_226353_.getBigX().doubleValue() / this.noiseFactor, (double)p_226353_.getBigZ().doubleValue() / this.noiseFactor, false);
+         return (int)Math.ceil((d0 + this.noiseOffset) * (double)this.noiseToCountRatio);
+     }
+ 

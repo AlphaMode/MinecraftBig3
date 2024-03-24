@@ -1,0 +1,15 @@
+--- a/net/minecraft/util/ParticleUtils.java
++++ b/net/minecraft/util/ParticleUtils.java
+@@ -67,9 +_,9 @@
+     }
+ 
+     public static void spawnParticleBelow(Level p_273159_, BlockPos p_273452_, RandomSource p_273538_, ParticleOptions p_273419_) {
+-        double d0 = (double)p_273452_.getX() + p_273538_.nextDouble();
+-        double d1 = (double)p_273452_.getY() - 0.05;
+-        double d2 = (double)p_273452_.getZ() + p_273538_.nextDouble();
++        double d0 = (double)p_273452_.getBigX().doubleValue() + p_273538_.nextDouble();
++        double d1 = (double)p_273452_.getBigY().doubleValue() - 0.05;
++        double d2 = (double)p_273452_.getBigZ().doubleValue() + p_273538_.nextDouble();
+         p_273159_.addParticle(p_273419_, d0, d1, d2, 0.0, 0.0, 0.0);
+     }
+ }

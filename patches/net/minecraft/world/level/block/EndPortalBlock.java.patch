@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/block/EndPortalBlock.java
++++ b/net/minecraft/world/level/block/EndPortalBlock.java
+@@ -65,9 +_,9 @@
+ 
+     @Override
+     public void animateTick(BlockState p_221102_, Level p_221103_, BlockPos p_221104_, RandomSource p_221105_) {
+-        double d0 = (double)p_221104_.getX() + p_221105_.nextDouble();
+-        double d1 = (double)p_221104_.getY() + 0.8;
+-        double d2 = (double)p_221104_.getZ() + p_221105_.nextDouble();
++        double d0 = (double)p_221104_.getBigX().doubleValue() + p_221105_.nextDouble();
++        double d1 = (double)p_221104_.getBigY().doubleValue() + 0.8;
++        double d2 = (double)p_221104_.getBigZ().doubleValue() + p_221105_.nextDouble();
+         p_221103_.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0, 0.0, 0.0);
+     }
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/AbstractCandleBlock.java
++++ b/net/minecraft/world/level/block/AbstractCandleBlock.java
+@@ -57,7 +_,7 @@
+             this.getParticleOffsets(p_220697_)
+                 .forEach(
+                     p_220695_ -> addParticlesAndSound(
+-                            p_220698_, p_220695_.add((double)p_220699_.getX(), (double)p_220699_.getY(), (double)p_220699_.getZ()), p_220700_
++                            p_220698_, p_220695_.add((double)p_220699_.getBigX().doubleValue(), (double)p_220699_.getY(), (double)p_220699_.getBigZ().doubleValue()), p_220700_
+                         )
+                 );
+         }

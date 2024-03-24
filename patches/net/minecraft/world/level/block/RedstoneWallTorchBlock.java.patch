@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/level/block/RedstoneWallTorchBlock.java
++++ b/net/minecraft/world/level/block/RedstoneWallTorchBlock.java
+@@ -66,9 +_,9 @@
+         if (p_221959_.getValue(LIT)) {
+             Direction direction = p_221959_.getValue(FACING).getOpposite();
+             double d0 = 0.27;
+-            double d1 = (double)p_221961_.getX() + 0.5 + (p_221962_.nextDouble() - 0.5) * 0.2 + 0.27 * (double)direction.getStepX();
+-            double d2 = (double)p_221961_.getY() + 0.7 + (p_221962_.nextDouble() - 0.5) * 0.2 + 0.22;
+-            double d3 = (double)p_221961_.getZ() + 0.5 + (p_221962_.nextDouble() - 0.5) * 0.2 + 0.27 * (double)direction.getStepZ();
++            double d1 = (double)p_221961_.getBigX().doubleValue() + 0.5 + (p_221962_.nextDouble() - 0.5) * 0.2 + 0.27 * (double)direction.getStepX();
++            double d2 = (double)p_221961_.getBigY().doubleValue() + 0.7 + (p_221962_.nextDouble() - 0.5) * 0.2 + 0.22;
++            double d3 = (double)p_221961_.getBigZ().doubleValue() + 0.5 + (p_221962_.nextDouble() - 0.5) * 0.2 + 0.27 * (double)direction.getStepZ();
+             p_221960_.addParticle(DustParticleOptions.REDSTONE, d1, d2, d3, 0.0, 0.0, 0.0);
+         }
+     }

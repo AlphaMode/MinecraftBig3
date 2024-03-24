@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/TryFindWater.java
++++ b/net/minecraft/world/entity/ai/behavior/TryFindWater.java
+@@ -33,7 +_,7 @@
+                                 BlockPos blockpos2 = p_259212_.blockPosition();
+         
+                                 for(BlockPos blockpos3 : BlockPos.withinManhattan(blockpos2, p_259298_, p_259298_, p_259298_)) {
+-                                    if (blockpos3.getX() != blockpos2.getX() || blockpos3.getZ() != blockpos2.getZ()) {
++                                    if (!blockpos3.getBigX().equals(blockpos2.getBigX()) || !blockpos3.getBigZ().equals(blockpos2.getBigZ())) {
+                                         BlockState blockstate = p_259212_.level().getBlockState(blockpos3.above());
+                                         BlockState blockstate1 = p_259212_.level().getBlockState(blockpos3);
+                                         if (blockstate1.is(Blocks.WATER)) {

@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/entity/animal/Rabbit.java
++++ b/net/minecraft/world/entity/animal/Rabbit.java
+@@ -556,9 +_,9 @@
+             this.rabbit
+                 .getLookControl()
+                 .setLookAt(
+-                    (double)this.blockPos.getX() + 0.5,
++                    (double)this.blockPos.getBigX().doubleValue() + 0.5,
+                     (double)(this.blockPos.getY() + 1),
+-                    (double)this.blockPos.getZ() + 0.5,
++                    (double)this.blockPos.getBigZ().doubleValue() + 0.5,
+                     10.0F,
+                     (float)this.rabbit.getMaxHeadXRot()
+                 );

@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
++++ b/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
+@@ -429,12 +_,12 @@
+         return false;
+     }
+ 
+-    public void checkBanners(BlockGetter p_77931_, int p_77932_, int p_77933_) {
++    public void checkBanners(BlockGetter p_77931_, me.alphamode.mcbig.math.BigInteger p_77932_, me.alphamode.mcbig.math.BigInteger p_77933_) {
+         Iterator<MapBanner> iterator = this.bannerMarkers.values().iterator();
+ 
+         while(iterator.hasNext()) {
+             MapBanner mapbanner = iterator.next();
+-            if (mapbanner.getPos().getX() == p_77932_ && mapbanner.getPos().getZ() == p_77933_) {
++            if (mapbanner.getPos().getBigX().equals(p_77932_) && mapbanner.getPos().getBigZ().equals(p_77933_)) {
+                 MapBanner mapbanner1 = MapBanner.fromWorld(p_77931_, mapbanner.getPos());
+                 if (!mapbanner.equals(mapbanner1)) {
+                     iterator.remove();

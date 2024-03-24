@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/RamTarget.java
++++ b/net/minecraft/world/entity/ai/behavior/RamTarget.java
+@@ -64,7 +_,7 @@
+         BlockPos blockpos = p_217360_.blockPosition();
+         Brain<?> brain = p_217360_.getBrain();
+         Vec3 vec3 = brain.getMemory(MemoryModuleType.RAM_TARGET).get();
+-        this.ramDirection = new Vec3((double)blockpos.getX() - vec3.x(), 0.0, (double)blockpos.getZ() - vec3.z()).normalize();
++        this.ramDirection = new Vec3((double)blockpos.getBigX().doubleValue() - vec3.x(), 0.0, (double)blockpos.getBigZ().doubleValue() - vec3.z()).normalize();
+         brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(vec3, this.speed, 0));
+     }
+ 

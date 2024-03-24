@@ -1,0 +1,15 @@
+--- a/net/minecraft/client/resources/sounds/SimpleSoundInstance.java
++++ b/net/minecraft/client/resources/sounds/SimpleSoundInstance.java
+@@ -19,9 +_,9 @@
+             p_235111_,
+             p_235112_,
+             p_235113_,
+-            (double)p_235114_.getX() + 0.5,
+-            (double)p_235114_.getY() + 0.5,
+-            (double)p_235114_.getZ() + 0.5
++            (double)p_235114_.getBigX().doubleValue() + 0.5,
++            (double)p_235114_.getBigY().doubleValue() + 0.5,
++            (double)p_235114_.getBigZ().doubleValue() + 0.5
+         );
+     }
+ 

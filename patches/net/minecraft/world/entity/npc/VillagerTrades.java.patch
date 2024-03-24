@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/npc/VillagerTrades.java
++++ b/net/minecraft/world/entity/npc/VillagerTrades.java
+@@ -1646,7 +_,7 @@
+                 ServerLevel serverlevel = (ServerLevel)p_219708_.level();
+                 BlockPos blockpos = serverlevel.findNearestMapStructure(this.destination, p_219708_.blockPosition(), 100, true);
+                 if (blockpos != null) {
+-                    ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), (byte)2, true, true);
++                    ItemStack itemstack = MapItem.create(serverlevel, blockpos.getBigX(), blockpos.getBigZ(), (byte)2, true, true);
+                     MapItem.renderBiomePreviewMap(serverlevel, itemstack);
+                     MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", this.destinationType);
+                     itemstack.setHoverName(Component.translatable(this.displayName));

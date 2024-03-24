@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/entity/projectile/ShulkerBullet.java
++++ b/net/minecraft/world/entity/projectile/ShulkerBullet.java
+@@ -51,9 +_,9 @@
+         this(EntityType.SHULKER_BULLET, p_37330_);
+         this.setOwner(p_37331_);
+         BlockPos blockpos = p_37331_.blockPosition();
+-        double d0 = (double)blockpos.getX() + 0.5;
+-        double d1 = (double)blockpos.getY() + 0.5;
+-        double d2 = (double)blockpos.getZ() + 0.5;
++        double d0 = (double)blockpos.getBigX().doubleValue() + 0.5;
++        double d1 = (double)blockpos.getBigY().doubleValue() + 0.5;
++        double d2 = (double)blockpos.getBigZ().doubleValue() + 0.5;
+         this.moveTo(d0, d1, d2, this.getYRot(), this.getXRot());
+         this.finalTarget = p_37332_;
+         this.currentMoveDirection = Direction.UP;

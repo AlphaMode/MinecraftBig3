@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/entity/ai/behavior/HarvestFarmland.java
++++ b/net/minecraft/world/entity/ai/behavior/HarvestFarmland.java
+@@ -129,9 +_,9 @@
+                         if (flag) {
+                             p_23196_.playSound(
+                                 null,
+-                                (double)this.aboveFarmlandPos.getX(),
+-                                (double)this.aboveFarmlandPos.getY(),
+-                                (double)this.aboveFarmlandPos.getZ(),
++                                (double)this.aboveFarmlandPos.getBigX().doubleValue(),
++                                (double)this.aboveFarmlandPos.getBigY().doubleValue(),
++                                (double)this.aboveFarmlandPos.getBigZ().doubleValue(),
+                                 SoundEvents.CROP_PLANTED,
+                                 SoundSource.BLOCKS,
+                                 1.0F,

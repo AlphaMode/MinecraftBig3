@@ -1,0 +1,45 @@
+--- a/net/minecraft/world/entity/animal/Cat.java
++++ b/net/minecraft/world/entity/animal/Cat.java
+@@ -553,7 +_,7 @@
+         public void start() {
+             if (this.goalPos != null) {
+                 this.cat.setInSittingPose(false);
+-                this.cat.getNavigation().moveTo((double)this.goalPos.getX(), (double)this.goalPos.getY(), (double)this.goalPos.getZ(), 1.1F);
++                this.cat.getNavigation().moveTo((double)this.goalPos.getBigX().doubleValue(), (double)this.goalPos.getBigY().doubleValue(), (double)this.goalPos.getBigZ().doubleValue(), 1.1F);
+             }
+         }
+ 
+@@ -576,9 +_,9 @@
+             blockpos$mutableblockpos.set(this.cat.isLeashed() ? this.cat.getLeashHolder().blockPosition() : this.cat.blockPosition());
+             this.cat
+                 .randomTeleport(
+-                    (double)(blockpos$mutableblockpos.getX() + randomsource.nextInt(11) - 5),
+-                    (double)(blockpos$mutableblockpos.getY() + randomsource.nextInt(5) - 2),
+-                    (double)(blockpos$mutableblockpos.getZ() + randomsource.nextInt(11) - 5),
++                    (double)(blockpos$mutableblockpos.getBigX().doubleValue() + randomsource.nextInt(11) - 5),
++                    (double)(blockpos$mutableblockpos.getBigY().doubleValue() + randomsource.nextInt(5) - 2),
++                    (double)(blockpos$mutableblockpos.getBigZ().doubleValue() + randomsource.nextInt(11) - 5),
+                     false
+                 );
+             blockpos$mutableblockpos.set(this.cat.blockPosition());
+@@ -594,9 +_,9 @@
+                     .addFreshEntity(
+                         new ItemEntity(
+                             this.cat.level(),
+-                            (double)blockpos$mutableblockpos.getX() - (double)Mth.sin(this.cat.yBodyRot * (float) (Math.PI / 180.0)),
++                            (double)blockpos$mutableblockpos.getBigX().doubleValue() - (double)Mth.sin(this.cat.yBodyRot * (float) (Math.PI / 180.0)),
+                             (double)blockpos$mutableblockpos.getY(),
+-                            (double)blockpos$mutableblockpos.getZ() + (double)Mth.cos(this.cat.yBodyRot * (float) (Math.PI / 180.0)),
++                            (double)blockpos$mutableblockpos.getBigZ().doubleValue() + (double)Mth.cos(this.cat.yBodyRot * (float) (Math.PI / 180.0)),
+                             itemstack
+                         )
+                     );
+@@ -607,7 +_,7 @@
+         public void tick() {
+             if (this.ownerPlayer != null && this.goalPos != null) {
+                 this.cat.setInSittingPose(false);
+-                this.cat.getNavigation().moveTo((double)this.goalPos.getX(), (double)this.goalPos.getY(), (double)this.goalPos.getZ(), 1.1F);
++                this.cat.getNavigation().moveTo((double)this.goalPos.getBigX().doubleValue(), (double)this.goalPos.getBigY().doubleValue(), (double)this.goalPos.getBigZ().doubleValue(), 1.1F);
+                 if (this.cat.distanceToSqr(this.ownerPlayer) < 2.5) {
+                     ++this.onBedTicks;
+                     if (this.onBedTicks > this.adjustedTickDelay(16)) {

@@ -1,0 +1,36 @@
+--- a/net/minecraft/world/entity/animal/Dolphin.java
++++ b/net/minecraft/world/entity/animal/Dolphin.java
+@@ -126,18 +_,18 @@
+     @Override
+     public void addAdditionalSaveData(CompoundTag p_28364_) {
+         super.addAdditionalSaveData(p_28364_);
+-        p_28364_.putInt("TreasurePosX", this.getTreasurePos().getX());
+-        p_28364_.putInt("TreasurePosY", this.getTreasurePos().getY());
+-        p_28364_.putInt("TreasurePosZ", this.getTreasurePos().getZ());
++        p_28364_.putByteArray("TreasurePosX", this.getTreasurePos().getBigX().toByteArray());
++        p_28364_.putByteArray("TreasurePosY", this.getTreasurePos().getBigY().toByteArray());
++        p_28364_.putByteArray("TreasurePosZ", this.getTreasurePos().getBigZ().toByteArray());
+         p_28364_.putBoolean("GotFish", this.gotFish());
+         p_28364_.putInt("Moistness", this.getMoistnessLevel());
+     }
+ 
+     @Override
+     public void readAdditionalSaveData(CompoundTag p_28340_) {
+-        int i = p_28340_.getInt("TreasurePosX");
+-        int j = p_28340_.getInt("TreasurePosY");
+-        int k = p_28340_.getInt("TreasurePosZ");
++        me.alphamode.mcbig.math.BigInteger i = new me.alphamode.mcbig.math.BigInteger(p_28340_.getByteArray("TreasurePosX"));
++        me.alphamode.mcbig.math.BigInteger j = new me.alphamode.mcbig.math.BigInteger(p_28340_.getByteArray("TreasurePosY"));
++        me.alphamode.mcbig.math.BigInteger k = new me.alphamode.mcbig.math.BigInteger(p_28340_.getByteArray("TreasurePosZ"));
+         this.setTreasurePos(new BlockPos(i, j, k));
+         super.readAdditionalSaveData(p_28340_);
+         this.setGotFish(p_28340_.getBoolean("GotFish"));
+@@ -402,7 +_,7 @@
+         @Override
+         public boolean canContinueToUse() {
+             BlockPos blockpos = this.dolphin.getTreasurePos();
+-            return !BlockPos.containing((double)blockpos.getX(), this.dolphin.getY(), (double)blockpos.getZ()).closerToCenterThan(this.dolphin.position(), 4.0)
++            return !BlockPos.containing((double)blockpos.getBigX().doubleValue(), this.dolphin.getY(), (double)blockpos.getBigZ().doubleValue()).closerToCenterThan(this.dolphin.position(), 4.0)
+                 && !this.stuck
+                 && this.dolphin.getAirSupply() >= 100;
+         }
