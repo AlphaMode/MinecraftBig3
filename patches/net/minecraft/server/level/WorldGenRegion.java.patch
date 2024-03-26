@@ -31,9 +31,30 @@
              if (chunkaccess != null) {
                  throw (RuntimeException)Util.pauseInIde(
                      new RuntimeException(
-@@ -156,13 +_,13 @@
+@@ -148,21 +_,31 @@
+                     )
+                 );
+             } else {
+-                throw (RuntimeException)Util.pauseInIde(
+-                    new RuntimeException(String.format(Locale.ROOT, "We are asking a region for a chunk out of bound | %s %s", p_9514_, p_9515_))
+-                );
++                return fixOutOfBound(p_9514_, p_9515_, (correctedX, correctedZ) -> getChunk(correctedX, correctedZ, p_9516_, p_9517_));
++//                throw (RuntimeException)Util.pauseInIde(
++//                    new RuntimeException(String.format(Locale.ROOT, "We are asking a region for a chunk out of bound | %s %s", p_9514_, p_9515_))
++//                );
+             }
+         }
      }
  
++    public <Return> Return fixOutOfBound(me.alphamode.mcbig.math.BigInteger x, me.alphamode.mcbig.math.BigInteger z, java.util.function.BiFunction<me.alphamode.mcbig.math.BigInteger, me.alphamode.mcbig.math.BigInteger, Return> correctedCallback) {
++        LOGGER.error("We are asking a region for a chunk out of bound, attempting to correct");
++        me.alphamode.mcbig.math.BigInteger difX = this.firstPos.x().subtract(x).min(this.lastPos.x().subtract(x));
++        me.alphamode.mcbig.math.BigInteger difZ = this.firstPos.z().subtract(z).min(this.lastPos.z().subtract(z));
++        me.alphamode.mcbig.math.BigInteger correctedX = x.add(difX);
++        me.alphamode.mcbig.math.BigInteger correctedZ = z.add(difZ);
++        return correctedCallback.apply(correctedX, correctedZ);
++    }
++
      @Override
 -    public boolean hasChunk(int p_9574_, int p_9575_) {
 -        return p_9574_ >= this.firstPos.x && p_9574_ <= this.lastPos.x && p_9575_ >= this.firstPos.z && p_9575_ <= this.lastPos.z;
@@ -97,15 +118,22 @@
          this.getChunk(i, j).addEntity(p_9580_);
          return true;
      }
-@@ -372,7 +_,7 @@
+@@ -372,11 +_,11 @@
  
      @Override
      public DifficultyInstance getCurrentDifficultyAt(BlockPos p_9585_) {
 -        if (!this.hasChunk(SectionPos.blockToSectionCoord(p_9585_.getX()), SectionPos.blockToSectionCoord(p_9585_.getZ()))) {
-+        if (!this.hasChunk(SectionPos.blockToSectionCoord(p_9585_.getBigX()), SectionPos.blockToSectionCoord(p_9585_.getBigZ()))) {
-             throw new RuntimeException("We are asking a region for a chunk out of bound");
-         } else {
+-            throw new RuntimeException("We are asking a region for a chunk out of bound");
+-        } else {
++//        if (!this.hasChunk(SectionPos.blockToSectionCoord(p_9585_.getBigX()), SectionPos.blockToSectionCoord(p_9585_.getBigZ()))) {
++//            throw new RuntimeException("We are asking a region for a chunk out of bound");
++//        } else {
              return new DifficultyInstance(this.level.getDifficulty(), this.level.getDayTime(), 0L, this.level.getMoonBrightness());
+-        }
++//        }
+     }
+ 
+     @Nullable
 @@ -416,8 +_,8 @@
      }
  

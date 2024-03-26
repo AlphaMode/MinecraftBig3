@@ -32,12 +32,12 @@
 -                int l = Integer.MIN_VALUE;
 -                int i1 = Integer.MIN_VALUE;
 -                int j1 = Integer.MIN_VALUE;
-+                me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.val(Integer.MAX_VALUE);
-+                me.alphamode.mcbig.math.BigInteger j = me.alphamode.mcbig.math.BigInteger.val(Integer.MAX_VALUE);
-+                me.alphamode.mcbig.math.BigInteger k = me.alphamode.mcbig.math.BigInteger.val(Integer.MAX_VALUE);
-+                me.alphamode.mcbig.math.BigInteger l = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
-+                me.alphamode.mcbig.math.BigInteger i1 = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
-+                me.alphamode.mcbig.math.BigInteger j1 = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
++                me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MAX_VALUE);
++                me.alphamode.mcbig.math.BigInteger j = me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MAX_VALUE);
++                me.alphamode.mcbig.math.BigInteger k = me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MAX_VALUE);
++                me.alphamode.mcbig.math.BigInteger l = me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MIN_VALUE);
++                me.alphamode.mcbig.math.BigInteger i1 = me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MIN_VALUE);
++                me.alphamode.mcbig.math.BigInteger j1 = me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MIN_VALUE);
  
                  for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : processBlockInfos(
                      p_230329_, p_230330_, p_230331_, p_230332_, list
