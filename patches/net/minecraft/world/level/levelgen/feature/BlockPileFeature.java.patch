@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/feature/BlockPileFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BlockPileFeature.java
+@@ -28,8 +_,8 @@
+             int j = 2 + randomsource.nextInt(2);
+ 
+             for(BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-i, 0, -j), blockpos.offset(i, 1, j))) {
+-                int k = blockpos.getX() - blockpos1.getX();
+-                int l = blockpos.getZ() - blockpos1.getZ();
++                int k = blockpos.getBigX().subtract(blockpos1.getBigX()).intValue();
++                int l = blockpos.getBigZ().subtract(blockpos1.getBigZ()).intValue();
+                 if ((float)(k * k + l * l) <= randomsource.nextFloat() * 10.0F - randomsource.nextFloat() * 6.0F) {
+                     this.tryPlaceBlock(worldgenlevel, blockpos1, randomsource, blockpileconfiguration);
+                 } else if ((double)randomsource.nextFloat() < 0.031) {

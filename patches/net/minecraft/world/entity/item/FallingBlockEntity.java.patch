@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/entity/item/FallingBlockEntity.java
++++ b/net/minecraft/world/entity/item/FallingBlockEntity.java
+@@ -78,9 +_,9 @@
+     public static FallingBlockEntity fall(Level p_201972_, BlockPos p_201973_, BlockState p_201974_) {
+         FallingBlockEntity fallingblockentity = new FallingBlockEntity(
+             p_201972_,
+-            (double)p_201973_.getX() + 0.5,
+-            (double)p_201973_.getY(),
+-            (double)p_201973_.getZ() + 0.5,
++            (double)p_201973_.getBigX().doubleValue() + 0.5,
++            (double)p_201973_.getBigY().doubleValue(),
++            (double)p_201973_.getBigZ().doubleValue() + 0.5,
+             p_201974_.hasProperty(BlockStateProperties.WATERLOGGED) ? p_201974_.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)) : p_201974_
+         );
+         p_201972_.setBlock(p_201973_, p_201974_.getFluidState().createLegacyBlock(), 3);

@@ -1,5 +1,23 @@
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
+@@ -303,12 +_,12 @@
+             double d1 = this.getY();
+             double d2 = this.getZ();
+             BlockPos blockpos = this.blockPosition();
+-            if (p_20993_.getX() != blockpos.getX() || p_20993_.getZ() != blockpos.getZ()) {
+-                double d3 = d0 - (double)p_20993_.getX() - 0.5;
+-                double d5 = d2 - (double)p_20993_.getZ() - 0.5;
++            if (!java.util.Objects.equals(p_20993_.getBigX(), blockpos.getBigX()) || !java.util.Objects.equals(p_20993_.getBigZ(), blockpos.getBigZ())) {
++                double d3 = d0 - (double)p_20993_.getBigX().doubleValue() - 0.5;
++                double d5 = d2 - (double)p_20993_.getBigZ().doubleValue() - 0.5;
+                 double d6 = Math.max(Math.abs(d3), Math.abs(d5));
+-                d0 = (double)p_20993_.getX() + 0.5 + d3 / d6 * 0.5;
+-                d2 = (double)p_20993_.getZ() + 0.5 + d5 / d6 * 0.5;
++                d0 = (double)p_20993_.getBigX().doubleValue() + 0.5 + d3 / d6 * 0.5;
++                d2 = (double)p_20993_.getBigZ().doubleValue() + 0.5 + d5 / d6 * 0.5;
+             }
+ 
+             float f = (float)Mth.ceil(this.fallDistance - 3.0F);
 @@ -1569,9 +_,9 @@
  
      protected void playBlockFallSound() {
@@ -13,3 +31,21 @@
              BlockState blockstate = this.level().getBlockState(new BlockPos(i, j, k));
              if (!blockstate.isAir()) {
                  SoundType soundtype = blockstate.getSoundType();
+@@ -3241,7 +_,7 @@
+     }
+ 
+     private void setPosToBed(BlockPos p_21081_) {
+-        this.setPos((double)p_21081_.getX() + 0.5, (double)p_21081_.getY() + 0.6875, (double)p_21081_.getZ() + 0.5);
++        this.setPos((double)p_21081_.getBigX().doubleValue() + 0.5, (double)p_21081_.getBigY().doubleValue() + 0.6875, (double)p_21081_.getBigZ().doubleValue() + 0.5);
+     }
+ 
+     private boolean checkBedExists() {
+@@ -3256,7 +_,7 @@
+                 this.level().setBlock(p_261435_, blockstate.setValue(BedBlock.OCCUPIED, Boolean.valueOf(false)), 3);
+                 Vec3 vec31 = BedBlock.findStandUpPosition(this.getType(), this.level(), p_261435_, direction, this.getYRot()).orElseGet(() -> {
+                     BlockPos blockpos = p_261435_.above();
+-                    return new Vec3((double)blockpos.getX() + 0.5, (double)blockpos.getY() + 0.1, (double)blockpos.getZ() + 0.5);
++                    return new Vec3((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue() + 0.1, (double)blockpos.getBigZ().doubleValue() + 0.5);
+                 });
+                 Vec3 vec32 = Vec3.atBottomCenterOf(p_261435_).subtract(vec31).normalize();
+                 float f = (float)Mth.wrapDegrees(Mth.atan2(vec32.z, vec32.x) * 180.0F / (float)Math.PI - 90.0);

@@ -26,3 +26,16 @@
              )
              .filter(p_217317_ -> !p_217317_.equals(blockpos))
              .map(p_217314_ -> new LongJumpToRandomPos.PossibleJump(p_217314_.immutable(), Mth.ceil(blockpos.distSqr(p_217314_))))
+@@ -175,9 +_,9 @@
+ 
+     private boolean isAcceptableLandingPosition(ServerLevel p_217300_, E p_217301_, BlockPos p_217302_) {
+         BlockPos blockpos = p_217301_.blockPosition();
+-        int i = blockpos.getX();
+-        int j = blockpos.getZ();
+-        return i == p_217302_.getX() && j == p_217302_.getZ() ? false : this.acceptableLandingSpot.test(p_217301_, p_217302_);
++        me.alphamode.mcbig.math.BigInteger i = blockpos.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = blockpos.getBigZ();
++        return i.equals(p_217302_.getBigX()) && j.equals(p_217302_.getBigZ()) ? false : this.acceptableLandingSpot.test(p_217301_, p_217302_);
+     }
+ 
+     @Nullable

@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/level/block/BubbleColumnBlock.java
++++ b/net/minecraft/world/level/block/BubbleColumnBlock.java
+@@ -56,9 +_,9 @@
+                 for(int i = 0; i < 2; ++i) {
+                     serverlevel.sendParticles(
+                         ParticleTypes.SPLASH,
+-                        (double)p_50978_.getX() + p_50977_.random.nextDouble(),
++                        (double)p_50978_.getBigX().doubleValue() + p_50977_.random.nextDouble(),
+                         (double)(p_50978_.getY() + 1),
+-                        (double)p_50978_.getZ() + p_50977_.random.nextDouble(),
++                        (double)p_50978_.getBigZ().doubleValue() + p_50977_.random.nextDouble(),
+                         1,
+                         0.0,
+                         0.0,
+@@ -67,9 +_,9 @@
+                     );
+                     serverlevel.sendParticles(
+                         ParticleTypes.BUBBLE,
+-                        (double)p_50978_.getX() + p_50977_.random.nextDouble(),
++                        (double)p_50978_.getBigX().doubleValue() + p_50977_.random.nextDouble(),
+                         (double)(p_50978_.getY() + 1),
+-                        (double)p_50978_.getZ() + p_50977_.random.nextDouble(),
++                        (double)p_50978_.getBigZ().doubleValue() + p_50977_.random.nextDouble(),
+                         1,
+                         0.0,
+                         0.01,
+@@ -132,9 +_,9 @@
+ 
+     @Override
+     public void animateTick(BlockState p_220893_, Level p_220894_, BlockPos p_220895_, RandomSource p_220896_) {
+-        double d0 = (double)p_220895_.getX();
++        double d0 = (double)p_220895_.getBigX().doubleValue();
+         double d1 = (double)p_220895_.getY();
+-        double d2 = (double)p_220895_.getZ();
++        double d2 = (double)p_220895_.getBigZ().doubleValue();
+         if (p_220893_.getValue(DRAG_DOWN)) {
+             p_220894_.addAlwaysVisibleParticle(ParticleTypes.CURRENT_DOWN, d0 + 0.5, d1 + 0.8, d2, 0.0, 0.0, 0.0);
+             if (p_220896_.nextInt(200) == 0) {

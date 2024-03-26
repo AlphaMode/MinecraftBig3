@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/IglooStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/IglooStructure.java
+@@ -26,7 +_,7 @@
+     private void generatePieces(StructurePiecesBuilder p_227600_, Structure.GenerationContext p_227601_) {
+         ChunkPos chunkpos = p_227601_.chunkPos();
+         WorldgenRandom worldgenrandom = p_227601_.random();
+-        BlockPos blockpos = new BlockPos(chunkpos.getMinBlockX(), 90, chunkpos.getMinBlockZ());
++        BlockPos blockpos = new BlockPos(chunkpos.getBigMinBlockX(), 90, chunkpos.getBigMinBlockZ());
+         Rotation rotation = Rotation.getRandom(worldgenrandom);
+         IglooPieces.addPieces(p_227601_.structureTemplateManager(), blockpos, rotation, p_227600_, worldgenrandom);
+     }

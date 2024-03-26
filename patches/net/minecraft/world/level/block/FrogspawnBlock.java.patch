@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/block/FrogspawnBlock.java
++++ b/net/minecraft/world/level/block/FrogspawnBlock.java
+@@ -108,8 +_,8 @@
+         for(int j = 1; j <= i; ++j) {
+             Tadpole tadpole = EntityType.TADPOLE.create(p_221221_);
+             if (tadpole != null) {
+-                double d0 = (double)p_221222_.getX() + this.getRandomTadpolePositionOffset(p_221223_);
+-                double d1 = (double)p_221222_.getZ() + this.getRandomTadpolePositionOffset(p_221223_);
++                double d0 = (double)p_221222_.getBigX().doubleValue() + this.getRandomTadpolePositionOffset(p_221223_);
++                double d1 = (double)p_221222_.getBigZ().doubleValue() + this.getRandomTadpolePositionOffset(p_221223_);
+                 int k = p_221223_.nextInt(1, 361);
+                 tadpole.moveTo(d0, (double)p_221222_.getY() - 0.5, d1, (float)k, 0.0F);
+                 tadpole.setPersistenceRequired();

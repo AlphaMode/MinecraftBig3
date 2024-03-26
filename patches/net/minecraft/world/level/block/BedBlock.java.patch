@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/level/block/BedBlock.java
 +++ b/net/minecraft/world/level/block/BedBlock.java
+@@ -278,7 +_,7 @@
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+         for(int[] aint : p_49473_) {
+-            blockpos$mutableblockpos.set(p_49472_.getX() + aint[0], p_49472_.getY(), p_49472_.getZ() + aint[1]);
++            blockpos$mutableblockpos.set(p_49472_.getBigX().add(aint[0]), p_49472_.getBigY(), p_49472_.getBigZ().add(aint[1]));
+             Vec3 vec3 = DismountHelper.findSafeDismountLocation(p_49470_, p_49471_, blockpos$mutableblockpos, p_49474_);
+             if (vec3 != null) {
+                 return Optional.of(vec3);
 @@ -321,7 +_,7 @@
      @Override
      public long getSeed(BlockState p_49522_, BlockPos p_49523_) {

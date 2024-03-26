@@ -1,0 +1,31 @@
+--- a/net/minecraft/world/entity/monster/Zombie.java
++++ b/net/minecraft/world/entity/monster/Zombie.java
+@@ -289,22 +_,22 @@
+                 && this.level().getDifficulty() == Difficulty.HARD
+                 && (double)this.random.nextFloat() < this.getAttributeValue(Attributes.SPAWN_REINFORCEMENTS_CHANCE)
+                 && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
+-                int i = Mth.floor(this.getX());
++                me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(this.getX());
+                 int j = Mth.floor(this.getY());
+-                int k = Mth.floor(this.getZ());
++                me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(this.getZ());
+                 Zombie zombie = new Zombie(this.level());
+ 
+                 for(int l = 0; l < 50; ++l) {
+-                    int i1 = i + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
++                    me.alphamode.mcbig.math.BigInteger i1 = i.add(Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1));
+                     int j1 = j + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
+-                    int k1 = k + Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1);
++                    me.alphamode.mcbig.math.BigInteger k1 = k.add(Mth.nextInt(this.random, 7, 40) * Mth.nextInt(this.random, -1, 1));
+                     BlockPos blockpos = new BlockPos(i1, j1, k1);
+                     EntityType<?> entitytype = zombie.getType();
+                     SpawnPlacements.Type spawnplacements$type = SpawnPlacements.getPlacementType(entitytype);
+                     if (NaturalSpawner.isSpawnPositionOk(spawnplacements$type, this.level(), blockpos, entitytype)
+                         && SpawnPlacements.checkSpawnRules(entitytype, serverlevel, MobSpawnType.REINFORCEMENT, blockpos, this.level().random)) {
+-                        zombie.setPos((double)i1, (double)j1, (double)k1);
+-                        if (!this.level().hasNearbyAlivePlayer((double)i1, (double)j1, (double)k1, 7.0)
++                        zombie.setPos((double)i1.doubleValue(), (double)j1, (double)k1.doubleValue());
++                        if (!this.level().hasNearbyAlivePlayer((double)i1.doubleValue(), (double)j1, (double)k1.doubleValue(), 7.0)
+                             && this.level().isUnobstructed(zombie)
+                             && this.level().noCollision(zombie)
+                             && !this.level().containsAnyLiquid(zombie.getBoundingBox())) {

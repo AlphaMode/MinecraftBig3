@@ -27,3 +27,12 @@
          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
          for(ClientboundLevelChunkPacketData.BlockEntityInfo clientboundlevelchunkpacketdata$blockentityinfo : this.blockEntitiesData) {
+@@ -146,7 +_,7 @@
+         static ClientboundLevelChunkPacketData.BlockEntityInfo create(BlockEntity p_195692_) {
+             CompoundTag compoundtag = p_195692_.getUpdateTag();
+             BlockPos blockpos = p_195692_.getBlockPos();
+-            int i = SectionPos.sectionRelative(blockpos.getX()) << 4 | SectionPos.sectionRelative(blockpos.getZ());
++            int i = SectionPos.sectionRelative(blockpos.getBigX()) << 4 | SectionPos.sectionRelative(blockpos.getBigZ());
+             return new ClientboundLevelChunkPacketData.BlockEntityInfo(i, blockpos.getY(), p_195692_.getType(), compoundtag.isEmpty() ? null : compoundtag);
+         }
+     }

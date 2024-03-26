@@ -23,6 +23,15 @@
      }
  
      public long getCountInRange(Predicate<Holder<PoiType>> p_27122_, BlockPos p_27123_, int p_27124_, PoiManager.Occupancy p_27125_) {
+@@ -66,7 +_,7 @@
+         int i = Math.floorDiv(p_27169_, 16) + 1;
+         return ChunkPos.rangeClosed(new ChunkPos(p_27168_), i).flatMap(p_217938_ -> this.getInChunk(p_27167_, p_217938_, p_27170_)).filter(p_217971_ -> {
+             BlockPos blockpos = p_217971_.getPos();
+-            return Math.abs(blockpos.getX() - p_27168_.getX()) <= p_27169_ && Math.abs(blockpos.getZ() - p_27168_.getZ()) <= p_27169_;
++            return blockpos.getBigX().subtract(p_27168_.getBigX()).abs().compareTo(p_27169_) <= 0 && blockpos.getBigZ().subtract(p_27168_.getBigZ()).abs().compareTo(p_27169_) <= 0;
+         });
+     }
+ 
 @@ -79,7 +_,7 @@
      public Stream<PoiRecord> getInChunk(Predicate<Holder<PoiType>> p_27118_, ChunkPos p_27119_, PoiManager.Occupancy p_27120_) {
          return IntStream.range(this.levelHeightAccessor.getMinSection(), this.levelHeightAccessor.getMaxSection())

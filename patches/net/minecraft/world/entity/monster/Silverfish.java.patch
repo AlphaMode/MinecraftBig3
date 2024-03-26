@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/Silverfish.java
++++ b/net/minecraft/world/entity/monster/Silverfish.java
+@@ -123,7 +_,7 @@
+     ) {
+         if (checkAnyLightMonsterSpawnRules(p_219077_, p_219078_, p_219079_, p_219080_, p_219081_)) {
+             Player player = p_219078_.getNearestPlayer(
+-                (double)p_219080_.getX() + 0.5, (double)p_219080_.getY() + 0.5, (double)p_219080_.getZ() + 0.5, 5.0, true
++                (double)p_219080_.getBigX().doubleValue() + 0.5, (double)p_219080_.getBigY().doubleValue() + 0.5, (double)p_219080_.getBigZ().doubleValue() + 0.5, 5.0, true
+             );
+             return player == null;
+         } else {

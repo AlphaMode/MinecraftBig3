@@ -12,3 +12,12 @@
                      BlockPos blockpos2 = new BlockPos(l4, i5, j5);
                      if (worldgenlevel.isEmptyBlock(blockpos2)) {
                          int j3 = 0;
+@@ -123,7 +_,7 @@
+             if (blockentity instanceof SpawnerBlockEntity spawnerblockentity) {
+                 spawnerblockentity.setEntityId(this.randomEntityId(randomsource), randomsource);
+             } else {
+-                LOGGER.error("Failed to fetch mob spawner entity at ({}, {}, {})", blockpos.getX(), blockpos.getY(), blockpos.getZ());
++                LOGGER.error("Failed to fetch mob spawner entity at ({}, {}, {})", blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ());
+             }
+ 
+             return true;

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/raid/Raider.java
++++ b/net/minecraft/world/entity/raid/Raider.java
+@@ -503,7 +_,7 @@
+         public void start() {
+             super.start();
+             this.raider.setNoActionTime(0);
+-            this.raider.getNavigation().moveTo((double)this.poiPos.getX(), (double)this.poiPos.getY(), (double)this.poiPos.getZ(), this.speedModifier);
++            this.raider.getNavigation().moveTo((double)this.poiPos.getBigX().doubleValue(), (double)this.poiPos.getBigY().doubleValue(), (double)this.poiPos.getBigZ().doubleValue(), this.speedModifier);
+             this.stuck = false;
+         }
+ 

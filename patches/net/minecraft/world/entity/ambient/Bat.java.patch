@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/entity/ambient/Bat.java
++++ b/net/minecraft/world/entity/ambient/Bat.java
+@@ -164,9 +_,9 @@
+                 );
+             }
+ 
+-            double d2 = (double)this.targetPosition.getX() + 0.5 - this.getX();
++            double d2 = (double)this.targetPosition.getBigX().doubleValue() + 0.5 - this.getX();
+             double d0 = (double)this.targetPosition.getY() + 0.1 - this.getY();
+-            double d1 = (double)this.targetPosition.getZ() + 0.5 - this.getZ();
++            double d1 = (double)this.targetPosition.getBigZ().doubleValue() + 0.5 - this.getZ();
+             Vec3 vec3 = this.getDeltaMovement();
+             Vec3 vec31 = vec3.add((Math.signum(d2) * 0.5 - vec3.x) * 0.1F, (Math.signum(d0) * 0.7F - vec3.y) * 0.1F, (Math.signum(d1) * 0.5 - vec3.z) * 0.1F);
+             this.setDeltaMovement(vec31);

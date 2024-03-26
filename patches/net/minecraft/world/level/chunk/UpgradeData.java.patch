@@ -20,7 +20,14 @@
                  BlockState blockstate = level.getBlockState(blockpos);
                  BlockState blockstate1 = blockstate;
  
-@@ -183,8 +_,8 @@
+@@ -177,14 +_,14 @@
+                     int i1 = l & 15;
+                     int j1 = l >> 8 & 15;
+                     int k1 = l >> 4 & 15;
+-                    blockpos$mutableblockpos.set(chunkpos.getMinBlockX() + i1, k + j1, chunkpos.getMinBlockZ() + k1);
++                    blockpos$mutableblockpos.set(chunkpos.getBigMinBlockX().add(i1), k + j1, chunkpos.getBigMinBlockZ().add(k1));
+                     BlockState blockstate = palettedcontainer.get(l);
+                     BlockState blockstate1 = blockstate;
  
                      for(Direction direction : adirection) {
                          blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, direction);

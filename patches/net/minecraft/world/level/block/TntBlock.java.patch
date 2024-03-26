@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/block/TntBlock.java
++++ b/net/minecraft/world/level/block/TntBlock.java
+@@ -71,7 +_,7 @@
+     public void wasExploded(Level p_57441_, BlockPos p_57442_, Explosion p_57443_) {
+         if (!p_57441_.isClientSide) {
+             PrimedTnt primedtnt = new PrimedTnt(
+-                p_57441_, (double)p_57442_.getX() + 0.5, (double)p_57442_.getY(), (double)p_57442_.getZ() + 0.5, p_57443_.getIndirectSourceEntity()
++                p_57441_, (double)p_57442_.getBigX().doubleValue() + 0.5, (double)p_57442_.getBigY().doubleValue(), (double)p_57442_.getBigZ().doubleValue() + 0.5, p_57443_.getIndirectSourceEntity()
+             );
+             int i = primedtnt.getFuse();
+             primedtnt.setFuse((short)(p_57441_.random.nextInt(i / 4) + i / 8));
+@@ -85,7 +_,7 @@
+ 
+     private static void explode(Level p_57437_, BlockPos p_57438_, @Nullable LivingEntity p_57439_) {
+         if (!p_57437_.isClientSide) {
+-            PrimedTnt primedtnt = new PrimedTnt(p_57437_, (double)p_57438_.getX() + 0.5, (double)p_57438_.getY(), (double)p_57438_.getZ() + 0.5, p_57439_);
++            PrimedTnt primedtnt = new PrimedTnt(p_57437_, (double)p_57438_.getBigX().doubleValue() + 0.5, (double)p_57438_.getBigY().doubleValue(), (double)p_57438_.getBigZ().doubleValue() + 0.5, p_57439_);
+             p_57437_.addFreshEntity(primedtnt);
+             p_57437_.playSound(null, primedtnt.getX(), primedtnt.getY(), primedtnt.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+             p_57437_.gameEvent(p_57439_, GameEvent.PRIME_FUSE, p_57438_);

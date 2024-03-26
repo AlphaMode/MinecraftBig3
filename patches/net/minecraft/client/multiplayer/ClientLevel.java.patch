@@ -64,6 +64,36 @@
                                  0.0,
                                  0.0,
                                  0.0
+@@ -430,10 +_,10 @@
+             if (d0 < 1.0) {
+                 if (p_104693_) {
+                     this.spawnFluidParticle(
+-                        (double)p_104690_.getX(),
+-                        (double)(p_104690_.getX() + 1),
+-                        (double)p_104690_.getZ(),
+-                        (double)(p_104690_.getZ() + 1),
++                        (double)p_104690_.getBigX().doubleValue(),
++                        (double)(p_104690_.getBigX().add()).doubleValue(),
++                        (double)p_104690_.getBigZ().doubleValue(),
++                        (double)(p_104690_.getBigZ().add()).doubleValue(),
+                         (double)(p_104690_.getY() + 1) - 0.05,
+                         p_104692_
+                     );
+@@ -457,10 +_,10 @@
+ 
+     private void spawnParticle(BlockPos p_104695_, ParticleOptions p_104696_, VoxelShape p_104697_, double p_104698_) {
+         this.spawnFluidParticle(
+-            (double)p_104695_.getX() + p_104697_.min(Direction.Axis.X),
+-            (double)p_104695_.getX() + p_104697_.max(Direction.Axis.X),
+-            (double)p_104695_.getZ() + p_104697_.min(Direction.Axis.Z),
+-            (double)p_104695_.getZ() + p_104697_.max(Direction.Axis.Z),
++            (double)p_104695_.getBigX().doubleValue() + p_104697_.min(Direction.Axis.X),
++            (double)p_104695_.getBigX().doubleValue() + p_104697_.max(Direction.Axis.X),
++            (double)p_104695_.getBigZ().doubleValue() + p_104697_.min(Direction.Axis.Z),
++            (double)p_104695_.getBigZ().doubleValue() + p_104697_.max(Direction.Axis.Z),
+             p_104698_,
+             p_104696_
+         );
 @@ -628,8 +_,8 @@
          this.levelRenderer.setBlockDirty(p_104759_, p_104760_, p_104761_);
      }
@@ -84,7 +114,15 @@
          return this.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS);
      }
  
-@@ -855,14 +_,14 @@
+@@ -848,21 +_,21 @@
+     public int calculateBlockTint(BlockPos p_104763_, ColorResolver p_104764_) {
+         int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+         if (i == 0) {
+-            return p_104764_.getColor(this.getBiome(p_104763_).value(), (double)p_104763_.getX(), (double)p_104763_.getZ());
++            return p_104764_.getColor(this.getBiome(p_104763_).value(), (double)p_104763_.getBigX().doubleValue(), (double)p_104763_.getBigZ().doubleValue());
+         } else {
+             int j = (i * 2 + 1) * (i * 2 + 1);
+             int k = 0;
              int l = 0;
              int i1 = 0;
              Cursor3D cursor3d = new Cursor3D(

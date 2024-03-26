@@ -145,3 +145,24 @@
              default:
                  return flag ? new BlockPos(i, j, k) : p_74594_;
          }
+@@ -531,15 +_,15 @@
+                 flag = false;
+         }
+ 
+-        int i = p_74582_.getX();
+-        int j = p_74582_.getZ();
++        me.alphamode.mcbig.math.BigInteger i = p_74582_.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = p_74582_.getBigZ();
+         switch(p_74581_) {
+             case COUNTERCLOCKWISE_90:
+-                return new Vec3((double)(i - j) + d2, d1, (double)(i + j + 1) - d0);
++                return new Vec3((double)(i.subtract(j)).doubleValue() + d2, d1, (double)(i.add(j).add()).doubleValue() - d0);
+             case CLOCKWISE_90:
+-                return new Vec3((double)(i + j + 1) - d2, d1, (double)(j - i) + d0);
++                return new Vec3((double)(i.add(j).add()).doubleValue() - d2, d1, (double)(j.subtract(i)).doubleValue() + d0);
+             case CLOCKWISE_180:
+-                return new Vec3((double)(i + i + 1) - d0, d1, (double)(j + j + 1) - d2);
++                return new Vec3((double)(i.add(i).add()).doubleValue() - d0, d1, (double)(j.add(j).add()).doubleValue() - d2);
+             default:
+                 return flag ? new Vec3(d0, d1, d2) : p_74579_;
+         }

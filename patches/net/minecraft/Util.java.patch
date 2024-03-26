@@ -1,9 +1,28 @@
 --- a/net/minecraft/Util.java
 +++ b/net/minecraft/Util.java
-@@ -633,6 +_,16 @@
-         return p_214645_ -> p_137491_.accept(p_137490_ + p_214645_);
-     }
+@@ -73,6 +_,8 @@
+ import java.util.stream.LongStream;
+ import java.util.stream.Stream;
+ import javax.annotation.Nullable;
++
++import net.minecraft.client.Minecraft;
+ import net.minecraft.resources.ResourceLocation;
+ import net.minecraft.server.Bootstrap;
+ import net.minecraft.util.Mth;
+@@ -108,6 +_,7 @@
+         .findFirst()
+         .orElseThrow(() -> new IllegalStateException("No jar file system provider found"));
+     private static Consumer<String> thePauser = p_313412_ -> {
++        Minecraft.getInstance().mouseHandler.releaseMouse();
+     };
  
+     public static <K, V> Collector<Entry<? extends K, ? extends V>, ?, Map<K, V>> toMap() {
+@@ -631,6 +_,16 @@
+ 
+     public static Consumer<String> prefix(String p_137490_, Consumer<String> p_137491_) {
+         return p_214645_ -> p_137491_.accept(p_137490_ + p_214645_);
++    }
++
 +    public static DataResult<String[]> fixedSize(java.util.stream.Stream<String> pStream, int pExpectedSize) {
 +        String[] aint = pStream.limit(pExpectedSize + 1).toArray(String[]::new);
 +        if (aint.length != pExpectedSize) {
@@ -12,8 +31,6 @@
 +        } else {
 +            return DataResult.success(aint);
 +        }
-+    }
-+
+     }
+ 
      public static DataResult<int[]> fixedSize(IntStream p_137540_, int p_137541_) {
-         int[] aint = p_137540_.limit((long)(p_137541_ + 1)).toArray();
-         if (aint.length != p_137541_) {

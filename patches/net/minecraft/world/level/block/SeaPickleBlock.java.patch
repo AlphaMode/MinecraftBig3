@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/block/SeaPickleBlock.java
++++ b/net/minecraft/world/level/block/SeaPickleBlock.java
+@@ -134,7 +_,7 @@
+             int j = 1;
+             int k = 2;
+             int l = 0;
+-            int i1 = p_222415_.getX() - 2;
++            me.alphamode.mcbig.math.BigInteger i1 = p_222415_.getBigX().subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWO);
+             int j1 = 0;
+ 
+             for(int k1 = 0; k1 < 5; ++k1) {
+@@ -142,7 +_,7 @@
+                     int i2 = 2 + p_222415_.getY() - 1;
+ 
+                     for(int j2 = i2 - 2; j2 < i2; ++j2) {
+-                        BlockPos blockpos = new BlockPos(i1 + k1, j2, p_222415_.getZ() - j1 + l1);
++                        BlockPos blockpos = new BlockPos(i1.add(k1), j2, p_222415_.getBigZ().subtract(j1).add(l1));
+                         if (blockpos != p_222415_ && p_222414_.nextInt(6) == 0 && p_222413_.getBlockState(blockpos).is(Blocks.WATER)) {
+                             BlockState blockstate = p_222413_.getBlockState(blockpos.below());
+                             if (blockstate.is(BlockTags.CORAL_BLOCKS)) {

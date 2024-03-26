@@ -13,3 +13,15 @@
                                          d4 - 0.5,
                                          d5 - 0.5,
                                          d6 - 0.5,
+@@ -524,9 +_,9 @@
+     public void crack(BlockPos p_107368_, Direction p_107369_) {
+         BlockState blockstate = this.level.getBlockState(p_107368_);
+         if (blockstate.getRenderShape() != RenderShape.INVISIBLE && blockstate.shouldSpawnTerrainParticles()) {
+-            int i = p_107368_.getX();
++            double i = p_107368_.getBigX().doubleValue();
+             int j = p_107368_.getY();
+-            int k = p_107368_.getZ();
++            double k = p_107368_.getBigZ().doubleValue();
+             float f = 0.1F;
+             AABB aabb = blockstate.getShape(this.level, p_107368_).bounds();
+             double d0 = (double)i + this.random.nextDouble() * (aabb.maxX - aabb.minX - 0.2F) + 0.1F + aabb.minX;

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/CrafterBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/CrafterBlockEntity.java
+@@ -184,7 +_,7 @@
+         if (this.level != null && this.level.getBlockEntity(this.worldPosition) == this) {
+             return !(
+                 p_307443_.distanceToSqr(
+-                        (double)this.worldPosition.getX() + 0.5, (double)this.worldPosition.getY() + 0.5, (double)this.worldPosition.getZ() + 0.5
++                        (double)this.worldPosition.getBigX().doubleValue() + 0.5, (double)this.worldPosition.getBigY().doubleValue() + 0.5, (double)this.worldPosition.getBigZ().doubleValue() + 0.5
+                     )
+                     > 64.0
+             );

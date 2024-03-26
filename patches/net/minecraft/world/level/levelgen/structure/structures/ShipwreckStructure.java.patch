@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/ShipwreckStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/ShipwreckStructure.java
+@@ -31,7 +_,7 @@
+ 
+     private void generatePieces(StructurePiecesBuilder p_229396_, Structure.GenerationContext p_229397_) {
+         Rotation rotation = Rotation.getRandom(p_229397_.random());
+-        BlockPos blockpos = new BlockPos(p_229397_.chunkPos().getMinBlockX(), 90, p_229397_.chunkPos().getMinBlockZ());
++        BlockPos blockpos = new BlockPos(p_229397_.chunkPos().getBigMinBlockX(), 90, p_229397_.chunkPos().getBigMinBlockZ());
+         ShipwreckPieces.addPieces(p_229397_.structureTemplateManager(), blockpos, rotation, p_229396_, p_229397_.random(), this.isBeached);
+     }
+ 

@@ -1,0 +1,37 @@
+--- a/net/minecraft/world/level/block/Block.java
++++ b/net/minecraft/world/level/block/Block.java
+@@ -136,7 +_,7 @@
+         VoxelShape voxelshape = Shapes.joinUnoptimized(
+                 p_49898_.getCollisionShape(p_238252_, p_49901_), p_49899_.getCollisionShape(p_238252_, p_49901_), BooleanOp.ONLY_SECOND
+             )
+-            .move((double)p_49901_.getX(), (double)p_49901_.getY(), (double)p_49901_.getZ());
++            .move((double)p_49901_.getBigX().doubleValue(), (double)p_49901_.getY(), (double)p_49901_.getBigZ().doubleValue());
+         if (voxelshape.isEmpty()) {
+             return p_49899_;
+         } else {
+@@ -313,9 +_,9 @@
+ 
+     public static void popResource(Level p_49841_, BlockPos p_49842_, ItemStack p_49843_) {
+         double d0 = (double)EntityType.ITEM.getHeight() / 2.0;
+-        double d1 = (double)p_49842_.getX() + 0.5 + Mth.nextDouble(p_49841_.random, -0.25, 0.25);
+-        double d2 = (double)p_49842_.getY() + 0.5 + Mth.nextDouble(p_49841_.random, -0.25, 0.25) - d0;
+-        double d3 = (double)p_49842_.getZ() + 0.5 + Mth.nextDouble(p_49841_.random, -0.25, 0.25);
++        double d1 = (double)p_49842_.getBigX().doubleValue() + 0.5 + Mth.nextDouble(p_49841_.random, -0.25, 0.25);
++        double d2 = (double)p_49842_.getBigY().doubleValue() + 0.5 + Mth.nextDouble(p_49841_.random, -0.25, 0.25) - d0;
++        double d3 = (double)p_49842_.getBigZ().doubleValue() + 0.5 + Mth.nextDouble(p_49841_.random, -0.25, 0.25);
+         popResource(p_49841_, () -> new ItemEntity(p_49841_, d1, d2, d3, p_49843_), p_49843_);
+     }
+ 
+@@ -325,9 +_,9 @@
+         int k = p_152438_.getStepZ();
+         double d0 = (double)EntityType.ITEM.getWidth() / 2.0;
+         double d1 = (double)EntityType.ITEM.getHeight() / 2.0;
+-        double d2 = (double)p_152437_.getX() + 0.5 + (i == 0 ? Mth.nextDouble(p_152436_.random, -0.25, 0.25) : (double)i * (0.5 + d0));
+-        double d3 = (double)p_152437_.getY() + 0.5 + (j == 0 ? Mth.nextDouble(p_152436_.random, -0.25, 0.25) : (double)j * (0.5 + d1)) - d1;
+-        double d4 = (double)p_152437_.getZ() + 0.5 + (k == 0 ? Mth.nextDouble(p_152436_.random, -0.25, 0.25) : (double)k * (0.5 + d0));
++        double d2 = (double)p_152437_.getBigX().doubleValue() + 0.5 + (i == 0 ? Mth.nextDouble(p_152436_.random, -0.25, 0.25) : (double)i * (0.5 + d0));
++        double d3 = (double)p_152437_.getBigY().doubleValue() + 0.5 + (j == 0 ? Mth.nextDouble(p_152436_.random, -0.25, 0.25) : (double)j * (0.5 + d1)) - d1;
++        double d4 = (double)p_152437_.getBigZ().doubleValue() + 0.5 + (k == 0 ? Mth.nextDouble(p_152436_.random, -0.25, 0.25) : (double)k * (0.5 + d0));
+         double d5 = i == 0 ? Mth.nextDouble(p_152436_.random, -0.1, 0.1) : (double)i * 0.1;
+         double d6 = j == 0 ? Mth.nextDouble(p_152436_.random, 0.0, 0.1) : (double)j * 0.1 + 0.1;
+         double d7 = k == 0 ? Mth.nextDouble(p_152436_.random, -0.1, 0.1) : (double)k * 0.1;

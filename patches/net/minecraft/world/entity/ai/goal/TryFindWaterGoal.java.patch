@@ -19,3 +19,12 @@
          )) {
              if (this.mob.level().getFluidState(blockpos1).is(FluidTags.WATER)) {
                  blockpos = blockpos1;
+@@ -36,7 +_,7 @@
+         }
+ 
+         if (blockpos != null) {
+-            this.mob.getMoveControl().setWantedPosition((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), 1.0);
++            this.mob.getMoveControl().setWantedPosition((double)blockpos.getBigX().doubleValue(), (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue(), 1.0);
+         }
+     }
+ }

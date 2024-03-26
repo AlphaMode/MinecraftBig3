@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/level/block/NoteBlock.java
++++ b/net/minecraft/world/level/block/NoteBlock.java
+@@ -132,7 +_,7 @@
+             int i = p_55023_.getValue(NOTE);
+             f = getPitchFromNote(i);
+             p_55024_.addParticle(
+-                ParticleTypes.NOTE, (double)p_55025_.getX() + 0.5, (double)p_55025_.getY() + 1.2, (double)p_55025_.getZ() + 0.5, (double)i / 24.0, 0.0, 0.0
++                ParticleTypes.NOTE, (double)p_55025_.getBigX().doubleValue() + 0.5, (double)p_55025_.getBigY().doubleValue() + 1.2, (double)p_55025_.getBigZ().doubleValue() + 0.5, (double)i / 24.0, 0.0, 0.0
+             );
+         } else {
+             f = 1.0F;
+@@ -152,9 +_,9 @@
+ 
+         p_55024_.playSeededSound(
+             null,
+-            (double)p_55025_.getX() + 0.5,
+-            (double)p_55025_.getY() + 0.5,
+-            (double)p_55025_.getZ() + 0.5,
++            (double)p_55025_.getBigX().doubleValue() + 0.5,
++            (double)p_55025_.getBigY().doubleValue() + 0.5,
++            (double)p_55025_.getBigZ().doubleValue() + 0.5,
+             holder,
+             SoundSource.RECORDS,
+             3.0F,

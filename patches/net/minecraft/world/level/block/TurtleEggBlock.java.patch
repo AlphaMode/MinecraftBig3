@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/TurtleEggBlock.java
++++ b/net/minecraft/world/level/block/TurtleEggBlock.java
+@@ -107,7 +_,7 @@
+                     if (turtle != null) {
+                         turtle.setAge(-24000);
+                         turtle.setHomePos(p_222646_);
+-                        turtle.moveTo((double)p_222646_.getX() + 0.3 + (double)j * 0.2, (double)p_222646_.getY(), (double)p_222646_.getZ() + 0.3, 0.0F, 0.0F);
++                        turtle.moveTo((double)p_222646_.getBigX().doubleValue() + 0.3 + (double)j * 0.2, (double)p_222646_.getY(), (double)p_222646_.getBigZ().doubleValue() + 0.3, 0.0F, 0.0F);
+                         p_222645_.addFreshEntity(turtle);
+                     }
+                 }

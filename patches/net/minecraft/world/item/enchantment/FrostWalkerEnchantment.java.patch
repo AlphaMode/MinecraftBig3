@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/enchantment/FrostWalkerEnchantment.java
++++ b/net/minecraft/world/item/enchantment/FrostWalkerEnchantment.java
+@@ -43,7 +_,7 @@
+ 
+             for(BlockPos blockpos : BlockPos.betweenClosed(p_45021_.offset(-i, -1, -i), p_45021_.offset(i, -1, i))) {
+                 if (blockpos.closerToCenterThan(p_45019_.position(), (double)i)) {
+-                    blockpos$mutableblockpos.set(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
++                    blockpos$mutableblockpos.set(blockpos.getBigX(), blockpos.getY() + 1, blockpos.getBigZ());
+                     BlockState blockstate1 = p_45020_.getBlockState(blockpos$mutableblockpos);
+                     if (blockstate1.isAir()) {
+                         BlockState blockstate2 = p_45020_.getBlockState(blockpos);

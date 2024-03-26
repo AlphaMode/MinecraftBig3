@@ -1,0 +1,15 @@
+--- a/net/minecraft/server/players/PlayerList.java
++++ b/net/minecraft/server/players/PlayerList.java
+@@ -505,9 +_,9 @@
+                     new ClientboundSoundPacket(
+                         SoundEvents.RESPAWN_ANCHOR_DEPLETE,
+                         SoundSource.BLOCKS,
+-                        (double)blockpos.getX(),
+-                        (double)blockpos.getY(),
+-                        (double)blockpos.getZ(),
++                        (double)blockpos.getBigX().doubleValue(),
++                        (double)blockpos.getBigY().doubleValue(),
++                        (double)blockpos.getBigZ().doubleValue(),
+                         1.0F,
+                         1.0F,
+                         serverlevel1.getRandom().nextLong()

@@ -26,6 +26,19 @@
          this.setHomePos(new BlockPos(i, j, k));
          super.readAdditionalSaveData(p_30162_);
          this.setHasEgg(p_30162_.getBoolean("HasEgg"));
+@@ -597,9 +_,9 @@
+             } else {
+                 BlockPos blockpos = this.lookForWater(this.mob.level(), this.mob, 7);
+                 if (blockpos != null) {
+-                    this.posX = (double)blockpos.getX();
+-                    this.posY = (double)blockpos.getY();
+-                    this.posZ = (double)blockpos.getZ();
++                    this.posX = (double)blockpos.getBigX().doubleValue();
++                    this.posY = (double)blockpos.getBigY().doubleValue();
++                    this.posZ = (double)blockpos.getBigZ().doubleValue();
+                     return true;
+                 } else {
+                     return this.findRandomPosition();
 @@ -684,7 +_,7 @@
                      int i = Mth.floor(vec31.x);
                      int j = Mth.floor(vec31.z);

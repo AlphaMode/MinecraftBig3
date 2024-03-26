@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/feature/IcebergFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/IcebergFeature.java
+@@ -20,7 +_,7 @@
+     public boolean place(FeaturePlaceContext<BlockStateConfiguration> p_159884_) {
+         BlockPos blockpos = p_159884_.origin();
+         WorldGenLevel worldgenlevel = p_159884_.level();
+-        blockpos = new BlockPos(blockpos.getX(), p_159884_.chunkGenerator().getSeaLevel(), blockpos.getZ());
++        blockpos = new BlockPos(blockpos.getBigX(), p_159884_.chunkGenerator().getSeaLevel(), blockpos.getBigZ());
+         RandomSource randomsource = p_159884_.random();
+         boolean flag = randomsource.nextDouble() > 0.7;
+         BlockState blockstate = p_159884_.config().state;

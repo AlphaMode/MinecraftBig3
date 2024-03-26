@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/level/block/FurnaceBlock.java
++++ b/net/minecraft/world/level/block/FurnaceBlock.java
+@@ -54,9 +_,9 @@
+     @Override
+     public void animateTick(BlockState p_221253_, Level p_221254_, BlockPos p_221255_, RandomSource p_221256_) {
+         if (p_221253_.getValue(LIT)) {
+-            double d0 = (double)p_221255_.getX() + 0.5;
++            double d0 = (double)p_221255_.getBigX().doubleValue() + 0.5;
+             double d1 = (double)p_221255_.getY();
+-            double d2 = (double)p_221255_.getZ() + 0.5;
++            double d2 = (double)p_221255_.getBigZ().doubleValue() + 0.5;
+             if (p_221256_.nextDouble() < 0.1) {
+                 p_221254_.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+             }

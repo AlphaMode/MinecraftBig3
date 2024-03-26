@@ -34,3 +34,12 @@
                  && !this.stuck
                  && this.dolphin.getAirSupply() >= 100;
          }
+@@ -427,7 +_,7 @@
+         @Override
+         public void stop() {
+             BlockPos blockpos = this.dolphin.getTreasurePos();
+-            if (BlockPos.containing((double)blockpos.getX(), this.dolphin.getY(), (double)blockpos.getZ()).closerToCenterThan(this.dolphin.position(), 4.0)
++            if (BlockPos.containing((double)blockpos.getBigX().doubleValue(), this.dolphin.getY(), (double)blockpos.getBigZ().doubleValue()).closerToCenterThan(this.dolphin.position(), 4.0)
+                 || this.stuck) {
+                 this.dolphin.setGotFish(false);
+             }

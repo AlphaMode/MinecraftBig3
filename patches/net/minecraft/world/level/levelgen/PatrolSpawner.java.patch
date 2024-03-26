@@ -15,6 +15,17 @@
                              )) {
                                  return 0;
                              } else {
+@@ -79,8 +_,8 @@
+                                             this.spawnPatrolMember(p_64570_, blockpos$mutableblockpos, randomsource, false);
+                                         }
+ 
+-                                        blockpos$mutableblockpos.setX(blockpos$mutableblockpos.getX() + randomsource.nextInt(5) - randomsource.nextInt(5));
+-                                        blockpos$mutableblockpos.setZ(blockpos$mutableblockpos.getZ() + randomsource.nextInt(5) - randomsource.nextInt(5));
++                                        blockpos$mutableblockpos.setX(blockpos$mutableblockpos.getBigX().add(randomsource.nextInt(5)).subtract(randomsource.nextInt(5)));
++                                        blockpos$mutableblockpos.setZ(blockpos$mutableblockpos.getBigZ().add(randomsource.nextInt(5)).subtract(randomsource.nextInt(5)));
+                                     }
+ 
+                                     return j1;
 @@ -107,7 +_,7 @@
                      patrollingmonster.findPatrolTarget();
                  }

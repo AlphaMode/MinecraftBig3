@@ -13,6 +13,19 @@
                              3,
                              ((double)randomsource.nextFloat() - 0.5) * 0.08,
                              ((double)randomsource.nextFloat() - 0.5) * 0.08,
+@@ -113,9 +_,9 @@
+                         ((ServerLevel)level)
+                             .sendParticles(
+                                 ParticleTypes.POOF,
+-                                (double)blockpos1.getX() + 0.5,
+-                                (double)blockpos1.getY(),
+-                                (double)blockpos1.getZ() + 0.5,
++                                (double)blockpos1.getBigX().doubleValue() + 0.5,
++                                (double)blockpos1.getBigY().doubleValue(),
++                                (double)blockpos1.getBigZ().doubleValue() + 0.5,
+                                 1,
+                                 d3,
+                                 d1,
 @@ -154,7 +_,7 @@
      @Override
      protected boolean isValidTarget(LevelReader p_25850_, BlockPos p_25851_) {

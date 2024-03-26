@@ -13,3 +13,15 @@
          this.moveTo(d0, d1, d2, this.getYRot(), this.getXRot());
          this.finalTarget = p_37332_;
          this.currentMoveDirection = Direction.UP;
+@@ -121,9 +_,9 @@
+             blockpos = BlockPos.containing(this.finalTarget.getX(), this.finalTarget.getY() + d0, this.finalTarget.getZ());
+         }
+ 
+-        double d1 = (double)blockpos.getX() + 0.5;
++        double d1 = (double)blockpos.getBigX().doubleValue() + 0.5;
+         double d2 = (double)blockpos.getY() + d0;
+-        double d3 = (double)blockpos.getZ() + 0.5;
++        double d3 = (double)blockpos.getBigZ().doubleValue() + 0.5;
+         Direction direction = null;
+         if (!blockpos.closerToCenterThan(this.position(), 2.0)) {
+             BlockPos blockpos1 = this.blockPosition();

@@ -1,5 +1,24 @@
 --- a/net/minecraft/world/level/BlockGetter.java
 +++ b/net/minecraft/world/level/BlockGetter.java
+@@ -63,7 +_,8 @@
+     }
+ 
+     default BlockHitResult clip(ClipContext p_45548_) {
+-        return traverseBlocks(p_45548_.getFrom(), p_45548_.getTo(), p_45548_, (p_151359_, p_151360_) -> {
++        Vec3 vec3 = p_45548_.getFrom().subtract(p_45548_.getTo());
++        return BlockHitResult.miss(p_45548_.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(p_45548_.getTo()));/*traverseBlocks(p_45548_.getFrom(), p_45548_.getTo(), p_45548_, (p_151359_, p_151360_) -> {
+             BlockState blockstate = this.getBlockState(p_151360_);
+             FluidState fluidstate = this.getFluidState(p_151360_);
+             Vec3 vec3 = p_151359_.getFrom();
+@@ -78,7 +_,7 @@
+         }, p_275153_ -> {
+             Vec3 vec3 = p_275153_.getFrom().subtract(p_275153_.getTo());
+             return BlockHitResult.miss(p_275153_.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(p_275153_.getTo()));
+-        });
++        });*/
+     }
+ 
+     @Nullable
 @@ -121,9 +_,9 @@
              double d3 = Mth.lerp(-1.0E-7, p_151362_.x, p_151363_.x);
              double d4 = Mth.lerp(-1.0E-7, p_151362_.y, p_151363_.y);

@@ -27,7 +27,7 @@
 +        var chunksList = p_151484_.getList(TAG_FORCED, net.minecraft.nbt.Tag.TAG_COMPOUND);
 +        chunksList.forEach(tag -> {
 +            CompoundTag chunk = (CompoundTag) tag;
-+            chunks.add(new net.minecraft.world.level.ChunkPos(me.alphamode.mcbig.math.BigInteger.val(chunk.getString("x")), me.alphamode.mcbig.math.BigInteger.val(chunk.getString("x"))));
++            chunks.add(new net.minecraft.world.level.ChunkPos(chunk.getByteArray("x"), chunk.getByteArray("x")));
 +        });
 +        return new ForcedChunksSavedData(chunks);
      }
@@ -38,8 +38,8 @@
 +        var chunks = new net.minecraft.nbt.ListTag();
 +        this.chunks.forEach(chunkPos -> {
 +            CompoundTag chunk = new CompoundTag();
-+            chunk.putString("x", chunkPos.x().toString());
-+            chunk.putString("z", chunkPos.z().toString());
++            chunk.putByteArray("x", chunkPos.x().toByteArray());
++            chunk.putByteArray("z", chunkPos.z().toByteArray());
 +        });
 +        p_46120_.put(TAG_FORCED, chunks);
          return p_46120_;

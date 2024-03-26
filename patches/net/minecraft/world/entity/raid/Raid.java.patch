@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/entity/raid/Raid.java
 +++ b/net/minecraft/world/entity/raid/Raid.java
+@@ -541,7 +_,7 @@
+             p_37715_.setCanJoinRaid(true);
+             p_37715_.setTicksOutsideRaid(0);
+             if (!p_37717_ && p_37716_ != null) {
+-                p_37715_.setPos((double)p_37716_.getX() + 0.5, (double)p_37716_.getY() + 1.0, (double)p_37716_.getZ() + 0.5);
++                p_37715_.setPos((double)p_37716_.getBigX().doubleValue() + 0.5, (double)p_37716_.getBigY().doubleValue() + 1.0, (double)p_37716_.getBigZ().doubleValue() + 0.5);
+                 p_37715_.finalizeSpawn(this.level, this.level.getCurrentDifficultyAt(p_37716_), MobSpawnType.EVENT, null, null);
+                 p_37715_.applyRaidBuffs(p_37714_, false);
+                 p_37715_.setOnGround(true);
 @@ -626,18 +_,18 @@
  
          for(int i1 = 0; i1 < p_37709_; ++i1) {

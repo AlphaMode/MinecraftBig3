@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/sniffer/Sniffer.java
++++ b/net/minecraft/world/entity/animal/sniffer/Sniffer.java
+@@ -272,7 +_,7 @@
+             BlockPos blockpos = this.getHeadBlock();
+ 
+             for(ItemStack itemstack : list) {
+-                ItemEntity itementity = new ItemEntity(serverlevel, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), itemstack);
++                ItemEntity itementity = new ItemEntity(serverlevel, (double)blockpos.getBigX().doubleValue(), (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue(), itemstack);
+                 itementity.setDefaultPickUpDelay();
+                 serverlevel.addFreshEntity(itementity);
+             }

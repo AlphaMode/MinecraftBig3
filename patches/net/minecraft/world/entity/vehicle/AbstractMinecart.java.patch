@@ -1,5 +1,14 @@
 --- a/net/minecraft/world/entity/vehicle/AbstractMinecart.java
 +++ b/net/minecraft/world/entity/vehicle/AbstractMinecart.java
+@@ -172,7 +_,7 @@
+ 
+                 for(int i : POSE_DISMOUNT_HEIGHTS.get(pose)) {
+                     for(int[] aint1 : aint) {
+-                        blockpos$mutableblockpos.set(blockpos.getX() + aint1[0], blockpos.getY() + i, blockpos.getZ() + aint1[1]);
++                        blockpos$mutableblockpos.set(blockpos.getBigX().add(aint1[0]), blockpos.getBigY().add(i), blockpos.getBigZ().add(aint1[1]));
+                         double d0 = this.level()
+                             .getBlockFloorHeight(
+                                 DismountHelper.nonClimbableShape(this.level(), blockpos$mutableblockpos),
 @@ -191,7 +_,7 @@
              }
  
@@ -35,6 +44,30 @@
      }
  
      protected void comeOffTrack() {
+@@ -428,17 +_,17 @@
+             }
+         }
+ 
+-        double d23 = (double)p_38156_.getX() + 0.5 + (double)vec3i.getX() * 0.5;
+-        double d10 = (double)p_38156_.getZ() + 0.5 + (double)vec3i.getZ() * 0.5;
+-        double d12 = (double)p_38156_.getX() + 0.5 + (double)vec3i1.getX() * 0.5;
+-        double d13 = (double)p_38156_.getZ() + 0.5 + (double)vec3i1.getZ() * 0.5;
++        double d23 = (double)p_38156_.getBigX().doubleValue() + 0.5 + (double)vec3i.getX() * 0.5;
++        double d10 = (double)p_38156_.getBigZ().doubleValue() + 0.5 + (double)vec3i.getZ() * 0.5;
++        double d12 = (double)p_38156_.getBigX().doubleValue() + 0.5 + (double)vec3i1.getX() * 0.5;
++        double d13 = (double)p_38156_.getBigZ().doubleValue() + 0.5 + (double)vec3i1.getZ() * 0.5;
+         d4 = d12 - d23;
+         d5 = d13 - d10;
+         double d14;
+         if (d4 == 0.0) {
+-            d14 = d2 - (double)p_38156_.getZ();
++            d14 = d2 - (double)p_38156_.getBigZ().doubleValue();
+         } else if (d5 == 0.0) {
+-            d14 = d0 - (double)p_38156_.getX();
++            d14 = d0 - (double)p_38156_.getBigX().doubleValue();
+         } else {
+             double d15 = d0 - d23;
+             double d16 = d2 - d10;
 @@ -536,19 +_,19 @@
  
      @Nullable

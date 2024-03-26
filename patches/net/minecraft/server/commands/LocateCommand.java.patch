@@ -1,7 +1,14 @@
 --- a/net/minecraft/server/commands/LocateCommand.java
 +++ b/net/minecraft/server/commands/LocateCommand.java
-@@ -194,7 +_,7 @@
-         Component component = ComponentUtils.wrapInSquareBrackets(Component.translatable("chat.coordinates", blockpos.getX(), s, blockpos.getZ()))
+@@ -189,12 +_,12 @@
+         BlockPos blockpos = p_262941_.getFirst();
+         int i = p_263010_
+             ? Mth.floor(Mth.sqrt((float)p_263016_.distSqr(blockpos)))
+-            : Mth.floor(dist(p_263016_.getX(), p_263016_.getZ(), blockpos.getX(), blockpos.getZ()));
++            : Mth.floor(dist(p_263016_.getBigX(), p_263016_.getBigZ(), blockpos.getBigX(), blockpos.getBigZ()));
+         String s = p_263010_ ? String.valueOf(blockpos.getY()) : "~";
+-        Component component = ComponentUtils.wrapInSquareBrackets(Component.translatable("chat.coordinates", blockpos.getX(), s, blockpos.getZ()))
++        Component component = ComponentUtils.wrapInSquareBrackets(Component.translatable("chat.coordinates", blockpos.getBigX().longValue(), s, blockpos.getBigZ().longValue()))
              .withStyle(
                  p_214489_ -> p_214489_.withColor(ChatFormatting.GREEN)
 -                        .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tp @s " + blockpos.getX() + " " + s + " " + blockpos.getZ()))
@@ -9,3 +16,16 @@
                          .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("chat.coordinates.tooltip")))
              );
          p_262983_.sendSuccess(() -> Component.translatable(p_263083_, p_263048_, component, i), false);
+@@ -202,9 +_,9 @@
+         return i;
+     }
+ 
+-    private static float dist(int p_137854_, int p_137855_, int p_137856_, int p_137857_) {
+-        int i = p_137856_ - p_137854_;
+-        int j = p_137857_ - p_137855_;
++    private static float dist(me.alphamode.mcbig.math.BigInteger p_137854_, me.alphamode.mcbig.math.BigInteger p_137855_, me.alphamode.mcbig.math.BigInteger p_137856_, me.alphamode.mcbig.math.BigInteger p_137857_) {
++        int i = p_137856_.subtract(p_137854_).intValue();
++        int j = p_137857_.subtract(p_137855_).intValue();
+         return Mth.sqrt((float)(i * i + j * j));
+     }
+ }

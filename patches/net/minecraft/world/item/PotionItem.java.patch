@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/item/PotionItem.java
++++ b/net/minecraft/world/item/PotionItem.java
+@@ -94,9 +_,9 @@
+                 for(int i = 0; i < 5; ++i) {
+                     serverlevel.sendParticles(
+                         ParticleTypes.SPLASH,
+-                        (double)blockpos.getX() + level.random.nextDouble(),
++                        (double)blockpos.getBigX().doubleValue() + level.random.nextDouble(),
+                         (double)(blockpos.getY() + 1),
+-                        (double)blockpos.getZ() + level.random.nextDouble(),
++                        (double)blockpos.getBigZ().doubleValue() + level.random.nextDouble(),
+                         1,
+                         0.0,
+                         0.0,

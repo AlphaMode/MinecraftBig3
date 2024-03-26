@@ -9,3 +9,16 @@
                          this.level().gameEvent(GameEvent.TELEPORT, blockpos, GameEvent.Context.of(this));
                          this.entityData.set(DATA_PEEK_ID, (byte)0);
                          this.setTarget(null);
+@@ -539,9 +_,9 @@
+             double d0 = (double)((float)this.clientSideTeleportInterpolation - p_149767_) / 6.0;
+             d0 *= d0;
+             BlockPos blockpos = this.blockPosition();
+-            double d1 = (double)(blockpos.getX() - this.clientOldAttachPosition.getX()) * d0;
+-            double d2 = (double)(blockpos.getY() - this.clientOldAttachPosition.getY()) * d0;
+-            double d3 = (double)(blockpos.getZ() - this.clientOldAttachPosition.getZ()) * d0;
++            double d1 = (double)(blockpos.getBigX().subtract(this.clientOldAttachPosition.getBigX()).doubleValue()) * d0;
++            double d2 = (double)(blockpos.getBigY().subtract(this.clientOldAttachPosition.getBigY()).doubleValue()) * d0;
++            double d3 = (double)(blockpos.getBigZ().subtract(this.clientOldAttachPosition.getBigZ()).doubleValue()) * d0;
+             return Optional.of(new Vec3(-d1, -d2, -d3));
+         } else {
+             return Optional.empty();

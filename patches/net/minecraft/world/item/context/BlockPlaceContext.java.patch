@@ -1,0 +1,15 @@
+--- a/net/minecraft/world/item/context/BlockPlaceContext.java
++++ b/net/minecraft/world/item/context/BlockPlaceContext.java
+@@ -36,9 +_,9 @@
+             p_43645_.getItemInHand(),
+             new BlockHitResult(
+                 new Vec3(
+-                    (double)p_43646_.getX() + 0.5 + (double)p_43647_.getStepX() * 0.5,
+-                    (double)p_43646_.getY() + 0.5 + (double)p_43647_.getStepY() * 0.5,
+-                    (double)p_43646_.getZ() + 0.5 + (double)p_43647_.getStepZ() * 0.5
++                    (double)p_43646_.getBigX().doubleValue() + 0.5 + (double)p_43647_.getStepX() * 0.5,
++                    (double)p_43646_.getBigY().doubleValue() + 0.5 + (double)p_43647_.getStepY() * 0.5,
++                    (double)p_43646_.getBigZ().doubleValue() + 0.5 + (double)p_43647_.getStepZ() * 0.5
+                 ),
+                 p_43647_,
+                 p_43646_,

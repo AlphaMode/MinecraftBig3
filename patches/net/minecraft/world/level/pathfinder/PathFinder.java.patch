@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/pathfinder/PathFinder.java
++++ b/net/minecraft/world/level/pathfinder/PathFinder.java
+@@ -41,7 +_,7 @@
+             Map<Target, BlockPos> map = p_77430_.stream()
+                 .collect(
+                     Collectors.toMap(
+-                        p_77448_ -> this.nodeEvaluator.getGoal((double)p_77448_.getX(), (double)p_77448_.getY(), (double)p_77448_.getZ()), Function.identity()
++                        p_77448_ -> this.nodeEvaluator.getGoal((double)p_77448_.getBigX().doubleValue(), (double)p_77448_.getY(), (double)p_77448_.getBigZ().doubleValue()), Function.identity()
+                     )
+                 );
+             Path path = this.findPath(p_77428_.getProfiler(), node, map, p_77431_, p_77432_, p_77433_);

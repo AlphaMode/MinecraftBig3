@@ -1,0 +1,21 @@
+--- a/net/minecraft/world/level/levelgen/structure/pools/FeaturePoolElement.java
++++ b/net/minecraft/world/level/levelgen/structure/pools/FeaturePoolElement.java
+@@ -72,12 +_,12 @@
+     public BoundingBox getBoundingBox(StructureTemplateManager p_227195_, BlockPos p_227196_, Rotation p_227197_) {
+         Vec3i vec3i = this.getSize(p_227195_, p_227197_);
+         return new BoundingBox(
+-            p_227196_.getX(),
+-            p_227196_.getY(),
+-            p_227196_.getZ(),
+-            p_227196_.getX() + vec3i.getX(),
+-            p_227196_.getY() + vec3i.getY(),
+-            p_227196_.getZ() + vec3i.getZ()
++            p_227196_.getBigX(),
++            p_227196_.getBigY(),
++            p_227196_.getBigZ(),
++            p_227196_.getBigX().add(vec3i.getX()),
++            p_227196_.getBigY().add(vec3i.getY()),
++            p_227196_.getBigZ().add(vec3i.getZ())
+         );
+     }
+ 

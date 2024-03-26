@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/Endermite.java
++++ b/net/minecraft/world/entity/monster/Endermite.java
+@@ -140,7 +_,7 @@
+     ) {
+         if (checkAnyLightMonsterSpawnRules(p_218969_, p_218970_, p_218971_, p_218972_, p_218973_)) {
+             Player player = p_218970_.getNearestPlayer(
+-                (double)p_218972_.getX() + 0.5, (double)p_218972_.getY() + 0.5, (double)p_218972_.getZ() + 0.5, 5.0, true
++                (double)p_218972_.getBigX().doubleValue() + 0.5, (double)p_218972_.getY() + 0.5, (double)p_218972_.getBigZ().doubleValue() + 0.5, 5.0, true
+             );
+             return player == null;
+         } else {

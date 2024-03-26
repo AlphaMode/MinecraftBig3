@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/level/levelgen/feature/stateproviders/NoiseBasedStateProvider.java
++++ b/net/minecraft/world/level/levelgen/feature/stateproviders/NoiseBasedStateProvider.java
+@@ -32,6 +_,6 @@
+     }
+ 
+     protected double getNoiseValue(BlockPos p_191430_, double p_191431_) {
+-        return this.noise.getValue((double)p_191430_.getX() * p_191431_, (double)p_191430_.getY() * p_191431_, (double)p_191430_.getZ() * p_191431_);
++        return this.noise.getValue((double)p_191430_.getBigX().doubleValue() * p_191431_, (double)p_191430_.getY() * p_191431_, (double)p_191430_.getBigZ().doubleValue() * p_191431_);
+     }
+ }

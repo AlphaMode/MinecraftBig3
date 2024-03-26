@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/levelgen/feature/RootSystemFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/RootSystemFeature.java
+@@ -85,8 +_,8 @@
+     }
+ 
+     private static void placeDirt(BlockPos p_225223_, int p_225224_, WorldGenLevel p_225225_, RootSystemConfiguration p_225226_, RandomSource p_225227_) {
+-        int i = p_225223_.getX();
+-        int j = p_225223_.getZ();
++        me.alphamode.mcbig.math.BigInteger i = p_225223_.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = p_225223_.getBigZ();
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = p_225223_.mutable();
+ 
+         for(int k = p_225223_.getY(); k < p_225224_; ++k) {
+@@ -95,7 +_,7 @@
+     }
+ 
+     private static void placeRootedDirt(
+-        WorldGenLevel p_225210_, RootSystemConfiguration p_225211_, RandomSource p_225212_, int p_225213_, int p_225214_, BlockPos.MutableBlockPos p_225215_
++        WorldGenLevel p_225210_, RootSystemConfiguration p_225211_, RandomSource p_225212_, me.alphamode.mcbig.math.BigInteger p_225213_, me.alphamode.mcbig.math.BigInteger p_225214_, BlockPos.MutableBlockPos p_225215_
+     ) {
+         int i = p_225211_.rootRadius;
+         Predicate<BlockState> predicate = p_204762_ -> p_204762_.is(p_225211_.rootReplaceable);

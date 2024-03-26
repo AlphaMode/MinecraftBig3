@@ -1,5 +1,16 @@
 --- a/net/minecraft/world/level/block/DoorBlock.java
 +++ b/net/minecraft/world/level/block/DoorBlock.java
+@@ -185,8 +_,8 @@
+                 int j = direction.getStepX();
+                 int k = direction.getStepZ();
+                 Vec3 vec3 = p_52805_.getClickLocation();
+-                double d0 = vec3.x - (double)blockpos.getX();
+-                double d1 = vec3.z - (double)blockpos.getZ();
++                double d0 = vec3.x - (double)blockpos.getBigX().doubleValue();
++                double d1 = vec3.z - (double)blockpos.getBigZ().doubleValue();
+                 return (j >= 0 || !(d1 < 0.5)) && (j <= 0 || !(d1 > 0.5)) && (k >= 0 || !(d0 > 0.5)) && (k <= 0 || !(d0 < 0.5))
+                     ? DoorHingeSide.LEFT
+                     : DoorHingeSide.RIGHT;
 @@ -267,7 +_,7 @@
  
      @Override

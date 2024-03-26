@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/placement/NoiseThresholdCountPlacement.java
++++ b/net/minecraft/world/level/levelgen/placement/NoiseThresholdCountPlacement.java
+@@ -32,7 +_,7 @@
+ 
+     @Override
+     protected int count(RandomSource p_226355_, BlockPos p_226356_) {
+-        double d0 = Biome.BIOME_INFO_NOISE.getValue((double)p_226356_.getX() / 200.0, (double)p_226356_.getZ() / 200.0, false);
++        double d0 = Biome.BIOME_INFO_NOISE.getValue((double)p_226356_.getBigX().doubleValue() / 200.0, (double)p_226356_.getBigZ().doubleValue() / 200.0, false);
+         return d0 < this.noiseLevel ? this.belowNoise : this.aboveNoise;
+     }
+ 

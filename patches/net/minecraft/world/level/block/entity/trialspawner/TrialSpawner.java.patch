@@ -1,0 +1,37 @@
+--- a/net/minecraft/world/level/block/entity/trialspawner/TrialSpawner.java
++++ b/net/minecraft/world/level/block/entity/trialspawner/TrialSpawner.java
+@@ -241,9 +_,9 @@
+ 
+     public static void addSpawnParticles(Level p_312303_, BlockPos p_312392_, RandomSource p_312825_) {
+         for(int i = 0; i < 20; ++i) {
+-            double d0 = (double)p_312392_.getX() + 0.5 + (p_312825_.nextDouble() - 0.5) * 2.0;
++            double d0 = (double)p_312392_.getBigX().doubleValue() + 0.5 + (p_312825_.nextDouble() - 0.5) * 2.0;
+             double d1 = (double)p_312392_.getY() + 0.5 + (p_312825_.nextDouble() - 0.5) * 2.0;
+-            double d2 = (double)p_312392_.getZ() + 0.5 + (p_312825_.nextDouble() - 0.5) * 2.0;
++            double d2 = (double)p_312392_.getBigZ().doubleValue() + 0.5 + (p_312825_.nextDouble() - 0.5) * 2.0;
+             p_312303_.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0, 0.0, 0.0);
+             p_312303_.addParticle(ParticleTypes.FLAME, d0, d1, d2, 0.0, 0.0, 0.0);
+         }
+@@ -253,18 +_,18 @@
+         for(int i = 0; i < 30 + Math.min(p_312188_, 10) * 5; ++i) {
+             double d0 = (double)(2.0F * p_312553_.nextFloat() - 1.0F) * 0.65;
+             double d1 = (double)(2.0F * p_312553_.nextFloat() - 1.0F) * 0.65;
+-            double d2 = (double)p_311759_.getX() + 0.5 + d0;
++            double d2 = (double)p_311759_.getBigX().doubleValue() + 0.5 + d0;
+             double d3 = (double)p_311759_.getY() + 0.1 + (double)p_312553_.nextFloat() * 0.8;
+-            double d4 = (double)p_311759_.getZ() + 0.5 + d1;
++            double d4 = (double)p_311759_.getBigZ().doubleValue() + 0.5 + d1;
+             p_312225_.addParticle(ParticleTypes.TRIAL_SPAWNER_DETECTION, d2, d3, d4, 0.0, 0.0, 0.0);
+         }
+     }
+ 
+     public static void addEjectItemParticles(Level p_312009_, BlockPos p_312583_, RandomSource p_312715_) {
+         for(int i = 0; i < 20; ++i) {
+-            double d0 = (double)p_312583_.getX() + 0.4 + p_312715_.nextDouble() * 0.2;
++            double d0 = (double)p_312583_.getBigX().doubleValue() + 0.4 + p_312715_.nextDouble() * 0.2;
+             double d1 = (double)p_312583_.getY() + 0.4 + p_312715_.nextDouble() * 0.2;
+-            double d2 = (double)p_312583_.getZ() + 0.4 + p_312715_.nextDouble() * 0.2;
++            double d2 = (double)p_312583_.getBigZ().doubleValue() + 0.4 + p_312715_.nextDouble() * 0.2;
+             double d3 = p_312715_.nextGaussian() * 0.02;
+             double d4 = p_312715_.nextGaussian() * 0.02;
+             double d5 = p_312715_.nextGaussian() * 0.02;

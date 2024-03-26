@@ -1,0 +1,21 @@
+--- a/net/minecraft/world/entity/npc/WanderingTrader.java
++++ b/net/minecraft/world/entity/npc/WanderingTrader.java
+@@ -286,15 +_,15 @@
+             if (blockpos != null && WanderingTrader.this.navigation.isDone()) {
+                 if (this.isTooFarAway(blockpos, 10.0)) {
+                     Vec3 vec3 = new Vec3(
+-                            (double)blockpos.getX() - this.trader.getX(),
++                            (double)blockpos.getBigX().doubleValue() - this.trader.getX(),
+                             (double)blockpos.getY() - this.trader.getY(),
+-                            (double)blockpos.getZ() - this.trader.getZ()
++                            (double)blockpos.getBigZ().doubleValue() - this.trader.getZ()
+                         )
+                         .normalize();
+                     Vec3 vec31 = vec3.scale(10.0).add(this.trader.getX(), this.trader.getY(), this.trader.getZ());
+                     WanderingTrader.this.navigation.moveTo(vec31.x, vec31.y, vec31.z, this.speedModifier);
+                 } else {
+-                    WanderingTrader.this.navigation.moveTo((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), this.speedModifier);
++                    WanderingTrader.this.navigation.moveTo((double)blockpos.getBigX().doubleValue(), (double)blockpos.getY(), (double)blockpos.getBigZ().doubleValue(), this.speedModifier);
+                 }
+             }
+         }

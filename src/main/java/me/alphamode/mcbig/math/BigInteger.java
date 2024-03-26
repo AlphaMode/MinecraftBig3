@@ -19,12 +19,15 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     }
 
     public BigInteger(byte[] bytes) {
-        long result = 0;
-        for (int i = 0; i < Long.BYTES; i++) {
-            result <<= Byte.SIZE;
-            result |= (bytes[i] & 0xFF);
-        }
-        this.value = result;
+        if (bytes.length != 0) {
+            long result = 0;
+            for (int i = 0; i < Long.BYTES; i++) {
+                result <<= Byte.SIZE;
+                result |= (bytes[i] & 0xFF);
+            }
+            this.value = result;
+        } else
+            this.value = 0;
     }
 
     public static BigInteger constant(long val) {

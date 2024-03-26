@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/structure/structures/OceanRuinStructure.java
++++ b/net/minecraft/world/level/levelgen/structure/structures/OceanRuinStructure.java
+@@ -39,7 +_,7 @@
+     }
+ 
+     private void generatePieces(StructurePiecesBuilder p_229070_, Structure.GenerationContext p_229071_) {
+-        BlockPos blockpos = new BlockPos(p_229071_.chunkPos().getMinBlockX(), 90, p_229071_.chunkPos().getMinBlockZ());
++        BlockPos blockpos = new BlockPos(p_229071_.chunkPos().getBigMinBlockX(), 90, p_229071_.chunkPos().getBigMinBlockZ());
+         Rotation rotation = Rotation.getRandom(p_229071_.random());
+         OceanRuinPieces.addPieces(p_229071_.structureTemplateManager(), blockpos, rotation, p_229070_, p_229071_.random(), this);
+     }

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/inventory/AbstractContainerMenu.java
++++ b/net/minecraft/world/inventory/AbstractContainerMenu.java
+@@ -71,7 +_,7 @@
+         return p_38890_.evaluate(
+             (p_38916_, p_38917_) -> !p_38916_.getBlockState(p_38917_).is(p_38892_)
+                     ? false
+-                    : p_38891_.distanceToSqr((double)p_38917_.getX() + 0.5, (double)p_38917_.getY() + 0.5, (double)p_38917_.getZ() + 0.5) <= 64.0,
++                    : p_38891_.distanceToSqr((double)p_38917_.getBigX().doubleValue() + 0.5, (double)p_38917_.getBigY().doubleValue() + 0.5, (double)p_38917_.getBigZ().doubleValue() + 0.5) <= 64.0,
+             true
+         );
+     }

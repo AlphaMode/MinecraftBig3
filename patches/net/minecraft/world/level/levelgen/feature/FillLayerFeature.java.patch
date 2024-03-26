@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/levelgen/feature/FillLayerFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/FillLayerFeature.java
+@@ -19,8 +_,8 @@
+ 
+         for(int i = 0; i < 16; ++i) {
+             for(int j = 0; j < 16; ++j) {
+-                int k = blockpos.getX() + i;
+-                int l = blockpos.getZ() + j;
++                me.alphamode.mcbig.math.BigInteger k = blockpos.getBigX().add(i);
++                me.alphamode.mcbig.math.BigInteger l = blockpos.getBigZ().add(j);
+                 int i1 = worldgenlevel.getMinBuildHeight() + layerconfiguration.height;
+                 blockpos$mutableblockpos.set(k, i1, l);
+                 if (worldgenlevel.getBlockState(blockpos$mutableblockpos).isAir()) {

@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/level/block/entity/ConduitBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/ConduitBlockEntity.java
+@@ -167,9 +_,9 @@
+     private static void applyEffects(Level p_155444_, BlockPos p_155445_, List<BlockPos> p_155446_) {
+         int i = p_155446_.size();
+         int j = i / 7 * 16;
+-        int k = p_155445_.getX();
++        double k = p_155445_.getBigX().doubleValue();
+         int l = p_155445_.getY();
+-        int i1 = p_155445_.getZ();
++        double i1 = p_155445_.getBigZ().doubleValue();
+         AABB aabb = new AABB((double)k, (double)l, (double)i1, (double)(k + 1), (double)(l + 1), (double)(i1 + 1))
+             .inflate((double)j)
+             .expandTowards(0.0, (double)p_155444_.getHeight(), 0.0);

@@ -18,6 +18,33 @@
      }
  
      public static void spawnForChunk(
+@@ -152,8 +_,8 @@
+             int j = 0;
+ 
+             for(int k = 0; k < 3; ++k) {
+-                int l = p_47042_.getX();
+-                int i1 = p_47042_.getZ();
++                me.alphamode.mcbig.math.BigInteger l = p_47042_.getBigX();
++                me.alphamode.mcbig.math.BigInteger i1 = p_47042_.getBigZ();
+                 int j1 = 6;
+                 MobSpawnSettings.SpawnerData mobspawnsettings$spawnerdata = null;
+                 SpawnGroupData spawngroupdata = null;
+@@ -161,11 +_,11 @@
+                 int l1 = 0;
+ 
+                 for(int i2 = 0; i2 < k1; ++i2) {
+-                    l += p_47040_.random.nextInt(6) - p_47040_.random.nextInt(6);
+-                    i1 += p_47040_.random.nextInt(6) - p_47040_.random.nextInt(6);
++                    l = l.add(p_47040_.random.nextInt(6) - p_47040_.random.nextInt(6));
++                    i1 = i1.add(p_47040_.random.nextInt(6) - p_47040_.random.nextInt(6));
+                     blockpos$mutableblockpos.set(l, i, i1);
+-                    double d0 = (double)l + 0.5;
+-                    double d1 = (double)i1 + 0.5;
++                    double d0 = (double)l.doubleValue() + 0.5;
++                    double d1 = (double)i1.doubleValue() + 0.5;
+                     Player player = p_47040_.getNearestPlayer(d0, (double)i, d1, -1.0, false);
+                     if (player != null) {
+                         double d2 = player.distanceToSqr(d0, (double)i, d1);
 @@ -221,7 +_,7 @@
          if (p_47028_ <= 576.0) {
              return false;
@@ -27,6 +54,15 @@
              return false;
          } else {
              return Objects.equals(new ChunkPos(p_47027_), p_47026_.getPos()) || p_47025_.isNaturalSpawningAllowed(p_47027_);
+@@ -250,7 +_,7 @@
+             } else if (!SpawnPlacements.checkSpawnRules(entitytype, p_220422_, MobSpawnType.NATURAL, p_220427_, p_220422_.random)) {
+                 return false;
+             } else {
+-                return p_220422_.noCollision(entitytype.getAABB((double)p_220427_.getX() + 0.5, (double)p_220427_.getY(), (double)p_220427_.getZ() + 0.5));
++                return p_220422_.noCollision(entitytype.getAABB((double)p_220427_.getBigX().doubleValue() + 0.5, (double)p_220427_.getY(), (double)p_220427_.getBigZ().doubleValue() + 0.5));
+             }
+         } else {
+             return false;
 @@ -326,8 +_,8 @@
  
      private static BlockPos getRandomPosWithin(Level p_47063_, LevelChunk p_47064_) {

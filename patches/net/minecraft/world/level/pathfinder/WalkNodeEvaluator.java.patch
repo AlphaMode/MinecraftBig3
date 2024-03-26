@@ -232,7 +232,7 @@
                      BlockPathTypes blockpathtypes = this.getBlockPathType(p_265227_, l, i1, j1);
                      blockpathtypes = this.evaluateBlockPathType(p_265227_, p_265515_, blockpathtypes);
                      if (i == 0 && j == 0 && k == 0) {
-@@ -430,18 +_,18 @@
+@@ -430,25 +_,25 @@
      }
  
      protected BlockPathTypes getBlockPathType(Mob p_77573_, BlockPos p_77574_) {
@@ -255,3 +255,31 @@
          return getBlockPathTypeStatic(p_77576_, new BlockPos.MutableBlockPos(p_77577_, p_77578_, p_77579_));
      }
  
+     public static BlockPathTypes getBlockPathTypeStatic(BlockGetter p_77605_, BlockPos.MutableBlockPos p_77606_) {
+-        int i = p_77606_.getX();
++        me.alphamode.mcbig.math.BigInteger i = p_77606_.getBigX();
+         int j = p_77606_.getY();
+-        int k = p_77606_.getZ();
++        me.alphamode.mcbig.math.BigInteger k = p_77606_.getBigZ();
+         BlockPathTypes blockpathtypes = getBlockPathTypeRaw(p_77605_, p_77606_);
+         if (blockpathtypes == BlockPathTypes.OPEN && j >= p_77605_.getMinBuildHeight() + 1) {
+             return switch(getBlockPathTypeRaw(p_77605_, p_77606_.set(i, j - 1, k))) {
+@@ -467,15 +_,15 @@
+     }
+ 
+     public static BlockPathTypes checkNeighbourBlocks(BlockGetter p_77608_, BlockPos.MutableBlockPos p_77609_, BlockPathTypes p_77610_) {
+-        int i = p_77609_.getX();
++        me.alphamode.mcbig.math.BigInteger i = p_77609_.getBigX();
+         int j = p_77609_.getY();
+-        int k = p_77609_.getZ();
++        me.alphamode.mcbig.math.BigInteger k = p_77609_.getBigZ();
+ 
+         for(int l = -1; l <= 1; ++l) {
+             for(int i1 = -1; i1 <= 1; ++i1) {
+                 for(int j1 = -1; j1 <= 1; ++j1) {
+                     if (l != 0 || j1 != 0) {
+-                        p_77609_.set(i + l, j + i1, k + j1);
++                        p_77609_.set(i.add(l), j + i1, k.add(j1));
+                         BlockState blockstate = p_77608_.getBlockState(p_77609_);
+                         if (blockstate.is(Blocks.CACTUS) || blockstate.is(Blocks.SWEET_BERRY_BUSH)) {
+                             return BlockPathTypes.DANGER_OTHER;

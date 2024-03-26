@@ -9,7 +9,7 @@
          if (!this.isPlacementChunk(p_256635_, p_255959_, p_256065_)) {
              return false;
          } else if (this.frequency < 1.0F
-@@ -90,7 +_,7 @@
+@@ -90,35 +_,35 @@
          }
      }
  
@@ -17,8 +17,9 @@
 +    protected abstract boolean isPlacementChunk(ChunkGeneratorStructureState p_256034_, me.alphamode.mcbig.math.BigInteger p_227046_, me.alphamode.mcbig.math.BigInteger p_227047_);
  
      public BlockPos getLocatePos(ChunkPos p_227040_) {
-         return new BlockPos(p_227040_.getMinBlockX(), 0, p_227040_.getMinBlockZ()).offset(this.locateOffset());
-@@ -98,27 +_,27 @@
+-        return new BlockPos(p_227040_.getMinBlockX(), 0, p_227040_.getMinBlockZ()).offset(this.locateOffset());
++        return new BlockPos(p_227040_.getBigMinBlockX(), 0, p_227040_.getBigMinBlockZ()).offset(this.locateOffset());
+     }
  
      public abstract StructurePlacementType<?> type();
  
