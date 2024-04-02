@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/FogRenderer.java
++++ b/net/minecraft/client/renderer/FogRenderer.java
+@@ -91,7 +_,7 @@
+             float f10 = (float)vec3.z;
+             float f11 = Mth.clamp(Mth.cos(p_109021_.getTimeOfDay(p_109020_) * (float) (Math.PI * 2)) * 2.0F + 0.5F, 0.0F, 1.0F);
+             BiomeManager biomemanager = p_109021_.getBiomeManager();
+-            Vec3 vec31 = p_109019_.getPosition().subtract(2.0, 2.0, 2.0).scale(0.25);
++            me.alphamode.mcbig.core.BigVec3 vec31 = p_109019_.getPosition().subtract(2.0, 2.0, 2.0).scale(0.25);
+             Vec3 vec32 = CubicSampler.gaussianSampleVec3(
+                 vec31,
+                 (p_109033_, p_109034_, p_109035_) -> p_109021_.effects()

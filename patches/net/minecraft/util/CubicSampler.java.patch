@@ -1,0 +1,32 @@
+--- a/net/minecraft/util/CubicSampler.java
++++ b/net/minecraft/util/CubicSampler.java
+@@ -10,7 +_,7 @@
+     private CubicSampler() {
+     }
+ 
+-    public static Vec3 gaussianSampleVec3(Vec3 p_130039_, CubicSampler.Vec3Fetcher p_130040_) {
++    public static Vec3 gaussianSampleVec3(me.alphamode.mcbig.core.BigVec3 p_130039_, CubicSampler.Vec3Fetcher p_130040_) {
+         int i = Mth.floor(p_130039_.x());
+         int j = Mth.floor(p_130039_.y());
+         int k = Mth.floor(p_130039_.z());
+@@ -20,15 +_,15 @@
+         double d3 = 0.0;
+         Vec3 vec3 = Vec3.ZERO;
+ 
+-        for(int l = 0; l < 6; ++l) {
++        for(int l = 0; l < GAUSSIAN_SAMPLE_BREADTH; ++l) {
+             double d4 = Mth.lerp(d0, GAUSSIAN_SAMPLE_KERNEL[l + 1], GAUSSIAN_SAMPLE_KERNEL[l]);
+-            int i1 = i - 2 + l;
++            int i1 = i - GAUSSIAN_SAMPLE_RADIUS + l;
+ 
+-            for(int j1 = 0; j1 < 6; ++j1) {
++            for(int j1 = 0; j1 < GAUSSIAN_SAMPLE_BREADTH; ++j1) {
+                 double d5 = Mth.lerp(d1, GAUSSIAN_SAMPLE_KERNEL[j1 + 1], GAUSSIAN_SAMPLE_KERNEL[j1]);
+-                int k1 = j - 2 + j1;
++                int k1 = j - GAUSSIAN_SAMPLE_RADIUS + j1;
+ 
+-                for(int l1 = 0; l1 < 6; ++l1) {
++                for(int l1 = 0; l1 < GAUSSIAN_SAMPLE_BREADTH; ++l1) {
+                     double d6 = Mth.lerp(d2, GAUSSIAN_SAMPLE_KERNEL[l1 + 1], GAUSSIAN_SAMPLE_KERNEL[l1]);
+                     int i2 = k - 2 + l1;
+                     double d7 = d4 * d5 * d6;

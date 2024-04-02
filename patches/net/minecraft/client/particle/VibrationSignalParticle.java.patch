@@ -1,0 +1,29 @@
+--- a/net/minecraft/client/particle/VibrationSignalParticle.java
++++ b/net/minecraft/client/particle/VibrationSignalParticle.java
+@@ -27,7 +_,7 @@
+         this.quadSize = 0.3F;
+         this.target = p_234109_;
+         this.lifetime = p_234110_;
+-        Optional<Vec3> optional = p_234109_.getPosition(p_234105_);
++        Optional<Vec3> optional = p_234109_.getPosition(p_234105_).map(me.alphamode.mcbig.core.BigVec3::toVanilla);
+         if (optional.isPresent()) {
+             Vec3 vec3 = optional.get();
+             double d0 = p_234106_ - vec3.x();
+@@ -48,7 +_,7 @@
+     }
+ 
+     private void renderSignal(VertexConsumer p_172479_, Camera p_172480_, float p_172481_, Consumer<Quaternionf> p_172482_) {
+-        Vec3 vec3 = p_172480_.getPosition();
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_172480_.getPosition();
+         float f = (float)(Mth.lerp((double)p_172481_, this.xo, this.x) - vec3.x());
+         float f1 = (float)(Mth.lerp((double)p_172481_, this.yo, this.y) - vec3.y());
+         float f2 = (float)(Mth.lerp((double)p_172481_, this.zo, this.z) - vec3.z());
+@@ -112,7 +_,7 @@
+         if (this.age++ >= this.lifetime) {
+             this.remove();
+         } else {
+-            Optional<Vec3> optional = this.target.getPosition(this.level);
++            Optional<Vec3> optional = this.target.getPosition(this.level).map(me.alphamode.mcbig.core.BigVec3::toVanilla);
+             if (optional.isEmpty()) {
+                 this.remove();
+             } else {

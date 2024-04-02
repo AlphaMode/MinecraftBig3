@@ -1,0 +1,102 @@
+--- a/net/minecraft/commands/arguments/selector/EntitySelectorParser.java
++++ b/net/minecraft/commands/arguments/selector/EntitySelectorParser.java
+@@ -60,13 +_,13 @@
+     public static final DynamicCommandExceptionType ERROR_EXPECTED_OPTION_VALUE = new DynamicCommandExceptionType(
+         p_304136_ -> Component.translatableEscape("argument.entity.options.valueless", p_304136_)
+     );
+-    public static final BiConsumer<Vec3, List<? extends Entity>> ORDER_NEAREST = (p_121313_, p_121314_) -> p_121314_.sort(
++    public static final BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> ORDER_NEAREST = (p_121313_, p_121314_) -> p_121314_.sort(
+             (p_175140_, p_175141_) -> Doubles.compare(p_175140_.distanceToSqr(p_121313_), p_175141_.distanceToSqr(p_121313_))
+         );
+-    public static final BiConsumer<Vec3, List<? extends Entity>> ORDER_FURTHEST = (p_121298_, p_121299_) -> p_121299_.sort(
++    public static final BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> ORDER_FURTHEST = (p_121298_, p_121299_) -> p_121299_.sort(
+             (p_175131_, p_175132_) -> Doubles.compare(p_175132_.distanceToSqr(p_121298_), p_175131_.distanceToSqr(p_121298_))
+         );
+-    public static final BiConsumer<Vec3, List<? extends Entity>> ORDER_RANDOM = (p_121264_, p_121265_) -> Collections.shuffle(p_121265_);
++    public static final BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> ORDER_RANDOM = (p_121264_, p_121265_) -> Collections.shuffle(p_121265_);
+     public static final BiFunction<SuggestionsBuilder, Consumer<SuggestionsBuilder>, CompletableFuture<Suggestions>> SUGGEST_NOTHING = (p_121363_, p_121364_) -> p_121363_.buildFuture(
+             
+         );
+@@ -78,11 +_,11 @@
+     private MinMaxBounds.Doubles distance = MinMaxBounds.Doubles.ANY;
+     private MinMaxBounds.Ints level = MinMaxBounds.Ints.ANY;
+     @Nullable
+-    private Double x;
++    private me.alphamode.mcbig.math.BigDecimal x;
+     @Nullable
+     private Double y;
+     @Nullable
+-    private Double z;
++    private me.alphamode.mcbig.math.BigDecimal z;
+     @Nullable
+     private Double deltaX;
+     @Nullable
+@@ -92,7 +_,7 @@
+     private WrappedMinMaxBounds rotX = WrappedMinMaxBounds.ANY;
+     private WrappedMinMaxBounds rotY = WrappedMinMaxBounds.ANY;
+     private Predicate<Entity> predicate = p_121321_ -> true;
+-    private BiConsumer<Vec3, List<? extends Entity>> order = EntitySelector.ORDER_ARBITRARY;
++    private BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> order = EntitySelector.ORDER_ARBITRARY;
+     private boolean currentEntity;
+     @Nullable
+     private String playerName;
+@@ -137,11 +_,11 @@
+             aabb = this.createAabb(this.deltaX == null ? 0.0 : this.deltaX, this.deltaY == null ? 0.0 : this.deltaY, this.deltaZ == null ? 0.0 : this.deltaZ);
+         }
+ 
+-        Function<Vec3, Vec3> function;
++        Function<me.alphamode.mcbig.core.BigVec3, me.alphamode.mcbig.core.BigVec3> function;
+         if (this.x == null && this.y == null && this.z == null) {
+             function = p_121292_ -> p_121292_;
+         } else {
+-            function = p_121258_ -> new Vec3(
++            function = p_121258_ -> new me.alphamode.mcbig.core.BigVec3(
+                     this.x == null ? p_121258_.x : this.x, this.y == null ? p_121258_.y : this.y, this.z == null ? p_121258_.z : this.z
+                 );
+         }
+@@ -386,7 +_,7 @@
+ 
+     @Nullable
+     public Double getX() {
+-        return this.x;
++        return this.x.doubleValue();
+     }
+ 
+     @Nullable
+@@ -396,11 +_,11 @@
+ 
+     @Nullable
+     public Double getZ() {
+-        return this.z;
++        return this.z.doubleValue();
+     }
+ 
+     public void setX(double p_121232_) {
+-        this.x = p_121232_;
++        this.x = me.alphamode.mcbig.math.BigDecimal.val(p_121232_);
+     }
+ 
+     public void setY(double p_121283_) {
+@@ -408,7 +_,7 @@
+     }
+ 
+     public void setZ(double p_121306_) {
+-        this.z = p_121306_;
++        this.z = me.alphamode.mcbig.math.BigDecimal.val(p_121306_);
+     }
+ 
+     public void setDeltaX(double p_121319_) {
+@@ -446,11 +_,11 @@
+         this.includesEntities = p_121280_;
+     }
+ 
+-    public BiConsumer<Vec3, List<? extends Entity>> getOrder() {
++    public BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> getOrder() {
+         return this.order;
+     }
+ 
+-    public void setOrder(BiConsumer<Vec3, List<? extends Entity>> p_121269_) {
++    public void setOrder(BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> p_121269_) {
+         this.order = p_121269_;
+     }
+ 

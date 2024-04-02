@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/Direction.java
 +++ b/net/minecraft/core/Direction.java
-@@ -368,6 +_,11 @@
+@@ -368,9 +_,19 @@
              }
  
              @Override
@@ -12,7 +12,15 @@
              public double choose(double p_122492_, double p_122493_, double p_122494_) {
                  return p_122492_;
              }
-@@ -379,6 +_,11 @@
++
++            @Override
++            public me.alphamode.mcbig.math.BigDecimal choose(me.alphamode.mcbig.math.BigDecimal p_122492_, me.alphamode.mcbig.math.BigDecimal p_122493_, me.alphamode.mcbig.math.BigDecimal p_122494_) {
++                return p_122492_;
++            }
+         },
+         Y("y") {
+             @Override
+@@ -379,9 +_,19 @@
              }
  
              @Override
@@ -24,7 +32,15 @@
              public double choose(double p_122506_, double p_122507_, double p_122508_) {
                  return p_122507_;
              }
-@@ -390,6 +_,11 @@
++
++            @Override
++            public me.alphamode.mcbig.math.BigDecimal choose(me.alphamode.mcbig.math.BigDecimal p_122506_, me.alphamode.mcbig.math.BigDecimal p_122507_, me.alphamode.mcbig.math.BigDecimal p_122508_) {
++                return p_122507_;
++            }
+         },
+         Z("z") {
+             @Override
+@@ -390,9 +_,19 @@
              }
  
              @Override
@@ -36,12 +52,23 @@
              public double choose(double p_122520_, double p_122521_, double p_122522_) {
                  return p_122522_;
              }
-@@ -446,6 +_,8 @@
-         }
++
++            @Override
++            public me.alphamode.mcbig.math.BigDecimal choose(me.alphamode.mcbig.math.BigDecimal p_122520_, me.alphamode.mcbig.math.BigDecimal p_122521_, me.alphamode.mcbig.math.BigDecimal p_122522_) {
++                return p_122522_;
++            }
+         };
+ 
+         public static final Direction.Axis[] VALUES = values();
+@@ -447,7 +_,11 @@
  
          public abstract int choose(int p_122466_, int p_122467_, int p_122468_);
-+
-+        public abstract me.alphamode.mcbig.math.BigInteger choose(me.alphamode.mcbig.math.BigInteger p_122466_, me.alphamode.mcbig.math.BigInteger p_122467_, me.alphamode.mcbig.math.BigInteger p_122468_);
  
++        public abstract me.alphamode.mcbig.math.BigInteger choose(me.alphamode.mcbig.math.BigInteger p_122466_, me.alphamode.mcbig.math.BigInteger p_122467_, me.alphamode.mcbig.math.BigInteger p_122468_);
++
          public abstract double choose(double p_122463_, double p_122464_, double p_122465_);
++
++        public abstract me.alphamode.mcbig.math.BigDecimal choose(me.alphamode.mcbig.math.BigDecimal x, me.alphamode.mcbig.math.BigDecimal y, me.alphamode.mcbig.math.BigDecimal z);
      }
+ 
+     public static enum AxisDirection {

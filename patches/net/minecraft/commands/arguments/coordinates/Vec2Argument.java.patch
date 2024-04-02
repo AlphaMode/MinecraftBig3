@@ -1,0 +1,22 @@
+--- a/net/minecraft/commands/arguments/coordinates/Vec2Argument.java
++++ b/net/minecraft/commands/arguments/coordinates/Vec2Argument.java
+@@ -36,8 +_,8 @@
+     }
+ 
+     public static Vec2 getVec2(CommandContext<CommandSourceStack> p_120826_, String p_120827_) {
+-        Vec3 vec3 = p_120826_.getArgument(p_120827_, Coordinates.class).getPosition(p_120826_.getSource());
+-        return new Vec2((float)vec3.x, (float)vec3.z);
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_120826_.getArgument(p_120827_, Coordinates.class).getPosition(p_120826_.getSource());
++        return new Vec2((float)vec3.x.floatValue(), (float)vec3.z.floatValue());
+     }
+ 
+     public Coordinates parse(StringReader p_120824_) throws CommandSyntaxException {
+@@ -49,7 +_,7 @@
+             if (p_120824_.canRead() && p_120824_.peek() == ' ') {
+                 p_120824_.skip();
+                 WorldCoordinate worldcoordinate1 = WorldCoordinate.parseDouble(p_120824_, this.centerCorrect);
+-                return new WorldCoordinates(worldcoordinate, new WorldCoordinate(true, 0.0), worldcoordinate1);
++                return new WorldCoordinates(worldcoordinate, new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO), worldcoordinate1);
+             } else {
+                 p_120824_.setCursor(i);
+                 throw ERROR_NOT_COMPLETE.createWithContext(p_120824_);

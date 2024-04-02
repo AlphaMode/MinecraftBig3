@@ -1,0 +1,11 @@
+--- a/net/minecraft/commands/arguments/coordinates/Coordinates.java
++++ b/net/minecraft/commands/arguments/coordinates/Coordinates.java
+@@ -6,7 +_,7 @@
+ import net.minecraft.world.phys.Vec3;
+ 
+ public interface Coordinates {
+-    Vec3 getPosition(CommandSourceStack p_119566_);
++    me.alphamode.mcbig.core.BigVec3 getPosition(CommandSourceStack p_119566_);
+ 
+     Vec2 getRotation(CommandSourceStack p_119567_);
+ 

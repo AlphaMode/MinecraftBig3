@@ -1,5 +1,37 @@
 --- a/net/minecraft/client/renderer/chunk/SectionRenderDispatcher.java
 +++ b/net/minecraft/client/renderer/chunk/SectionRenderDispatcher.java
+@@ -74,7 +_,7 @@
+     private final Executor executor;
+     ClientLevel level;
+     final LevelRenderer renderer;
+-    private Vec3 camera = Vec3.ZERO;
++    private me.alphamode.mcbig.core.BigVec3 camera = me.alphamode.mcbig.core.BigVec3.ZERO;
+ 
+     public SectionRenderDispatcher(ClientLevel p_295274_, LevelRenderer p_295323_, Executor p_295234_, RenderBuffers p_307511_) {
+         this.level = p_295274_;
+@@ -160,11 +_,11 @@
+         return this.bufferPool.getFreeBufferCount();
+     }
+ 
+-    public void setCamera(Vec3 p_296331_) {
++    public void setCamera(me.alphamode.mcbig.core.BigVec3 p_296331_) {
+         this.camera = p_296331_;
+     }
+ 
+-    public Vec3 getCameraPosition() {
++    public me.alphamode.mcbig.core.BigVec3 getCameraPosition() {
+         return this.camera;
+     }
+ 
+@@ -287,7 +_,7 @@
+         private final Map<RenderType, VertexBuffer> buffers = RenderType.chunkBufferLayers()
+             .stream()
+             .collect(Collectors.toMap(p_295245_ -> p_295245_, p_295640_ -> new VertexBuffer(VertexBuffer.Usage.STATIC)));
+-        private AABB bb;
++        private me.alphamode.mcbig.phys.BigAABB bb;
+         private boolean dirty = true;
+         final BlockPos.MutableBlockPos origin = new BlockPos.MutableBlockPos(-1, -1, -1);
+         private final BlockPos.MutableBlockPos[] relativeOrigins = Util.make(new BlockPos.MutableBlockPos[6], p_294717_ -> {
 @@ -299,12 +_,12 @@
  
          public RenderSection(int p_295197_, int p_295159_, int p_294506_, int p_294392_) {
@@ -15,6 +47,15 @@
                  != null;
          }
  
+@@ -320,7 +_,7 @@
+             }
+         }
+ 
+-        public AABB getBoundingBox() {
++        public me.alphamode.mcbig.phys.BigAABB getBoundingBox() {
+             return this.bb;
+         }
+ 
 @@ -328,11 +_,11 @@
              return this.buffers.get(p_294497_);
          }
@@ -23,12 +64,25 @@
 +        public void setOrigin(me.alphamode.mcbig.math.BigInteger p_294148_, me.alphamode.mcbig.math.BigInteger p_295137_, me.alphamode.mcbig.math.BigInteger p_295706_) {
              this.reset();
              this.origin.set(p_294148_, p_295137_, p_295706_);
-             this.bb = new AABB(
+-            this.bb = new AABB(
 -                (double)p_294148_, (double)p_295137_, (double)p_295706_, (double)(p_294148_ + 16), (double)(p_295137_ + 16), (double)(p_295706_ + 16)
-+                (double)p_294148_.doubleValue(), (double)p_295137_.doubleValue(), (double)p_295706_.doubleValue(), (double)(p_294148_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).doubleValue(), (double)(p_295137_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).doubleValue(), (double)(p_295706_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).doubleValue()
++            this.bb = new me.alphamode.mcbig.phys.BigAABB(
++                p_294148_.toBigDecimal(), (double)p_295137_.doubleValue(), p_295706_.toBigDecimal(), (p_294148_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).toBigDecimal(), (double)(p_295137_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).doubleValue(), (p_295706_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).toBigDecimal()
              );
  
              for(Direction direction : Direction.values()) {
+@@ -342,9 +_,9 @@
+ 
+         protected double getDistToPlayerSqr() {
+             Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+-            double d0 = this.bb.minX + 8.0 - camera.getPosition().x;
++            double d0 = this.bb.minX.add(me.alphamode.mcbig.core.BigConstants.EIGHT).subtract(camera.getPosition().x).doubleValue();
+             double d1 = this.bb.minY + 8.0 - camera.getPosition().y;
+-            double d2 = this.bb.minZ + 8.0 - camera.getPosition().z;
++            double d2 = this.bb.minZ.add(me.alphamode.mcbig.core.BigConstants.EIGHT).subtract(camera.getPosition().z).doubleValue();
+             return d0 * d0 + d1 * d1 + d2 * d2;
+         }
+ 
 @@ -469,11 +_,11 @@
              sectionrenderdispatcher$rendersection$compiletask.doTask(SectionRenderDispatcher.this.fixedBuffers);
          }
@@ -45,6 +99,20 @@
          }
  
          @OnlyIn(Dist.CLIENT)
+@@ -525,10 +_,10 @@
+                 } else if (this.isCancelled.get()) {
+                     return CompletableFuture.completedFuture(SectionRenderDispatcher.SectionTaskResult.CANCELLED);
+                 } else {
+-                    Vec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
+-                    float f = (float)vec3.x;
++                    me.alphamode.mcbig.core.BigVec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
++                    float f = (float)vec3.x.floatValue();
+                     float f1 = (float)vec3.y;
+-                    float f2 = (float)vec3.z;
++                    float f2 = (float)vec3.z.floatValue();
+                     SectionRenderDispatcher.RenderSection.RebuildTask.CompileResults sectionrenderdispatcher$rendersection$rebuildtask$compileresults = this.compile(
+                         f, f1, f2, p_296138_
+                     );
 @@ -616,7 +_,7 @@
                              }
  
@@ -63,6 +131,20 @@
                                  )
                              );
                              sectionrenderdispatcher$rendersection$rebuildtask$compileresults.transparencyState = bufferbuilder1.getSortState();
+@@ -701,10 +_,10 @@
+                 } else if (this.isCancelled.get()) {
+                     return CompletableFuture.completedFuture(SectionRenderDispatcher.SectionTaskResult.CANCELLED);
+                 } else {
+-                    Vec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
+-                    float f = (float)vec3.x;
++                    me.alphamode.mcbig.core.BigVec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
++                    float f = (float)vec3.x.floatValue();
+                     float f1 = (float)vec3.y;
+-                    float f2 = (float)vec3.z;
++                    float f2 = (float)vec3.z.floatValue();
+                     BufferBuilder.SortState bufferbuilder$sortstate = this.compiledSection.transparencyState;
+                     if (bufferbuilder$sortstate != null && !this.compiledSection.isEmpty(RenderType.translucent())) {
+                         BufferBuilder bufferbuilder = p_295160_.builder(RenderType.translucent());
 @@ -712,9 +_,9 @@
                          bufferbuilder.restoreSortState(bufferbuilder$sortstate);
                          bufferbuilder.setQuadSorting(

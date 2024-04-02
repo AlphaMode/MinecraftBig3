@@ -1,5 +1,22 @@
 --- a/net/minecraft/client/player/LocalPlayer.java
 +++ b/net/minecraft/client/player/LocalPlayer.java
+@@ -249,13 +_,13 @@
+             boolean flag2 = d2 != 0.0 || d3 != 0.0;
+             if (this.isPassenger()) {
+                 Vec3 vec3 = this.getDeltaMovement();
+-                this.connection.send(new ServerboundMovePlayerPacket.PosRot(vec3.x, -999.0, vec3.z, this.getYRot(), this.getXRot(), this.onGround()));
++                this.connection.send(new ServerboundMovePlayerPacket.PosRot(me.alphamode.mcbig.math.BigDecimal.val(vec3.x), -999.0, me.alphamode.mcbig.math.BigDecimal.val(vec3.z), this.getYRot(), this.getXRot(), this.onGround()));
+                 flag1 = false;
+             } else if (flag1 && flag2) {
+                 this.connection
+-                    .send(new ServerboundMovePlayerPacket.PosRot(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot(), this.onGround()));
++                    .send(new ServerboundMovePlayerPacket.PosRot(this.getBigX(), this.getY(), this.getBigZ(), this.getYRot(), this.getXRot(), this.onGround()));
+             } else if (flag1) {
+-                this.connection.send(new ServerboundMovePlayerPacket.Pos(this.getX(), this.getY(), this.getZ(), this.onGround()));
++                this.connection.send(new ServerboundMovePlayerPacket.Pos(this.getBigX(), this.getY(), this.getBigZ(), this.onGround()));
+             } else if (flag2) {
+                 this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround()));
+             } else if (this.lastOnGround != this.onGround()) {
 @@ -418,8 +_,8 @@
      private void moveTowardsClosestSpace(double p_108705_, double p_108706_) {
          BlockPos blockpos = BlockPos.containing(p_108705_, this.getY(), p_108706_);
@@ -20,3 +37,12 @@
              )
              .deflate(1.0E-7);
          return this.level().collidesWithSuffocatingBlock(this, aabb1);
+@@ -649,7 +_,7 @@
+         this.setPose(Pose.STANDING);
+         if (this.level() != null) {
+             for(double d0 = this.getY(); d0 > (double)this.level().getMinBuildHeight() && d0 < (double)this.level().getMaxBuildHeight(); ++d0) {
+-                this.setPos(this.getX(), d0, this.getZ());
++                this.setPos(this.getBigX(), d0, this.getBigZ());
+                 if (this.level().noCollision(this)) {
+                     break;
+                 }

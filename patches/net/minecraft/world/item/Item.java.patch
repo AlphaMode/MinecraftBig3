@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/Item.java
++++ b/net/minecraft/world/item/Item.java
+@@ -315,7 +_,7 @@
+         float f7 = f2 * f4;
+         double d0 = 5.0;
+         Vec3 vec31 = vec3.add((double)f6 * 5.0, (double)f5 * 5.0, (double)f7 * 5.0);
+-        return p_41436_.clip(new ClipContext(vec3, vec31, ClipContext.Block.OUTLINE, p_41438_, p_41437_));
++        return p_41436_.clip(new ClipContext(vec3.toBig(), vec31.toBig(), ClipContext.Block.OUTLINE, p_41438_, p_41437_));
+     }
+ 
+     public int getEnchantmentValue() {

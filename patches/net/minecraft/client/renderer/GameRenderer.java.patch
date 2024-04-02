@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/GameRenderer.java
++++ b/net/minecraft/client/renderer/GameRenderer.java
+@@ -848,7 +_,7 @@
+                     entity, vec3, vec32, aabb, p_234237_ -> !p_234237_.isSpectator() && p_234237_.isPickable(), d1
+                 );
+                 if (entityhitresult != null) {
+-                    Vec3 vec33 = entityhitresult.getLocation();
++                    me.alphamode.mcbig.core.BigVec3 vec33 = entityhitresult.getLocation();
+                     double d2 = vec3.distanceToSqr(vec33);
+                     if (flag1 && d2 > 9.0) {
+                         this.minecraft.hitResult = BlockHitResult.miss(vec33, Direction.getNearest(vec31.x, vec31.y, vec31.z), BlockPos.containing(vec33));

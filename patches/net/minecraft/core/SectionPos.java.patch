@@ -96,7 +96,7 @@
 +    }
 +
 +    public static me.alphamode.mcbig.math.BigInteger blockToSectionCoord(me.alphamode.mcbig.math.BigInteger p_123172_) {
-+        return me.alphamode.mcbig.math.BigInteger.val(p_123172_.longValue() >> 4);
++        return p_123172_.shiftRight(SECTION_BITS);
      }
  
      public static int blockToSectionCoord(double p_235866_) {

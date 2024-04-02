@@ -1,0 +1,38 @@
+--- a/net/minecraft/commands/arguments/EntityAnchorArgument.java
++++ b/net/minecraft/commands/arguments/EntityAnchorArgument.java
+@@ -60,7 +_,7 @@
+ 
+     public static enum Anchor {
+         FEET("feet", (p_90389_, p_90390_) -> p_90389_),
+-        EYES("eyes", (p_90382_, p_90383_) -> new Vec3(p_90382_.x, p_90382_.y + (double)p_90383_.getEyeHeight(), p_90382_.z));
++        EYES("eyes", (p_90382_, p_90383_) -> new me.alphamode.mcbig.core.BigVec3(p_90382_.x, p_90382_.y + (double)p_90383_.getEyeHeight(), p_90382_.z));
+ 
+         static final Map<String, EntityAnchorArgument.Anchor> BY_NAME = Util.make(Maps.newHashMap(), p_90387_ -> {
+             for(EntityAnchorArgument.Anchor entityanchorargument$anchor : values()) {
+@@ -68,9 +_,9 @@
+             }
+         });
+         private final String name;
+-        private final BiFunction<Vec3, Entity, Vec3> transform;
++        private final BiFunction<me.alphamode.mcbig.core.BigVec3, Entity, me.alphamode.mcbig.core.BigVec3> transform;
+ 
+-        private Anchor(String p_90374_, BiFunction<Vec3, Entity, Vec3> p_90375_) {
++        private Anchor(String p_90374_, BiFunction<me.alphamode.mcbig.core.BigVec3, Entity, me.alphamode.mcbig.core.BigVec3> p_90375_) {
+             this.name = p_90374_;
+             this.transform = p_90375_;
+         }
+@@ -80,11 +_,11 @@
+             return BY_NAME.get(p_90385_);
+         }
+ 
+-        public Vec3 apply(Entity p_90378_) {
+-            return this.transform.apply(p_90378_.position(), p_90378_);
++        public me.alphamode.mcbig.core.BigVec3 apply(Entity p_90378_) {
++            return this.transform.apply(p_90378_.bigPosition(), p_90378_);
+         }
+ 
+-        public Vec3 apply(CommandSourceStack p_90380_) {
++        public me.alphamode.mcbig.core.BigVec3 apply(CommandSourceStack p_90380_) {
+             Entity entity = p_90380_.getEntity();
+             return entity == null ? p_90380_.getPosition() : this.transform.apply(p_90380_.getPosition(), entity);
+         }

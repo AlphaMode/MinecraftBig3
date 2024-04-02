@@ -30,7 +30,7 @@
      private static final int PACKED_X_LENGTH = 1 + Mth.log2(Mth.smallestEncompassingPowerOfTwo(30000000));
      private static final int PACKED_Z_LENGTH = PACKED_X_LENGTH;
      public static final int PACKED_Y_LENGTH = 64 - PACKED_X_LENGTH - PACKED_Z_LENGTH;
-@@ -46,40 +_,32 @@
+@@ -46,46 +_,46 @@
      private static final int Z_OFFSET = PACKED_Y_LENGTH;
      private static final int X_OFFSET = PACKED_Y_LENGTH + PACKED_Z_LENGTH;
  
@@ -84,9 +84,23 @@
      public static BlockPos containing(double p_275310_, double p_275414_, double p_275737_) {
 -        return new BlockPos(Mth.floor(p_275310_), Mth.floor(p_275414_), Mth.floor(p_275737_));
 +        return new BlockPos(Mth.bigFloor(p_275310_), Mth.bigFloor(p_275414_), Mth.bigFloor(p_275737_));
++    }
++
++    public static BlockPos containing(me.alphamode.mcbig.math.BigDecimal p_275310_, double p_275414_, me.alphamode.mcbig.math.BigDecimal p_275737_) {
++        return new BlockPos(Mth.bigFloor(p_275310_), Mth.bigFloor(p_275414_), Mth.bigFloor(p_275737_));
      }
  
      public static BlockPos containing(Position p_275443_) {
+         return containing(p_275443_.x(), p_275443_.y(), p_275443_.z());
+     }
+ 
++    public static BlockPos containing(me.alphamode.mcbig.core.BigPosition p_275443_) {
++        return containing(p_275443_.bigX(), p_275443_.y(), p_275443_.bigZ());
++    }
++
+     public long asLong() {
+         return asLong(this.getX(), this.getY(), this.getZ());
+     }
 @@ -104,7 +_,13 @@
      public BlockPos offset(int p_121973_, int p_121974_, int p_121975_) {
          return p_121973_ == 0 && p_121974_ == 0 && p_121975_ == 0
@@ -406,7 +420,7 @@
          }
  
          @Override
-@@ -504,23 +_,33 @@
+@@ -504,23 +_,37 @@
              return super.rotate(p_122138_).immutable();
          }
  
@@ -446,6 +460,10 @@
 -        public BlockPos.MutableBlockPos set(long p_122189_) {
 -            return this.set(getX(p_122189_), getY(p_122189_), getZ(p_122189_));
 +            return this.set(Mth.bigFloor(p_122170_), Mth.bigFloor(p_122171_), Mth.bigFloor(p_122172_));
++        }
++
++        public BlockPos.MutableBlockPos set(me.alphamode.mcbig.math.BigDecimal x, double y, me.alphamode.mcbig.math.BigDecimal z) {
++            return this.set(Mth.bigFloor(x), Mth.bigFloor(y), Mth.bigFloor(z));
 +        }
 +
 +        public BlockPos.MutableBlockPos set(me.alphamode.mcbig.core.Vec3l p_122191_) {

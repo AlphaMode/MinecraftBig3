@@ -1,5 +1,14 @@
 --- a/net/minecraft/gametest/framework/GameTestHelper.java
 +++ b/net/minecraft/gametest/framework/GameTestHelper.java
+@@ -178,7 +_,7 @@
+ 
+     public void useBlock(BlockPos p_250131_, Player p_251507_) {
+         BlockPos blockpos = this.absolutePos(p_250131_);
+-        this.useBlock(p_250131_, p_251507_, new BlockHitResult(Vec3.atCenterOf(blockpos), Direction.NORTH, blockpos, true));
++        this.useBlock(p_250131_, p_251507_, new BlockHitResult(me.alphamode.mcbig.core.BigVec3.atCenterOf(blockpos), Direction.NORTH, blockpos, true));
+     }
+ 
+     public void useBlock(BlockPos p_262023_, Player p_261901_, BlockHitResult p_262040_) {
 @@ -634,7 +_,7 @@
  
      public void assertSameBlockStates(BoundingBox p_177225_, BlockPos p_177226_) {
@@ -8,4 +17,13 @@
 +            BlockPos blockpos = p_177226_.offset(p_177267_.getBigX().subtract(p_177225_.minX()), p_177267_.getBigY().subtract(p_177225_.minY()), p_177267_.getBigZ().subtract(p_177225_.minZ()));
              this.assertSameBlockState(p_177267_, blockpos);
          });
+     }
+@@ -846,7 +_,7 @@
+ 
+     public void placeAt(Player p_261595_, ItemStack p_262007_, BlockPos p_261973_, Direction p_262008_) {
+         BlockPos blockpos = this.absolutePos(p_261973_.relative(p_262008_));
+-        BlockHitResult blockhitresult = new BlockHitResult(Vec3.atCenterOf(blockpos), p_262008_, blockpos, false);
++        BlockHitResult blockhitresult = new BlockHitResult(me.alphamode.mcbig.core.BigVec3.atCenterOf(blockpos), p_262008_, blockpos, false);
+         UseOnContext useoncontext = new UseOnContext(p_261595_, InteractionHand.MAIN_HAND, blockhitresult);
+         p_262007_.useOn(useoncontext);
      }

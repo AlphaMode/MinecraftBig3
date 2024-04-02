@@ -16,11 +16,13 @@
      private volatile boolean hasWork;
  
      protected DynamicGraphMinFixedPoint(int p_75543_, int p_75544_, final int p_75545_) {
-@@ -21,7 +_,7 @@
+@@ -20,8 +_,8 @@
+             throw new IllegalArgumentException("Level count must be < 254.");
          } else {
              this.levelCount = p_75543_;
-             this.priorityQueue = new LeveledPriorityQueue(p_75543_, p_75544_);
+-            this.priorityQueue = new LeveledPriorityQueue(p_75543_, p_75544_);
 -            this.computedLevels = new Long2ByteOpenHashMap(p_75545_, 0.5F) {
++            this.priorityQueue = new LeveledPriorityQueue<>(p_75543_, p_75544_);
 +            this.computedLevels = new it.unimi.dsi.fastutil.objects.Object2ByteOpenHashMap<>(p_75545_, 0.5F) {
                  @Override
                  protected void rehash(int p_75611_) {

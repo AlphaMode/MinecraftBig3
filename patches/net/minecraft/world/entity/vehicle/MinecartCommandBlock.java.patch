@@ -9,3 +9,12 @@
          if (p_38520_ && this.tickCount - this.lastActivated >= 4) {
              this.getCommandBlock().performCommand(this.level());
              this.lastActivated = this.tickCount;
+@@ -131,7 +_,7 @@
+         public CommandSourceStack createCommandSourceStack() {
+             return new CommandSourceStack(
+                 this,
+-                MinecartCommandBlock.this.position(),
++                MinecartCommandBlock.this.bigPosition(),
+                 MinecartCommandBlock.this.getRotationVector(),
+                 this.getLevel(),
+                 2,

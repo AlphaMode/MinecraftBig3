@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/multiplayer/ClientSuggestionProvider.java
++++ b/net/minecraft/client/multiplayer/ClientSuggestionProvider.java
+@@ -146,7 +_,7 @@
+     public Collection<SharedSuggestionProvider.TextCoordinates> getAbsoluteCoordinates() {
+         HitResult hitresult = this.minecraft.hitResult;
+         if (hitresult != null && hitresult.getType() == HitResult.Type.BLOCK) {
+-            Vec3 vec3 = hitresult.getLocation();
++            Vec3 vec3 = hitresult.getLocation().toVanilla();
+             return Collections.singleton(new SharedSuggestionProvider.TextCoordinates(prettyPrint(vec3.x), prettyPrint(vec3.y), prettyPrint(vec3.z)));
+         } else {
+             return SharedSuggestionProvider.super.getAbsoluteCoordinates();

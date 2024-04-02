@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/chase/ChaseClient.java
++++ b/net/minecraft/server/chase/ChaseClient.java
+@@ -154,7 +_,7 @@
+                         ServerLevel serverlevel = this.server.overworld();
+                         CommandSourceStack commandsourcestack = new CommandSourceStack(
+                             serverplayer,
+-                            Vec3.atLowerCornerOf(serverlevel.getSharedSpawnPos()),
++                            me.alphamode.mcbig.core.BigVec3.atLowerCornerOf(serverlevel.getSharedSpawnPos()),
+                             Vec2.ZERO,
+                             serverlevel,
+                             4,

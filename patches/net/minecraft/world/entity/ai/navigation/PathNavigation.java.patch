@@ -49,6 +49,15 @@
                      }
                  }
              }
+@@ -356,7 +_,7 @@
+     protected static boolean isClearForMovementBetween(Mob p_262599_, Vec3 p_262674_, Vec3 p_262586_, boolean p_262676_) {
+         Vec3 vec3 = new Vec3(p_262586_.x, p_262586_.y + (double)p_262599_.getBbHeight() * 0.5, p_262586_.z);
+         return p_262599_.level()
+-                .clip(new ClipContext(p_262674_, vec3, ClipContext.Block.COLLIDER, p_262676_ ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE, p_262599_))
++                .clip(new ClipContext(p_262674_.toBig(), vec3.toBig(), ClipContext.Block.COLLIDER, p_262676_ ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE, p_262599_))
+                 .getType()
+             == HitResult.Type.MISS;
+     }
 @@ -383,7 +_,7 @@
              return false;
          } else if (this.path != null && !this.path.isDone() && this.path.getNodeCount() != 0) {

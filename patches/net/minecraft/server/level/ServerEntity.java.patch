@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/level/ServerEntity.java
++++ b/net/minecraft/server/level/ServerEntity.java
+@@ -87,7 +_,7 @@
+                     p_311547_ -> {
+                         if (p_311547_ instanceof ServerPlayer serverplayer1) {
+                             serverplayer1.connection
+-                                .teleport(serverplayer1.getX(), serverplayer1.getY(), serverplayer1.getZ(), serverplayer1.getYRot(), serverplayer1.getXRot());
++                                .teleport(serverplayer1.getBigX(), serverplayer1.getY(), serverplayer1.getBigZ(), serverplayer1.getYRot(), serverplayer1.getXRot());
+                         }
+                     }
+                 );

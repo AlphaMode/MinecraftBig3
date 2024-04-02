@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/SignBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/SignBlockEntity.java
+@@ -221,7 +_,7 @@
+         String s = p_279428_ == null ? "Sign" : p_279428_.getName().getString();
+         Component component = (Component)(p_279428_ == null ? Component.literal("Sign") : p_279428_.getDisplayName());
+         return new CommandSourceStack(
+-            CommandSource.NULL, Vec3.atCenterOf(p_279430_), Vec2.ZERO, (ServerLevel)p_279359_, 2, s, component, p_279359_.getServer(), p_279428_
++            CommandSource.NULL, me.alphamode.mcbig.core.BigVec3.atCenterOf(p_279430_), Vec2.ZERO, (ServerLevel)p_279359_, 2, s, component, p_279359_.getServer(), p_279428_
+         );
+     }
+ 

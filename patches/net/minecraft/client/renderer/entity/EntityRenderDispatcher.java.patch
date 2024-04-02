@@ -17,3 +17,12 @@
                          float f2 = (float)(d0 - p_277682_);
                          float f3 = (float)(d1 - p_277682_);
                          float f4 = (float)(d2 - p_278099_);
+@@ -429,7 +_,7 @@
+     }
+ 
+     public double distanceToSqr(Entity p_114472_) {
+-        return this.camera.getPosition().distanceToSqr(p_114472_.position());
++        return this.camera.getPosition().distanceToSqr(p_114472_.bigPosition());
+     }
+ 
+     public double distanceToSqr(double p_114379_, double p_114380_, double p_114381_) {

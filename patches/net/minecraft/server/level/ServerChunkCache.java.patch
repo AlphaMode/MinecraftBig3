@@ -67,7 +67,7 @@
      ) {
          boolean flag = Thread.currentThread() == this.mainThread;
          CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture;
-@@ -230,19 +_,19 @@
+@@ -230,22 +_,22 @@
      }
  
      private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFutureMainThread(
@@ -90,7 +90,11 @@
 +                chunkholder = this.getVisibleChunkIfPresent(chunkpos);
                  profilerfiller.pop();
                  if (this.chunkAbsent(chunkholder, j)) {
-                     throw (IllegalStateException)Util.pauseInIde(new IllegalStateException("No chunk holder after ticket has been added"));
+-                    throw (IllegalStateException)Util.pauseInIde(new IllegalStateException("No chunk holder after ticket has been added"));
++                    throw (IllegalStateException)Util.pauseInIde(new IllegalStateException("No chunk holder after ticket has been added: " + chunkpos));
+                 }
+             }
+         }
 @@ -258,16 +_,16 @@
      }
  

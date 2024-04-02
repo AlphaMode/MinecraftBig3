@@ -91,6 +91,15 @@
                  64.0,
                  this.dimension(),
                  new ClientboundLevelEventPacket(p_8685_, p_8686_, p_8687_, false)
+@@ -1007,7 +_,7 @@
+     }
+ 
+     @Override
+-    public void gameEvent(GameEvent p_215041_, Vec3 p_215042_, GameEvent.Context p_215043_) {
++    public void gameEvent(GameEvent p_215041_, me.alphamode.mcbig.core.BigVec3 p_215042_, GameEvent.Context p_215043_) {
+         this.gameEventDispatcher.post(p_215041_, p_215042_, p_215043_);
+     }
+ 
 @@ -1138,9 +_,9 @@
                          .getPlayerList()
                          .broadcast(

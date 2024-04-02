@@ -1,0 +1,19 @@
+--- a/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/SculkCatalystBlockEntity.java
+@@ -79,14 +_,14 @@
+         }
+ 
+         @Override
+-        public boolean handleGameEvent(ServerLevel p_283470_, GameEvent p_282184_, GameEvent.Context p_283014_, Vec3 p_282350_) {
++        public boolean handleGameEvent(ServerLevel p_283470_, GameEvent p_282184_, GameEvent.Context p_283014_, me.alphamode.mcbig.core.BigVec3 p_282350_) {
+             if (p_282184_ == GameEvent.ENTITY_DIE) {
+                 Entity $$5 = p_283014_.sourceEntity();
+                 if ($$5 instanceof LivingEntity livingentity) {
+                     if (!livingentity.wasExperienceConsumed()) {
+                         int i = livingentity.getExperienceReward();
+                         if (livingentity.shouldDropExperience() && i > 0) {
+-                            this.sculkSpreader.addCursors(BlockPos.containing(p_282350_.relative(Direction.UP, 0.5)), i);
++                            this.sculkSpreader.addCursors(BlockPos.containing(p_282350_.relative(Direction.UP, me.alphamode.mcbig.core.BigConstants.AABB)), i);
+                             this.tryAwardItSpreadsAdvancement(p_283470_, livingentity);
+                         }
+ 

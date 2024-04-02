@@ -1,7 +1,11 @@
 --- a/net/minecraft/world/level/gameevent/GameEventDispatcher.java
 +++ b/net/minecraft/world/level/gameevent/GameEventDispatcher.java
-@@ -20,12 +_,12 @@
-     public void post(GameEvent p_251754_, Vec3 p_250613_, GameEvent.Context p_251777_) {
+@@ -17,15 +_,15 @@
+         this.level = p_251921_;
+     }
+ 
+-    public void post(GameEvent p_251754_, Vec3 p_250613_, GameEvent.Context p_251777_) {
++    public void post(GameEvent p_251754_, me.alphamode.mcbig.core.BigVec3 p_250613_, GameEvent.Context p_251777_) {
          int i = p_251754_.getNotificationRadius();
          BlockPos blockpos = BlockPos.containing(p_250613_);
 -        int j = SectionPos.blockToSectionCoord(blockpos.getX() - i);
@@ -34,3 +38,12 @@
                          flag |= chunkaccess.getListenerRegistry(j2)
                              .visitInRangeListeners(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
                      }
+@@ -53,7 +_,7 @@
+         }
+ 
+         if (flag) {
+-            DebugPackets.sendGameEventInfo(this.level, p_251754_, p_250613_);
++            DebugPackets.sendGameEventInfo(this.level, p_251754_, p_250613_.toVanilla());
+         }
+     }
+ 

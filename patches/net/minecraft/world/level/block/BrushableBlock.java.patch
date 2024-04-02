@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/BrushableBlock.java
++++ b/net/minecraft/world/level/block/BrushableBlock.java
+@@ -94,7 +_,7 @@
+     public void onBrokenAfterFall(Level p_278097_, BlockPos p_277734_, FallingBlockEntity p_277539_) {
+         Vec3 vec3 = p_277539_.getBoundingBox().getCenter();
+         p_278097_.levelEvent(2001, BlockPos.containing(vec3), Block.getId(p_277539_.getBlockState()));
+-        p_278097_.gameEvent(p_277539_, GameEvent.BLOCK_DESTROY, vec3);
++        p_278097_.gameEvent(p_277539_, GameEvent.BLOCK_DESTROY, vec3.toBig());
+     }
+ 
+     @Override

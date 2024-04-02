@@ -1,0 +1,49 @@
+--- a/net/minecraft/server/commands/ParticleCommand.java
++++ b/net/minecraft/server/commands/ParticleCommand.java
+@@ -33,7 +_,7 @@
+                                     p_138148_.getSource(),
+                                     ParticleArgument.getParticle(p_138148_, "name"),
+                                     p_138148_.getSource().getPosition(),
+-                                    Vec3.ZERO,
++                                    me.alphamode.mcbig.core.BigVec3.ZERO,
+                                     0.0F,
+                                     0,
+                                     false,
+@@ -47,7 +_,7 @@
+                                             p_138146_.getSource(),
+                                             ParticleArgument.getParticle(p_138146_, "name"),
+                                             Vec3Argument.getVec3(p_138146_, "pos"),
+-                                            Vec3.ZERO,
++                                            me.alphamode.mcbig.core.BigVec3.ZERO,
+                                             0.0F,
+                                             0,
+                                             false,
+@@ -143,8 +_,8 @@
+     private static int sendParticles(
+         CommandSourceStack p_138129_,
+         ParticleOptions p_138130_,
+-        Vec3 p_138131_,
+-        Vec3 p_138132_,
++        me.alphamode.mcbig.core.BigVec3 p_138131_,
++        me.alphamode.mcbig.core.BigVec3 p_138132_,
+         float p_138133_,
+         int p_138134_,
+         boolean p_138135_,
+@@ -158,13 +_,13 @@
+                     serverplayer,
+                     p_138130_,
+                     p_138135_,
+-                    p_138131_.x,
++                    p_138131_.x.doubleValue(),
+                     p_138131_.y,
+-                    p_138131_.z,
++                    p_138131_.z.doubleValue(),
+                     p_138134_,
+-                    p_138132_.x,
++                    p_138132_.x.doubleValue(),
+                     p_138132_.y,
+-                    p_138132_.z,
++                    p_138132_.z.doubleValue(),
+                     (double)p_138133_
+                 )) {
+                 ++i;

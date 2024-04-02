@@ -1,0 +1,51 @@
+--- a/net/minecraft/client/renderer/debug/DebugRenderer.java
++++ b/net/minecraft/client/renderer/debug/DebugRenderer.java
+@@ -99,12 +_,12 @@
+         return this.renderChunkborder;
+     }
+ 
+-    public void render(PoseStack p_113458_, MultiBufferSource.BufferSource p_113459_, double p_113460_, double p_113461_, double p_113462_) {
++    public void render(PoseStack p_113458_, MultiBufferSource.BufferSource p_113459_, me.alphamode.mcbig.math.BigDecimal p_113460_, double p_113461_, me.alphamode.mcbig.math.BigDecimal p_113462_) {
+         if (this.renderChunkborder && !Minecraft.getInstance().showOnlyReducedInfo()) {
+-            this.chunkBorderRenderer.render(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
++//            this.chunkBorderRenderer.render(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
+         }
+ 
+-        this.gameTestDebugRenderer.render(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
++//        this.gameTestDebugRenderer.render(p_113458_, p_113459_, p_113460_, p_113461_, p_113462_);
+     }
+ 
+     public static Optional<Entity> getTargetedEntity(@Nullable Entity p_113449_, int p_113450_) {
+@@ -144,7 +_,7 @@
+     ) {
+         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+         if (camera.isInitialized()) {
+-            Vec3 vec3 = camera.getPosition().reverse();
++            Vec3 vec3 = camera.getPosition().reverse().toVanilla();
+             AABB aabb = AABB.encapsulatingFullBlocks(p_270790_, p_270610_).move(vec3);
+             renderFilledBox(p_270169_, p_270417_, aabb, p_270515_, p_270494_, p_270869_, p_270844_);
+         }
+@@ -162,7 +_,7 @@
+     ) {
+         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+         if (camera.isInitialized()) {
+-            Vec3 vec3 = camera.getPosition().reverse();
++            Vec3 vec3 = camera.getPosition().reverse().toVanilla();
+             AABB aabb = new AABB(p_270480_).move(vec3).inflate((double)p_270569_);
+             renderFilledBox(p_270877_, p_270925_, aabb, p_270315_, p_270182_, p_270862_, p_270973_);
+         }
+@@ -249,11 +_,11 @@
+         Camera camera = minecraft.gameRenderer.getMainCamera();
+         if (camera.isInitialized() && minecraft.getEntityRenderDispatcher().options != null) {
+             Font font = minecraft.font;
+-            double d0 = camera.getPosition().x;
++            me.alphamode.mcbig.math.BigDecimal d0 = camera.getPosition().x;
+             double d1 = camera.getPosition().y;
+-            double d2 = camera.getPosition().z;
++            me.alphamode.mcbig.math.BigDecimal d2 = camera.getPosition().z;
+             p_270649_.pushPose();
+-            p_270649_.translate((float)(p_270942_ - d0), (float)(p_270292_ - d1) + 0.07F, (float)(p_270885_ - d2));
++            p_270649_.translate((float)(p_270942_ - d0.doubleValue()), (float)(p_270292_ - d1) + 0.07F, (float)(p_270885_ - d2.doubleValue()));
+             p_270649_.mulPoseMatrix(new Matrix4f().rotation(camera.rotation()));
+             p_270649_.scale(-p_270657_, -p_270657_, p_270657_);
+             float f = p_270731_ ? (float)(-font.width(p_270703_)) / 2.0F : 0.0F;

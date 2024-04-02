@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/block/TargetBlock.java
++++ b/net/minecraft/world/level/block/TargetBlock.java
+@@ -45,12 +_,12 @@
+         Entity entity = p_57384_.getOwner();
+         if (entity instanceof ServerPlayer serverplayer) {
+             serverplayer.awardStat(Stats.TARGET_HIT);
+-            CriteriaTriggers.TARGET_BLOCK_HIT.trigger(serverplayer, p_57384_, p_57383_.getLocation(), i);
++            CriteriaTriggers.TARGET_BLOCK_HIT.trigger(serverplayer, p_57384_, p_57383_.getLocation().toVanilla(), i);
+         }
+     }
+ 
+     private static int updateRedstoneOutput(LevelAccessor p_57392_, BlockState p_57393_, BlockHitResult p_57394_, Entity p_57395_) {
+-        int i = getRedstoneStrength(p_57394_, p_57394_.getLocation());
++        int i = getRedstoneStrength(p_57394_, p_57394_.getLocation().toVanilla());
+         int j = p_57395_ instanceof AbstractArrow ? 20 : 8;
+         if (!p_57392_.getBlockTicks().hasScheduledTick(p_57394_.getBlockPos(), p_57393_.getBlock())) {
+             setOutputPower(p_57392_, p_57393_, i, p_57394_.getBlockPos(), j);

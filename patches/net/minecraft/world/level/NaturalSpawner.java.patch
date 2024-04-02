@@ -74,7 +74,12 @@
          int k = p_47064_.getHeight(Heightmap.Types.WORLD_SURFACE, i, j) + 1;
          int l = Mth.randomBetweenInclusive(p_47063_.random, p_47063_.getMinBuildHeight(), k);
          return new BlockPos(i, l, j);
-@@ -379,8 +_,8 @@
+@@ -376,11 +_,13 @@
+     }
+ 
+     public static void spawnMobsForChunkGeneration(ServerLevelAccessor p_220451_, Holder<Biome> p_220452_, ChunkPos p_220453_, RandomSource p_220454_) {
++        if (me.alphamode.mcbig.core.BigConstants.BIG_MODE)
++            return;
          MobSpawnSettings mobspawnsettings = p_220452_.value().getMobSettings();
          WeightedRandomList<MobSpawnSettings.SpawnerData> weightedrandomlist = mobspawnsettings.getMobs(MobCategory.CREATURE);
          if (!weightedrandomlist.isEmpty()) {

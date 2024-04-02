@@ -1,0 +1,90 @@
+--- a/net/minecraft/world/phys/shapes/Shapes.java
++++ b/net/minecraft/world/phys/shapes/Shapes.java
+@@ -87,10 +_,50 @@
+         }
+     }
+ 
++    public static VoxelShape create(me.alphamode.mcbig.math.BigDecimal p_166050_, me.alphamode.mcbig.math.BigDecimal p_166051_, me.alphamode.mcbig.math.BigDecimal p_166052_, me.alphamode.mcbig.math.BigDecimal p_166053_, me.alphamode.mcbig.math.BigDecimal p_166054_, me.alphamode.mcbig.math.BigDecimal p_166055_) {
++        if (!(p_166053_.subtract(p_166050_).compareTo(me.alphamode.mcbig.core.BigConstants.EPSILON) < 0) && !(p_166054_.subtract(p_166051_).compareTo(me.alphamode.mcbig.core.BigConstants.EPSILON) < 0) && !(p_166055_.subtract(p_166052_).compareTo(me.alphamode.mcbig.core.BigConstants.EPSILON) < 0)) {
++            int i = findBits(p_166050_, p_166053_);
++            int j = findBits(p_166051_, p_166054_);
++            int k = findBits(p_166052_, p_166055_);
++            if (i < 0 || j < 0 || k < 0) {
++                return new me.alphamode.mcbig.phys.shapes.BigArrayVoxelShape(
++                        BLOCK.shape,
++                        it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new me.alphamode.mcbig.math.BigDecimal[]{p_166050_, p_166053_}),
++                        it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new me.alphamode.mcbig.math.BigDecimal[]{p_166051_, p_166054_}),
++                        it.unimi.dsi.fastutil.objects.ObjectArrayList.wrap(new me.alphamode.mcbig.math.BigDecimal[]{p_166052_, p_166055_})
++                );
++            } else if (i == 0 && j == 0 && k == 0) {
++                return block();
++            } else {
++                int l = 1 << i;
++                int i1 = 1 << j;
++                int j1 = 1 << k;
++                BitSetDiscreteVoxelShape bitsetdiscretevoxelshape = BitSetDiscreteVoxelShape.withFilledBounds(
++                        l,
++                        i1,
++                        j1,
++                        p_166050_.multiply((double)l).round().intValue(),
++                        p_166051_.multiply((double)i1).round().intValue(),
++                        p_166052_.multiply((double)j1).round().intValue(),
++                        p_166053_.multiply((double)l).round().intValue(),
++                        p_166054_.multiply((double)i1).round().intValue(),
++                        p_166055_.multiply((double)j1).round().intValue()
++                );
++                return new CubeVoxelShape(bitsetdiscretevoxelshape);
++            }
++        } else {
++            return empty();
++        }
++    }
++
+     public static VoxelShape create(AABB p_83065_) {
+         return create(p_83065_.minX, p_83065_.minY, p_83065_.minZ, p_83065_.maxX, p_83065_.maxY, p_83065_.maxZ);
+     }
+ 
++    public static VoxelShape create(me.alphamode.mcbig.phys.BigAABB box) {
++        return create(box.minX, me.alphamode.mcbig.math.BigDecimal.val(box.minY), box.minZ, box.maxX, me.alphamode.mcbig.math.BigDecimal.val(box.maxY), box.maxZ);
++    }
++
+     @VisibleForTesting
+     protected static int findBits(double p_83042_, double p_83043_) {
+         if (!(p_83042_ < -1.0E-7) && !(p_83043_ > 1.0000001)) {
+@@ -111,6 +_,26 @@
+         }
+     }
+ 
++    @VisibleForTesting
++    protected static int findBits(me.alphamode.mcbig.math.BigDecimal p_83042_, me.alphamode.mcbig.math.BigDecimal p_83043_) {
++        if (!(p_83042_.compareTo(me.alphamode.mcbig.core.BigConstants.NEG_EPSILON) < 0) && !(p_83043_.compareTo(me.alphamode.mcbig.core.BigConstants.FIND_BITS) > 0)) {
++            for(int i = 0; i <= 3; ++i) {
++                int j = 1 << i;
++                me.alphamode.mcbig.math.BigDecimal d0 = p_83042_.multiply(j);
++                me.alphamode.mcbig.math.BigDecimal d1 = p_83043_.multiply(j);
++                boolean flag = d0.subtract(d0.round()).abs().compareTo(me.alphamode.mcbig.core.BigConstants.EPSILON) < 0 * (double)j;
++                boolean flag1 = d1.subtract(d1.round()).abs().compareTo(me.alphamode.mcbig.core.BigConstants.EPSILON) < 0 * (double)j;
++                if (flag && flag1) {
++                    return i;
++                }
++            }
++
++            return -1;
++        } else {
++            return -1;
++        }
++    }
++
+     protected static long lcm(int p_83056_, int p_83057_) {
+         return (long)p_83056_ * (long)(p_83057_ / IntMath.gcd(p_83056_, p_83057_));
+     }
+@@ -333,5 +_,9 @@
+ 
+     public interface DoubleLineConsumer {
+         void consume(double p_83162_, double p_83163_, double p_83164_, double p_83165_, double p_83166_, double p_83167_);
++    }
++
++    public interface BigLineConsumer {
++        void consume(me.alphamode.mcbig.math.BigDecimal minX, double minY, me.alphamode.mcbig.math.BigDecimal minZ, me.alphamode.mcbig.math.BigDecimal maxX, double maxY, me.alphamode.mcbig.math.BigDecimal maxZ);
+     }
+ }

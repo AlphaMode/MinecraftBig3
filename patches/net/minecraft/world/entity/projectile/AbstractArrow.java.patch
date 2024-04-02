@@ -1,0 +1,23 @@
+--- a/net/minecraft/world/entity/projectile/AbstractArrow.java
++++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
+@@ -179,9 +_,9 @@
+             this.inGroundTime = 0;
+             Vec3 vec32 = this.position();
+             Vec3 vec33 = vec32.add(vec3);
+-            HitResult hitresult = this.level().clip(new ClipContext(vec32, vec33, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
++            HitResult hitresult = this.level().clip(new ClipContext(vec32.toBig(), vec33.toBig(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+             if (hitresult.getType() != HitResult.Type.MISS) {
+-                vec33 = hitresult.getLocation();
++                vec33 = hitresult.getLocation().toVanilla();
+             }
+ 
+             while(!this.isRemoved()) {
+@@ -422,7 +_,7 @@
+     protected void onHitBlock(BlockHitResult p_36755_) {
+         this.lastState = this.level().getBlockState(p_36755_.getBlockPos());
+         super.onHitBlock(p_36755_);
+-        Vec3 vec3 = p_36755_.getLocation().subtract(this.getX(), this.getY(), this.getZ());
++        Vec3 vec3 = p_36755_.getLocation().subtract(this.getX(), this.getY(), this.getZ()).toVanilla();
+         this.setDeltaMovement(vec3);
+         Vec3 vec31 = vec3.normalize().scale(0.05F);
+         this.setPosRaw(this.getX() - vec31.x, this.getY() - vec31.y, this.getZ() - vec31.z);

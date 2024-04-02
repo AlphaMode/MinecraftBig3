@@ -1,0 +1,94 @@
+--- a/net/minecraft/commands/arguments/selector/EntitySelector.java
++++ b/net/minecraft/commands/arguments/selector/EntitySelector.java
+@@ -24,7 +_,7 @@
+ 
+ public class EntitySelector {
+     public static final int INFINITE = Integer.MAX_VALUE;
+-    public static final BiConsumer<Vec3, List<? extends Entity>> ORDER_ARBITRARY = (p_261404_, p_261405_) -> {
++    public static final BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> ORDER_ARBITRARY = (p_261404_, p_261405_) -> {
+     };
+     private static final EntityTypeTest<Entity, ?> ANY_TYPE = new EntityTypeTest<Entity, Entity>() {
+         public Entity tryCast(Entity p_175109_) {
+@@ -41,10 +_,10 @@
+     private final boolean worldLimited;
+     private final Predicate<Entity> predicate;
+     private final MinMaxBounds.Doubles range;
+-    private final Function<Vec3, Vec3> position;
++    private final Function<me.alphamode.mcbig.core.BigVec3, me.alphamode.mcbig.core.BigVec3> position;
+     @Nullable
+     private final AABB aabb;
+-    private final BiConsumer<Vec3, List<? extends Entity>> order;
++    private final BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> order;
+     private final boolean currentEntity;
+     @Nullable
+     private final String playerName;
+@@ -59,9 +_,9 @@
+         boolean p_121127_,
+         Predicate<Entity> p_121128_,
+         MinMaxBounds.Doubles p_121129_,
+-        Function<Vec3, Vec3> p_121130_,
++        Function<me.alphamode.mcbig.core.BigVec3, me.alphamode.mcbig.core.BigVec3> p_121130_,
+         @Nullable AABB p_121131_,
+-        BiConsumer<Vec3, List<? extends Entity>> p_121132_,
++        BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> p_121132_,
+         boolean p_121133_,
+         @Nullable String p_121134_,
+         @Nullable UUID p_121135_,
+@@ -142,7 +_,7 @@
+ 
+             return Collections.emptyList();
+         } else {
+-            Vec3 vec3 = this.position.apply(p_251934_.getPosition());
++            me.alphamode.mcbig.core.BigVec3 vec3 = this.position.apply(p_251934_.getPosition());
+             Predicate<Entity> predicate = this.getPredicate(vec3);
+             if (this.currentEntity) {
+                 return (List<? extends Entity>)(p_251934_.getEntity() != null && predicate.test(p_251934_.getEntity())
+@@ -163,11 +_,11 @@
+         }
+     }
+ 
+-    private void addEntities(List<Entity> p_121155_, ServerLevel p_121156_, Vec3 p_121157_, Predicate<Entity> p_121158_) {
++    private void addEntities(List<Entity> p_121155_, ServerLevel p_121156_, me.alphamode.mcbig.core.BigVec3 p_121157_, Predicate<Entity> p_121158_) {
+         int i = this.getResultLimit();
+         if (p_121155_.size() < i) {
+             if (this.aabb != null) {
+-                p_121156_.getEntities(this.type, this.aabb.move(p_121157_), p_121158_, p_121155_, i);
++                p_121156_.getEntities(this.type, this.aabb.move(p_121157_.toVanilla()), p_121158_, p_121155_, i);
+             } else {
+                 p_121156_.getEntities(this.type, p_121158_, p_121155_, i);
+             }
+@@ -197,7 +_,7 @@
+             ServerPlayer serverplayer1 = p_121167_.getServer().getPlayerList().getPlayer(this.entityUUID);
+             return (List<ServerPlayer>)(serverplayer1 == null ? Collections.emptyList() : Lists.newArrayList(serverplayer1));
+         } else {
+-            Vec3 vec3 = this.position.apply(p_121167_.getPosition());
++            me.alphamode.mcbig.core.BigVec3 vec3 = this.position.apply(p_121167_.getPosition());
+             Predicate<Entity> predicate = this.getPredicate(vec3);
+             if (this.currentEntity) {
+                 Entity entity = p_121167_.getEntity();
+@@ -229,21 +_,21 @@
+         }
+     }
+ 
+-    private Predicate<Entity> getPredicate(Vec3 p_121145_) {
++    private Predicate<Entity> getPredicate(me.alphamode.mcbig.core.BigVec3 p_121145_) {
+         Predicate<Entity> predicate = this.predicate;
+         if (this.aabb != null) {
+-            AABB aabb = this.aabb.move(p_121145_);
++            AABB aabb = this.aabb.move(p_121145_.toVanilla());
+             predicate = predicate.and(p_121143_ -> aabb.intersects(p_121143_.getBoundingBox()));
+         }
+ 
+         if (!this.range.isAny()) {
+-            predicate = predicate.and(p_121148_ -> this.range.matchesSqr(p_121148_.distanceToSqr(p_121145_)));
++            predicate = predicate.and(p_121148_ -> this.range.matchesSqr(p_121148_.distanceToSqr(p_121145_.toVanilla())));
+         }
+ 
+         return predicate;
+     }
+ 
+-    private <T extends Entity> List<T> sortAndLimit(Vec3 p_121150_, List<T> p_121151_) {
++    private <T extends Entity> List<T> sortAndLimit(me.alphamode.mcbig.core.BigVec3 p_121150_, List<T> p_121151_) {
+         if (p_121151_.size() > 1) {
+             this.order.accept(p_121150_, p_121151_);
+         }

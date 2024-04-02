@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/rcon/RconConsoleSource.java
++++ b/net/minecraft/server/rcon/RconConsoleSource.java
+@@ -29,7 +_,7 @@
+     public CommandSourceStack createCommandSourceStack() {
+         ServerLevel serverlevel = this.server.overworld();
+         return new CommandSourceStack(
+-            this, Vec3.atLowerCornerOf(serverlevel.getSharedSpawnPos()), Vec2.ZERO, serverlevel, 4, "Rcon", RCON_COMPONENT, this.server, null
++            this, me.alphamode.mcbig.core.BigVec3.atLowerCornerOf(serverlevel.getSharedSpawnPos()), Vec2.ZERO, serverlevel, 4, "Rcon", RCON_COMPONENT, this.server, null
+         );
+     }
+ 

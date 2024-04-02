@@ -1,5 +1,25 @@
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
+@@ -18,6 +_,7 @@
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+ import net.minecraft.core.GlobalPos;
++import net.minecraft.core.SectionPos;
+ import net.minecraft.core.particles.ParticleOptions;
+ import net.minecraft.core.particles.ParticleTypes;
+ import net.minecraft.core.registries.Registries;
+@@ -91,10 +_,7 @@
+ import net.minecraft.world.item.crafting.RecipeHolder;
+ import net.minecraft.world.item.enchantment.EnchantmentHelper;
+ import net.minecraft.world.item.trading.MerchantOffers;
+-import net.minecraft.world.level.BaseCommandBlock;
+-import net.minecraft.world.level.GameRules;
+-import net.minecraft.world.level.GameType;
+-import net.minecraft.world.level.Level;
++import net.minecraft.world.level.*;
+ import net.minecraft.world.level.block.BedBlock;
+ import net.minecraft.world.level.block.Block;
+ import net.minecraft.world.level.block.RespawnAnchorBlock;
 @@ -181,7 +_,7 @@
          this.gameProfile = p_252153_;
          this.inventoryMenu = new InventoryMenu(this.inventory, !p_250508_.isClientSide, this);
@@ -9,17 +29,28 @@
          this.rotOffs = 180.0F;
      }
  
-@@ -273,8 +_,8 @@
+@@ -273,9 +_,9 @@
          }
  
          int i = 29999999;
 -        double d0 = Mth.clamp(this.getX(), -2.9999999E7, 2.9999999E7);
 -        double d1 = Mth.clamp(this.getZ(), -2.9999999E7, 2.9999999E7);
-+        double d0 = /*Mth.clamp(*/this.getX()/*, -2.9999999E7, 2.9999999E7)*/;
-+        double d1 = /*Mth.clamp(*/this.getZ()/*, -2.9999999E7, 2.9999999E7)*/;
-         if (d0 != this.getX() || d1 != this.getZ()) {
+-        if (d0 != this.getX() || d1 != this.getZ()) {
++        me.alphamode.mcbig.math.BigDecimal d0 = /*Mth.clamp(*/this.getBigX()/*, -2.9999999E7, 2.9999999E7)*/;
++        me.alphamode.mcbig.math.BigDecimal d1 = /*Mth.clamp(*/this.getBigZ()/*, -2.9999999E7, 2.9999999E7)*/;
++        if (!d0.equals(this.getBigX()) || !d1.equals(this.getBigZ())) {
              this.setPos(d0, this.getY(), d1);
          }
+ 
+@@ -1008,7 +_,7 @@
+ 
+                     InteractionResult interactionresult1 = itemstack.interactLivingEntity(this, (LivingEntity)p_36158_, p_36159_);
+                     if (interactionresult1.consumesAction()) {
+-                        this.level().gameEvent(GameEvent.ENTITY_INTERACT, p_36158_.position(), GameEvent.Context.of(this));
++                        this.level().gameEvent(GameEvent.ENTITY_INTERACT, p_36158_.bigPosition(), GameEvent.Context.of(this));
+                         if (itemstack.isEmpty() && !this.abilities.instabuild) {
+                             this.setItemInHand(p_36159_, ItemStack.EMPTY);
+                         }
 @@ -1396,7 +_,7 @@
              BlockState blockstate1 = p_36131_.getBlockState(p_36132_.above());
              boolean flag1 = blockstate1.getBlock().isPossibleToRespawnInThis(blockstate1);
@@ -29,3 +60,46 @@
                  : Optional.empty();
          }
      }
+@@ -2108,5 +_,42 @@
+         public Component getMessage() {
+             return this.message;
+         }
++    }
++
++    @Override
++    public void setPosRaw(double p_20344_, double p_20345_, double p_20346_) {
++        setPosRaw(me.alphamode.mcbig.math.BigDecimal.val(p_20344_), p_20345_, me.alphamode.mcbig.math.BigDecimal.val(p_20346_));
++    }
++
++    public void setPos(me.alphamode.mcbig.math.BigDecimal p_20210_, double p_20211_, me.alphamode.mcbig.math.BigDecimal p_20212_) {
++        this.setPosRaw(p_20210_, p_20211_, p_20212_);
++        this.setBoundingBox(this.makeBoundingBox());
++    }
++
++    public void absMoveTo(me.alphamode.mcbig.math.BigDecimal p_19891_, double p_19892_, me.alphamode.mcbig.math.BigDecimal p_19893_, float p_19894_, float p_19895_) {
++        this.absMoveTo(p_19891_, p_19892_, p_19893_);
++        this.setYRot(p_19894_ % 360.0F);
++        this.setXRot(Mth.clamp(p_19895_, -90.0F, 90.0F) % 360.0F);
++        this.yRotO = this.getYRot();
++        this.xRotO = this.getXRot();
++    }
++
++    public void absMoveTo(me.alphamode.mcbig.math.BigDecimal p_20249_, double p_20250_, me.alphamode.mcbig.math.BigDecimal p_20251_) {
++        me.alphamode.mcbig.math.BigDecimal d0 = p_20249_;//Mth.clamp(p_20249_, -3.0E7, 3.0E7);
++        me.alphamode.mcbig.math.BigDecimal d1 = p_20251_;//Mth.clamp(p_20251_, -3.0E7, 3.0E7);
++        this.bigXo = d0;
++        this.yo = p_20250_;
++        this.bigZo = d1;
++        this.xo = d0.doubleValue();
++        this.zo = d1.doubleValue();
++        this.setPos(d0, p_20250_, d1);
++    }
++
++    public void moveTo(me.alphamode.mcbig.math.BigDecimal p_20108_, double p_20109_, me.alphamode.mcbig.math.BigDecimal p_20110_, float p_20111_, float p_20112_) {
++        this.setPosRaw(p_20108_, p_20109_, p_20110_);
++        this.setYRot(p_20111_);
++        this.setXRot(p_20112_);
++        this.setOldPosAndRot();
++        this.reapplyPosition();
+     }
+ }

@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/commands/DamageCommand.java
++++ b/net/minecraft/server/commands/DamageCommand.java
+@@ -56,7 +_,7 @@
+                                                                     FloatArgumentType.getFloat(p_270444_, "amount"),
+                                                                     new DamageSource(
+                                                                         ResourceArgument.getResource(p_270444_, "damageType", Registries.DAMAGE_TYPE),
+-                                                                        Vec3Argument.getVec3(p_270444_, "location")
++                                                                        Vec3Argument.getVec3(p_270444_, "location").toVanilla()
+                                                                     )
+                                                                 )
+                                                         )

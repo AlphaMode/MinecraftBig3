@@ -1,8 +1,11 @@
 --- a/net/minecraft/server/commands/ResetChunksCommand.java
 +++ b/net/minecraft/server/commands/ResetChunksCommand.java
-@@ -61,23 +_,23 @@
+@@ -59,25 +_,25 @@
+         ServerLevel serverlevel = p_183685_.getLevel();
+         ServerChunkCache serverchunkcache = serverlevel.getChunkSource();
          serverchunkcache.chunkMap.debugReloadGenerator();
-         Vec3 vec3 = p_183685_.getPosition();
+-        Vec3 vec3 = p_183685_.getPosition();
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_183685_.getPosition();
          ChunkPos chunkpos = new ChunkPos(BlockPos.containing(vec3));
 -        int i = chunkpos.z - p_183686_;
 -        int j = chunkpos.z + p_183686_;

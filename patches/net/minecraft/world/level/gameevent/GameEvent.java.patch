@@ -1,0 +1,26 @@
+--- a/net/minecraft/world/level/gameevent/GameEvent.java
++++ b/net/minecraft/world/level/gameevent/GameEvent.java
+@@ -120,12 +_,12 @@
+ 
+     public static final class ListenerInfo implements Comparable<GameEvent.ListenerInfo> {
+         private final GameEvent gameEvent;
+-        private final Vec3 source;
++        private final me.alphamode.mcbig.core.BigVec3 source;
+         private final GameEvent.Context context;
+         private final GameEventListener recipient;
+         private final double distanceToRecipient;
+ 
+-        public ListenerInfo(GameEvent p_251490_, Vec3 p_249118_, GameEvent.Context p_251196_, GameEventListener p_251701_, Vec3 p_248854_) {
++        public ListenerInfo(GameEvent p_251490_, me.alphamode.mcbig.core.BigVec3 p_249118_, GameEvent.Context p_251196_, GameEventListener p_251701_, me.alphamode.mcbig.core.BigVec3 p_248854_) {
+             this.gameEvent = p_251490_;
+             this.source = p_249118_;
+             this.context = p_251196_;
+@@ -141,7 +_,7 @@
+             return this.gameEvent;
+         }
+ 
+-        public Vec3 source() {
++        public me.alphamode.mcbig.core.BigVec3 source() {
+             return this.source;
+         }
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/SaddleItem.java
++++ b/net/minecraft/world/item/SaddleItem.java
+@@ -18,7 +_,7 @@
+         if (p_43057_ instanceof Saddleable saddleable && p_43057_.isAlive() && !saddleable.isSaddled() && saddleable.isSaddleable()) {
+             if (!p_43056_.level().isClientSide) {
+                 saddleable.equipSaddle(SoundSource.NEUTRAL);
+-                p_43057_.level().gameEvent(p_43057_, GameEvent.EQUIP, p_43057_.position());
++                p_43057_.level().gameEvent(p_43057_, GameEvent.EQUIP, p_43057_.bigPosition());
+                 p_43055_.shrink(1);
+             }
+ 

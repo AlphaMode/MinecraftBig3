@@ -1,0 +1,45 @@
+--- a/net/minecraft/commands/arguments/coordinates/WorldCoordinates.java
++++ b/net/minecraft/commands/arguments/coordinates/WorldCoordinates.java
+@@ -18,15 +_,15 @@
+     }
+ 
+     @Override
+-    public Vec3 getPosition(CommandSourceStack p_120893_) {
+-        Vec3 vec3 = p_120893_.getPosition();
+-        return new Vec3(this.x.get(vec3.x), this.y.get(vec3.y), this.z.get(vec3.z));
++    public me.alphamode.mcbig.core.BigVec3 getPosition(CommandSourceStack p_120893_) {
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_120893_.getPosition();
++        return new me.alphamode.mcbig.core.BigVec3(this.x.get(vec3.x), this.y.get(me.alphamode.mcbig.math.BigDecimal.val(vec3.y)).doubleValue(), this.z.get(vec3.z));
+     }
+ 
+     @Override
+     public Vec2 getRotation(CommandSourceStack p_120896_) {
+         Vec2 vec2 = p_120896_.getRotation();
+-        return new Vec2((float)this.x.get((double)vec2.x), (float)this.y.get((double)vec2.y));
++        return new Vec2((float)this.x.get(me.alphamode.mcbig.math.BigDecimal.val((double)vec2.x)).doubleValue(), (float)this.y.get(me.alphamode.mcbig.math.BigDecimal.val((double)vec2.y)).doubleValue());
+     }
+ 
+     @Override
+@@ -100,18 +_,18 @@
+         }
+     }
+ 
+-    public static WorldCoordinates absolute(double p_175086_, double p_175087_, double p_175088_) {
+-        return new WorldCoordinates(new WorldCoordinate(false, p_175086_), new WorldCoordinate(false, p_175087_), new WorldCoordinate(false, p_175088_));
++    public static WorldCoordinates absolute(me.alphamode.mcbig.math.BigDecimal p_175086_, double p_175087_, me.alphamode.mcbig.math.BigDecimal p_175088_) {
++        return new WorldCoordinates(new WorldCoordinate(false, p_175086_), new WorldCoordinate(false, me.alphamode.mcbig.math.BigDecimal.val(p_175087_)), new WorldCoordinate(false, p_175088_));
+     }
+ 
+     public static WorldCoordinates absolute(Vec2 p_175090_) {
+         return new WorldCoordinates(
+-            new WorldCoordinate(false, (double)p_175090_.x), new WorldCoordinate(false, (double)p_175090_.y), new WorldCoordinate(true, 0.0)
++            new WorldCoordinate(false, me.alphamode.mcbig.math.BigDecimal.val(p_175090_.x)), new WorldCoordinate(false, me.alphamode.mcbig.math.BigDecimal.val((double)p_175090_.y)), new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO)
+         );
+     }
+ 
+     public static WorldCoordinates current() {
+-        return new WorldCoordinates(new WorldCoordinate(true, 0.0), new WorldCoordinate(true, 0.0), new WorldCoordinate(true, 0.0));
++        return new WorldCoordinates(new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO), new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO), new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO));
+     }
+ 
+     @Override

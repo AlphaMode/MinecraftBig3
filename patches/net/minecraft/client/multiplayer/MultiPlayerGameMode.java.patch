@@ -1,0 +1,20 @@
+--- a/net/minecraft/client/multiplayer/MultiPlayerGameMode.java
++++ b/net/minecraft/client/multiplayer/MultiPlayerGameMode.java
+@@ -344,7 +_,7 @@
+             this.connection
+                 .send(
+                     new ServerboundMovePlayerPacket.PosRot(
+-                        p_233722_.getX(), p_233722_.getY(), p_233722_.getZ(), p_233722_.getYRot(), p_233722_.getXRot(), p_233722_.onGround()
++                        p_233722_.getBigX(), p_233722_.getY(), p_233722_.getBigZ(), p_233722_.getYRot(), p_233722_.getXRot(), p_233722_.onGround()
+                     )
+                 );
+             MutableObject<InteractionResult> mutableobject = new MutableObject<>();
+@@ -394,7 +_,7 @@
+ 
+     public InteractionResult interactAt(Player p_105231_, Entity p_105232_, EntityHitResult p_105233_, InteractionHand p_105234_) {
+         this.ensureHasSentCarriedItem();
+-        Vec3 vec3 = p_105233_.getLocation().subtract(p_105232_.getX(), p_105232_.getY(), p_105232_.getZ());
++        Vec3 vec3 = p_105233_.getLocation().subtract(p_105232_.getX(), p_105232_.getY(), p_105232_.getZ()).toVanilla();
+         this.connection.send(ServerboundInteractPacket.createInteractionPacket(p_105232_, p_105231_.isShiftKeyDown(), p_105234_, vec3));
+         return this.localPlayerMode == GameType.SPECTATOR ? InteractionResult.PASS : p_105232_.interactAt(p_105231_, vec3, p_105234_);
+     }

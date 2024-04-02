@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/level/Explosion.java
++++ b/net/minecraft/world/level/Explosion.java
+@@ -187,7 +_,7 @@
+                         double d9 = Mth.lerp(d6, aabb.minY, aabb.maxY);
+                         double d10 = Mth.lerp(d7, aabb.minZ, aabb.maxZ);
+                         Vec3 vec3 = new Vec3(d8 + d3, d9, d10 + d4);
+-                        if (p_46066_.level().clip(new ClipContext(vec3, p_46065_, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_46066_)).getType()
++                        if (p_46066_.level().clip(new ClipContext(vec3.toBig(), p_46065_.toBig(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_46066_)).getType()
+                             == HitResult.Type.MISS) {
+                             ++i;
+                         }
+@@ -212,7 +_,7 @@
+     }
+ 
+     public void explode() {
+-        this.level.gameEvent(this.source, GameEvent.EXPLODE, new Vec3(this.x, this.y, this.z));
++        this.level.gameEvent(this.source, GameEvent.EXPLODE, new Vec3(this.x, this.y, this.z).toBig());
+         Set<BlockPos> set = Sets.newHashSet();
+         int i = 16;
+ 

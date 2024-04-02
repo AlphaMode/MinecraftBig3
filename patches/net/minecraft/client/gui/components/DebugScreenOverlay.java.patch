@@ -18,10 +18,19 @@
              List<String> list = Lists.newArrayList(
                  "Minecraft "
                      + SharedConstants.getCurrentVersion().getName()
-@@ -310,22 +_,22 @@
-             list.add(
+@@ -302,30 +_,30 @@
                  String.format(
                      Locale.ROOT,
+                     "XYZ: %.3f / %.5f / %.3f",
+-                    this.minecraft.getCameraEntity().getX(),
++                    this.minecraft.getCameraEntity().getBigX().getBacking(),
+                     this.minecraft.getCameraEntity().getY(),
+-                    this.minecraft.getCameraEntity().getZ()
+-                )
+-            );
+-            list.add(
+-                String.format(
+-                    Locale.ROOT,
 -                    "Block: %d %d %d [%d %d %d]",
 -                    blockpos.getX(),
 -                    blockpos.getY(),
@@ -29,6 +38,19 @@
 -                    blockpos.getX() & 15,
 -                    blockpos.getY() & 15,
 -                    blockpos.getZ() & 15
+-                )
+-            );
+-            list.add(
+-                String.format(
+-                    Locale.ROOT,
+-                    "Chunk: %d %d %d [%d %d in r.%d.%d.mca]",
+-                    chunkpos.x,
++                    this.minecraft.getCameraEntity().getBigZ().getBacking()
++                )
++            );
++            list.add(
++                String.format(
++                    Locale.ROOT,
 +                    "Block: %s %s %s [%d %d %d]",
 +                    blockpos.getBigX(),
 +                    blockpos.getBigY(),
@@ -36,13 +58,11 @@
 +                    blockpos.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(),
 +                    blockpos.getBigY().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue(),
 +                    blockpos.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).intValue()
-                 )
-             );
-             list.add(
-                 String.format(
-                     Locale.ROOT,
--                    "Chunk: %d %d %d [%d %d in r.%d.%d.mca]",
--                    chunkpos.x,
++                )
++            );
++            list.add(
++                String.format(
++                    Locale.ROOT,
 +                    "Chunk: %s %d %s [%d %d in r.%s.%s.mca]",
 +                    chunkpos.x(),
                      SectionPos.blockToSectionCoord(blockpos.getY()),

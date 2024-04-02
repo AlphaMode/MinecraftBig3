@@ -33,3 +33,12 @@
                      serverlevel1.getChunkSource().updateChunkForced(chunkpos, true);
                  }
              }
+@@ -1517,7 +_,7 @@
+         ServerLevel serverlevel = this.overworld();
+         return new CommandSourceStack(
+             this,
+-            serverlevel == null ? Vec3.ZERO : Vec3.atLowerCornerOf(serverlevel.getSharedSpawnPos()),
++            serverlevel == null ? me.alphamode.mcbig.core.BigVec3.ZERO : me.alphamode.mcbig.core.BigVec3.atLowerCornerOf(serverlevel.getSharedSpawnPos()),
+             Vec2.ZERO,
+             serverlevel,
+             4,

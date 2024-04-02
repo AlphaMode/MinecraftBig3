@@ -1,5 +1,66 @@
 --- a/net/minecraft/client/multiplayer/ClientPacketListener.java
 +++ b/net/minecraft/client/multiplayer/ClientPacketListener.java
+@@ -611,17 +_,19 @@
+         boolean flag1 = p_105056_.getRelativeArguments().contains(RelativeMovement.Y);
+         boolean flag2 = p_105056_.getRelativeArguments().contains(RelativeMovement.Z);
+         double d0;
+-        double d1;
++        me.alphamode.mcbig.math.BigDecimal d1;
+         if (flag) {
+             d0 = vec3.x();
+-            d1 = player.getX() + p_105056_.getX();
+-            player.xOld += p_105056_.getX();
+-            player.xo += p_105056_.getX();
++            d1 = player.getBigX().add(p_105056_.getX());
++            player.xOld += p_105056_.getX().doubleValue();
++            player.xo += p_105056_.getX().doubleValue();
++            player.bigXo = player.bigXo.add(p_105056_.getX());
+         } else {
+             d0 = 0.0;
+             d1 = p_105056_.getX();
+-            player.xOld = d1;
+-            player.xo = d1;
++            player.xOld = d1.doubleValue();
++            player.xo = d1.doubleValue();
++            player.bigXo = d1;
+         }
+ 
+         double d2;
+@@ -639,17 +_,19 @@
+         }
+ 
+         double d4;
+-        double d5;
++        me.alphamode.mcbig.math.BigDecimal d5;
+         if (flag2) {
+             d4 = vec3.z();
+-            d5 = player.getZ() + p_105056_.getZ();
+-            player.zOld += p_105056_.getZ();
+-            player.zo += p_105056_.getZ();
++            d5 = player.getBigZ().add(p_105056_.getZ());
++            player.zOld += p_105056_.getZ().doubleValue();
++            player.zo += p_105056_.getZ().doubleValue();
++            player.bigZo = player.bigZo.add(p_105056_.getZ());
+         } else {
+             d4 = 0.0;
+             d5 = p_105056_.getZ();
+-            player.zOld = d5;
+-            player.zo = d5;
++            player.zOld = d5.doubleValue();
++            player.zo = d5.doubleValue();
++            player.bigZo = d5;
+         }
+ 
+         player.setPos(d1, d3, d5);
+@@ -673,7 +_,7 @@
+         }
+ 
+         this.connection.send(new ServerboundAcceptTeleportationPacket(p_105056_.getId()));
+-        this.connection.send(new ServerboundMovePlayerPacket.PosRot(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot(), false));
++        this.connection.send(new ServerboundMovePlayerPacket.PosRot(player.getBigX(), player.getY(), player.getBigZ(), player.getYRot(), player.getXRot(), false));
+     }
+ 
+     @Override
 @@ -685,8 +_,8 @@
      @Override
      public void handleLevelChunkWithLight(ClientboundLevelChunkWithLightPacket p_194241_) {

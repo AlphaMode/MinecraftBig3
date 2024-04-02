@@ -1,5 +1,31 @@
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
+@@ -208,7 +_,7 @@
+         }
+ 
+         this.broadcastSystemMessage(mutablecomponent.withStyle(ChatFormatting.YELLOW), false);
+-        servergamepacketlistenerimpl.teleport(p_11263_.getX(), p_11263_.getY(), p_11263_.getZ(), p_11263_.getYRot(), p_11263_.getXRot());
++        servergamepacketlistenerimpl.teleport(p_11263_.getBigX(), p_11263_.getY(), p_11263_.getBigZ(), p_11263_.getYRot(), p_11263_.getXRot());
+         ServerStatus serverstatus = this.server.getStatus();
+         if (serverstatus != null) {
+             p_11263_.sendServerStatus(serverstatus);
+@@ -480,14 +_,14 @@
+         }
+ 
+         while(!serverlevel1.noCollision(serverplayer) && serverplayer.getY() < (double)serverlevel1.getMaxBuildHeight()) {
+-            serverplayer.setPos(serverplayer.getX(), serverplayer.getY() + 1.0, serverplayer.getZ());
++            serverplayer.setPos(serverplayer.getBigX(), serverplayer.getY() + 1.0, serverplayer.getBigZ());
+         }
+ 
+         byte b0 = (byte)(p_11238_ ? 1 : 0);
+         ServerLevel serverlevel2 = serverplayer.serverLevel();
+         LevelData leveldata = serverlevel2.getLevelData();
+         serverplayer.connection.send(new ClientboundRespawnPacket(serverplayer.createCommonSpawnInfo(serverlevel2), b0));
+-        serverplayer.connection.teleport(serverplayer.getX(), serverplayer.getY(), serverplayer.getZ(), serverplayer.getYRot(), serverplayer.getXRot());
++        serverplayer.connection.teleport(serverplayer.getBigX(), serverplayer.getY(), serverplayer.getBigZ(), serverplayer.getYRot(), serverplayer.getXRot());
+         serverplayer.connection.send(new ClientboundSetDefaultSpawnPositionPacket(serverlevel1.getSharedSpawnPos(), serverlevel1.getSharedSpawnAngle()));
+         serverplayer.connection.send(new ClientboundChangeDifficultyPacket(leveldata.getDifficulty(), leveldata.isDifficultyLocked()));
+         serverplayer.connection
 @@ -505,9 +_,9 @@
                      new ClientboundSoundPacket(
                          SoundEvents.RESPAWN_ANCHOR_DEPLETE,

@@ -35,3 +35,27 @@
          return atLowerCornerWithOffset(p_82515_, 0.5, p_82516_, 0.5);
      }
  
+@@ -111,6 +_,13 @@
+         return d0 * d0 + d1 * d1 + d2 * d2;
+     }
+ 
++    public double distanceToSqr(me.alphamode.mcbig.core.BigVec3 p_82558_) {
++        double d0 = p_82558_.x.subtract(this.x).doubleValue();
++        double d1 = p_82558_.y - this.y;
++        double d2 = p_82558_.z.subtract(this.z).doubleValue();
++        return d0 * d0 + d1 * d1 + d2 * d2;
++    }
++
+     public double distanceToSqr(double p_82532_, double p_82533_, double p_82534_) {
+         double d0 = p_82532_ - this.x;
+         double d1 = p_82533_ - this.y;
+@@ -281,5 +_,9 @@
+ 
+     public Vector3f toVector3f() {
+         return new Vector3f((float)this.x, (float)this.y, (float)this.z);
++    }
++
++    public me.alphamode.mcbig.core.BigVec3 toBig() {
++        return new me.alphamode.mcbig.core.BigVec3(x, y, z);
+     }
+ }

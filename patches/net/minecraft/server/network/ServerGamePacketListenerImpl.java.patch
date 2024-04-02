@@ -1,10 +1,66 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -364,11 +_,11 @@
+@@ -197,12 +_,12 @@
+     private int ackBlockChangesUpTo = -1;
+     private int chatSpamTickCount;
+     private int dropSpamTickCount;
+-    private double firstGoodX;
++    private me.alphamode.mcbig.math.BigDecimal firstGoodX = me.alphamode.mcbig.math.BigDecimal.ZERO;
+     private double firstGoodY;
+-    private double firstGoodZ;
+-    private double lastGoodX;
++    private me.alphamode.mcbig.math.BigDecimal firstGoodZ = me.alphamode.mcbig.math.BigDecimal.ZERO;
++    private me.alphamode.mcbig.math.BigDecimal lastGoodX = me.alphamode.mcbig.math.BigDecimal.ZERO;
+     private double lastGoodY;
+-    private double lastGoodZ;
++    private me.alphamode.mcbig.math.BigDecimal lastGoodZ = me.alphamode.mcbig.math.BigDecimal.ZERO;
+     @Nullable
+     private Entity lastVehicle;
+     private double vehicleFirstGoodX;
+@@ -212,7 +_,7 @@
+     private double vehicleLastGoodY;
+     private double vehicleLastGoodZ;
+     @Nullable
+-    private Vec3 awaitingPositionFromClient;
++    private me.alphamode.mcbig.core.BigVec3 awaitingPositionFromClient;
+     private int awaitingTeleport;
+     private int awaitingTeleportTime;
+     private boolean clientIsFloating;
+@@ -249,8 +_,10 @@
+ 
+         this.resetPosition();
+         this.player.xo = this.player.getX();
++        this.player.bigXo = this.player.getBigX();
+         this.player.yo = this.player.getY();
+         this.player.zo = this.player.getZ();
++        this.player.bigZo = this.player.getBigZ();
+         this.player.doTick();
+         this.player.absMoveTo(this.firstGoodX, this.firstGoodY, this.firstGoodZ, this.player.getYRot(), this.player.getXRot());
+         ++this.tickCount;
+@@ -307,12 +_,12 @@
      }
  
-     private static double clampHorizontal(double p_143610_) {
+     public void resetPosition() {
+-        this.firstGoodX = this.player.getX();
++        this.firstGoodX = this.player.getBigX();
+         this.firstGoodY = this.player.getY();
+-        this.firstGoodZ = this.player.getZ();
+-        this.lastGoodX = this.player.getX();
++        this.firstGoodZ = this.player.getBigZ();
++        this.lastGoodX = this.player.getBigX();
+         this.lastGoodY = this.player.getY();
+-        this.lastGoodZ = this.player.getZ();
++        this.lastGoodZ = this.player.getBigZ();
+     }
+ 
+     @Override
+@@ -363,12 +_,12 @@
+         return Double.isNaN(p_143664_) || Double.isNaN(p_143665_) || Double.isNaN(p_143666_) || !Floats.isFinite(p_143668_) || !Floats.isFinite(p_143667_);
+     }
+ 
+-    private static double clampHorizontal(double p_143610_) {
 -        return Mth.clamp(p_143610_, -3.0E7, 3.0E7);
++    private static me.alphamode.mcbig.math.BigDecimal clampHorizontal(me.alphamode.mcbig.math.BigDecimal p_143610_) {
 +        return /*Mth.clamp(*/p_143610_/*, -3.0E7, 3.0E7)*/;
      }
  
@@ -14,6 +70,182 @@
      }
  
      @Override
+@@ -383,9 +_,9 @@
+                 double d0 = entity.getX();
+                 double d1 = entity.getY();
+                 double d2 = entity.getZ();
+-                double d3 = clampHorizontal(p_9876_.getX());
++                double d3 = p_9876_.getX();
+                 double d4 = clampVertical(p_9876_.getY());
+-                double d5 = clampHorizontal(p_9876_.getZ());
++                double d5 = p_9876_.getZ();
+                 float f = Mth.wrapDegrees(p_9876_.getYRot());
+                 float f1 = Mth.wrapDegrees(p_9876_.getXRot());
+                 double d6 = d3 - this.vehicleFirstGoodX;
+@@ -848,7 +_,7 @@
+     @Override
+     public void handleMovePlayer(ServerboundMovePlayerPacket p_9874_) {
+         PacketUtils.ensureRunningOnSameThread(p_9874_, this, this.player.serverLevel());
+-        if (containsInvalidValues(p_9874_.getX(0.0), p_9874_.getY(0.0), p_9874_.getZ(0.0), p_9874_.getYRot(0.0F), p_9874_.getXRot(0.0F))) {
++        if (containsInvalidValues(p_9874_.getX(me.alphamode.mcbig.math.BigDecimal.ZERO).doubleValue(), p_9874_.getY(0.0), p_9874_.getZ(me.alphamode.mcbig.math.BigDecimal.ZERO).doubleValue(), p_9874_.getYRot(0.0F), p_9874_.getXRot(0.0F))) {
+             this.disconnect(Component.translatable("multiplayer.disconnect.invalid_player_movement"));
+         } else {
+             ServerLevel serverlevel = this.player.serverLevel();
+@@ -870,26 +_,26 @@
+                     }
+                 } else {
+                     this.awaitingTeleportTime = this.tickCount;
+-                    double d0 = clampHorizontal(p_9874_.getX(this.player.getX()));
++                    me.alphamode.mcbig.math.BigDecimal d0 = clampHorizontal(p_9874_.getX(this.player.getBigX()));
+                     double d1 = clampVertical(p_9874_.getY(this.player.getY()));
+-                    double d2 = clampHorizontal(p_9874_.getZ(this.player.getZ()));
++                    me.alphamode.mcbig.math.BigDecimal d2 = clampHorizontal(p_9874_.getZ(this.player.getBigZ()));
+                     float f = Mth.wrapDegrees(p_9874_.getYRot(this.player.getYRot()));
+                     float f1 = Mth.wrapDegrees(p_9874_.getXRot(this.player.getXRot()));
+                     if (this.player.isPassenger()) {
+-                        this.player.absMoveTo(this.player.getX(), this.player.getY(), this.player.getZ(), f, f1);
++                        this.player.absMoveTo(this.player.getBigX(), this.player.getY(), this.player.getBigZ(), f, f1);
+                         this.player.serverLevel().getChunkSource().move(this.player);
+                     } else {
+-                        double d3 = this.player.getX();
++                        me.alphamode.mcbig.math.BigDecimal d3 = this.player.getBigX();
+                         double d4 = this.player.getY();
+-                        double d5 = this.player.getZ();
+-                        double d6 = d0 - this.firstGoodX;
++                        me.alphamode.mcbig.math.BigDecimal d5 = this.player.getBigZ();
++                        double d6 = d0.subtract(this.firstGoodX).doubleValue();
+                         double d7 = d1 - this.firstGoodY;
+-                        double d8 = d2 - this.firstGoodZ;
++                        double d8 = d2.subtract(this.firstGoodZ).doubleValue();
+                         double d9 = this.player.getDeltaMovement().lengthSqr();
+                         double d10 = d6 * d6 + d7 * d7 + d8 * d8;
+                         if (this.player.isSleeping()) {
+                             if (d10 > 1.0) {
+-                                this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), f, f1);
++                                this.teleport(this.player.getBigX(), this.player.getY(), this.player.getBigZ(), f, f1);
+                             }
+                         } else {
+                             if (serverlevel.tickRateManager().runsNormally()) {
+@@ -908,16 +_,16 @@
+                                     float f2 = this.player.isFallFlying() ? 300.0F : 100.0F;
+                                     if (d10 - d9 > (double)(f2 * (float)i) && !this.isSingleplayerOwner()) {
+                                         LOGGER.warn("{} moved too quickly! {},{},{}", this.player.getName().getString(), d6, d7, d8);
+-                                        this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
++                                        this.teleport(this.player.getBigX(), this.player.getY(), this.player.getBigZ(), this.player.getYRot(), this.player.getXRot());
+                                         return;
+                                     }
+                                 }
+                             }
+ 
+                             AABB aabb = this.player.getBoundingBox();
+-                            d6 = d0 - this.lastGoodX;
++                            d6 = d0.subtract(this.lastGoodX).doubleValue();
+                             d7 = d1 - this.lastGoodY;
+-                            d8 = d2 - this.lastGoodZ;
++                            d8 = d2.subtract(this.lastGoodZ).doubleValue();
+                             boolean flag2 = d7 > 0.0;
+                             if (this.player.onGround() && !p_9874_.isOnGround() && flag2) {
+                                 this.player.jumpFromGround();
+@@ -925,13 +_,13 @@
+ 
+                             boolean flag = this.player.verticalCollisionBelow;
+                             this.player.move(MoverType.PLAYER, new Vec3(d6, d7, d8));
+-                            d6 = d0 - this.player.getX();
++                            d6 = d0.subtract(this.player.getBigX()).doubleValue();
+                             d7 = d1 - this.player.getY();
+                             if (d7 > -0.5 || d7 < 0.5) {
+                                 d7 = 0.0;
+                             }
+ 
+-                            d8 = d2 - this.player.getZ();
++                            d8 = d2.subtract(this.player.getBigZ()).doubleValue();
+                             d10 = d6 * d6 + d7 * d7 + d8 * d8;
+                             boolean flag1 = false;
+                             if (!this.player.isChangingDimension()
+@@ -958,22 +_,22 @@
+                                     && !this.player.isAutoSpinAttack()
+                                     && this.noBlocksAround(this.player);
+                                 this.player.serverLevel().getChunkSource().move(this.player);
+-                                this.player.doCheckFallDamage(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5, p_9874_.isOnGround());
++                                this.player.doCheckFallDamage(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue(), p_9874_.isOnGround());
+                                 this.player
+                                     .setOnGroundWithKnownMovement(
+-                                        p_9874_.isOnGround(), new Vec3(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5)
++                                        p_9874_.isOnGround(), new Vec3(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue())
+                                     );
+                                 if (flag2) {
+                                     this.player.resetFallDistance();
+                                 }
+ 
+-                                this.player.checkMovementStatistics(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5);
+-                                this.lastGoodX = this.player.getX();
++                                this.player.checkMovementStatistics(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue());
++                                this.lastGoodX = this.player.getBigX();
+                                 this.lastGoodY = this.player.getY();
+-                                this.lastGoodZ = this.player.getZ();
++                                this.lastGoodZ = this.player.getBigZ();
+                             } else {
+                                 this.teleport(d3, d4, d5, f, f1);
+-                                this.player.doCheckFallDamage(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5, p_9874_.isOnGround());
++                                this.player.doCheckFallDamage(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue(), p_9874_.isOnGround());
+                             }
+                         }
+                     }
+@@ -982,8 +_,8 @@
+         }
+     }
+ 
+-    private boolean isPlayerCollidingWithAnythingNew(LevelReader p_289008_, AABB p_288986_, double p_288990_, double p_288991_, double p_288967_) {
+-        AABB aabb = this.player.getBoundingBox().move(p_288990_ - this.player.getX(), p_288991_ - this.player.getY(), p_288967_ - this.player.getZ());
++    private boolean isPlayerCollidingWithAnythingNew(LevelReader p_289008_, AABB p_288986_, me.alphamode.mcbig.math.BigDecimal p_288990_, double p_288991_, me.alphamode.mcbig.math.BigDecimal p_288967_) {
++        AABB aabb = this.player.getBoundingBox().move(p_288990_.subtract(this.player.getBigX()).doubleValue(), p_288991_ - this.player.getY(), p_288967_.subtract(this.player.getBigZ()).doubleValue());
+         Iterable<VoxelShape> iterable = p_289008_.getCollisions(this.player, aabb.deflate(1.0E-5F));
+         VoxelShape voxelshape = Shapes.create(p_288986_.deflate(1.0E-5F));
+ 
+@@ -996,17 +_,21 @@
+         return false;
+     }
+ 
+-    public void teleport(double p_9775_, double p_9776_, double p_9777_, float p_9778_, float p_9779_) {
++    public void teleport(me.alphamode.mcbig.math.BigDecimal p_9775_, double p_9776_, me.alphamode.mcbig.math.BigDecimal p_9777_, float p_9778_, float p_9779_) {
+         this.teleport(p_9775_, p_9776_, p_9777_, p_9778_, p_9779_, Collections.emptySet());
+     }
+ 
+     public void teleport(double p_9781_, double p_9782_, double p_9783_, float p_9784_, float p_9785_, Set<RelativeMovement> p_9786_) {
+-        double d0 = p_9786_.contains(RelativeMovement.X) ? this.player.getX() : 0.0;
++        teleport(me.alphamode.mcbig.math.BigDecimal.val(p_9781_), p_9782_, me.alphamode.mcbig.math.BigDecimal.val(p_9783_), p_9784_, p_9785_, p_9786_);
++    }
++
++    public void teleport(me.alphamode.mcbig.math.BigDecimal p_9781_, double p_9782_, me.alphamode.mcbig.math.BigDecimal p_9783_, float p_9784_, float p_9785_, Set<RelativeMovement> p_9786_) {
++        me.alphamode.mcbig.math.BigDecimal d0 = p_9786_.contains(RelativeMovement.X) ? this.player.getBigX() : me.alphamode.mcbig.math.BigDecimal.ZERO;
+         double d1 = p_9786_.contains(RelativeMovement.Y) ? this.player.getY() : 0.0;
+-        double d2 = p_9786_.contains(RelativeMovement.Z) ? this.player.getZ() : 0.0;
++        me.alphamode.mcbig.math.BigDecimal d2 = p_9786_.contains(RelativeMovement.Z) ? this.player.getBigZ() : me.alphamode.mcbig.math.BigDecimal.ZERO;
+         float f = p_9786_.contains(RelativeMovement.Y_ROT) ? this.player.getYRot() : 0.0F;
+         float f1 = p_9786_.contains(RelativeMovement.X_ROT) ? this.player.getXRot() : 0.0F;
+-        this.awaitingPositionFromClient = new Vec3(p_9781_, p_9782_, p_9783_);
++        this.awaitingPositionFromClient = new me.alphamode.mcbig.core.BigVec3(p_9781_, p_9782_, p_9783_);
+         if (++this.awaitingTeleport == Integer.MAX_VALUE) {
+             this.awaitingTeleport = 0;
+         }
+@@ -1015,7 +_,7 @@
+         this.player.absMoveTo(p_9781_, p_9782_, p_9783_, p_9784_, p_9785_);
+         this.player
+             .connection
+-            .send(new ClientboundPlayerPositionPacket(p_9781_ - d0, p_9782_ - d1, p_9783_ - d2, p_9784_ - f, p_9785_ - f1, p_9786_, this.awaitingTeleport));
++            .send(new ClientboundPlayerPositionPacket(p_9781_.subtract(d0), p_9782_ - d1, p_9783_.subtract(d2), p_9784_ - f, p_9785_ - f1, p_9786_, this.awaitingTeleport));
+     }
+ 
+     @Override
+@@ -1082,7 +_,7 @@
+         ItemStack itemstack = this.player.getItemInHand(interactionhand);
+         if (itemstack.isItemEnabled(serverlevel.enabledFeatures())) {
+             BlockHitResult blockhitresult = p_9930_.getHitResult();
+-            Vec3 vec3 = blockhitresult.getLocation();
++            Vec3 vec3 = blockhitresult.getLocation().toVanilla();
+             BlockPos blockpos = blockhitresult.getBlockPos();
+             Vec3 vec31 = Vec3.atCenterOf(blockpos);
+             if (!(this.player.getEyePosition().distanceToSqr(vec31) > MAX_INTERACTION_DISTANCE)) {
 @@ -1094,7 +_,7 @@
                      int i = this.player.level().getMaxBuildHeight();
                      if (blockpos.getY() < i) {
@@ -23,3 +255,21 @@
                              && serverlevel.mayInteract(this.player, blockpos)) {
                              InteractionResult interactionresult = this.player
                                  .gameMode
+@@ -1151,7 +_,7 @@
+             for(ServerLevel serverlevel : this.server.getAllLevels()) {
+                 Entity entity = p_9928_.getEntity(serverlevel);
+                 if (entity != null) {
+-                    this.player.teleportTo(serverlevel, entity.getX(), entity.getY(), entity.getZ(), entity.getYRot(), entity.getXRot());
++                    this.player.teleportTo(serverlevel, entity.getBigX(), entity.getY(), entity.getBigZ(), entity.getYRot(), entity.getXRot());
+                     return;
+                 }
+             }
+@@ -1381,7 +_,7 @@
+             case STOP_SLEEPING:
+                 if (this.player.isSleeping()) {
+                     this.player.stopSleepInBed(false, true);
+-                    this.awaitingPositionFromClient = this.player.position();
++                    this.awaitingPositionFromClient = this.player.bigPosition();
+                 }
+                 break;
+             case START_RIDING_JUMP:

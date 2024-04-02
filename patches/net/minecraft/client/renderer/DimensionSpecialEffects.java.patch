@@ -1,0 +1,38 @@
+--- a/net/minecraft/client/renderer/DimensionSpecialEffects.java
++++ b/net/minecraft/client/renderer/DimensionSpecialEffects.java
+@@ -69,7 +_,7 @@
+ 
+     public abstract Vec3 getBrightnessDependentFogColor(Vec3 p_108878_, float p_108879_);
+ 
+-    public abstract boolean isFoggyAt(int p_108874_, int p_108875_);
++    public abstract boolean isFoggyAt(me.alphamode.mcbig.math.BigInteger p_108874_, int p_108875_);
+ 
+     public DimensionSpecialEffects.SkyType skyType() {
+         return this.skyType;
+@@ -95,7 +_,7 @@
+         }
+ 
+         @Override
+-        public boolean isFoggyAt(int p_108891_, int p_108892_) {
++        public boolean isFoggyAt(me.alphamode.mcbig.math.BigInteger p_108891_, int p_108892_) {
+             return false;
+         }
+ 
+@@ -118,7 +_,7 @@
+         }
+ 
+         @Override
+-        public boolean isFoggyAt(int p_108898_, int p_108899_) {
++        public boolean isFoggyAt(me.alphamode.mcbig.math.BigInteger p_108898_, int p_108899_) {
+             return true;
+         }
+     }
+@@ -137,7 +_,7 @@
+         }
+ 
+         @Override
+-        public boolean isFoggyAt(int p_108905_, int p_108906_) {
++        public boolean isFoggyAt(me.alphamode.mcbig.math.BigInteger p_108905_, int p_108906_) {
+             return false;
+         }
+     }

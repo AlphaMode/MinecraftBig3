@@ -1,0 +1,11 @@
+--- a/net/minecraft/commands/arguments/coordinates/Vec3Argument.java
++++ b/net/minecraft/commands/arguments/coordinates/Vec3Argument.java
+@@ -35,7 +_,7 @@
+         return new Vec3Argument(p_120848_);
+     }
+ 
+-    public static Vec3 getVec3(CommandContext<CommandSourceStack> p_120845_, String p_120846_) {
++    public static me.alphamode.mcbig.core.BigVec3 getVec3(CommandContext<CommandSourceStack> p_120845_, String p_120846_) {
+         return p_120845_.getArgument(p_120846_, Coordinates.class).getPosition(p_120845_.getSource());
+     }
+ 

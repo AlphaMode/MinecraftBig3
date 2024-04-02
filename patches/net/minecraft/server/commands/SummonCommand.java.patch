@@ -1,0 +1,20 @@
+--- a/net/minecraft/server/commands/SummonCommand.java
++++ b/net/minecraft/server/commands/SummonCommand.java
+@@ -74,7 +_,7 @@
+     }
+ 
+     public static Entity createEntity(
+-        CommandSourceStack p_270582_, Holder.Reference<EntityType<?>> p_270277_, Vec3 p_270366_, CompoundTag p_270197_, boolean p_270947_
++        CommandSourceStack p_270582_, Holder.Reference<EntityType<?>> p_270277_, me.alphamode.mcbig.core.BigVec3 p_270366_, CompoundTag p_270197_, boolean p_270947_
+     ) throws CommandSyntaxException {
+         BlockPos blockpos = BlockPos.containing(p_270366_);
+         if (!Level.isInSpawnableBounds(blockpos)) {
+@@ -107,7 +_,7 @@
+     }
+ 
+     private static int spawnEntity(
+-        CommandSourceStack p_249752_, Holder.Reference<EntityType<?>> p_251948_, Vec3 p_251429_, CompoundTag p_250568_, boolean p_250229_
++        CommandSourceStack p_249752_, Holder.Reference<EntityType<?>> p_251948_, me.alphamode.mcbig.core.BigVec3 p_251429_, CompoundTag p_250568_, boolean p_250229_
+     ) throws CommandSyntaxException {
+         Entity entity = createEntity(p_249752_, p_251948_, p_251429_, p_250568_, p_250229_);
+         p_249752_.sendSuccess(() -> Component.translatable("commands.summon.success", entity.getDisplayName()), true);

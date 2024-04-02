@@ -8,6 +8,26 @@
  import net.minecraft.network.protocol.Packet;
  import net.minecraft.network.protocol.game.ClientGamePacketListener;
  import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+@@ -156,7 +_,10 @@
+     public double xo;
+     public double yo;
+     public double zo;
+-    private Vec3 position;
++    public me.alphamode.mcbig.math.BigDecimal bigXo = me.alphamode.mcbig.math.BigDecimal.ZERO;
++    public me.alphamode.mcbig.math.BigDecimal bigZo = me.alphamode.mcbig.math.BigDecimal.ZERO;
++    protected Vec3 position;
++    protected me.alphamode.mcbig.core.BigVec3 bigPosition;
+     private BlockPos blockPosition;
+     private ChunkPos chunkPosition;
+     private Vec3 deltaMovement = Vec3.ZERO;
+@@ -247,6 +_,7 @@
+         this.level = p_19871_;
+         this.dimensions = p_19870_.getDimensions();
+         this.position = Vec3.ZERO;
++        this.bigPosition = me.alphamode.mcbig.core.BigVec3.ZERO;
+         this.blockPosition = BlockPos.ZERO;
+         this.chunkPosition = ChunkPos.ZERO;
+         this.entityData = new SynchedEntityData(this);
 @@ -265,7 +_,7 @@
  
      public boolean isColliding(BlockPos p_20040_, BlockState p_20041_) {
@@ -17,6 +37,53 @@
          return Shapes.joinIsNotEmpty(voxelshape1, Shapes.create(this.getBoundingBox()), BooleanOp.AND);
      }
  
+@@ -394,6 +_,11 @@
+         this.setBoundingBox(this.makeBoundingBox());
+     }
+ 
++    public void setPos(me.alphamode.mcbig.math.BigDecimal p_20210_, double p_20211_, me.alphamode.mcbig.math.BigDecimal p_20212_) {
++        this.setPosRaw(p_20210_, p_20211_, p_20212_);
++        this.setBoundingBox(this.makeBoundingBox());
++    }
++
+     protected AABB makeBoundingBox() {
+         return this.dimensions.makeBoundingBox(this.position);
+     }
+@@ -602,7 +_,7 @@
+ 
+     public void move(MoverType p_19973_, Vec3 p_19974_) {
+         if (this.noPhysics) {
+-            this.setPos(this.getX() + p_19974_.x, this.getY() + p_19974_.y, this.getZ() + p_19974_.z);
++            this.setPos(this.getBigX().add(p_19974_.x), this.getY() + p_19974_.y, this.getBigZ().add(p_19974_.z));
+         } else {
+             this.wasOnFire = this.isOnFire();
+             if (p_19973_ == MoverType.PISTON) {
+@@ -626,14 +_,14 @@
+                 if (this.fallDistance != 0.0F && d0 >= 1.0) {
+                     BlockHitResult blockhitresult = this.level()
+                         .clip(
+-                            new ClipContext(this.position(), this.position().add(vec3), ClipContext.Block.FALLDAMAGE_RESETTING, ClipContext.Fluid.WATER, this)
++                            new ClipContext(this.bigPosition(), this.bigPosition().add(vec3), ClipContext.Block.FALLDAMAGE_RESETTING, ClipContext.Fluid.WATER, this)
+                         );
+                     if (blockhitresult.getType() != HitResult.Type.MISS) {
+                         this.resetFallDistance();
+                     }
+                 }
+ 
+-                this.setPos(this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z);
++                this.setPos(this.getBigX().add(vec3.x), this.getY() + vec3.y, this.getBigZ().add(vec3.z));
+             }
+ 
+             this.level().getProfiler().pop();
+@@ -748,7 +_,7 @@
+                 }
+ 
+                 if (p_286543_) {
+-                    this.level().gameEvent(GameEvent.STEP, this.position(), GameEvent.Context.of(this, p_286549_));
++                    this.level().gameEvent(GameEvent.STEP, this.bigPosition(), GameEvent.Context.of(this, p_286549_));
+                 }
+ 
+                 return true;
 @@ -821,9 +_,9 @@
                      : blockpos;
              }
@@ -43,7 +110,25 @@
                          if (!this.isAlive()) {
                              return;
                          }
-@@ -1163,7 +_,7 @@
+@@ -1014,7 +_,7 @@
+     }
+ 
+     public void gameEvent(GameEvent p_146853_, @Nullable Entity p_146854_) {
+-        this.level().gameEvent(p_146854_, p_146853_, this.position);
++        this.level().gameEvent(p_146854_, p_146853_, this.bigPosition);
+     }
+ 
+     public void gameEvent(GameEvent p_146851_) {
+@@ -1125,7 +_,7 @@
+                 this.level()
+                     .gameEvent(
+                         GameEvent.HIT_GROUND,
+-                        this.position,
++                        this.bigPosition,
+                         GameEvent.Context.of(
+                             this, this.mainSupportingBlockPos.<BlockState>map(p_286200_ -> this.level().getBlockState(p_286200_)).orElse(p_19913_)
+                         )
+@@ -1163,10 +_,12 @@
      private boolean isInRain() {
          BlockPos blockpos = this.blockPosition();
          return this.level().isRainingAt(blockpos)
@@ -52,6 +137,20 @@
      }
  
      private boolean isInBubbleColumn() {
++        if (me.alphamode.mcbig.core.BigConstants.BIG_MODE)
++            return false;
+         return this.level().getBlockState(this.blockPosition()).is(Blocks.BUBBLE_COLUMN);
+     }
+ 
+@@ -1237,7 +_,7 @@
+             return;
+         }
+ 
+-        BlockPos blockpos = BlockPos.containing(this.getX(), d0, this.getZ());
++        BlockPos blockpos = BlockPos.containing(this.getBigX(), d0, this.getBigZ());
+         FluidState fluidstate = this.level().getFluidState(blockpos);
+         double d1 = (double)((float)blockpos.getY() + fluidstate.getHeight(this.level(), blockpos));
+         if (d1 > d0) {
 @@ -1297,12 +_,12 @@
              BlockPos blockpos1 = this.blockPosition();
              double d0 = this.getX() + (this.random.nextDouble() - 0.5) * (double)this.dimensions.width;
@@ -69,7 +168,7 @@
              }
  
              this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate), d0, this.getY() + 0.1, d1, vec3.x * -4.0, 1.5, vec3.z * -4.0);
-@@ -1350,8 +_,8 @@
+@@ -1350,11 +_,15 @@
      }
  
      public void absMoveTo(double p_20249_, double p_20250_, double p_20251_) {
@@ -80,6 +179,13 @@
          this.xo = d0;
          this.yo = p_20250_;
          this.zo = d1;
++        if (this instanceof Player) {
++            this.bigXo = me.alphamode.mcbig.math.BigDecimal.val(d0);
++            this.bigZo = me.alphamode.mcbig.math.BigDecimal.val(d1);
++        }
+         this.setPos(d0, p_20250_, d1);
+     }
+ 
 @@ -1367,7 +_,7 @@
      }
  
@@ -89,6 +195,53 @@
      }
  
      public void moveTo(double p_20108_, double p_20109_, double p_20110_, float p_20111_, float p_20112_) {
+@@ -1378,13 +_,23 @@
+         this.reapplyPosition();
+     }
+ 
++    public void moveTo(me.alphamode.mcbig.math.BigDecimal p_20108_, double p_20109_, me.alphamode.mcbig.math.BigDecimal p_20110_, float p_20111_, float p_20112_) {
++        this.setPosRaw(p_20108_, p_20109_, p_20110_);
++        this.setYRot(p_20111_);
++        this.setXRot(p_20112_);
++        this.setOldPosAndRot();
++        this.reapplyPosition();
++    }
++
+     public final void setOldPosAndRot() {
+         double d0 = this.getX();
+         double d1 = this.getY();
+         double d2 = this.getZ();
+         this.xo = d0;
++        this.bigXo = getBigX();
+         this.yo = d1;
+         this.zo = d2;
++        this.bigZo = getBigZ();
+         this.xOld = d0;
+         this.yOld = d1;
+         this.zOld = d2;
+@@ -1417,6 +_,13 @@
+         return d0 * d0 + d1 * d1 + d2 * d2;
+     }
+ 
++    public double distanceToSqr(me.alphamode.mcbig.core.BigVec3 p_20239_) {
++        double d0 = this.getBigX().subtract(p_20239_.x).doubleValue();
++        double d1 = this.getY() - p_20239_.y;
++        double d2 = this.getBigZ().subtract(p_20239_.z).doubleValue();
++        return d0 * d0 + d1 * d1 + d2 * d2;
++    }
++
+     public void playerTouch(Player p_20081_) {
+     }
+ 
+@@ -1525,7 +_,7 @@
+         Vec3 vec3 = this.getEyePosition(p_19909_);
+         Vec3 vec31 = this.getViewVector(p_19909_);
+         Vec3 vec32 = vec3.add(vec31.x * p_19908_, vec31.y * p_19908_, vec31.z * p_19908_);
+-        return this.level().clip(new ClipContext(vec3, vec32, ClipContext.Block.OUTLINE, p_19910_ ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE, this));
++        return this.level().clip(new ClipContext(vec3.toBig(), vec32.toBig(), ClipContext.Block.OUTLINE, p_19910_ ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE, this));
+     }
+ 
+     public boolean canBeHitByProjectile() {
 @@ -1677,9 +_,9 @@
              this.setDeltaMovement(Math.abs(d0) > 10.0 ? 0.0 : d0, Math.abs(d1) > 10.0 ? 0.0 : d1, Math.abs(d2) > 10.0 ? 0.0 : d2);
              double d3 = 3.0000512E7;
@@ -120,16 +273,25 @@
          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
          Direction direction = Direction.UP;
          double d0 = Double.MAX_VALUE;
+@@ -2492,7 +_,7 @@
+                 Entity entity = this.getType().create(p_20118_);
+                 if (entity != null) {
+                     entity.restoreFrom(this);
+-                    entity.moveTo(portalinfo.pos.x, portalinfo.pos.y, portalinfo.pos.z, portalinfo.yRot, entity.getXRot());
++                    entity.moveTo(portalinfo.pos.x.doubleValue(), portalinfo.pos.y, portalinfo.pos.z.doubleValue(), portalinfo.yRot, entity.getXRot());
+                     entity.setDeltaMovement(portalinfo.speed);
+                     p_20118_.addDuringTeleport(entity);
+                     if (p_20118_.dimension() == Level.END) {
 @@ -2566,7 +_,7 @@
              }
  
              return new PortalInfo(
 -                new Vec3((double)blockpos.getX() + 0.5, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5),
-+                new Vec3((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue() + 0.5),
++                new me.alphamode.mcbig.core.BigVec3(blockpos.getBigX().toBigDecimal().add(me.alphamode.mcbig.core.BigConstants.AABB), (double)blockpos.getBigY().doubleValue(), blockpos.getBigZ().toBigDecimal().add(me.alphamode.mcbig.core.BigConstants.AABB)),
                  this.getDeltaMovement(),
                  this.getYRot(),
                  this.getXRot()
-@@ -2686,7 +_,7 @@
+@@ -2686,13 +_,13 @@
          if (this.level() instanceof ServerLevel) {
              ChunkPos chunkpos = new ChunkPos(BlockPos.containing(p_20325_, p_20326_, p_20327_));
              ((ServerLevel)this.level()).getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 0, this.getId());
@@ -138,6 +300,51 @@
              this.teleportTo(p_20325_, p_20326_, p_20327_);
          }
      }
+ 
+     public boolean teleportTo(
+-        ServerLevel p_265257_, double p_265407_, double p_265727_, double p_265410_, Set<RelativeMovement> p_265083_, float p_265573_, float p_265094_
++        ServerLevel p_265257_, me.alphamode.mcbig.math.BigDecimal p_265407_, double p_265727_, me.alphamode.mcbig.math.BigDecimal p_265410_, Set<RelativeMovement> p_265083_, float p_265573_, float p_265094_
+     ) {
+         float f = Mth.clamp(p_265094_, -90.0F, 90.0F);
+         if (p_265257_ == this.level()) {
+@@ -3029,7 +_,7 @@
+     public CommandSourceStack createCommandSourceStack() {
+         return new CommandSourceStack(
+             this,
+-            this.position(),
++            this.bigPosition(),
+             this.getRotationVector(),
+             this.level() instanceof ServerLevel ? (ServerLevel)this.level() : null,
+             this.getPermissionLevel(),
+@@ -3064,7 +_,7 @@
+     }
+ 
+     public void lookAt(EntityAnchorArgument.Anchor p_20033_, Vec3 p_20034_) {
+-        Vec3 vec3 = p_20033_.apply(this);
++        Vec3 vec3 = p_20033_.apply(this).toVanilla();
+         double d0 = p_20034_.x - vec3.x;
+         double d1 = p_20034_.y - vec3.y;
+         double d2 = p_20034_.z - vec3.z;
+@@ -3076,6 +_,19 @@
+         this.yRotO = this.getYRot();
+     }
+ 
++    public void lookAt(EntityAnchorArgument.Anchor p_20033_, me.alphamode.mcbig.core.BigVec3 p_20034_) {
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_20033_.apply(this);
++        double d0 = p_20034_.x.subtract(vec3.x).doubleValue();
++        double d1 = p_20034_.y - vec3.y;
++        double d2 = p_20034_.z.subtract(vec3.z).doubleValue();
++        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
++        this.setXRot(Mth.wrapDegrees((float)(-(Mth.atan2(d1, d3) * 180.0F / (float)Math.PI))));
++        this.setYRot(Mth.wrapDegrees((float)(Mth.atan2(d2, d0) * 180.0F / (float)Math.PI) - 90.0F));
++        this.setYHeadRot(this.getYRot());
++        this.xRotO = this.getXRot();
++        this.yRotO = this.getYRot();
++    }
++
+     public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> p_204032_, double p_204033_) {
+         if (this.touchingUnloadedChunk()) {
+             return false;
 @@ -3145,10 +_,10 @@
  
      public boolean touchingUnloadedChunk() {
@@ -153,7 +360,18 @@
          return !this.level().hasChunksAt(i, k, j, l);
      }
  
-@@ -3221,8 +_,8 @@
+@@ -3184,6 +_,10 @@
+         return this.position;
+     }
+ 
++    public me.alphamode.mcbig.core.BigVec3 bigPosition() {
++        return this.bigPosition;
++    }
++
+     public Vec3 trackingPosition() {
+         return this.position();
+     }
+@@ -3221,14 +_,18 @@
          this.setDeltaMovement(new Vec3(p_20335_, p_20336_, p_20337_));
      }
  
@@ -164,6 +382,16 @@
      }
  
      public final double getX() {
+         return this.position.x;
+     }
+ 
++    public final me.alphamode.mcbig.math.BigDecimal getBigX() {
++        return this.bigPosition.x;
++    }
++
+     public double getX(double p_20166_) {
+         return this.position.x + (double)this.getBbWidth() * p_20166_;
+     }
 @@ -3241,6 +_,10 @@
          return this.blockPosition.getY();
      }
@@ -175,7 +403,7 @@
      public final double getY() {
          return this.position.y;
      }
-@@ -3257,8 +_,8 @@
+@@ -3257,14 +_,18 @@
          return this.position.y + (double)this.eyeHeight;
      }
  
@@ -186,21 +414,56 @@
      }
  
      public final double getZ() {
-@@ -3276,13 +_,13 @@
-     public final void setPosRaw(double p_20344_, double p_20345_, double p_20346_) {
+         return this.position.z;
+     }
+ 
++    public final me.alphamode.mcbig.math.BigDecimal getBigZ() {
++        return this.bigPosition.z;
++    }
++
+     public double getZ(double p_20247_) {
+         return this.position.z + (double)this.getBbWidth() * p_20247_;
+     }
+@@ -3273,16 +_,35 @@
+         return this.getZ((2.0 * this.random.nextDouble() - 1.0) * p_20263_);
+     }
+ 
+-    public final void setPosRaw(double p_20344_, double p_20345_, double p_20346_) {
++    public void setPosRaw(double p_20344_, double p_20345_, double p_20346_) {
          if (this.position.x != p_20344_ || this.position.y != p_20345_ || this.position.z != p_20346_) {
              this.position = new Vec3(p_20344_, p_20345_, p_20346_);
 -            int i = Mth.floor(p_20344_);
 -            int j = Mth.floor(p_20345_);
 -            int k = Mth.floor(p_20346_);
 -            if (i != this.blockPosition.getX() || j != this.blockPosition.getY() || k != this.blockPosition.getZ()) {
+-                this.blockPosition = new BlockPos(i, j, k);
+-                this.feetBlockState = null;
+-                if (SectionPos.blockToSectionCoord(i) != this.chunkPosition.x || SectionPos.blockToSectionCoord(k) != this.chunkPosition.z) {
 +            me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(p_20344_);
 +            me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(p_20345_);
 +            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(p_20346_);
 +            if (!i.equals(this.blockPosition.getBigX()) || !j.equals(this.blockPosition.getBigY()) || !k.equals(this.blockPosition.getBigZ())) {
-                 this.blockPosition = new BlockPos(i, j, k);
-                 this.feetBlockState = null;
--                if (SectionPos.blockToSectionCoord(i) != this.chunkPosition.x || SectionPos.blockToSectionCoord(k) != this.chunkPosition.z) {
++                this.blockPosition = new BlockPos(i, j, k);
++                this.feetBlockState = null;
++                if (!SectionPos.blockToSectionCoord(i).equals(this.chunkPosition.x()) || !SectionPos.blockToSectionCoord(k).equals(this.chunkPosition.z())) {
++                    this.chunkPosition = new ChunkPos(this.blockPosition);
++                }
++            }
++
++            this.levelCallback.onMove();
++        }
++    }
++
++    public void setPosRaw(me.alphamode.mcbig.math.BigDecimal p_20344_, double p_20345_, me.alphamode.mcbig.math.BigDecimal p_20346_) {
++        if (!this.bigPosition.x.equals(p_20344_) || this.bigPosition.y != p_20345_ || !this.bigPosition.z.equals(p_20346_)) {
++            this.bigPosition = new me.alphamode.mcbig.core.BigVec3(p_20344_, p_20345_, p_20346_);
++            this.position = this.bigPosition.toVanilla();
++            me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(p_20344_);
++            me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(p_20345_);
++            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(p_20346_);
++            if (!i.equals(this.blockPosition.getBigX()) || !j.equals(this.blockPosition.getBigY()) || !k.equals(this.blockPosition.getBigZ())) {
++                this.blockPosition = new BlockPos(i, j, k);
++                this.feetBlockState = null;
 +                if (!SectionPos.blockToSectionCoord(i).equals(this.chunkPosition.x()) || !SectionPos.blockToSectionCoord(k).equals(this.chunkPosition.z())) {
                      this.chunkPosition = new ChunkPos(this.blockPosition);
                  }

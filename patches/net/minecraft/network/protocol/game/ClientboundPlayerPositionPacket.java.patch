@@ -1,0 +1,64 @@
+--- a/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java
+@@ -6,16 +_,16 @@
+ import net.minecraft.world.entity.RelativeMovement;
+ 
+ public class ClientboundPlayerPositionPacket implements Packet<ClientGamePacketListener> {
+-    private final double x;
++    private final me.alphamode.mcbig.math.BigDecimal x;
+     private final double y;
+-    private final double z;
++    private final me.alphamode.mcbig.math.BigDecimal z;
+     private final float yRot;
+     private final float xRot;
+     private final Set<RelativeMovement> relativeArguments;
+     private final int id;
+ 
+     public ClientboundPlayerPositionPacket(
+-        double p_275438_, double p_275354_, double p_275276_, float p_275280_, float p_275203_, Set<RelativeMovement> p_275228_, int p_275614_
++            me.alphamode.mcbig.math.BigDecimal p_275438_, double p_275354_, me.alphamode.mcbig.math.BigDecimal p_275276_, float p_275280_, float p_275203_, Set<RelativeMovement> p_275228_, int p_275614_
+     ) {
+         this.x = p_275438_;
+         this.y = p_275354_;
+@@ -27,9 +_,9 @@
+     }
+ 
+     public ClientboundPlayerPositionPacket(FriendlyByteBuf p_179158_) {
+-        this.x = p_179158_.readDouble();
++        this.x = p_179158_.readBigDecimal();
+         this.y = p_179158_.readDouble();
+-        this.z = p_179158_.readDouble();
++        this.z = p_179158_.readBigDecimal();
+         this.yRot = p_179158_.readFloat();
+         this.xRot = p_179158_.readFloat();
+         this.relativeArguments = RelativeMovement.unpack(p_179158_.readUnsignedByte());
+@@ -38,9 +_,9 @@
+ 
+     @Override
+     public void write(FriendlyByteBuf p_132820_) {
+-        p_132820_.writeDouble(this.x);
++        p_132820_.writeBigDecimal(this.x);
+         p_132820_.writeDouble(this.y);
+-        p_132820_.writeDouble(this.z);
++        p_132820_.writeBigDecimal(this.z);
+         p_132820_.writeFloat(this.yRot);
+         p_132820_.writeFloat(this.xRot);
+         p_132820_.writeByte(RelativeMovement.pack(this.relativeArguments));
+@@ -51,7 +_,7 @@
+         p_132817_.handleMovePlayer(this);
+     }
+ 
+-    public double getX() {
++    public me.alphamode.mcbig.math.BigDecimal getX() {
+         return this.x;
+     }
+ 
+@@ -59,7 +_,7 @@
+         return this.y;
+     }
+ 
+-    public double getZ() {
++    public me.alphamode.mcbig.math.BigDecimal getZ() {
+         return this.z;
+     }
+ 

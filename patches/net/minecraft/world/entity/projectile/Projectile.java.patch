@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/projectile/Projectile.java
++++ b/net/minecraft/world/entity/projectile/Projectile.java
+@@ -163,7 +_,7 @@
+         HitResult.Type hitresult$type = p_37260_.getType();
+         if (hitresult$type == HitResult.Type.ENTITY) {
+             this.onHitEntity((EntityHitResult)p_37260_);
+-            this.level().gameEvent(GameEvent.PROJECTILE_LAND, p_37260_.getLocation(), GameEvent.Context.of(this, null));
++            this.level().gameEvent(GameEvent.PROJECTILE_LAND, p_37260_.getLocation().toVanilla(), GameEvent.Context.of(this, null));
+         } else if (hitresult$type == HitResult.Type.BLOCK) {
+             BlockHitResult blockhitresult = (BlockHitResult)p_37260_;
+             this.onHitBlock(blockhitresult);

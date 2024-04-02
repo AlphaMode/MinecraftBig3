@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/entity/monster/breeze/LongJump.java
++++ b/net/minecraft/world/entity/monster/breeze/LongJump.java
+@@ -144,25 +_,25 @@
+         return p_311829_.getPose() == Pose.LONG_JUMPING && p_311829_.onGround();
+     }
+ 
+-    private static Vec3 randomPointBehindTarget(LivingEntity p_311877_, RandomSource p_312549_) {
++    private static me.alphamode.mcbig.core.BigVec3 randomPointBehindTarget(LivingEntity p_311877_, RandomSource p_312549_) {
+         int i = 90;
+         float f = p_311877_.yHeadRot + 180.0F + (float)p_312549_.nextGaussian() * 90.0F / 2.0F;
+         float f1 = Mth.lerp(p_312549_.nextFloat(), 4.0F, 8.0F);
+         Vec3 vec3 = Vec3.directionFromRotation(0.0F, f).scale((double)f1);
+-        return p_311877_.position().add(vec3);
++        return p_311877_.bigPosition().add(vec3);
+     }
+ 
+     @Nullable
+-    private static BlockPos snapToSurface(LivingEntity p_311909_, Vec3 p_312597_) {
++    private static BlockPos snapToSurface(LivingEntity p_311909_, me.alphamode.mcbig.core.BigVec3 p_312597_) {
+         ClipContext clipcontext = new ClipContext(
+-            p_312597_, p_312597_.relative(Direction.DOWN, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_311909_
++            p_312597_, p_312597_.relative(Direction.DOWN, me.alphamode.mcbig.core.BigConstants.TEN), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_311909_
+         );
+         HitResult hitresult = p_311909_.level().clip(clipcontext);
+         if (hitresult.getType() == HitResult.Type.BLOCK) {
+             return BlockPos.containing(hitresult.getLocation()).above();
+         } else {
+             ClipContext clipcontext1 = new ClipContext(
+-                p_312597_, p_312597_.relative(Direction.UP, 10.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_311909_
++                p_312597_, p_312597_.relative(Direction.UP, me.alphamode.mcbig.core.BigConstants.TEN), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_311909_
+             );
+             HitResult hitresult1 = p_311909_.level().clip(clipcontext1);
+             return hitresult1.getType() == HitResult.Type.BLOCK ? BlockPos.containing(hitresult.getLocation()).above() : null;
+@@ -175,7 +_,7 @@
+         if (p_311816_.distanceTo(vec3) > 50.0) {
+             return false;
+         } else {
+-            return p_312681_.level().clip(new ClipContext(vec3, p_311816_, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312681_)).getType()
++            return p_312681_.level().clip(new ClipContext(vec3.toBig(), p_311816_.toBig(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_312681_)).getType()
+                 == HitResult.Type.MISS;
+         }
+     }

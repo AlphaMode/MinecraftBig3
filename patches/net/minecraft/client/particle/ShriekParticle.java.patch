@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/particle/ShriekParticle.java
++++ b/net/minecraft/client/particle/ShriekParticle.java
+@@ -47,7 +_,7 @@
+     }
+ 
+     private void renderRotatedParticle(VertexConsumer p_233989_, Camera p_233990_, float p_233991_, Consumer<Quaternionf> p_233992_) {
+-        Vec3 vec3 = p_233990_.getPosition();
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_233990_.getPosition();
+         float f = (float)(Mth.lerp((double)p_233991_, this.xo, this.x) - vec3.x());
+         float f1 = (float)(Mth.lerp((double)p_233991_, this.yo, this.y) - vec3.y());
+         float f2 = (float)(Mth.lerp((double)p_233991_, this.zo, this.z) - vec3.z());

@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/blockentity/BlockEntityRenderDispatcher.java
++++ b/net/minecraft/client/renderer/blockentity/BlockEntityRenderDispatcher.java
+@@ -70,7 +_,7 @@
+         BlockEntityRenderer<E> blockentityrenderer = this.getRenderer(p_112268_);
+         if (blockentityrenderer != null) {
+             if (p_112268_.hasLevel() && p_112268_.getType().isValid(p_112268_.getBlockState())) {
+-                if (blockentityrenderer.shouldRender(p_112268_, this.camera.getPosition())) {
++                if (blockentityrenderer.shouldRender(p_112268_, this.camera.getPosition().toVanilla())) {
+                     tryRender(p_112268_, () -> setupAndRender(blockentityrenderer, p_112268_, p_112269_, p_112270_, p_112271_));
+                 }
+             }

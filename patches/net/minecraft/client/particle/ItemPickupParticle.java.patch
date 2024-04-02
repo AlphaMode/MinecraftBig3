@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/particle/ItemPickupParticle.java
++++ b/net/minecraft/client/particle/ItemPickupParticle.java
+@@ -65,7 +_,7 @@
+         double d4 = Mth.lerp((double)f, this.itemEntity.getY(), d1);
+         double d5 = Mth.lerp((double)f, this.itemEntity.getZ(), d2);
+         MultiBufferSource.BufferSource multibuffersource$buffersource = this.renderBuffers.bufferSource();
+-        Vec3 vec3 = p_107040_.getPosition();
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_107040_.getPosition();
+         this.entityRenderDispatcher
+             .render(
+                 this.itemEntity,

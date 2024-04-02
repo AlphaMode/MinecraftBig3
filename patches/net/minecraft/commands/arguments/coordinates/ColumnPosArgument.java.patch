@@ -9,3 +9,12 @@
      }
  
      public Coordinates parse(StringReader p_118991_) throws CommandSyntaxException {
+@@ -40,7 +_,7 @@
+             if (p_118991_.canRead() && p_118991_.peek() == ' ') {
+                 p_118991_.skip();
+                 WorldCoordinate worldcoordinate1 = WorldCoordinate.parseInt(p_118991_);
+-                return new WorldCoordinates(worldcoordinate, new WorldCoordinate(true, 0.0), worldcoordinate1);
++                return new WorldCoordinates(worldcoordinate, new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO), worldcoordinate1);
+             } else {
+                 p_118991_.setCursor(i);
+                 throw ERROR_NOT_COMPLETE.createWithContext(p_118991_);

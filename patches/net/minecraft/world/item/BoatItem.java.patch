@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/BoatItem.java
++++ b/net/minecraft/world/item/BoatItem.java
+@@ -76,7 +_,7 @@
+     }
+ 
+     private Boat getBoat(Level p_220017_, HitResult p_220018_, ItemStack p_305852_, Player p_306127_) {
+-        Vec3 vec3 = p_220018_.getLocation();
++        Vec3 vec3 = p_220018_.getLocation().toVanilla();
+         Boat boat = (Boat)(this.hasChest ? new ChestBoat(p_220017_, vec3.x, vec3.y, vec3.z) : new Boat(p_220017_, vec3.x, vec3.y, vec3.z));
+         if (p_220017_ instanceof ServerLevel serverlevel) {
+             EntityType.<Boat>createDefaultStackConfig(serverlevel, p_305852_, p_306127_).accept(boat);

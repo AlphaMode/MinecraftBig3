@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/level/gameevent/EntityPositionSource.java
++++ b/net/minecraft/world/level/gameevent/EntityPositionSource.java
+@@ -35,12 +_,12 @@
+     }
+ 
+     @Override
+-    public Optional<Vec3> getPosition(Level p_157733_) {
++    public Optional<me.alphamode.mcbig.core.BigVec3> getPosition(Level p_157733_) {
+         if (this.entityOrUuidOrId.left().isEmpty()) {
+             this.resolveEntity(p_157733_);
+         }
+ 
+-        return this.entityOrUuidOrId.left().map(p_223676_ -> p_223676_.position().add(0.0, (double)this.yOffset, 0.0));
++        return this.entityOrUuidOrId.left().map(p_223676_ -> p_223676_.bigPosition().add(me.alphamode.mcbig.math.BigDecimal.ZERO, (double)this.yOffset, me.alphamode.mcbig.math.BigDecimal.ZERO));
+     }
+ 
+     private void resolveEntity(Level p_223678_) {

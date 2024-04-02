@@ -25,12 +25,34 @@
          return new Vec3(d2, d5, d4);
      }
  
-@@ -221,7 +_,7 @@
+@@ -221,23 +_,23 @@
          double d3 = (d1 - (double)entitydimensions.height) * p_259630_.y();
          double d4 = 0.5 + p_259630_.z();
          boolean flag = direction$axis == Direction.Axis.X;
 -        Vec3 vec31 = new Vec3((double)blockpos.getX() + (flag ? d2 : d4), (double)blockpos.getY() + d3, (double)blockpos.getZ() + (flag ? d4 : d2));
-+        Vec3 vec31 = new Vec3((double)blockpos.getBigX().doubleValue() + (flag ? d2 : d4), (double)blockpos.getBigY().doubleValue() + d3, (double)blockpos.getBigZ().doubleValue() + (flag ? d4 : d2));
-         Vec3 vec32 = findCollisionFreePosition(vec31, p_259301_, p_259166_, entitydimensions);
+-        Vec3 vec32 = findCollisionFreePosition(vec31, p_259301_, p_259166_, entitydimensions);
++        me.alphamode.mcbig.core.BigVec3 vec31 = new me.alphamode.mcbig.core.BigVec3(blockpos.getBigX().toBigDecimal().add((flag ? d2 : d4)), (double)blockpos.getBigY().doubleValue() + d3, blockpos.getBigZ().toBigDecimal().add((flag ? d4 : d2)));
++        me.alphamode.mcbig.core.BigVec3 vec32 = findCollisionFreePosition(vec31, p_259301_, p_259166_, entitydimensions);
          return new PortalInfo(vec32, vec3, p_259853_ + (float)i, p_259667_);
      }
+ 
+-    private static Vec3 findCollisionFreePosition(Vec3 p_260315_, ServerLevel p_259704_, Entity p_259626_, EntityDimensions p_259816_) {
++    private static me.alphamode.mcbig.core.BigVec3 findCollisionFreePosition(me.alphamode.mcbig.core.BigVec3 p_260315_, ServerLevel p_259704_, Entity p_259626_, EntityDimensions p_259816_) {
+         if (!(p_259816_.width > 4.0F) && !(p_259816_.height > 4.0F)) {
+             double d0 = (double)p_259816_.height / 2.0;
+-            Vec3 vec3 = p_260315_.add(0.0, d0, 0.0);
++            me.alphamode.mcbig.core.BigVec3 vec3 = p_260315_.add(0.0, d0, 0.0);
+             VoxelShape voxelshape = Shapes.create(
+-                AABB.ofSize(vec3, (double)p_259816_.width, 0.0, (double)p_259816_.width).expandTowards(0.0, 1.0, 0.0).inflate(1.0E-6)
++                me.alphamode.mcbig.phys.BigAABB.ofSize(vec3, p_259816_.width, 0.0, p_259816_.width).expandTowards(me.alphamode.mcbig.math.BigDecimal.ZERO, 1.0, me.alphamode.mcbig.math.BigDecimal.ZERO).inflate(1.0E-6)
+             );
+             Optional<Vec3> optional = p_259704_.findFreePosition(
+-                p_259626_, voxelshape, vec3, (double)p_259816_.width, (double)p_259816_.height, (double)p_259816_.width
++                p_259626_, voxelshape, vec3.toVanilla(), (double)p_259816_.width, (double)p_259816_.height, (double)p_259816_.width
+             );
+             Optional<Vec3> optional1 = optional.map(p_259019_ -> p_259019_.subtract(0.0, d0, 0.0));
+-            return optional1.orElse(p_260315_);
++            return optional1.orElse(p_260315_.toVanilla()).toBig();
+         } else {
+             return p_260315_;
+         }

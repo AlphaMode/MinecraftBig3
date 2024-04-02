@@ -1,0 +1,46 @@
+--- a/net/minecraft/world/level/ClipContext.java
++++ b/net/minecraft/world/level/ClipContext.java
+@@ -14,17 +_,17 @@
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ 
+ public class ClipContext {
+-    private final Vec3 from;
+-    private final Vec3 to;
++    private final me.alphamode.mcbig.core.BigVec3 from;
++    private final me.alphamode.mcbig.core.BigVec3 to;
+     private final ClipContext.Block block;
+     private final ClipContext.Fluid fluid;
+     private final CollisionContext collisionContext;
+ 
+-    public ClipContext(Vec3 p_45688_, Vec3 p_45689_, ClipContext.Block p_45690_, ClipContext.Fluid p_45691_, Entity p_45692_) {
++    public ClipContext(me.alphamode.mcbig.core.BigVec3 p_45688_, me.alphamode.mcbig.core.BigVec3 p_45689_, ClipContext.Block p_45690_, ClipContext.Fluid p_45691_, Entity p_45692_) {
+         this(p_45688_, p_45689_, p_45690_, p_45691_, CollisionContext.of(p_45692_));
+     }
+ 
+-    public ClipContext(Vec3 p_311916_, Vec3 p_312802_, ClipContext.Block p_312540_, ClipContext.Fluid p_312487_, CollisionContext p_311823_) {
++    public ClipContext(me.alphamode.mcbig.core.BigVec3 p_311916_, me.alphamode.mcbig.core.BigVec3 p_312802_, ClipContext.Block p_312540_, ClipContext.Fluid p_312487_, CollisionContext p_311823_) {
+         this.from = p_311916_;
+         this.to = p_312802_;
+         this.block = p_312540_;
+@@ -32,11 +_,19 @@
+         this.collisionContext = p_311823_;
+     }
+ 
+-    public Vec3 getTo() {
++    public ClipContext(Vec3 p_45688_, Vec3 p_45689_, ClipContext.Block p_45690_, ClipContext.Fluid p_45691_, Entity p_45692_) {
++        this(p_45688_, p_45689_, p_45690_, p_45691_, CollisionContext.of(p_45692_));
++    }
++
++    public ClipContext(Vec3 p_311916_, Vec3 p_312802_, ClipContext.Block p_312540_, ClipContext.Fluid p_312487_, CollisionContext p_311823_) {
++        this(p_311916_.toBig(), p_312802_.toBig(), p_312540_, p_312487_, p_311823_);
++    }
++
++    public me.alphamode.mcbig.core.BigVec3 getTo() {
+         return this.to;
+     }
+ 
+-    public Vec3 getFrom() {
++    public me.alphamode.mcbig.core.BigVec3 getFrom() {
+         return this.from;
+     }
+ 

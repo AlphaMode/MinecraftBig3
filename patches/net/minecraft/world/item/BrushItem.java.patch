@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/item/BrushItem.java
++++ b/net/minecraft/world/item/BrushItem.java
+@@ -117,14 +_,14 @@
+         BlockParticleOption blockparticleoption = new BlockParticleOption(ParticleTypes.BLOCK, p_278235_);
+         Direction direction = p_278272_.getDirection();
+         BrushItem.DustParticlesDelta brushitem$dustparticlesdelta = BrushItem.DustParticlesDelta.fromDirection(p_278337_, direction);
+-        Vec3 vec3 = p_278272_.getLocation();
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_278272_.getLocation();
+ 
+         for(int k = 0; k < j; ++k) {
+             p_278327_.addParticle(
+                 blockparticleoption,
+-                vec3.x - (double)(direction == Direction.WEST ? 1.0E-6F : 0.0F),
++                vec3.x.subtract((double)(direction == Direction.WEST ? 1.0E-6F : 0.0F)).doubleValue(),
+                 vec3.y,
+-                vec3.z - (double)(direction == Direction.NORTH ? 1.0E-6F : 0.0F),
++                vec3.z.subtract((double)(direction == Direction.NORTH ? 1.0E-6F : 0.0F)).doubleValue(),
+                 brushitem$dustparticlesdelta.xd() * (double)i * 3.0 * p_278327_.getRandom().nextDouble(),
+                 0.0,
+                 brushitem$dustparticlesdelta.zd() * (double)i * 3.0 * p_278327_.getRandom().nextDouble()

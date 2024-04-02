@@ -1,0 +1,11 @@
+--- a/net/minecraft/core/particles/VibrationParticleOption.java
++++ b/net/minecraft/core/particles/VibrationParticleOption.java
+@@ -58,7 +_,7 @@
+ 
+     @Override
+     public String writeToString() {
+-        Vec3 vec3 = this.destination.getPosition(null).get();
++        me.alphamode.mcbig.core.BigVec3 vec3 = this.destination.getPosition(null).get();
+         double d0 = vec3.x();
+         double d1 = vec3.y();
+         double d2 = vec3.z();

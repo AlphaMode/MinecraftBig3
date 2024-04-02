@@ -76,3 +76,12 @@
          );
      }
  
+@@ -335,7 +_,7 @@
+             return null;
+         } else {
+             double d3 = adouble[0];
+-            return new BlockHitResult(p_82344_.add(d3 * d0, d3 * d1, d3 * d2), direction, p_82346_, false);
++            return new BlockHitResult(p_82344_.toBig().add(d3 * d0, d3 * d1, d3 * d2), direction, p_82346_, false);
+         }
+     }
+ 

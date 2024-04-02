@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/BottleItem.java
++++ b/net/minecraft/world/item/BottleItem.java
+@@ -38,7 +_,7 @@
+             AreaEffectCloud areaeffectcloud = list.get(0);
+             areaeffectcloud.setRadius(areaeffectcloud.getRadius() - 0.5F);
+             p_40656_.playSound(null, p_40657_.getX(), p_40657_.getY(), p_40657_.getZ(), SoundEvents.BOTTLE_FILL_DRAGONBREATH, SoundSource.NEUTRAL, 1.0F, 1.0F);
+-            p_40656_.gameEvent(p_40657_, GameEvent.FLUID_PICKUP, p_40657_.position());
++            p_40656_.gameEvent(p_40657_, GameEvent.FLUID_PICKUP, p_40657_.bigPosition());
+             if (p_40657_ instanceof ServerPlayer serverplayer) {
+                 CriteriaTriggers.PLAYER_INTERACTED_WITH_ENTITY.trigger(serverplayer, itemstack, areaeffectcloud);
+             }

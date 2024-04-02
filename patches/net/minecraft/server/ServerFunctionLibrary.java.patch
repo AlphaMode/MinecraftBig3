@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/ServerFunctionLibrary.java
++++ b/net/minecraft/server/ServerFunctionLibrary.java
+@@ -80,7 +_,7 @@
+                 p_248095_ -> {
+                     Map<ResourceLocation, CompletableFuture<CommandFunction<CommandSourceStack>>> map = Maps.newHashMap();
+                     CommandSourceStack commandsourcestack = new CommandSourceStack(
+-                        CommandSource.NULL, Vec3.ZERO, Vec2.ZERO, null, this.functionCompilationLevel, "", CommonComponents.EMPTY, null, null
++                        CommandSource.NULL, me.alphamode.mcbig.core.BigVec3.ZERO, Vec2.ZERO, null, this.functionCompilationLevel, "", CommonComponents.EMPTY, null, null
+                     );
+         
+                     for(Entry<ResourceLocation, Resource> entry : p_248095_.entrySet()) {

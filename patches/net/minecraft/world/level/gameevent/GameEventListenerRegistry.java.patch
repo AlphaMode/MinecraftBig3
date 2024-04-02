@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/level/gameevent/GameEventListenerRegistry.java
++++ b/net/minecraft/world/level/gameevent/GameEventListenerRegistry.java
+@@ -19,7 +_,7 @@
+ 
+         @Override
+         public boolean visitInRangeListeners(
+-            GameEvent p_251260_, Vec3 p_249086_, GameEvent.Context p_249012_, GameEventListenerRegistry.ListenerVisitor p_252106_
++            GameEvent p_251260_, me.alphamode.mcbig.core.BigVec3 p_249086_, GameEvent.Context p_249012_, GameEventListenerRegistry.ListenerVisitor p_252106_
+         ) {
+             return false;
+         }
+@@ -31,10 +_,10 @@
+ 
+     void unregister(GameEventListener p_248758_);
+ 
+-    boolean visitInRangeListeners(GameEvent p_251001_, Vec3 p_249144_, GameEvent.Context p_249328_, GameEventListenerRegistry.ListenerVisitor p_250123_);
++    boolean visitInRangeListeners(GameEvent p_251001_, me.alphamode.mcbig.core.BigVec3 p_249144_, GameEvent.Context p_249328_, GameEventListenerRegistry.ListenerVisitor p_250123_);
+ 
+     @FunctionalInterface
+     public interface ListenerVisitor {
+-        void visit(GameEventListener p_250787_, Vec3 p_251603_);
++        void visit(GameEventListener p_250787_, me.alphamode.mcbig.core.BigVec3 p_251603_);
+     }
+ }

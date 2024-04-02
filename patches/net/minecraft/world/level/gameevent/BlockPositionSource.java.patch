@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/level/gameevent/BlockPositionSource.java
++++ b/net/minecraft/world/level/gameevent/BlockPositionSource.java
+@@ -20,8 +_,8 @@
+     }
+ 
+     @Override
+-    public Optional<Vec3> getPosition(Level p_157708_) {
+-        return Optional.of(Vec3.atCenterOf(this.pos));
++    public Optional<me.alphamode.mcbig.core.BigVec3> getPosition(Level p_157708_) {
++        return Optional.of(me.alphamode.mcbig.core.BigVec3.atCenterOf(this.pos));
+     }
+ 
+     @Override

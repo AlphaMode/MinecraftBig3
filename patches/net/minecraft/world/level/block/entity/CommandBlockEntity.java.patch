@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/CommandBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/CommandBlockEntity.java
+@@ -45,7 +_,7 @@
+             Direction direction = CommandBlockEntity.this.getBlockState().getValue(CommandBlock.FACING);
+             return new CommandSourceStack(
+                 this,
+-                Vec3.atCenterOf(CommandBlockEntity.this.worldPosition),
++                    me.alphamode.mcbig.core.BigVec3.atCenterOf(CommandBlockEntity.this.worldPosition),
+                 new Vec2(0.0F, direction.toYRot()),
+                 this.getLevel(),
+                 2,

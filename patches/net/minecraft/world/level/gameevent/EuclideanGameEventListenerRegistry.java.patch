@@ -1,0 +1,31 @@
+--- a/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
++++ b/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
+@@ -56,7 +_,7 @@
+     }
+ 
+     @Override
+-    public boolean visitInRangeListeners(GameEvent p_251377_, Vec3 p_251445_, GameEvent.Context p_252317_, GameEventListenerRegistry.ListenerVisitor p_251422_) {
++    public boolean visitInRangeListeners(GameEvent p_251377_, me.alphamode.mcbig.core.BigVec3 p_251445_, GameEvent.Context p_252317_, GameEventListenerRegistry.ListenerVisitor p_251422_) {
+         this.processing = true;
+         boolean flag = false;
+ 
+@@ -68,7 +_,7 @@
+                 if (this.listenersToRemove.remove(gameeventlistener)) {
+                     iterator.remove();
+                 } else {
+-                    Optional<Vec3> optional = getPostableListenerPosition(this.level, p_251445_, gameeventlistener);
++                    Optional<me.alphamode.mcbig.core.BigVec3> optional = getPostableListenerPosition(this.level, p_251445_, gameeventlistener);
+                     if (optional.isPresent()) {
+                         p_251422_.visit(gameeventlistener, optional.get());
+                         flag = true;
+@@ -92,8 +_,8 @@
+         return flag;
+     }
+ 
+-    private static Optional<Vec3> getPostableListenerPosition(ServerLevel p_249585_, Vec3 p_251333_, GameEventListener p_251051_) {
+-        Optional<Vec3> optional = p_251051_.getListenerSource().getPosition(p_249585_);
++    private static Optional<me.alphamode.mcbig.core.BigVec3> getPostableListenerPosition(ServerLevel p_249585_, me.alphamode.mcbig.core.BigVec3 p_251333_, GameEventListener p_251051_) {
++        Optional<me.alphamode.mcbig.core.BigVec3> optional = p_251051_.getListenerSource().getPosition(p_249585_);
+         if (optional.isEmpty()) {
+             return Optional.empty();
+         } else {

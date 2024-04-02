@@ -1,0 +1,20 @@
+--- a/net/minecraft/network/protocol/game/ClientboundPlayerLookAtPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundPlayerLookAtPacket.java
+@@ -31,7 +_,7 @@
+         this.fromAnchor = p_132782_;
+         this.entity = p_132783_.getId();
+         this.toAnchor = p_132784_;
+-        Vec3 vec3 = p_132784_.apply(p_132783_);
++        Vec3 vec3 = p_132784_.apply(p_132783_).toVanilla();
+         this.x = vec3.x;
+         this.y = vec3.y;
+         this.z = vec3.z;
+@@ -78,7 +_,7 @@
+     public Vec3 getPosition(Level p_132786_) {
+         if (this.atEntity) {
+             Entity entity = p_132786_.getEntity(this.entity);
+-            return entity == null ? new Vec3(this.x, this.y, this.z) : this.toAnchor.apply(entity);
++            return entity == null ? new Vec3(this.x, this.y, this.z) : this.toAnchor.apply(entity).toVanilla();
+         } else {
+             return new Vec3(this.x, this.y, this.z);
+         }

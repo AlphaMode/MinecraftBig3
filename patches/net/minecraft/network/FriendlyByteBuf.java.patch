@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/FriendlyByteBuf.java
 +++ b/net/minecraft/network/FriendlyByteBuf.java
-@@ -404,29 +_,43 @@
+@@ -404,29 +_,52 @@
      }
  
      public BlockPos readBlockPos() {
@@ -24,6 +24,15 @@
 +
 +    public me.alphamode.mcbig.math.BigInteger readBigInteger() {
 +        return new me.alphamode.mcbig.math.BigInteger(this.readByteArray());
++    }
++
++    public FriendlyByteBuf writeBigDecimal(me.alphamode.mcbig.math.BigDecimal value) {
++        this.writeUtf(value.toString());
++        return this;
++    }
++
++    public me.alphamode.mcbig.math.BigDecimal readBigDecimal() {
++        return new me.alphamode.mcbig.math.BigDecimal(this.readUtf());
      }
  
      public ChunkPos readChunkPos() {
@@ -56,7 +65,21 @@
          boolean flag = this.readBoolean();
          return new BlockHitResult(
 -            new Vec3((double)blockpos.getX() + (double)f, (double)blockpos.getY() + (double)f1, (double)blockpos.getZ() + (double)f2),
-+            new Vec3((double)blockpos.getBigX().doubleValue() + (double)f, (double)blockpos.getBigY().doubleValue() + (double)f1, (double)blockpos.getBigZ().doubleValue() + (double)f2),
++            new me.alphamode.mcbig.core.BigVec3(blockpos.getBigX().toBigDecimal().add((double)f), (double)blockpos.getBigY().doubleValue() + (double)f1, blockpos.getBigZ().toBigDecimal().add(f2)),
              direction,
              blockpos,
              flag
+@@ -683,10 +_,10 @@
+         BlockPos blockpos = p_130063_.getBlockPos();
+         this.writeBlockPos(blockpos);
+         this.writeEnum(p_130063_.getDirection());
+-        Vec3 vec3 = p_130063_.getLocation();
+-        this.writeFloat((float)(vec3.x - (double)blockpos.getX()));
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_130063_.getLocation();
++        this.writeFloat((vec3.x.subtract(blockpos.getBigX().toBigDecimal())).floatValue());
+         this.writeFloat((float)(vec3.y - (double)blockpos.getY()));
+-        this.writeFloat((float)(vec3.z - (double)blockpos.getZ()));
++        this.writeFloat((vec3.z.subtract(blockpos.getBigZ().toBigDecimal())).floatValue());
+         this.writeBoolean(p_130063_.isInside());
+     }
+ 

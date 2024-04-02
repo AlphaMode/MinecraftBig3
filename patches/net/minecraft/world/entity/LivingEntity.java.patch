@@ -31,6 +31,21 @@
              BlockState blockstate = this.level().getBlockState(new BlockPos(i, j, k));
              if (!blockstate.isAir()) {
                  SoundType soundtype = blockstate.getSoundType();
+@@ -2999,6 +_,14 @@
+         this.yBodyRotO = this.yBodyRot;
+     }
+ 
++    @Override
++    public void lookAt(EntityAnchorArgument.Anchor p_21078_, me.alphamode.mcbig.core.BigVec3 p_21079_) {
++        super.lookAt(p_21078_, p_21079_);
++        this.yHeadRotO = this.yHeadRot;
++        this.yBodyRot = this.yHeadRot;
++        this.yBodyRotO = this.yBodyRot;
++    }
++
+     protected void triggerItemUseEffects(ItemStack p_21138_, int p_21139_) {
+         if (!p_21138_.isEmpty() && this.isUsingItem()) {
+             if (p_21138_.getUseAnimation() == UseAnim.DRINK) {
 @@ -3241,7 +_,7 @@
      }
  

@@ -1,14 +1,42 @@
 --- a/net/minecraft/server/commands/ExecuteCommand.java
 +++ b/net/minecraft/server/commands/ExecuteCommand.java
-@@ -208,7 +_,7 @@
+@@ -163,7 +_,7 @@
+                                             list.add(
+                                                 p_284653_.getSource()
+                                                     .withLevel((ServerLevel)entity.level())
+-                                                    .withPosition(entity.position())
++                                                    .withPosition(entity.bigPosition())
+                                                     .withRotation(entity.getRotationVector())
+                                             );
+                                         }
+@@ -193,7 +_,7 @@
+                             List<CommandSourceStack> list = Lists.newArrayList();
+                 
+                             for(Entity entity : EntityArgument.getOptionalEntities(p_137293_, "targets")) {
+-                                list.add(p_137293_.getSource().withPosition(entity.position()));
++                                list.add(p_137293_.getSource().withPosition(entity.bigPosition()));
+                             }
+                 
+                             return list;
+@@ -201,15 +_,15 @@
+                         .then(
+                             Commands.literal("over")
+                                 .then(Commands.argument("heightmap", HeightmapTypeArgument.heightmap()).redirect(literalcommandnode, p_274814_ -> {
+-                                    Vec3 vec3 = p_274814_.getSource().getPosition();
++                                    me.alphamode.mcbig.core.BigVec3 vec3 = p_274814_.getSource().getPosition();
+                                     ServerLevel serverlevel = p_274814_.getSource().getLevel();
+                                     double d0 = vec3.x();
+                                     double d1 = vec3.z();
                                      if (!serverlevel.hasChunk(SectionPos.blockToSectionCoord(d0), SectionPos.blockToSectionCoord(d1))) {
                                          throw BlockPosArgument.ERROR_NOT_LOADED.create();
                                      } else {
 -                                        int i = serverlevel.getHeight(HeightmapTypeArgument.getHeightmap(p_274814_, "heightmap"), Mth.floor(d0), Mth.floor(d1));
+-                                        return p_274814_.getSource().withPosition(new Vec3(d0, (double)i, d1));
 +                                        int i = serverlevel.getHeight(HeightmapTypeArgument.getHeightmap(p_274814_, "heightmap"), Mth.bigFloor(d0), Mth.bigFloor(d1));
-                                         return p_274814_.getSource().withPosition(new Vec3(d0, (double)i, d1));
++                                        return p_274814_.getSource().withPosition(new me.alphamode.mcbig.core.BigVec3(d0, (double)i, d1));
                                      }
                                  }))
+                         )
 @@ -493,11 +_,11 @@
  
      private static boolean isChunkLoaded(ServerLevel p_265261_, BlockPos p_265260_) {
@@ -23,6 +51,15 @@
          }
      }
  
+@@ -770,7 +_,7 @@
+     private static boolean checkCustomPredicate(CommandSourceStack p_137105_, LootItemCondition p_137106_) {
+         ServerLevel serverlevel = p_137105_.getLevel();
+         LootParams lootparams = new LootParams.Builder(serverlevel)
+-            .withParameter(LootContextParams.ORIGIN, p_137105_.getPosition())
++            .withParameter(LootContextParams.ORIGIN, p_137105_.getPosition().toVanilla())
+             .withOptionalParameter(LootContextParams.THIS_ENTITY, p_137105_.getEntity())
+             .create(LootContextParamSets.COMMAND);
+         LootContext lootcontext = new LootContext.Builder(lootparams).create(Optional.empty());
 @@ -839,7 +_,7 @@
          BoundingBox boundingbox = BoundingBox.fromCorners(p_137038_, p_137039_);
          BoundingBox boundingbox1 = BoundingBox.fromCorners(p_137040_, p_137040_.offset(boundingbox.getLength()));

@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/sounds/SoundEngine.java
++++ b/net/minecraft/client/sounds/SoundEngine.java
+@@ -459,7 +_,7 @@
+     public void updateSource(Camera p_120271_) {
+         if (this.loaded && p_120271_.isInitialized()) {
+             ListenerTransform listenertransform = new ListenerTransform(
+-                p_120271_.getPosition(), new Vec3(p_120271_.getLookVector()), new Vec3(p_120271_.getUpVector())
++                p_120271_.getPosition().toVanilla(), new Vec3(p_120271_.getLookVector()), new Vec3(p_120271_.getUpVector())
+             );
+             this.executor.execute(() -> this.listener.setTransform(listenertransform));
+         }

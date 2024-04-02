@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/LecternBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/LecternBlockEntity.java
+@@ -187,7 +_,7 @@
+             component = p_59535_.getDisplayName();
+         }
+ 
+-        Vec3 vec3 = Vec3.atCenterOf(this.worldPosition);
++        me.alphamode.mcbig.core.BigVec3 vec3 = me.alphamode.mcbig.core.BigVec3.atCenterOf(this.worldPosition);
+         return new CommandSourceStack(CommandSource.NULL, vec3, Vec2.ZERO, (ServerLevel)this.level, 2, s, component, this.level.getServer(), p_59535_);
+     }
+ 

@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/entity/projectile/ProjectileUtil.java
++++ b/net/minecraft/world/entity/projectile/ProjectileUtil.java
+@@ -46,9 +_,9 @@
+         Vec3 p_278237_, Entity p_278320_, Predicate<Entity> p_278257_, Vec3 p_278342_, Level p_278321_, float p_305813_, ClipContext.Block p_312920_
+     ) {
+         Vec3 vec3 = p_278237_.add(p_278342_);
+-        HitResult hitresult = p_278321_.clip(new ClipContext(p_278237_, vec3, p_312920_, ClipContext.Fluid.NONE, p_278320_));
++        HitResult hitresult = p_278321_.clip(new ClipContext(p_278237_.toBig(), vec3.toBig(), p_312920_, ClipContext.Fluid.NONE, p_278320_));
+         if (hitresult.getType() != HitResult.Type.MISS) {
+-            vec3 = hitresult.getLocation();
++            vec3 = hitresult.getLocation().toVanilla();
+         }
+ 
+         HitResult hitresult1 = getEntityHitResult(

@@ -145,3 +145,12 @@
              + 1;
      }
  
+@@ -434,7 +_,7 @@
+     }
+ 
+     @Override
+-    public void gameEvent(GameEvent p_215163_, Vec3 p_215164_, GameEvent.Context p_215165_) {
++    public void gameEvent(GameEvent p_215163_, me.alphamode.mcbig.core.BigVec3 p_215164_, GameEvent.Context p_215165_) {
+     }
+ 
+     @Override

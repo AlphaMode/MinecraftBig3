@@ -1,0 +1,35 @@
+--- a/net/minecraft/server/commands/PlaySoundCommand.java
++++ b/net/minecraft/server/commands/PlaySoundCommand.java
+@@ -122,7 +_,7 @@
+         Collection<ServerPlayer> p_138162_,
+         ResourceLocation p_138163_,
+         SoundSource p_138164_,
+-        Vec3 p_138165_,
++        me.alphamode.mcbig.core.BigVec3 p_138165_,
+         float p_138166_,
+         float p_138167_,
+         float p_138168_
+@@ -133,11 +_,11 @@
+         long j = p_138161_.getLevel().getRandom().nextLong();
+ 
+         for(ServerPlayer serverplayer : p_138162_) {
+-            double d1 = p_138165_.x - serverplayer.getX();
++            double d1 = p_138165_.x.subtract(serverplayer.getBigX()).doubleValue();
+             double d2 = p_138165_.y - serverplayer.getY();
+-            double d3 = p_138165_.z - serverplayer.getZ();
++            double d3 = p_138165_.z.subtract(serverplayer.getBigZ()).doubleValue();
+             double d4 = d1 * d1 + d2 * d2 + d3 * d3;
+-            Vec3 vec3 = p_138165_;
++            me.alphamode.mcbig.core.BigVec3 vec3 = p_138165_;
+             float f = p_138166_;
+             if (d4 > d0) {
+                 if (p_138168_ <= 0.0F) {
+@@ -145,7 +_,7 @@
+                 }
+ 
+                 double d5 = Math.sqrt(d4);
+-                vec3 = new Vec3(serverplayer.getX() + d1 / d5 * 2.0, serverplayer.getY() + d2 / d5 * 2.0, serverplayer.getZ() + d3 / d5 * 2.0);
++                vec3 = new me.alphamode.mcbig.core.BigVec3(serverplayer.getBigX().add(d1 / d5 * 2.0), serverplayer.getY() + d2 / d5 * 2.0, serverplayer.getBigZ().add(d3 / d5 * 2.0));
+                 f = p_138168_;
+             }
+ 

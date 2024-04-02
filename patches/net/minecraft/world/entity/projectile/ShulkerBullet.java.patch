@@ -25,3 +25,12 @@
          Direction direction = null;
          if (!blockpos.closerToCenterThan(this.position(), 2.0)) {
              BlockPos blockpos1 = this.blockPosition();
+@@ -296,7 +_,7 @@
+ 
+     private void destroy() {
+         this.discard();
+-        this.level().gameEvent(GameEvent.ENTITY_DAMAGE, this.position(), GameEvent.Context.of(this));
++        this.level().gameEvent(GameEvent.ENTITY_DAMAGE, this.bigPosition(), GameEvent.Context.of(this));
+     }
+ 
+     @Override

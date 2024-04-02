@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/particle/SingleQuadParticle.java
++++ b/net/minecraft/client/particle/SingleQuadParticle.java
+@@ -33,7 +_,7 @@
+ 
+     @Override
+     public void render(VertexConsumer p_107678_, Camera p_107679_, float p_107680_) {
+-        Vec3 vec3 = p_107679_.getPosition();
++        Vec3 vec3 = p_107679_.getPosition().toVanilla();
+         float f = (float)(Mth.lerp((double)p_107680_, this.xo, this.x) - vec3.x());
+         float f1 = (float)(Mth.lerp((double)p_107680_, this.yo, this.y) - vec3.y());
+         float f2 = (float)(Mth.lerp((double)p_107680_, this.zo, this.z) - vec3.z());

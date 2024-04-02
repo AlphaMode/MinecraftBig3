@@ -1,0 +1,11 @@
+--- a/net/minecraft/commands/arguments/coordinates/RotationArgument.java
++++ b/net/minecraft/commands/arguments/coordinates/RotationArgument.java
+@@ -31,7 +_,7 @@
+             if (p_120481_.canRead() && p_120481_.peek() == ' ') {
+                 p_120481_.skip();
+                 WorldCoordinate worldcoordinate1 = WorldCoordinate.parseDouble(p_120481_, false);
+-                return new WorldCoordinates(worldcoordinate1, worldcoordinate, new WorldCoordinate(true, 0.0));
++                return new WorldCoordinates(worldcoordinate1, worldcoordinate, new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO));
+             } else {
+                 p_120481_.setCursor(i);
+                 throw ERROR_NOT_COMPLETE.createWithContext(p_120481_);

@@ -114,6 +114,18 @@
          return this.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS);
      }
  
+@@ -723,9 +_,9 @@
+         return f1 * 0.8F + 0.2F;
+     }
+ 
+-    public Vec3 getSkyColor(Vec3 p_171661_, float p_171662_) {
++    public Vec3 getSkyColor(me.alphamode.mcbig.core.BigVec3 p_171661_, float p_171662_) {
+         float f = this.getTimeOfDay(p_171662_);
+-        Vec3 vec3 = p_171661_.subtract(2.0, 2.0, 2.0).scale(0.25);
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_171661_.subtract(2.0, 2.0, 2.0).scale(0.25);
+         BiomeManager biomemanager = this.getBiomeManager();
+         Vec3 vec31 = CubicSampler.gaussianSampleVec3(
+             vec3, (p_194161_, p_194162_, p_194163_) -> Vec3.fromRGB24(biomemanager.getNoiseBiomeAtQuart(p_194161_, p_194162_, p_194163_).value().getSkyColor())
 @@ -848,21 +_,21 @@
      public int calculateBlockTint(BlockPos p_104763_, ColorResolver p_104764_) {
          int i = Minecraft.getInstance().options.biomeBlendRadius().get();
@@ -139,3 +151,12 @@
                  );
                  k += (j1 & 0xFF0000) >> 16;
                  l += (j1 & 0xFF00) >> 8;
+@@ -886,7 +_,7 @@
+     }
+ 
+     @Override
+-    public void gameEvent(GameEvent p_233639_, Vec3 p_233640_, GameEvent.Context p_233641_) {
++    public void gameEvent(GameEvent p_233639_, me.alphamode.mcbig.core.BigVec3 p_233640_, GameEvent.Context p_233641_) {
+     }
+ 
+     protected Map<String, MapItemSavedData> getAllMapData() {

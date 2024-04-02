@@ -1,11 +1,13 @@
 --- a/net/minecraft/client/renderer/ViewArea.java
 +++ b/net/minecraft/client/renderer/ViewArea.java
-@@ -72,35 +_,35 @@
+@@ -71,36 +_,36 @@
+         return this.level;
      }
  
-     public void repositionCamera(double p_110851_, double p_110852_) {
+-    public void repositionCamera(double p_110851_, double p_110852_) {
 -        int i = Mth.ceil(p_110851_);
 -        int j = Mth.ceil(p_110852_);
++    public void repositionCamera(me.alphamode.mcbig.math.BigDecimal p_110851_, me.alphamode.mcbig.math.BigDecimal p_110852_) {
 +        me.alphamode.mcbig.math.BigInteger i = Mth.bigCeil(p_110851_);
 +        me.alphamode.mcbig.math.BigInteger j = Mth.bigCeil(p_110852_);
  

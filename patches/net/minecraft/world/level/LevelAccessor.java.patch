@@ -9,3 +9,28 @@
          return this.getChunkSource().hasChunk(p_46794_, p_46795_);
      }
  
+@@ -101,9 +_,13 @@
+         this.levelEvent(null, p_46797_, p_46798_, p_46799_);
+     }
+ 
+-    void gameEvent(GameEvent p_220404_, Vec3 p_220405_, GameEvent.Context p_220406_);
+-
+-    default void gameEvent(@Nullable Entity p_220401_, GameEvent p_220402_, Vec3 p_220403_) {
++    void gameEvent(GameEvent p_220404_, me.alphamode.mcbig.core.BigVec3 p_220405_, GameEvent.Context p_220406_);
++
++    default void gameEvent(GameEvent p_220404_, Vec3 p_220405_, GameEvent.Context p_220406_) {
++        gameEvent(p_220404_, p_220405_.toBig(), p_220406_);
++    }
++
++    default void gameEvent(@Nullable Entity p_220401_, GameEvent p_220402_, me.alphamode.mcbig.core.BigVec3 p_220403_) {
+         this.gameEvent(p_220402_, p_220403_, new GameEvent.Context(p_220401_, null));
+     }
+ 
+@@ -112,6 +_,6 @@
+     }
+ 
+     default void gameEvent(GameEvent p_220408_, BlockPos p_220409_, GameEvent.Context p_220410_) {
+-        this.gameEvent(p_220408_, Vec3.atCenterOf(p_220409_), p_220410_);
++        this.gameEvent(p_220408_, me.alphamode.mcbig.core.BigVec3.atCenterOf(p_220409_), p_220410_);
+     }
+ }

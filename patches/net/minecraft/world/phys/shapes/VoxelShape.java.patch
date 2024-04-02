@@ -1,15 +1,79 @@
 --- a/net/minecraft/world/phys/shapes/VoxelShape.java
 +++ b/net/minecraft/world/phys/shapes/VoxelShape.java
-@@ -168,9 +_,9 @@
-                 Vec3 vec31 = p_83221_.add(vec3.scale(0.001));
+@@ -5,7 +_,10 @@
+ import it.unimi.dsi.fastutil.doubles.DoubleList;
+ import java.util.List;
+ import java.util.Optional;
++import java.util.stream.Collectors;
+ import javax.annotation.Nullable;
++
++import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+ import net.minecraft.Util;
+ import net.minecraft.core.AxisCycle;
+ import net.minecraft.core.BlockPos;
+@@ -20,7 +_,7 @@
+     @Nullable
+     private VoxelShape[] faces;
+ 
+-    VoxelShape(DiscreteVoxelShape p_83214_) {
++    protected VoxelShape(DiscreteVoxelShape p_83214_) {
+         this.shape = p_83214_;
+     }
+ 
+@@ -68,6 +_,10 @@
+ 
+     protected abstract DoubleList getCoords(Direction.Axis p_83249_);
+ 
++    protected it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mcbig.math.BigDecimal> getBigCoords(Direction.Axis p_83249_) {
++        return getCoords(p_83249_).doubleStream().mapToObj(me.alphamode.mcbig.math.BigDecimal::val).collect(Collectors.toCollection(ObjectArrayList::new));
++    }
++
+     public boolean isEmpty() {
+         return this.shape.isEmpty();
+     }
+@@ -134,6 +_,14 @@
+         return list;
+     }
+ 
++    public List<me.alphamode.mcbig.phys.BigAABB> toBigAabbs() {
++        List<me.alphamode.mcbig.phys.BigAABB> list = Lists.newArrayList();
++        this.forAllBoxes(
++                (p_83267_, p_83268_, p_83269_, p_83270_, p_83271_, p_83272_) -> list.add(new me.alphamode.mcbig.phys.BigAABB(p_83267_, p_83268_, p_83269_, p_83270_, p_83271_, p_83272_))
++        );
++        return list;
++    }
++
+     public double min(Direction.Axis p_166079_, double p_166080_, double p_166081_) {
+         Direction.Axis direction$axis = AxisCycle.FORWARD.cycle(p_166079_);
+         Direction.Axis direction$axis1 = AxisCycle.BACKWARD.cycle(p_166079_);
+@@ -157,23 +_,23 @@
+     }
+ 
+     @Nullable
+-    public BlockHitResult clip(Vec3 p_83221_, Vec3 p_83222_, BlockPos p_83223_) {
++    public BlockHitResult clip(me.alphamode.mcbig.core.BigVec3 p_83221_, me.alphamode.mcbig.core.BigVec3 p_83222_, BlockPos p_83223_) {
+         if (this.isEmpty()) {
+             return null;
+         } else {
+-            Vec3 vec3 = p_83222_.subtract(p_83221_);
++            Vec3 vec3 = p_83222_.subtract(p_83221_).toVanilla();
+             if (vec3.lengthSqr() < 1.0E-7) {
+                 return null;
+             } else {
+-                Vec3 vec31 = p_83221_.add(vec3.scale(0.001));
++                me.alphamode.mcbig.core.BigVec3 vec31 = p_83221_.add(vec3.scale(0.001));
                  return this.shape
                          .isFullWide(
 -                            this.findIndex(Direction.Axis.X, vec31.x - (double)p_83223_.getX()),
 -                            this.findIndex(Direction.Axis.Y, vec31.y - (double)p_83223_.getY()),
 -                            this.findIndex(Direction.Axis.Z, vec31.z - (double)p_83223_.getZ())
-+                            this.findIndex(Direction.Axis.X, vec31.x - (double)p_83223_.getBigX().doubleValue()),
++                            this.findIndex(Direction.Axis.X, vec31.x.subtract(p_83223_.getBigX().toBigDecimal()).doubleValue()),
 +                            this.findIndex(Direction.Axis.Y, vec31.y - (double)p_83223_.getBigY().doubleValue()),
-+                            this.findIndex(Direction.Axis.Z, vec31.z - (double)p_83223_.getBigZ().doubleValue())
++                            this.findIndex(Direction.Axis.Z, vec31.z.subtract(p_83223_.getBigZ().toBigDecimal()).doubleValue())
                          )
                      ? new BlockHitResult(vec31, Direction.getNearest(vec3.x, vec3.y, vec3.z).getOpposite(), p_83223_, true)
-                     : AABB.clip(this.toAabbs(), p_83221_, p_83222_, p_83223_);
+-                    : AABB.clip(this.toAabbs(), p_83221_, p_83222_, p_83223_);
++                    : me.alphamode.mcbig.phys.BigAABB.clip(this.toBigAabbs(), p_83221_, p_83222_, p_83223_);
+             }
+         }
+     }

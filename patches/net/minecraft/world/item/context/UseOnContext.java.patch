@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/context/UseOnContext.java
++++ b/net/minecraft/world/item/context/UseOnContext.java
+@@ -43,7 +_,7 @@
+     }
+ 
+     public Vec3 getClickLocation() {
+-        return this.hitResult.getLocation();
++        return this.hitResult.getLocation().toVanilla();
+     }
+ 
+     public boolean isInside() {
