@@ -1,11 +1,11 @@
 --- a/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/net/minecraft/world/entity/animal/allay/Allay.java
-@@ -602,7 +_,7 @@
+@@ -580,7 +_,7 @@
          }
  
          @Override
--        public boolean handleGameEvent(ServerLevel p_250009_, GameEvent p_251513_, GameEvent.Context p_249478_, Vec3 p_250852_) {
-+        public boolean handleGameEvent(ServerLevel p_250009_, GameEvent p_251513_, GameEvent.Context p_249478_, me.alphamode.mcbig.core.BigVec3 p_250852_) {
-             if (p_251513_ == GameEvent.JUKEBOX_PLAY) {
+-        public boolean handleGameEvent(ServerLevel p_250009_, Holder<GameEvent> p_316687_, GameEvent.Context p_249478_, Vec3 p_250852_) {
++        public boolean handleGameEvent(ServerLevel p_250009_, Holder<GameEvent> p_316687_, GameEvent.Context p_249478_, me.alphamode.mcbig.core.BigVec3 p_250852_) {
+             if (p_316687_.is(GameEvent.JUKEBOX_PLAY)) {
                  Allay.this.setJukeboxPlaying(BlockPos.containing(p_250852_), true);
                  return true;

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/storage/loot/functions/ExplorationMapFunction.java
 +++ b/net/minecraft/world/level/storage/loot/functions/ExplorationMapFunction.java
-@@ -83,7 +_,7 @@
+@@ -85,7 +_,7 @@
                      this.destination, BlockPos.containing(vec3), this.searchRadius, this.skipKnownStructures
                  );
                  if (blockpos != null) {

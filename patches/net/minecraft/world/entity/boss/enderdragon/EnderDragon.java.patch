@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -610,7 +_,7 @@
+@@ -608,7 +_,7 @@
                  int j1 = Math.max(
                      this.level().getSeaLevel() + 10, this.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(l, 0, i1)).getY() + j
                  );
@@ -9,7 +9,7 @@
              }
  
              this.nodeAdjacency[0] = 6146;
-@@ -645,7 +_,7 @@
+@@ -643,7 +_,7 @@
      public int findClosestNode(double p_31171_, double p_31172_, double p_31173_) {
          float f = 10000.0F;
          int i = 0;

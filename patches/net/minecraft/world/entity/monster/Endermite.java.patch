@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Endermite.java
 +++ b/net/minecraft/world/entity/monster/Endermite.java
-@@ -140,7 +_,7 @@
+@@ -131,7 +_,7 @@
      ) {
          if (checkAnyLightMonsterSpawnRules(p_218969_, p_218970_, p_218971_, p_218972_, p_218973_)) {
              Player player = p_218970_.getNearestPlayer(

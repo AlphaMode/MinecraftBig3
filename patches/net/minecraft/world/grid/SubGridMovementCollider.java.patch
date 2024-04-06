@@ -1,0 +1,44 @@
+--- a/net/minecraft/world/grid/SubGridMovementCollider.java
++++ b/net/minecraft/world/grid/SubGridMovementCollider.java
+@@ -9,16 +_,16 @@
+ import net.minecraft.world.level.block.state.BlockState;
+ 
+ public class SubGridMovementCollider {
+-    private final LongList edgeBlocks;
++    private final it.unimi.dsi.fastutil.objects.ObjectList<BlockPos> edgeBlocks;
+     private final BlockPos size;
+ 
+-    private SubGridMovementCollider(LongList p_342078_, BlockPos p_342335_) {
++    private SubGridMovementCollider(it.unimi.dsi.fastutil.objects.ObjectList<BlockPos> p_342078_, BlockPos p_342335_) {
+         this.edgeBlocks = p_342078_;
+         this.size = p_342335_;
+     }
+ 
+     public static SubGridMovementCollider generate(SubGridBlocks p_340588_, Direction p_342560_) {
+-        LongList longlist = new LongArrayList();
++        it.unimi.dsi.fastutil.objects.ObjectList<BlockPos> longlist = new it.unimi.dsi.fastutil.objects.ObjectArrayList<>();
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+         Direction direction = p_342560_.getOpposite();
+ 
+@@ -31,7 +_,7 @@
+                 BlockState blockstate = p_340588_.getBlockState(blockpos$mutableblockpos);
+                 if (isCollidable(blockstate)) {
+                     if (!flag) {
+-                        longlist.add(blockpos$mutableblockpos.asLong());
++                        longlist.add(blockpos$mutableblockpos);
+                     }
+ 
+                     flag = true;
+@@ -65,10 +_,10 @@
+         int j = i + this.size.getY() - 1;
+         if (i >= p_340469_.getMinBuildHeight() && j < p_340469_.getMaxBuildHeight()) {
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+-            LongIterator longiterator = this.edgeBlocks.longIterator();
++            it.unimi.dsi.fastutil.objects.ObjectIterator<BlockPos> longiterator = this.edgeBlocks.iterator();
+ 
+             while(longiterator.hasNext()) {
+-                blockpos$mutableblockpos.set(longiterator.nextLong());
++                blockpos$mutableblockpos.set(longiterator.next());
+                 blockpos$mutableblockpos.move(p_340571_);
+                 if (isCollidable(p_340469_.getBlockState(blockpos$mutableblockpos))) {
+                     return true;

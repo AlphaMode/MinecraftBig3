@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/block/ModelBlockRenderer.java
 +++ b/net/minecraft/client/renderer/block/ModelBlockRenderer.java
-@@ -944,8 +_,8 @@
+@@ -945,8 +_,8 @@
      @OnlyIn(Dist.CLIENT)
      static class Cache {
          private boolean enabled;
@@ -11,7 +11,7 @@
                  @Override
                  protected void rehash(int p_111238_) {
                  }
-@@ -953,8 +_,8 @@
+@@ -954,8 +_,8 @@
              long2intlinkedopenhashmap.defaultReturnValue(Integer.MAX_VALUE);
              return long2intlinkedopenhashmap;
          });
@@ -22,7 +22,7 @@
                  @Override
                  protected void rehash(int p_111245_) {
                  }
-@@ -977,9 +_,9 @@
+@@ -978,9 +_,9 @@
          }
  
          public int getLightColor(BlockState p_111222_, BlockAndTintGetter p_111223_, BlockPos p_111224_) {
@@ -34,7 +34,7 @@
                  if (j != Integer.MAX_VALUE) {
                      return j;
                  }
-@@ -991,16 +_,16 @@
+@@ -992,16 +_,16 @@
                      this.colorCache.removeFirstInt();
                  }
  
@@ -54,7 +54,7 @@
                  if (!Float.isNaN(f)) {
                      return f;
                  }
-@@ -1012,7 +_,7 @@
+@@ -1013,7 +_,7 @@
                      this.brightnessCache.removeFirstFloat();
                  }
  

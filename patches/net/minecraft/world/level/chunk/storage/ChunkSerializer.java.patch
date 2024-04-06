@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
 +++ b/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
-@@ -81,7 +_,7 @@
+@@ -83,7 +_,7 @@
      public static final String SKY_LIGHT_TAG = "SkyLight";
  
      public static ProtoChunk read(ServerLevel p_188231_, PoiManager p_188232_, ChunkPos p_188233_, CompoundTag p_188234_) {
@@ -9,7 +9,7 @@
          if (!Objects.equals(p_188233_, chunkpos)) {
              LOGGER.error("Chunk file at {} is in the wrong location; relocating. (Expected {}, got {})", p_188233_, p_188233_, chunkpos);
          }
-@@ -266,7 +_,7 @@
+@@ -271,7 +_,7 @@
      }
  
      private static void logErrors(ChunkPos p_188240_, int p_188241_, String p_188242_) {
@@ -18,7 +18,7 @@
      }
  
      private static Codec<PalettedContainerRO<Holder<Biome>>> makeBiomeCodec(Registry<Biome> p_188261_) {
-@@ -278,9 +_,9 @@
+@@ -283,9 +_,9 @@
      public static CompoundTag write(ServerLevel p_63455_, ChunkAccess p_63456_) {
          ChunkPos chunkpos = p_63456_.getPos();
          CompoundTag compoundtag = NbtUtils.addCurrentDataVersion(new CompoundTag());
@@ -30,7 +30,7 @@
          compoundtag.putLong("LastUpdate", p_63455_.getGameTime());
          compoundtag.putLong("InhabitedTime", p_63456_.getInhabitedTime());
          compoundtag.putString("Status", BuiltInRegistries.CHUNK_STATUS.getKey(p_63456_.getStatus()).toString());
-@@ -436,7 +_,7 @@
+@@ -441,7 +_,7 @@
      }
  
      private static CompoundTag packStructureData(
@@ -39,7 +39,7 @@
      ) {
          CompoundTag compoundtag = new CompoundTag();
          CompoundTag compoundtag1 = new CompoundTag();
-@@ -450,10 +_,17 @@
+@@ -455,10 +_,17 @@
          compoundtag.put("starts", compoundtag1);
          CompoundTag compoundtag2 = new CompoundTag();
  
@@ -59,7 +59,7 @@
              }
          }
  
-@@ -482,8 +_,8 @@
+@@ -487,8 +_,8 @@
          return map;
      }
  
@@ -70,7 +70,7 @@
          Registry<Structure> registry = p_208155_.registryOrThrow(Registries.STRUCTURE);
          CompoundTag compoundtag = p_208157_.getCompound("References");
  
-@@ -493,17 +_,19 @@
+@@ -498,17 +_,19 @@
              if (structure == null) {
                  LOGGER.warn("Found reference to unknown structure '{}' in chunk {}, discarding", resourcelocation, p_208156_);
              } else {

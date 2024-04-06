@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/net/minecraft/world/entity/monster/EnderMan.java
-@@ -621,13 +_,13 @@
+@@ -609,13 +_,13 @@
          public void tick() {
              RandomSource randomsource = this.enderman.getRandom();
              Level level = this.enderman.level();

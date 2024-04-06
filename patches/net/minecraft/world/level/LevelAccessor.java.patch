@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/LevelAccessor.java
 +++ b/net/minecraft/world/level/LevelAccessor.java
-@@ -74,7 +_,7 @@
+@@ -77,7 +_,7 @@
      ChunkSource getChunkSource();
  
      @Override
@@ -9,28 +9,34 @@
          return this.getChunkSource().hasChunk(p_46794_, p_46795_);
      }
  
-@@ -101,9 +_,13 @@
+@@ -104,18 +_,26 @@
          this.levelEvent(null, p_46797_, p_46798_, p_46799_);
      }
  
--    void gameEvent(GameEvent p_220404_, Vec3 p_220405_, GameEvent.Context p_220406_);
+-    void gameEvent(Holder<GameEvent> p_316267_, Vec3 p_220405_, GameEvent.Context p_220406_);
 -
--    default void gameEvent(@Nullable Entity p_220401_, GameEvent p_220402_, Vec3 p_220403_) {
-+    void gameEvent(GameEvent p_220404_, me.alphamode.mcbig.core.BigVec3 p_220405_, GameEvent.Context p_220406_);
+-    default void gameEvent(@Nullable Entity p_151549_, Holder<GameEvent> p_316314_, Vec3 p_316613_) {
++    void gameEvent(Holder<GameEvent> p_316267_, me.alphamode.mcbig.core.BigVec3 p_220405_, GameEvent.Context p_220406_);
 +
-+    default void gameEvent(GameEvent p_220404_, Vec3 p_220405_, GameEvent.Context p_220406_) {
-+        gameEvent(p_220404_, p_220405_.toBig(), p_220406_);
++    default void gameEvent(Holder<GameEvent> p_316267_, Vec3 p_220405_, GameEvent.Context p_220406_) {
++        gameEvent(p_316267_, p_220405_.toBig(), p_220406_);
 +    }
 +
-+    default void gameEvent(@Nullable Entity p_220401_, GameEvent p_220402_, me.alphamode.mcbig.core.BigVec3 p_220403_) {
-         this.gameEvent(p_220402_, p_220403_, new GameEvent.Context(p_220401_, null));
++    default void gameEvent(@Nullable Entity p_151549_, Holder<GameEvent> p_316314_, me.alphamode.mcbig.core.BigVec3 p_316613_) {
+         this.gameEvent(p_316314_, p_316613_, new GameEvent.Context(p_151549_, null));
      }
  
-@@ -112,6 +_,6 @@
++    default void gameEvent(@Nullable Entity p_151549_, Holder<GameEvent> p_316314_, Vec3 p_316613_) {
++        this.gameEvent(p_151549_, p_316314_, p_316613_.toBig());
++    }
++
+     default void gameEvent(@Nullable Entity p_316772_, Holder<GameEvent> p_316248_, BlockPos p_316282_) {
+         this.gameEvent(p_316248_, p_316282_, new GameEvent.Context(p_316772_, null));
      }
  
-     default void gameEvent(GameEvent p_220408_, BlockPos p_220409_, GameEvent.Context p_220410_) {
--        this.gameEvent(p_220408_, Vec3.atCenterOf(p_220409_), p_220410_);
-+        this.gameEvent(p_220408_, me.alphamode.mcbig.core.BigVec3.atCenterOf(p_220409_), p_220410_);
+     default void gameEvent(Holder<GameEvent> p_316320_, BlockPos p_220409_, GameEvent.Context p_220410_) {
+-        this.gameEvent(p_316320_, Vec3.atCenterOf(p_220409_), p_220410_);
++        this.gameEvent(p_316320_, me.alphamode.mcbig.core.BigVec3.atCenterOf(p_220409_), p_220410_);
      }
- }
+ 
+     default void gameEvent(ResourceKey<GameEvent> p_316780_, BlockPos p_316509_, GameEvent.Context p_316524_) {

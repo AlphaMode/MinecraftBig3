@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/chunk/ChunkAccess.java
 +++ b/net/minecraft/world/level/chunk/ChunkAccess.java
-@@ -57,7 +_,7 @@
+@@ -61,7 +_,7 @@
  public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiomeSource, LightChunk, StructureAccess {
      public static final int NO_FILLED_SECTION = -1;
      private static final Logger LOGGER = LogUtils.getLogger();
@@ -9,16 +9,16 @@
      protected final ShortList[] postProcessing;
      protected volatile boolean unsaved;
      private volatile boolean isLightCorrect;
-@@ -74,7 +_,7 @@
+@@ -78,7 +_,7 @@
      protected final Map<Heightmap.Types, Heightmap> heightmaps = Maps.newEnumMap(Heightmap.Types.class);
      protected ChunkSkyLightSources skyLightSources;
      private final Map<Structure, StructureStart> structureStarts = Maps.newHashMap();
 -    private final Map<Structure, LongSet> structuresRefences = Maps.newHashMap();
 +    private final Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> structuresRefences = Maps.newHashMap();
      protected final Map<BlockPos, CompoundTag> pendingBlockEntities = Maps.newHashMap();
-     protected final Map<BlockPos, BlockEntity> blockEntities = Maps.newHashMap();
+     protected final Map<BlockPos, BlockEntity> blockEntities = new Object2ObjectOpenHashMap<>();
      protected final LevelHeightAccessor levelHeightAccessor;
-@@ -178,7 +_,7 @@
+@@ -194,7 +_,7 @@
          return this.heightmaps.get(p_187659_) != null;
      }
  
@@ -27,7 +27,7 @@
          Heightmap heightmap = this.heightmaps.get(p_62080_);
          if (heightmap == null) {
              if (SharedConstants.IS_RUNNING_IN_IDE && this instanceof LevelChunk) {
-@@ -189,7 +_,7 @@
+@@ -205,7 +_,7 @@
              heightmap = this.heightmaps.get(p_62080_);
          }
  
@@ -36,7 +36,7 @@
      }
  
      public ChunkPos getPos() {
-@@ -219,23 +_,23 @@
+@@ -235,23 +_,23 @@
      }
  
      @Override
@@ -65,7 +65,7 @@
          this.structuresRefences.clear();
          this.structuresRefences.putAll(p_187663_);
          this.unsaved = true;
-@@ -413,25 +_,25 @@
+@@ -429,25 +_,25 @@
      }
  
      @Override

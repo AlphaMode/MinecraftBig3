@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/pathfinder/NodeEvaluator.java
 +++ b/net/minecraft/world/level/pathfinder/NodeEvaluator.java
-@@ -35,11 +_,11 @@
+@@ -38,11 +_,11 @@
      }
  
      protected Node getNode(BlockPos p_77350_) {
@@ -15,15 +15,25 @@
      }
  
      public abstract Node getStart();
-@@ -52,9 +_,9 @@
+@@ -50,17 +_,17 @@
+     public abstract Target getTarget(double p_326792_, double p_326849_, double p_326903_);
+ 
+     protected Target getTargetNodeAt(double p_326819_, double p_326953_, double p_326931_) {
+-        return new Target(this.getNode(Mth.floor(p_326819_), Mth.floor(p_326953_), Mth.floor(p_326931_)));
++        return new Target(this.getNode(Mth.bigFloor(p_326819_), Mth.bigFloor(p_326953_), Mth.bigFloor(p_326931_)));
+     }
  
      public abstract int getNeighbors(Node[] p_77353_, Node p_77354_);
  
--    public abstract BlockPathTypes getBlockPathType(BlockGetter p_77337_, int p_77338_, int p_77339_, int p_77340_, Mob p_77341_);
-+    public abstract BlockPathTypes getBlockPathType(BlockGetter p_77337_, me.alphamode.mcbig.math.BigInteger p_77338_, me.alphamode.mcbig.math.BigInteger p_77339_, me.alphamode.mcbig.math.BigInteger p_77340_, Mob p_77341_);
+-    public abstract PathType getPathTypeOfMob(PathfindingContext p_330720_, int p_326783_, int p_326930_, int p_326884_, Mob p_326798_);
++    public abstract PathType getPathTypeOfMob(PathfindingContext p_330720_, me.alphamode.mcbig.math.BigInteger p_326783_, me.alphamode.mcbig.math.BigInteger p_326930_, me.alphamode.mcbig.math.BigInteger p_326884_, Mob p_326798_);
  
--    public abstract BlockPathTypes getBlockPathType(BlockGetter p_77333_, int p_77334_, int p_77335_, int p_77336_);
-+    public abstract BlockPathTypes getBlockPathType(BlockGetter p_77333_, me.alphamode.mcbig.math.BigInteger p_77334_, me.alphamode.mcbig.math.BigInteger p_77335_, me.alphamode.mcbig.math.BigInteger p_77336_);
+-    public abstract PathType getPathType(PathfindingContext p_330531_, int p_331795_, int p_332013_, int p_331675_);
++    public abstract PathType getPathType(PathfindingContext p_330531_, me.alphamode.mcbig.math.BigInteger p_331795_, me.alphamode.mcbig.math.BigInteger p_332013_, me.alphamode.mcbig.math.BigInteger p_331675_);
+ 
+     public PathType getPathType(Mob p_331317_, BlockPos p_331263_) {
+-        return this.getPathType(new PathfindingContext(p_331317_.level(), p_331317_), p_331263_.getX(), p_331263_.getY(), p_331263_.getZ());
++        return this.getPathType(new PathfindingContext(p_331317_.level(), p_331317_), p_331263_.getBigX(), p_331263_.getBigY(), p_331263_.getBigZ());
+     }
  
      public void setCanPassDoors(boolean p_77352_) {
-         this.canPassDoors = p_77352_;

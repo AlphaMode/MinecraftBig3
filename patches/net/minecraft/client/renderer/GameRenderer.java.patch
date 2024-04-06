@@ -1,11 +1,17 @@
 --- a/net/minecraft/client/renderer/GameRenderer.java
 +++ b/net/minecraft/client/renderer/GameRenderer.java
-@@ -848,7 +_,7 @@
-                     entity, vec3, vec32, aabb, p_234237_ -> !p_234237_.isSpectator() && p_234237_.isPickable(), d1
-                 );
-                 if (entityhitresult != null) {
--                    Vec3 vec33 = entityhitresult.getLocation();
-+                    me.alphamode.mcbig.core.BigVec3 vec33 = entityhitresult.getLocation();
-                     double d2 = vec3.distanceToSqr(vec33);
-                     if (flag1 && d2 > 9.0) {
-                         this.minecraft.hitResult = BlockHitResult.miss(vec33, Direction.getNearest(vec31.x, vec31.y, vec31.z), BlockPos.containing(vec33));
+@@ -842,10 +_,11 @@
+     }
+ 
+     private static HitResult filterHitResult(HitResult p_319875_, Vec3 p_320631_, double p_319892_) {
+-        Vec3 vec3 = p_319875_.getLocation();
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_319875_.getLocation();
+         if (!vec3.closerThan(p_320631_, p_319892_)) {
+-            Vec3 vec31 = p_319875_.getLocation();
+-            Direction direction = Direction.getNearest(vec31.x - p_320631_.x, vec31.y - p_320631_.y, vec31.z - p_320631_.z);
++            me.alphamode.mcbig.core.BigVec3 vec31 = p_319875_.getLocation();
++            Vec3 vvec31 = p_319875_.getLocation().toVanilla();
++            Direction direction = Direction.getNearest(vvec31.x - p_320631_.x, vec31.y - p_320631_.y, vvec31.z - p_320631_.z);
+             return BlockHitResult.miss(vec31, direction, BlockPos.containing(vec31));
+         } else {
+             return p_319875_;

@@ -1,9 +1,9 @@
 --- a/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java
-@@ -6,16 +_,16 @@
- import net.minecraft.world.entity.RelativeMovement;
- 
- public class ClientboundPlayerPositionPacket implements Packet<ClientGamePacketListener> {
+@@ -11,16 +_,16 @@
+     public static final StreamCodec<FriendlyByteBuf, ClientboundPlayerPositionPacket> STREAM_CODEC = Packet.codec(
+         ClientboundPlayerPositionPacket::write, ClientboundPlayerPositionPacket::new
+     );
 -    private final double x;
 +    private final me.alphamode.mcbig.math.BigDecimal x;
      private final double y;
@@ -20,10 +20,10 @@
      ) {
          this.x = p_275438_;
          this.y = p_275354_;
-@@ -27,9 +_,9 @@
+@@ -32,9 +_,9 @@
      }
  
-     public ClientboundPlayerPositionPacket(FriendlyByteBuf p_179158_) {
+     private ClientboundPlayerPositionPacket(FriendlyByteBuf p_179158_) {
 -        this.x = p_179158_.readDouble();
 +        this.x = p_179158_.readBigDecimal();
          this.y = p_179158_.readDouble();
@@ -32,10 +32,10 @@
          this.yRot = p_179158_.readFloat();
          this.xRot = p_179158_.readFloat();
          this.relativeArguments = RelativeMovement.unpack(p_179158_.readUnsignedByte());
-@@ -38,9 +_,9 @@
+@@ -42,9 +_,9 @@
+     }
  
-     @Override
-     public void write(FriendlyByteBuf p_132820_) {
+     private void write(FriendlyByteBuf p_132820_) {
 -        p_132820_.writeDouble(this.x);
 +        p_132820_.writeBigDecimal(this.x);
          p_132820_.writeDouble(this.y);
@@ -44,7 +44,7 @@
          p_132820_.writeFloat(this.yRot);
          p_132820_.writeFloat(this.xRot);
          p_132820_.writeByte(RelativeMovement.pack(this.relativeArguments));
-@@ -51,7 +_,7 @@
+@@ -60,7 +_,7 @@
          p_132817_.handleMovePlayer(this);
      }
  
@@ -53,7 +53,7 @@
          return this.x;
      }
  
-@@ -59,7 +_,7 @@
+@@ -68,7 +_,7 @@
          return this.y;
      }
  

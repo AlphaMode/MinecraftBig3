@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/gameevent/BlockPositionSource.java
 +++ b/net/minecraft/world/level/gameevent/BlockPositionSource.java
-@@ -20,8 +_,8 @@
+@@ -24,8 +_,8 @@
      }
  
      @Override

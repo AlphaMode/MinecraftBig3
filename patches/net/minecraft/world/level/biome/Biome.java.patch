@@ -42,7 +42,7 @@
              return f1;
          }
      }
-@@ -383,11 +_,11 @@
+@@ -389,11 +_,11 @@
          FROZEN("frozen") {
              @Override
              public float modifyTemperature(BlockPos p_47774_, float p_47775_) {

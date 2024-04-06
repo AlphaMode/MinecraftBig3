@@ -1,15 +1,15 @@
 --- a/net/minecraft/core/dispenser/DispenseItemBehavior.java
 +++ b/net/minecraft/core/dispenser/DispenseItemBehavior.java
-@@ -465,7 +_,7 @@
-             protected ItemStack execute(BlockSource p_302466_, ItemStack p_123426_) {
-                 Level level = p_302466_.level();
-                 BlockPos blockpos = p_302466_.pos().relative(p_302466_.state().getValue(DispenserBlock.FACING));
+@@ -495,7 +_,7 @@
+             protected ItemStack execute(BlockSource p_302449_, ItemStack p_123430_) {
+                 Level level = p_302449_.level();
+                 BlockPos blockpos = p_302449_.pos().relative(p_302449_.state().getValue(DispenserBlock.FACING));
 -                PrimedTnt primedtnt = new PrimedTnt(level, (double)blockpos.getX() + 0.5, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5, null);
 +                PrimedTnt primedtnt = new PrimedTnt(level, (double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue() + 0.5, null);
                  level.addFreshEntity(primedtnt);
                  level.playSound(null, primedtnt.getX(), primedtnt.getY(), primedtnt.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
                  level.gameEvent(null, GameEvent.ENTITY_PLACE, blockpos);
-@@ -648,9 +_,9 @@
+@@ -714,9 +_,9 @@
                                  for(int i = 0; i < 5; ++i) {
                                      serverlevel.sendParticles(
                                          ParticleTypes.SPLASH,

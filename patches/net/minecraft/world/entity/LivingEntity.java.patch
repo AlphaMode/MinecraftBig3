@@ -1,24 +1,6 @@
 --- a/net/minecraft/world/entity/LivingEntity.java
 +++ b/net/minecraft/world/entity/LivingEntity.java
-@@ -303,12 +_,12 @@
-             double d1 = this.getY();
-             double d2 = this.getZ();
-             BlockPos blockpos = this.blockPosition();
--            if (p_20993_.getX() != blockpos.getX() || p_20993_.getZ() != blockpos.getZ()) {
--                double d3 = d0 - (double)p_20993_.getX() - 0.5;
--                double d5 = d2 - (double)p_20993_.getZ() - 0.5;
-+            if (!java.util.Objects.equals(p_20993_.getBigX(), blockpos.getBigX()) || !java.util.Objects.equals(p_20993_.getBigZ(), blockpos.getBigZ())) {
-+                double d3 = d0 - (double)p_20993_.getBigX().doubleValue() - 0.5;
-+                double d5 = d2 - (double)p_20993_.getBigZ().doubleValue() - 0.5;
-                 double d6 = Math.max(Math.abs(d3), Math.abs(d5));
--                d0 = (double)p_20993_.getX() + 0.5 + d3 / d6 * 0.5;
--                d2 = (double)p_20993_.getZ() + 0.5 + d5 / d6 * 0.5;
-+                d0 = (double)p_20993_.getBigX().doubleValue() + 0.5 + d3 / d6 * 0.5;
-+                d2 = (double)p_20993_.getBigZ().doubleValue() + 0.5 + d5 / d6 * 0.5;
-             }
- 
-             float f = (float)Mth.ceil(this.fallDistance - 3.0F);
-@@ -1569,9 +_,9 @@
+@@ -1754,9 +_,9 @@
  
      protected void playBlockFallSound() {
          if (!this.isSilent()) {
@@ -31,7 +13,7 @@
              BlockState blockstate = this.level().getBlockState(new BlockPos(i, j, k));
              if (!blockstate.isAir()) {
                  SoundType soundtype = blockstate.getSoundType();
-@@ -2999,6 +_,14 @@
+@@ -3263,6 +_,14 @@
          this.yBodyRotO = this.yBodyRot;
      }
  
@@ -46,7 +28,7 @@
      protected void triggerItemUseEffects(ItemStack p_21138_, int p_21139_) {
          if (!p_21138_.isEmpty() && this.isUsingItem()) {
              if (p_21138_.getUseAnimation() == UseAnim.DRINK) {
-@@ -3241,7 +_,7 @@
+@@ -3509,7 +_,7 @@
      }
  
      private void setPosToBed(BlockPos p_21081_) {
@@ -55,7 +37,7 @@
      }
  
      private boolean checkBedExists() {
-@@ -3256,7 +_,7 @@
+@@ -3524,7 +_,7 @@
                  this.level().setBlock(p_261435_, blockstate.setValue(BedBlock.OCCUPIED, Boolean.valueOf(false)), 3);
                  Vec3 vec31 = BedBlock.findStandUpPosition(this.getType(), this.level(), p_261435_, direction, this.getYRot()).orElseGet(() -> {
                      BlockPos blockpos = p_261435_.above();

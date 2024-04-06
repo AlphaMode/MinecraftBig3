@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/BlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/BlockEntity.java
-@@ -31,7 +_,7 @@
+@@ -33,7 +_,7 @@
      }
  
      public static BlockPos getPosFromTag(CompoundTag p_187473_) {
@@ -9,7 +9,7 @@
      }
  
      @Nullable
-@@ -90,9 +_,9 @@
+@@ -95,9 +_,9 @@
  
      private void saveMetadata(CompoundTag p_187479_) {
          this.saveId(p_187479_);

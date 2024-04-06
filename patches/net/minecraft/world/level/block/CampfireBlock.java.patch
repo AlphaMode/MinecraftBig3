@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/CampfireBlock.java
 +++ b/net/minecraft/world/level/block/CampfireBlock.java
-@@ -174,9 +_,9 @@
+@@ -177,9 +_,9 @@
          if (p_220918_.getValue(LIT)) {
              if (p_220921_.nextInt(10) == 0) {
                  p_220919_.playLocalSound(
@@ -12,7 +12,7 @@
                      SoundEvents.CAMPFIRE_CRACKLE,
                      SoundSource.BLOCKS,
                      0.5F + p_220921_.nextFloat(),
-@@ -189,9 +_,9 @@
+@@ -192,9 +_,9 @@
                  for(int i = 0; i < p_220921_.nextInt(1) + 1; ++i) {
                      p_220919_.addParticle(
                          ParticleTypes.LAVA,

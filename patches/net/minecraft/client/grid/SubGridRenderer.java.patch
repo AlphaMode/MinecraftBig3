@@ -1,0 +1,20 @@
+--- a/net/minecraft/client/grid/SubGridRenderer.java
++++ b/net/minecraft/client/grid/SubGridRenderer.java
+@@ -58,7 +_,7 @@
+     }
+ 
+     public void draw(
+-        float p_341694_, double p_342601_, double p_340804_, double p_340779_, Frustum p_342559_, Matrix4f p_341118_, Matrix4f p_342142_, boolean p_341330_
++        float p_341694_, me.alphamode.mcbig.math.BigDecimal p_342601_, double p_340804_, me.alphamode.mcbig.math.BigDecimal p_340779_, Frustum p_342559_, Matrix4f p_341118_, Matrix4f p_342142_, boolean p_341330_
+     ) {
+         GridCarrier gridcarrier = this.grid.carrier();
+         Vec3 vec3 = new Vec3(
+@@ -78,7 +_,7 @@
+             this.prepareMesh();
+             if (!this.vertexBuffers.isEmpty()) {
+                 Window window = this.minecraft.getWindow();
+-                Vector3f vector3f = new Vector3f((float)(vec3.x - p_342601_), (float)(vec3.y - p_340804_), (float)(vec3.z - p_340779_));
++                Vector3f vector3f = new Vector3f((float)(me.alphamode.mcbig.math.BigDecimal.val(vec3.x).subtract(p_342601_).floatValue()), (float)(vec3.y - p_340804_), (float)(me.alphamode.mcbig.math.BigDecimal.val(vec3.z).subtract(p_340779_).floatValue()));
+                 if (p_341330_) {
+                     this.drawLayer(RenderType.translucent(), vector3f, p_341118_, p_342142_, window);
+                     this.drawLayer(RenderType.tripwire(), vector3f, p_341118_, p_342142_, window);

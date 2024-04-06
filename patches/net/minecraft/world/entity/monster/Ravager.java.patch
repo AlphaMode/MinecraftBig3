@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Ravager.java
 +++ b/net/minecraft/world/entity/monster/Ravager.java
-@@ -144,7 +_,7 @@
+@@ -138,7 +_,7 @@
                  AABB aabb = this.getBoundingBox().inflate(0.2);
  
                  for(BlockPos blockpos : BlockPos.betweenClosed(

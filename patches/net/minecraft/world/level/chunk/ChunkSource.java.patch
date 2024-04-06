@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/chunk/ChunkSource.java
 +++ b/net/minecraft/world/level/chunk/ChunkSource.java
-@@ -8,27 +_,27 @@
+@@ -9,27 +_,27 @@
  
  public abstract class ChunkSource implements LightChunkGetter, AutoCloseable {
      @Nullable
@@ -28,7 +28,7 @@
      }
  
      @Nullable
--    public abstract ChunkAccess getChunk(int p_62223_, int p_62224_, ChunkStatus p_62225_, boolean p_62226_);
+-    public abstract ChunkAccess getChunk(int p_62223_, int p_62224_, ChunkStatus p_330657_, boolean p_62226_);
 +    public abstract ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_62223_, me.alphamode.mcbig.math.BigInteger p_62224_, ChunkStatus p_62225_, boolean p_62226_);
  
      public abstract void tick(BooleanSupplier p_202162_, boolean p_202163_);

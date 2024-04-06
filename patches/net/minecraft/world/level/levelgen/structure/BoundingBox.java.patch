@@ -197,7 +197,7 @@
      }
  
      public static Optional<BoundingBox> encapsulatingPositions(Iterable<BlockPos> p_162379_) {
-@@ -168,91 +_,91 @@
+@@ -168,102 +_,106 @@
  
      @Deprecated
      public BoundingBox encapsulate(BoundingBox p_162387_) {
@@ -267,9 +267,13 @@
      }
  
      public BoundingBox moved(int p_71046_, int p_71047_, int p_71048_) {
++        return moved(me.alphamode.mcbig.math.BigInteger.val(p_71046_), me.alphamode.mcbig.math.BigInteger.val(p_71047_), me.alphamode.mcbig.math.BigInteger.val(p_71048_));
++    }
++
++    public BoundingBox moved(me.alphamode.mcbig.math.BigInteger x, me.alphamode.mcbig.math.BigInteger y, me.alphamode.mcbig.math.BigInteger z) {
          return new BoundingBox(
 -            this.minX + p_71046_, this.minY + p_71047_, this.minZ + p_71048_, this.maxX + p_71046_, this.maxY + p_71047_, this.maxZ + p_71048_
-+            this.minX.add(p_71046_), this.minY.add(p_71047_), this.minZ.add(p_71048_), this.maxX.add(p_71046_), this.maxY.add(p_71047_), this.maxZ.add(p_71048_)
++                this.minX.add(x), this.minY.add(y), this.minZ.add(z), this.maxX.add(x), this.maxY.add(y), this.maxZ.add(z)
          );
      }
  
@@ -287,6 +291,23 @@
 +            this.maxX().add(p_191962_),
 +            this.maxY().add(p_191962_),
 +            this.maxZ().add(p_191962_)
+         );
+     }
+ 
+     public BoundingBox inflatedBy(int p_341109_, int p_341453_, int p_342241_) {
+         return new BoundingBox(
+-            this.minX() - p_341109_,
+-            this.minY() - p_341453_,
+-            this.minZ() - p_342241_,
+-            this.maxX() + p_341109_,
+-            this.maxY() + p_341453_,
+-            this.maxZ() + p_342241_
++            this.minX().subtract(p_341109_),
++            this.minY().subtract(p_341453_),
++            this.minZ().subtract(p_342241_),
++            this.maxX().add(p_341109_),
++            this.maxY().add(p_341453_),
++            this.maxZ().add(p_342241_)
          );
      }
  
@@ -339,7 +360,7 @@
          );
      }
  
-@@ -288,12 +_,12 @@
+@@ -299,12 +_,12 @@
              return false;
          } else {
              BoundingBox boundingbox = (BoundingBox)p_162393_;
@@ -358,7 +379,7 @@
          }
      }
  
-@@ -302,27 +_,27 @@
+@@ -313,27 +_,27 @@
          return Objects.hash(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
      }
  

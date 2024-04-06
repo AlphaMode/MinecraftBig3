@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/LecternBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/LecternBlockEntity.java
-@@ -187,7 +_,7 @@
+@@ -191,7 +_,7 @@
              component = p_59535_.getDisplayName();
          }
  

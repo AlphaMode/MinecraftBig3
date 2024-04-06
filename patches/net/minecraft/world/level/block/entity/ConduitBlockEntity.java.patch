@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/ConduitBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/ConduitBlockEntity.java
-@@ -167,9 +_,9 @@
+@@ -168,9 +_,9 @@
      private static void applyEffects(Level p_155444_, BlockPos p_155445_, List<BlockPos> p_155446_) {
          int i = p_155446_.size();
          int j = i / 7 * 16;

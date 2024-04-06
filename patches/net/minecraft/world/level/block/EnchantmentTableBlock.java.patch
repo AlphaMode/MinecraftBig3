@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/EnchantmentTableBlock.java
 +++ b/net/minecraft/world/level/block/EnchantmentTableBlock.java
-@@ -35,7 +_,7 @@
+@@ -32,7 +_,7 @@
  public class EnchantmentTableBlock extends BaseEntityBlock {
      public static final MapCodec<EnchantmentTableBlock> CODEC = simpleCodec(EnchantmentTableBlock::new);
      protected static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0);

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/OceanRuinPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/OceanRuinPieces.java
-@@ -171,10 +_,10 @@
+@@ -173,10 +_,10 @@
          OceanRuinStructure p_228992_,
          StructurePieceAccessor p_228993_
      ) {
@@ -13,7 +13,7 @@
          List<BlockPos> list = allPositions(p_228989_, blockpos2);
          int i = Mth.nextInt(p_228989_, 4, 8);
  
-@@ -342,8 +_,8 @@
+@@ -344,8 +_,8 @@
              ChunkPos p_229034_,
              BlockPos p_229035_
          ) {
@@ -24,7 +24,7 @@
              BlockPos blockpos = StructureTemplate.transform(
                      new BlockPos(this.template.getSize().getX() - 1, 0, this.template.getSize().getZ() - 1),
                      Mirror.NONE,
-@@ -352,7 +_,7 @@
+@@ -354,7 +_,7 @@
                  )
                  .offset(this.templatePosition);
              this.templatePosition = new BlockPos(

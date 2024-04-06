@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/LevelRenderer.java
 +++ b/net/minecraft/client/renderer/LevelRenderer.java
-@@ -177,7 +_,7 @@
+@@ -182,7 +_,7 @@
      private final RunningTrimmedMean frameTimes = new RunningTrimmedMean(100);
      private int ticks;
      private final Int2ObjectMap<BlockDestructionProgress> destroyingBlocks = new Int2ObjectOpenHashMap<>();
@@ -9,7 +9,7 @@
      private final Map<BlockPos, SoundInstance> playingRecords = Maps.newHashMap();
      @Nullable
      private RenderTarget entityTarget;
-@@ -195,12 +_,12 @@
+@@ -200,12 +_,12 @@
      private RenderTarget cloudsTarget;
      @Nullable
      private PostChain transparencyChain;
@@ -27,7 +27,7 @@
      private double prevCamRotX = Double.MIN_VALUE;
      private double prevCamRotY = Double.MIN_VALUE;
      private int prevCloudX = Integer.MIN_VALUE;
-@@ -220,9 +_,9 @@
+@@ -225,9 +_,9 @@
      private Frustum capturedFrustum;
      private final Vector4f[] frustumPoints = new Vector4f[8];
      private final Vector3d frustumPos = new Vector3d(0.0, 0.0, 0.0);
@@ -39,7 +39,7 @@
      private int rainSoundTime;
      private final float[] rainSizeX = new float[1024];
      private final float[] rainSizeZ = new float[1024];
-@@ -439,7 +_,7 @@
+@@ -475,7 +_,7 @@
                          this.minecraft
                              .level
                              .addParticle(
@@ -48,7 +48,7 @@
                              );
                      }
                  }
-@@ -688,9 +_,9 @@
+@@ -724,9 +_,9 @@
      }
  
      public void setLevel(@Nullable ClientLevel p_109702_) {
@@ -61,7 +61,7 @@
          this.entityRenderDispatcher.setLevel(p_109702_);
          this.level = p_109702_;
          if (p_109702_ != null) {
-@@ -747,7 +_,7 @@
+@@ -783,7 +_,7 @@
              this.visibleSections.clear();
              Entity entity = this.minecraft.getCameraEntity();
              if (entity != null) {
@@ -70,7 +70,7 @@
              }
          }
      }
-@@ -813,19 +_,19 @@
+@@ -849,19 +_,19 @@
      }
  
      private void setupRender(Camera p_194339_, Frustum p_194340_, boolean p_194341_, boolean p_194342_) {
@@ -97,7 +97,7 @@
              this.lastCameraSectionX = i;
              this.lastCameraSectionY = j;
              this.lastCameraSectionZ = k;
-@@ -836,10 +_,10 @@
+@@ -872,10 +_,10 @@
          this.level.getProfiler().popPush("cull");
          this.minecraft.getProfiler().popPush("culling");
          BlockPos blockpos = p_194339_.getBlockPosition();
@@ -111,7 +111,7 @@
              this.sectionOcclusionGraph.invalidate();
          }
  
-@@ -890,14 +_,14 @@
+@@ -926,14 +_,14 @@
          this.sectionOcclusionGraph.onSectionCompiled(p_295462_);
      }
  
@@ -129,22 +129,19 @@
          this.frustumPoints[0] = new Vector4f(-1.0F, -1.0F, -1.0F, 1.0F);
          this.frustumPoints[1] = new Vector4f(1.0F, -1.0F, -1.0F, 1.0F);
          this.frustumPoints[2] = new Vector4f(1.0F, 1.0F, -1.0F, 1.0F);
-@@ -913,11 +_,11 @@
+@@ -949,9 +_,9 @@
          }
      }
  
--    public void prepareCullFrustum(PoseStack p_253986_, Vec3 p_253766_, Matrix4f p_254341_) {
-+    public void prepareCullFrustum(PoseStack p_253986_, me.alphamode.mcbig.core.BigVec3 p_253766_, Matrix4f p_254341_) {
-         Matrix4f matrix4f = p_253986_.last().pose();
--        double d0 = p_253766_.x();
-+        me.alphamode.mcbig.math.BigDecimal d0 = p_253766_.bigX();
-         double d1 = p_253766_.y();
--        double d2 = p_253766_.z();
-+        me.alphamode.mcbig.math.BigDecimal d2 = p_253766_.bigZ();
-         this.cullingFrustum = new Frustum(matrix4f, p_254341_);
-         this.cullingFrustum.prepare(d0, d1, d2);
+-    public void prepareCullFrustum(Vec3 p_253766_, Matrix4f p_254341_, Matrix4f p_323487_) {
++    public void prepareCullFrustum(me.alphamode.mcbig.core.BigVec3 p_253766_, Matrix4f p_254341_, Matrix4f p_323487_) {
+         this.cullingFrustum = new Frustum(p_254341_, p_323487_);
+-        this.cullingFrustum.prepare(p_253766_.x(), p_253766_.y(), p_253766_.z());
++        this.cullingFrustum.prepare(p_253766_.bigX(), p_253766_.y(), p_253766_.bigZ());
      }
-@@ -942,17 +_,19 @@
+ 
+     public void renderLevel(
+@@ -974,16 +_,18 @@
          this.level.pollLightUpdates();
          profilerfiller.popPush("light_updates");
          this.level.getChunkSource().getLightEngine().runLightUpdates();
@@ -155,7 +152,6 @@
          double d1 = vec3.y();
          double d2 = vec3.z();
 +        me.alphamode.mcbig.math.BigDecimal bigd2 = vec3.bigZ();
-         Matrix4f matrix4f = p_109600_.last().pose();
          profilerfiller.popPush("culling");
          boolean flag = this.capturedFrustum != null;
          Frustum frustum;
@@ -166,7 +162,7 @@
          } else {
              frustum = this.cullingFrustum;
          }
-@@ -968,7 +_,7 @@
+@@ -999,7 +_,7 @@
          FogRenderer.levelFogColor();
          RenderSystem.clear(16640, Minecraft.ON_OSX);
          float f1 = p_109605_.getRenderDistance();
@@ -174,41 +170,33 @@
 +        boolean flag1 = this.minecraft.level.effects().isFoggyAt(Mth.bigFloor(d0), Mth.floor(d1)) || this.minecraft.gui.getBossOverlay().shouldCreateWorldFog();
          profilerfiller.popPush("sky");
          RenderSystem.setShader(GameRenderer::getPositionShader);
-         this.renderSky(p_109600_, p_254120_, f, p_109604_, flag1, () -> FogRenderer.setupFog(p_109604_, FogRenderer.FogMode.FOG_SKY, f1, flag1, f));
-@@ -979,9 +_,9 @@
+         this.renderSky(p_254120_, p_323920_, f, p_109604_, flag1, () -> FogRenderer.setupFog(p_109604_, FogRenderer.FogMode.FOG_SKY, f1, flag1, f));
+@@ -1010,11 +_,11 @@
          profilerfiller.popPush("compile_sections");
          this.compileSections(p_109604_);
          profilerfiller.popPush("terrain");
--        this.renderSectionLayer(RenderType.solid(), p_109600_, d0, d1, d2, p_254120_);
--        this.renderSectionLayer(RenderType.cutoutMipped(), p_109600_, d0, d1, d2, p_254120_);
--        this.renderSectionLayer(RenderType.cutout(), p_109600_, d0, d1, d2, p_254120_);
-+        this.renderSectionLayer(RenderType.solid(), p_109600_, bigd0, d1, bigd2, p_254120_);
-+        this.renderSectionLayer(RenderType.cutoutMipped(), p_109600_, bigd0, d1, bigd2, p_254120_);
-+        this.renderSectionLayer(RenderType.cutout(), p_109600_, bigd0, d1, bigd2, p_254120_);
+-        this.renderSectionLayer(RenderType.solid(), d0, d1, d2, p_254120_, p_323920_);
+-        this.renderSectionLayer(RenderType.cutoutMipped(), d0, d1, d2, p_254120_, p_323920_);
+-        this.renderSectionLayer(RenderType.cutout(), d0, d1, d2, p_254120_, p_323920_);
++        this.renderSectionLayer(RenderType.solid(), bigd0, d1, bigd2, p_254120_, p_323920_);
++        this.renderSectionLayer(RenderType.cutoutMipped(), bigd0, d1, bigd2, p_254120_, p_323920_);
++        this.renderSectionLayer(RenderType.cutout(), bigd0, d1, bigd2, p_254120_, p_323920_);
+         profilerfiller.popPush("grids");
+-        this.drawGrids(p_254120_, p_323920_, f, d0, d1, d2, frustum, false);
++        this.drawGrids(p_254120_, p_323920_, f, bigd0, d1, bigd2, frustum, false);
          if (this.level.effects().constantAmbientLight()) {
-             Lighting.setupNetherLevel(p_109600_.last().pose());
+             Lighting.setupNetherLevel();
          } else {
-@@ -1058,8 +_,8 @@
-                     BlockPos blockpos4 = blockentity1.getBlockPos();
-                     MultiBufferSource multibuffersource1 = multibuffersource$buffersource;
-                     p_109600_.pushPose();
--                    p_109600_.translate((double)blockpos4.getX() - d0, (double)blockpos4.getY() - d1, (double)blockpos4.getZ() - d2);
--                    SortedSet<BlockDestructionProgress> sortedset = this.destructionProgress.get(blockpos4.asLong());
-+                    p_109600_.translate((double)blockpos4.getBigX().toBigDecimal().subtract(bigd0).doubleValue(), (double)blockpos4.getBigY().doubleValue() - d1, (double)blockpos4.getBigZ().toBigDecimal().subtract(bigd2).doubleValue());
-+                    SortedSet<BlockDestructionProgress> sortedset = this.destructionProgress.get(blockpos4);
-                     if (sortedset != null && !sortedset.isEmpty()) {
-                         int j = sortedset.last().getProgress();
-                         if (j >= 0) {
-@@ -1087,7 +_,7 @@
+@@ -1122,7 +_,7 @@
              for(BlockEntity blockentity : this.globalBlockEntities) {
                  BlockPos blockpos3 = blockentity.getBlockPos();
-                 p_109600_.pushPose();
--                p_109600_.translate((double)blockpos3.getX() - d0, (double)blockpos3.getY() - d1, (double)blockpos3.getZ() - d2);
-+                p_109600_.translate((double)blockpos3.getBigX().toBigDecimal().subtract(bigd0).doubleValue(), (double)blockpos3.getBigY().doubleValue() - d1, (double)blockpos3.getBigZ().toBigDecimal().subtract(bigd2).doubleValue());
-                 this.blockEntityRenderDispatcher.render(blockentity, f, p_109600_, multibuffersource$buffersource);
-                 p_109600_.popPose();
+                 posestack.pushPose();
+-                posestack.translate((double)blockpos3.getX() - d0, (double)blockpos3.getY() - d1, (double)blockpos3.getZ() - d2);
++                posestack.translate((double)blockpos3.getBigX().toBigDecimal().subtract(bigd0).doubleValue(), (double)blockpos3.getY() - d1, (double)blockpos3.getBigZ().subtract(bigd2).doubleValue());
+                 this.blockEntityRenderDispatcher.render(blockentity, f, posestack, multibuffersource$buffersource);
+                 posestack.popPose();
              }
-@@ -1112,17 +_,17 @@
+@@ -1147,17 +_,17 @@
  
          profilerfiller.popPush("destroyProgress");
  
@@ -219,65 +207,80 @@
 -            double d5 = (double)blockpos2.getZ() - d2;
 +        for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<BlockPos, SortedSet<BlockDestructionProgress>> entry : this.destructionProgress.object2ObjectEntrySet()) {
 +            BlockPos blockpos2 = entry.getKey();
-+            double d3 = (double)blockpos2.getBigX().toBigDecimal().subtract(bigd0).doubleValue();
-+            double d4 = (double)blockpos2.getBigY().doubleValue() - d1;
-+            double d5 = (double)blockpos2.getBigZ().toBigDecimal().subtract(bigd2).doubleValue();
++            double d3 = (double)blockpos2.getBigX().toBigDecimal().subtract(d0).doubleValue();
++            double d4 = (double)blockpos2.getY() -d1;
++            double d5 = (double)blockpos2.getBigZ().toBigDecimal().subtract(d2).doubleValue();
              if (!(d3 * d3 + d4 * d4 + d5 * d5 > 1024.0)) {
                  SortedSet<BlockDestructionProgress> sortedset1 = entry.getValue();
                  if (sortedset1 != null && !sortedset1.isEmpty()) {
                      int k = sortedset1.last().getProgress();
-                     p_109600_.pushPose();
--                    p_109600_.translate((double)blockpos2.getX() - d0, (double)blockpos2.getY() - d1, (double)blockpos2.getZ() - d2);
-+                    p_109600_.translate((double)blockpos2.getBigX().toBigDecimal().subtract(bigd0).doubleValue(), (double)blockpos2.getBigY().doubleValue() - d1, (double)blockpos2.getBigZ().toBigDecimal().subtract(bigd2).doubleValue());
-                     PoseStack.Pose posestack$pose1 = p_109600_.last();
+                     posestack.pushPose();
+-                    posestack.translate((double)blockpos2.getX() - d0, (double)blockpos2.getY() - d1, (double)blockpos2.getZ() - d2);
++                    posestack.translate((double)blockpos2.getBigX().subtract(d0).doubleValue(), (double)blockpos2.getY() - d1, (double)blockpos2.getBigZ().subtract(d2).doubleValue());
+                     PoseStack.Pose posestack$pose1 = posestack.last();
                      VertexConsumer vertexconsumer1 = new SheetedDecalTextureGenerator(
-                         this.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(k)),
-@@ -1146,11 +_,11 @@
+                         this.renderBuffers.crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(k)), posestack$pose1, 1.0F
+@@ -1178,11 +_,11 @@
              BlockState blockstate = this.level.getBlockState(blockpos1);
              if (!blockstate.isAir() && this.level.getWorldBorder().isWithinBounds(blockpos1)) {
                  VertexConsumer vertexconsumer2 = multibuffersource$buffersource.getBuffer(RenderType.lines());
--                this.renderHitOutline(p_109600_, vertexconsumer2, p_109604_.getEntity(), d0, d1, d2, blockpos1, blockstate);
-+                this.renderHitOutline(p_109600_, vertexconsumer2, p_109604_.getEntity(), bigd0, d1, bigd2, blockpos1, blockstate);
+-                this.renderHitOutline(posestack, vertexconsumer2, p_109604_.getEntity(), d0, d1, d2, blockpos1, blockstate);
++                this.renderHitOutline(posestack, vertexconsumer2, p_109604_.getEntity(), bigd0, d1, bigd2, blockpos1, blockstate);
              }
          }
  
--        this.minecraft.debugRenderer.render(p_109600_, multibuffersource$buffersource, d0, d1, d2);
-+        this.minecraft.debugRenderer.render(p_109600_, multibuffersource$buffersource, bigd0, d1, bigd2);
+-        this.minecraft.debugRenderer.render(posestack, multibuffersource$buffersource, d0, d1, d2);
++        this.minecraft.debugRenderer.render(posestack, multibuffersource$buffersource, bigd0, d1, bigd2);
          multibuffersource$buffersource.endLastBatch();
-         PoseStack posestack = RenderSystem.getModelViewStack();
-         RenderSystem.applyModelViewMatrix();
-@@ -1172,9 +_,9 @@
+         multibuffersource$buffersource.endBatch(Sheets.translucentCullBlockSheet());
+         multibuffersource$buffersource.endBatch(Sheets.bannerSheet());
+@@ -1202,11 +_,11 @@
              this.translucentTarget.clear(Minecraft.ON_OSX);
              this.translucentTarget.copyDepthFrom(this.minecraft.getMainRenderTarget());
              profilerfiller.popPush("translucent");
--            this.renderSectionLayer(RenderType.translucent(), p_109600_, d0, d1, d2, p_254120_);
-+            this.renderSectionLayer(RenderType.translucent(), p_109600_, bigd0, d1, bigd2, p_254120_);
+-            this.renderSectionLayer(RenderType.translucent(), d0, d1, d2, p_254120_, p_323920_);
++            this.renderSectionLayer(RenderType.translucent(), bigd0, d1, bigd2, p_254120_, p_323920_);
              profilerfiller.popPush("string");
--            this.renderSectionLayer(RenderType.tripwire(), p_109600_, d0, d1, d2, p_254120_);
-+            this.renderSectionLayer(RenderType.tripwire(), p_109600_, bigd0, d1, bigd2, p_254120_);
+-            this.renderSectionLayer(RenderType.tripwire(), d0, d1, d2, p_254120_, p_323920_);
++            this.renderSectionLayer(RenderType.tripwire(), bigd0, d1, bigd2, p_254120_, p_323920_);
+             profilerfiller.popPush("grids_transluicent");
+-            this.drawGrids(p_254120_, p_323920_, f, d0, d1, d2, frustum, true);
++            this.drawGrids(p_254120_, p_323920_, f, bigd0, d1, bigd2, frustum, true);
              this.particlesTarget.clear(Minecraft.ON_OSX);
              this.particlesTarget.copyDepthFrom(this.minecraft.getMainRenderTarget());
              RenderStateShard.PARTICLES_TARGET.setupRenderState();
-@@ -1187,11 +_,11 @@
+@@ -1219,13 +_,13 @@
                  this.translucentTarget.clear(Minecraft.ON_OSX);
              }
  
--            this.renderSectionLayer(RenderType.translucent(), p_109600_, d0, d1, d2, p_254120_);
-+            this.renderSectionLayer(RenderType.translucent(), p_109600_, bigd0, d1, bigd2, p_254120_);
+-            this.renderSectionLayer(RenderType.translucent(), d0, d1, d2, p_254120_, p_323920_);
++            this.renderSectionLayer(RenderType.translucent(), bigd0, d1, bigd2, p_254120_, p_323920_);
              multibuffersource$buffersource.endBatch(RenderType.lines());
              multibuffersource$buffersource.endBatch();
              profilerfiller.popPush("string");
--            this.renderSectionLayer(RenderType.tripwire(), p_109600_, d0, d1, d2, p_254120_);
-+            this.renderSectionLayer(RenderType.tripwire(), p_109600_, bigd0, d1, bigd2, p_254120_);
+-            this.renderSectionLayer(RenderType.tripwire(), d0, d1, d2, p_254120_, p_323920_);
++            this.renderSectionLayer(RenderType.tripwire(), bigd0, d1, bigd2, p_254120_, p_323920_);
+             profilerfiller.popPush("grids_transluicent");
+-            this.drawGrids(p_254120_, p_323920_, f, d0, d1, d2, frustum, true);
++            this.drawGrids(p_254120_, p_323920_, f, bigd0, d1, bigd2, frustum, true);
              profilerfiller.popPush("particles");
-             this.minecraft.particleEngine.render(p_109600_, multibuffersource$buffersource, p_109606_, p_109604_, f);
+             this.minecraft.particleEngine.render(p_109606_, p_109604_, f);
          }
-@@ -1265,21 +_,21 @@
+@@ -1265,7 +_,7 @@
+     }
+ 
+     private void drawGrids(
+-        Matrix4f p_341898_, Matrix4f p_340451_, float p_342433_, double p_340500_, double p_340563_, double p_342581_, Frustum p_340570_, boolean p_341345_
++        Matrix4f p_341898_, Matrix4f p_340451_, float p_342433_, me.alphamode.mcbig.math.BigDecimal p_340500_, double p_340563_, me.alphamode.mcbig.math.BigDecimal p_342581_, Frustum p_340570_, boolean p_341345_
+     ) {
+         for(ClientSubGrid clientsubgrid : this.level.getGrids()) {
+             clientsubgrid.getRenderer().draw(p_342433_, p_340500_, p_340563_, p_342581_, p_340570_, p_341898_, p_340451_, p_341345_);
+@@ -1299,21 +_,21 @@
              );
      }
  
--    private void renderSectionLayer(RenderType p_294513_, PoseStack p_294924_, double p_295577_, double p_294761_, double p_294297_, Matrix4f p_294782_) {
-+    private void renderSectionLayer(RenderType p_294513_, PoseStack p_294924_, me.alphamode.mcbig.math.BigDecimal p_295577_, double p_294761_, me.alphamode.mcbig.math.BigDecimal p_294297_, Matrix4f p_294782_) {
+-    private void renderSectionLayer(RenderType p_294513_, double p_295577_, double p_294761_, double p_294297_, Matrix4f p_294782_, Matrix4f p_324517_) {
++    private void renderSectionLayer(RenderType p_294513_, me.alphamode.mcbig.math.BigDecimal p_295577_, double p_294761_, me.alphamode.mcbig.math.BigDecimal p_294297_, Matrix4f p_294782_, Matrix4f p_324517_) {
          RenderSystem.assertOnRenderThread();
          p_294513_.setupRenderState();
          if (p_294513_ == RenderType.translucent()) {
@@ -288,22 +291,22 @@
 -            double d2 = p_294297_ - this.zTransparentOld;
 +            double d2 = p_294297_.subtract(this.zTransparentOld).doubleValue();
              if (d0 * d0 + d1 * d1 + d2 * d2 > 1.0) {
--                int j = SectionPos.posToSectionCoord(p_295577_);
--                int k = SectionPos.posToSectionCoord(p_294761_);
--                int l = SectionPos.posToSectionCoord(p_294297_);
--                boolean flag = j != SectionPos.posToSectionCoord(this.xTransparentOld)
--                    || l != SectionPos.posToSectionCoord(this.zTransparentOld)
--                    || k != SectionPos.posToSectionCoord(this.yTransparentOld);
-+                me.alphamode.mcbig.math.BigInteger j = SectionPos.posToSectionCoord(p_295577_);
-+                me.alphamode.mcbig.math.BigInteger k = SectionPos.posToSectionCoord(p_294761_);
-+                me.alphamode.mcbig.math.BigInteger l = SectionPos.posToSectionCoord(p_294297_);
-+                boolean flag = !j.equals(SectionPos.posToSectionCoord(this.xTransparentOld))
-+                    || !l.equals(SectionPos.posToSectionCoord(this.zTransparentOld))
-+                    || !k.equals(SectionPos.posToSectionCoord(this.yTransparentOld));
+-                int i = SectionPos.posToSectionCoord(p_295577_);
+-                int j = SectionPos.posToSectionCoord(p_294761_);
+-                int k = SectionPos.posToSectionCoord(p_294297_);
+-                boolean flag = i != SectionPos.posToSectionCoord(this.xTransparentOld)
+-                    || k != SectionPos.posToSectionCoord(this.zTransparentOld)
+-                    || j != SectionPos.posToSectionCoord(this.yTransparentOld);
++                me.alphamode.mcbig.math.BigInteger i = SectionPos.posToSectionCoord(p_295577_);
++                me.alphamode.mcbig.math.BigInteger j = SectionPos.posToSectionCoord(p_294761_);
++                me.alphamode.mcbig.math.BigInteger k = SectionPos.posToSectionCoord(p_294297_);
++                boolean flag = !i.equals(SectionPos.posToSectionCoord(this.xTransparentOld))
++                    || !k.equals(SectionPos.posToSectionCoord(this.zTransparentOld))
++                    || !j.equals(SectionPos.posToSectionCoord(this.yTransparentOld));
                  this.xTransparentOld = p_295577_;
                  this.yTransparentOld = p_294761_;
                  this.zTransparentOld = p_294297_;
-@@ -1360,9 +_,9 @@
+@@ -1348,9 +_,9 @@
                  BlockPos blockpos = sectionrenderdispatcher$rendersection1.getOrigin();
                  if (uniform != null) {
                      uniform.set(
@@ -316,7 +319,7 @@
                      );
                      uniform.upload();
                  }
-@@ -1393,7 +_,7 @@
+@@ -1381,7 +_,7 @@
                  if (sectionocclusiongraph$node != null) {
                      BlockPos blockpos = sectionrenderdispatcher$rendersection.getOrigin();
                      p_271014_.pushPose();
@@ -325,7 +328,7 @@
                      Matrix4f matrix4f = p_271014_.last().pose();
                      if (this.minecraft.sectionPath) {
                          VertexConsumer vertexconsumer1 = p_270107_.getBuffer(RenderType.lines());
-@@ -1492,9 +_,9 @@
+@@ -1480,9 +_,9 @@
          if (this.capturedFrustum != null) {
              p_271014_.pushPose();
              p_271014_.translate(
@@ -337,7 +340,7 @@
              );
              Matrix4f matrix4f1 = p_271014_.last().pose();
              VertexConsumer vertexconsumer = p_270107_.getBuffer(RenderType.debugQuads());
-@@ -1586,7 +_,7 @@
+@@ -1574,7 +_,7 @@
      }
  
      private void removeProgress(BlockDestructionProgress p_109766_) {
@@ -346,7 +349,7 @@
          Set<BlockDestructionProgress> set = this.destructionProgress.get(i);
          set.remove(p_109766_);
          if (set.isEmpty()) {
-@@ -2104,15 +_,16 @@
+@@ -2081,15 +_,16 @@
          BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
          WorldBorder worldborder = this.level.getWorldBorder();
          double d0 = (double)(this.minecraft.options.getEffectiveRenderDistance() * 16);
@@ -370,7 +373,7 @@
              double d4 = (double)this.minecraft.gameRenderer.getDepthFar();
              RenderSystem.enableBlend();
              RenderSystem.enableDepthTest();
-@@ -2216,9 +_,9 @@
+@@ -2188,9 +_,9 @@
          PoseStack p_109638_,
          VertexConsumer p_109639_,
          Entity p_109640_,
@@ -382,7 +385,7 @@
          BlockPos p_109644_,
          BlockState p_109645_
      ) {
-@@ -2226,9 +_,9 @@
+@@ -2198,9 +_,9 @@
              p_109638_,
              p_109639_,
              p_109645_.getShape(this.level, p_109644_, CollisionContext.of(p_109640_)),
@@ -395,7 +398,7 @@
              0.0F,
              0.0F,
              0.0F,
-@@ -2542,19 +_,19 @@
+@@ -2513,19 +_,19 @@
      }
  
      private void setBlockDirty(BlockPos p_109733_, boolean p_109734_) {
@@ -422,7 +425,7 @@
                      this.setSectionDirty(SectionPos.blockToSectionCoord(j), SectionPos.blockToSectionCoord(k), SectionPos.blockToSectionCoord(i));
                  }
              }
-@@ -2563,25 +_,25 @@
+@@ -2534,25 +_,25 @@
  
      public void setBlockDirty(BlockPos p_109722_, BlockState p_109723_, BlockState p_109724_) {
          if (this.minecraft.getModelManager().requiresRender(p_109723_, p_109724_)) {
@@ -455,7 +458,7 @@
          this.viewArea.setDirty(p_109502_, p_109503_, p_109504_, p_109505_);
      }
  
-@@ -2716,13 +_,13 @@
+@@ -2687,13 +_,13 @@
              case 1038:
                  Camera camera = this.minecraft.gameRenderer.getMainCamera();
                  if (camera.isInitialized()) {
@@ -474,7 +477,7 @@
                      if (d3 > 0.0) {
                          d4 += d0 / d3 * 2.0;
                          d5 += d1 / d3 * 2.0;
-@@ -3041,9 +_,9 @@
+@@ -3038,9 +_,9 @@
                      this.level
                          .addParticle(
                              ParticleTypes.LARGE_SMOKE,
@@ -487,72 +490,46 @@
                              0.0,
                              0.0,
                              0.0
-@@ -3062,9 +_,9 @@
+@@ -3059,9 +_,9 @@
                      );
  
-                 for(int j2 = 0; j2 < 5; ++j2) {
--                    double d9 = (double)p_234306_.getX() + randomsource.nextDouble() * 0.6 + 0.2;
--                    double d14 = (double)p_234306_.getY() + randomsource.nextDouble() * 0.6 + 0.2;
--                    double d19 = (double)p_234306_.getZ() + randomsource.nextDouble() * 0.6 + 0.2;
-+                    double d9 = (double)p_234306_.getBigX().doubleValue() + randomsource.nextDouble() * 0.6 + 0.2;
-+                    double d14 = (double)p_234306_.getBigY().doubleValue() + randomsource.nextDouble() * 0.6 + 0.2;
-+                    double d19 = (double)p_234306_.getBigZ().doubleValue() + randomsource.nextDouble() * 0.6 + 0.2;
-                     this.level.addParticle(ParticleTypes.SMOKE, d9, d14, d19, 0.0, 0.0, 0.0);
+                 for(int l1 = 0; l1 < 5; ++l1) {
+-                    double d8 = (double)p_234306_.getX() + randomsource.nextDouble() * 0.6 + 0.2;
+-                    double d12 = (double)p_234306_.getY() + randomsource.nextDouble() * 0.6 + 0.2;
+-                    double d16 = (double)p_234306_.getZ() + randomsource.nextDouble() * 0.6 + 0.2;
++                    double d8 = (double)p_234306_.getBigX().doubleValue() + randomsource.nextDouble() * 0.6 + 0.2;
++                    double d12 = (double)p_234306_.getBigY().doubleValue() + randomsource.nextDouble() * 0.6 + 0.2;
++                    double d16 = (double)p_234306_.getBigZ().doubleValue() + randomsource.nextDouble() * 0.6 + 0.2;
+                     this.level.addParticle(ParticleTypes.SMOKE, d8, d12, d16, 0.0, 0.0, 0.0);
                  }
                  break;
-@@ -3072,9 +_,9 @@
+@@ -3069,9 +_,9 @@
                  this.level.playLocalSound(p_234306_, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F, false);
  
-                 for(int i2 = 0; i2 < 16; ++i2) {
--                    double d8 = (double)p_234306_.getX() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
--                    double d13 = (double)p_234306_.getY() + 0.8125;
--                    double d18 = (double)p_234306_.getZ() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
-+                    double d8 = (double)p_234306_.getBigX().doubleValue() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
-+                    double d13 = (double)p_234306_.getBigY().doubleValue() + 0.8125;
-+                    double d18 = (double)p_234306_.getBigZ().doubleValue() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
-                     this.level.addParticle(ParticleTypes.SMOKE, d8, d13, d18, 0.0, 0.0, 0.0);
+                 for(int k1 = 0; k1 < 16; ++k1) {
+-                    double d7 = (double)p_234306_.getX() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
+-                    double d11 = (double)p_234306_.getY() + 0.8125;
+-                    double d15 = (double)p_234306_.getZ() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
++                    double d7 = (double)p_234306_.getBigX().doubleValue() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
++                    double d11 = (double)p_234306_.getBigY().doubleValue() + 0.8125;
++                    double d15 = (double)p_234306_.getBigZ().doubleValue() + (5.0 + randomsource.nextDouble() * 6.0) / 16.0;
+                     this.level.addParticle(ParticleTypes.SMOKE, d7, d11, d15, 0.0, 0.0, 0.0);
                  }
                  break;
-@@ -3140,9 +_,9 @@
-                 this.level.playLocalSound(p_234306_, SoundEvents.SPLASH_POTION_BREAK, SoundSource.NEUTRAL, 1.0F, randomsource.nextFloat() * 0.1F + 0.9F, false);
-                 break;
-             case 2003:
--                double d0 = (double)p_234306_.getX() + 0.5;
--                double d2 = (double)p_234306_.getY();
--                double d4 = (double)p_234306_.getZ() + 0.5;
-+                double d0 = (double)p_234306_.getBigX().doubleValue() + 0.5;
-+                double d2 = (double)p_234306_.getBigY().doubleValue();
-+                double d4 = (double)p_234306_.getBigZ().doubleValue() + 0.5;
- 
-                 for(int l2 = 0; l2 < 8; ++l2) {
-                     this.addParticle(
-@@ -3167,9 +_,9 @@
+@@ -3129,9 +_,9 @@
                  break;
              case 2004:
-                 for(int k = 0; k < 20; ++k) {
+                 for(int j = 0; j < 20; ++j) {
 -                    double d3 = (double)p_234306_.getX() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
 -                    double d5 = (double)p_234306_.getY() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
--                    double d10 = (double)p_234306_.getZ() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
+-                    double d9 = (double)p_234306_.getZ() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
 +                    double d3 = (double)p_234306_.getBigX().doubleValue() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
 +                    double d5 = (double)p_234306_.getBigY().doubleValue() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
-+                    double d10 = (double)p_234306_.getBigZ().doubleValue() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
-                     this.level.addParticle(ParticleTypes.SMOKE, d3, d5, d10, 0.0, 0.0, 0.0);
-                     this.level.addParticle(ParticleTypes.FLAME, d3, d5, d10, 0.0, 0.0, 0.0);
++                    double d9 = (double)p_234306_.getBigZ().doubleValue() + 0.5 + (randomsource.nextDouble() - 0.5) * 2.0;
+                     this.level.addParticle(ParticleTypes.SMOKE, d3, d5, d9, 0.0, 0.0, 0.0);
+                     this.level.addParticle(ParticleTypes.FLAME, d3, d5, d9, 0.0, 0.0, 0.0);
                  }
-@@ -3187,9 +_,9 @@
-                     Particle particle = this.addParticleInternal(
-                         ParticleTypes.DRAGON_BREATH,
-                         false,
--                        (double)p_234306_.getX() + d11 * 0.1,
--                        (double)p_234306_.getY() + 0.3,
--                        (double)p_234306_.getZ() + d20 * 0.1,
-+                        (double)p_234306_.getBigX().doubleValue() + d11 * 0.1,
-+                        (double)p_234306_.getBigY().doubleValue() + 0.3,
-+                        (double)p_234306_.getBigZ().doubleValue() + d20 * 0.1,
-                         d11,
-                         d16,
-                         d20
-@@ -3209,7 +_,7 @@
+@@ -3168,7 +_,7 @@
              case 2008:
                  this.level
                      .addParticle(
@@ -561,7 +538,7 @@
                      );
                  break;
              case 2009:
-@@ -3217,9 +_,9 @@
+@@ -3176,9 +_,9 @@
                      this.level
                          .addParticle(
                              ParticleTypes.CLOUD,
@@ -574,7 +551,7 @@
                              0.0,
                              0.0,
                              0.0
-@@ -3234,9 +_,9 @@
+@@ -3199,9 +_,9 @@
                      .addParticle(
                          ParticleTypes.EXPLOSION_EMITTER,
                          true,
@@ -587,22 +564,22 @@
                          0.0,
                          0.0,
                          0.0
-@@ -3322,9 +_,9 @@
+@@ -3287,9 +_,9 @@
                          this.level
                              .addParticle(
                                  ParticleTypes.SCULK_CHARGE_POP,
--                                (double)p_234306_.getX() + 0.5 + (double)(f12 * f8),
--                                (double)p_234306_.getY() + 0.5 + (double)(f14 * f8),
--                                (double)p_234306_.getZ() + 0.5 + (double)(f15 * f8),
-+                                (double)p_234306_.getBigX().doubleValue() + 0.5 + (double)(f12 * f8),
-+                                (double)p_234306_.getBigY().doubleValue() + 0.5 + (double)(f14 * f8),
-+                                (double)p_234306_.getBigZ().doubleValue() + 0.5 + (double)(f15 * f8),
-                                 (double)(f12 * 0.07F),
-                                 (double)(f14 * 0.07F),
-                                 (double)(f15 * 0.07F)
-@@ -3338,9 +_,9 @@
+-                                (double)p_234306_.getX() + 0.5 + (double)(f8 * f4),
+-                                (double)p_234306_.getY() + 0.5 + (double)(f10 * f4),
+-                                (double)p_234306_.getZ() + 0.5 + (double)(f11 * f4),
++                                (double)p_234306_.getBigX().doubleValue() + 0.5 + (double)(f8 * f4),
++                                (double)p_234306_.getBigY().doubleValue() + 0.5 + (double)(f10 * f4),
++                                (double)p_234306_.getBigZ().doubleValue() + 0.5 + (double)(f11 * f4),
+                                 (double)(f8 * 0.07F),
+                                 (double)(f10 * 0.07F),
+                                 (double)(f11 * 0.07F)
+@@ -3303,9 +_,9 @@
                          .addParticle(
-                             new ShriekParticleOption(l * 5),
+                             new ShriekParticleOption(k * 5),
                              false,
 -                            (double)p_234306_.getX() + 0.5,
 -                            (double)p_234306_.getY() + SculkShriekerBlock.TOP_Y,
@@ -613,7 +590,7 @@
                              0.0,
                              0.0,
                              0.0
-@@ -3352,9 +_,9 @@
+@@ -3317,9 +_,9 @@
                  if (!flag) {
                      this.level
                          .playLocalSound(
@@ -626,7 +603,7 @@
                              SoundEvents.SCULK_SHRIEKER_SHRIEK,
                              SoundSource.BLOCKS,
                              2.0F,
-@@ -3427,9 +_,9 @@
+@@ -3460,9 +_,9 @@
              }
  
              if (blockdestructionprogress1 == null
@@ -639,7 +616,7 @@
                  blockdestructionprogress1 = new BlockDestructionProgress(p_109775_, p_109776_);
                  this.destroyingBlocks.put(p_109775_, blockdestructionprogress1);
              }
-@@ -3437,7 +_,7 @@
+@@ -3470,7 +_,7 @@
              blockdestructionprogress1.setProgress(p_109777_);
              blockdestructionprogress1.updateTick(this.ticks);
              this.destructionProgress
@@ -648,7 +625,7 @@
                  .add(blockdestructionprogress1);
          } else {
              BlockDestructionProgress blockdestructionprogress = this.destroyingBlocks.remove(p_109775_);
-@@ -3527,9 +_,9 @@
+@@ -3560,9 +_,9 @@
          int i = direction.getStepX();
          int j = direction.getStepY();
          int k = direction.getStepZ();

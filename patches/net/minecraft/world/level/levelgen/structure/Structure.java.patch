@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/Structure.java
 +++ b/net/minecraft/world/level/levelgen/structure/Structure.java
-@@ -107,8 +_,8 @@
+@@ -115,8 +_,8 @@
          Structure.GenerationContext p_226586_, Heightmap.Types p_226587_, Consumer<StructurePiecesBuilder> p_226588_
      ) {
          ChunkPos chunkpos = p_226586_.chunkPos();
@@ -11,7 +11,7 @@
          int k = p_226586_.chunkGenerator().getFirstOccupiedHeight(i, j, p_226587_, p_226586_.heightAccessor(), p_226586_.randomState());
          return Optional.of(new Structure.GenerationStub(new BlockPos(i, k, j), p_226588_));
      }
-@@ -120,9 +_,9 @@
+@@ -128,9 +_,9 @@
                  p_263005_.chunkGenerator
                      .getBiomeSource()
                      .getNoiseBiome(
@@ -24,7 +24,16 @@
                          p_263005_.randomState.sampler()
                      )
              );
-@@ -139,28 +_,28 @@
+@@ -145,7 +_,7 @@
+             double d0 = p_341579_.randomState
+                 .router()
+                 .finalDensity()
+-                .compute(new DensityFunction.SinglePointContext(blockpos1.getX(), blockpos1.getY(), blockpos1.getZ()));
++                .compute(new DensityFunction.SinglePointContext(blockpos1.getBigX(), blockpos1.getY(), blockpos1.getBigZ()));
+             if (structure$densitycheck.dense() != d0 > 0.0) {
+                 return false;
+             }
+@@ -165,28 +_,28 @@
      ) {
      }
  
@@ -60,7 +69,7 @@
          int[] aint = getCornerHeights(p_226577_, p_226578_, p_226580_, p_226579_, p_226581_);
          return Math.min(Math.min(aint[0], aint[1]), Math.min(aint[2], aint[3]));
      }
-@@ -179,8 +_,8 @@
+@@ -205,8 +_,8 @@
          }
  
          ChunkPos chunkpos = p_226583_.chunkPos();
@@ -71,7 +80,7 @@
          return new BlockPos(k, getLowestY(p_226583_, k, l, i, j), l);
      }
  
-@@ -220,7 +_,7 @@
+@@ -262,7 +_,7 @@
  
          private static WorldgenRandom makeRandom(long p_226654_, ChunkPos p_226655_) {
              WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));

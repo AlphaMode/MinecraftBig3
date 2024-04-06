@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/LootCommand.java
 +++ b/net/minecraft/server/commands/LootCommand.java
-@@ -397,10 +_,10 @@
+@@ -398,10 +_,10 @@
          return list.size();
      }
  
@@ -13,21 +13,21 @@
              itementity.setDefaultPickUpDelay();
              serverlevel.addFreshEntity(itementity);
          });
-@@ -473,7 +_,7 @@
+@@ -478,7 +_,7 @@
              lootparams$builder.withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, entity);
              lootparams$builder.withOptionalParameter(LootContextParams.KILLER_ENTITY, entity);
              lootparams$builder.withParameter(LootContextParams.THIS_ENTITY, p_137907_);
 -            lootparams$builder.withParameter(LootContextParams.ORIGIN, commandsourcestack.getPosition());
 +            lootparams$builder.withParameter(LootContextParams.ORIGIN, commandsourcestack.getPosition().toVanilla());
              LootParams lootparams = lootparams$builder.create(LootContextParamSets.ENTITY);
-             LootTable loottable = commandsourcestack.getServer().getLootData().getLootTable(resourcelocation);
+             LootTable loottable = commandsourcestack.getServer().reloadableRegistries().getLootTable(resourcekey);
              List<ItemStack> list = loottable.getRandomItems(lootparams);
-@@ -485,7 +_,7 @@
+@@ -490,7 +_,7 @@
          CommandSourceStack commandsourcestack = p_137933_.getSource();
          LootParams lootparams = new LootParams.Builder(commandsourcestack.getLevel())
              .withOptionalParameter(LootContextParams.THIS_ENTITY, commandsourcestack.getEntity())
 -            .withParameter(LootContextParams.ORIGIN, commandsourcestack.getPosition())
 +            .withParameter(LootContextParams.ORIGIN, commandsourcestack.getPosition().toVanilla())
              .create(LootContextParamSets.CHEST);
-         return drop(p_137933_, p_137934_, lootparams, p_137935_);
+         return drop(p_137933_, p_336054_, lootparams, p_137935_);
      }

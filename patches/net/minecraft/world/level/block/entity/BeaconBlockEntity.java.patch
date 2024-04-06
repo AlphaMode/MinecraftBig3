@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
-@@ -112,9 +_,9 @@
+@@ -119,9 +_,9 @@
      }
  
      public static void tick(Level p_155108_, BlockPos p_155109_, BlockState p_155110_, BeaconBlockEntity p_155111_) {
@@ -12,7 +12,7 @@
          BlockPos blockpos;
          if (p_155111_.lastCheckY < j) {
              blockpos = p_155109_;
-@@ -187,7 +_,7 @@
+@@ -194,7 +_,7 @@
                      playSound(p_155108_, p_155109_, SoundEvents.BEACON_ACTIVATE);
  
                      for(ServerPlayer serverplayer : p_155108_.getEntitiesOfClass(
@@ -21,7 +21,7 @@
                      )) {
                          CriteriaTriggers.CONSTRUCT_BEACON.trigger(serverplayer, p_155111_.levels);
                      }
-@@ -198,7 +_,7 @@
+@@ -205,7 +_,7 @@
          }
      }
  
@@ -30,7 +30,7 @@
          int i = 0;
  
          for(int j = 1; j <= 4; i = j++) {
-@@ -209,8 +_,8 @@
+@@ -216,8 +_,8 @@
  
              boolean flag = true;
  

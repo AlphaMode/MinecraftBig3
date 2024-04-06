@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalPiece.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalPiece.java
-@@ -203,8 +_,8 @@
+@@ -214,8 +_,8 @@
      }
  
      private void addNetherrackDripColumnsBelowPortal(RandomSource p_229118_, LevelAccessor p_229119_) {
@@ -9,9 +9,31 @@
 +        for(me.alphamode.mcbig.math.BigInteger i = this.boundingBox.minX().add(); i.compareTo(this.boundingBox.maxX()) < 0; i = i.add()) {
 +            for(me.alphamode.mcbig.math.BigInteger j = this.boundingBox.minZ().add(); j.compareTo(this.boundingBox.maxZ()) < 0; j = j.add()) {
                  BlockPos blockpos = new BlockPos(i, this.boundingBox.minY(), j);
-                 if (p_229119_.getBlockState(blockpos).is(Blocks.NETHERRACK)) {
-                     this.addNetherrackDripColumn(p_229118_, p_229119_, blockpos.below());
-@@ -246,9 +_,9 @@
+                 BlockState blockstate = p_229119_.getBlockState(blockpos);
+                 if (blockstate.is(Blocks.NETHERRACK) || blockstate.is(Blocks.TERREDEPOMME)) {
+@@ -241,8 +_,8 @@
+         boolean flag = this.verticalPlacement == RuinedPortalPiece.VerticalPlacement.ON_LAND_SURFACE
+             || this.verticalPlacement == RuinedPortalPiece.VerticalPlacement.ON_OCEAN_FLOOR;
+         BlockPos blockpos = this.boundingBox.getCenter();
+-        int i = blockpos.getX();
+-        int j = blockpos.getZ();
++        me.alphamode.mcbig.math.BigInteger i = blockpos.getBigX();
++        me.alphamode.mcbig.math.BigInteger j = blockpos.getBigZ();
+         float[] afloat = new float[]{1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.9F, 0.9F, 0.8F, 0.7F, 0.6F, 0.4F, 0.2F};
+         int k = afloat.length;
+         int l = (this.boundingBox.getXSpan() + this.boundingBox.getZSpan()) / 2;
+@@ -250,17 +_,17 @@
+         int j1 = 3;
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = BlockPos.ZERO.mutable();
+ 
+-        for(int k1 = i - k; k1 <= i + k; ++k1) {
+-            for(int l1 = j - k; l1 <= j + k; ++l1) {
+-                int i2 = Math.abs(k1 - i) + Math.abs(l1 - j);
++        for(me.alphamode.mcbig.math.BigInteger k1 = i.subtract(k); k1.compareTo(i.add(k)) <= 0; k1 = k1.add()) {
++            for(me.alphamode.mcbig.math.BigInteger l1 = j.subtract(k); l1.compareTo(j.add(k)) <= 0; l1 = l1.add()) {
++                int i2 = k1.subtract(i).abs().add(l1.subtract(j).abs()).intValue();
+                 int j2 = Math.max(0, i2 + i1);
+                 if (j2 < k) {
                      float f = afloat[j2];
                      if (p_229179_.nextDouble() < (double)f) {
                          int k2 = getSurfaceY(p_229180_, k1, l1, this.verticalPlacement);
@@ -23,3 +45,12 @@
                              this.placeNetherrackOrMagma(p_229179_, p_229180_, blockpos$mutableblockpos);
                              if (this.properties.overgrown) {
                                  this.maybeAddLeavesAbove(p_229179_, p_229180_, blockpos$mutableblockpos);
+@@ -294,7 +_,7 @@
+         }
+     }
+ 
+-    private static int getSurfaceY(LevelAccessor p_229129_, int p_229130_, int p_229131_, RuinedPortalPiece.VerticalPlacement p_229132_) {
++    private static int getSurfaceY(LevelAccessor p_229129_, me.alphamode.mcbig.math.BigInteger p_229130_, me.alphamode.mcbig.math.BigInteger p_229131_, RuinedPortalPiece.VerticalPlacement p_229132_) {
+         return p_229129_.getHeight(getHeightMapType(p_229132_), p_229130_, p_229131_) - 1;
+     }
+ 

@@ -1,17 +1,17 @@
 --- a/net/minecraft/world/level/chunk/storage/SectionStorage.java
 +++ b/net/minecraft/world/level/chunk/storage/SectionStorage.java
-@@ -38,8 +_,8 @@
+@@ -35,8 +_,8 @@
      private static final Logger LOGGER = LogUtils.getLogger();
      private static final String SECTIONS_TAG = "Sections";
-     private final IOWorker worker;
+     private final SimpleRegionStorage simpleRegionStorage;
 -    private final Long2ObjectMap<Optional<R>> storage = new Long2ObjectOpenHashMap<>();
 -    private final LongLinkedOpenHashSet dirty = new LongLinkedOpenHashSet();
 +    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<SectionPos, Optional<R>> storage = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
 +    private final it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<SectionPos> dirty = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<>();
      private final Function<Runnable, Codec<R>> codec;
      private final Function<Runnable, R> factory;
-     private final DataFixer fixerUpper;
-@@ -68,7 +_,7 @@
+     private final RegistryAccess registryAccess;
+@@ -58,7 +_,7 @@
  
      protected void tick(BooleanSupplier p_63812_) {
          while(this.hasWork() && p_63812_.getAsBoolean()) {
@@ -20,7 +20,7 @@
              this.writeColumn(chunkpos);
          }
      }
-@@ -78,11 +_,11 @@
+@@ -68,11 +_,11 @@
      }
  
      @Nullable
@@ -34,7 +34,7 @@
          if (this.outsideStoredRange(p_63824_)) {
              return Optional.empty();
          } else {
-@@ -90,7 +_,7 @@
+@@ -80,7 +_,7 @@
              if (optional != null) {
                  return optional;
              } else {
@@ -43,7 +43,7 @@
                  optional = this.get(p_63824_);
                  if (optional == null) {
                      throw (IllegalStateException)Util.pauseInIde(new IllegalStateException());
-@@ -101,12 +_,12 @@
+@@ -91,12 +_,12 @@
          }
      }
  
@@ -59,8 +59,8 @@
          if (this.outsideStoredRange(p_63828_)) {
              throw (IllegalArgumentException)Util.pauseInIde(new IllegalArgumentException("sectionPos out of bounds"));
          } else {
-@@ -152,7 +_,7 @@
-             OptionalDynamic<T> optionaldynamic = dynamic.get("Sections");
+@@ -142,7 +_,7 @@
+             OptionalDynamic<Tag> optionaldynamic = dynamic.get("Sections");
  
              for(int l = this.levelHeightAccessor.getMinSection(); l < this.levelHeightAccessor.getMaxSection(); ++l) {
 -                long i1 = getKey(p_63802_, l);
@@ -68,7 +68,7 @@
                  Optional<R> optional = optionaldynamic.get(Integer.toString(l))
                      .result()
                      .flatMap(p_223519_ -> this.codec.apply(() -> this.setDirty(i1)).parse(p_223519_).resultOrPartial(LOGGER::error));
-@@ -182,7 +_,7 @@
+@@ -172,7 +_,7 @@
          Map<T, T> map = Maps.newHashMap();
  
          for(int i = this.levelHeightAccessor.getMinSection(); i < this.levelHeightAccessor.getMaxSection(); ++i) {
@@ -77,7 +77,7 @@
              this.dirty.remove(j);
              Optional<R> optional = this.storage.get(j);
              if (optional != null && !optional.isEmpty()) {
-@@ -205,19 +_,19 @@
+@@ -195,19 +_,19 @@
          );
      }
  
@@ -106,7 +106,7 @@
          }
      }
  
-@@ -228,7 +_,7 @@
+@@ -218,7 +_,7 @@
      public void flush(ChunkPos p_63797_) {
          if (this.hasWork()) {
              for(int i = this.levelHeightAccessor.getMinSection(); i < this.levelHeightAccessor.getMaxSection(); ++i) {

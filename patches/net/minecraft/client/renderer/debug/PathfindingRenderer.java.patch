@@ -86,7 +86,7 @@
 @@ -207,9 +_,9 @@
                  int i1 = j & 0xFF;
                  p_270602_.vertex(
-                         p_270666_.last().pose(),
+                         p_270666_.last(),
 -                        (float)((double)node.x - p_270524_ + 0.5),
 -                        (float)((double)node.y - p_270163_ + 0.5),
 -                        (float)((double)node.z - p_270176_ + 0.5)

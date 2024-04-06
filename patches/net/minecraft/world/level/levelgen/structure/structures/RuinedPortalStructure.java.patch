@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure.java
-@@ -119,8 +_,8 @@
+@@ -138,8 +_,8 @@
              BoundingBox boundingbox = structuretemplate.getBoundingBox(blockpos1, rotation, blockpos, mirror);
              BlockPos blockpos2 = boundingbox.getCenter();
              int i = chunkgenerator.getBaseHeight(
@@ -11,7 +11,21 @@
                      RuinedPortalPiece.getHeightMapType(ruinedportalstructure$setup3.placement()),
                      levelheightaccessor,
                      randomstate
-@@ -148,9 +_,9 @@
+@@ -158,11 +_,11 @@
+                 p_229285_.chunkGenerator()
+                     .getBiomeSource()
+                     .getNoiseBiome(
+-                        QuartPos.fromBlock(blockpos1.getX()), QuartPos.fromBlock(blockpos1.getY()), QuartPos.fromBlock(blockpos1.getZ()), randomstate.sampler()
++                        QuartPos.fromBlock(blockpos1.getBigX()), QuartPos.fromBlock(blockpos1.getBigY()), QuartPos.fromBlock(blockpos1.getBigZ()), randomstate.sampler()
+                     )
+                     .is(BiomeTags.IS_POTATO)
+             );
+-            BlockPos blockpos3 = new BlockPos(blockpos1.getX(), j, blockpos1.getZ());
++            BlockPos blockpos3 = new BlockPos(blockpos1.getBigX(), j, blockpos1.getBigZ());
+             return Optional.of(
+                 new Structure.GenerationStub(
+                     blockpos3,
+@@ -173,9 +_,9 @@
                                  p_229285_.chunkGenerator()
                                      .getBiomeSource()
                                      .getNoiseBiome(
@@ -24,7 +38,7 @@
                                          randomstate.sampler()
                                      )
                              );
-@@ -229,7 +_,7 @@
+@@ -259,7 +_,7 @@
              new BlockPos(p_229273_.maxX(), 0, p_229273_.maxZ())
          );
          List<NoiseColumn> list = list1.stream()

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/raid/Raider.java
 +++ b/net/minecraft/world/entity/raid/Raider.java
-@@ -503,7 +_,7 @@
+@@ -509,7 +_,7 @@
          public void start() {
              super.start();
              this.raider.setNoActionTime(0);

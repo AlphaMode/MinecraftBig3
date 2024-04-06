@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Vex.java
 +++ b/net/minecraft/world/entity/monster/Vex.java
-@@ -117,7 +_,7 @@
+@@ -109,7 +_,7 @@
      public void readAdditionalSaveData(CompoundTag p_34008_) {
          super.readAdditionalSaveData(p_34008_);
          if (p_34008_.contains("BoundX")) {
@@ -9,7 +9,7 @@
          }
  
          if (p_34008_.contains("LifeTicks")) {
-@@ -137,9 +_,9 @@
+@@ -129,9 +_,9 @@
      public void addAdditionalSaveData(CompoundTag p_34015_) {
          super.addAdditionalSaveData(p_34015_);
          if (this.boundOrigin != null) {
@@ -22,7 +22,7 @@
          }
  
          if (this.hasLimitedLife) {
-@@ -376,10 +_,10 @@
+@@ -356,10 +_,10 @@
                  BlockPos blockpos1 = blockpos.offset(Vex.this.random.nextInt(15) - 7, Vex.this.random.nextInt(11) - 5, Vex.this.random.nextInt(15) - 7);
                  if (Vex.this.level().isEmptyBlock(blockpos1)) {
                      Vex.this.moveControl

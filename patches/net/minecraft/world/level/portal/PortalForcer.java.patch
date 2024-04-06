@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/portal/PortalForcer.java
 +++ b/net/minecraft/world/level/portal/PortalForcer.java
-@@ -80,7 +_,7 @@
+@@ -81,7 +_,7 @@
          BlockPos.MutableBlockPos blockpos$mutableblockpos = p_77667_.mutable();
  
          for(BlockPos.MutableBlockPos blockpos$mutableblockpos1 : BlockPos.spiralAround(p_77667_, 16, Direction.EAST, Direction.SOUTH)) {
@@ -9,7 +9,7 @@
              int k = 1;
              if (worldborder.isWithinBounds(blockpos$mutableblockpos1) && worldborder.isWithinBounds(blockpos$mutableblockpos1.move(direction, 1))) {
                  blockpos$mutableblockpos1.move(direction.getOpposite(), 1);
-@@ -131,7 +_,7 @@
+@@ -132,7 +_,7 @@
                  return Optional.empty();
              }
  

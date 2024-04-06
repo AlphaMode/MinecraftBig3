@@ -1,6 +1,6 @@
 --- a/net/minecraft/gametest/framework/StructureUtils.java
 +++ b/net/minecraft/gametest/framework/StructureUtils.java
-@@ -125,24 +_,24 @@
+@@ -163,24 +_,24 @@
      }
  
      private static void forceLoadChunks(BoundingBox p_308909_, ServerLevel p_127859_) {
@@ -34,7 +34,7 @@
          );
          List<Entity> list = p_127852_.getEntitiesOfClass(Entity.class, aabb, p_177750_ -> !(p_177750_ instanceof Player));
          list.forEach(Entity::discard);
-@@ -156,9 +_,9 @@
+@@ -194,9 +_,9 @@
      public static BoundingBox getStructureBoundingBox(BlockPos p_177761_, Vec3i p_177762_, Rotation p_177763_) {
          BlockPos blockpos = getTransformedFarCorner(p_177761_, p_177762_, p_177763_);
          BoundingBox boundingbox = BoundingBox.fromCorners(p_177761_, blockpos);
@@ -47,3 +47,12 @@
      }
  
      public static Optional<BlockPos> findStructureBlockContainingPos(BlockPos p_127854_, int p_127855_, ServerLevel p_127856_) {
+@@ -232,7 +_,7 @@
+         }
+     }
+ 
+-    public static Stream<BlockPos> radiusStructureBlockPos(int p_320556_, Vec3 p_320285_, ServerLevel p_320792_) {
++    public static Stream<BlockPos> radiusStructureBlockPos(int p_320556_, me.alphamode.mcbig.core.BigVec3 p_320285_, ServerLevel p_320792_) {
+         BlockPos blockpos = BlockPos.containing(
+             p_320285_.x, (double)p_320792_.getHeightmapPos(Heightmap.Types.WORLD_SURFACE, BlockPos.containing(p_320285_)).getY(), p_320285_.z
+         );

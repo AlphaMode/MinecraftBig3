@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/components/DebugScreenOverlay.java
 +++ b/net/minecraft/client/gui/components/DebugScreenOverlay.java
-@@ -254,7 +_,7 @@
+@@ -255,7 +_,7 @@
                  "P: " + this.minecraft.particleEngine.countParticles() + ". T: " + this.minecraft.level.getEntityCount(),
                  this.minecraft.level.gatherChunkSourceStats(),
                  "",
@@ -9,7 +9,7 @@
              );
          } else {
              Entity entity = this.minecraft.getCameraEntity();
-@@ -274,7 +_,7 @@
+@@ -275,7 +_,7 @@
              }
  
              Level level = this.getLevel();
@@ -18,7 +18,7 @@
              List<String> list = Lists.newArrayList(
                  "Minecraft "
                      + SharedConstants.getCurrentVersion().getName()
-@@ -302,30 +_,30 @@
+@@ -303,30 +_,30 @@
                  String.format(
                      Locale.ROOT,
                      "XYZ: %.3f / %.5f / %.3f",
@@ -71,7 +71,7 @@
                      chunkpos.getRegionLocalX(),
                      chunkpos.getRegionLocalZ(),
                      chunkpos.getRegionX(),
-@@ -353,7 +_,7 @@
+@@ -354,7 +_,7 @@
                          stringbuilder.append(" ")
                              .append(HEIGHTMAP_NAMES.get(heightmap$types))
                              .append(": ")
@@ -80,7 +80,7 @@
                      }
                  }
  
-@@ -365,7 +_,7 @@
+@@ -366,7 +_,7 @@
                      if (heightmap$types1.keepAfterWorldgen()) {
                          stringbuilder.append(" ").append(HEIGHTMAP_NAMES.get(heightmap$types1)).append(": ");
                          if (levelchunk1 != null) {
@@ -89,16 +89,16 @@
                          } else {
                              stringbuilder.append("??");
                          }
-@@ -470,7 +_,7 @@
+@@ -471,7 +_,7 @@
              }
  
              this.serverChunk = serverlevel.getChunkSource()
 -                .getChunkFuture(this.lastPos.x, this.lastPos.z, ChunkStatus.FULL, false)
 +                .getChunkFuture(this.lastPos.x(), this.lastPos.z(), ChunkStatus.FULL, false)
-                 .thenApply(p_205369_ -> p_205369_.map(p_205371_ -> (LevelChunk)p_205371_, p_205363_ -> null));
+                 .thenApply(p_329714_ -> (LevelChunk)p_329714_.orElse(null));
          }
  
-@@ -479,7 +_,7 @@
+@@ -480,7 +_,7 @@
  
      private LevelChunk getClientChunk() {
          if (this.clientChunk == null) {
@@ -107,7 +107,7 @@
          }
  
          return this.clientChunk;
-@@ -515,7 +_,7 @@
+@@ -516,7 +_,7 @@
                  BlockPos blockpos = ((BlockHitResult)this.block).getBlockPos();
                  BlockState blockstate = this.minecraft.level.getBlockState(blockpos);
                  list.add("");
@@ -116,7 +116,7 @@
                  list.add(String.valueOf(BuiltInRegistries.BLOCK.getKey(blockstate.getBlock())));
  
                  for(Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
-@@ -529,7 +_,7 @@
+@@ -530,7 +_,7 @@
                  BlockPos blockpos1 = ((BlockHitResult)this.liquid).getBlockPos();
                  FluidState fluidstate = this.minecraft.level.getFluidState(blockpos1);
                  list.add("");

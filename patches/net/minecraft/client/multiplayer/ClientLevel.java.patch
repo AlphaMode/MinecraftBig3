@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientLevel.java
 +++ b/net/minecraft/client/multiplayer/ClientLevel.java
-@@ -310,7 +_,7 @@
+@@ -332,7 +_,7 @@
      }
  
      public void onChunkLoaded(ChunkPos p_171650_) {
@@ -9,7 +9,7 @@
          this.entityStorage.startTicking(p_171650_);
          this.levelRenderer.onChunkLoaded(p_171650_);
      }
-@@ -320,7 +_,7 @@
+@@ -342,7 +_,7 @@
      }
  
      @Override
@@ -18,7 +18,7 @@
          return true;
      }
  
-@@ -352,7 +_,7 @@
+@@ -374,7 +_,7 @@
          this.connection.getConnection().disconnect(Component.translatable("multiplayer.status.quitting"));
      }
  
@@ -27,7 +27,7 @@
          int i = 32;
          RandomSource randomsource = RandomSource.create();
          Block block = this.getMarkerParticleTarget();
-@@ -378,11 +_,11 @@
+@@ -400,11 +_,11 @@
      }
  
      public void doAnimateTick(
@@ -42,7 +42,7 @@
          p_233619_.set(i, j, k);
          BlockState blockstate = this.getBlockState(p_233619_);
          blockstate.getBlock().animateTick(blockstate, this, p_233619_, p_233617_);
-@@ -398,7 +_,7 @@
+@@ -420,7 +_,7 @@
          }
  
          if (p_233618_ == blockstate.getBlock()) {
@@ -51,7 +51,7 @@
          }
  
          if (!blockstate.isCollisionShapeFullBlock(this, p_233619_)) {
-@@ -410,9 +_,9 @@
+@@ -432,9 +_,9 @@
                          if (p_264703_.canSpawn(this.random)) {
                              this.addParticle(
                                  p_264703_.getOptions(),
@@ -64,7 +64,7 @@
                                  0.0,
                                  0.0,
                                  0.0
-@@ -430,10 +_,10 @@
+@@ -452,10 +_,10 @@
              if (d0 < 1.0) {
                  if (p_104693_) {
                      this.spawnFluidParticle(
@@ -79,7 +79,7 @@
                          (double)(p_104690_.getY() + 1) - 0.05,
                          p_104692_
                      );
-@@ -457,10 +_,10 @@
+@@ -479,10 +_,10 @@
  
      private void spawnParticle(BlockPos p_104695_, ParticleOptions p_104696_, VoxelShape p_104697_, double p_104698_) {
          this.spawnFluidParticle(
@@ -94,7 +94,7 @@
              p_104698_,
              p_104696_
          );
-@@ -628,8 +_,8 @@
+@@ -675,8 +_,8 @@
          this.levelRenderer.setBlockDirty(p_104759_, p_104760_, p_104761_);
      }
  
@@ -105,7 +105,7 @@
      }
  
      @Override
-@@ -709,7 +_,7 @@
+@@ -756,7 +_,7 @@
      }
  
      @Override
@@ -114,7 +114,7 @@
          return this.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS);
      }
  
-@@ -723,9 +_,9 @@
+@@ -770,9 +_,9 @@
          return f1 * 0.8F + 0.2F;
      }
  
@@ -126,15 +126,7 @@
          BiomeManager biomemanager = this.getBiomeManager();
          Vec3 vec31 = CubicSampler.gaussianSampleVec3(
              vec3, (p_194161_, p_194162_, p_194163_) -> Vec3.fromRGB24(biomemanager.getNoiseBiomeAtQuart(p_194161_, p_194162_, p_194163_).value().getSkyColor())
-@@ -848,21 +_,21 @@
-     public int calculateBlockTint(BlockPos p_104763_, ColorResolver p_104764_) {
-         int i = Minecraft.getInstance().options.biomeBlendRadius().get();
-         if (i == 0) {
--            return p_104764_.getColor(this.getBiome(p_104763_).value(), (double)p_104763_.getX(), (double)p_104763_.getZ());
-+            return p_104764_.getColor(this.getBiome(p_104763_).value(), (double)p_104763_.getBigX().doubleValue(), (double)p_104763_.getBigZ().doubleValue());
-         } else {
-             int j = (i * 2 + 1) * (i * 2 + 1);
-             int k = 0;
+@@ -911,7 +_,7 @@
              int l = 0;
              int i1 = 0;
              Cursor3D cursor3d = new Cursor3D(
@@ -143,20 +135,12 @@
              );
  
              int j1;
-             for(BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(); cursor3d.advance(); i1 += j1 & 0xFF) {
-                 blockpos$mutableblockpos.set(cursor3d.nextX(), cursor3d.nextY(), cursor3d.nextZ());
-                 j1 = p_104764_.getColor(
--                    this.getBiome(blockpos$mutableblockpos).value(), (double)blockpos$mutableblockpos.getX(), (double)blockpos$mutableblockpos.getZ()
-+                    this.getBiome(blockpos$mutableblockpos).value(), (double)blockpos$mutableblockpos.getBigX().doubleValue(), (double)blockpos$mutableblockpos.getBigZ().doubleValue()
-                 );
-                 k += (j1 & 0xFF0000) >> 16;
-                 l += (j1 & 0xFF00) >> 8;
-@@ -886,7 +_,7 @@
+@@ -952,7 +_,7 @@
      }
  
      @Override
--    public void gameEvent(GameEvent p_233639_, Vec3 p_233640_, GameEvent.Context p_233641_) {
-+    public void gameEvent(GameEvent p_233639_, me.alphamode.mcbig.core.BigVec3 p_233640_, GameEvent.Context p_233641_) {
+-    public void gameEvent(Holder<GameEvent> p_316478_, Vec3 p_233640_, GameEvent.Context p_233641_) {
++    public void gameEvent(Holder<GameEvent> p_316478_, me.alphamode.mcbig.core.BigVec3 p_233640_, GameEvent.Context p_233641_) {
      }
  
-     protected Map<String, MapItemSavedData> getAllMapData() {
+     protected Map<MapId, MapItemSavedData> getAllMapData() {

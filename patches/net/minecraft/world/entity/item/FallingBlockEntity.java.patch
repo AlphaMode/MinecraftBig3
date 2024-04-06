@@ -13,7 +13,7 @@
              p_201974_.hasProperty(BlockStateProperties.WATERLOGGED) ? p_201974_.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)) : p_201974_
          );
          p_201972_.setBlock(p_201973_, p_201974_.getFluidState().createLegacyBlock(), 3);
-@@ -137,7 +_,7 @@
+@@ -139,7 +_,7 @@
                      BlockHitResult blockhitresult = this.level()
                          .clip(
                              new ClipContext(

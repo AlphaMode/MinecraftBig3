@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/PlaySoundCommand.java
 +++ b/net/minecraft/server/commands/PlaySoundCommand.java
-@@ -122,7 +_,7 @@
+@@ -152,7 +_,7 @@
          Collection<ServerPlayer> p_138162_,
          ResourceLocation p_138163_,
          SoundSource p_138164_,
@@ -9,7 +9,7 @@
          float p_138166_,
          float p_138167_,
          float p_138168_
-@@ -133,11 +_,11 @@
+@@ -163,11 +_,11 @@
          long j = p_138161_.getLevel().getRandom().nextLong();
  
          for(ServerPlayer serverplayer : p_138162_) {
@@ -24,7 +24,7 @@
              float f = p_138166_;
              if (d4 > d0) {
                  if (p_138168_ <= 0.0F) {
-@@ -145,7 +_,7 @@
+@@ -175,7 +_,7 @@
                  }
  
                  double d5 = Math.sqrt(d4);

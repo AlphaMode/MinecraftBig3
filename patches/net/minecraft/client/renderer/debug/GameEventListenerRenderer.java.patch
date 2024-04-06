@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/debug/GameEventListenerRenderer.java
 +++ b/net/minecraft/client/renderer/debug/GameEventListenerRenderer.java
-@@ -147,7 +_,7 @@
+@@ -148,7 +_,7 @@
      ) {
          Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
          if (camera.isInitialized()) {
@@ -9,7 +9,7 @@
              DebugRenderer.renderFilledBox(p_270351_, p_270763_, p_270205_.move(vec3), p_270707_, p_270538_, p_270314_, p_270966_);
          }
      }
-@@ -182,7 +_,7 @@
+@@ -183,7 +_,7 @@
          }
  
          public Optional<Vec3> getPosition(Level p_173876_) {
@@ -18,12 +18,12 @@
          }
  
          @Override
-@@ -196,7 +_,7 @@
+@@ -197,7 +_,7 @@
          }
  
          @Override
--        public boolean handleGameEvent(ServerLevel p_234540_, GameEvent p_249278_, GameEvent.Context p_250285_, Vec3 p_250758_) {
-+        public boolean handleGameEvent(ServerLevel p_234540_, GameEvent p_249278_, GameEvent.Context p_250285_, me.alphamode.mcbig.core.BigVec3 p_250758_) {
+-        public boolean handleGameEvent(ServerLevel p_234540_, Holder<GameEvent> p_316503_, GameEvent.Context p_250285_, Vec3 p_250758_) {
++        public boolean handleGameEvent(ServerLevel p_234540_, Holder<GameEvent> p_316503_, GameEvent.Context p_250285_, me.alphamode.mcbig.core.BigVec3 p_250758_) {
              return false;
          }
      }

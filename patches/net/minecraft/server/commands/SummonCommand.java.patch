@@ -9,7 +9,7 @@
      ) throws CommandSyntaxException {
          BlockPos blockpos = BlockPos.containing(p_270366_);
          if (!Level.isInSpawnableBounds(blockpos)) {
-@@ -107,7 +_,7 @@
+@@ -105,7 +_,7 @@
      }
  
      private static int spawnEntity(

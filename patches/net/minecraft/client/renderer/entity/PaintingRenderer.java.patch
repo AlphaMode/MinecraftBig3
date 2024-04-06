@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/entity/PaintingRenderer.java
 +++ b/net/minecraft/client/renderer/entity/PaintingRenderer.java
-@@ -90,24 +_,24 @@
+@@ -86,24 +_,24 @@
                  float f16 = f + (float)(k * 16);
                  float f17 = f1 + (float)((l + 1) * 16);
                  float f18 = f1 + (float)(l * 16);

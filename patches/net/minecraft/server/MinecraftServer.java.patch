@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -422,7 +_,7 @@
+@@ -426,7 +_,7 @@
              int i = serverchunkcache.getGenerator().getSpawnHeight(p_177897_);
              if (i < p_177897_.getMinBuildHeight()) {
                  BlockPos blockpos = chunkpos.getWorldPosition();
@@ -9,16 +9,16 @@
              }
  
              p_177898_.setSpawn(chunkpos.getWorldPosition().offset(8, i, 8), 0.0F);
-@@ -434,7 +_,7 @@
+@@ -437,7 +_,7 @@
  
-             for(int j1 = 0; j1 < Mth.square(11); ++j1) {
-                 if (k1 >= -5 && k1 <= 5 && j >= -5 && j <= 5) {
--                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x + k1, chunkpos.z + j));
-+                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x().add(k1), chunkpos.z().add(j)));
+             for(int i1 = 0; i1 < Mth.square(11); ++i1) {
+                 if (j1 >= -5 && j1 <= 5 && j >= -5 && j <= 5) {
+-                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x + j1, chunkpos.z + j));
++                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x().add(j1), chunkpos.z().add(j)));
                      if (blockpos1 != null) {
                          p_177898_.setSpawn(blockpos1, 0.0F);
                          break;
-@@ -499,11 +_,11 @@
+@@ -496,11 +_,11 @@
          for(ServerLevel serverlevel1 : this.levels.values()) {
              ForcedChunksSavedData forcedchunkssaveddata = serverlevel1.getDataStorage().get(ForcedChunksSavedData.factory(), "chunks");
              if (forcedchunkssaveddata != null) {
@@ -26,14 +26,14 @@
 +                it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = forcedchunkssaveddata.getChunks().iterator();
  
                  while(longiterator.hasNext()) {
--                    long i = longiterator.nextLong();
--                    ChunkPos chunkpos = new ChunkPos(i);
+-                    long k = longiterator.nextLong();
+-                    ChunkPos chunkpos = new ChunkPos(k);
 +//                    long i = longiterator.next();
 +                    ChunkPos chunkpos = longiterator.next();
                      serverlevel1.getChunkSource().updateChunkForced(chunkpos, true);
                  }
              }
-@@ -1517,7 +_,7 @@
+@@ -1563,7 +_,7 @@
          ServerLevel serverlevel = this.overworld();
          return new CommandSourceStack(
              this,

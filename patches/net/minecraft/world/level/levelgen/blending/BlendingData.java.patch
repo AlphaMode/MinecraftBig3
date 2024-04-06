@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/blending/BlendingData.java
 +++ b/net/minecraft/world/level/levelgen/blending/BlendingData.java
-@@ -101,7 +_,7 @@
+@@ -106,7 +_,7 @@
      }
  
      @Nullable
@@ -9,7 +9,7 @@
          ChunkAccess chunkaccess = p_190305_.getChunk(p_190306_, p_190307_);
          BlendingData blendingdata = chunkaccess.getBlendingData();
          if (blendingdata != null && chunkaccess.getHighestGeneratedStatus().isOrAfter(ChunkStatus.BIOMES)) {
-@@ -112,12 +_,12 @@
+@@ -117,12 +_,12 @@
          }
      }
  
@@ -25,7 +25,7 @@
              if (p_197066_.getChunk(i, j).isOldNoiseGeneration() == p_197069_) {
                  set.add(direction8);
              }
-@@ -180,7 +_,7 @@
+@@ -185,7 +_,7 @@
      private int getHeightAtXZ(ChunkAccess p_190311_, int p_190312_, int p_190313_) {
          int i;
          if (p_190311_.hasPrimedHeightmap(Heightmap.Types.WORLD_SURFACE_WG)) {
@@ -34,7 +34,7 @@
          } else {
              i = this.areaWithOldGeneration.getMaxBuildHeight();
          }
-@@ -307,11 +_,11 @@
+@@ -312,11 +_,11 @@
          }
      }
  
@@ -48,7 +48,7 @@
              }
          }
      }
-@@ -397,6 +_,6 @@
+@@ -402,6 +_,6 @@
      }
  
      protected interface HeightConsumer {

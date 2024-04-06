@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/PatrollingMonster.java
 +++ b/net/minecraft/world/entity/monster/PatrollingMonster.java
-@@ -189,7 +_,7 @@
+@@ -185,7 +_,7 @@
                      BlockPos blockpos = BlockPos.containing(vec33);
                      blockpos = this.mob.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos);
                      if (!pathnavigation.moveTo(
@@ -9,7 +9,7 @@
                      )) {
                          this.moveRandomly();
                          this.cooldownUntil = this.mob.level().getGameTime() + 200L;
-@@ -217,7 +_,7 @@
+@@ -213,7 +_,7 @@
                  .getHeightmapPos(
                      Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, this.mob.blockPosition().offset(-8 + randomsource.nextInt(16), 0, -8 + randomsource.nextInt(16))
                  );

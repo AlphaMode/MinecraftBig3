@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/Rabbit.java
 +++ b/net/minecraft/world/entity/animal/Rabbit.java
-@@ -556,9 +_,9 @@
+@@ -549,9 +_,9 @@
              this.rabbit
                  .getLookControl()
                  .setLookAt(

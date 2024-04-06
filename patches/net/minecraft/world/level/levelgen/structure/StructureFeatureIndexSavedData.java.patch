@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/StructureFeatureIndexSavedData.java
 +++ b/net/minecraft/world/level/levelgen/structure/StructureFeatureIndexSavedData.java
-@@ -9,8 +_,8 @@
+@@ -10,8 +_,8 @@
  public class StructureFeatureIndexSavedData extends SavedData {
      private static final String TAG_REMAINING_INDEXES = "Remaining";
      private static final String TAG_All_INDEXES = "All";
@@ -11,7 +11,7 @@
  
      public static SavedData.Factory<StructureFeatureIndexSavedData> factory() {
          return new SavedData.Factory<>(
-@@ -18,44 +_,44 @@
+@@ -19,44 +_,44 @@
          );
      }
  
@@ -26,13 +26,13 @@
 +        this(new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(), new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>());
      }
  
-     public static StructureFeatureIndexSavedData load(CompoundTag p_163535_) {
+     public static StructureFeatureIndexSavedData load(CompoundTag p_163535_, HolderLookup.Provider p_323754_) {
 -        return new StructureFeatureIndexSavedData(new LongOpenHashSet(p_163535_.getLongArray("All")), new LongOpenHashSet(p_163535_.getLongArray("Remaining")));
 +        return new StructureFeatureIndexSavedData(net.minecraft.nbt.NbtUtils.readChunks(p_163535_, TAG_All_INDEXES, it.unimi.dsi.fastutil.objects.ObjectOpenHashSet::new), net.minecraft.nbt.NbtUtils.readChunks(p_163535_, TAG_REMAINING_INDEXES, it.unimi.dsi.fastutil.objects.ObjectOpenHashSet::new));
      }
  
      @Override
-     public CompoundTag save(CompoundTag p_73372_) {
+     public CompoundTag save(CompoundTag p_73372_, HolderLookup.Provider p_323794_) {
 -        p_73372_.putLongArray("All", this.all.toLongArray());
 -        p_73372_.putLongArray("Remaining", this.remaining.toLongArray());
 +        net.minecraft.nbt.NbtUtils.writeChunks(p_73372_, TAG_All_INDEXES, this.all);

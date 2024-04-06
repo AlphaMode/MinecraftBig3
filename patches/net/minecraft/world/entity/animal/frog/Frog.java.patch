@@ -1,13 +1,13 @@
 --- a/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -399,8 +_,8 @@
+@@ -390,8 +_,8 @@
          }
  
          @Override
--        public BlockPathTypes getBlockPathType(BlockGetter p_218551_, int p_218552_, int p_218553_, int p_218554_) {
--            this.belowPos.set(p_218552_, p_218553_ - 1, p_218554_);
-+        public BlockPathTypes getBlockPathType(BlockGetter p_218551_, me.alphamode.mcbig.math.BigInteger p_218552_, me.alphamode.mcbig.math.BigInteger p_218553_, me.alphamode.mcbig.math.BigInteger p_218554_) {
-+            this.belowPos.set(p_218552_, p_218553_.subtract(), p_218554_);
-             BlockState blockstate = p_218551_.getBlockState(this.belowPos);
-             return blockstate.is(BlockTags.FROG_PREFER_JUMP_TO) ? BlockPathTypes.OPEN : super.getBlockPathType(p_218551_, p_218552_, p_218553_, p_218554_);
+-        public PathType getPathType(PathfindingContext p_331446_, int p_326799_, int p_326899_, int p_326891_) {
+-            this.belowPos.set(p_326799_, p_326899_ - 1, p_326891_);
++        public PathType getPathType(PathfindingContext p_331446_, me.alphamode.mcbig.math.BigInteger p_326799_, me.alphamode.mcbig.math.BigInteger p_326899_, me.alphamode.mcbig.math.BigInteger p_326891_) {
++            this.belowPos.set(p_326799_, p_326899_.subtract(), p_326891_);
+             BlockState blockstate = p_331446_.getBlockState(this.belowPos);
+             return blockstate.is(BlockTags.FROG_PREFER_JUMP_TO) ? PathType.OPEN : super.getPathType(p_331446_, p_326799_, p_326899_, p_326891_);
          }

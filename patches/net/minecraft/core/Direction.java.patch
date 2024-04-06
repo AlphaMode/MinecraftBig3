@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/Direction.java
 +++ b/net/minecraft/core/Direction.java
-@@ -368,9 +_,19 @@
+@@ -380,9 +_,19 @@
              }
  
              @Override
@@ -20,7 +20,7 @@
          },
          Y("y") {
              @Override
-@@ -379,9 +_,19 @@
+@@ -391,9 +_,19 @@
              }
  
              @Override
@@ -40,7 +40,7 @@
          },
          Z("z") {
              @Override
-@@ -390,9 +_,19 @@
+@@ -402,9 +_,19 @@
              }
  
              @Override
@@ -60,7 +60,7 @@
          };
  
          public static final Direction.Axis[] VALUES = values();
-@@ -447,7 +_,11 @@
+@@ -459,7 +_,11 @@
  
          public abstract int choose(int p_122466_, int p_122467_, int p_122468_);
  

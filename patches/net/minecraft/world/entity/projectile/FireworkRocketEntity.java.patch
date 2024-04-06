@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 +++ b/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-@@ -227,7 +_,7 @@
+@@ -226,7 +_,7 @@
  
                      for(int i = 0; i < 2; ++i) {
                          Vec3 vec31 = new Vec3(livingentity.getX(), livingentity.getY(0.5 * (double)i), livingentity.getZ());

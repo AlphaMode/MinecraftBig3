@@ -76,6 +76,6 @@
                      elderguardian.heal(elderguardian.getMaxHealth());
 -                    elderguardian.moveTo((double)blockpos.getX() + 0.5, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5, 0.0F, 0.0F);
 +                    elderguardian.moveTo((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue() + 0.5, 0.0F, 0.0F);
-                     elderguardian.finalizeSpawn(p_251919_, p_251919_.getCurrentDifficultyAt(elderguardian.blockPosition()), MobSpawnType.STRUCTURE, null, null);
+                     elderguardian.finalizeSpawn(p_251919_, p_251919_.getCurrentDifficultyAt(elderguardian.blockPosition()), MobSpawnType.STRUCTURE, null);
                      p_251919_.addFreshEntityWithPassengers(elderguardian);
                  }

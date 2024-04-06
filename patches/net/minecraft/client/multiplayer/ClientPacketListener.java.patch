@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientPacketListener.java
 +++ b/net/minecraft/client/multiplayer/ClientPacketListener.java
-@@ -611,17 +_,19 @@
+@@ -644,17 +_,19 @@
          boolean flag1 = p_105056_.getRelativeArguments().contains(RelativeMovement.Y);
          boolean flag2 = p_105056_.getRelativeArguments().contains(RelativeMovement.Z);
          double d0;
@@ -26,7 +26,7 @@
          }
  
          double d2;
-@@ -639,17 +_,19 @@
+@@ -672,17 +_,19 @@
          }
  
          double d4;
@@ -52,7 +52,7 @@
          }
  
          player.setPos(d1, d3, d5);
-@@ -673,7 +_,7 @@
+@@ -706,7 +_,7 @@
          }
  
          this.connection.send(new ServerboundAcceptTeleportationPacket(p_105056_.getId()));
@@ -61,7 +61,7 @@
      }
  
      @Override
-@@ -685,8 +_,8 @@
+@@ -718,8 +_,8 @@
      @Override
      public void handleLevelChunkWithLight(ClientboundLevelChunkWithLightPacket p_194241_) {
          PacketUtils.ensureRunningOnSameThread(p_194241_, this, this.minecraft);
@@ -72,7 +72,7 @@
          this.updateLevelChunk(i, j, p_194241_.getChunkData());
          ClientboundLightUpdatePacketData clientboundlightupdatepacketdata = p_194241_.getLightData();
          this.level.queueLightUpdate(() -> {
-@@ -706,15 +_,15 @@
+@@ -739,15 +_,15 @@
              this.level
                  .getChunkSource()
                  .replaceBiomes(
@@ -91,7 +91,7 @@
          }
  
          for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata2 : p_275437_.chunkBiomeData()) {
-@@ -724,7 +_,7 @@
+@@ -757,7 +_,7 @@
                          this.minecraft
                              .levelRenderer
                              .setSectionDirty(
@@ -100,7 +100,7 @@
                              );
                      }
                  }
-@@ -732,7 +_,7 @@
+@@ -765,7 +_,7 @@
          }
      }
  
@@ -109,7 +109,7 @@
          this.level
              .getChunkSource()
              .replaceWithPacketData(
-@@ -740,7 +_,7 @@
+@@ -773,7 +_,7 @@
              );
      }
  
@@ -118,7 +118,7 @@
          LevelLightEngine levellightengine = this.level.getChunkSource().getLightEngine();
          LevelChunkSection[] alevelchunksection = p_194213_.getSections();
          ChunkPos chunkpos = p_194213_.getPos();
-@@ -2204,13 +_,13 @@
+@@ -2237,13 +_,13 @@
      @Override
      public void handleLightUpdatePacket(ClientboundLightUpdatePacket p_194243_) {
          PacketUtils.ensureRunningOnSameThread(p_194243_, this, this.minecraft);
@@ -135,7 +135,7 @@
          LevelLightEngine levellightengine = this.level.getChunkSource().getLightEngine();
          BitSet bitset = p_194251_.getSkyYMask();
          BitSet bitset1 = p_194251_.getEmptySkyYMask();
-@@ -2289,7 +_,7 @@
+@@ -2327,7 +_,7 @@
      }
  
      private void readSectionList(

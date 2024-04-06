@@ -39,7 +39,7 @@
 +                .stream()
 +                .map(p_296053_::getChunkToSend)
                  .filter(Objects::nonNull)
-                 .sorted(Comparator.comparingInt(p_294268_ -> p_295659_.distanceSquared(p_294268_.getPos())))
+                 .sorted(Comparator.comparingInt(p_339851_ -> p_295659_.distanceSquared(p_339851_.getPos())))
                  .toList();
          }
  

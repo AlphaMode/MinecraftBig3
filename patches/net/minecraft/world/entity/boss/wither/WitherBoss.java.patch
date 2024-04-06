@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/boss/wither/WitherBoss.java
++++ b/net/minecraft/world/entity/boss/wither/WitherBoss.java
+@@ -326,7 +_,7 @@
+                     int i1 = Mth.floor(this.getBbHeight());
+ 
+                     for(BlockPos blockpos : BlockPos.betweenClosed(
+-                        this.getBlockX() - l, this.getBlockY(), this.getBlockZ() - l, this.getBlockX() + l, this.getBlockY() + i1, this.getBlockZ() + l
++                        this.getBlockX().subtract(l), this.getBigBlockY(), this.getBlockZ().subtract(l), this.getBlockX().add(l), this.getBigBlockY().add(i1), this.getBlockZ().add(l)
+                     )) {
+                         BlockState blockstate = this.level().getBlockState(blockpos);
+                         if (canDestroy(blockstate)) {

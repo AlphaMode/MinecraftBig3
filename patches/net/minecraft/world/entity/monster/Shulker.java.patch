@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Shulker.java
 +++ b/net/minecraft/world/entity/monster/Shulker.java
-@@ -394,7 +_,7 @@
+@@ -395,7 +_,7 @@
                          this.unRide();
                          this.setAttachFace(direction);
                          this.playSound(SoundEvents.SHULKER_TELEPORT, 1.0F, 1.0F);
@@ -9,7 +9,7 @@
                          this.level().gameEvent(GameEvent.TELEPORT, blockpos, GameEvent.Context.of(this));
                          this.entityData.set(DATA_PEEK_ID, (byte)0);
                          this.setTarget(null);
-@@ -539,9 +_,9 @@
+@@ -535,9 +_,9 @@
              double d0 = (double)((float)this.clientSideTeleportInterpolation - p_149767_) / 6.0;
              d0 *= d0;
              BlockPos blockpos = this.blockPosition();

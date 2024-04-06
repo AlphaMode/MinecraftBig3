@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/feature/ParkLaneSurfaceFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/ParkLaneSurfaceFeature.java
+@@ -98,7 +_,7 @@
+                 ChunkPos chunkpos = p_340457_;
+                 p_340991_.relative(Direction.NORTH);
+                 if (p_342307_ == Direction.NORTH || p_342307_ == Direction.EAST) {
+-                    chunkpos = new ChunkPos(p_340457_.x + p_342307_.getStepX(), p_340457_.z + p_342307_.getStepZ());
++                    chunkpos = new ChunkPos(p_340457_.x().add(p_342307_.getStepX()), p_340457_.z().add(p_342307_.getStepZ()));
+                 }
+ 
+                 k += (long)chunkpos.hashCode();

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/Cat.java
 +++ b/net/minecraft/world/entity/animal/Cat.java
-@@ -553,7 +_,7 @@
+@@ -548,7 +_,7 @@
          public void start() {
              if (this.goalPos != null) {
                  this.cat.setInSittingPose(false);
@@ -9,7 +9,7 @@
              }
          }
  
-@@ -576,9 +_,9 @@
+@@ -571,9 +_,9 @@
              blockpos$mutableblockpos.set(this.cat.isLeashed() ? this.cat.getLeashHolder().blockPosition() : this.cat.blockPosition());
              this.cat
                  .randomTeleport(
@@ -22,7 +22,7 @@
                      false
                  );
              blockpos$mutableblockpos.set(this.cat.blockPosition());
-@@ -594,9 +_,9 @@
+@@ -589,9 +_,9 @@
                      .addFreshEntity(
                          new ItemEntity(
                              this.cat.level(),
@@ -34,7 +34,7 @@
                              itemstack
                          )
                      );
-@@ -607,7 +_,7 @@
+@@ -602,7 +_,7 @@
          public void tick() {
              if (this.ownerPlayer != null && this.goalPos != null) {
                  this.cat.setInSittingPose(false);

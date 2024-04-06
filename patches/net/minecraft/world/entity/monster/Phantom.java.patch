@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Phantom.java
 +++ b/net/minecraft/world/entity/monster/Phantom.java
-@@ -172,7 +_,7 @@
+@@ -166,7 +_,7 @@
      public void readAdditionalSaveData(CompoundTag p_33132_) {
          super.readAdditionalSaveData(p_33132_);
          if (p_33132_.contains("AX")) {
@@ -9,7 +9,7 @@
          }
  
          this.setPhantomSize(p_33132_.getInt("Size"));
-@@ -181,9 +_,9 @@
+@@ -175,9 +_,9 @@
      @Override
      public void addAdditionalSaveData(CompoundTag p_33141_) {
          super.addAdditionalSaveData(p_33141_);

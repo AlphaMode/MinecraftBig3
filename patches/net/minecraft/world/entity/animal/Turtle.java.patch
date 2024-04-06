@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/Turtle.java
 +++ b/net/minecraft/world/entity/animal/Turtle.java
-@@ -146,9 +_,9 @@
+@@ -149,9 +_,9 @@
      @Override
      public void addAdditionalSaveData(CompoundTag p_30176_) {
          super.addAdditionalSaveData(p_30176_);
@@ -13,7 +13,7 @@
          p_30176_.putBoolean("HasEgg", this.hasEgg());
          p_30176_.putInt("TravelPosX", this.getTravelPos().getX());
          p_30176_.putInt("TravelPosY", this.getTravelPos().getY());
-@@ -157,9 +_,9 @@
+@@ -160,9 +_,9 @@
  
      @Override
      public void readAdditionalSaveData(CompoundTag p_30162_) {
@@ -26,7 +26,7 @@
          this.setHomePos(new BlockPos(i, j, k));
          super.readAdditionalSaveData(p_30162_);
          this.setHasEgg(p_30162_.getBoolean("HasEgg"));
-@@ -597,9 +_,9 @@
+@@ -593,9 +_,9 @@
              } else {
                  BlockPos blockpos = this.lookForWater(this.mob.level(), this.mob, 7);
                  if (blockpos != null) {
@@ -39,7 +39,7 @@
                      return true;
                  } else {
                      return this.findRandomPosition();
-@@ -684,7 +_,7 @@
+@@ -680,7 +_,7 @@
                      int i = Mth.floor(vec31.x);
                      int j = Mth.floor(vec31.z);
                      int k = 34;

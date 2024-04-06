@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/ForcedChunksSavedData.java
 +++ b/net/minecraft/world/level/ForcedChunksSavedData.java
-@@ -9,31 +_,43 @@
+@@ -10,31 +_,43 @@
  public class ForcedChunksSavedData extends SavedData {
      public static final String FILE_ID = "chunks";
      private static final String TAG_FORCED = "Forced";
@@ -21,7 +21,7 @@
 +        this(new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>());
      }
  
-     public static ForcedChunksSavedData load(CompoundTag p_151484_) {
+     public static ForcedChunksSavedData load(CompoundTag p_151484_, HolderLookup.Provider p_323940_) {
 -        return new ForcedChunksSavedData(new LongOpenHashSet(p_151484_.getLongArray("Forced")));
 +        it.unimi.dsi.fastutil.objects.ObjectSet<net.minecraft.world.level.ChunkPos> chunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
 +        var chunksList = p_151484_.getList(TAG_FORCED, net.minecraft.nbt.Tag.TAG_COMPOUND);
@@ -33,7 +33,7 @@
      }
  
      @Override
-     public CompoundTag save(CompoundTag p_46120_) {
+     public CompoundTag save(CompoundTag p_46120_, HolderLookup.Provider p_324573_) {
 -        p_46120_.putLongArray("Forced", this.chunks.toLongArray());
 +        var chunks = new net.minecraft.nbt.ListTag();
 +        this.chunks.forEach(chunkPos -> {

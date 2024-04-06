@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/BasaltColumnsFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/BasaltColumnsFeature.java
-@@ -52,7 +_,7 @@
+@@ -54,7 +_,7 @@
              boolean flag1 = false;
  
              for(BlockPos blockpos1 : BlockPos.randomBetweenClosed(
@@ -9,7 +9,7 @@
              )) {
                  int i1 = j - blockpos1.distManhattan(blockpos);
                  if (i1 >= 0) {
-@@ -68,7 +_,7 @@
+@@ -72,7 +_,7 @@
          boolean flag = false;
  
          for(BlockPos blockpos : BlockPos.betweenClosed(

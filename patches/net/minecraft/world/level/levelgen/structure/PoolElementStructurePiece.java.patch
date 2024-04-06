@@ -1,28 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/PoolElementStructurePiece.java
 +++ b/net/minecraft/world/level/levelgen/structure/PoolElementStructurePiece.java
-@@ -48,7 +_,7 @@
-     public PoolElementStructurePiece(StructurePieceSerializationContext p_192406_, CompoundTag p_192407_) {
-         super(StructurePieceType.JIGSAW, p_192407_);
-         this.structureTemplateManager = p_192406_.structureTemplateManager();
--        this.position = new BlockPos(p_192407_.getInt("PosX"), p_192407_.getInt("PosY"), p_192407_.getInt("PosZ"));
-+        this.position = new BlockPos(p_192407_.getByteArray("PosX"), p_192407_.getByteArray("PosY"), p_192407_.getByteArray("PosZ"));
-         this.groundLevelDelta = p_192407_.getInt("ground_level_delta");
-         DynamicOps<Tag> dynamicops = RegistryOps.create(NbtOps.INSTANCE, p_192406_.registryAccess());
-         this.element = StructurePoolElement.CODEC
-@@ -64,9 +_,9 @@
- 
-     @Override
-     protected void addAdditionalSaveData(StructurePieceSerializationContext p_192425_, CompoundTag p_192426_) {
--        p_192426_.putInt("PosX", this.position.getX());
--        p_192426_.putInt("PosY", this.position.getY());
--        p_192426_.putInt("PosZ", this.position.getZ());
-+        p_192426_.putByteArray("PosX", this.position.getBigX().toByteArray());
-+        p_192426_.putByteArray("PosY", this.position.getBigY().toByteArray());
-+        p_192426_.putByteArray("PosZ", this.position.getBigZ().toByteArray());
-         p_192426_.putInt("ground_level_delta", this.groundLevelDelta);
-         DynamicOps<Tag> dynamicops = RegistryOps.create(NbtOps.INSTANCE, p_192425_.registryAccess());
-         StructurePoolElement.CODEC
-@@ -110,7 +_,7 @@
+@@ -109,7 +_,7 @@
      }
  
      @Override

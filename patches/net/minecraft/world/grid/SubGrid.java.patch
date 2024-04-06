@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/grid/SubGrid.java
++++ b/net/minecraft/world/grid/SubGrid.java
+@@ -121,7 +_,7 @@
+ 
+     @Nullable
+     @Override
+-    public BlockGetter getChunkForCollisions(int p_340689_, int p_342162_) {
++    public BlockGetter getChunkForCollisions(me.alphamode.mcbig.math.BigInteger p_340689_, me.alphamode.mcbig.math.BigInteger p_342162_) {
+         return this;
+     }
+ 

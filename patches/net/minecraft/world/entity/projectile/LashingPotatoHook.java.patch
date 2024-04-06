@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/projectile/LashingPotatoHook.java
++++ b/net/minecraft/world/entity/projectile/LashingPotatoHook.java
+@@ -60,7 +_,7 @@
+                 this.onHit(hitresult);
+             }
+ 
+-            this.setPos(hitresult.getLocation());
++            this.setPos(hitresult.getLocation().toVanilla());
+             this.checkInsideBlocks();
+         } else {
+             this.discard();
+@@ -88,7 +_,7 @@
+         this.setInBlock(true);
+         Player player = this.getPlayerOwner();
+         if (player != null) {
+-            double d0 = player.getEyePosition().subtract(p_341605_.getLocation()).length();
++            double d0 = player.getEyePosition().subtract(p_341605_.getLocation().toVanilla()).length();
+             this.setLength(Math.max((float)d0 * 0.5F - 3.0F, 1.5F));
+         }
+     }

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/EntityType.java
 +++ b/net/minecraft/world/entity/EntityType.java
-@@ -743,16 +_,16 @@
+@@ -1098,16 +_,16 @@
          } else {
              double d0;
              if (p_262685_) {

@@ -4,8 +4,8 @@
          BlockPos blockpos = p_77739_.minCorner;
          double d2;
          if (d0 > 0.0) {
--            double d3 = (double)blockpos.get(p_77740_) + (double)p_77742_.width / 2.0;
-+            double d3 = (double)blockpos.getInt(p_77740_) + (double)p_77742_.width / 2.0;
+-            double d3 = (double)blockpos.get(p_77740_) + (double)p_77742_.width() / 2.0;
++            double d3 = (double)blockpos.getInt(p_77740_) + (double)p_77742_.width() / 2.0;
              d2 = Mth.clamp(Mth.inverseLerp(p_77741_.get(p_77740_) - d3, 0.0, d0), 0.0, 1.0);
          } else {
              d2 = 0.5;
@@ -26,7 +26,7 @@
      }
  
 @@ -221,23 +_,23 @@
-         double d3 = (d1 - (double)entitydimensions.height) * p_259630_.y();
+         double d3 = (d1 - (double)entitydimensions.height()) * p_259630_.y();
          double d4 = 0.5 + p_259630_.z();
          boolean flag = direction$axis == Direction.Axis.X;
 -        Vec3 vec31 = new Vec3((double)blockpos.getX() + (flag ? d2 : d4), (double)blockpos.getY() + d3, (double)blockpos.getZ() + (flag ? d4 : d2));
@@ -38,17 +38,17 @@
  
 -    private static Vec3 findCollisionFreePosition(Vec3 p_260315_, ServerLevel p_259704_, Entity p_259626_, EntityDimensions p_259816_) {
 +    private static me.alphamode.mcbig.core.BigVec3 findCollisionFreePosition(me.alphamode.mcbig.core.BigVec3 p_260315_, ServerLevel p_259704_, Entity p_259626_, EntityDimensions p_259816_) {
-         if (!(p_259816_.width > 4.0F) && !(p_259816_.height > 4.0F)) {
-             double d0 = (double)p_259816_.height / 2.0;
+         if (!(p_259816_.width() > 4.0F) && !(p_259816_.height() > 4.0F)) {
+             double d0 = (double)p_259816_.height() / 2.0;
 -            Vec3 vec3 = p_260315_.add(0.0, d0, 0.0);
 +            me.alphamode.mcbig.core.BigVec3 vec3 = p_260315_.add(0.0, d0, 0.0);
              VoxelShape voxelshape = Shapes.create(
--                AABB.ofSize(vec3, (double)p_259816_.width, 0.0, (double)p_259816_.width).expandTowards(0.0, 1.0, 0.0).inflate(1.0E-6)
-+                me.alphamode.mcbig.phys.BigAABB.ofSize(vec3, p_259816_.width, 0.0, p_259816_.width).expandTowards(me.alphamode.mcbig.math.BigDecimal.ZERO, 1.0, me.alphamode.mcbig.math.BigDecimal.ZERO).inflate(1.0E-6)
+-                AABB.ofSize(vec3, (double)p_259816_.width(), 0.0, (double)p_259816_.width()).expandTowards(0.0, 1.0, 0.0).inflate(1.0E-6)
++                me.alphamode.mcbig.phys.BigAABB.ofSize(vec3, p_259816_.width(), 0.0, p_259816_.width()).expandTowards(me.alphamode.mcbig.math.BigDecimal.ZERO, 1.0, me.alphamode.mcbig.math.BigDecimal.ZERO).inflate(1.0E-6)
              );
              Optional<Vec3> optional = p_259704_.findFreePosition(
--                p_259626_, voxelshape, vec3, (double)p_259816_.width, (double)p_259816_.height, (double)p_259816_.width
-+                p_259626_, voxelshape, vec3.toVanilla(), (double)p_259816_.width, (double)p_259816_.height, (double)p_259816_.width
+-                p_259626_, voxelshape, vec3, (double)p_259816_.width(), (double)p_259816_.height(), (double)p_259816_.width()
++                p_259626_, voxelshape, vec3.toVanilla(), (double)p_259816_.width(), (double)p_259816_.height(), (double)p_259816_.width()
              );
              Optional<Vec3> optional1 = optional.map(p_259019_ -> p_259019_.subtract(0.0, d0, 0.0));
 -            return optional1.orElse(p_260315_);

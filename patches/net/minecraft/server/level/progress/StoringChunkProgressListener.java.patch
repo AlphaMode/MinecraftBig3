@@ -4,33 +4,24 @@
  
  public class StoringChunkProgressListener implements ChunkProgressListener {
      private final LoggerChunkProgressListener delegate;
--    private final Long2ObjectOpenHashMap<ChunkStatus> statuses;
-+    private final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, ChunkStatus> statuses;
+-    private final Long2ObjectOpenHashMap<ChunkStatus> statuses = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<ChunkPos, ChunkStatus> statuses = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
      private ChunkPos spawnPos = new ChunkPos(0, 0);
      private final int fullDiameter;
      private final int radius;
-@@ -19,7 +_,7 @@
-         this.fullDiameter = p_9661_ * 2 + 1;
-         this.radius = p_9661_ + ChunkStatus.maxDistance();
-         this.diameter = this.radius * 2 + 1;
--        this.statuses = new Long2ObjectOpenHashMap<>();
-+        this.statuses = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
-     }
- 
-     @Override
-@@ -35,9 +_,9 @@
+@@ -50,9 +_,9 @@
          if (this.started) {
-             this.delegate.onStatusChange(p_9669_, p_9670_);
-             if (p_9670_ == null) {
+             this.delegate.onStatusChange(p_9669_, p_331945_);
+             if (p_331945_ == null) {
 -                this.statuses.remove(p_9669_.toLong());
 +                this.statuses.remove(p_9669_);
              } else {
--                this.statuses.put(p_9669_.toLong(), p_9670_);
-+                this.statuses.put(p_9669_, p_9670_);
+-                this.statuses.put(p_9669_.toLong(), p_331945_);
++                this.statuses.put(p_9669_, p_331945_);
              }
          }
      }
-@@ -69,6 +_,6 @@
+@@ -84,6 +_,6 @@
  
      @Nullable
      public ChunkStatus getStatus(int p_9664_, int p_9665_) {

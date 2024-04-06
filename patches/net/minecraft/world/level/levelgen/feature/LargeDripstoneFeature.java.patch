@@ -1,11 +1,17 @@
 --- a/net/minecraft/world/level/levelgen/feature/LargeDripstoneFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/LargeDripstoneFeature.java
-@@ -185,7 +_,7 @@
+@@ -202,12 +_,12 @@
                              BlockPos.MutableBlockPos blockpos$mutableblockpos = this.root.offset(i, 0, j).mutable();
                              boolean flag = false;
-                             int l = this.pointingUp
+                             int l = this.pointingUp && p_342370_ == Blocks.POINTED_DRIPSTONE
 -                                ? p_225146_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, blockpos$mutableblockpos.getX(), blockpos$mutableblockpos.getZ())
 +                                ? p_225146_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, blockpos$mutableblockpos.getBigX(), blockpos$mutableblockpos.getBigZ())
                                  : Integer.MAX_VALUE;
  
                              for(int i1 = 0; i1 < k && blockpos$mutableblockpos.getY() < l; ++i1) {
+                                 BlockPos blockpos = p_225148_.offset(blockpos$mutableblockpos);
+-                                if (Math.abs(blockpos.getZ() - this.root.getZ()) > 16 || Math.abs(blockpos.getX() - this.root.getX()) > 16) {
++                                if (blockpos.getBigZ().subtract(this.root.getBigZ()).abs().intValue() > 16 || blockpos.getBigX().subtract(this.root.getBigX()).abs().intValue() > 16) {
+                                     blockpos = blockpos$mutableblockpos;
+                                 }
+ 

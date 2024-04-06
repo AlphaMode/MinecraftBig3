@@ -15,7 +15,7 @@
      public float g;
 @@ -22,14 +_,14 @@
      public float costMalus;
-     public BlockPathTypes type = BlockPathTypes.BLOCKED;
+     public PathType type = PathType.BLOCKED;
  
 -    public Node(int p_77285_, int p_77286_, int p_77287_) {
 +    public Node(me.alphamode.mcbig.math.BigInteger p_77285_, me.alphamode.mcbig.math.BigInteger p_77286_, me.alphamode.mcbig.math.BigInteger p_77287_) {

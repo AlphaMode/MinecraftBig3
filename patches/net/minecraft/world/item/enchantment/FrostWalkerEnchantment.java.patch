@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/item/enchantment/FrostWalkerEnchantment.java
 +++ b/net/minecraft/world/item/enchantment/FrostWalkerEnchantment.java
-@@ -43,7 +_,7 @@
+@@ -27,7 +_,7 @@
  
              for(BlockPos blockpos : BlockPos.betweenClosed(p_45021_.offset(-i, -1, -i), p_45021_.offset(i, -1, i))) {
                  if (blockpos.closerToCenterThan(p_45019_.position(), (double)i)) {

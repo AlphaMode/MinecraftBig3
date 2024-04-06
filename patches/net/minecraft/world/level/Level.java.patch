@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
-@@ -171,11 +_,11 @@
+@@ -177,11 +_,11 @@
      }
  
      public static boolean isInSpawnableBounds(BlockPos p_46742_) {
@@ -14,7 +14,7 @@
      }
  
      private static boolean isOutsideSpawnableHeight(int p_46725_) {
-@@ -183,16 +_,20 @@
+@@ -189,16 +_,20 @@
      }
  
      public LevelChunk getChunkAt(BlockPos p_46746_) {
@@ -33,12 +33,12 @@
 +
      @Nullable
      @Override
--    public ChunkAccess getChunk(int p_46502_, int p_46503_, ChunkStatus p_46504_, boolean p_46505_) {
-+    public ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_46502_, me.alphamode.mcbig.math.BigInteger p_46503_, ChunkStatus p_46504_, boolean p_46505_) {
-         ChunkAccess chunkaccess = this.getChunkSource().getChunk(p_46502_, p_46503_, p_46504_, p_46505_);
+-    public ChunkAccess getChunk(int p_46502_, int p_46503_, ChunkStatus p_331611_, boolean p_46505_) {
++    public ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_46502_, me.alphamode.mcbig.math.BigInteger p_46503_, ChunkStatus p_331611_, boolean p_46505_) {
+         ChunkAccess chunkaccess = this.getChunkSource().getChunk(p_46502_, p_46503_, p_331611_, p_46505_);
          if (chunkaccess == null && p_46505_) {
              throw new IllegalStateException("Should always be able to create a chunk!");
-@@ -317,19 +_,19 @@
+@@ -323,19 +_,19 @@
      }
  
      @Override
@@ -64,7 +64,7 @@
  
          return i;
      }
-@@ -344,7 +_,7 @@
+@@ -350,7 +_,7 @@
          if (this.isOutsideBuildHeight(p_46732_)) {
              return Blocks.VOID_AIR.defaultBlockState();
          } else {
@@ -73,7 +73,7 @@
              return levelchunk.getBlockState(p_46732_);
          }
      }
-@@ -374,7 +_,7 @@
+@@ -380,7 +_,7 @@
      @Override
      public void playSound(@Nullable Player p_46560_, BlockPos p_46561_, SoundEvent p_46562_, SoundSource p_46563_, float p_46564_, float p_46565_) {
          this.playSound(
@@ -82,7 +82,7 @@
          );
      }
  
-@@ -428,9 +_,9 @@
+@@ -434,9 +_,9 @@
  
      public void playLocalSound(BlockPos p_250938_, SoundEvent p_252209_, SoundSource p_249161_, float p_249980_, float p_250277_, boolean p_250151_) {
          this.playLocalSound(
@@ -95,7 +95,7 @@
              p_252209_,
              p_249161_,
              p_249980_,
-@@ -515,12 +_,12 @@
+@@ -521,12 +_,12 @@
          return true;
      }
  
@@ -109,8 +109,8 @@
 +        return this.shouldTickBlocksAt(new ChunkPos(p_220394_));
      }
  
-     public Explosion explode(
-@@ -716,7 +_,7 @@
+     @Override
+@@ -740,7 +_,7 @@
      public boolean isLoaded(BlockPos p_46750_) {
          return this.isOutsideBuildHeight(p_46750_)
              ? false
@@ -119,7 +119,7 @@
      }
  
      public boolean loadedAndEntityCanStandOnFace(BlockPos p_46579_, Entity p_46580_, Direction p_46581_) {
-@@ -724,7 +_,7 @@
+@@ -748,7 +_,7 @@
              return false;
          } else {
              ChunkAccess chunkaccess = this.getChunk(
@@ -128,7 +128,7 @@
              );
              return chunkaccess == null ? false : chunkaccess.getBlockState(p_46579_).entityCanStandOnFace(this, p_46579_, p_46580_, p_46581_);
          }
-@@ -776,7 +_,7 @@
+@@ -800,7 +_,7 @@
  
      @Nullable
      @Override
@@ -137,7 +137,7 @@
          return this.getChunk(p_46711_, p_46712_, ChunkStatus.FULL, false);
      }
  
-@@ -1049,10 +_,10 @@
+@@ -1083,10 +_,10 @@
  
      public abstract RecipeManager getRecipeManager();
  

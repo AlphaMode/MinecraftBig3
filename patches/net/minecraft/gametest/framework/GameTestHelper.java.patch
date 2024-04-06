@@ -1,6 +1,6 @@
 --- a/net/minecraft/gametest/framework/GameTestHelper.java
 +++ b/net/minecraft/gametest/framework/GameTestHelper.java
-@@ -178,7 +_,7 @@
+@@ -232,7 +_,7 @@
  
      public void useBlock(BlockPos p_250131_, Player p_251507_) {
          BlockPos blockpos = this.absolutePos(p_250131_);
@@ -9,7 +9,7 @@
      }
  
      public void useBlock(BlockPos p_262023_, Player p_261901_, BlockHitResult p_262040_) {
-@@ -634,7 +_,7 @@
+@@ -683,7 +_,7 @@
  
      public void assertSameBlockStates(BoundingBox p_177225_, BlockPos p_177226_) {
          BlockPos.betweenClosedStream(p_177225_).forEach(p_177267_ -> {
@@ -18,7 +18,7 @@
              this.assertSameBlockState(p_177267_, blockpos);
          });
      }
-@@ -846,7 +_,7 @@
+@@ -901,7 +_,7 @@
  
      public void placeAt(Player p_261595_, ItemStack p_262007_, BlockPos p_261973_, Direction p_262008_) {
          BlockPos blockpos = this.absolutePos(p_261973_.relative(p_262008_));

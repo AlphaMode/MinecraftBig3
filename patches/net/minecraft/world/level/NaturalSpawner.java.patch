@@ -1,15 +1,15 @@
 --- a/net/minecraft/world/level/NaturalSpawner.java
 +++ b/net/minecraft/world/level/NaturalSpawner.java
-@@ -75,7 +_,7 @@
+@@ -73,7 +_,7 @@
              if (mobcategory != MobCategory.MISC) {
                  BlockPos blockpos = entity.blockPosition();
                  p_186527_.query(
 -                    ChunkPos.asLong(blockpos),
 +                    new ChunkPos(blockpos),
-                     p_275163_ -> {
-                         MobSpawnSettings.MobSpawnCost mobspawnsettings$mobspawncost = getRoughBiome(blockpos, p_275163_)
+                     p_340216_ -> {
+                         MobSpawnSettings.MobSpawnCost mobspawnsettings$mobspawncost = getRoughBiome(blockpos, p_340216_)
                              .getMobSettings()
-@@ -98,7 +_,7 @@
+@@ -96,7 +_,7 @@
      }
  
      static Biome getRoughBiome(BlockPos p_47096_, ChunkAccess p_47097_) {
@@ -18,7 +18,7 @@
      }
  
      public static void spawnForChunk(
-@@ -152,8 +_,8 @@
+@@ -150,8 +_,8 @@
              int j = 0;
  
              for(int k = 0; k < 3; ++k) {
@@ -29,7 +29,7 @@
                  int j1 = 6;
                  MobSpawnSettings.SpawnerData mobspawnsettings$spawnerdata = null;
                  SpawnGroupData spawngroupdata = null;
-@@ -161,11 +_,11 @@
+@@ -159,11 +_,11 @@
                  int l1 = 0;
  
                  for(int i2 = 0; i2 < k1; ++i2) {
@@ -45,7 +45,7 @@
                      Player player = p_47040_.getNearestPlayer(d0, (double)i, d1, -1.0, false);
                      if (player != null) {
                          double d2 = player.distanceToSqr(d0, (double)i, d1);
-@@ -221,7 +_,7 @@
+@@ -219,7 +_,7 @@
          if (p_47028_ <= 576.0) {
              return false;
          } else if (p_47025_.getSharedSpawnPos()
@@ -54,16 +54,7 @@
              return false;
          } else {
              return Objects.equals(new ChunkPos(p_47027_), p_47026_.getPos()) || p_47025_.isNaturalSpawningAllowed(p_47027_);
-@@ -250,7 +_,7 @@
-             } else if (!SpawnPlacements.checkSpawnRules(entitytype, p_220422_, MobSpawnType.NATURAL, p_220427_, p_220422_.random)) {
-                 return false;
-             } else {
--                return p_220422_.noCollision(entitytype.getAABB((double)p_220427_.getX() + 0.5, (double)p_220427_.getY(), (double)p_220427_.getZ() + 0.5));
-+                return p_220422_.noCollision(entitytype.getAABB((double)p_220427_.getBigX().doubleValue() + 0.5, (double)p_220427_.getY(), (double)p_220427_.getBigZ().doubleValue() + 0.5));
-             }
-         } else {
-             return false;
-@@ -326,8 +_,8 @@
+@@ -321,8 +_,8 @@
  
      private static BlockPos getRandomPosWithin(Level p_47063_, LevelChunk p_47064_) {
          ChunkPos chunkpos = p_47064_.getPos();
@@ -74,7 +65,7 @@
          int k = p_47064_.getHeight(Heightmap.Types.WORLD_SURFACE, i, j) + 1;
          int l = Mth.randomBetweenInclusive(p_47063_.random, p_47063_.getMinBuildHeight(), k);
          return new BlockPos(i, l, j);
-@@ -376,11 +_,13 @@
+@@ -343,11 +_,13 @@
      }
  
      public static void spawnMobsForChunkGeneration(ServerLevelAccessor p_220451_, Holder<Biome> p_220452_, ChunkPos p_220453_, RandomSource p_220454_) {
@@ -90,7 +81,7 @@
  
              while(p_220454_.nextFloat() < mobspawnsettings.getCreatureProbability()) {
                  Optional<MobSpawnSettings.SpawnerData> optional = weightedrandomlist.getRandom(p_220454_);
-@@ -389,10 +_,10 @@
+@@ -356,10 +_,10 @@
                      int k = mobspawnsettings$spawnerdata.minCount
                          + p_220454_.nextInt(1 + mobspawnsettings$spawnerdata.maxCount - mobspawnsettings$spawnerdata.minCount);
                      SpawnGroupData spawngroupdata = null;
@@ -105,9 +96,9 @@
  
                      for(int l1 = 0; l1 < k; ++l1) {
                          boolean flag = false;
-@@ -404,8 +_,8 @@
-                                     SpawnPlacements.getPlacementType(mobspawnsettings$spawnerdata.type), p_220451_, blockpos, mobspawnsettings$spawnerdata.type
-                                 )) {
+@@ -369,8 +_,8 @@
+                             if (mobspawnsettings$spawnerdata.type.canSummon()
+                                 && SpawnPlacements.isSpawnPositionOk(mobspawnsettings$spawnerdata.type, p_220451_, blockpos)) {
                                  float f = mobspawnsettings$spawnerdata.type.getWidth();
 -                                double d0 = Mth.clamp((double)l, (double)i + (double)f, (double)i + 16.0 - (double)f);
 -                                double d1 = Mth.clamp((double)i1, (double)j + (double)f, (double)j + 16.0 - (double)f);
@@ -116,7 +107,7 @@
                                  if (!p_220451_.noCollision(mobspawnsettings$spawnerdata.type.getAABB(d0, (double)blockpos.getY(), d1))
                                      || !SpawnPlacements.checkSpawnRules(
                                          mobspawnsettings$spawnerdata.type,
-@@ -441,13 +_,13 @@
+@@ -406,13 +_,13 @@
                                  }
                              }
  
@@ -135,7 +126,7 @@
                              }
                          }
                      }
-@@ -456,7 +_,7 @@
+@@ -421,7 +_,7 @@
          }
      }
  
@@ -144,7 +135,7 @@
          int i = p_47066_.getHeight(SpawnPlacements.getHeightmapType(p_47067_), p_47068_, p_47069_);
          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(p_47068_, i, p_47069_);
          if (p_47066_.dimensionType().hasCeiling()) {
-@@ -486,7 +_,7 @@
+@@ -444,7 +_,7 @@
  
      @FunctionalInterface
      public interface ChunkGetter {

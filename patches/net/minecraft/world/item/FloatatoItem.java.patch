@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/FloatatoItem.java
++++ b/net/minecraft/world/item/FloatatoItem.java
+@@ -31,7 +_,7 @@
+         if (blockhitresult.getType() == HitResult.Type.MISS) {
+             Vec3 vec33 = vec3.add(vec31.scale(3.0));
+             InteractionResult interactionresult1 = super.place(
+-                new BlockPlaceContext(p_340773_, p_341669_, itemstack, new BlockHitResult(vec33, p_340773_.getDirection(), BlockPos.containing(vec33), false))
++                new BlockPlaceContext(p_340773_, p_341669_, itemstack, new BlockHitResult(vec33.toBig(), p_340773_.getDirection(), BlockPos.containing(vec33), false))
+             );
+             return new InteractionResultHolder<>(interactionresult1, itemstack);
+         } else {

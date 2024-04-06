@@ -1,22 +1,20 @@
 --- a/net/minecraft/network/protocol/game/ClientboundSectionBlocksUpdatePacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundSectionBlocksUpdatePacket.java
-@@ -33,7 +_,7 @@
+@@ -38,7 +_,7 @@
      }
  
-     public ClientboundSectionBlocksUpdatePacket(FriendlyByteBuf p_179196_) {
+     private ClientboundSectionBlocksUpdatePacket(FriendlyByteBuf p_179196_) {
 -        this.sectionPos = SectionPos.of(p_179196_.readLong());
-+        this.sectionPos = SectionPos.of(p_179196_.readBigInteger(), p_179196_.readBigInteger(), p_179196_.readBigInteger());
++        this.sectionPos = p_179196_.readSectionPos();
          int i = p_179196_.readVarInt();
          this.positions = new short[i];
          this.states = new BlockState[i];
-@@ -47,7 +_,9 @@
+@@ -51,7 +_,7 @@
+     }
  
-     @Override
-     public void write(FriendlyByteBuf p_133002_) {
+     private void write(FriendlyByteBuf p_133002_) {
 -        p_133002_.writeLong(this.sectionPos.asLong());
-+        p_133002_.writeBigInteger(this.sectionPos.x());
-+        p_133002_.writeBigInteger(this.sectionPos.y());
-+        p_133002_.writeBigInteger(this.sectionPos.z());
++        p_133002_.writeSectionPos(this.sectionPos);
          p_133002_.writeVarInt(this.positions.length);
  
          for(int i = 0; i < this.positions.length; ++i) {

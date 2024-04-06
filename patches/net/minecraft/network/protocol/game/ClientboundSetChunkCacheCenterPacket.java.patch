@@ -1,9 +1,9 @@
 --- a/net/minecraft/network/protocol/game/ClientboundSetChunkCacheCenterPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundSetChunkCacheCenterPacket.java
-@@ -4,34 +_,34 @@
- import net.minecraft.network.protocol.Packet;
- 
- public class ClientboundSetChunkCacheCenterPacket implements Packet<ClientGamePacketListener> {
+@@ -9,22 +_,22 @@
+     public static final StreamCodec<FriendlyByteBuf, ClientboundSetChunkCacheCenterPacket> STREAM_CODEC = Packet.codec(
+         ClientboundSetChunkCacheCenterPacket::write, ClientboundSetChunkCacheCenterPacket::new
+     );
 -    private final int x;
 -    private final int z;
 +    private final me.alphamode.mcbig.math.BigInteger x;
@@ -15,22 +15,22 @@
          this.z = p_133087_;
      }
  
-     public ClientboundSetChunkCacheCenterPacket(FriendlyByteBuf p_179282_) {
+     private ClientboundSetChunkCacheCenterPacket(FriendlyByteBuf p_179282_) {
 -        this.x = p_179282_.readVarInt();
 -        this.z = p_179282_.readVarInt();
 +        this.x = p_179282_.readBigInteger();
 +        this.z = p_179282_.readBigInteger();
      }
  
-     @Override
-     public void write(FriendlyByteBuf p_133096_) {
+     private void write(FriendlyByteBuf p_133096_) {
 -        p_133096_.writeVarInt(this.x);
 -        p_133096_.writeVarInt(this.z);
 +        p_133096_.writeBigInteger(this.x);
 +        p_133096_.writeBigInteger(this.z);
      }
  
-     public void handle(ClientGamePacketListener p_133093_) {
+     @Override
+@@ -36,11 +_,11 @@
          p_133093_.handleSetChunkCacheCenter(this);
      }
  

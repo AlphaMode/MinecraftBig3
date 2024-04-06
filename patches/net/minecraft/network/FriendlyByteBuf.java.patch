@@ -1,38 +1,22 @@
 --- a/net/minecraft/network/FriendlyByteBuf.java
 +++ b/net/minecraft/network/FriendlyByteBuf.java
-@@ -404,29 +_,52 @@
+@@ -360,7 +_,7 @@
      }
  
-     public BlockPos readBlockPos() {
--        return BlockPos.of(this.readLong());
-+        return new BlockPos(this.readBigInteger(), this.readBigInteger(), this.readBigInteger());
+     public static BlockPos readBlockPos(ByteBuf p_320037_) {
+-        return BlockPos.of(p_320037_.readLong());
++        return new BlockPos(new me.alphamode.mcbig.math.BigInteger(readByteArray(p_320037_)), new me.alphamode.mcbig.math.BigInteger(readByteArray(p_320037_)), new me.alphamode.mcbig.math.BigInteger(readByteArray(p_320037_)));
      }
  
      public FriendlyByteBuf writeBlockPos(BlockPos p_130065_) {
--        this.writeLong(p_130065_.asLong());
--        return this;
-+        this.writeBigInteger(p_130065_.getBigX());
-+        this.writeBigInteger(p_130065_.getBigY());
-+        this.writeBigInteger(p_130065_.getBigZ());
-+        return this;
-+    }
-+
-+    public FriendlyByteBuf writeBigInteger(me.alphamode.mcbig.math.BigInteger value) {
-+        this.writeByteArray(value.toByteArray());
-+        return this;
-+    }
-+
-+    public me.alphamode.mcbig.math.BigInteger readBigInteger() {
-+        return new me.alphamode.mcbig.math.BigInteger(this.readByteArray());
-+    }
-+
-+    public FriendlyByteBuf writeBigDecimal(me.alphamode.mcbig.math.BigDecimal value) {
-+        this.writeUtf(value.toString());
-+        return this;
-+    }
-+
-+    public me.alphamode.mcbig.math.BigDecimal readBigDecimal() {
-+        return new me.alphamode.mcbig.math.BigDecimal(this.readUtf());
+@@ -369,24 +_,29 @@
+     }
+ 
+     public static void writeBlockPos(ByteBuf p_320943_, BlockPos p_320546_) {
+-        p_320943_.writeLong(p_320546_.asLong());
++        writeByteArray(p_320943_, p_320546_.getBigX().toByteArray());
++        writeByteArray(p_320943_, p_320546_.getBigY().toByteArray());
++        writeByteArray(p_320943_, p_320546_.getBigZ().toByteArray());
      }
  
      public ChunkPos readChunkPos() {
@@ -60,7 +44,32 @@
          return this;
      }
  
-@@ -672,7 +_,7 @@
+@@ -401,6 +_,24 @@
+         this.writeBlockPos(p_236815_.pos());
+     }
+ 
++    public FriendlyByteBuf writeBigInteger(me.alphamode.mcbig.math.BigInteger value) {
++        this.writeByteArray(value.toByteArray());
++        return this;
++    }
++
++    public me.alphamode.mcbig.math.BigInteger readBigInteger() {
++        return new me.alphamode.mcbig.math.BigInteger(this.readByteArray());
++    }
++
++    public FriendlyByteBuf writeBigDecimal(me.alphamode.mcbig.math.BigDecimal value) {
++        this.writeUtf(value.toString());
++        return this;
++    }
++
++    public me.alphamode.mcbig.math.BigDecimal readBigDecimal() {
++        return new me.alphamode.mcbig.math.BigDecimal(this.readUtf());
++    }
++
+     public Vector3f readVector3f() {
+         return readVector3f(this);
+     }
+@@ -627,7 +_,7 @@
          float f2 = this.readFloat();
          boolean flag = this.readBoolean();
          return new BlockHitResult(
@@ -69,7 +78,7 @@
              direction,
              blockpos,
              flag
-@@ -683,10 +_,10 @@
+@@ -638,10 +_,10 @@
          BlockPos blockpos = p_130063_.getBlockPos();
          this.writeBlockPos(blockpos);
          this.writeEnum(p_130063_.getDirection());

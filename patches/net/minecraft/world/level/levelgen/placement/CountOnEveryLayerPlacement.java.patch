@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/placement/CountOnEveryLayerPlacement.java
 +++ b/net/minecraft/world/level/levelgen/placement/CountOnEveryLayerPlacement.java
-@@ -41,8 +_,8 @@
+@@ -52,8 +_,8 @@
              flag = false;
  
              for(int j = 0; j < this.count.sample(p_226330_); ++j) {
@@ -8,10 +8,10 @@
 -                int l = p_226330_.nextInt(16) + p_226331_.getZ();
 +                me.alphamode.mcbig.math.BigInteger k = p_226331_.getBigX().add(p_226330_.nextInt(16));
 +                me.alphamode.mcbig.math.BigInteger l = p_226331_.getBigZ().add(p_226330_.nextInt(16));
-                 int i1 = p_226329_.getHeight(Heightmap.Types.MOTION_BLOCKING, k, l);
+                 int i1 = p_226329_.getHeight(Heightmap.Types.MOTION_BLOCKING, k, l) + this.start_offset;
                  int j1 = findOnGroundYPosition(p_226329_, k, i1, l, i);
                  if (j1 != Integer.MAX_VALUE) {
-@@ -62,7 +_,7 @@
+@@ -73,7 +_,7 @@
          return PlacementModifierType.COUNT_ON_EVERY_LAYER;
      }
  

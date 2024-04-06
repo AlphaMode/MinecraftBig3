@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/projectile/ShulkerBullet.java
 +++ b/net/minecraft/world/entity/projectile/ShulkerBullet.java
-@@ -51,9 +_,9 @@
+@@ -52,9 +_,9 @@
          this(EntityType.SHULKER_BULLET, p_37330_);
          this.setOwner(p_37331_);
          BlockPos blockpos = p_37331_.blockPosition();
@@ -13,7 +13,7 @@
          this.moveTo(d0, d1, d2, this.getYRot(), this.getXRot());
          this.finalTarget = p_37332_;
          this.currentMoveDirection = Direction.UP;
-@@ -121,9 +_,9 @@
+@@ -122,9 +_,9 @@
              blockpos = BlockPos.containing(this.finalTarget.getX(), this.finalTarget.getY() + d0, this.finalTarget.getZ());
          }
  
@@ -25,7 +25,7 @@
          Direction direction = null;
          if (!blockpos.closerToCenterThan(this.position(), 2.0)) {
              BlockPos blockpos1 = this.blockPosition();
-@@ -296,7 +_,7 @@
+@@ -300,7 +_,7 @@
  
      private void destroy() {
          this.discard();

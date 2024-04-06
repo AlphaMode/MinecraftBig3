@@ -32,6 +32,6 @@
  
 -                patrollingmonster.setPos((double)p_224534_.getX(), (double)p_224534_.getY(), (double)p_224534_.getZ());
 +                patrollingmonster.setPos((double)p_224534_.getBigX().doubleValue(), (double)p_224534_.getBigY().doubleValue(), (double)p_224534_.getBigZ().doubleValue());
-                 patrollingmonster.finalizeSpawn(p_224533_, p_224533_.getCurrentDifficultyAt(p_224534_), MobSpawnType.PATROL, null, null);
+                 patrollingmonster.finalizeSpawn(p_224533_, p_224533_.getCurrentDifficultyAt(p_224534_), MobSpawnType.PATROL, null);
                  p_224533_.addFreshEntityWithPassengers(patrollingmonster);
                  return true;

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/item/BoatItem.java
 +++ b/net/minecraft/world/item/BoatItem.java
-@@ -76,7 +_,7 @@
+@@ -74,7 +_,7 @@
      }
  
      private Boat getBoat(Level p_220017_, HitResult p_220018_, ItemStack p_305852_, Player p_306127_) {

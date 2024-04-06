@@ -1,11 +1,11 @@
 --- a/net/minecraft/world/level/chunk/storage/ChunkStorage.java
 +++ b/net/minecraft/world/level/chunk/storage/ChunkStorage.java
-@@ -94,7 +_,7 @@
-     public void write(ChunkPos p_63503_, CompoundTag p_63504_) {
-         this.worker.store(p_63503_, p_63504_);
+@@ -98,7 +_,7 @@
+ 
+     protected void handleLegacyStructureIndex(ChunkPos p_321604_) {
          if (this.legacyStructureHandler != null) {
--            this.legacyStructureHandler.removeIndex(p_63503_.toLong());
-+            this.legacyStructureHandler.removeIndex(p_63503_);
+-            this.legacyStructureHandler.removeIndex(p_321604_.toLong());
++            this.legacyStructureHandler.removeIndex(p_321604_);
          }
      }
  

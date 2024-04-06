@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/DistanceManager.java
 +++ b/net/minecraft/server/level/DistanceManager.java
-@@ -40,8 +_,8 @@
+@@ -39,8 +_,8 @@
      static final Logger LOGGER = LogUtils.getLogger();
      static final int PLAYER_TICKET_LEVEL = ChunkLevel.byStatus(FullChunkStatus.ENTITY_TICKING);
      private static final int INITIAL_TICKET_LIST_CAPACITY = 4;
@@ -11,7 +11,7 @@
      private final DistanceManager.ChunkTicketTracker ticketTracker = new DistanceManager.ChunkTicketTracker();
      private final DistanceManager.FixedPlayerDistanceChunkTracker naturalSpawnChunkCounter = new DistanceManager.FixedPlayerDistanceChunkTracker(8);
      private final TickingTracker tickingTicketsTracker = new TickingTracker();
-@@ -50,7 +_,7 @@
+@@ -49,7 +_,7 @@
      final ChunkTaskPriorityQueueSorter ticketThrottler;
      final ProcessorHandle<ChunkTaskPriorityQueueSorter.Message<Runnable>> ticketThrottlerInput;
      final ProcessorHandle<ChunkTaskPriorityQueueSorter.Release> ticketThrottlerReleaser;
@@ -20,7 +20,7 @@
      final Executor mainThreadExecutor;
      private long ticketTickCounter;
      private int simulationDistance = 10;
-@@ -66,10 +_,10 @@
+@@ -65,10 +_,10 @@
  
      protected void purgeStaleTickets() {
          ++this.ticketTickCounter;
@@ -33,7 +33,7 @@
              Iterator<Ticket<?>> iterator = entry.getValue().iterator();
              boolean flag = false;
  
-@@ -78,12 +_,12 @@
+@@ -77,12 +_,12 @@
                  if (ticket.timedOut(this.ticketTickCounter)) {
                      iterator.remove();
                      flag = true;
@@ -48,7 +48,7 @@
              }
  
              if (entry.getValue().isEmpty()) {
-@@ -96,13 +_,13 @@
+@@ -95,13 +_,13 @@
          return !p_140798_.isEmpty() ? p_140798_.first().getTicketLevel() : ChunkLevel.MAX_LEVEL + 1;
      }
  
@@ -69,7 +69,7 @@
  
      public boolean runAllUpdates(ChunkMap p_140806_) {
          this.naturalSpawnChunkCounter.runAllUpdates();
-@@ -119,10 +_,10 @@
+@@ -118,10 +_,10 @@
              return true;
          } else {
              if (!this.ticketsToRelease.isEmpty()) {
@@ -82,7 +82,7 @@
                      if (this.getTickets(j).stream().anyMatch(p_183910_ -> p_183910_.getType() == TicketType.PLAYER)) {
                          ChunkHolder chunkholder = p_140806_.getUpdatingChunkIfPresent(j);
                          if (chunkholder == null) {
-@@ -144,7 +_,7 @@
+@@ -143,7 +_,7 @@
          }
      }
  
@@ -91,7 +91,7 @@
          SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(p_140785_);
          int i = getTicketLevelAt(sortedarrayset);
          Ticket<?> ticket = sortedarrayset.addOrGet(p_140786_);
-@@ -154,7 +_,7 @@
+@@ -153,7 +_,7 @@
          }
      }
  
@@ -100,7 +100,7 @@
          SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(p_140819_);
          if (sortedarrayset.remove(p_140820_)) {
          }
-@@ -167,62 +_,62 @@
+@@ -166,62 +_,62 @@
      }
  
      public <T> void addTicket(TicketType<T> p_140793_, ChunkPos p_140794_, int p_140795_, T p_140796_) {
@@ -186,7 +186,7 @@
              this.tickingTicketsTracker.removeTicket(TicketType.PLAYER, chunkpos, this.getPlayerTicketLevel(), chunkpos);
          }
      }
-@@ -231,15 +_,15 @@
+@@ -230,15 +_,15 @@
          return Math.max(0, ChunkLevel.byStatus(FullChunkStatus.ENTITY_TICKING) - this.simulationDistance);
      }
  
@@ -205,7 +205,7 @@
          SortedArraySet<Ticket<?>> sortedarrayset = this.tickets.get(p_140839_);
          return sortedarrayset != null && !sortedarrayset.isEmpty() ? sortedarrayset.first().toString() : "no_ticket";
      }
-@@ -260,7 +_,7 @@
+@@ -259,7 +_,7 @@
          return this.naturalSpawnChunkCounter.chunks.size();
      }
  
@@ -214,7 +214,7 @@
          this.naturalSpawnChunkCounter.runAllUpdates();
          return this.naturalSpawnChunkCounter.chunks.containsKey(p_140848_);
      }
-@@ -271,12 +_,12 @@
+@@ -270,12 +_,12 @@
  
      private void dumpTickets(String p_143208_) {
          try (FileOutputStream fileoutputstream = new FileOutputStream(new File(p_143208_))) {
@@ -230,7 +230,7 @@
                      );
                  }
              }
-@@ -292,10 +_,10 @@
+@@ -291,10 +_,10 @@
  
      public void removeTicketsOnClosing() {
          ImmutableSet<TicketType<?>> immutableset = ImmutableSet.of(TicketType.UNKNOWN, TicketType.POST_TELEPORT, TicketType.LIGHT);
@@ -243,7 +243,7 @@
              Iterator<Ticket<?>> iterator = entry.getValue().iterator();
              boolean flag = false;
  
-@@ -304,12 +_,12 @@
+@@ -303,12 +_,12 @@
                  if (!immutableset.contains(ticket.getType())) {
                      iterator.remove();
                      flag = true;
@@ -258,7 +258,7 @@
              }
  
              if (entry.getValue().isEmpty()) {
-@@ -330,7 +_,7 @@
+@@ -329,7 +_,7 @@
          }
  
          @Override
@@ -267,7 +267,7 @@
              SortedArraySet<Ticket<?>> sortedarrayset = DistanceManager.this.tickets.get(p_140883_);
              if (sortedarrayset == null) {
                  return Integer.MAX_VALUE;
-@@ -340,7 +_,7 @@
+@@ -339,7 +_,7 @@
          }
  
          @Override
@@ -276,7 +276,7 @@
              if (!DistanceManager.this.isChunkToRemove(p_140885_)) {
                  ChunkHolder chunkholder = DistanceManager.this.getChunk(p_140885_);
                  if (chunkholder != null) {
-@@ -352,7 +_,7 @@
+@@ -351,7 +_,7 @@
          }
  
          @Override
@@ -285,7 +285,7 @@
              ChunkHolder chunkholder = DistanceManager.this.getChunk(p_140880_);
              int i = chunkholder == null ? MAX_LEVEL : chunkholder.getTicketLevel();
              if (i != p_140881_) {
-@@ -369,7 +_,7 @@
+@@ -368,7 +_,7 @@
      }
  
      class FixedPlayerDistanceChunkTracker extends ChunkTracker {
@@ -294,7 +294,7 @@
          protected final int maxDistance;
  
          protected FixedPlayerDistanceChunkTracker(int p_140891_) {
-@@ -379,15 +_,15 @@
+@@ -378,15 +_,15 @@
          }
  
          @Override
@@ -314,7 +314,7 @@
              } else {
                  b0 = this.chunks.put(p_140893_, (byte)p_140894_);
              }
-@@ -395,15 +_,15 @@
+@@ -394,15 +_,15 @@
              this.onLevelChange(p_140893_, b0, p_140894_);
          }
  
@@ -333,7 +333,7 @@
              ObjectSet<ServerPlayer> objectset = DistanceManager.this.playersPerChunk.get(p_140903_);
              return objectset != null && !objectset.isEmpty();
          }
-@@ -414,10 +_,10 @@
+@@ -413,10 +_,10 @@
  
          private void dumpChunks(String p_143213_) {
              try (FileOutputStream fileoutputstream = new FileOutputStream(new File(p_143213_))) {
@@ -347,7 +347,7 @@
                  }
              } catch (IOException ioexception) {
                  DistanceManager.LOGGER.error("Failed to dump chunks to {}", p_143213_, ioexception);
-@@ -427,8 +_,8 @@
+@@ -426,8 +_,8 @@
  
      class PlayerTicketTracker extends DistanceManager.FixedPlayerDistanceChunkTracker {
          private int viewDistance;
@@ -358,7 +358,7 @@
  
          protected PlayerTicketTracker(int p_140910_) {
              super(p_140910_);
-@@ -437,23 +_,23 @@
+@@ -436,23 +_,23 @@
          }
  
          @Override
@@ -387,7 +387,7 @@
                  if (p_140922_) {
                      DistanceManager.this.ticketThrottlerInput
                          .tell(ChunkTaskPriorityQueueSorter.message(() -> DistanceManager.this.mainThreadExecutor.execute(() -> {
-@@ -482,16 +_,16 @@
+@@ -481,16 +_,16 @@
          public void runAllUpdates() {
              super.runAllUpdates();
              if (!this.toUpdate.isEmpty()) {

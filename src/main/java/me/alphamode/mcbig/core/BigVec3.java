@@ -117,6 +117,10 @@ public class BigVec3 implements Position, BigPosition {
     }
 
     public boolean closerThan(BigPosition p_82510_, double p_82511_) {
+        return this.distanceToSqr(p_82510_.bigX(), p_82510_.y(), p_82510_.bigZ()) < p_82511_ * p_82511_;
+    }
+
+    public boolean closerThan(Position p_82510_, double p_82511_) {
         return this.distanceToSqr(p_82510_.x(), p_82510_.y(), p_82510_.z()) < p_82511_ * p_82511_;
     }
 

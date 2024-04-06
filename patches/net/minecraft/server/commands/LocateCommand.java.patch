@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/LocateCommand.java
 +++ b/net/minecraft/server/commands/LocateCommand.java
-@@ -189,12 +_,12 @@
+@@ -186,12 +_,12 @@
          BlockPos blockpos = p_262941_.getFirst();
          int i = p_263010_
              ? Mth.floor(Mth.sqrt((float)p_263016_.distSqr(blockpos)))
@@ -16,7 +16,7 @@
                          .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("chat.coordinates.tooltip")))
              );
          p_262983_.sendSuccess(() -> Component.translatable(p_263083_, p_263048_, component, i), false);
-@@ -202,9 +_,9 @@
+@@ -199,9 +_,9 @@
          return i;
      }
  

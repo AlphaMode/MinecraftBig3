@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/decoration/HangingEntity.java
 +++ b/net/minecraft/world/entity/decoration/HangingEntity.java
-@@ -57,9 +_,9 @@
+@@ -58,9 +_,9 @@
  
      protected void recalculateBoundingBox() {
          if (this.direction != null) {
@@ -13,7 +13,7 @@
              double d3 = 0.46875;
              double d4 = this.offs(this.getWidth());
              double d5 = this.offs(this.getHeight());
-@@ -183,14 +_,14 @@
+@@ -184,14 +_,14 @@
      @Override
      public void addAdditionalSaveData(CompoundTag p_31736_) {
          BlockPos blockpos = this.getPos();

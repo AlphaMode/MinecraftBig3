@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/Explosion.java
 +++ b/net/minecraft/world/level/Explosion.java
-@@ -187,7 +_,7 @@
+@@ -188,7 +_,7 @@
                          double d9 = Mth.lerp(d6, aabb.minY, aabb.maxY);
                          double d10 = Mth.lerp(d7, aabb.minZ, aabb.maxZ);
                          Vec3 vec3 = new Vec3(d8 + d3, d9, d10 + d4);
@@ -9,7 +9,7 @@
                              == HitResult.Type.MISS) {
                              ++i;
                          }
-@@ -212,7 +_,7 @@
+@@ -213,7 +_,7 @@
      }
  
      public void explode() {

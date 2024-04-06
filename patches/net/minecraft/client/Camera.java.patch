@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/Camera.java
 +++ b/net/minecraft/client/Camera.java
-@@ -25,7 +_,7 @@
+@@ -26,7 +_,7 @@
      private boolean initialized;
      private BlockGetter level;
      private Entity entity;
@@ -9,7 +9,7 @@
      private final BlockPos.MutableBlockPos blockPosition = new BlockPos.MutableBlockPos();
      private final Vector3f forwards = new Vector3f(0.0F, 0.0F, 1.0F);
      private final Vector3f up = new Vector3f(0.0F, 1.0F, 0.0F);
-@@ -47,9 +_,9 @@
+@@ -48,9 +_,9 @@
          this.partialTickTime = p_90580_;
          this.setRotation(p_90577_.getViewYRot(p_90580_), p_90577_.getViewXRot(p_90580_));
          this.setPosition(
@@ -21,7 +21,7 @@
          );
          if (p_90578_) {
              if (p_90579_) {
-@@ -79,11 +_,11 @@
+@@ -81,11 +_,11 @@
              f *= 0.1F;
              f1 *= 0.1F;
              f2 *= 0.1F;
@@ -37,7 +37,7 @@
              );
              HitResult hitresult = this.level.clip(new ClipContext(vec3, vec31, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, this.entity));
              if (hitresult.getType() != HitResult.Type.MISS) {
-@@ -101,7 +_,7 @@
+@@ -103,7 +_,7 @@
          double d0 = (double)this.forwards.x() * p_90569_ + (double)this.up.x() * p_90570_ + (double)this.left.x() * p_90571_;
          double d1 = (double)this.forwards.y() * p_90569_ + (double)this.up.y() * p_90570_ + (double)this.left.y() * p_90571_;
          double d2 = (double)this.forwards.z() * p_90569_ + (double)this.up.z() * p_90570_ + (double)this.left.z() * p_90571_;
@@ -46,7 +46,7 @@
      }
  
      protected void setRotation(float p_90573_, float p_90574_) {
-@@ -113,16 +_,16 @@
+@@ -115,16 +_,16 @@
          this.left.set(1.0F, 0.0F, 0.0F).rotate(this.rotation);
      }
  
@@ -67,7 +67,7 @@
          return this.position;
      }
  
-@@ -183,7 +_,7 @@
+@@ -185,7 +_,7 @@
                      camera$nearplane.getBottomLeft(),
                      camera$nearplane.getBottomRight()
                  )) {

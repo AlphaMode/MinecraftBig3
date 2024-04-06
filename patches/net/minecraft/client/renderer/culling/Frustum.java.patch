@@ -58,14 +58,14 @@
          this.camY = p_113004_;
          this.camZ = p_113005_;
 @@ -73,13 +_,27 @@
-         return this.cubeInFrustum(p_113030_.minX, p_113030_.minY, p_113030_.minZ, p_113030_.maxX, p_113030_.maxY, p_113030_.maxZ);
+         return this.isVisible(p_113030_.minX, p_113030_.minY, p_113030_.minZ, p_113030_.maxX, p_113030_.maxY, p_113030_.maxZ);
      }
  
 +    public boolean isVisible(me.alphamode.mcbig.phys.BigAABB p_113030_) {
 +        return this.cubeInFrustum(p_113030_.minX, p_113030_.minY, p_113030_.minZ, p_113030_.maxX, p_113030_.maxY, p_113030_.maxZ);
 +    }
 +
-     private boolean cubeInFrustum(double p_113007_, double p_113008_, double p_113009_, double p_113010_, double p_113011_, double p_113012_) {
+     public boolean isVisible(double p_113007_, double p_113008_, double p_113009_, double p_113010_, double p_113011_, double p_113012_) {
 -        float f = (float)(p_113007_ - this.camX);
 -        float f1 = (float)(p_113008_ - this.camY);
 -        float f2 = (float)(p_113009_ - this.camZ);

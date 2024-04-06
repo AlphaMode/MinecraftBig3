@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
-@@ -184,7 +_,7 @@
+@@ -179,7 +_,7 @@
                  }
  
                  entity.setPortalCooldown();
@@ -9,7 +9,7 @@
              }
  
              triggerCooldown(p_155829_, p_155830_, p_155831_, p_155833_);
-@@ -247,7 +_,7 @@
+@@ -242,7 +_,7 @@
              for(int j = -p_59945_; j <= p_59945_; ++j) {
                  if (i != 0 || j != 0 || p_59946_) {
                      for(int k = p_59943_.getMaxBuildHeight() - 1; k > (blockpos == null ? p_59943_.getMinBuildHeight() : blockpos.getY()); --k) {
@@ -18,7 +18,7 @@
                          BlockState blockstate = p_59943_.getBlockState(blockpos1);
                          if (blockstate.isCollisionShapeFullBlock(p_59943_, blockpos1) && (p_59946_ || !blockstate.is(Blocks.BEDROCK))) {
                              blockpos = blockpos1;
-@@ -262,15 +_,15 @@
+@@ -257,15 +_,15 @@
      }
  
      private static LevelChunk getChunk(Level p_59948_, Vec3 p_59949_) {
@@ -37,7 +37,7 @@
          BlockPos blockpos2 = null;
          double d0 = 0.0;
  
-@@ -281,7 +_,7 @@
+@@ -276,7 +_,7 @@
              if (blockstate.is(Blocks.END_STONE)
                  && !p_59954_.getBlockState(blockpos4).isCollisionShapeFullBlock(p_59954_, blockpos4)
                  && !p_59954_.getBlockState(blockpos5).isCollisionShapeFullBlock(p_59954_, blockpos5)) {

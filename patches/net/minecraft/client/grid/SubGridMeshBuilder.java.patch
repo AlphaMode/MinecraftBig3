@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/grid/SubGridMeshBuilder.java
++++ b/net/minecraft/client/grid/SubGridMeshBuilder.java
+@@ -129,7 +_,7 @@
+ 
+         @Override
+         public Iterator<BlockPos> iterator() {
+-            return BlockPos.betweenClosed(0, 0, 0, this.blocks.sizeX() - 1, this.blocks.sizeY() - 1, this.blocks.sizeZ() - 1).iterator();
++            return BlockPos.betweenClosed(me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.val(this.blocks.sizeX() - 1), me.alphamode.mcbig.math.BigInteger.val(this.blocks.sizeY() - 1), me.alphamode.mcbig.math.BigInteger.val(this.blocks.sizeZ() - 1)).iterator();
+         }
+     }
+ 

@@ -55,7 +55,7 @@
                              );
                              VoxelShape voxelshape = Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(boundingbox)), BooleanOp.ONLY_FIRST);
                              addPieces(
-@@ -282,7 +_,7 @@
+@@ -283,7 +_,7 @@
              boolean flag = structuretemplatepool$projection == StructureTemplatePool.Projection.RIGID;
              MutableObject<VoxelShape> mutableobject = new MutableObject<>();
              BoundingBox boundingbox = p_227265_.getBoundingBox();
@@ -64,7 +64,7 @@
  
              label134:
              for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : structurepoolelement.getShuffledJigsawBlocks(
-@@ -377,7 +_,7 @@
+@@ -378,7 +_,7 @@
                                              BlockPos blockpos3 = structuretemplate$structureblockinfo1.pos();
                                              BlockPos blockpos4 = blockpos2.subtract(blockpos3);
                                              BoundingBox boundingbox2 = structurepoolelement1.getBoundingBox(this.structureTemplateManager, blockpos4, rotation1);
@@ -73,7 +73,7 @@
                                              StructureTemplatePool.Projection structuretemplatepool$projection1 = structurepoolelement1.getProjection();
                                              boolean flag2 = structuretemplatepool$projection1 == StructureTemplatePool.Projection.RIGID;
                                              int k1 = blockpos3.getY();
-@@ -389,7 +_,7 @@
+@@ -390,7 +_,7 @@
                                                  if (k == -1) {
                                                      k = this.chunkGenerator
                                                          .getFirstFreeHeight(
@@ -82,7 +82,7 @@
                                                          );
                                                  }
  
-@@ -400,8 +_,8 @@
+@@ -401,8 +_,8 @@
                                              BoundingBox boundingbox3 = boundingbox2.moved(0, j2, 0);
                                              BlockPos blockpos5 = blockpos4.offset(0, j2, 0);
                                              if (i1 > 0) {
@@ -93,7 +93,7 @@
                                              }
  
                                              if (!Shapes.joinIsNotEmpty(
-@@ -432,7 +_,7 @@
+@@ -433,7 +_,7 @@
                                                      if (k == -1) {
                                                          k = this.chunkGenerator
                                                              .getFirstFreeHeight(
@@ -102,7 +102,7 @@
                                                              );
                                                      }
  
-@@ -440,10 +_,10 @@
+@@ -441,10 +_,10 @@
                                                  }
  
                                                  p_227265_.addJunction(

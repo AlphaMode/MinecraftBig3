@@ -1,9 +1,9 @@
 --- a/net/minecraft/network/protocol/game/ClientboundLevelChunkWithLightPacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundLevelChunkWithLightPacket.java
-@@ -9,30 +_,30 @@
- import net.minecraft.world.level.lighting.LevelLightEngine;
- 
- public class ClientboundLevelChunkWithLightPacket implements Packet<ClientGamePacketListener> {
+@@ -14,29 +_,29 @@
+     public static final StreamCodec<RegistryFriendlyByteBuf, ClientboundLevelChunkWithLightPacket> STREAM_CODEC = Packet.codec(
+         ClientboundLevelChunkWithLightPacket::write, ClientboundLevelChunkWithLightPacket::new
+     );
 -    private final int x;
 -    private final int z;
 +    private final me.alphamode.mcbig.math.BigInteger x;
@@ -21,25 +21,24 @@
          this.lightData = new ClientboundLightUpdatePacketData(chunkpos, p_285254_, p_285350_, p_285304_);
      }
  
-     public ClientboundLevelChunkWithLightPacket(FriendlyByteBuf p_195710_) {
--        this.x = p_195710_.readInt();
--        this.z = p_195710_.readInt();
-+        this.x = p_195710_.readBigInteger();
-+        this.z = p_195710_.readBigInteger();
-         this.chunkData = new ClientboundLevelChunkPacketData(p_195710_, this.x, this.z);
-         this.lightData = new ClientboundLightUpdatePacketData(p_195710_, this.x, this.z);
+     private ClientboundLevelChunkWithLightPacket(RegistryFriendlyByteBuf p_319989_) {
+-        this.x = p_319989_.readInt();
+-        this.z = p_319989_.readInt();
++        this.x = p_319989_.readBigInteger();
++        this.z = p_319989_.readBigInteger();
+         this.chunkData = new ClientboundLevelChunkPacketData(p_319989_, this.x, this.z);
+         this.lightData = new ClientboundLightUpdatePacketData(p_319989_, this.x, this.z);
      }
  
-     @Override
-     public void write(FriendlyByteBuf p_195712_) {
--        p_195712_.writeInt(this.x);
--        p_195712_.writeInt(this.z);
-+        p_195712_.writeBigInteger(this.x);
-+        p_195712_.writeBigInteger(this.z);
-         this.chunkData.write(p_195712_);
-         this.lightData.write(p_195712_);
+     private void write(RegistryFriendlyByteBuf p_320036_) {
+-        p_320036_.writeInt(this.x);
+-        p_320036_.writeInt(this.z);
++        p_320036_.writeBigInteger(this.x);
++        p_320036_.writeBigInteger(this.z);
+         this.chunkData.write(p_320036_);
+         this.lightData.write(p_320036_);
      }
-@@ -41,11 +_,11 @@
+@@ -50,11 +_,11 @@
          p_195716_.handleLevelChunkWithLight(this);
      }
  

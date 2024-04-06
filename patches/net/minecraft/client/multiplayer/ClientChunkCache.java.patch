@@ -29,7 +29,7 @@
      }
  
      @Nullable
--    public LevelChunk getChunk(int p_104451_, int p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
+-    public LevelChunk getChunk(int p_104451_, int p_104452_, ChunkStatus p_330230_, boolean p_104454_) {
 +    public LevelChunk getChunk(me.alphamode.mcbig.math.BigInteger p_104451_, me.alphamode.mcbig.math.BigInteger p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
          if (this.storage.inRange(p_104451_, p_104452_)) {
              LevelChunk levelchunk = this.storage.getChunk(this.storage.getIndex(p_104451_, p_104452_));

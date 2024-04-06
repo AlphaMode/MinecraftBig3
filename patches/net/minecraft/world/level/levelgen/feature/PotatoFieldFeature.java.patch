@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/feature/PotatoFieldFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/PotatoFieldFeature.java
+@@ -41,7 +_,7 @@
+                 .randomState()
+                 .router()
+                 .continents()
+-                .compute(new DensityFunction.SinglePointContext(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
++                .compute(new DensityFunction.SinglePointContext(blockpos.getBigX(), blockpos.getY(), blockpos.getBigZ()));
+             Direction direction1 = Direction.from2DDataValue((int)((d0 + 1.0) * 5.0));
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+             if (randomsource.nextInt(8) == 0) {

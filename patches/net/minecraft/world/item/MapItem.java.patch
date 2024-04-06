@@ -1,36 +1,27 @@
 --- a/net/minecraft/world/item/MapItem.java
 +++ b/net/minecraft/world/item/MapItem.java
-@@ -45,7 +_,7 @@
+@@ -43,7 +_,7 @@
          super(p_42847_);
      }
  
 -    public static ItemStack create(Level p_42887_, int p_42888_, int p_42889_, byte p_42890_, boolean p_42891_, boolean p_42892_) {
 +    public static ItemStack create(Level p_42887_, me.alphamode.mcbig.math.BigInteger p_42888_, me.alphamode.mcbig.math.BigInteger p_42889_, byte p_42890_, boolean p_42891_, boolean p_42892_) {
          ItemStack itemstack = new ItemStack(Items.FILLED_MAP);
-         createAndStoreSavedData(itemstack, p_42887_, p_42888_, p_42889_, p_42890_, p_42891_, p_42892_, p_42887_.dimension());
-         return itemstack;
-@@ -69,9 +_,9 @@
+         MapId mapid = createNewSavedData(p_42887_, p_42888_, p_42889_, p_42890_, p_42891_, p_42892_, p_42887_.dimension());
+         itemstack.set(DataComponents.MAP_ID, mapid);
+@@ -62,9 +_,9 @@
      }
  
-     private static int createNewSavedData(
+     private static MapId createNewSavedData(
 -        Level p_151121_, int p_151122_, int p_151123_, int p_151124_, boolean p_151125_, boolean p_151126_, ResourceKey<Level> p_151127_
 +        Level p_151121_, me.alphamode.mcbig.math.BigInteger p_151122_, me.alphamode.mcbig.math.BigInteger p_151123_, int p_151124_, boolean p_151125_, boolean p_151126_, ResourceKey<Level> p_151127_
      ) {
 -        MapItemSavedData mapitemsaveddata = MapItemSavedData.createFresh((double)p_151122_, (double)p_151123_, (byte)p_151124_, p_151125_, p_151126_, p_151127_);
 +        MapItemSavedData mapitemsaveddata = MapItemSavedData.createFresh((double)p_151122_.doubleValue(), (double)p_151123_.doubleValue(), (byte)p_151124_, p_151125_, p_151126_, p_151127_);
-         int i = p_151121_.getFreeMapId();
-         p_151121_.setMapData(makeKey(i), mapitemsaveddata);
-         return i;
-@@ -82,7 +_,7 @@
-     }
- 
-     private static void createAndStoreSavedData(
--        ItemStack p_151112_, Level p_151113_, int p_151114_, int p_151115_, int p_151116_, boolean p_151117_, boolean p_151118_, ResourceKey<Level> p_151119_
-+        ItemStack p_151112_, Level p_151113_, me.alphamode.mcbig.math.BigInteger p_151114_, me.alphamode.mcbig.math.BigInteger p_151115_, int p_151116_, boolean p_151117_, boolean p_151118_, ResourceKey<Level> p_151119_
-     ) {
-         int i = createNewSavedData(p_151113_, p_151114_, p_151115_, p_151116_, p_151117_, p_151118_, p_151119_);
-         storeMapData(p_151112_, i);
-@@ -141,7 +_,7 @@
+         MapId mapid = p_151121_.getFreeMapId();
+         p_151121_.setMapData(mapid, mapitemsaveddata);
+         return mapid;
+@@ -119,7 +_,7 @@
                                          for(int j3 = 0; j3 < i; ++j3) {
                                              blockpos$mutableblockpos.set(j2 + i4, 0, k2 + j3);
                                              int k3 = levelchunk.getHeight(
@@ -39,7 +30,7 @@
                                                  )
                                                  + 1;
                                              BlockState blockstate;
-@@ -171,7 +_,7 @@
+@@ -153,7 +_,7 @@
                                                  }
                                              }
  

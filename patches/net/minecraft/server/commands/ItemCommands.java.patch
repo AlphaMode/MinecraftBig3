@@ -1,7 +1,7 @@
 --- a/net/minecraft/server/commands/ItemCommands.java
 +++ b/net/minecraft/server/commands/ItemCommands.java
-@@ -484,7 +_,7 @@
-     private static ItemStack applyModifier(CommandSourceStack p_180284_, LootItemFunction p_180285_, ItemStack p_180286_) {
+@@ -487,7 +_,7 @@
+     private static ItemStack applyModifier(CommandSourceStack p_180284_, Holder<LootItemFunction> p_335682_, ItemStack p_180286_) {
          ServerLevel serverlevel = p_180284_.getLevel();
          LootParams lootparams = new LootParams.Builder(serverlevel)
 -            .withParameter(LootContextParams.ORIGIN, p_180284_.getPosition())

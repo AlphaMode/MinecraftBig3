@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/MultiPlayerGameMode.java
 +++ b/net/minecraft/client/multiplayer/MultiPlayerGameMode.java
-@@ -344,7 +_,7 @@
+@@ -350,7 +_,7 @@
              this.connection
                  .send(
                      new ServerboundMovePlayerPacket.PosRot(
@@ -9,7 +9,7 @@
                      )
                  );
              MutableObject<InteractionResult> mutableobject = new MutableObject<>();
-@@ -394,7 +_,7 @@
+@@ -400,7 +_,7 @@
  
      public InteractionResult interactAt(Player p_105231_, Entity p_105232_, EntityHitResult p_105233_, InteractionHand p_105234_) {
          this.ensureHasSentCarriedItem();

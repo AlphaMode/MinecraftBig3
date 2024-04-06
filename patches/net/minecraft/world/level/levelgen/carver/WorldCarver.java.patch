@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/carver/WorldCarver.java
 +++ b/net/minecraft/world/level/levelgen/carver/WorldCarver.java
-@@ -72,37 +_,37 @@
+@@ -73,37 +_,37 @@
          WorldCarver.CarveSkipChecker p_190765_
      ) {
          ChunkPos chunkpos = p_190756_.getPos();
@@ -54,7 +54,7 @@
                                  blockpos$mutableblockpos.set(k2, j3, i3);
                                  flag |= this.carveBlock(
                                      p_190754_,
-@@ -178,7 +_,7 @@
+@@ -182,7 +_,7 @@
              return LAVA.createLegacyBlock();
          } else {
              BlockState blockstate = p_159422_.computeSubstance(
@@ -63,7 +63,7 @@
              );
              if (blockstate == null) {
                  return isDebugEnabled(p_159420_) ? p_159420_.debugSettings.getBarrierState() : null;
-@@ -219,8 +_,8 @@
+@@ -223,8 +_,8 @@
      }
  
      protected static boolean canReach(ChunkPos p_159368_, double p_159369_, double p_159370_, int p_159371_, int p_159372_, float p_159373_) {

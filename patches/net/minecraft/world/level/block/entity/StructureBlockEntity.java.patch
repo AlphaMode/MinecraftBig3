@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/StructureBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/StructureBlockEntity.java
-@@ -259,18 +_,18 @@
+@@ -260,18 +_,18 @@
          } else {
              BlockPos blockpos = this.getBlockPos();
              int i = 80;

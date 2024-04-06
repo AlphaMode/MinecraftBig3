@@ -1,9 +1,9 @@
 --- a/net/minecraft/network/protocol/game/ClientboundLightUpdatePacket.java
 +++ b/net/minecraft/network/protocol/game/ClientboundLightUpdatePacket.java
-@@ -8,26 +_,26 @@
- import net.minecraft.world.level.lighting.LevelLightEngine;
- 
- public class ClientboundLightUpdatePacket implements Packet<ClientGamePacketListener> {
+@@ -13,25 +_,25 @@
+     public static final StreamCodec<FriendlyByteBuf, ClientboundLightUpdatePacket> STREAM_CODEC = Packet.codec(
+         ClientboundLightUpdatePacket::write, ClientboundLightUpdatePacket::new
+     );
 -    private final int x;
 -    private final int z;
 +    private final me.alphamode.mcbig.math.BigInteger x;
@@ -18,7 +18,7 @@
          this.lightData = new ClientboundLightUpdatePacketData(p_285255_, p_285409_, p_285387_, p_285074_);
      }
  
-     public ClientboundLightUpdatePacket(FriendlyByteBuf p_178918_) {
+     private ClientboundLightUpdatePacket(FriendlyByteBuf p_178918_) {
 -        this.x = p_178918_.readVarInt();
 -        this.z = p_178918_.readVarInt();
 +        this.x = p_178918_.readBigInteger();
@@ -26,8 +26,7 @@
          this.lightData = new ClientboundLightUpdatePacketData(p_178918_, this.x, this.z);
      }
  
-     @Override
-     public void write(FriendlyByteBuf p_132351_) {
+     private void write(FriendlyByteBuf p_132351_) {
 -        p_132351_.writeVarInt(this.x);
 -        p_132351_.writeVarInt(this.z);
 +        p_132351_.writeBigInteger(this.x);
@@ -35,7 +34,7 @@
          this.lightData.write(p_132351_);
      }
  
-@@ -35,11 +_,11 @@
+@@ -44,11 +_,11 @@
          p_132348_.handleLightUpdatePacket(this);
      }
  

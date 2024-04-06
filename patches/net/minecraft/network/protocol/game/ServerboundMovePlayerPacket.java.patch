@@ -1,7 +1,7 @@
 --- a/net/minecraft/network/protocol/game/ServerboundMovePlayerPacket.java
 +++ b/net/minecraft/network/protocol/game/ServerboundMovePlayerPacket.java
-@@ -4,9 +_,9 @@
- import net.minecraft.network.protocol.Packet;
+@@ -6,9 +_,9 @@
+ import net.minecraft.network.protocol.PacketType;
  
  public abstract class ServerboundMovePlayerPacket implements Packet<ServerGamePacketListener> {
 -    protected final double x;
@@ -12,7 +12,7 @@
      protected final float yRot;
      protected final float xRot;
      protected final boolean onGround;
-@@ -14,7 +_,7 @@
+@@ -16,7 +_,7 @@
      protected final boolean hasRot;
  
      protected ServerboundMovePlayerPacket(
@@ -21,7 +21,7 @@
      ) {
          this.x = p_179675_;
          this.y = p_179676_;
-@@ -30,7 +_,7 @@
+@@ -35,7 +_,7 @@
          p_134138_.handleMovePlayer(this);
      }
  
@@ -30,7 +30,7 @@
          return this.hasPos ? this.x : p_134130_;
      }
  
-@@ -38,7 +_,7 @@
+@@ -43,7 +_,7 @@
          return this.hasPos ? this.y : p_134141_;
      }
  
@@ -39,16 +39,16 @@
          return this.hasPos ? this.z : p_134147_;
      }
  
-@@ -63,36 +_,36 @@
-     }
+@@ -72,22 +_,22 @@
+             ServerboundMovePlayerPacket.Pos::write, ServerboundMovePlayerPacket.Pos::read
+         );
  
-     public static class Pos extends ServerboundMovePlayerPacket {
 -        public Pos(double p_134150_, double p_134151_, double p_134152_, boolean p_134153_) {
 +        public Pos(me.alphamode.mcbig.math.BigDecimal p_134150_, double p_134151_, me.alphamode.mcbig.math.BigDecimal p_134152_, boolean p_134153_) {
              super(p_134150_, p_134151_, p_134152_, 0.0F, 0.0F, p_134153_, true, false);
          }
  
-         public static ServerboundMovePlayerPacket.Pos read(FriendlyByteBuf p_179686_) {
+         private static ServerboundMovePlayerPacket.Pos read(FriendlyByteBuf p_179686_) {
 -            double d0 = p_179686_.readDouble();
 +            me.alphamode.mcbig.math.BigDecimal d0 = p_179686_.readBigDecimal();
              double d1 = p_179686_.readDouble();
@@ -58,8 +58,7 @@
              return new ServerboundMovePlayerPacket.Pos(d0, d1, d2, flag);
          }
  
-         @Override
-         public void write(FriendlyByteBuf p_134159_) {
+         private void write(FriendlyByteBuf p_134159_) {
 -            p_134159_.writeDouble(this.x);
 +            p_134159_.writeBigDecimal(this.x);
              p_134159_.writeDouble(this.y);
@@ -67,15 +66,17 @@
 +            p_134159_.writeBigDecimal(this.z);
              p_134159_.writeByte(this.onGround ? 1 : 0);
          }
-     }
  
-     public static class PosRot extends ServerboundMovePlayerPacket {
+@@ -102,14 +_,14 @@
+             ServerboundMovePlayerPacket.PosRot::write, ServerboundMovePlayerPacket.PosRot::read
+         );
+ 
 -        public PosRot(double p_134162_, double p_134163_, double p_134164_, float p_134165_, float p_134166_, boolean p_134167_) {
 +        public PosRot(me.alphamode.mcbig.math.BigDecimal p_134162_, double p_134163_, me.alphamode.mcbig.math.BigDecimal p_134164_, float p_134165_, float p_134166_, boolean p_134167_) {
              super(p_134162_, p_134163_, p_134164_, p_134165_, p_134166_, p_134167_, true, true);
          }
  
-         public static ServerboundMovePlayerPacket.PosRot read(FriendlyByteBuf p_179688_) {
+         private static ServerboundMovePlayerPacket.PosRot read(FriendlyByteBuf p_179688_) {
 -            double d0 = p_179688_.readDouble();
 +            me.alphamode.mcbig.math.BigDecimal d0 = p_179688_.readBigDecimal();
              double d1 = p_179688_.readDouble();
@@ -84,10 +85,10 @@
              float f = p_179688_.readFloat();
              float f1 = p_179688_.readFloat();
              boolean flag = p_179688_.readUnsignedByte() != 0;
-@@ -101,9 +_,9 @@
+@@ -117,9 +_,9 @@
+         }
  
-         @Override
-         public void write(FriendlyByteBuf p_134173_) {
+         private void write(FriendlyByteBuf p_134173_) {
 -            p_134173_.writeDouble(this.x);
 +            p_134173_.writeBigDecimal(this.x);
              p_134173_.writeDouble(this.y);
@@ -96,21 +97,21 @@
              p_134173_.writeFloat(this.yRot);
              p_134173_.writeFloat(this.xRot);
              p_134173_.writeByte(this.onGround ? 1 : 0);
-@@ -112,7 +_,7 @@
+@@ -137,7 +_,7 @@
+         );
  
-     public static class Rot extends ServerboundMovePlayerPacket {
          public Rot(float p_134176_, float p_134177_, boolean p_134178_) {
 -            super(0.0, 0.0, 0.0, p_134176_, p_134177_, p_134178_, false, true);
 +            super(me.alphamode.mcbig.math.BigDecimal.ZERO, 0.0, me.alphamode.mcbig.math.BigDecimal.ZERO, p_134176_, p_134177_, p_134178_, false, true);
          }
  
-         public static ServerboundMovePlayerPacket.Rot read(FriendlyByteBuf p_179690_) {
-@@ -132,7 +_,7 @@
+         private static ServerboundMovePlayerPacket.Rot read(FriendlyByteBuf p_179690_) {
+@@ -165,7 +_,7 @@
+         );
  
-     public static class StatusOnly extends ServerboundMovePlayerPacket {
          public StatusOnly(boolean p_179692_) {
 -            super(0.0, 0.0, 0.0, 0.0F, 0.0F, p_179692_, false, false);
 +            super(me.alphamode.mcbig.math.BigDecimal.ZERO, 0.0, me.alphamode.mcbig.math.BigDecimal.ZERO, 0.0F, 0.0F, p_179692_, false, false);
          }
  
-         public static ServerboundMovePlayerPacket.StatusOnly read(FriendlyByteBuf p_179698_) {
+         private static ServerboundMovePlayerPacket.StatusOnly read(FriendlyByteBuf p_179698_) {

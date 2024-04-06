@@ -8,8 +8,8 @@
 +    private final it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<ChunkPos, CompletableFuture<BitSet>> regionCacheForBlender = new it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap<>();
      private static final int REGION_CACHE_SIZE = 1024;
  
-     protected IOWorker(Path p_196930_, boolean p_196931_, String p_196932_) {
-@@ -45,18 +_,18 @@
+     protected IOWorker(RegionStorageInfo p_325953_, Path p_196930_, boolean p_196931_) {
+@@ -47,18 +_,18 @@
      }
  
      public boolean isOldChunkAround(ChunkPos p_223472_, int p_223473_) {
@@ -36,7 +36,7 @@
  
                      for(int k1 = k; k1 <= i1; ++k1) {
                          for(int l1 = l; l1 <= j1; ++l1) {
-@@ -73,8 +_,8 @@
+@@ -75,8 +_,8 @@
          return false;
      }
  
@@ -47,7 +47,7 @@
          synchronized(this.regionCacheForBlender) {
              CompletableFuture<BitSet> completablefuture = this.regionCacheForBlender.getAndMoveToFirst(i);
              if (completablefuture == null) {
-@@ -89,7 +_,7 @@
+@@ -91,7 +_,7 @@
          }
      }
  

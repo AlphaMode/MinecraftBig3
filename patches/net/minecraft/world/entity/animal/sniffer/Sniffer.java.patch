@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/sniffer/Sniffer.java
 +++ b/net/minecraft/world/entity/animal/sniffer/Sniffer.java
-@@ -272,7 +_,7 @@
+@@ -274,7 +_,7 @@
              BlockPos blockpos = this.getHeadBlock();
  
              for(ItemStack itemstack : list) {

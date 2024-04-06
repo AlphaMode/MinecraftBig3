@@ -1,16 +1,24 @@
 --- a/net/minecraft/world/level/levelgen/structure/placement/StructurePlacement.java
 +++ b/net/minecraft/world/level/levelgen/structure/placement/StructurePlacement.java
-@@ -79,7 +_,7 @@
+@@ -79,49 +_,49 @@
          return this.exclusionZone;
      }
  
 -    public boolean isStructureChunk(ChunkGeneratorStructureState p_256635_, int p_255959_, int p_256065_) {
 +    public boolean isStructureChunk(ChunkGeneratorStructureState p_256635_, me.alphamode.mcbig.math.BigInteger p_255959_, me.alphamode.mcbig.math.BigInteger p_256065_) {
-         if (!this.isPlacementChunk(p_256635_, p_255959_, p_256065_)) {
-             return false;
-         } else if (this.frequency < 1.0F
-@@ -90,35 +_,35 @@
-         }
+         return this.isPlacementChunk(p_256635_, p_255959_, p_256065_)
+             && this.applyAdditionalChunkRestrictions(p_255959_, p_256065_, p_256635_.getLevelSeed())
+             && this.applyInteractionsWithOtherStructures(p_256635_, p_255959_, p_256065_);
+     }
+ 
+-    public boolean applyAdditionalChunkRestrictions(int p_321784_, int p_321723_, long p_321834_) {
++    public boolean applyAdditionalChunkRestrictions(me.alphamode.mcbig.math.BigInteger p_321784_, me.alphamode.mcbig.math.BigInteger p_321723_, long p_321834_) {
+         return !(this.frequency < 1.0F) || this.frequencyReductionMethod.shouldGenerate(p_321834_, this.salt, p_321784_, p_321723_, this.frequency);
+     }
+ 
+-    public boolean applyInteractionsWithOtherStructures(ChunkGeneratorStructureState p_321651_, int p_321696_, int p_321521_) {
++    public boolean applyInteractionsWithOtherStructures(ChunkGeneratorStructureState p_321651_, me.alphamode.mcbig.math.BigInteger p_321696_, me.alphamode.mcbig.math.BigInteger p_321521_) {
+         return !this.exclusionZone.isPresent() || !this.exclusionZone.get().isPlacementForbidden(p_321651_, p_321696_, p_321521_);
      }
  
 -    protected abstract boolean isPlacementChunk(ChunkGeneratorStructureState p_256034_, int p_227046_, int p_227047_);
@@ -56,7 +64,7 @@
          WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
          worldgenrandom.setSeed((long)(i ^ j << 4) ^ p_227067_);
          worldgenrandom.nextInt();
-@@ -137,14 +_,14 @@
+@@ -140,14 +_,14 @@
                      .apply(p_259015_, StructurePlacement.ExclusionZone::new)
          );
  
@@ -73,7 +81,7 @@
      }
  
      public static enum FrequencyReductionMethod implements StringRepresentable {
-@@ -164,7 +_,7 @@
+@@ -167,7 +_,7 @@
              this.reducer = p_227117_;
          }
  

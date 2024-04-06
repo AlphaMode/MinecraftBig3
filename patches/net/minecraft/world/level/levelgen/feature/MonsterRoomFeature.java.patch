@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
-@@ -94,9 +_,9 @@
+@@ -104,9 +_,9 @@
  
              for(int l3 = 0; l3 < 2; ++l3) {
                  for(int j4 = 0; j4 < 3; ++j4) {
@@ -12,7 +12,7 @@
                      BlockPos blockpos2 = new BlockPos(l4, i5, j5);
                      if (worldgenlevel.isEmptyBlock(blockpos2)) {
                          int j3 = 0;
-@@ -123,7 +_,7 @@
+@@ -138,7 +_,7 @@
              if (blockentity instanceof SpawnerBlockEntity spawnerblockentity) {
                  spawnerblockentity.setEntityId(this.randomEntityId(randomsource), randomsource);
              } else {

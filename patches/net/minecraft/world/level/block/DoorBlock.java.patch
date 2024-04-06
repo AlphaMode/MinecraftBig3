@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/DoorBlock.java
 +++ b/net/minecraft/world/level/block/DoorBlock.java
-@@ -185,8 +_,8 @@
+@@ -188,8 +_,8 @@
                  int j = direction.getStepX();
                  int k = direction.getStepZ();
                  Vec3 vec3 = p_52805_.getClickLocation();
@@ -11,10 +11,10 @@
                  return (j >= 0 || !(d1 < 0.5)) && (j <= 0 || !(d1 > 0.5)) && (k >= 0 || !(d0 > 0.5)) && (k <= 0 || !(d0 < 0.5))
                      ? DoorHingeSide.LEFT
                      : DoorHingeSide.RIGHT;
-@@ -267,7 +_,7 @@
+@@ -270,7 +_,7 @@
  
      @Override
-     public long getSeed(BlockState p_52793_, BlockPos p_52794_) {
+     protected long getSeed(BlockState p_52793_, BlockPos p_52794_) {
 -        return Mth.getSeed(p_52794_.getX(), p_52794_.below(p_52793_.getValue(HALF) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), p_52794_.getZ());
 +        return Mth.getSeed(p_52794_.getBigX(), p_52794_.below(p_52793_.getValue(HALF) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), p_52794_.getBigZ());
      }

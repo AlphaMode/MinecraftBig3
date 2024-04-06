@@ -13,7 +13,7 @@
              );
              this.size = p_163805_;
  
-@@ -163,7 +_,7 @@
+@@ -165,7 +_,7 @@
          this.entityInfoList.clear();
  
          for(Entity entity : list) {
@@ -22,7 +22,7 @@
              CompoundTag compoundtag = new CompoundTag();
              entity.save(compoundtag);
              BlockPos blockpos;
-@@ -232,12 +_,12 @@
+@@ -234,12 +_,12 @@
                  List<BlockPos> list1 = Lists.newArrayListWithCapacity(p_230332_.shouldKeepLiquids() ? list.size() : 0);
                  List<BlockPos> list2 = Lists.newArrayListWithCapacity(p_230332_.shouldKeepLiquids() ? list.size() : 0);
                  List<Pair<BlockPos, CompoundTag>> list3 = Lists.newArrayListWithCapacity(list.size());
@@ -41,7 +41,7 @@
  
                  for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : processBlockInfos(
                      p_230329_, p_230330_, p_230331_, p_230332_, list
-@@ -253,12 +_,12 @@
+@@ -255,12 +_,12 @@
                          }
  
                          if (p_230329_.setBlock(blockpos, blockstate, p_230334_)) {
@@ -60,7 +60,7 @@
                              list3.add(Pair.of(blockpos, structuretemplate$structureblockinfo.nbt));
                              if (structuretemplate$structureblockinfo.nbt != null) {
                                  BlockEntity blockentity1 = p_230329_.getBlockEntity(blockpos);
-@@ -316,16 +_,16 @@
+@@ -318,16 +_,16 @@
                      }
                  }
  
@@ -83,19 +83,26 @@
                          }
  
                          updateShapeAtEdge(p_230329_, p_230334_, discretevoxelshape, k1, l1, j2);
-@@ -371,9 +_,9 @@
-         }
+@@ -374,15 +_,15 @@
+     }
+ 
+     public static void updateShapeAtEdge(LevelAccessor p_333926_, int p_333789_, DiscreteVoxelShape p_333845_, BlockPos p_333731_) {
+-        updateShapeAtEdge(p_333926_, p_333789_, p_333845_, p_333731_.getX(), p_333731_.getY(), p_333731_.getZ());
++        updateShapeAtEdge(p_333926_, p_333789_, p_333845_, p_333731_.getBigX(), p_333731_.getBigY(), p_333731_.getBigZ());
      }
  
 -    public static void updateShapeAtEdge(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, int p_74514_, int p_74515_, int p_74516_) {
-+    public static void updateShapeAtEdge(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, me.alphamode.mcbig.math.BigInteger p_74514_, me.alphamode.mcbig.math.BigInteger p_74515_, me.alphamode.mcbig.math.BigInteger p_74516_) {
-         p_74513_.forAllFaces((p_74494_, p_74495_, p_74496_, p_74497_) -> {
--            BlockPos blockpos = new BlockPos(p_74514_ + p_74495_, p_74515_ + p_74496_, p_74516_ + p_74497_);
-+            BlockPos blockpos = new BlockPos(p_74514_.add(p_74495_), p_74515_.add(p_74496_), p_74516_.add(p_74497_));
-             BlockPos blockpos1 = blockpos.relative(p_74494_);
-             BlockState blockstate = p_74511_.getBlockState(blockpos);
-             BlockState blockstate1 = p_74511_.getBlockState(blockpos1);
-@@ -440,7 +_,7 @@
++    public static void updateShapeAtEdge(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, me.alphamode.mcbig.math.BigInteger p_74514_,  me.alphamode.mcbig.math.BigInteger p_74515_,  me.alphamode.mcbig.math.BigInteger p_74516_) {
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+         BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
+         p_74513_.forAllFaces(
+             (p_333699_, p_333700_, p_333701_, p_333702_) -> {
+-                blockpos$mutableblockpos.set(p_74514_ + p_333700_, p_74515_ + p_333701_, p_74516_ + p_333702_);
++                blockpos$mutableblockpos.set(p_74514_.add(p_333700_), p_74515_.add(p_333701_), p_74516_.add(p_333702_));
+                 blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, p_333699_);
+                 BlockState blockstate = p_74511_.getBlockState(blockpos$mutableblockpos);
+                 BlockState blockstate1 = p_74511_.getBlockState(blockpos$mutableblockpos1);
+@@ -452,7 +_,7 @@
              if (p_74529_ == null || p_74529_.isInside(blockpos)) {
                  CompoundTag compoundtag = structuretemplate$structureentityinfo.nbt.copy();
                  Vec3 vec3 = transform(structuretemplate$structureentityinfo.pos, p_74526_, p_74527_, p_74528_);
@@ -104,7 +111,7 @@
                  ListTag listtag = new ListTag();
                  listtag.add(DoubleTag.valueOf(vec31.x));
                  listtag.add(DoubleTag.valueOf(vec31.y));
-@@ -486,30 +_,30 @@
+@@ -492,30 +_,30 @@
      }
  
      public static BlockPos transform(BlockPos p_74594_, Mirror p_74595_, Rotation p_74596_, BlockPos p_74597_) {
@@ -145,7 +152,7 @@
              default:
                  return flag ? new BlockPos(i, j, k) : p_74594_;
          }
-@@ -531,15 +_,15 @@
+@@ -537,15 +_,15 @@
                  flag = false;
          }
  

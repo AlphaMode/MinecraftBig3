@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/decoration/LeashFenceKnotEntity.java
 +++ b/net/minecraft/world/entity/decoration/LeashFenceKnotEntity.java
-@@ -34,12 +_,12 @@
+@@ -32,12 +_,12 @@
  
      public LeashFenceKnotEntity(Level p_31831_, BlockPos p_31832_) {
          super(EntityType.LEASH_KNOT, p_31831_, p_31832_);
@@ -15,7 +15,7 @@
          double d0 = (double)this.getType().getWidth() / 2.0;
          double d1 = (double)this.getType().getHeight();
          this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0, this.getY() + d1, this.getZ() + d0));
-@@ -128,9 +_,9 @@
+@@ -121,9 +_,9 @@
      }
  
      public static LeashFenceKnotEntity getOrCreateKnot(Level p_31845_, BlockPos p_31846_) {

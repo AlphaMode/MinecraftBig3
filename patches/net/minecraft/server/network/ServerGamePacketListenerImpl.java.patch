@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -197,12 +_,12 @@
+@@ -202,12 +_,12 @@
      private int ackBlockChangesUpTo = -1;
      private int chatSpamTickCount;
      private int dropSpamTickCount;
@@ -17,7 +17,7 @@
      @Nullable
      private Entity lastVehicle;
      private double vehicleFirstGoodX;
-@@ -212,7 +_,7 @@
+@@ -217,7 +_,7 @@
      private double vehicleLastGoodY;
      private double vehicleLastGoodZ;
      @Nullable
@@ -26,7 +26,7 @@
      private int awaitingTeleport;
      private int awaitingTeleportTime;
      private boolean clientIsFloating;
-@@ -249,8 +_,10 @@
+@@ -253,8 +_,10 @@
  
          this.resetPosition();
          this.player.xo = this.player.getX();
@@ -37,7 +37,7 @@
          this.player.doTick();
          this.player.absMoveTo(this.firstGoodX, this.firstGoodY, this.firstGoodZ, this.player.getYRot(), this.player.getXRot());
          ++this.tickCount;
-@@ -307,12 +_,12 @@
+@@ -321,12 +_,12 @@
      }
  
      public void resetPosition() {
@@ -54,7 +54,7 @@
      }
  
      @Override
-@@ -363,12 +_,12 @@
+@@ -377,12 +_,12 @@
          return Double.isNaN(p_143664_) || Double.isNaN(p_143665_) || Double.isNaN(p_143666_) || !Floats.isFinite(p_143668_) || !Floats.isFinite(p_143667_);
      }
  
@@ -70,7 +70,7 @@
      }
  
      @Override
-@@ -383,9 +_,9 @@
+@@ -397,9 +_,9 @@
                  double d0 = entity.getX();
                  double d1 = entity.getY();
                  double d2 = entity.getZ();
@@ -82,7 +82,7 @@
                  float f = Mth.wrapDegrees(p_9876_.getYRot());
                  float f1 = Mth.wrapDegrees(p_9876_.getXRot());
                  double d6 = d3 - this.vehicleFirstGoodX;
-@@ -848,7 +_,7 @@
+@@ -843,7 +_,7 @@
      @Override
      public void handleMovePlayer(ServerboundMovePlayerPacket p_9874_) {
          PacketUtils.ensureRunningOnSameThread(p_9874_, this, this.player.serverLevel());
@@ -91,7 +91,7 @@
              this.disconnect(Component.translatable("multiplayer.disconnect.invalid_player_movement"));
          } else {
              ServerLevel serverlevel = this.player.serverLevel();
-@@ -870,26 +_,26 @@
+@@ -865,26 +_,26 @@
                      }
                  } else {
                      this.awaitingTeleportTime = this.tickCount;
@@ -125,9 +125,9 @@
 +                                this.teleport(this.player.getBigX(), this.player.getY(), this.player.getBigZ(), f, f1);
                              }
                          } else {
-                             if (serverlevel.tickRateManager().runsNormally()) {
-@@ -908,16 +_,16 @@
-                                     float f2 = this.player.isFallFlying() ? 300.0F : 100.0F;
+                             boolean flag = this.player.isFallFlying();
+@@ -903,16 +_,16 @@
+                                     float f2 = flag ? 300.0F : 100.0F;
                                      if (d10 - d9 > (double)(f2 * (float)i) && !this.isSingleplayerOwner()) {
                                          LOGGER.warn("{} moved too quickly! {},{},{}", this.player.getName().getString(), d6, d7, d8);
 -                                        this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
@@ -143,13 +143,13 @@
                              d7 = d1 - this.lastGoodY;
 -                            d8 = d2 - this.lastGoodZ;
 +                            d8 = d2.subtract(this.lastGoodZ).doubleValue();
-                             boolean flag2 = d7 > 0.0;
-                             if (this.player.onGround() && !p_9874_.isOnGround() && flag2) {
+                             boolean flag4 = d7 > 0.0;
+                             if (this.player.onGround() && !p_9874_.isOnGround() && flag4) {
                                  this.player.jumpFromGround();
-@@ -925,13 +_,13 @@
+@@ -927,13 +_,13 @@
+                                 this.player.ignoreGridCollision = false;
+                             }
  
-                             boolean flag = this.player.verticalCollisionBelow;
-                             this.player.move(MoverType.PLAYER, new Vec3(d6, d7, d8));
 -                            d6 = d0 - this.player.getX();
 +                            d6 = d0.subtract(this.player.getBigX()).doubleValue();
                              d7 = d1 - this.player.getY();
@@ -160,26 +160,34 @@
 -                            d8 = d2 - this.player.getZ();
 +                            d8 = d2.subtract(this.player.getBigZ()).doubleValue();
                              d10 = d6 * d6 + d7 * d7 + d8 * d8;
-                             boolean flag1 = false;
+                             boolean flag2 = false;
                              if (!this.player.isChangingDimension()
-@@ -958,22 +_,22 @@
-                                     && !this.player.isAutoSpinAttack()
-                                     && this.noBlocksAround(this.player);
+@@ -948,15 +_,15 @@
+                             if (this.player.noPhysics
+                                 || this.player.isSleeping()
+                                 || (!flag2 || !serverlevel.noCollision(this.player, aabb))
+-                                    && !this.isPlayerCollidingWithAnythingNew(serverlevel, aabb, d0, d1, d2)) {
++                                    && !this.isPlayerCollidingWithAnythingNew(serverlevel, aabb, d0.doubleValue(), d1, d2.doubleValue())) {
+                                 this.player.absMoveTo(d0, d1, d2, f, f1);
+                                 boolean flag3 = this.player.isAutoSpinAttack();
+                                 this.clientIsFloating = awesomeAntiCheatIsFlying();
                                  this.player.serverLevel().getChunkSource().move(this.player);
 -                                this.player.doCheckFallDamage(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5, p_9874_.isOnGround());
-+                                this.player.doCheckFallDamage(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue(), p_9874_.isOnGround());
++                                this.player.doCheckFallDamage(this.player.getBigX().subtract(d3).doubleValue(), this.player.getY() - d4, this.player.getBigZ().subtract(d5).doubleValue(), p_9874_.isOnGround());
                                  this.player
                                      .setOnGroundWithKnownMovement(
 -                                        p_9874_.isOnGround(), new Vec3(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5)
-+                                        p_9874_.isOnGround(), new Vec3(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue())
++                                        p_9874_.isOnGround(), new Vec3(this.player.getBigX().subtract(d3).doubleValue(), this.player.getY() - d4, this.player.getBigZ().subtract(d5).doubleValue())
                                      );
-                                 if (flag2) {
+                                 if (flag4) {
                                      this.player.resetFallDistance();
+@@ -968,13 +_,13 @@
+                                     this.player.resetCurrentImpulseContext();
                                  }
  
 -                                this.player.checkMovementStatistics(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5);
 -                                this.lastGoodX = this.player.getX();
-+                                this.player.checkMovementStatistics(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue());
++                                this.player.checkMovementStatistics(this.player.getBigX().subtract(d3).doubleValue(), this.player.getY() - d4, this.player.getBigZ().subtract(d5).doubleValue());
 +                                this.lastGoodX = this.player.getBigX();
                                  this.lastGoodY = this.player.getY();
 -                                this.lastGoodZ = this.player.getZ();
@@ -187,22 +195,11 @@
                              } else {
                                  this.teleport(d3, d4, d5, f, f1);
 -                                this.player.doCheckFallDamage(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5, p_9874_.isOnGround());
-+                                this.player.doCheckFallDamage(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue(), p_9874_.isOnGround());
++                                this.player.doCheckFallDamage(this.player.getBigX().subtract(d3).doubleValue(), this.player.getY() - d4, this.player.getBigZ().subtract(d5).doubleValue(), p_9874_.isOnGround());
                              }
                          }
                      }
-@@ -982,8 +_,8 @@
-         }
-     }
- 
--    private boolean isPlayerCollidingWithAnythingNew(LevelReader p_289008_, AABB p_288986_, double p_288990_, double p_288991_, double p_288967_) {
--        AABB aabb = this.player.getBoundingBox().move(p_288990_ - this.player.getX(), p_288991_ - this.player.getY(), p_288967_ - this.player.getZ());
-+    private boolean isPlayerCollidingWithAnythingNew(LevelReader p_289008_, AABB p_288986_, me.alphamode.mcbig.math.BigDecimal p_288990_, double p_288991_, me.alphamode.mcbig.math.BigDecimal p_288967_) {
-+        AABB aabb = this.player.getBoundingBox().move(p_288990_.subtract(this.player.getBigX()).doubleValue(), p_288991_ - this.player.getY(), p_288967_.subtract(this.player.getBigZ()).doubleValue());
-         Iterable<VoxelShape> iterable = p_289008_.getCollisions(this.player, aabb.deflate(1.0E-5F));
-         VoxelShape voxelshape = Shapes.create(p_288986_.deflate(1.0E-5F));
- 
-@@ -996,17 +_,21 @@
+@@ -1001,17 +_,21 @@
          return false;
      }
  
@@ -228,7 +225,7 @@
          if (++this.awaitingTeleport == Integer.MAX_VALUE) {
              this.awaitingTeleport = 0;
          }
-@@ -1015,7 +_,7 @@
+@@ -1021,7 +_,7 @@
          this.player.absMoveTo(p_9781_, p_9782_, p_9783_, p_9784_, p_9785_);
          this.player
              .connection
@@ -237,25 +234,23 @@
      }
  
      @Override
-@@ -1082,7 +_,7 @@
+@@ -1088,12 +_,12 @@
          ItemStack itemstack = this.player.getItemInHand(interactionhand);
          if (itemstack.isItemEnabled(serverlevel.enabledFeatures())) {
              BlockHitResult blockhitresult = p_9930_.getHitResult();
 -            Vec3 vec3 = blockhitresult.getLocation();
-+            Vec3 vec3 = blockhitresult.getLocation().toVanilla();
++            me.alphamode.mcbig.core.BigVec3 vec3 = blockhitresult.getLocation();
              BlockPos blockpos = blockhitresult.getBlockPos();
-             Vec3 vec31 = Vec3.atCenterOf(blockpos);
-             if (!(this.player.getEyePosition().distanceToSqr(vec31) > MAX_INTERACTION_DISTANCE)) {
-@@ -1094,7 +_,7 @@
+             if (this.player.canInteractWithBlock(blockpos, 1.0)) {
+-                Vec3 vec31 = vec3.subtract(Vec3.atCenterOf(blockpos));
++                me.alphamode.mcbig.core.BigVec3 vec31 = vec3.subtract(me.alphamode.mcbig.core.BigVec3.atCenterOf(blockpos));
+                 double d0 = 1.0000001;
+-                if (Math.abs(vec31.x()) < 1.0000001 && Math.abs(vec31.y()) < 1.0000001 && Math.abs(vec31.z()) < 1.0000001) {
++                if (vec31.bigX().abs().compareTo(me.alphamode.mcbig.core.BigConstants.FIND_BITS) < 0 && Math.abs(vec31.y()) < 1.0000001 && vec31.bigZ().abs().compareTo(me.alphamode.mcbig.core.BigConstants.FIND_BITS) < 0) {
+                     Direction direction = blockhitresult.getDirection();
+                     this.player.resetLastActionTime();
                      int i = this.player.level().getMaxBuildHeight();
-                     if (blockpos.getY() < i) {
-                         if (this.awaitingPositionFromClient == null
--                            && this.player.distanceToSqr((double)blockpos.getX() + 0.5, (double)blockpos.getY() + 0.5, (double)blockpos.getZ() + 0.5) < 64.0
-+                            && this.player.distanceToSqr((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue() + 0.5, (double)blockpos.getBigZ().doubleValue() + 0.5) < 64.0
-                             && serverlevel.mayInteract(this.player, blockpos)) {
-                             InteractionResult interactionresult = this.player
-                                 .gameMode
-@@ -1151,7 +_,7 @@
+@@ -1158,7 +_,7 @@
              for(ServerLevel serverlevel : this.server.getAllLevels()) {
                  Entity entity = p_9928_.getEntity(serverlevel);
                  if (entity != null) {
@@ -264,7 +259,7 @@
                      return;
                  }
              }
-@@ -1381,7 +_,7 @@
+@@ -1394,7 +_,7 @@
              case STOP_SLEEPING:
                  if (this.player.isSleeping()) {
                      this.player.stopSleepInBed(false, true);

@@ -1,15 +1,6 @@
 --- a/net/minecraft/core/BlockPos.java
 +++ b/net/minecraft/core/BlockPos.java
-@@ -15,6 +_,8 @@
- import java.util.stream.Stream;
- import java.util.stream.StreamSupport;
- import javax.annotation.concurrent.Immutable;
-+
-+import me.alphamode.mcbig.math.BigInteger;
- import net.minecraft.Util;
- import net.minecraft.util.Mth;
- import net.minecraft.util.RandomSource;
-@@ -27,15 +_,16 @@
+@@ -30,11 +_,11 @@
  import org.slf4j.Logger;
  
  @Immutable
@@ -20,17 +11,20 @@
          .<BlockPos>comapFlatMap(
 -            p_121967_ -> Util.fixedSize(p_121967_, 3).map(p_175270_ -> new BlockPos(p_175270_[0], p_175270_[1], p_175270_[2])),
 -            p_121924_ -> IntStream.of(p_121924_.getX(), p_121924_.getY(), p_121924_.getZ())
-+            p_121967_ -> Util.fixedSize(p_121967_, 3).map(p_175270_ -> new BlockPos(me.alphamode.mcbig.math.BigInteger.val(p_175270_[0]), me.alphamode.mcbig.math.BigInteger.val(p_175270_[1]), me.alphamode.mcbig.math.BigInteger.val(p_175270_[2]))),
++            p_121967_ -> Util.fixedSize(p_121967_, 3).map(p_175270_ -> new BlockPos(new me.alphamode.mcbig.math.BigInteger(p_175270_[0]), new me.alphamode.mcbig.math.BigInteger(p_175270_[1]), new me.alphamode.mcbig.math.BigInteger(p_175270_[2]))),
 +            p_121924_ -> Stream.of(p_121924_.getBigX().toString(), p_121924_.getBigY().toString(), p_121924_.getBigZ().toString())
          )
          .stable();
+     public static final StreamCodec<ByteBuf, BlockPos> STREAM_CODEC = new StreamCodec<ByteBuf, BlockPos>() {
+@@ -48,6 +_,7 @@
+     };
      private static final Logger LOGGER = LogUtils.getLogger();
      public static final BlockPos ZERO = new BlockPos(0, 0, 0);
-+    public static final BlockPos MAX_VALUE = new BlockPos(java.lang.Long.MAX_VALUE, java.lang.Long.MAX_VALUE, java.lang.Long.MAX_VALUE);
++    public static final BlockPos MAX_VALUE = new BlockPos(me.alphamode.mcbig.core.BigConstants.Ints.REALLY_BIG_NUMBER, me.alphamode.mcbig.core.BigConstants.Ints.REALLY_BIG_NUMBER, me.alphamode.mcbig.core.BigConstants.Ints.REALLY_BIG_NUMBER);
      private static final int PACKED_X_LENGTH = 1 + Mth.log2(Mth.smallestEncompassingPowerOfTwo(30000000));
      private static final int PACKED_Z_LENGTH = PACKED_X_LENGTH;
      public static final int PACKED_Y_LENGTH = 64 - PACKED_X_LENGTH - PACKED_Z_LENGTH;
-@@ -46,46 +_,46 @@
+@@ -58,20 +_,28 @@
      private static final int Z_OFFSET = PACKED_Y_LENGTH;
      private static final int X_OFFSET = PACKED_Y_LENGTH + PACKED_Z_LENGTH;
  
@@ -61,24 +55,12 @@
 -
 -    public static long offset(long p_121911_, int p_121912_, int p_121913_, int p_121914_) {
 -        return asLong(getX(p_121911_) + p_121912_, getY(p_121911_) + p_121913_, getZ(p_121911_) + p_121914_);
--    }
--
--    public static int getX(long p_121984_) {
--        return (int)(p_121984_ << 64 - X_OFFSET - PACKED_X_LENGTH >> 64 - PACKED_X_LENGTH);
--    }
--
--    public static int getY(long p_122009_) {
--        return (int)(p_122009_ << 64 - PACKED_Y_LENGTH >> 64 - PACKED_Y_LENGTH);
--    }
--
--    public static int getZ(long p_122016_) {
--        return (int)(p_122016_ << 64 - Z_OFFSET - PACKED_Z_LENGTH >> 64 - PACKED_Z_LENGTH);
--    }
--
--    public static BlockPos of(long p_122023_) {
--        return new BlockPos(getX(p_122023_), getY(p_122023_), getZ(p_122023_));
 +    public BlockPos(me.alphamode.mcbig.core.Vec3l p_121877_) {
 +        this(p_121877_.getBigX(), p_121877_.getBigY(), p_121877_.getBigZ());
+     }
+ 
+     public static int getX(long p_121984_) {
+@@ -91,22 +_,30 @@
      }
  
      public static BlockPos containing(double p_275310_, double p_275414_, double p_275737_) {
@@ -98,10 +80,21 @@
 +        return containing(p_275443_.bigX(), p_275443_.y(), p_275443_.bigZ());
 +    }
 +
-     public long asLong() {
-         return asLong(this.getX(), this.getY(), this.getZ());
+     public static BlockPos min(BlockPos p_333745_, BlockPos p_333943_) {
+         return new BlockPos(
+-            Math.min(p_333745_.getX(), p_333943_.getX()), Math.min(p_333745_.getY(), p_333943_.getY()), Math.min(p_333745_.getZ(), p_333943_.getZ())
++            p_333745_.getBigX().min(p_333943_.getBigX()), p_333745_.getBigY().min(p_333943_.getBigY()), p_333745_.getBigZ().min(p_333943_.getBigZ())
+         );
      }
-@@ -104,7 +_,13 @@
+ 
+     public static BlockPos max(BlockPos p_334008_, BlockPos p_333743_) {
+         return new BlockPos(
+-            Math.max(p_334008_.getX(), p_333743_.getX()), Math.max(p_334008_.getY(), p_333743_.getY()), Math.max(p_334008_.getZ(), p_333743_.getZ())
++            p_334008_.getBigX().max(p_333743_.getBigX()), p_334008_.getBigY().max(p_333743_.getBigY()), p_334008_.getBigZ().max(p_333743_.getBigZ())
+         );
+     }
+ 
+@@ -128,7 +_,13 @@
      public BlockPos offset(int p_121973_, int p_121974_, int p_121975_) {
          return p_121973_ == 0 && p_121974_ == 0 && p_121975_ == 0
              ? this
@@ -109,14 +102,14 @@
 +            : new BlockPos(this.getBigX().add(p_121973_), this.getBigY().add(p_121974_), this.getBigZ().add(p_121975_));
 +    }
 +
-+    public BlockPos offset(BigInteger p_121973_, BigInteger p_121974_, BigInteger p_121975_) {
-+        return p_121973_.equals(BigInteger.ZERO) && p_121974_.equals(BigInteger.ZERO) && p_121975_.equals(BigInteger.ZERO)
++    public BlockPos offset(me.alphamode.mcbig.math.BigInteger p_121973_, me.alphamode.mcbig.math.BigInteger p_121974_, me.alphamode.mcbig.math.BigInteger p_121975_) {
++        return p_121973_.equals(me.alphamode.mcbig.math.BigInteger.ZERO) && p_121974_.equals(me.alphamode.mcbig.math.BigInteger.ZERO) && p_121975_.equals(me.alphamode.mcbig.math.BigInteger.ZERO)
 +                ? this
 +                : new BlockPos(this.getBigX().add(p_121973_), this.getBigY().add(p_121974_), this.getBigZ().add(p_121975_));
      }
  
      public Vec3 getCenter() {
-@@ -115,6 +_,14 @@
+@@ -139,6 +_,14 @@
          return this.offset(p_121956_.getX(), p_121956_.getY(), p_121956_.getZ());
      }
  
@@ -131,7 +124,7 @@
      public BlockPos subtract(Vec3i p_121997_) {
          return this.offset(-p_121997_.getX(), -p_121997_.getY(), -p_121997_.getZ());
      }
-@@ -123,7 +_,7 @@
+@@ -147,7 +_,7 @@
          if (p_175263_ == 1) {
              return this;
          } else {
@@ -140,7 +133,7 @@
          }
      }
  
-@@ -176,14 +_,14 @@
+@@ -200,14 +_,14 @@
      }
  
      public BlockPos relative(Direction p_121946_) {
@@ -157,7 +150,7 @@
              );
      }
  
-@@ -194,7 +_,7 @@
+@@ -218,7 +_,7 @@
              int i = p_121943_ == Direction.Axis.X ? p_121944_ : 0;
              int j = p_121943_ == Direction.Axis.Y ? p_121944_ : 0;
              int k = p_121943_ == Direction.Axis.Z ? p_121944_ : 0;
@@ -166,7 +159,7 @@
          }
      }
  
-@@ -204,24 +_,24 @@
+@@ -228,24 +_,24 @@
              default:
                  return this;
              case CLOCKWISE_90:
@@ -199,7 +192,7 @@
      }
  
      public BlockPos immutable() {
-@@ -229,19 +_,19 @@
+@@ -253,7 +_,7 @@
      }
  
      public BlockPos.MutableBlockPos mutable() {
@@ -207,7 +200,8 @@
 +        return new BlockPos.MutableBlockPos(this.getBigX(), this.getBigY(), this.getBigZ());
      }
  
-     public static Iterable<BlockPos> randomInCube(RandomSource p_235651_, int p_235652_, BlockPos p_235653_, int p_235654_) {
+     public BlockPos step(Direction p_340635_) {
+@@ -264,12 +_,12 @@
          return randomBetweenClosed(
              p_235651_,
              p_235652_,
@@ -226,7 +220,7 @@
          );
      }
  
-@@ -251,11 +_,11 @@
+@@ -279,11 +_,11 @@
      }
  
      public static Iterable<BlockPos> randomBetweenClosed(
@@ -242,7 +236,7 @@
          return () -> new AbstractIterator<BlockPos>() {
                  final BlockPos.MutableBlockPos nextPos = new BlockPos.MutableBlockPos();
                  int counter = p_235643_;
-@@ -265,7 +_,7 @@
+@@ -293,7 +_,7 @@
                          return this.endOfData();
                      } else {
                          BlockPos blockpos = this.nextPos
@@ -251,7 +245,7 @@
                          --this.counter;
                          return blockpos;
                      }
-@@ -275,9 +_,9 @@
+@@ -303,9 +_,9 @@
  
      public static Iterable<BlockPos> withinManhattan(BlockPos p_121926_, int p_121927_, int p_121928_, int p_121929_) {
          int i = p_121927_ + p_121928_ + p_121929_;
@@ -264,7 +258,7 @@
          return () -> new AbstractIterator<BlockPos>() {
                  private final BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
                  private int currentDepth;
-@@ -290,7 +_,7 @@
+@@ -318,7 +_,7 @@
                  protected BlockPos computeNext() {
                      if (this.zMirror) {
                          this.zMirror = false;
@@ -273,7 +267,7 @@
                          return this.cursor;
                      } else {
                          BlockPos blockpos;
-@@ -316,7 +_,7 @@
+@@ -344,7 +_,7 @@
                              int k1 = this.currentDepth - Math.abs(i1) - Math.abs(j1);
                              if (k1 <= p_121929_) {
                                  this.zMirror = k1 != 0;
@@ -282,7 +276,7 @@
                              }
                          }
  
-@@ -342,12 +_,12 @@
+@@ -370,12 +_,12 @@
  
      public static Iterable<BlockPos> betweenClosed(BlockPos p_121941_, BlockPos p_121942_) {
          return betweenClosed(
@@ -301,7 +295,7 @@
          );
      }
  
-@@ -357,34 +_,34 @@
+@@ -385,34 +_,34 @@
  
      public static Stream<BlockPos> betweenClosedStream(BoundingBox p_121920_) {
          return betweenClosedStream(
@@ -353,7 +347,7 @@
          int l = i * j * k;
          return () -> new AbstractIterator<BlockPos>() {
                  private final BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
-@@ -399,7 +_,7 @@
+@@ -427,7 +_,7 @@
                          int k1 = j1 % j;
                          int l1 = j1 / j;
                          ++this.index;
@@ -362,7 +356,7 @@
                      }
                  }
              };
-@@ -414,15 +_,15 @@
+@@ -442,15 +_,15 @@
                  private int leg = -1;
                  private int legSize;
                  private int legIndex;
@@ -384,7 +378,7 @@
                      if (this.legIndex >= this.legSize) {
                          if (this.leg >= this.legs) {
                              return this.endOfData();
-@@ -443,7 +_,7 @@
+@@ -471,7 +_,7 @@
          BlockPos p_278078_, int p_277385_, int p_277666_, BiConsumer<BlockPos, Consumer<BlockPos>> p_277755_, Predicate<BlockPos> p_278094_
      ) {
          Queue<Pair<BlockPos, Integer>> queue = new ArrayDeque<>();
@@ -393,7 +387,7 @@
          queue.add(Pair.of(p_278078_, 0));
          int i = 0;
  
-@@ -451,7 +_,7 @@
+@@ -479,7 +_,7 @@
              Pair<BlockPos, Integer> pair = queue.poll();
              BlockPos blockpos = pair.getLeft();
              int j = pair.getRight();
@@ -402,25 +396,24 @@
              if (longset.add(k) && p_278094_.test(blockpos)) {
                  if (++i >= p_277666_) {
                      return i;
-@@ -475,8 +_,16 @@
+@@ -499,7 +_,15 @@
+             this(0, 0, 0);
+         }
+ 
+-        public MutableBlockPos(int p_122130_, int p_122131_, int p_122132_) {
++        public MutableBlockPos(long p_122130_, long p_122131_, long p_122132_) {
++            super(p_122130_, p_122131_, p_122132_);
++        }
++
++        public MutableBlockPos(me.alphamode.mcbig.math.BigInteger p_122130_, long p_122131_, me.alphamode.mcbig.math.BigInteger p_122132_) {
++            super(p_122130_, p_122131_, p_122132_);
++        }
++
++        public MutableBlockPos(me.alphamode.mcbig.math.BigInteger p_122130_, me.alphamode.mcbig.math.BigInteger p_122131_, me.alphamode.mcbig.math.BigInteger p_122132_) {
              super(p_122130_, p_122131_, p_122132_);
          }
  
-+        public MutableBlockPos(me.alphamode.mcbig.math.BigInteger p_122130_, me.alphamode.mcbig.math.BigInteger p_122131_, me.alphamode.mcbig.math.BigInteger p_122132_) {
-+            super(p_122130_, p_122131_, p_122132_);
-+        }
-+
-+        public MutableBlockPos(me.alphamode.mcbig.math.BigInteger p_122130_, int p_122131_, me.alphamode.mcbig.math.BigInteger p_122132_) {
-+            super(p_122130_, p_122131_, p_122132_);
-+        }
-+
-         public MutableBlockPos(double p_122126_, double p_122127_, double p_122128_) {
--            this(Mth.floor(p_122126_), Mth.floor(p_122127_), Mth.floor(p_122128_));
-+            this(Mth.bigFloor(p_122126_), Mth.bigFloor(p_122127_), Mth.bigFloor(p_122128_));
-         }
- 
-         @Override
-@@ -504,23 +_,37 @@
+@@ -536,19 +_,37 @@
              return super.rotate(p_122138_).immutable();
          }
  
@@ -455,10 +448,6 @@
 -
 -        public BlockPos.MutableBlockPos set(Vec3i p_122191_) {
 -            return this.set(p_122191_.getX(), p_122191_.getY(), p_122191_.getZ());
--        }
--
--        public BlockPos.MutableBlockPos set(long p_122189_) {
--            return this.set(getX(p_122189_), getY(p_122189_), getZ(p_122189_));
 +            return this.set(Mth.bigFloor(p_122170_), Mth.bigFloor(p_122171_), Mth.bigFloor(p_122172_));
 +        }
 +
@@ -470,8 +459,8 @@
 +            return this.set(p_122191_.getBigX(), p_122191_.getBigY(), p_122191_.getBigZ());
          }
  
-         public BlockPos.MutableBlockPos set(AxisCycle p_122140_, int p_122141_, int p_122142_, int p_122143_) {
-@@ -531,16 +_,16 @@
+         public BlockPos.MutableBlockPos set(long p_122189_) {
+@@ -563,16 +_,16 @@
              );
          }
  
@@ -498,7 +487,7 @@
          }
  
          public BlockPos.MutableBlockPos move(Direction p_122174_) {
-@@ -549,43 +_,58 @@
+@@ -581,43 +_,58 @@
  
          public BlockPos.MutableBlockPos move(Direction p_122176_, int p_122177_) {
              return this.set(

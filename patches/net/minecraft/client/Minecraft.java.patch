@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/Minecraft.java
 +++ b/net/minecraft/client/Minecraft.java
-@@ -55,7 +_,6 @@
+@@ -53,7 +_,6 @@
  import java.util.List;
  import java.util.Locale;
  import java.util.MissingResourceException;
@@ -8,7 +8,7 @@
  import java.util.Queue;
  import java.util.Set;
  import java.util.UUID;
-@@ -105,7 +_,6 @@
+@@ -104,7 +_,6 @@
  import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
  import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
  import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -24,10 +24,10 @@
  import net.minecraft.network.chat.contents.KeybindResolver;
  import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
  import net.minecraft.network.protocol.login.ServerboundHelloPacket;
-@@ -237,7 +_,6 @@
+@@ -238,7 +_,6 @@
  import net.minecraft.world.item.ItemStack;
- import net.minecraft.world.item.PlayerHeadItem;
  import net.minecraft.world.item.TooltipFlag;
+ import net.minecraft.world.item.component.ItemLore;
 -import net.minecraft.world.item.crafting.RecipeHolder;
  import net.minecraft.world.level.Level;
  import net.minecraft.world.level.biome.Biome;

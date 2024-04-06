@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/npc/WanderingTrader.java
 +++ b/net/minecraft/world/entity/npc/WanderingTrader.java
-@@ -286,15 +_,15 @@
+@@ -283,15 +_,15 @@
              if (blockpos != null && WanderingTrader.this.navigation.isDone()) {
                  if (this.isTooFarAway(blockpos, 10.0)) {
                      Vec3 vec3 = new Vec3(

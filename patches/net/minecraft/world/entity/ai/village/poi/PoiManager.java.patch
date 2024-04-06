@@ -1,15 +1,15 @@
 --- a/net/minecraft/world/entity/ai/village/poi/PoiManager.java
 +++ b/net/minecraft/world/entity/ai/village/poi/PoiManager.java
-@@ -39,7 +_,7 @@
+@@ -41,7 +_,7 @@
      public static final int MAX_VILLAGE_DISTANCE = 6;
      public static final int VILLAGE_SECTION_SIZE = 1;
      private final PoiManager.DistanceTracker distanceTracker;
 -    private final LongSet loadedChunks = new LongOpenHashSet();
 +    private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> loadedChunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
  
-     public PoiManager(Path p_217869_, DataFixer p_217870_, boolean p_217871_, RegistryAccess p_217872_, LevelHeightAccessor p_217873_) {
-         super(p_217869_, PoiSection::codec, PoiSection::new, p_217870_, DataFixTypes.POI_CHUNK, p_217871_, p_217872_, p_217873_);
-@@ -47,11 +_,11 @@
+     public PoiManager(
+         RegionStorageInfo p_325948_, Path p_217869_, DataFixer p_217870_, boolean p_217871_, RegistryAccess p_217872_, LevelHeightAccessor p_217873_
+@@ -57,11 +_,11 @@
      }
  
      public void add(BlockPos p_217920_, Holder<PoiType> p_217921_) {
@@ -23,7 +23,7 @@
      }
  
      public long getCountInRange(Predicate<Holder<PoiType>> p_27122_, BlockPos p_27123_, int p_27124_, PoiManager.Occupancy p_27125_) {
-@@ -66,7 +_,7 @@
+@@ -76,7 +_,7 @@
          int i = Math.floorDiv(p_27169_, 16) + 1;
          return ChunkPos.rangeClosed(new ChunkPos(p_27168_), i).flatMap(p_217938_ -> this.getInChunk(p_27167_, p_217938_, p_27170_)).filter(p_217971_ -> {
              BlockPos blockpos = p_217971_.getPos();
@@ -32,7 +32,7 @@
          });
      }
  
-@@ -79,7 +_,7 @@
+@@ -89,7 +_,7 @@
      public Stream<PoiRecord> getInChunk(Predicate<Holder<PoiType>> p_27118_, ChunkPos p_27119_, PoiManager.Occupancy p_27120_) {
          return IntStream.range(this.levelHeightAccessor.getMinSection(), this.levelHeightAccessor.getMaxSection())
              .boxed()
@@ -41,7 +41,7 @@
              .filter(Optional::isPresent)
              .flatMap(p_217942_ -> p_217942_.get().getRecords(p_27118_, p_27120_));
      }
-@@ -157,31 +_,31 @@
+@@ -167,31 +_,31 @@
      }
  
      public boolean release(BlockPos p_27155_) {
@@ -79,7 +79,7 @@
          Optional<PoiSection> optional = this.get(p_27198_);
          return optional == null
              ? false
-@@ -198,24 +_,24 @@
+@@ -208,24 +_,24 @@
      }
  
      @Override
@@ -108,7 +108,7 @@
                  this.updateFromSection(p_281893_, p_281731_, poisection::add);
              }
          });
-@@ -230,9 +_,9 @@
+@@ -240,9 +_,9 @@
              .forEach(
                  p_217902_ -> {
                      BlockState blockstate = p_27070_.getBlockState(
@@ -121,7 +121,7 @@
                      );
                      PoiTypes.forState(blockstate).ifPresent(p_217931_ -> p_27072_.accept(p_217902_, p_217931_));
                  }
-@@ -243,15 +_,15 @@
+@@ -253,15 +_,15 @@
          SectionPos.aroundChunk(
                  new ChunkPos(p_27058_), Math.floorDiv(p_27059_, 16), this.levelHeightAccessor.getMinSection(), this.levelHeightAccessor.getMaxSection()
              )
@@ -130,7 +130,7 @@
              .filter(p_217963_ -> !p_217963_.getSecond().map(PoiSection::isValid).orElse(false))
              .map(p_217891_ -> p_217891_.getFirst().chunk())
 -            .filter(p_217961_ -> this.loadedChunks.add(p_217961_.toLong()))
--            .forEach(p_217889_ -> p_27057_.getChunk(p_217889_.x, p_217889_.z, ChunkStatus.EMPTY));
+-            .forEach(p_340105_ -> p_27057_.getChunk(p_340105_.x, p_340105_.z, p_341699_));
 +            .filter(this.loadedChunks::add)
 +            .forEach(p_217889_ -> p_27057_.getChunk(p_217889_.x(), p_217889_.z(), ChunkStatus.EMPTY));
      }
@@ -141,7 +141,7 @@
  
          protected DistanceTracker() {
              super(7, 16, 256);
-@@ -259,19 +_,19 @@
+@@ -269,19 +_,19 @@
          }
  
          @Override

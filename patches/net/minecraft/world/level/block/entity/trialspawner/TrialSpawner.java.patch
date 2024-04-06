@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/trialspawner/TrialSpawner.java
 +++ b/net/minecraft/world/level/block/entity/trialspawner/TrialSpawner.java
-@@ -234,16 +_,16 @@
+@@ -258,16 +_,16 @@
  
      private static boolean inLineOfSight(Level p_312623_, Vec3 p_312390_, Vec3 p_312652_) {
          BlockHitResult blockhitresult = p_312623_.clip(
@@ -20,7 +20,7 @@
              p_312303_.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0, 0.0, 0.0);
              p_312303_.addParticle(ParticleTypes.FLAME, d0, d1, d2, 0.0, 0.0, 0.0);
          }
-@@ -253,18 +_,18 @@
+@@ -277,18 +_,18 @@
          for(int i = 0; i < 30 + Math.min(p_312188_, 10) * 5; ++i) {
              double d0 = (double)(2.0F * p_312553_.nextFloat() - 1.0F) * 0.65;
              double d1 = (double)(2.0F * p_312553_.nextFloat() - 1.0F) * 0.65;

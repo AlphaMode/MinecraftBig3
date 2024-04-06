@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/RaidCommand.java
 +++ b/net/minecraft/server/commands/RaidCommand.java
-@@ -111,8 +_,8 @@
+@@ -109,8 +_,8 @@
      private static int playSound(CommandSourceStack p_180478_, @Nullable Component p_180479_) {
          if (p_180479_ != null && p_180479_.getString().equals("local")) {
              ServerLevel serverlevel = p_180478_.getLevel();

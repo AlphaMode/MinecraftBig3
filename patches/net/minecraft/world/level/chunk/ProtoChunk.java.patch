@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/chunk/ProtoChunk.java
 +++ b/net/minecraft/world/level/chunk/ProtoChunk.java
-@@ -90,7 +_,7 @@
+@@ -92,7 +_,7 @@
              LevelChunkSection levelchunksection = this.getSection(this.getSectionIndex(i));
              return levelchunksection.hasOnlyAir()
                  ? Blocks.AIR.defaultBlockState()
@@ -9,7 +9,7 @@
          }
      }
  
-@@ -103,16 +_,16 @@
+@@ -105,16 +_,16 @@
              LevelChunkSection levelchunksection = this.getSection(this.getSectionIndex(i));
              return levelchunksection.hasOnlyAir()
                  ? Fluids.EMPTY.defaultFluidState()
@@ -29,7 +29,7 @@
          if (j >= this.getMinBuildHeight() && j < this.getMaxBuildHeight()) {
              int l = this.getSectionIndex(j);
              LevelChunkSection levelchunksection = this.getSection(l);
-@@ -199,7 +_,7 @@
+@@ -201,7 +_,7 @@
          if (belowzeroretrogen != null && p_223433_.isValid()) {
              BoundingBox boundingbox = p_223433_.getBoundingBox();
              LevelHeightAccessor levelheightaccessor = this.getHeightAccessorForGeneration();
@@ -38,7 +38,7 @@
                  return;
              }
          }
-@@ -226,7 +_,7 @@
+@@ -228,7 +_,7 @@
      }
  
      @Override
@@ -47,7 +47,7 @@
          if (this.getHighestGeneratedStatus().isOrAfter(ChunkStatus.BIOMES)) {
              return super.getNoiseBiome(p_204450_, p_204451_, p_204452_);
          } else {
-@@ -235,19 +_,19 @@
+@@ -237,19 +_,19 @@
      }
  
      public static short packOffsetCoordinates(BlockPos p_63281_) {

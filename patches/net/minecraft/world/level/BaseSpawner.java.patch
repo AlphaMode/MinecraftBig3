@@ -36,7 +36,7 @@
                      if (p_151312_.noCollision(optional.get().getAABB(d0, d1, d2))) {
                          BlockPos blockpos = BlockPos.containing(d0, d1, d2);
                          if (spawndata.getCustomSpawnRules().isPresent()) {
-@@ -134,12 +_,12 @@
+@@ -133,12 +_,12 @@
                          int k = p_151312_.getEntities(
                                  EntityTypeTest.forExactClass(entity.getClass()),
                                  new AABB(

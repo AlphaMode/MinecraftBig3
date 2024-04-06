@@ -1,22 +1,24 @@
 --- a/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
 +++ b/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
-@@ -15,7 +_,7 @@
+@@ -13,7 +_,7 @@
  import net.minecraft.world.phys.AABB;
  
  public class FlyNodeEvaluator extends WalkNodeEvaluator {
--    private final Long2ObjectMap<BlockPathTypes> pathTypeByPosCache = new Long2ObjectOpenHashMap<>();
-+    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, BlockPathTypes> pathTypeByPosCache = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
-     private static final float SMALL_MOB_INFLATED_START_NODE_BOUNDING_BOX = 1.5F;
+-    private final Long2ObjectMap<PathType> pathTypeByPosCache = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, PathType> pathTypeByPosCache = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+     private static final float SMALL_MOB_SIZE = 1.0F;
+     private static final float SMALL_MOB_INFLATED_START_NODE_BOUNDING_BOX = 1.1F;
      private static final int MAX_START_NODE_CANDIDATES = 10;
- 
-@@ -70,103 +_,103 @@
+@@ -63,7 +_,7 @@
  
      @Override
-     public Target getGoal(double p_77229_, double p_77230_, double p_77231_) {
--        return this.getTargetFromNode(this.getNode(Mth.floor(p_77229_), Mth.floor(p_77230_), Mth.floor(p_77231_)));
-+        return this.getTargetFromNode(this.getNode(Mth.bigFloor(p_77229_), Mth.bigFloor(p_77230_), Mth.bigFloor(p_77231_)));
+     protected boolean canStartAt(BlockPos p_262645_) {
+-        PathType pathtype = this.getCachedPathType(p_262645_.getX(), p_262645_.getY(), p_262645_.getZ());
++        PathType pathtype = this.getCachedPathType(p_262645_.getBigX(), p_262645_.getBigY(), p_262645_.getBigZ());
+         return this.mob.getPathfindingMalus(pathtype) >= 0.0F;
      }
  
+@@ -75,97 +_,97 @@
      @Override
      public int getNeighbors(Node[] p_77266_, Node p_77267_) {
          int i = 0;
@@ -133,7 +135,7 @@
          if (this.isOpen(node18)
              && this.hasMalus(node14)
              && this.hasMalus(node3)
-@@ -177,7 +_,7 @@
+@@ -176,7 +_,7 @@
              p_77266_[i++] = node18;
          }
  
@@ -142,7 +144,7 @@
          if (this.isOpen(node19)
              && this.hasMalus(node15)
              && this.hasMalus(node)
-@@ -188,7 +_,7 @@
+@@ -187,7 +_,7 @@
              p_77266_[i++] = node19;
          }
  
@@ -151,7 +153,7 @@
          if (this.isOpen(node20)
              && this.hasMalus(node16)
              && this.hasMalus(node3)
-@@ -199,7 +_,7 @@
+@@ -198,7 +_,7 @@
              p_77266_[i++] = node20;
          }
  
@@ -160,7 +162,7 @@
          if (this.isOpen(node21)
              && this.hasMalus(node17)
              && this.hasMalus(node)
-@@ -210,7 +_,7 @@
+@@ -209,7 +_,7 @@
              p_77266_[i++] = node21;
          }
  
@@ -169,7 +171,7 @@
          if (this.isOpen(node22)
              && this.hasMalus(node14)
              && this.hasMalus(node3)
-@@ -221,7 +_,7 @@
+@@ -220,7 +_,7 @@
              p_77266_[i++] = node22;
          }
  
@@ -178,7 +180,7 @@
          if (this.isOpen(node23)
              && this.hasMalus(node15)
              && this.hasMalus(node)
-@@ -232,7 +_,7 @@
+@@ -231,7 +_,7 @@
              p_77266_[i++] = node23;
          }
  
@@ -187,7 +189,7 @@
          if (this.isOpen(node24)
              && this.hasMalus(node16)
              && this.hasMalus(node3)
-@@ -243,7 +_,7 @@
+@@ -242,7 +_,7 @@
              p_77266_[i++] = node24;
          }
  
@@ -196,50 +198,43 @@
          if (this.isOpen(node25)
              && this.hasMalus(node17)
              && this.hasMalus(node)
-@@ -266,7 +_,7 @@
+@@ -265,7 +_,7 @@
      }
  
      @Nullable
 -    protected Node findAcceptedNode(int p_262970_, int p_263018_, int p_262947_) {
 +    protected Node findAcceptedNode(me.alphamode.mcbig.math.BigInteger p_262970_, me.alphamode.mcbig.math.BigInteger p_263018_, me.alphamode.mcbig.math.BigInteger p_262947_) {
          Node node = null;
-         BlockPathTypes blockpathtypes = this.getCachedBlockPathType(p_262970_, p_263018_, p_262947_);
-         float f = this.mob.getPathfindingMalus(blockpathtypes);
-@@ -282,15 +_,15 @@
-         return node;
+         PathType pathtype = this.getCachedPathType(p_262970_, p_263018_, p_262947_);
+         float f = this.mob.getPathfindingMalus(pathtype);
+@@ -282,20 +_,20 @@
      }
  
--    private BlockPathTypes getCachedBlockPathType(int p_164694_, int p_164695_, int p_164696_) {
-+    private BlockPathTypes getCachedBlockPathType(me.alphamode.mcbig.math.BigInteger p_164694_, me.alphamode.mcbig.math.BigInteger p_164695_, me.alphamode.mcbig.math.BigInteger p_164696_) {
+     @Override
+-    protected PathType getCachedPathType(int p_326867_, int p_326833_, int p_326788_) {
++    protected PathType getCachedPathType(me.alphamode.mcbig.math.BigInteger p_326867_, me.alphamode.mcbig.math.BigInteger p_326833_, me.alphamode.mcbig.math.BigInteger p_326788_) {
          return this.pathTypeByPosCache
              .computeIfAbsent(
--                BlockPos.asLong(p_164694_, p_164695_, p_164696_), p_265010_ -> this.getBlockPathType(this.level, p_164694_, p_164695_, p_164696_, this.mob)
-+                new BlockPos(p_164694_, p_164695_, p_164696_), p_265010_ -> this.getBlockPathType(this.level, p_164694_, p_164695_, p_164696_, this.mob)
+-                BlockPos.asLong(p_326867_, p_326833_, p_326788_),
++                new BlockPos(p_326867_, p_326833_, p_326788_),
+                 p_330153_ -> this.getPathTypeOfMob(this.currentContext, p_326867_, p_326833_, p_326788_, this.mob)
              );
      }
  
      @Override
--    public BlockPathTypes getBlockPathType(BlockGetter p_265753_, int p_265243_, int p_265376_, int p_265253_, Mob p_265367_) {
-+    public BlockPathTypes getBlockPathType(BlockGetter p_265753_, me.alphamode.mcbig.math.BigInteger p_265243_, me.alphamode.mcbig.math.BigInteger p_265376_, me.alphamode.mcbig.math.BigInteger p_265253_, Mob p_265367_) {
-         EnumSet<BlockPathTypes> enumset = EnumSet.noneOf(BlockPathTypes.class);
-         BlockPathTypes blockpathtypes = BlockPathTypes.BLOCKED;
-         BlockPos blockpos = p_265367_.blockPosition();
-@@ -315,11 +_,11 @@
-     }
- 
-     @Override
--    public BlockPathTypes getBlockPathType(BlockGetter p_77245_, int p_77246_, int p_77247_, int p_77248_) {
-+    public BlockPathTypes getBlockPathType(BlockGetter p_77245_, me.alphamode.mcbig.math.BigInteger p_77246_, me.alphamode.mcbig.math.BigInteger p_77247_, me.alphamode.mcbig.math.BigInteger p_77248_) {
-         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-         BlockPathTypes blockpathtypes = getBlockPathTypeRaw(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_, p_77248_));
--        if (blockpathtypes == BlockPathTypes.OPEN && p_77247_ >= p_77245_.getMinBuildHeight() + 1) {
--            BlockPathTypes blockpathtypes1 = getBlockPathTypeRaw(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_ - 1, p_77248_));
-+        if (blockpathtypes == BlockPathTypes.OPEN && p_77247_.longValue() >= p_77245_.getMinBuildHeight() + 1) {
-+            BlockPathTypes blockpathtypes1 = getBlockPathTypeRaw(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_.subtract(), p_77248_));
-             if (blockpathtypes1 == BlockPathTypes.DAMAGE_FIRE || blockpathtypes1 == BlockPathTypes.LAVA) {
-                 blockpathtypes = BlockPathTypes.DAMAGE_FIRE;
-             } else if (blockpathtypes1 == BlockPathTypes.DAMAGE_OTHER) {
-@@ -365,12 +_,12 @@
+-    public PathType getPathType(PathfindingContext p_331058_, int p_77246_, int p_77247_, int p_77248_) {
++    public PathType getPathType(PathfindingContext p_331058_, me.alphamode.mcbig.math.BigInteger p_77246_, me.alphamode.mcbig.math.BigInteger p_77247_, me.alphamode.mcbig.math.BigInteger p_77248_) {
+         PathType pathtype = p_331058_.getPathTypeFromState(p_77246_, p_77247_, p_77248_);
+-        if (pathtype == PathType.OPEN && p_77247_ >= p_331058_.level().getMinBuildHeight() + 1) {
+-            BlockPos blockpos = new BlockPos(p_77246_, p_77247_ - 1, p_77248_);
+-            PathType pathtype1 = p_331058_.getPathTypeFromState(blockpos.getX(), blockpos.getY(), blockpos.getZ());
++        if (pathtype == PathType.OPEN && p_77247_.compareTo(p_331058_.level().getMinBuildHeight() + 1) >= 0) {
++            BlockPos blockpos = new BlockPos(p_77246_, p_77247_.subtract(), p_77248_);
++            PathType pathtype1 = p_331058_.getPathTypeFromState(blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ());
+             if (pathtype1 == PathType.DAMAGE_FIRE || pathtype1 == PathType.LAVA) {
+                 pathtype = PathType.DAMAGE_FIRE;
+             } else if (pathtype1 == PathType.DAMAGE_OTHER) {
+@@ -336,12 +_,12 @@
              return BlockPos.randomBetweenClosed(
                  p_263108_.getRandom(),
                  10,

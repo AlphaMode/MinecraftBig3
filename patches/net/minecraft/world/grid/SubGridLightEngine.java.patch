@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/grid/SubGridLightEngine.java
++++ b/net/minecraft/world/grid/SubGridLightEngine.java
+@@ -16,7 +_,7 @@
+         super(new LightChunkGetter() {
+             @Nullable
+             @Override
+-            public LightChunk getChunkForLighting(int p_340931_, int p_341288_) {
++            public LightChunk getChunkForLighting(me.alphamode.mcbig.math.BigInteger p_340931_, me.alphamode.mcbig.math.BigInteger p_341288_) {
+                 return null;
+             }
+ 

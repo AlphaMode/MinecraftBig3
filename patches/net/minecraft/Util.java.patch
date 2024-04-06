@@ -1,15 +1,15 @@
 --- a/net/minecraft/Util.java
 +++ b/net/minecraft/Util.java
-@@ -73,6 +_,8 @@
- import java.util.stream.LongStream;
+@@ -76,6 +_,8 @@
  import java.util.stream.Stream;
  import javax.annotation.Nullable;
+ import net.minecraft.core.Registry;
 +
 +import net.minecraft.client.Minecraft;
  import net.minecraft.resources.ResourceLocation;
  import net.minecraft.server.Bootstrap;
  import net.minecraft.util.Mth;
-@@ -108,6 +_,7 @@
+@@ -111,6 +_,7 @@
          .findFirst()
          .orElseThrow(() -> new IllegalStateException("No jar file system provider found"));
      private static Consumer<String> thePauser = p_313412_ -> {
@@ -17,7 +17,7 @@
      };
  
      public static <K, V> Collector<Entry<? extends K, ? extends V>, ?, Map<K, V>> toMap() {
-@@ -631,6 +_,16 @@
+@@ -677,6 +_,16 @@
  
      public static Consumer<String> prefix(String p_137490_, Consumer<String> p_137491_) {
          return p_214645_ -> p_137491_.accept(p_137490_ + p_214645_);

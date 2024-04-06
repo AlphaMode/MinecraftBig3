@@ -44,21 +44,12 @@
          Set<RelativeMovement> p_139021_,
          float p_139022_,
          float p_139023_,
-@@ -294,7 +_,7 @@
+@@ -309,7 +_,7 @@
+         }
      }
  
-     static class LookAt {
--        private final Vec3 position;
-+        private final me.alphamode.mcbig.core.BigVec3 position;
-         private final Entity entity;
-         private final EntityAnchorArgument.Anchor anchor;
- 
-@@ -304,7 +_,7 @@
-             this.position = p_139057_.apply(p_139056_);
-         }
- 
--        public LookAt(Vec3 p_139059_) {
-+        public LookAt(me.alphamode.mcbig.core.BigVec3 p_139059_) {
-             this.entity = null;
-             this.position = p_139059_;
-             this.anchor = null;
+-    static record LookAtPosition(Vec3 position) implements TeleportCommand.LookAt {
++    static record LookAtPosition(me.alphamode.mcbig.core.BigVec3 position) implements TeleportCommand.LookAt {
+         @Override
+         public void perform(CommandSourceStack p_326870_, Entity p_326894_) {
+             p_326894_.lookAt(p_326870_.getAnchor(), this.position);

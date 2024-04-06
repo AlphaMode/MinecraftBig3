@@ -15,7 +15,7 @@
                          witch.setPersistenceRequired();
 -                        witch.moveTo((double)blockpos.getX() + 0.5, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5, 0.0F, 0.0F);
 +                        witch.moveTo((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue() + 0.5, 0.0F, 0.0F);
-                         witch.finalizeSpawn(p_229961_, p_229961_.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null, null);
+                         witch.finalizeSpawn(p_229961_, p_229961_.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null);
                          p_229961_.addFreshEntityWithPassengers(witch);
                      }
 @@ -120,7 +_,7 @@
@@ -24,6 +24,6 @@
                      cat.setPersistenceRequired();
 -                    cat.moveTo((double)blockpos.getX() + 0.5, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5, 0.0F, 0.0F);
 +                    cat.moveTo((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue(), (double)blockpos.getBigZ().doubleValue() + 0.5, 0.0F, 0.0F);
-                     cat.finalizeSpawn(p_229958_, p_229958_.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null, null);
+                     cat.finalizeSpawn(p_229958_, p_229958_.getCurrentDifficultyAt(blockpos), MobSpawnType.STRUCTURE, null);
                      p_229958_.addFreshEntityWithPassengers(cat);
                  }

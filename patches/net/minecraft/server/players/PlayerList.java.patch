@@ -1,15 +1,15 @@
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
-@@ -208,7 +_,7 @@
+@@ -225,7 +_,7 @@
          }
  
          this.broadcastSystemMessage(mutablecomponent.withStyle(ChatFormatting.YELLOW), false);
 -        servergamepacketlistenerimpl.teleport(p_11263_.getX(), p_11263_.getY(), p_11263_.getZ(), p_11263_.getYRot(), p_11263_.getXRot());
 +        servergamepacketlistenerimpl.teleport(p_11263_.getBigX(), p_11263_.getY(), p_11263_.getBigZ(), p_11263_.getYRot(), p_11263_.getXRot());
          ServerStatus serverstatus = this.server.getStatus();
-         if (serverstatus != null) {
+         if (serverstatus != null && !p_301988_.transferred()) {
              p_11263_.sendServerStatus(serverstatus);
-@@ -480,14 +_,14 @@
+@@ -534,14 +_,14 @@
          }
  
          while(!serverlevel1.noCollision(serverplayer) && serverplayer.getY() < (double)serverlevel1.getMaxBuildHeight()) {
@@ -26,7 +26,7 @@
          serverplayer.connection.send(new ClientboundSetDefaultSpawnPositionPacket(serverlevel1.getSharedSpawnPos(), serverlevel1.getSharedSpawnAngle()));
          serverplayer.connection.send(new ClientboundChangeDifficultyPacket(leveldata.getDifficulty(), leveldata.isDifficultyLocked()));
          serverplayer.connection
-@@ -505,9 +_,9 @@
+@@ -559,9 +_,9 @@
                      new ClientboundSoundPacket(
                          SoundEvents.RESPAWN_ANCHOR_DEPLETE,
                          SoundSource.BLOCKS,

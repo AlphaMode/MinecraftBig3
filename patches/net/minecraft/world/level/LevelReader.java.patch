@@ -4,7 +4,7 @@
  
  public interface LevelReader extends BlockAndTintGetter, CollisionGetter, SignalGetter, BiomeManager.NoiseBiomeSource {
      @Nullable
--    ChunkAccess getChunk(int p_46823_, int p_46824_, ChunkStatus p_46825_, boolean p_46826_);
+-    ChunkAccess getChunk(int p_46823_, int p_46824_, ChunkStatus p_330944_, boolean p_46826_);
 +    ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_46823_, me.alphamode.mcbig.math.BigInteger p_46824_, ChunkStatus p_46825_, boolean p_46826_);
  
      @Deprecated
@@ -100,13 +100,13 @@
          return this.getChunk(p_46807_, p_46808_, ChunkStatus.FULL, true);
      }
  
--    default ChunkAccess getChunk(int p_46820_, int p_46821_, ChunkStatus p_46822_) {
+-    default ChunkAccess getChunk(int p_46820_, int p_46821_, ChunkStatus p_332007_) {
 +    default ChunkAccess getChunk(int p_46807_, int p_46808_) {
 +        return this.getChunk(me.alphamode.mcbig.math.BigInteger.val(p_46807_), me.alphamode.mcbig.math.BigInteger.val(p_46808_));
 +    }
 +
-+    default ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_46820_, me.alphamode.mcbig.math.BigInteger p_46821_, ChunkStatus p_46822_) {
-         return this.getChunk(p_46820_, p_46821_, p_46822_, true);
++    default ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_46820_, me.alphamode.mcbig.math.BigInteger p_46821_, ChunkStatus p_332007_) {
+         return this.getChunk(p_46820_, p_46821_, p_332007_, true);
      }
  
      @Nullable

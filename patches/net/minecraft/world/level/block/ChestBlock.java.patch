@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/ChestBlock.java
 +++ b/net/minecraft/world/level/block/ChestBlock.java
-@@ -338,12 +_,12 @@
+@@ -337,12 +_,12 @@
          List<Cat> list = p_51564_.getEntitiesOfClass(
              Cat.class,
              new AABB(

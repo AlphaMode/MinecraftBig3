@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/net/minecraft/world/level/chunk/LevelChunk.java
-@@ -174,9 +_,9 @@
+@@ -176,9 +_,9 @@
  
      @Override
      public BlockState getBlockState(BlockPos p_62923_) {
@@ -12,7 +12,7 @@
          if (this.level.isDebug()) {
              BlockState blockstate = null;
              if (j == 60) {
-@@ -184,7 +_,7 @@
+@@ -186,7 +_,7 @@
              }
  
              if (j == 70) {
@@ -21,7 +21,7 @@
              }
  
              return blockstate == null ? Blocks.AIR.defaultBlockState() : blockstate;
-@@ -194,7 +_,7 @@
+@@ -196,7 +_,7 @@
                  if (l >= 0 && l < this.sections.length) {
                      LevelChunkSection levelchunksection = this.sections[l];
                      if (!levelchunksection.hasOnlyAir()) {
@@ -30,7 +30,7 @@
                      }
                  }
  
-@@ -202,7 +_,7 @@
+@@ -204,7 +_,7 @@
              } catch (Throwable throwable) {
                  CrashReport crashreport = CrashReport.forThrowable(throwable, "Getting block state");
                  CrashReportCategory crashreportcategory = crashreport.addCategory("Block being got");
@@ -39,7 +39,7 @@
                  throw new ReportedException(crashreport);
              }
          }
-@@ -210,16 +_,16 @@
+@@ -212,16 +_,16 @@
  
      @Override
      public FluidState getFluidState(BlockPos p_62895_) {
@@ -60,7 +60,7 @@
                  }
              }
  
-@@ -227,7 +_,7 @@
+@@ -229,7 +_,7 @@
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Getting fluid state");
              CrashReportCategory crashreportcategory = crashreport.addCategory("Block being got");
@@ -69,7 +69,7 @@
              throw new ReportedException(crashreport);
          }
      }
-@@ -241,9 +_,9 @@
+@@ -243,9 +_,9 @@
          if (flag && p_62866_.isAir()) {
              return null;
          } else {
@@ -81,7 +81,7 @@
              BlockState blockstate = levelchunksection.setBlockState(j, k, l, p_62866_);
              if (blockstate == p_62866_) {
                  return null;
-@@ -371,7 +_,7 @@
+@@ -373,7 +_,7 @@
                  return true;
              } else {
                  ServerLevel serverlevel = (ServerLevel)levelx;

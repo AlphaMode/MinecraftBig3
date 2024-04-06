@@ -9,7 +9,7 @@
      protected long timeoutTimer;
      protected long lastTimeoutCheck;
      protected double timeoutLimit;
-@@ -227,7 +_,7 @@
+@@ -231,7 +_,7 @@
      protected void followThePath() {
          Vec3 vec3 = this.getTempMobPos();
          this.maxDistanceToWaypoint = this.mob.getBbWidth() > 0.75F ? this.mob.getBbWidth() / 2.0F : 0.75F - this.mob.getBbWidth() / 2.0F;
@@ -18,7 +18,7 @@
          double d0 = Math.abs(this.mob.getX() - ((double)vec3i.getX() + 0.5));
          double d1 = Math.abs(this.mob.getY() - (double)vec3i.getY());
          double d2 = Math.abs(this.mob.getZ() - ((double)vec3i.getZ() + 0.5));
-@@ -283,7 +_,7 @@
+@@ -287,7 +_,7 @@
          }
  
          if (this.path != null && !this.path.isDone()) {
@@ -27,7 +27,7 @@
              long i = this.level.getGameTime();
              if (vec3i.equals(this.timeoutCachedNode)) {
                  this.timeoutTimer += i - this.lastTimeoutCheck;
-@@ -307,7 +_,7 @@
+@@ -311,7 +_,7 @@
      }
  
      private void resetStuckTimeout() {
@@ -36,7 +36,7 @@
          this.timeoutTimer = 0L;
          this.timeoutLimit = 0.0;
          this.isStuck = false;
-@@ -336,9 +_,9 @@
+@@ -340,9 +_,9 @@
                  Node node1 = i + 1 < this.path.getNodeCount() ? this.path.getNode(i + 1) : null;
                  BlockState blockstate = this.level.getBlockState(new BlockPos(node.x, node.y, node.z));
                  if (blockstate.is(BlockTags.CAULDRONS)) {
@@ -49,7 +49,7 @@
                      }
                  }
              }
-@@ -356,7 +_,7 @@
+@@ -360,7 +_,7 @@
      protected static boolean isClearForMovementBetween(Mob p_262599_, Vec3 p_262674_, Vec3 p_262586_, boolean p_262676_) {
          Vec3 vec3 = new Vec3(p_262586_.x, p_262586_.y + (double)p_262599_.getBbHeight() * 0.5, p_262586_.z);
          return p_262599_.level()
@@ -58,7 +58,7 @@
                  .getType()
              == HitResult.Type.MISS;
      }
-@@ -383,7 +_,7 @@
+@@ -387,7 +_,7 @@
              return false;
          } else if (this.path != null && !this.path.isDone() && this.path.getNodeCount() != 0) {
              Node node = this.path.getEndNode();

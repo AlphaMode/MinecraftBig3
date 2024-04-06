@@ -14,8 +14,8 @@
              .compute(
 -                p_233868_.asLong(),
 +                p_233868_,
-                 (p_311460_, p_311461_) -> p_311461_ != null
-                         ? p_311461_.setSequence(this.currentSequenceNr)
+                 (p_339495_, p_339496_) -> p_339496_ != null
+                         ? p_339496_.setSequence(this.currentSequenceNr)
                          : new BlockStatePredictionHandler.ServerVerifiedState(this.currentSequenceNr, p_233869_, p_233870_.position())
 @@ -28,7 +_,7 @@
      }

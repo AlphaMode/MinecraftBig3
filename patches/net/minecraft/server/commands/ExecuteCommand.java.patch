@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/ExecuteCommand.java
 +++ b/net/minecraft/server/commands/ExecuteCommand.java
-@@ -163,7 +_,7 @@
+@@ -172,7 +_,7 @@
                                              list.add(
                                                  p_284653_.getSource()
                                                      .withLevel((ServerLevel)entity.level())
@@ -9,7 +9,7 @@
                                                      .withRotation(entity.getRotationVector())
                                              );
                                          }
-@@ -193,7 +_,7 @@
+@@ -202,7 +_,7 @@
                              List<CommandSourceStack> list = Lists.newArrayList();
                  
                              for(Entity entity : EntityArgument.getOptionalEntities(p_137293_, "targets")) {
@@ -18,7 +18,7 @@
                              }
                  
                              return list;
-@@ -201,15 +_,15 @@
+@@ -210,15 +_,15 @@
                          .then(
                              Commands.literal("over")
                                  .then(Commands.argument("heightmap", HeightmapTypeArgument.heightmap()).redirect(literalcommandnode, p_274814_ -> {
@@ -37,7 +37,7 @@
                                      }
                                  }))
                          )
-@@ -493,11 +_,11 @@
+@@ -502,11 +_,11 @@
  
      private static boolean isChunkLoaded(ServerLevel p_265261_, BlockPos p_265260_) {
          ChunkPos chunkpos = new ChunkPos(p_265260_);
@@ -51,8 +51,8 @@
          }
      }
  
-@@ -770,7 +_,7 @@
-     private static boolean checkCustomPredicate(CommandSourceStack p_137105_, LootItemCondition p_137106_) {
+@@ -892,7 +_,7 @@
+     private static boolean checkCustomPredicate(CommandSourceStack p_137105_, Holder<LootItemCondition> p_335673_) {
          ServerLevel serverlevel = p_137105_.getLevel();
          LootParams lootparams = new LootParams.Builder(serverlevel)
 -            .withParameter(LootContextParams.ORIGIN, p_137105_.getPosition())
@@ -60,7 +60,7 @@
              .withOptionalParameter(LootContextParams.THIS_ENTITY, p_137105_.getEntity())
              .create(LootContextParamSets.COMMAND);
          LootContext lootcontext = new LootContext.Builder(lootparams).create(Optional.empty());
-@@ -839,7 +_,7 @@
+@@ -961,7 +_,7 @@
          BoundingBox boundingbox = BoundingBox.fromCorners(p_137038_, p_137039_);
          BoundingBox boundingbox1 = BoundingBox.fromCorners(p_137040_, p_137040_.offset(boundingbox.getLength()));
          BlockPos blockpos = new BlockPos(
@@ -69,8 +69,8 @@
          );
          int i = boundingbox.getXSpan() * boundingbox.getYSpan() * boundingbox.getZSpan();
          if (i > 32768) {
-@@ -847,9 +_,9 @@
-         } else {
+@@ -970,9 +_,9 @@
+             RegistryAccess registryaccess = p_137037_.registryAccess();
              int j = 0;
  
 -            for(int k = boundingbox.minZ(); k <= boundingbox.maxZ(); ++k) {

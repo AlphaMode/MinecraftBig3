@@ -1,12 +1,12 @@
 --- a/net/minecraft/world/level/gameevent/GameEventDispatcher.java
 +++ b/net/minecraft/world/level/gameevent/GameEventDispatcher.java
-@@ -17,15 +_,15 @@
+@@ -18,15 +_,15 @@
          this.level = p_251921_;
      }
  
--    public void post(GameEvent p_251754_, Vec3 p_250613_, GameEvent.Context p_251777_) {
-+    public void post(GameEvent p_251754_, me.alphamode.mcbig.core.BigVec3 p_250613_, GameEvent.Context p_251777_) {
-         int i = p_251754_.getNotificationRadius();
+-    public void post(Holder<GameEvent> p_316151_, Vec3 p_250613_, GameEvent.Context p_251777_) {
++    public void post(Holder<GameEvent> p_316151_, me.alphamode.mcbig.core.BigVec3 p_250613_, GameEvent.Context p_251777_) {
+         int i = p_316151_.value().notificationRadius();
          BlockPos blockpos = BlockPos.containing(p_250613_);
 -        int j = SectionPos.blockToSectionCoord(blockpos.getX() - i);
 -        int k = SectionPos.blockToSectionCoord(blockpos.getY() - i);
@@ -21,9 +21,9 @@
 +        me.alphamode.mcbig.math.BigInteger j1 = SectionPos.blockToSectionCoord(blockpos.getBigY().add(i));
 +        me.alphamode.mcbig.math.BigInteger k1 = SectionPos.blockToSectionCoord(blockpos.getBigZ().add(i));
          List<GameEvent.ListenerInfo> list = new ArrayList<>();
-         GameEventListenerRegistry.ListenerVisitor gameeventlistenerregistry$listenervisitor = (p_251272_, p_248685_) -> {
-             if (p_251272_.getDeliveryMode() == GameEventListener.DeliveryMode.BY_DISTANCE) {
-@@ -36,11 +_,11 @@
+         GameEventListenerRegistry.ListenerVisitor gameeventlistenerregistry$listenervisitor = (p_316091_, p_316092_) -> {
+             if (p_316091_.getDeliveryMode() == GameEventListener.DeliveryMode.BY_DISTANCE) {
+@@ -37,11 +_,11 @@
          };
          boolean flag = false;
  
@@ -36,14 +36,14 @@
 -                    for(int j2 = k; j2 <= j1; ++j2) {
 +                    for(int j2 = k.intValue(); j2 <= j1.intValue(); ++j2) {
                          flag |= chunkaccess.getListenerRegistry(j2)
-                             .visitInRangeListeners(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
+                             .visitInRangeListeners(p_316151_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
                      }
-@@ -53,7 +_,7 @@
+@@ -54,7 +_,7 @@
          }
  
          if (flag) {
--            DebugPackets.sendGameEventInfo(this.level, p_251754_, p_250613_);
-+            DebugPackets.sendGameEventInfo(this.level, p_251754_, p_250613_.toVanilla());
+-            DebugPackets.sendGameEventInfo(this.level, p_316151_, p_250613_);
++            DebugPackets.sendGameEventInfo(this.level, p_316151_, p_250613_.toVanilla());
          }
      }
  

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/ChiseledBookShelfBlock.java
 +++ b/net/minecraft/world/level/block/ChiseledBookShelfBlock.java
-@@ -101,7 +_,7 @@
+@@ -124,7 +_,7 @@
              return Optional.empty();
          } else {
              BlockPos blockpos = p_261714_.getBlockPos().relative(direction);

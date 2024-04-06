@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ServerPlayer.java
 +++ b/net/minecraft/server/level/ServerPlayer.java
-@@ -273,7 +_,7 @@
+@@ -299,7 +_,7 @@
          BlockPos blockpos = p_9202_.getSharedSpawnPos();
          if (p_9202_.dimensionType().hasSkyLight() && p_9202_.getServer().getWorldData().getGameType() != GameType.ADVENTURE) {
              int i = Math.max(0, this.server.getSpawnRadius(p_9202_));
@@ -9,7 +9,7 @@
              if (j < i) {
                  i = j;
              }
-@@ -292,7 +_,7 @@
+@@ -318,7 +_,7 @@
                  int i2 = (k1 + j1 * l1) % i1;
                  int j2 = i2 % (i * 2 + 1);
                  int k2 = i2 / (i * 2 + 1);
@@ -18,7 +18,7 @@
                  if (blockpos1 != null) {
                      this.moveTo(blockpos1, 0.0F, 0.0F);
                      if (p_9202_.noCollision(this)) {
-@@ -304,7 +_,7 @@
+@@ -330,7 +_,7 @@
              this.moveTo(blockpos, 0.0F, 0.0F);
  
              while(!p_9202_.noCollision(this) && this.getY() < (double)(p_9202_.getMaxBuildHeight() - 1)) {
@@ -27,7 +27,7 @@
              }
          }
      }
-@@ -338,7 +_,7 @@
+@@ -364,7 +_,7 @@
          }
  
          if (p_9131_.contains("SpawnX", 99) && p_9131_.contains("SpawnY", 99) && p_9131_.contains("SpawnZ", 99)) {
@@ -36,7 +36,7 @@
              this.respawnForced = p_9131_.getBoolean("SpawnForced");
              this.respawnAngle = p_9131_.getFloat("SpawnAngle");
              if (p_9131_.contains("SpawnDimension")) {
-@@ -381,9 +_,9 @@
+@@ -409,9 +_,9 @@
          p_9197_.put("recipeBook", this.recipeBook.toNbt());
          p_9197_.putString("Dimension", this.level().dimension().location().toString());
          if (this.respawnPosition != null) {
@@ -49,16 +49,16 @@
              p_9197_.putBoolean("SpawnForced", this.respawnForced);
              p_9197_.putFloat("SpawnAngle", this.respawnAngle);
              ResourceLocation.CODEC
-@@ -731,7 +_,7 @@
-     protected PortalInfo findDimensionEntryPoint(ServerLevel p_8998_) {
-         PortalInfo portalinfo = super.findDimensionEntryPoint(p_8998_);
+@@ -927,7 +_,7 @@
+     protected PortalInfo findDimensionEntryPoint(ServerLevel p_8998_, boolean p_342019_) {
+         PortalInfo portalinfo = super.findDimensionEntryPoint(p_8998_, p_342019_);
          if (portalinfo != null && this.level().dimension() == Level.OVERWORLD && p_8998_.dimension() == Level.END) {
 -            Vec3 vec3 = portalinfo.pos.add(0.0, -1.0, 0.0);
 +            me.alphamode.mcbig.core.BigVec3 vec3 = portalinfo.pos.add(0.0, -1.0, 0.0);
              return new PortalInfo(vec3, Vec3.ZERO, 90.0F, 0.0F);
          } else {
              return portalinfo;
-@@ -930,7 +_,7 @@
+@@ -1134,7 +_,7 @@
  
          super.stopSleepInBed(p_9165_, p_9166_);
          if (this.connection != null) {
@@ -67,7 +67,7 @@
          }
      }
  
-@@ -1235,8 +_,14 @@
+@@ -1455,8 +_,14 @@
          this.connection.send(new ClientboundPlayerLookAtPacket(p_9112_, p_9113_.x, p_9113_.y, p_9113_.z));
      }
  
@@ -83,7 +83,7 @@
          super.lookAt(p_9108_, vec3);
          this.connection.send(new ClientboundPlayerLookAtPacket(p_9108_, p_9109_, p_9110_));
      }
-@@ -1316,12 +_,12 @@
+@@ -1536,12 +_,12 @@
      @Override
      public void teleportRelative(double p_251611_, double p_248861_, double p_252266_) {
          this.connection
@@ -98,7 +98,7 @@
      ) {
          ChunkPos chunkpos = new ChunkPos(BlockPos.containing(p_265424_, p_265680_, p_265312_));
          p_265564_.getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 1, this.getId());
-@@ -1520,7 +_,7 @@
+@@ -1735,7 +_,7 @@
          if (entity != this.camera) {
              Level level = this.camera.level();
              if (level instanceof ServerLevel serverlevel) {
@@ -107,7 +107,7 @@
              }
  
              if (p_9214_ != null) {
-@@ -1575,7 +_,7 @@
+@@ -1790,7 +_,7 @@
          return this.advancements;
      }
  
@@ -116,7 +116,7 @@
          this.setCamera(this);
          this.stopRiding();
          if (p_9000_ == this.level()) {
-@@ -1795,7 +_,7 @@
+@@ -2015,7 +_,7 @@
              return false;
          } else {
              p_277395_.positionRider(this);
@@ -124,4 +124,4 @@
 +            this.connection.teleport(this.getBigX(), this.getY(), this.getBigZ(), this.getYRot(), this.getXRot());
              if (p_277395_ instanceof LivingEntity livingentity) {
                  for(MobEffectInstance mobeffectinstance : livingentity.getActiveEffects()) {
-                     this.connection.send(new ClientboundUpdateMobEffectPacket(p_277395_.getId(), mobeffectinstance));
+                     this.connection.send(new ClientboundUpdateMobEffectPacket(p_277395_.getId(), mobeffectinstance, false));

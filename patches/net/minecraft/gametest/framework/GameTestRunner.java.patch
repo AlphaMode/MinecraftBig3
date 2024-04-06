@@ -1,0 +1,13 @@
+--- a/net/minecraft/gametest/framework/GameTestRunner.java
++++ b/net/minecraft/gametest/framework/GameTestRunner.java
+@@ -93,8 +_,8 @@
+                     if (multipletesttracker.isDone()) {
+                         GameTestRunner.this.currentBatch.afterBatchFunction().accept(GameTestRunner.this.level);
+                         GameTestRunner.this.batchListeners.forEach(p_320644_ -> p_320644_.testBatchFinished(GameTestRunner.this.currentBatch));
+-                        LongSet longset = new LongArraySet(GameTestRunner.this.level.getForcedChunks());
+-                        longset.forEach(p_319954_ -> GameTestRunner.this.level.setChunkForced(ChunkPos.getX(p_319954_), ChunkPos.getZ(p_319954_), false));
++                        it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = new it.unimi.dsi.fastutil.objects.ObjectArraySet<>(GameTestRunner.this.level.getForcedChunks());
++                        longset.forEach(p_319954_ -> GameTestRunner.this.level.setChunkForced(p_319954_.x(), p_319954_.z(), false));
+                         GameTestRunner.this.runBatch(p_319917_ + 1);
+                     }
+                 }

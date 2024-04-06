@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/RespawnAnchorBlock.java
 +++ b/net/minecraft/world/level/block/RespawnAnchorBlock.java
-@@ -44,21 +_,21 @@
+@@ -45,21 +_,21 @@
      public static final int MIN_CHARGES = 0;
      public static final int MAX_CHARGES = 4;
      public static final IntegerProperty CHARGE = BlockStateProperties.RESPAWN_ANCHOR_CHARGES;
@@ -35,20 +35,20 @@
          .build();
  
      @Override
-@@ -98,9 +_,9 @@
-                     serverplayer.setRespawnPosition(p_55875_.dimension(), p_55876_, 0.0F, false, true);
-                     p_55875_.playSound(
+@@ -104,9 +_,9 @@
+                     serverplayer.setRespawnPosition(p_316150_.dimension(), p_316161_, 0.0F, false, true);
+                     p_316150_.playSound(
                          null,
--                        (double)p_55876_.getX() + 0.5,
--                        (double)p_55876_.getY() + 0.5,
--                        (double)p_55876_.getZ() + 0.5,
-+                        (double)p_55876_.getBigX().doubleValue() + 0.5,
-+                        (double)p_55876_.getBigY().doubleValue() + 0.5,
-+                        (double)p_55876_.getBigZ().doubleValue() + 0.5,
+-                        (double)p_316161_.getX() + 0.5,
+-                        (double)p_316161_.getY() + 0.5,
+-                        (double)p_316161_.getZ() + 0.5,
++                        (double)p_316161_.getBigX().doubleValue() + 0.5,
++                        (double)p_316161_.getBigY().doubleValue() + 0.5,
++                        (double)p_316161_.getBigZ().doubleValue() + 0.5,
                          SoundEvents.RESPAWN_ANCHOR_SET_SPAWN,
                          SoundSource.BLOCKS,
                          1.0F,
-@@ -169,9 +_,9 @@
+@@ -175,9 +_,9 @@
          p_270172_.gameEvent(GameEvent.BLOCK_CHANGE, p_270534_, GameEvent.Context.of(p_270997_, blockstate));
          p_270172_.playSound(
              null,
@@ -61,33 +61,7 @@
              SoundEvents.RESPAWN_ANCHOR_CHARGE,
              SoundSource.BLOCKS,
              1.0F,
-@@ -185,9 +_,9 @@
-             if (p_221972_.nextInt(100) == 0) {
-                 p_221970_.playSound(
-                     null,
--                    (double)p_221971_.getX() + 0.5,
--                    (double)p_221971_.getY() + 0.5,
--                    (double)p_221971_.getZ() + 0.5,
-+                    (double)p_221971_.getBigX().doubleValue() + 0.5,
-+                    (double)p_221971_.getBigY().doubleValue() + 0.5,
-+                    (double)p_221971_.getBigZ().doubleValue() + 0.5,
-                     SoundEvents.RESPAWN_ANCHOR_AMBIENT,
-                     SoundSource.BLOCKS,
-                     1.0F,
-@@ -195,9 +_,9 @@
-                 );
-             }
- 
--            double d0 = (double)p_221971_.getX() + 0.5 + (0.5 - p_221972_.nextDouble());
--            double d1 = (double)p_221971_.getY() + 1.0;
--            double d2 = (double)p_221971_.getZ() + 0.5 + (0.5 - p_221972_.nextDouble());
-+            double d0 = (double)p_221971_.getBigX().doubleValue() + 0.5 + (0.5 - p_221972_.nextDouble());
-+            double d1 = (double)p_221971_.getBigY().doubleValue() + 1.0;
-+            double d2 = (double)p_221971_.getBigZ().doubleValue() + 0.5 + (0.5 - p_221972_.nextDouble());
-             double d3 = (double)p_221972_.nextFloat() * 0.04;
-             p_221970_.addParticle(ParticleTypes.REVERSE_PORTAL, d0, d1, d2, 0.0, d3, 0.0);
-         }
-@@ -230,7 +_,7 @@
+@@ -227,7 +_,7 @@
      private static Optional<Vec3> findStandUpPosition(EntityType<?> p_55844_, CollisionGetter p_55845_, BlockPos p_55846_, boolean p_55847_) {
          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  

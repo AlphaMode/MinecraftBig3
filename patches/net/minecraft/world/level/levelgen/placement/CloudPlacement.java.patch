@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/placement/CloudPlacement.java
++++ b/net/minecraft/world/level/levelgen/placement/CloudPlacement.java
+@@ -11,7 +_,7 @@
+ 
+     @Override
+     public Stream<BlockPos> getPositions(PlacementContext p_341213_, RandomSource p_341887_, BlockPos p_341422_) {
+-        int i = p_341213_.getHeight(Heightmap.Types.MOTION_BLOCKING, p_341422_.getX(), p_341422_.getZ());
++        int i = p_341213_.getHeight(Heightmap.Types.MOTION_BLOCKING, p_341422_.getBigX(), p_341422_.getBigZ());
+         return i != p_341213_.getMinBuildHeight() ? Stream.empty() : Stream.of(p_341422_.above(p_341887_.nextIntBetweenInclusive(105, 115)));
+     }
+ 

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/StructurePiece.java
 +++ b/net/minecraft/world/level/levelgen/structure/StructurePiece.java
-@@ -80,10 +_,10 @@
+@@ -81,10 +_,10 @@
          this.setOrientation(i == -1 ? null : Direction.from2DDataValue(i));
      }
  
@@ -14,7 +14,7 @@
      }
  
      protected static Direction getRandomHorizontalDirection(RandomSource p_226761_) {
-@@ -132,20 +_,30 @@
+@@ -133,20 +_,30 @@
      }
  
      public boolean isCloseToChunk(ChunkPos p_73412_, int p_73413_) {
@@ -50,7 +50,7 @@
          Direction direction = this.getOrientation();
          if (direction == null) {
              return p_73393_;
-@@ -153,34 +_,38 @@
+@@ -154,34 +_,38 @@
              switch(direction) {
                  case NORTH:
                  case SOUTH:
@@ -100,7 +100,7 @@
                  default:
                      return p_73527_;
              }
-@@ -188,6 +_,10 @@
+@@ -189,6 +_,10 @@
      }
  
      protected void placeBlock(WorldGenLevel p_73435_, BlockState p_73436_, int p_73437_, int p_73438_, int p_73439_, BoundingBox p_73440_) {
@@ -111,7 +111,7 @@
          BlockPos blockpos = this.getWorldPos(p_73437_, p_73438_, p_73439_);
          if (p_73440_.isInside(blockpos)) {
              if (this.canBeReplaced(p_73435_, p_73437_, p_73438_, p_73439_, p_73440_)) {
-@@ -212,21 +_,30 @@
+@@ -213,21 +_,30 @@
          }
      }
  
@@ -145,7 +145,7 @@
          }
      }
  
-@@ -236,30 +_,50 @@
+@@ -237,30 +_,50 @@
          for(int i = p_73539_; i <= p_73542_; ++i) {
              for(int j = p_73538_; j <= p_73541_; ++j) {
                  for(int k = p_73540_; k <= p_73543_; ++k) {
@@ -207,7 +207,7 @@
                              this.placeBlock(p_73442_, p_73451_, j, i, k, p_73443_);
                          } else {
                              this.placeBlock(p_73442_, p_73450_, j, i, k, p_73443_);
-@@ -304,11 +_,11 @@
+@@ -305,11 +_,11 @@
          for(int i = p_226780_; i <= p_226783_; ++i) {
              for(int j = p_226779_; j <= p_226782_; ++j) {
                  for(int k = p_226781_; k <= p_226784_; ++k) {
@@ -221,7 +221,7 @@
                      }
                  }
              }
-@@ -326,12 +_,12 @@
+@@ -327,12 +_,12 @@
          this.generateBox(
              p_226829_,
              p_226830_,
@@ -240,7 +240,7 @@
              p_226832_,
              p_226833_,
              p_226834_
-@@ -357,13 +_,16 @@
+@@ -358,13 +_,16 @@
          for(int i = p_226794_; i <= p_226797_; ++i) {
              for(int j = p_226793_; j <= p_226796_; ++j) {
                  for(int k = p_226795_; k <= p_226798_; ++k) {
@@ -261,7 +261,7 @@
                          }
                      }
                  }
-@@ -382,36 +_,36 @@
+@@ -383,36 +_,36 @@
          BlockState p_226811_
      ) {
          if (p_226806_.nextFloat() < p_226807_) {
@@ -319,7 +319,7 @@
                      if (!p_73463_ || !this.getBlock(p_73454_, j, i, k, p_73455_).isAir()) {
                          float f8 = f6 * f6 + f5 * f5 + f7 * f7;
                          if (f8 <= 1.05F) {
-@@ -424,7 +_,7 @@
+@@ -425,7 +_,7 @@
      }
  
      protected void fillColumnDown(WorldGenLevel p_73529_, BlockState p_73530_, int p_73531_, int p_73532_, int p_73533_, BoundingBox p_73534_) {
@@ -328,29 +328,16 @@
          if (p_73534_.isInside(blockpos$mutableblockpos)) {
              while(
                  this.isReplaceableByStructures(p_73529_.getBlockState(blockpos$mutableblockpos))
-@@ -447,7 +_,7 @@
+@@ -448,7 +_,7 @@
      protected boolean createChest(
-         WorldGenLevel p_226812_, BoundingBox p_226813_, RandomSource p_226814_, int p_226815_, int p_226816_, int p_226817_, ResourceLocation p_226818_
+         WorldGenLevel p_226812_, BoundingBox p_226813_, RandomSource p_226814_, int p_226815_, int p_226816_, int p_226817_, ResourceKey<LootTable> p_335835_
      ) {
--        return this.createChest(p_226812_, p_226813_, p_226814_, this.getWorldPos(p_226815_, p_226816_, p_226817_), p_226818_, null);
-+        return this.createChest(p_226812_, p_226813_, p_226814_, this.getWorldPos(me.alphamode.mcbig.math.BigInteger.val(p_226815_), me.alphamode.mcbig.math.BigInteger.val(p_226816_), me.alphamode.mcbig.math.BigInteger.val(p_226817_)), p_226818_, null);
+-        return this.createChest(p_226812_, p_226813_, p_226814_, this.getWorldPos(p_226815_, p_226816_, p_226817_), p_335835_, null);
++        return this.createChest(p_226812_, p_226813_, p_226814_, this.getWorldPos(me.alphamode.mcbig.math.BigInteger.val(p_226815_), me.alphamode.mcbig.math.BigInteger.val(p_226816_), me.alphamode.mcbig.math.BigInteger.val(p_226817_)), p_335835_, null);
      }
  
      public static BlockState reorient(BlockGetter p_73408_, BlockPos p_73409_, BlockState p_73410_) {
-@@ -529,10 +_,10 @@
-         Direction p_226826_,
-         ResourceLocation p_226827_
-     ) {
--        BlockPos blockpos = this.getWorldPos(p_226823_, p_226824_, p_226825_);
-+        BlockPos blockpos = this.getWorldPos(me.alphamode.mcbig.math.BigInteger.val(p_226823_), me.alphamode.mcbig.math.BigInteger.val(p_226824_), me.alphamode.mcbig.math.BigInteger.val(p_226825_));
-         if (p_226821_.isInside(blockpos) && !p_226820_.getBlockState(blockpos).is(Blocks.DISPENSER)) {
-             this.placeBlock(
--                p_226820_, Blocks.DISPENSER.defaultBlockState().setValue(DispenserBlock.FACING, p_226826_), p_226823_, p_226824_, p_226825_, p_226821_
-+                p_226820_, Blocks.DISPENSER.defaultBlockState().setValue(DispenserBlock.FACING, p_226826_), me.alphamode.mcbig.math.BigInteger.val(p_226823_), me.alphamode.mcbig.math.BigInteger.val(p_226824_), me.alphamode.mcbig.math.BigInteger.val(p_226825_), p_226821_
-             );
-             BlockEntity blockentity = p_226820_.getBlockEntity(blockpos);
-             if (blockentity instanceof DispenserBlockEntity) {
-@@ -545,7 +_,7 @@
+@@ -546,7 +_,7 @@
          }
      }
  

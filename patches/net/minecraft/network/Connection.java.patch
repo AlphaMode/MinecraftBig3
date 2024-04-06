@@ -1,0 +1,10 @@
+--- a/net/minecraft/network/Connection.java
++++ b/net/minecraft/network/Connection.java
+@@ -137,6 +_,7 @@
+                     this.disconnect(Component.translatable("disconnect.timeout"));
+                 } else {
+                     Component component = Component.translatable("disconnect.genericReason", "Internal Exception: " + p_129534_);
++                    p_129534_.printStackTrace();
+                     if (flag) {
+                         LOGGER.debug("Failed to sent packet", p_129534_);
+                         if (this.getSending() == PacketFlow.CLIENTBOUND) {

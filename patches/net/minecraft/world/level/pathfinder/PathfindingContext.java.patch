@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/pathfinder/PathfindingContext.java
++++ b/net/minecraft/world/level/pathfinder/PathfindingContext.java
+@@ -27,7 +_,7 @@
+         this.mobPosition = p_331698_.blockPosition();
+     }
+ 
+-    public PathType getPathTypeFromState(int p_331972_, int p_330358_, int p_330334_) {
++    public PathType getPathTypeFromState(me.alphamode.mcbig.math.BigInteger p_331972_, me.alphamode.mcbig.math.BigInteger p_330358_, me.alphamode.mcbig.math.BigInteger p_330334_) {
+         BlockPos blockpos = this.mutablePos.set(p_331972_, p_330358_, p_330334_);
+         return this.cache == null ? WalkNodeEvaluator.getPathTypeFromState(this.level, blockpos) : this.cache.getOrCompute(this.level, blockpos);
+     }

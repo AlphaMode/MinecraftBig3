@@ -24,7 +24,7 @@
                  this.lastSection = this.acquiredSections
                      .computeIfAbsent(
                          j,
-                         p_156109_ -> {
+                         p_340277_ -> {
                              ChunkAccess chunkaccess = this.level
 -                                .getChunk(SectionPos.blockToSectionCoord(p_156105_.getX()), SectionPos.blockToSectionCoord(p_156105_.getZ()));
 +                                .getChunk(SectionPos.blockToSectionCoord(p_156105_.getBigX()), SectionPos.blockToSectionCoord(p_156105_.getBigZ()));

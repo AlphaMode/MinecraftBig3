@@ -39,9 +39,9 @@
                      )) {
                          serverlevel.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 16);
                      }
-@@ -95,16 +_,16 @@
-             long k1 = System.currentTimeMillis();
-             CompletableFuture<Unit> completablefuture = CompletableFuture.supplyAsync(() -> Unit.INSTANCE, processormailbox::tell);
+@@ -98,16 +_,16 @@
+                 serverlevel, serverchunkcache.getGenerator(), serverlevel.getStructureManager(), serverchunkcache.getLightEngine()
+             );
  
 -            for(int i2 = chunkpos.z - p_183686_; i2 <= chunkpos.z + p_183686_; ++i2) {
 -                for(int j2 = chunkpos.x - p_183686_; j2 <= chunkpos.x + p_183686_; ++j2) {
@@ -60,7 +60,7 @@
                                  ChunkAccess chunkaccess = serverchunkcache.getChunk(i3, l2, chunkstatus.getParent(), true);
                                  ChunkAccess chunkaccess1;
                                  if (chunkaccess instanceof ImposterProtoChunk) {
-@@ -150,18 +_,18 @@
+@@ -143,18 +_,18 @@
  
          long l3 = System.currentTimeMillis();
  

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/chunk/ImposterProtoChunk.java
 +++ b/net/minecraft/world/level/chunk/ImposterProtoChunk.java
-@@ -121,12 +_,12 @@
+@@ -123,12 +_,12 @@
      }
  
      @Override
@@ -15,7 +15,7 @@
          return this.wrapped.getNoiseBiome(p_204430_, p_204431_, p_204432_);
      }
  
-@@ -155,21 +_,21 @@
+@@ -157,21 +_,21 @@
      }
  
      @Override

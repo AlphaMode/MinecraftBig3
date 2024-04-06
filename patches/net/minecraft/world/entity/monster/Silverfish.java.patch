@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Silverfish.java
 +++ b/net/minecraft/world/entity/monster/Silverfish.java
-@@ -123,7 +_,7 @@
+@@ -114,7 +_,7 @@
      ) {
          if (checkAnyLightMonsterSpawnRules(p_219077_, p_219078_, p_219079_, p_219080_, p_219081_)) {
              Player player = p_219078_.getNearestPlayer(

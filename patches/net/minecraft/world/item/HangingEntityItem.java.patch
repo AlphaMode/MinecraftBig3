@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/item/HangingEntityItem.java
 +++ b/net/minecraft/world/item/HangingEntityItem.java
-@@ -68,7 +_,7 @@
+@@ -69,7 +_,7 @@
              if (hangingentity.survives()) {
                  if (!level.isClientSide) {
                      hangingentity.playPlacementSound();

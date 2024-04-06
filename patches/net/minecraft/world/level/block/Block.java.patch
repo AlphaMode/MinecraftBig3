@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/Block.java
 +++ b/net/minecraft/world/level/block/Block.java
-@@ -136,7 +_,7 @@
+@@ -138,7 +_,7 @@
          VoxelShape voxelshape = Shapes.joinUnoptimized(
                  p_49898_.getCollisionShape(p_238252_, p_49901_), p_49899_.getCollisionShape(p_238252_, p_49901_), BooleanOp.ONLY_SECOND
              )
@@ -9,7 +9,7 @@
          if (voxelshape.isEmpty()) {
              return p_49899_;
          } else {
-@@ -313,9 +_,9 @@
+@@ -332,9 +_,9 @@
  
      public static void popResource(Level p_49841_, BlockPos p_49842_, ItemStack p_49843_) {
          double d0 = (double)EntityType.ITEM.getHeight() / 2.0;
@@ -22,7 +22,7 @@
          popResource(p_49841_, () -> new ItemEntity(p_49841_, d1, d2, d3, p_49843_), p_49843_);
      }
  
-@@ -325,9 +_,9 @@
+@@ -344,9 +_,9 @@
          int k = p_152438_.getStepZ();
          double d0 = (double)EntityType.ITEM.getWidth() / 2.0;
          double d1 = (double)EntityType.ITEM.getHeight() / 2.0;

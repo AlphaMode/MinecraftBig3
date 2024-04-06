@@ -235,4 +235,8 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     public BigInteger mod(BigInteger divisor) {
         return new BigInteger(this.value.mod(divisor.value));
     }
+
+    public java.math.BigInteger getBacking() {
+        return this.value;
+    }
 }

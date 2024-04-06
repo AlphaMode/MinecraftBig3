@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
-@@ -179,9 +_,9 @@
+@@ -181,9 +_,9 @@
              this.inGroundTime = 0;
              Vec3 vec32 = this.position();
              Vec3 vec33 = vec32.add(vec3);
@@ -11,8 +11,8 @@
 +                vec33 = hitresult.getLocation().toVanilla();
              }
  
-             while(!this.isRemoved()) {
-@@ -422,7 +_,7 @@
+             while(!this.isRemoved() && !this.isDeflected) {
+@@ -418,7 +_,7 @@
      protected void onHitBlock(BlockHitResult p_36755_) {
          this.lastState = this.level().getBlockState(p_36755_.getBlockPos());
          super.onHitBlock(p_36755_);

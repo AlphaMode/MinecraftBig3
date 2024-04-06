@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Slime.java
 +++ b/net/minecraft/world/entity/monster/Slime.java
-@@ -306,7 +_,7 @@
+@@ -310,7 +_,7 @@
                  }
  
                  ChunkPos chunkpos = new ChunkPos(p_219116_);

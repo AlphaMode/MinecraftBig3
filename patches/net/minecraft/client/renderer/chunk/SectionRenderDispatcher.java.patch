@@ -113,7 +113,7 @@
                      SectionRenderDispatcher.RenderSection.RebuildTask.CompileResults sectionrenderdispatcher$rendersection$rebuildtask$compileresults = this.compile(
                          f, f1, f2, p_296138_
                      );
-@@ -616,7 +_,7 @@
+@@ -625,7 +_,7 @@
                              }
  
                              posestack.pushPose();
@@ -122,7 +122,7 @@
                              blockrenderdispatcher.renderBatched(blockstate, blockpos2, renderchunkregion, posestack, bufferbuilder2, true, randomsource);
                              posestack.popPose();
                          }
-@@ -627,7 +_,7 @@
+@@ -636,7 +_,7 @@
                          if (!bufferbuilder1.isCurrentBatchEmpty()) {
                              bufferbuilder1.setQuadSorting(
                                  VertexSorting.byDistance(
@@ -131,7 +131,7 @@
                                  )
                              );
                              sectionrenderdispatcher$rendersection$rebuildtask$compileresults.transparencyState = bufferbuilder1.getSortState();
-@@ -701,10 +_,10 @@
+@@ -710,10 +_,10 @@
                  } else if (this.isCancelled.get()) {
                      return CompletableFuture.completedFuture(SectionRenderDispatcher.SectionTaskResult.CANCELLED);
                  } else {
@@ -145,7 +145,7 @@
                      BufferBuilder.SortState bufferbuilder$sortstate = this.compiledSection.transparencyState;
                      if (bufferbuilder$sortstate != null && !this.compiledSection.isEmpty(RenderType.translucent())) {
                          BufferBuilder bufferbuilder = p_295160_.builder(RenderType.translucent());
-@@ -712,9 +_,9 @@
+@@ -721,9 +_,9 @@
                          bufferbuilder.restoreSortState(bufferbuilder$sortstate);
                          bufferbuilder.setQuadSorting(
                              VertexSorting.byDistance(

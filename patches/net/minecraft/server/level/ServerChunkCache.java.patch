@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ServerChunkCache.java
 +++ b/net/minecraft/server/level/ServerChunkCache.java
-@@ -58,7 +_,7 @@
+@@ -56,7 +_,7 @@
      private boolean spawnEnemies = true;
      private boolean spawnFriendlies = true;
      private static final int CACHE_SIZE = 4;
@@ -9,7 +9,7 @@
      private final ChunkStatus[] lastChunkStatus = new ChunkStatus[4];
      private final ChunkAccess[] lastChunk = new ChunkAccess[4];
      @Nullable
-@@ -111,7 +_,7 @@
+@@ -109,7 +_,7 @@
      }
  
      @Nullable
@@ -18,23 +18,23 @@
          return this.chunkMap.getVisibleChunkIfPresent(p_8365_);
      }
  
-@@ -119,7 +_,7 @@
+@@ -117,7 +_,7 @@
          return this.chunkMap.getTickingGenerated();
      }
  
--    private void storeInCache(long p_8367_, ChunkAccess p_8368_, ChunkStatus p_8369_) {
-+    private void storeInCache(ChunkPos p_8367_, ChunkAccess p_8368_, ChunkStatus p_8369_) {
+-    private void storeInCache(long p_8367_, @Nullable ChunkAccess p_8368_, ChunkStatus p_331839_) {
++    private void storeInCache(ChunkPos p_8367_, ChunkAccess p_8368_, ChunkStatus p_331839_) {
          for(int i = 3; i > 0; --i) {
              this.lastChunkPos[i] = this.lastChunkPos[i - 1];
              this.lastChunkStatus[i] = this.lastChunkStatus[i - 1];
-@@ -133,13 +_,13 @@
+@@ -131,13 +_,13 @@
  
      @Nullable
      @Override
--    public ChunkAccess getChunk(int p_8360_, int p_8361_, ChunkStatus p_8362_, boolean p_8363_) {
-+    public ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_8360_, me.alphamode.mcbig.math.BigInteger p_8361_, ChunkStatus p_8362_, boolean p_8363_) {
+-    public ChunkAccess getChunk(int p_8360_, int p_8361_, ChunkStatus p_330876_, boolean p_8363_) {
++    public ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_8360_, me.alphamode.mcbig.math.BigInteger p_8361_, ChunkStatus p_330876_, boolean p_8363_) {
          if (Thread.currentThread() != this.mainThread) {
-             return CompletableFuture.<ChunkAccess>supplyAsync(() -> this.getChunk(p_8360_, p_8361_, p_8362_, p_8363_), this.mainThreadProcessor).join();
+             return CompletableFuture.<ChunkAccess>supplyAsync(() -> this.getChunk(p_8360_, p_8361_, p_330876_, p_8363_), this.mainThreadProcessor).join();
          } else {
              ProfilerFiller profilerfiller = this.level.getProfiler();
              profilerfiller.incrementCounter("getChunk");
@@ -42,8 +42,8 @@
 +            ChunkPos i = new ChunkPos(p_8360_, p_8361_);
  
              for(int j = 0; j < 4; ++j) {
-                 if (i == this.lastChunkPos[j] && p_8362_ == this.lastChunkStatus[j]) {
-@@ -169,12 +_,12 @@
+                 if (i == this.lastChunkPos[j] && p_330876_ == this.lastChunkStatus[j]) {
+@@ -164,12 +_,12 @@
  
      @Nullable
      @Override
@@ -58,26 +58,25 @@
  
              for(int j = 0; j < 4; ++j) {
                  if (i == this.lastChunkPos[j] && this.lastChunkStatus[j] == ChunkStatus.FULL) {
-@@ -212,7 +_,7 @@
+@@ -206,7 +_,7 @@
+         Arrays.fill(this.lastChunk, null);
      }
  
-     public CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFuture(
--        int p_8432_, int p_8433_, ChunkStatus p_8434_, boolean p_8435_
-+        me.alphamode.mcbig.math.BigInteger p_8432_, me.alphamode.mcbig.math.BigInteger p_8433_, ChunkStatus p_8434_, boolean p_8435_
-     ) {
+-    public CompletableFuture<ChunkResult<ChunkAccess>> getChunkFuture(int p_8432_, int p_8433_, ChunkStatus p_330326_, boolean p_8435_) {
++    public CompletableFuture<ChunkResult<ChunkAccess>> getChunkFuture(me.alphamode.mcbig.math.BigInteger p_8432_, me.alphamode.mcbig.math.BigInteger p_8433_, ChunkStatus p_330326_, boolean p_8435_) {
          boolean flag = Thread.currentThread() == this.mainThread;
-         CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> completablefuture;
-@@ -230,22 +_,22 @@
+         CompletableFuture<ChunkResult<ChunkAccess>> completablefuture;
+         if (flag) {
+@@ -222,21 +_,21 @@
+         return completablefuture;
      }
  
-     private CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> getChunkFutureMainThread(
--        int p_8457_, int p_8458_, ChunkStatus p_8459_, boolean p_8460_
-+        me.alphamode.mcbig.math.BigInteger p_8457_, me.alphamode.mcbig.math.BigInteger p_8458_, ChunkStatus p_8459_, boolean p_8460_
-     ) {
+-    private CompletableFuture<ChunkResult<ChunkAccess>> getChunkFutureMainThread(int p_8457_, int p_8458_, ChunkStatus p_331599_, boolean p_8460_) {
++    private CompletableFuture<ChunkResult<ChunkAccess>> getChunkFutureMainThread(me.alphamode.mcbig.math.BigInteger p_8457_, me.alphamode.mcbig.math.BigInteger p_8458_, ChunkStatus p_331599_, boolean p_8460_) {
          ChunkPos chunkpos = new ChunkPos(p_8457_, p_8458_);
 -        long i = chunkpos.toLong();
 +//        long i = chunkpos.toLong();
-         int j = ChunkLevel.byStatus(p_8459_);
+         int j = ChunkLevel.byStatus(p_331599_);
 -        ChunkHolder chunkholder = this.getVisibleChunkIfPresent(i);
 +        ChunkHolder chunkholder = this.getVisibleChunkIfPresent(chunkpos);
          if (p_8460_) {
@@ -95,7 +94,7 @@
                  }
              }
          }
-@@ -258,16 +_,16 @@
+@@ -249,16 +_,16 @@
      }
  
      @Override
@@ -116,7 +115,7 @@
          ChunkHolder chunkholder = this.getVisibleChunkIfPresent(i);
          if (chunkholder == null) {
              return null;
-@@ -309,7 +_,7 @@
+@@ -300,7 +_,7 @@
          }
      }
  
@@ -125,7 +124,7 @@
          ChunkHolder chunkholder = this.getVisibleChunkIfPresent(p_143240_);
          if (chunkholder == null) {
              return false;
-@@ -389,7 +_,7 @@
+@@ -380,7 +_,7 @@
                              NaturalSpawner.spawnForChunk(this.level, levelchunk1, naturalspawner$spawnstate, this.spawnFriendlies, this.spawnEnemies, flag);
                          }
  
@@ -134,7 +133,7 @@
                              this.level.tickChunk(levelchunk1, k);
                          }
                      }
-@@ -408,7 +_,7 @@
+@@ -399,7 +_,7 @@
          }
      }
  
@@ -142,8 +141,8 @@
 +    private void getFullChunk(ChunkPos p_8371_, Consumer<LevelChunk> p_8372_) {
          ChunkHolder chunkholder = this.getVisibleChunkIfPresent(p_8371_);
          if (chunkholder != null) {
-             chunkholder.getFullChunkFuture().getNow(ChunkHolder.UNLOADED_LEVEL_CHUNK).left().ifPresent(p_8372_);
-@@ -443,9 +_,9 @@
+             chunkholder.getFullChunkFuture().getNow(ChunkHolder.UNLOADED_LEVEL_CHUNK).ifSuccess(p_8372_);
+@@ -434,9 +_,9 @@
      }
  
      public void blockChanged(BlockPos p_8451_) {
@@ -156,7 +155,7 @@
          if (chunkholder != null) {
              chunkholder.blockChanged(p_8451_);
          }
-@@ -454,9 +_,9 @@
+@@ -445,9 +_,9 @@
      @Override
      public void onLightUpdate(LightLayer p_8403_, SectionPos p_8404_) {
          this.mainThreadProcessor.execute(() -> {

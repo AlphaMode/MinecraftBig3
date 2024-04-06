@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/profiling/jfr/serialize/JfrResultJsonSerializer.java
 +++ b/net/minecraft/util/profiling/jfr/serialize/JfrResultJsonSerializer.java
-@@ -84,8 +_,8 @@
+@@ -99,8 +_,8 @@
                  JsonObject jsonobject3 = new JsonObject();
                  jsonobject3.addProperty("durationNanos", p_185538_.duration().toNanos());
                  jsonobject3.addProperty("level", p_185538_.level());

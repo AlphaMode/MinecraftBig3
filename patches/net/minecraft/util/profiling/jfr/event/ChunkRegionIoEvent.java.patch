@@ -1,0 +1,39 @@
+--- a/net/minecraft/util/profiling/jfr/event/ChunkRegionIoEvent.java
++++ b/net/minecraft/util/profiling/jfr/event/ChunkRegionIoEvent.java
+@@ -16,10 +_,10 @@
+ public abstract class ChunkRegionIoEvent extends Event {
+     @Name("regionPosX")
+     @Label("Region X Position")
+-    public final int regionPosX;
++    public final me.alphamode.mcbig.math.BigInteger regionPosX;
+     @Name("regionPosZ")
+     @Label("Region Z Position")
+-    public final int regionPosZ;
++    public final me.alphamode.mcbig.math.BigInteger regionPosZ;
+     @Name("localPosX")
+     @Label("Local X Position")
+     public final int localChunkPosX;
+@@ -28,10 +_,10 @@
+     public final int localChunkPosZ;
+     @Name("chunkPosX")
+     @Label("Chunk X Position")
+-    public final int chunkPosX;
++    public final me.alphamode.mcbig.math.BigInteger chunkPosX;
+     @Name("chunkPosZ")
+     @Label("Chunk Z Position")
+-    public final int chunkPosZ;
++    public final me.alphamode.mcbig.math.BigInteger chunkPosZ;
+     @Name("level")
+     @Label("Level Id")
+     public final String levelId;
+@@ -53,8 +_,8 @@
+         this.regionPosZ = p_326257_.getRegionZ();
+         this.localChunkPosX = p_326257_.getRegionLocalX();
+         this.localChunkPosZ = p_326257_.getRegionLocalZ();
+-        this.chunkPosX = p_326257_.x;
+-        this.chunkPosZ = p_326257_.z;
++        this.chunkPosX = p_326257_.x();
++        this.chunkPosZ = p_326257_.z();
+         this.levelId = p_326442_.level();
+         this.dimension = p_326442_.dimension().location().toString();
+         this.type = p_326442_.type();

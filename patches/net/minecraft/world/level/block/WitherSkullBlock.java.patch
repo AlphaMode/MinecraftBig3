@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/WitherSkullBlock.java
 +++ b/net/minecraft/world/level/block/WitherSkullBlock.java
-@@ -60,9 +_,9 @@
+@@ -63,9 +_,9 @@
                          CarvedPumpkinBlock.clearPatternBlocks(p_58256_, blockpattern$blockpatternmatch);
                          BlockPos blockpos = blockpattern$blockpatternmatch.getBlock(1, 2, 0).getPos();
                          witherboss.moveTo(
