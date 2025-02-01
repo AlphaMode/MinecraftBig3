@@ -1,10 +1,17 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 plugins {
-    id 'net.neoforged.gradleutils' version '3.0.0-alpha.1' apply false
+    id 'net.neoforged.gradleutils' version '3.0.0'
     id 'com.diffplug.spotless' version '6.22.0' apply false
-    id 'net.neoforged.licenser' version '0.7.2' apply false
+    id 'net.neoforged.licenser' version '0.7.5'
+    id 'neoforge.formatting-conventions'
+    id 'neoforge.versioning'
 }
 
 apply plugin: 'net.neoforged.gradleutils'
+
+ext.isPreReleaseVersion = project.minecraft_version.contains('w') || project.minecraft_version.contains('-')
 
 gradleutils.version {
     minecraftVersion project.minecraft_version
@@ -28,27 +35,27 @@ System.out.println("McBig version 3")
 
 allprojects {
     version "3.0.0"
-    group 'net.neoforged'
-    repositories {
-        mavenLocal()
-        maven {
-            url = "https://maven.fabricmc.net/"
+    group 'me.alphamode'
+
+    apply plugin: 'java'
+
+    java.toolchain.languageVersion.set(JavaLanguageVersion.of(project.java_version))
+}
+
+// Remove src/ sources from the root project. They are used in the mcbig subproject.
+sourceSets {
+    main {
+        java {
+            srcDirs = []
         }
-        maven {
-            url 'https://repo.sleeping.town'
-            content {
-                includeGroup 'com.unascribed'
-            }
+        resources {
+            srcDirs = []
         }
     }
 }
 
 apply plugin: 'com.diffplug.spotless'
 apply plugin: 'net.neoforged.licenser'
-
-repositories {
-    mavenCentral()
-}
 
 // Put licenser here otherwise it tries to license all source sets including decompiled MC sources
 license {
@@ -70,13 +77,6 @@ spotless {
         target rootProject.fileTree("src", {
             include "**/*.java"
         })
-
-        endWithNewline()
-        indentWithSpaces()
-        removeUnusedImports()
-        toggleOffOn()
-        eclipse().configFile file('codeformat/formatter-config.xml')
-        importOrder()
     }
     format 'patches', {
         target rootProject.fileTree("patches")
@@ -87,6 +87,88 @@ spotless {
             }
             return fileContents
         }
-        bumpThisNumberIfACustomStepChanges(1)
+
+        def interfaceChange = Pattern.compile('^[-+].*(implements|(interface.*extends)).*\$', Pattern.UNIX_LINES | Pattern.MULTILINE)
+        custom 'noInterfaceRemoval', { String fileContents ->
+            def interfaceChanges = fileContents.findAll(interfaceChange)
+            if (interfaceChanges.isEmpty()) return fileContents
+            String removalChange = ""
+            interfaceChanges.each { String change ->
+                if (change.startsWith('-')) {
+                    //Skip the - and the ending brace
+                    int implementsIndex = change.indexOf("implements")
+                    if (implementsIndex == -1) implementsIndex = change.indexOf("extends")
+                    //It should never still be -1 based on our initial matching regex, but if it does fail so we can figure out why
+                    if (implementsIndex == -1) implementsIndex = 1
+                    removalChange = change.substring(implementsIndex, change.length() - 1).trim()
+                } else if (!removalChange.isEmpty() && !change.contains(removalChange)) {
+                    throw new GradleException("Removal of interfaces via patches is not allowed!")
+                } else {
+                    removalChange = ""
+                }
+            }
+            if (!removalChange.isEmpty()) {
+                throw new GradleException("Removal of interfaces via patches is not allowed!")
+            }
+            return fileContents
+        }
+
+        //Note: This doesn't detect changing access level to or from package private
+        //TODO: Eventually try and make this support checking package private access level changes?
+        def accessLevelChange = Pattern.compile('^[-+]\\s*(public|private|protected)\\s.*\$', Pattern.UNIX_LINES | Pattern.MULTILINE)
+        custom 'noAccessWidening', { String fileContents ->
+            def accessChanges = fileContents.findAll(accessLevelChange)
+            if (accessChanges.isEmpty()) return fileContents
+            Set<String> privateRemovals = new HashSet<>()
+            Set<String> protectedRemovals = new HashSet<>()
+            accessChanges.each { String change ->
+                //Get the type of match
+                String[] data = change.substring(1).trim().split(" ", 2)
+                String lineStart = data[1].substring(0, Math.min(10, data[1].length()))
+                if (change.startsWith('-')) {//Removal
+                    if (data[0] == 'private') {
+                        privateRemovals.add(lineStart)
+                    } else if (data[0] == 'protected') {
+                        protectedRemovals.add(lineStart)
+                    }
+                } else if (!privateRemovals.isEmpty() || !protectedRemovals.isEmpty()) {//Addition and we know of at least one removal
+                    if (data[0] == 'public') {
+                        if (privateRemovals.remove(lineStart) || protectedRemovals.remove(lineStart)) {
+                            throw new GradleException("Widening access level via patches is not allowed, use an AT! Changed line: " + change)
+                        }
+                    } else if (data[0] == 'protected') {
+                        if (privateRemovals.remove(lineStart)) {
+                            throw new GradleException("Widening access level via patches is not allowed, use an AT! Changed line: " + change)
+                        }
+                        //Remove any protected ones that we have a match for
+                        protectedRemovals.remove(lineStart)
+                    } else if (data[0] == 'private') {
+                        //Remove any private ones that we have a match for
+                        privateRemovals.remove(lineStart)
+                    }
+                }
+            }
+            //Note: We allow mismatched counts in case we are removing a method entirely for some reason
+            return fileContents
+        }
+
+        //Trim any trailing whitespace from patch additions
+        def trailingWhitespace = Pattern.compile('^\\+.*[ \t]+\$', Pattern.UNIX_LINES | Pattern.MULTILINE)
+        custom 'trimTrailingWhitespacePatches', { String fileContents ->
+            Matcher matcher = trailingWhitespace.matcher(fileContents)
+            StringBuilder sb = new StringBuilder()
+            while (matcher.find()) {
+                matcher.appendReplacement(sb, matcher.group().trim())
+            }
+            matcher.appendTail(sb)
+            return sb.toString()
+        }
+
+        //Replace any FQN versions of javax.annotation.Nullable with the jetbrains variant
+        custom 'jetbrainsNullablePatches', { String fileContents ->
+            fileContents.replace('@javax.annotation.Nullable', '@org.jetbrains.annotations.Nullable')
+        }
+
+        bumpThisNumberIfACustomStepChanges(5)
     }
 }

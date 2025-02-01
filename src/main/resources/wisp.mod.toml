@@ -1,3 +1,3 @@
-mod-id="mcbig"
+plugin-id="mcbig"
 plugin="me.alphamode.mcbig.wisp.McBigPlugin"
 version="3.0.0"

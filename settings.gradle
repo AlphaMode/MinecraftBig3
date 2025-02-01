@@ -1,7 +1,6 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        mavenLocal()
         maven { url = 'https://maven.neoforged.net/releases' }
         maven {
             url = "https://maven.fabricmc.net/"
@@ -10,18 +9,45 @@ pluginManagement {
 }
 
 plugins {
-    id 'net.neoforged.gradle.platform' version '7.0.57'
+    id 'net.neoforged.moddev.repositories' version "${moddevgradle_plugin_version}"
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
+
+// This makes the version available to buildSrc
+gradle.ext.moddevgradle_plugin_version = moddevgradle_plugin_version
+gradle.ext.gson_version = gson_version
+gradle.ext.diffpatch_version = diffpatch_version
 
 rootProject.name = rootDir.name
 
-dynamicProjects {
-    include ':base'
-    include ':mcbig'
-
-    project(":base").projectDir = file("projects/base")
-    project(":mcbig").projectDir = file("projects/mcbig")
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    rulesMode = RulesMode.FAIL_ON_PROJECT_RULES
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven {
+            url 'https://repo.sleeping.town'
+            content {
+                includeGroup 'com.unascribed'
+            }
+        }
+        maven {
+            url = "https://maven.fabricmc.net/"
+        }
+        maven {
+            url "http://alphasmoddingserver.com/releases"
+            allowInsecureProtocol true
+        }
+    }
 }
 
-include ':tests'
-project(":tests").projectDir = file("tests")
+
+include ':base'
+project(":base").projectDir = file("projects/base")
+
+include ':mcbig'
+project(":mcbig").projectDir = file("projects/mcbig")
+
+//include ':tests'
+//project(":tests").projectDir = file("tests")

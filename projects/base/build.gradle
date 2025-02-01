@@ -1,9 +1,15 @@
-dynamicProject {
-    neoform("${project.minecraft_version}-${project.neoform_version}")
+
+plugins {
+    id 'java-library'
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(project.java_version))
+apply plugin: net.neoforged.neodev.NeoDevBasePlugin
+
+dependencies {
+    implementation("net.neoforged:neoform:${project.minecraft_version}-${project.neoform_version}") {
+        capabilities {
+            requireCapability 'net.neoforged:neoform-dependencies'
+        }
+        endorseStrictVersions()
     }
 }
