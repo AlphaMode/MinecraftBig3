@@ -193,11 +193,13 @@
          ChunkHolder chunkholder = this.updatingChunkMap.get(p_347661_);
          chunkholder.increaseGenerationRefCount();
          return chunkholder;
-@@ -655,7 +_,7 @@
+@@ -654,8 +_,8 @@
+                 CrashReport crashreport = CrashReport.forThrowable(exception, "Exception generating new chunk");
                  CrashReportCategory crashreportcategory = crashreport.addCategory("Chunk to be generated");
                  crashreportcategory.setDetail("Status being generated", () -> p_347638_.targetStatus().getName());
-                 crashreportcategory.setDetail("Location", String.format(Locale.ROOT, "%d,%d", chunkpos.x, chunkpos.z));
+-                crashreportcategory.setDetail("Location", String.format(Locale.ROOT, "%d,%d", chunkpos.x, chunkpos.z));
 -                crashreportcategory.setDetail("Position hash", ChunkPos.asLong(chunkpos.x, chunkpos.z));
++                crashreportcategory.setDetail("Location", String.format(Locale.ROOT, "%s,%s", chunkpos.x, chunkpos.z));
 +//                crashreportcategory.setDetail("Position hash", ChunkPos.asLong(chunkpos.x, chunkpos.z));
                  crashreportcategory.setDetail("Generator", this.generator());
                  this.mainThreadExecutor.execute(() -> {

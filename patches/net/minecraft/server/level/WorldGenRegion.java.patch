@@ -16,6 +16,15 @@
          int i = this.center.getPos().getChessboardDistance(p_9514_, p_9515_);
          ChunkStatus chunkstatus = i >= this.generatingStep.directDependencies().size() ? null : this.generatingStep.directDependencies().get(i);
          GenerationChunkHolder generationchunkholder;
+@@ -130,7 +_,7 @@
+             new IllegalStateException("Requested chunk unavailable during world generation"), "Exception generating new chunk"
+         );
+         CrashReportCategory crashreportcategory = crashreport.addCategory("Chunk request details");
+-        crashreportcategory.setDetail("Requested chunk", String.format(Locale.ROOT, "%d, %d", p_9514_, p_9515_));
++        crashreportcategory.setDetail("Requested chunk", String.format(Locale.ROOT, "%s, %s", p_9514_, p_9515_));
+         crashreportcategory.setDetail("Generating status", () -> this.generatingStep.targetStatus().getName());
+         crashreportcategory.setDetail("Requested status", p_331853_::getName);
+         crashreportcategory.setDetail(
 @@ -144,7 +_,7 @@
      }
  
