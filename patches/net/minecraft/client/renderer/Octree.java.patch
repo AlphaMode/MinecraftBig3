@@ -1,5 +1,22 @@
 --- a/net/minecraft/client/renderer/Octree.java
 +++ b/net/minecraft/client/renderer/Octree.java
+@@ -22,12 +_,12 @@
+         int k = p_366900_ * 16;
+         BlockPos blockpos = p_366555_.origin();
+         this.cameraSectionCenter = p_366555_.center();
+-        int l = blockpos.getX() - k;
+-        int i1 = l + j * 16 - 1;
++        me.alphamode.mcbig.math.BigInteger l = blockpos.getBigX().subtract(k);
++        me.alphamode.mcbig.math.BigInteger i1 = l.add(j * 16 - 1);
+         int j1 = j >= p_366696_ ? p_366804_ : blockpos.getY() - k;
+         int k1 = j1 + j * 16 - 1;
+-        int l1 = blockpos.getZ() - k;
+-        int i2 = l1 + j * 16 - 1;
++        me.alphamode.mcbig.math.BigInteger l1 = blockpos.getBigZ().subtract(k);
++        me.alphamode.mcbig.math.BigInteger i2 = l1.add(j * 16 - 1);
+         this.root = new Octree.Branch(new BoundingBox(l, j1, l1, i1, k1, i2));
+     }
+ 
 @@ -39,16 +_,16 @@
          this.root.visitNodes(p_366457_, false, p_366899_, 0, p_371758_, true);
      }

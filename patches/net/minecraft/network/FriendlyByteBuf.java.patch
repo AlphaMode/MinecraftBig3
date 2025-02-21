@@ -73,7 +73,7 @@
      public FriendlyByteBuf writeSectionPos(SectionPos p_178344_) {
 -        this.writeLong(p_178344_.asLong());
 +        this.writeBigInteger(p_178344_.x());
-+        this.writeBigInteger(p_178344_.y());
++        this.writeInt(p_178344_.getY());
 +        this.writeBigInteger(p_178344_.z());
          return this;
      }

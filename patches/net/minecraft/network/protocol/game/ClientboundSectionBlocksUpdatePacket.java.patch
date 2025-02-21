@@ -5,7 +5,16 @@
  
      private ClientboundSectionBlocksUpdatePacket(FriendlyByteBuf p_179196_) {
 -        this.sectionPos = SectionPos.of(p_179196_.readLong());
-+        this.sectionPos = SectionPos.of(p_179196_.readBigInteger(), p_179196_.readBigInteger(), p_179196_.readBigInteger());
++        this.sectionPos = SectionPos.of(p_179196_.readBigInteger(), p_179196_.readInt(), p_179196_.readBigInteger());
          int i = p_179196_.readVarInt();
          this.positions = new short[i];
          this.states = new BlockState[i];
+@@ -51,7 +_,7 @@
+     }
+ 
+     private void write(FriendlyByteBuf p_133002_) {
+-        p_133002_.writeLong(this.sectionPos.asLong());
++        p_133002_.writeSectionPos(this.sectionPos);
+         p_133002_.writeVarInt(this.positions.length);
+ 
+         for (int i = 0; i < this.positions.length; i++) {

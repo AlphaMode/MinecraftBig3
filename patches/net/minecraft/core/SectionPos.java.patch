@@ -56,14 +56,16 @@
      }
  
      public static SectionPos of(EntityAccess p_235862_) {
-@@ -53,42 +_,47 @@
+@@ -53,42 +_,51 @@
          return new SectionPos(blockToSectionCoord(p_235864_.x()), blockToSectionCoord(p_235864_.y()), blockToSectionCoord(p_235864_.z()));
      }
  
 -    public static SectionPos of(long p_123185_) {
 -        return new SectionPos(x(p_123185_), y(p_123185_), z(p_123185_));
--    }
--
++    public static SectionPos of(me.alphamode.mcbig.core.BigPosition p_235864_) {
++        return new SectionPos(blockToSectionCoord(p_235864_.bigX()), me.alphamode.mcbig.math.BigInteger.val(blockToSectionCoord(p_235864_.y())), blockToSectionCoord(p_235864_.bigZ()));
+     }
+ 
      public static SectionPos bottomOf(ChunkAccess p_175563_) {
          return of(p_175563_.getPos(), p_175563_.getMinSectionY());
      }
