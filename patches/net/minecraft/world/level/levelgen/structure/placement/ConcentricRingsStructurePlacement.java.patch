@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/placement/ConcentricRingsStructurePlacement.java
 +++ b/net/minecraft/world/level/levelgen/structure/placement/ConcentricRingsStructurePlacement.java
-@@ -80,7 +_,7 @@
+@@ -81,7 +_,7 @@
      }
  
      @Override

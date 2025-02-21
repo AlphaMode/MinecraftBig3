@@ -9,12 +9,3 @@
      }
  
      public double acceptedDistance() {
-@@ -86,7 +_,7 @@
-             this.reachedTarget = false;
-             ++this.tryTicks;
-             if (this.shouldRecalculatePath()) {
--                this.mob.getNavigation().moveTo((double)blockpos.getX() + 0.5, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5, this.speedModifier);
-+                this.mob.getNavigation().moveTo((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getY(), (double)blockpos.getBigZ().doubleValue() + 0.5, this.speedModifier);
-             }
-         } else {
-             this.reachedTarget = true;

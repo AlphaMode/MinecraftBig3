@@ -1,23 +1,37 @@
 --- a/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/MonsterRoomFeature.java
-@@ -94,9 +_,9 @@
+@@ -59,9 +_,9 @@
+                     }
  
-             for(int l3 = 0; l3 < 2; ++l3) {
-                 for(int j4 = 0; j4 < 3; ++j4) {
+                     if ((k2 == k || k2 == l || i3 == l1 || i3 == i2)
+-                        && l2 == 0
+-                        && worldgenlevel.isEmptyBlock(blockpos1)
+-                        && worldgenlevel.isEmptyBlock(blockpos1.above())) {
++                            && l2 == 0
++                            && worldgenlevel.isEmptyBlock(blockpos1)
++                            && worldgenlevel.isEmptyBlock(blockpos1.above())) {
+                         j2++;
+                     }
+                 }
+@@ -93,9 +_,9 @@
+ 
+             for (int l3 = 0; l3 < 2; l3++) {
+                 for (int j4 = 0; j4 < 3; j4++) {
 -                    int l4 = blockpos.getX() + randomsource.nextInt(j * 2 + 1) - j;
-+                    me.alphamode.mcbig.math.BigInteger l4 = blockpos.getBigX().add(randomsource.nextInt(j * 2 + 1) - j);
-                     int i5 = blockpos.getY();
+-                    int i5 = blockpos.getY();
 -                    int j5 = blockpos.getZ() + randomsource.nextInt(k1 * 2 + 1) - k1;
++                    me.alphamode.mcbig.math.BigInteger l4 = blockpos.getBigX().add(randomsource.nextInt(j * 2 + 1) - j);
++                    me.alphamode.mcbig.math.BigInteger i5 = blockpos.getBigY();
 +                    me.alphamode.mcbig.math.BigInteger j5 = blockpos.getBigZ().add(randomsource.nextInt(k1 * 2 + 1) - k1);
                      BlockPos blockpos2 = new BlockPos(l4, i5, j5);
                      if (worldgenlevel.isEmptyBlock(blockpos2)) {
                          int j3 = 0;
-@@ -123,7 +_,7 @@
-             if (blockentity instanceof SpawnerBlockEntity spawnerblockentity) {
-                 spawnerblockentity.setEntityId(this.randomEntityId(randomsource), randomsource);
-             } else {
--                LOGGER.error("Failed to fetch mob spawner entity at ({}, {}, {})", blockpos.getX(), blockpos.getY(), blockpos.getZ());
-+                LOGGER.error("Failed to fetch mob spawner entity at ({}, {}, {})", blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ());
-             }
+@@ -108,7 +_,7 @@
  
-             return true;
+                         if (j3 == 1) {
+                             this.safeSetBlock(
+-                                worldgenlevel, blockpos2, StructurePiece.reorient(worldgenlevel, blockpos2, Blocks.CHEST.defaultBlockState()), predicate
++                                    worldgenlevel, blockpos2, StructurePiece.reorient(worldgenlevel, blockpos2, Blocks.CHEST.defaultBlockState()), predicate
+                             );
+                             RandomizableContainer.setBlockEntityLootTable(worldgenlevel, randomsource, blockpos2, BuiltInLootTables.SIMPLE_DUNGEON);
+                             break;

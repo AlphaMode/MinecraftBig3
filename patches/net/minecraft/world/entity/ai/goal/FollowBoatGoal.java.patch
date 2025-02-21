@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/goal/FollowBoatGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/FollowBoatGoal.java
-@@ -80,7 +_,7 @@
+@@ -78,7 +_,7 @@
              if (this.currentGoal == BoatGoals.GO_TO_BOAT) {
                  BlockPos blockpos = this.following.blockPosition().relative(this.following.getDirection().getOpposite());
                  blockpos = blockpos.offset(0, -1, 0);
@@ -9,7 +9,7 @@
                  if (this.mob.distanceTo(this.following) < 4.0F) {
                      this.timeToRecalcPath = 0;
                      this.currentGoal = BoatGoals.GO_IN_BOAT_DIRECTION;
-@@ -88,7 +_,7 @@
+@@ -86,7 +_,7 @@
              } else if (this.currentGoal == BoatGoals.GO_IN_BOAT_DIRECTION) {
                  Direction direction = this.following.getMotionDirection();
                  BlockPos blockpos1 = this.following.blockPosition().relative(direction, 10);

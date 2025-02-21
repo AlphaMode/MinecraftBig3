@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/biome/MultiNoiseBiomeSource.java
 +++ b/net/minecraft/world/level/biome/MultiNoiseBiomeSource.java
-@@ -63,8 +_,8 @@
+@@ -57,8 +_,8 @@
      }
  
      @Override
@@ -11,7 +11,7 @@
      }
  
      @VisibleForDebug
-@@ -74,9 +_,9 @@
+@@ -68,9 +_,9 @@
  
      @Override
      public void addDebugInfo(List<String> p_207895_, BlockPos p_207896_, Climate.Sampler p_207897_) {

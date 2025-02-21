@@ -1,0 +1,15 @@
+--- a/net/minecraft/server/level/GenerationChunkHolder.java
++++ b/net/minecraft/server/level/GenerationChunkHolder.java
+@@ -37,9 +_,9 @@
+ 
+     public GenerationChunkHolder(ChunkPos p_347689_) {
+         this.pos = p_347689_;
+-        if (p_347689_.getChessboardDistance(ChunkPos.ZERO) > ChunkPos.MAX_COORDINATE_VALUE) {
+-            throw new IllegalStateException("Trying to create chunk out of reasonable bounds: " + p_347689_);
+-        }
++//        if (p_347689_.getChessboardDistance(ChunkPos.ZERO) > ChunkPos.MAX_COORDINATE_VALUE) { bruh
++//            throw new IllegalStateException("Trying to create chunk out of reasonable bounds: " + p_347689_);
++//        }
+     }
+ 
+     public CompletableFuture<ChunkResult<ChunkAccess>> scheduleChunkGenerationTask(ChunkStatus p_347666_, ChunkMap p_347681_) {

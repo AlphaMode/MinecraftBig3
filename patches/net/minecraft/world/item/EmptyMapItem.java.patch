@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/EmptyMapItem.java
++++ b/net/minecraft/world/item/EmptyMapItem.java
+@@ -21,7 +_,7 @@
+             itemstack.consume(1, p_41146_);
+             p_41146_.awardStat(Stats.ITEM_USED.get(this));
+             p_41146_.level().playSound(null, p_41146_, SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, p_41146_.getSoundSource(), 1.0F, 1.0F);
+-            ItemStack itemstack1 = MapItem.create(p_41145_, p_41146_.getBlockX(), p_41146_.getBlockZ(), (byte)0, true, false);
++            ItemStack itemstack1 = MapItem.create(p_41145_, p_41146_.getBlockX().intValue(), p_41146_.getBlockZ().intValue(), (byte)0, true, false);
+             if (itemstack.isEmpty()) {
+                 return InteractionResult.SUCCESS.heldItemTransformedTo(itemstack1);
+             } else {

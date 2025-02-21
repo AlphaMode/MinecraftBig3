@@ -1,21 +1,12 @@
 --- a/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
 +++ b/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
-@@ -71,7 +_,7 @@
-         int i = p_249264_.seaLevel();
-         Aquifer.FluidStatus aquifer$fluidstatus1 = new Aquifer.FluidStatus(i, p_249264_.defaultFluid());
-         Aquifer.FluidStatus aquifer$fluidstatus2 = new Aquifer.FluidStatus(DimensionType.MIN_Y * 2, Blocks.AIR.defaultBlockState());
--        return (p_224274_, p_224275_, p_224276_) -> p_224275_ < Math.min(-54, i) ? aquifer$fluidstatus : aquifer$fluidstatus1;
-+        return (p_224274_, p_224275_, p_224276_) -> p_224275_.longValue() < Math.min(-54, i) ? aquifer$fluidstatus : aquifer$fluidstatus1;
-     }
- 
-     @Override
-@@ -115,12 +_,12 @@
+@@ -112,12 +_,12 @@
      }
  
      @Override
 -    public int getBaseHeight(int p_224216_, int p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
 +    public int getBaseHeight(me.alphamode.mcbig.math.BigInteger p_224216_, me.alphamode.mcbig.math.BigInteger p_224217_, Heightmap.Types p_224218_, LevelHeightAccessor p_224219_, RandomState p_224220_) {
-         return this.iterateNoiseColumn(p_224219_, p_224220_, p_224216_, p_224217_, null, p_224218_.isOpaque()).orElse(p_224219_.getMinBuildHeight());
+         return this.iterateNoiseColumn(p_224219_, p_224220_, p_224216_, p_224217_, null, p_224218_.isOpaque()).orElse(p_224219_.getMinY());
      }
  
      @Override
@@ -24,7 +15,7 @@
          MutableObject<NoiseColumn> mutableobject = new MutableObject<>();
          this.iterateNoiseColumn(p_224213_, p_224214_, p_224211_, p_224212_, mutableobject, null);
          return mutableobject.getValue();
-@@ -131,7 +_,7 @@
+@@ -128,7 +_,7 @@
          DecimalFormat decimalformat = new DecimalFormat("0.000");
          NoiseRouter noiserouter = p_224305_.router();
          DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(
@@ -33,7 +24,7 @@
          );
          double d0 = noiserouter.ridges().compute(densityfunction$singlepointcontext);
          p_224304_.add(
-@@ -159,8 +_,8 @@
+@@ -156,8 +_,8 @@
      private OptionalInt iterateNoiseColumn(
          LevelHeightAccessor p_224240_,
          RandomState p_224241_,
@@ -44,7 +35,7 @@
          @Nullable MutableObject<NoiseColumn> p_224244_,
          @Nullable Predicate<BlockState> p_224245_
      ) {
-@@ -181,14 +_,14 @@
+@@ -178,14 +_,14 @@
              }
  
              int i1 = noisesettings.getCellWidth();
@@ -67,47 +58,46 @@
              NoiseChunk noisechunk = new NoiseChunk(
                  1,
                  p_224241_,
-@@ -297,13 +_,13 @@
+@@ -288,13 +_,13 @@
  
-         for(int j = -8; j <= 8; ++j) {
-             for(int k = -8; k <= 8; ++k) {
+         for (int j = -8; j <= 8; j++) {
+             for (int k = -8; k <= 8; k++) {
 -                ChunkPos chunkpos1 = new ChunkPos(chunkpos.x + j, chunkpos.z + k);
--                ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.x, chunkpos1.z);
-+                ChunkPos chunkpos1 = new ChunkPos(chunkpos.x().add(j), chunkpos.z().add(k));
-+                ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.x(), chunkpos1.z());
++                ChunkPos chunkpos1 = new ChunkPos(chunkpos.x.add(j), chunkpos.z.add(k));
+                 ChunkAccess chunkaccess = p_224224_.getChunk(chunkpos1.x, chunkpos1.z);
                  BiomeGenerationSettings biomegenerationsettings = chunkaccess.carverBiome(
                      () -> this.getBiomeGenerationSettings(
                              this.biomeSource
                                  .getNoiseBiome(
 -                                    QuartPos.fromBlock(chunkpos1.getMinBlockX()), 0, QuartPos.fromBlock(chunkpos1.getMinBlockZ()), p_224226_.sampler()
-+                                    QuartPos.fromBlock(chunkpos1.getBigMinBlockX()), me.alphamode.mcbig.math.BigInteger.ZERO, QuartPos.fromBlock(chunkpos1.getBigMinBlockZ()), p_224226_.sampler()
++                                    QuartPos.fromBlock(chunkpos1.getMinBlockX()), me.alphamode.mcbig.math.BigInteger.ZERO, QuartPos.fromBlock(chunkpos1.getMinBlockZ()), p_224226_.sampler()
                                  )
                          )
                  );
-@@ -312,7 +_,7 @@
+@@ -303,7 +_,7 @@
  
-                 for(Holder<ConfiguredWorldCarver<?>> holder : iterable) {
+                 for (Holder<ConfiguredWorldCarver<?>> holder : iterable) {
                      ConfiguredWorldCarver<?> configuredworldcarver = holder.value();
 -                    worldgenrandom.setLargeFeatureSeed(p_224225_ + (long)l, chunkpos1.x, chunkpos1.z);
-+                    worldgenrandom.setLargeFeatureSeed(p_224225_ + (long)l, chunkpos1.x().longValue(), chunkpos1.z().longValue());
++                    worldgenrandom.setLargeFeatureSeed(p_224225_ + (long)l, chunkpos1.x.longValue(), chunkpos1.z.longValue());
                      if (configuredworldcarver.isStartChunk(worldgenrandom)) {
                          configuredworldcarver.carve(carvingcontext, p_224229_, biomemanager::getBiome, worldgenrandom, aquifer, chunkpos1, carvingmask);
                      }
-@@ -361,8 +_,8 @@
+@@ -349,8 +_,8 @@
          Heightmap heightmap = p_224288_.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
          Heightmap heightmap1 = p_224288_.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG);
          ChunkPos chunkpos = p_224288_.getPos();
 -        int i = chunkpos.getMinBlockX();
 -        int j = chunkpos.getMinBlockZ();
-+        me.alphamode.mcbig.math.BigInteger i = chunkpos.getBigMinBlockX();
-+        me.alphamode.mcbig.math.BigInteger j = chunkpos.getBigMinBlockZ();
++        me.alphamode.mcbig.math.BigInteger i = chunkpos.getMinBlockX();
++        me.alphamode.mcbig.math.BigInteger j = chunkpos.getMinBlockZ();
          Aquifer aquifer = noisechunk.aquifer();
          noisechunk.initializeForFirstCellX();
          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-@@ -394,14 +_,14 @@
+@@ -382,14 +_,14 @@
                          noisechunk.updateForY(l2, d0);
  
-                         for(int k3 = 0; k3 < k; ++k3) {
+                         for (int k3 = 0; k3 < k; k3++) {
 -                            int l3 = i + k1 * k + k3;
 -                            int i4 = l3 & 15;
 +                            me.alphamode.mcbig.math.BigInteger l3 = i.add(k1 * k + k3);
@@ -115,7 +105,7 @@
                              double d1 = (double)k3 / (double)k;
                              noisechunk.updateForX(l3, d1);
  
-                             for(int j4 = 0; j4 < k; ++j4) {
+                             for (int j4 = 0; j4 < k; j4++) {
 -                                int k4 = j + l1 * k + j4;
 -                                int l4 = k4 & 15;
 +                                me.alphamode.mcbig.math.BigInteger k4 = j.add(l1 * k + j4);
@@ -123,7 +113,7 @@
                                  double d2 = (double)j4 / (double)k;
                                  noisechunk.updateForZ(k4, d2);
                                  BlockState blockstate = noisechunk.getInterpolatedState();
-@@ -415,7 +_,7 @@
+@@ -403,7 +_,7 @@
                                      heightmap.update(i4, l2, l4, blockstate);
                                      heightmap1.update(i4, l2, l4, blockstate);
                                      if (aquifer.shouldScheduleFluidUpdate() && !blockstate.getFluidState().isEmpty()) {
@@ -132,7 +122,7 @@
                                          p_224288_.markPosForPostprocessing(blockpos$mutableblockpos);
                                      }
                                  }
-@@ -432,7 +_,7 @@
+@@ -420,7 +_,7 @@
          return p_224288_;
      }
  
@@ -141,12 +131,3 @@
          return p_198236_;
      }
  
-@@ -457,7 +_,7 @@
-             ChunkPos chunkpos = p_64379_.getCenter();
-             Holder<Biome> holder = p_64379_.getBiome(chunkpos.getWorldPosition().atY(p_64379_.getMaxBuildHeight() - 1));
-             WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.generateUniqueSeed()));
--            worldgenrandom.setDecorationSeed(p_64379_.getSeed(), chunkpos.getMinBlockX(), chunkpos.getMinBlockZ());
-+            worldgenrandom.setDecorationSeed(p_64379_.getSeed(), chunkpos.getBigMinBlockX(), chunkpos.getBigMinBlockZ());
-             NaturalSpawner.spawnMobsForChunkGeneration(p_64379_, holder, chunkpos, worldgenrandom);
-         }
-     }

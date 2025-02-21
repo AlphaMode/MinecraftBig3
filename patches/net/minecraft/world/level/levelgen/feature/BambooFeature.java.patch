@@ -4,8 +4,8 @@
                  if (randomsource.nextFloat() < probabilityfeatureconfiguration.probability) {
                      int k = randomsource.nextInt(4) + 1;
  
--                    for(int l = blockpos.getX() - k; l <= blockpos.getX() + k; ++l) {
--                        for(int i1 = blockpos.getZ() - k; i1 <= blockpos.getZ() + k; ++i1) {
+-                    for (int l = blockpos.getX() - k; l <= blockpos.getX() + k; l++) {
+-                        for (int i1 = blockpos.getZ() - k; i1 <= blockpos.getZ() + k; i1++) {
 -                            int j1 = l - blockpos.getX();
 -                            int k1 = i1 - blockpos.getZ();
 +                    for(me.alphamode.mcbig.math.BigInteger l = blockpos.getBigX().subtract(k); l.compareTo(blockpos.getBigX().add(k)) <= 0; l = l.add()) {

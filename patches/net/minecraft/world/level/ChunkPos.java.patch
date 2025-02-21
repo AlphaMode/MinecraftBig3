@@ -1,46 +1,77 @@
 --- a/net/minecraft/world/level/ChunkPos.java
 +++ b/net/minecraft/world/level/ChunkPos.java
-@@ -8,57 +_,44 @@
+@@ -8,6 +_,8 @@
+ import java.util.stream.Stream;
+ import java.util.stream.StreamSupport;
+ import javax.annotation.Nullable;
++
++import me.alphamode.mcbig.math.BigInteger;
+ import net.minecraft.Util;
  import net.minecraft.core.BlockPos;
  import net.minecraft.core.SectionPos;
+@@ -16,13 +_,13 @@
+ import net.minecraft.world.level.chunk.status.ChunkPyramid;
+ import net.minecraft.world.level.chunk.status.ChunkStatus;
  
 -public class ChunkPos {
-+public record ChunkPos(me.alphamode.mcbig.math.BigInteger x, me.alphamode.mcbig.math.BigInteger z) implements java.lang.Comparable<ChunkPos> {
+-    public static final Codec<ChunkPos> CODEC = Codec.INT_STREAM
+-        .<ChunkPos>comapFlatMap(
+-            p_373123_ -> Util.fixedSize(p_373123_, 2).map(p_372804_ -> new ChunkPos(p_372804_[0], p_372804_[1])),
+-            p_372801_ -> IntStream.of(p_372801_.x, p_372801_.z)
+-        )
+-        .stable();
++public class ChunkPos implements java.lang.Comparable<ChunkPos> {
++    public static final Codec<ChunkPos> CODEC = me.alphamode.mcbig.core.ModdedCodec.STRING_STREAM
++            .<ChunkPos>comapFlatMap(
++                    p_373123_ -> Util.fixedSize(p_373123_, 2).map(p_372804_ -> new ChunkPos(me.alphamode.mcbig.math.BigInteger.val(p_372804_[0]), me.alphamode.mcbig.math.BigInteger.val(p_372804_[1]))),
++                    p_372801_ -> Stream.of(p_372801_.x.toString(), p_372801_.z.toString())
++            )
++            .stable();
+     public static final StreamCodec<ByteBuf, ChunkPos> STREAM_CODEC = new StreamCodec<ByteBuf, ChunkPos>() {
+         public ChunkPos decode(ByteBuf p_372878_) {
+             return FriendlyByteBuf.readChunkPos(p_372878_);
+@@ -33,7 +_,7 @@
+         }
+     };
      private static final int SAFETY_MARGIN = 1056;
 -    public static final long INVALID_CHUNK_POS = asLong(1875066, 1875066);
--    public static final ChunkPos ZERO = new ChunkPos(0, 0);
-+    public static final ChunkPos INVALID_CHUNK_POS = new ChunkPos(1875066, 1875066);
-+    public static final ChunkPos ZERO = new ChunkPos(me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.ZERO);
-     private static final long COORD_BITS = 32L;
-     private static final long COORD_MASK = 4294967295L;
-     private static final int REGION_BITS = 5;
++    public static final ChunkPos INVALID_CHUNK_POS = null;//new ChunkPos(1875066, 1875066);
+     private static final int SAFETY_MARGIN_CHUNKS = (32 + ChunkPyramid.GENERATION_PYRAMID.getStepTo(ChunkStatus.FULL).accumulatedDependencies().size() + 1) * 2;
+     public static final int MAX_COORDINATE_VALUE = SectionPos.blockToSectionCoord(BlockPos.MAX_HORIZONTAL_COORDINATE) - SAFETY_MARGIN_CHUNKS;
+     public static final ChunkPos ZERO = new ChunkPos(0, 0);
+@@ -43,45 +_,38 @@
      public static final int REGION_SIZE = 32;
--    private static final int REGION_MASK = 31;
-+    private static final me.alphamode.mcbig.math.BigInteger REGION_MASK = me.alphamode.mcbig.math.BigInteger.constant(31);
+     private static final int REGION_MASK = 31;
      public static final int REGION_MAX_INDEX = 31;
 -    public final int x;
 -    public final int z;
-     private static final int HASH_A = 1664525;
-     private static final int HASH_C = 1013904223;
+-    private static final int HASH_A = 1664525;
+-    private static final int HASH_C = 1013904223;
++    public final me.alphamode.mcbig.math.BigInteger x;
++    public final me.alphamode.mcbig.math.BigInteger z;
++    private static final me.alphamode.mcbig.math.BigInteger HASH_A = me.alphamode.mcbig.math.BigInteger.constant(1664525);
++    private static final me.alphamode.mcbig.math.BigInteger HASH_C = me.alphamode.mcbig.math.BigInteger.constant(1013904223);
      private static final int HASH_Z_XOR = -559038737;
  
 -    public ChunkPos(int p_45582_, int p_45583_) {
--        this.x = p_45582_;
--        this.z = p_45583_;
-+    public ChunkPos(long x, long z) {
-+        this(me.alphamode.mcbig.math.BigInteger.val(x), me.alphamode.mcbig.math.BigInteger.val(z));
++    public ChunkPos(long p_45580_, long p_45581_) {
++        this.x = BigInteger.constant(p_45580_);
++        this.z = BigInteger.constant(p_45581_);
 +    }
 +
-+    public ChunkPos(byte[] x, byte[] z) {
-+        this(new me.alphamode.mcbig.math.BigInteger(x), new me.alphamode.mcbig.math.BigInteger(z));
++    public ChunkPos(me.alphamode.mcbig.math.BigInteger p_45582_, me.alphamode.mcbig.math.BigInteger p_45583_) {
+         this.x = p_45582_;
+         this.z = p_45583_;
      }
  
      public ChunkPos(BlockPos p_45587_) {
 -        this.x = SectionPos.blockToSectionCoord(p_45587_.getX());
 -        this.z = SectionPos.blockToSectionCoord(p_45587_.getZ());
--    }
--
--    public ChunkPos(long p_45585_) {
++        this.x = SectionPos.blockToSectionCoord(p_45587_.getBigX());
++        this.z = SectionPos.blockToSectionCoord(p_45587_.getBigZ());
+     }
+ 
+     public ChunkPos(long p_45585_) {
 -        this.x = (int)p_45585_;
 -        this.z = (int)(p_45585_ >> 32);
 -    }
@@ -55,7 +86,16 @@
 -
 -    public long toLong() {
 -        return asLong(this.x, this.z);
-+        this(SectionPos.blockToSectionCoord(p_45587_.getBigX()), SectionPos.blockToSectionCoord(p_45587_.getBigZ()));
+-    }
+-
+-    public static long asLong(int p_45590_, int p_45591_) {
+-        return (long)p_45590_ & 4294967295L | ((long)p_45591_ & 4294967295L) << 32;
+-    }
+-
+-    public static long asLong(BlockPos p_151389_) {
+-        return asLong(SectionPos.blockToSectionCoord(p_151389_.getX()), SectionPos.blockToSectionCoord(p_151389_.getZ()));
++        this.x = BigInteger.constant((int)p_45585_);
++        this.z = BigInteger.constant((int)(p_45585_ >> 32));
 +    }
 +
 +    public static ChunkPos minFromRegion(me.alphamode.mcbig.math.BigInteger p_220338_, me.alphamode.mcbig.math.BigInteger p_220339_) {
@@ -66,39 +106,26 @@
 +        return new ChunkPos((p_220341_.shiftLeft(5)).add(me.alphamode.mcbig.core.BigConstants.Ints.THIRTY_ONE), (p_220342_.shiftLeft(5)).add(me.alphamode.mcbig.core.BigConstants.Ints.THIRTY_ONE));
      }
  
-     public static long asLong(int p_45590_, int p_45591_) {
-         return (long)p_45590_ & 4294967295L | ((long)p_45591_ & 4294967295L) << 32;
-     }
- 
--    public static long asLong(BlockPos p_151389_) {
--        return asLong(SectionPos.blockToSectionCoord(p_151389_.getX()), SectionPos.blockToSectionCoord(p_151389_.getZ()));
--    }
--
      public static int getX(long p_45593_) {
-         return (int)(p_45593_ & 4294967295L);
-     }
-@@ -69,12 +_,12 @@
- 
-     @Override
-     public int hashCode() {
--        return hash(this.x, this.z);
-+        return hash(this.x.hashCode(), this.z.hashCode());
+@@ -97,9 +_,9 @@
+         return hash(this.x, this.z);
      }
  
-     public static int hash(int p_220344_, int p_220345_) {
+-    public static int hash(int p_220344_, int p_220345_) {
 -        int i = 1664525 * p_220344_ + 1013904223;
 -        int j = 1664525 * (p_220345_ ^ -559038737) + 1013904223;
-+        int i = HASH_A * p_220344_ + HASH_C;
-+        int j = HASH_A * (p_220345_ ^ HASH_Z_XOR) + HASH_C;
++    public static int hash(me.alphamode.mcbig.math.BigInteger p_220344_, me.alphamode.mcbig.math.BigInteger p_220345_) {
++        int i = 1664525 * p_220344_.intValue() + 1013904223;
++        int j = 1664525 * (p_220345_.intValue() ^ -559038737) + 1013904223;
          return i ^ j;
      }
  
-@@ -86,59 +_,75 @@
-             return false;
+@@ -108,59 +_,59 @@
+         if (this == p_45607_) {
+             return true;
          } else {
-             ChunkPos chunkpos = (ChunkPos)p_45607_;
--            return this.x == chunkpos.x && this.z == chunkpos.z;
-+            return this.x.equals(chunkpos.x) && this.z.equals(chunkpos.z);
+-            return !(p_45607_ instanceof ChunkPos chunkpos) ? false : this.x == chunkpos.x && this.z == chunkpos.z;
++            return !(p_45607_ instanceof ChunkPos chunkpos) ? false : this.x.equals(chunkpos.x) && this.z.equals(chunkpos.z);
          }
      }
  
@@ -112,61 +139,46 @@
          return this.getBlockZ(8);
      }
  
-     public int getMinBlockX() {
--        return SectionPos.sectionToBlockCoord(this.x);
-+        return SectionPos.sectionToBlockCoord(this.x).intValue();
+-    public int getMinBlockX() {
++    public me.alphamode.mcbig.math.BigInteger getMinBlockX() {
+         return SectionPos.sectionToBlockCoord(this.x);
      }
  
-     public int getMinBlockZ() {
--        return SectionPos.sectionToBlockCoord(this.z);
-+        return SectionPos.sectionToBlockCoord(this.z).intValue();
+-    public int getMinBlockZ() {
++    public me.alphamode.mcbig.math.BigInteger getMinBlockZ() {
+         return SectionPos.sectionToBlockCoord(this.z);
      }
  
-     public int getMaxBlockX() {
--        return this.getBlockX(15);
-+        return this.getBlockX(15).intValue();
+-    public int getMaxBlockX() {
++    public me.alphamode.mcbig.math.BigInteger getMaxBlockX() {
+         return this.getBlockX(15);
      }
  
-     public int getMaxBlockZ() {
-+        return this.getBlockZ(15).intValue();
-+    }
-+
-+    public me.alphamode.mcbig.math.BigInteger getBigMinBlockX() {
-+        return SectionPos.sectionToBlockCoord(this.x);
-+    }
-+
-+    public me.alphamode.mcbig.math.BigInteger getBigMinBlockZ() {
-+        return SectionPos.sectionToBlockCoord(this.z);
-+    }
-+
-+    public me.alphamode.mcbig.math.BigInteger getBigMaxBlockX() {
-+        return this.getBlockX(15);
-+    }
-+
-+    public me.alphamode.mcbig.math.BigInteger getBigMaxBlockZ() {
+-    public int getMaxBlockZ() {
++    public me.alphamode.mcbig.math.BigInteger getMaxBlockZ() {
          return this.getBlockZ(15);
      }
  
 -    public int getRegionX() {
 -        return this.x >> 5;
 +    public me.alphamode.mcbig.math.BigInteger getRegionX() {
-+        return this.x.shiftRight(REGION_BITS);
++        return this.x.shiftRight(5);
      }
  
 -    public int getRegionZ() {
 -        return this.z >> 5;
 +    public me.alphamode.mcbig.math.BigInteger getRegionZ() {
-+        return this.z.shiftRight(REGION_BITS);
++        return this.z.shiftRight(5);
      }
  
      public int getRegionLocalX() {
 -        return this.x & 31;
-+        return this.x.and(REGION_MASK).intValue();
++        return this.x.and(me.alphamode.mcbig.core.BigConstants.Ints.THIRTY_ONE).intValue();
      }
  
      public int getRegionLocalZ() {
 -        return this.z & 31;
-+        return this.z.and(REGION_MASK).intValue();
++        return this.z.and(me.alphamode.mcbig.core.BigConstants.Ints.THIRTY_ONE).intValue();
      }
  
      public BlockPos getBlockAt(int p_151385_, int p_151386_, int p_151387_) {
@@ -183,17 +195,14 @@
          return SectionPos.sectionToBlockCoord(this.z, p_151392_);
      }
  
-@@ -152,36 +_,32 @@
+@@ -181,33 +_,29 @@
+         return this.getChessboardDistance(p_45595_.x, p_45595_.z);
      }
  
-     public BlockPos getWorldPosition() {
--        return new BlockPos(this.getMinBlockX(), 0, this.getMinBlockZ());
-+        return new BlockPos(this.getBigMinBlockX(), 0, this.getBigMinBlockZ());
-     }
- 
-     public int getChessboardDistance(ChunkPos p_45595_) {
--        return Math.max(Math.abs(this.x - p_45595_.x), Math.abs(this.z - p_45595_.z));
-+        return this.x.subtract(p_45595_.x).abs().max(this.z.subtract(p_45595_.z).abs()).intValue();
+-    public int getChessboardDistance(int p_347518_, int p_347577_) {
+-        return Math.max(Math.abs(this.x - p_347518_), Math.abs(this.z - p_347577_));
++    public int getChessboardDistance(me.alphamode.mcbig.math.BigInteger p_347518_, me.alphamode.mcbig.math.BigInteger p_347577_) {
++        return this.x.subtract(p_347518_).abs().max(this.z.subtract(p_347577_).abs()).intValue();
      }
  
      public int distanceSquared(ChunkPos p_296302_) {
@@ -223,14 +232,14 @@
 -        int j = Math.abs(p_45600_.z - p_45601_.z) + 1;
 -        final int k = p_45600_.x < p_45601_.x ? 1 : -1;
 -        final int l = p_45600_.z < p_45601_.z ? 1 : -1;
-+        int i = Math.abs(p_45600_.x.subtract(p_45601_.x).intValue()) + 1;
++        int i = Math.abs(p_45600_.x.subtract(p_45601_.x).intValue()) + 1;;
 +        int j = Math.abs(p_45600_.z.subtract(p_45601_.z).intValue()) + 1;
-+        final int k = p_45600_.x.compareTo(p_45601_.x) < 0 ? 1 : -1;
-+        final int l = p_45600_.z.compareTo(p_45601_.z) < 0 ? 1 : -1;
++        final me.alphamode.mcbig.math.BigInteger k = p_45600_.x.compareTo(p_45601_.x) < 0 ? me.alphamode.mcbig.math.BigInteger.ONE : me.alphamode.mcbig.math.BigInteger.NEGATIVE_ONE;
++        final me.alphamode.mcbig.math.BigInteger l = p_45600_.z.compareTo(p_45601_.z) < 0 ? me.alphamode.mcbig.math.BigInteger.ONE : me.alphamode.mcbig.math.BigInteger.NEGATIVE_ONE;
          return StreamSupport.stream(new AbstractSpliterator<ChunkPos>((long)(i * j), 64) {
              @Nullable
              private ChunkPos pos;
-@@ -191,16 +_,16 @@
+@@ -217,16 +_,16 @@
                  if (this.pos == null) {
                      this.pos = p_45600_;
                  } else {
@@ -253,7 +262,7 @@
                      }
                  }
  
-@@ -208,5 +_,16 @@
+@@ -234,5 +_,24 @@
                  return true;
              }
          }, false);
@@ -268,5 +277,13 @@
 +
 +        // If x values are equal, compare the z values
 +        return this.z.compareTo(o.z);
++    }
++
++    public me.alphamode.mcbig.math.BigInteger x() {
++        return this.x;
++    }
++
++    public me.alphamode.mcbig.math.BigInteger z() {
++        return this.z;
      }
  }

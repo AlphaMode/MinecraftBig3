@@ -1,9 +1,9 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -197,12 +_,12 @@
+@@ -211,12 +_,12 @@
      private int ackBlockChangesUpTo = -1;
-     private int chatSpamTickCount;
-     private int dropSpamTickCount;
+     private final TickThrottler chatSpamThrottler = new TickThrottler(20, 200);
+     private final TickThrottler dropSpamThrottler = new TickThrottler(20, 1480);
 -    private double firstGoodX;
 +    private me.alphamode.mcbig.math.BigDecimal firstGoodX = me.alphamode.mcbig.math.BigDecimal.ZERO;
      private double firstGoodY;
@@ -17,7 +17,7 @@
      @Nullable
      private Entity lastVehicle;
      private double vehicleFirstGoodX;
-@@ -212,7 +_,7 @@
+@@ -226,7 +_,7 @@
      private double vehicleLastGoodY;
      private double vehicleLastGoodZ;
      @Nullable
@@ -26,18 +26,7 @@
      private int awaitingTeleport;
      private int awaitingTeleportTime;
      private boolean clientIsFloating;
-@@ -249,8 +_,10 @@
- 
-         this.resetPosition();
-         this.player.xo = this.player.getX();
-+        this.player.bigXo = this.player.getBigX();
-         this.player.yo = this.player.getY();
-         this.player.zo = this.player.getZ();
-+        this.player.bigZo = this.player.getBigZ();
-         this.player.doTick();
-         this.player.absMoveTo(this.firstGoodX, this.firstGoodY, this.firstGoodZ, this.player.getYRot(), this.player.getXRot());
-         ++this.tickCount;
-@@ -307,12 +_,12 @@
+@@ -325,12 +_,12 @@
      }
  
      public void resetPosition() {
@@ -54,7 +43,7 @@
      }
  
      @Override
-@@ -363,12 +_,12 @@
+@@ -379,12 +_,12 @@
          return Double.isNaN(p_143664_) || Double.isNaN(p_143665_) || Double.isNaN(p_143666_) || !Floats.isFinite(p_143668_) || !Floats.isFinite(p_143667_);
      }
  
@@ -70,19 +59,19 @@
      }
  
      @Override
-@@ -383,9 +_,9 @@
+@@ -399,9 +_,9 @@
                  double d0 = entity.getX();
                  double d1 = entity.getY();
                  double d2 = entity.getZ();
--                double d3 = clampHorizontal(p_9876_.getX());
-+                double d3 = p_9876_.getX();
-                 double d4 = clampVertical(p_9876_.getY());
--                double d5 = clampHorizontal(p_9876_.getZ());
-+                double d5 = p_9876_.getZ();
-                 float f = Mth.wrapDegrees(p_9876_.getYRot());
-                 float f1 = Mth.wrapDegrees(p_9876_.getXRot());
+-                double d3 = clampHorizontal(p_9876_.position().x());
++                double d3 = /*clampHorizontal(*/p_9876_.position().x()/*)*/;
+                 double d4 = clampVertical(p_9876_.position().y());
+-                double d5 = clampHorizontal(p_9876_.position().z());
++                double d5 = /*clampHorizontal(*/p_9876_.position().z()/*)*/;
+                 float f = Mth.wrapDegrees(p_9876_.yRot());
+                 float f1 = Mth.wrapDegrees(p_9876_.xRot());
                  double d6 = d3 - this.vehicleFirstGoodX;
-@@ -848,7 +_,7 @@
+@@ -900,7 +_,7 @@
      @Override
      public void handleMovePlayer(ServerboundMovePlayerPacket p_9874_) {
          PacketUtils.ensureRunningOnSameThread(p_9874_, this, this.player.serverLevel());
@@ -91,10 +80,10 @@
              this.disconnect(Component.translatable("multiplayer.disconnect.invalid_player_movement"));
          } else {
              ServerLevel serverlevel = this.player.serverLevel();
-@@ -870,26 +_,26 @@
-                     }
-                 } else {
-                     this.awaitingTeleportTime = this.tickCount;
+@@ -910,26 +_,26 @@
+                 }
+ 
+                 if (!this.updateAwaitingTeleport() && this.player.hasClientLoaded()) {
 -                    double d0 = clampHorizontal(p_9874_.getX(this.player.getX()));
 +                    me.alphamode.mcbig.math.BigDecimal d0 = clampHorizontal(p_9874_.getX(this.player.getBigX()));
                      double d1 = clampVertical(p_9874_.getY(this.player.getY()));
@@ -103,8 +92,7 @@
                      float f = Mth.wrapDegrees(p_9874_.getYRot(this.player.getYRot()));
                      float f1 = Mth.wrapDegrees(p_9874_.getXRot(this.player.getXRot()));
                      if (this.player.isPassenger()) {
--                        this.player.absMoveTo(this.player.getX(), this.player.getY(), this.player.getZ(), f, f1);
-+                        this.player.absMoveTo(this.player.getBigX(), this.player.getY(), this.player.getBigZ(), f, f1);
+                         this.player.absMoveTo(this.player.getX(), this.player.getY(), this.player.getZ(), f, f1);
                          this.player.serverLevel().getChunkSource().move(this.player);
                      } else {
 -                        double d3 = this.player.getX();
@@ -125,10 +113,10 @@
 +                                this.teleport(this.player.getBigX(), this.player.getY(), this.player.getBigZ(), f, f1);
                              }
                          } else {
-                             if (serverlevel.tickRateManager().runsNormally()) {
-@@ -908,16 +_,16 @@
-                                     float f2 = this.player.isFallFlying() ? 300.0F : 100.0F;
-                                     if (d10 - d9 > (double)(f2 * (float)i) && !this.isSingleplayerOwner()) {
+                             boolean flag = this.player.isFallFlying();
+@@ -945,16 +_,16 @@
+                                     float f2 = flag ? 300.0F : 100.0F;
+                                     if (d10 - d9 > (double)(f2 * (float)i)) {
                                          LOGGER.warn("{} moved too quickly! {},{},{}", this.player.getName().getString(), d6, d7, d8);
 -                                        this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
 +                                        this.teleport(this.player.getBigX(), this.player.getY(), this.player.getBigZ(), this.player.getYRot(), this.player.getXRot());
@@ -143,12 +131,12 @@
                              d7 = d1 - this.lastGoodY;
 -                            d8 = d2 - this.lastGoodZ;
 +                            d8 = d2.subtract(this.lastGoodZ).doubleValue();
-                             boolean flag2 = d7 > 0.0;
-                             if (this.player.onGround() && !p_9874_.isOnGround() && flag2) {
+                             boolean flag4 = d7 > 0.0;
+                             if (this.player.onGround() && !p_9874_.isOnGround() && flag4) {
                                  this.player.jumpFromGround();
-@@ -925,13 +_,13 @@
+@@ -962,13 +_,13 @@
  
-                             boolean flag = this.player.verticalCollisionBelow;
+                             boolean flag1 = this.player.verticalCollisionBelow;
                              this.player.move(MoverType.PLAYER, new Vec3(d6, d7, d8));
 -                            d6 = d0 - this.player.getX();
 +                            d6 = d0.subtract(this.player.getBigX()).doubleValue();
@@ -160,21 +148,23 @@
 -                            d8 = d2 - this.player.getZ();
 +                            d8 = d2.subtract(this.player.getBigZ()).doubleValue();
                              d10 = d6 * d6 + d7 * d7 + d8 * d8;
-                             boolean flag1 = false;
+                             boolean flag2 = false;
                              if (!this.player.isChangingDimension()
-@@ -958,22 +_,22 @@
-                                     && !this.player.isAutoSpinAttack()
+@@ -996,10 +_,10 @@
+                                     && !flag3
                                      && this.noBlocksAround(this.player);
                                  this.player.serverLevel().getChunkSource().move(this.player);
--                                this.player.doCheckFallDamage(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5, p_9874_.isOnGround());
-+                                this.player.doCheckFallDamage(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue(), p_9874_.isOnGround());
-                                 this.player
-                                     .setOnGroundWithKnownMovement(
--                                        p_9874_.isOnGround(), new Vec3(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5)
-+                                        p_9874_.isOnGround(), new Vec3(this.player.getX() - d3.doubleValue(), this.player.getY() - d4, this.player.getZ() - d5.doubleValue())
-                                     );
-                                 if (flag2) {
+-                                Vec3 vec3 = new Vec3(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5);
++                                Vec3 vec3 = new Vec3(this.player.getBigX().subtract(d3).doubleValue(), this.player.getY() - d4, this.player.getBigZ().subtract(d5).doubleValue());
+                                 this.player.setOnGroundWithMovement(p_9874_.isOnGround(), p_9874_.horizontalCollision(), vec3);
+                                 this.player.doCheckFallDamage(vec3.x, vec3.y, vec3.z, p_9874_.isOnGround());
+-                                this.player.recordMovementThroughBlocks(new Vec3(d3, d4, d5), this.player.position());
++                                this.player.recordMovementThroughBlocks(new Vec3(d3.doubleValue(), d4, d5.doubleValue()), this.player.position());
+                                 this.handlePlayerKnownMovement(vec3);
+                                 if (flag4) {
                                      this.player.resetFallDistance();
+@@ -1014,13 +_,13 @@
+                                     this.player.tryResetCurrentImpulseContext();
                                  }
  
 -                                this.player.checkMovementStatistics(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5);
@@ -191,7 +181,7 @@
                              }
                          }
                      }
-@@ -982,8 +_,8 @@
+@@ -1062,8 +_,8 @@
          }
      }
  
@@ -202,74 +192,54 @@
          Iterable<VoxelShape> iterable = p_289008_.getCollisions(this.player, aabb.deflate(1.0E-5F));
          VoxelShape voxelshape = Shapes.create(p_288986_.deflate(1.0E-5F));
  
-@@ -996,17 +_,21 @@
+@@ -1076,8 +_,8 @@
          return false;
      }
  
 -    public void teleport(double p_9775_, double p_9776_, double p_9777_, float p_9778_, float p_9779_) {
+-        this.teleport(new PositionMoveRotation(new Vec3(p_9775_, p_9776_, p_9777_), Vec3.ZERO, p_9778_, p_9779_), Collections.emptySet());
 +    public void teleport(me.alphamode.mcbig.math.BigDecimal p_9775_, double p_9776_, me.alphamode.mcbig.math.BigDecimal p_9777_, float p_9778_, float p_9779_) {
-         this.teleport(p_9775_, p_9776_, p_9777_, p_9778_, p_9779_, Collections.emptySet());
++        this.teleport(new PositionMoveRotation(new me.alphamode.mcbig.core.BigVec3(p_9775_, p_9776_, p_9777_), Vec3.ZERO, p_9778_, p_9779_), Collections.emptySet());
      }
  
-     public void teleport(double p_9781_, double p_9782_, double p_9783_, float p_9784_, float p_9785_, Set<RelativeMovement> p_9786_) {
--        double d0 = p_9786_.contains(RelativeMovement.X) ? this.player.getX() : 0.0;
-+        teleport(me.alphamode.mcbig.math.BigDecimal.val(p_9781_), p_9782_, me.alphamode.mcbig.math.BigDecimal.val(p_9783_), p_9784_, p_9785_, p_9786_);
-+    }
-+
-+    public void teleport(me.alphamode.mcbig.math.BigDecimal p_9781_, double p_9782_, me.alphamode.mcbig.math.BigDecimal p_9783_, float p_9784_, float p_9785_, Set<RelativeMovement> p_9786_) {
-+        me.alphamode.mcbig.math.BigDecimal d0 = p_9786_.contains(RelativeMovement.X) ? this.player.getBigX() : me.alphamode.mcbig.math.BigDecimal.ZERO;
-         double d1 = p_9786_.contains(RelativeMovement.Y) ? this.player.getY() : 0.0;
--        double d2 = p_9786_.contains(RelativeMovement.Z) ? this.player.getZ() : 0.0;
-+        me.alphamode.mcbig.math.BigDecimal d2 = p_9786_.contains(RelativeMovement.Z) ? this.player.getBigZ() : me.alphamode.mcbig.math.BigDecimal.ZERO;
-         float f = p_9786_.contains(RelativeMovement.Y_ROT) ? this.player.getYRot() : 0.0F;
-         float f1 = p_9786_.contains(RelativeMovement.X_ROT) ? this.player.getXRot() : 0.0F;
--        this.awaitingPositionFromClient = new Vec3(p_9781_, p_9782_, p_9783_);
-+        this.awaitingPositionFromClient = new me.alphamode.mcbig.core.BigVec3(p_9781_, p_9782_, p_9783_);
-         if (++this.awaitingTeleport == Integer.MAX_VALUE) {
-             this.awaitingTeleport = 0;
+     public void teleport(PositionMoveRotation p_371571_, Set<Relative> p_9786_) {
+@@ -1087,7 +_,7 @@
          }
-@@ -1015,7 +_,7 @@
-         this.player.absMoveTo(p_9781_, p_9782_, p_9783_, p_9784_, p_9785_);
-         this.player
-             .connection
--            .send(new ClientboundPlayerPositionPacket(p_9781_ - d0, p_9782_ - d1, p_9783_ - d2, p_9784_ - f, p_9785_ - f1, p_9786_, this.awaitingTeleport));
-+            .send(new ClientboundPlayerPositionPacket(p_9781_.subtract(d0), p_9782_ - d1, p_9783_.subtract(d2), p_9784_ - f, p_9785_ - f1, p_9786_, this.awaitingTeleport));
+ 
+         this.player.teleportSetPosition(p_371571_, p_9786_);
+-        this.awaitingPositionFromClient = this.player.position();
++        this.awaitingPositionFromClient = this.player.bigPosition();
+         this.player.connection.send(ClientboundPlayerPositionPacket.of(this.awaitingTeleport, p_371571_, p_9786_));
      }
  
-     @Override
-@@ -1082,7 +_,7 @@
-         ItemStack itemstack = this.player.getItemInHand(interactionhand);
-         if (itemstack.isItemEnabled(serverlevel.enabledFeatures())) {
-             BlockHitResult blockhitresult = p_9930_.getHitResult();
--            Vec3 vec3 = blockhitresult.getLocation();
-+            Vec3 vec3 = blockhitresult.getLocation().toVanilla();
-             BlockPos blockpos = blockhitresult.getBlockPos();
-             Vec3 vec31 = Vec3.atCenterOf(blockpos);
-             if (!(this.player.getEyePosition().distanceToSqr(vec31) > MAX_INTERACTION_DISTANCE)) {
-@@ -1094,7 +_,7 @@
-                     int i = this.player.level().getMaxBuildHeight();
-                     if (blockpos.getY() < i) {
-                         if (this.awaitingPositionFromClient == null
--                            && this.player.distanceToSqr((double)blockpos.getX() + 0.5, (double)blockpos.getY() + 0.5, (double)blockpos.getZ() + 0.5) < 64.0
-+                            && this.player.distanceToSqr((double)blockpos.getBigX().doubleValue() + 0.5, (double)blockpos.getBigY().doubleValue() + 0.5, (double)blockpos.getBigZ().doubleValue() + 0.5) < 64.0
-                             && serverlevel.mayInteract(this.player, blockpos)) {
-                             InteractionResult interactionresult = this.player
-                                 .gameMode
-@@ -1151,7 +_,7 @@
-             for(ServerLevel serverlevel : this.server.getAllLevels()) {
+@@ -1158,10 +_,10 @@
+             ItemStack itemstack = this.player.getItemInHand(interactionhand);
+             if (itemstack.isItemEnabled(serverlevel.enabledFeatures())) {
+                 BlockHitResult blockhitresult = p_9930_.getHitResult();
+-                Vec3 vec3 = blockhitresult.getLocation();
++                me.alphamode.mcbig.core.BigVec3 vec3 = blockhitresult.getLocation();
+                 BlockPos blockpos = blockhitresult.getBlockPos();
+                 if (this.player.canInteractWithBlock(blockpos, 1.0)) {
+-                    Vec3 vec31 = vec3.subtract(Vec3.atCenterOf(blockpos));
++                    me.alphamode.mcbig.core.BigVec3 vec31 = vec3.subtract(me.alphamode.mcbig.core.BigVec3.atCenterOf(blockpos));
+                     double d0 = 1.0000001;
+                     if (Math.abs(vec31.x()) < 1.0000001 && Math.abs(vec31.y()) < 1.0000001 && Math.abs(vec31.z()) < 1.0000001) {
+                         Direction direction = blockhitresult.getDirection();
+@@ -1238,7 +_,7 @@
+             for (ServerLevel serverlevel : this.server.getAllLevels()) {
                  Entity entity = p_9928_.getEntity(serverlevel);
                  if (entity != null) {
--                    this.player.teleportTo(serverlevel, entity.getX(), entity.getY(), entity.getZ(), entity.getYRot(), entity.getXRot());
-+                    this.player.teleportTo(serverlevel, entity.getBigX(), entity.getY(), entity.getBigZ(), entity.getYRot(), entity.getXRot());
+-                    this.player.teleportTo(serverlevel, entity.getX(), entity.getY(), entity.getZ(), Set.of(), entity.getYRot(), entity.getXRot(), true);
++                    this.player.teleportTo(serverlevel, entity.getBigX(), entity.getY(), entity.getBigZ(), Set.of(), entity.getYRot(), entity.getXRot(), true);
                      return;
                  }
              }
-@@ -1381,7 +_,7 @@
-             case STOP_SLEEPING:
-                 if (this.player.isSleeping()) {
-                     this.player.stopSleepInBed(false, true);
--                    this.awaitingPositionFromClient = this.player.position();
-+                    this.awaitingPositionFromClient = this.player.bigPosition();
-                 }
-                 break;
-             case START_RIDING_JUMP:
+@@ -1515,7 +_,7 @@
+                 case STOP_SLEEPING:
+                     if (this.player.isSleeping()) {
+                         this.player.stopSleepInBed(false, true);
+-                        this.awaitingPositionFromClient = this.player.position();
++                        this.awaitingPositionFromClient = this.player.bigPosition();
+                     }
+                     break;
+                 case START_RIDING_JUMP:

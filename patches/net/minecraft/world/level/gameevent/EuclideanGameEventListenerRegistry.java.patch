@@ -1,15 +1,15 @@
 --- a/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
 +++ b/net/minecraft/world/level/gameevent/EuclideanGameEventListenerRegistry.java
-@@ -56,7 +_,7 @@
-     }
+@@ -58,7 +_,7 @@
  
      @Override
--    public boolean visitInRangeListeners(GameEvent p_251377_, Vec3 p_251445_, GameEvent.Context p_252317_, GameEventListenerRegistry.ListenerVisitor p_251422_) {
-+    public boolean visitInRangeListeners(GameEvent p_251377_, me.alphamode.mcbig.core.BigVec3 p_251445_, GameEvent.Context p_252317_, GameEventListenerRegistry.ListenerVisitor p_251422_) {
+     public boolean visitInRangeListeners(
+-        Holder<GameEvent> p_316862_, Vec3 p_251445_, GameEvent.Context p_252317_, GameEventListenerRegistry.ListenerVisitor p_251422_
++        Holder<GameEvent> p_316862_, me.alphamode.mcbig.core.BigVec3 p_251445_, GameEvent.Context p_252317_, GameEventListenerRegistry.ListenerVisitor p_251422_
+     ) {
          this.processing = true;
          boolean flag = false;
- 
-@@ -68,7 +_,7 @@
+@@ -71,7 +_,7 @@
                  if (this.listenersToRemove.remove(gameeventlistener)) {
                      iterator.remove();
                  } else {
@@ -18,7 +18,7 @@
                      if (optional.isPresent()) {
                          p_251422_.visit(gameeventlistener, optional.get());
                          flag = true;
-@@ -92,8 +_,8 @@
+@@ -95,8 +_,8 @@
          return flag;
      }
  

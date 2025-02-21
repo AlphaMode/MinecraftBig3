@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/behavior/LongJumpToRandomPos.java
 +++ b/net/minecraft/world/entity/ai/behavior/LongJumpToRandomPos.java
-@@ -110,16 +_,16 @@
+@@ -111,16 +_,16 @@
          this.findJumpTries = 20;
          this.initialPosition = Optional.of(p_147677_.position());
          BlockPos blockpos = p_147677_.blockPosition();
@@ -26,7 +26,7 @@
              )
              .filter(p_217317_ -> !p_217317_.equals(blockpos))
              .map(p_217314_ -> new LongJumpToRandomPos.PossibleJump(p_217314_.immutable(), Mth.ceil(blockpos.distSqr(p_217314_))))
-@@ -175,9 +_,9 @@
+@@ -176,9 +_,9 @@
  
      private boolean isAcceptableLandingPosition(ServerLevel p_217300_, E p_217301_, BlockPos p_217302_) {
          BlockPos blockpos = p_217301_.blockPosition();

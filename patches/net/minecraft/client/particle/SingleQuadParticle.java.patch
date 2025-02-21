@@ -1,11 +1,11 @@
 --- a/net/minecraft/client/particle/SingleQuadParticle.java
 +++ b/net/minecraft/client/particle/SingleQuadParticle.java
-@@ -33,7 +_,7 @@
+@@ -40,7 +_,7 @@
+     }
  
-     @Override
-     public void render(VertexConsumer p_107678_, Camera p_107679_, float p_107680_) {
--        Vec3 vec3 = p_107679_.getPosition();
-+        Vec3 vec3 = p_107679_.getPosition().toVanilla();
-         float f = (float)(Mth.lerp((double)p_107680_, this.xo, this.x) - vec3.x());
-         float f1 = (float)(Mth.lerp((double)p_107680_, this.yo, this.y) - vec3.y());
-         float f2 = (float)(Mth.lerp((double)p_107680_, this.zo, this.z) - vec3.z());
+     protected void renderRotatedQuad(VertexConsumer p_345690_, Camera p_344809_, Quaternionf p_344798_, float p_345099_) {
+-        Vec3 vec3 = p_344809_.getPosition();
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_344809_.getPosition();
+         float f = (float)(Mth.lerp((double)p_345099_, this.xo, this.x) - vec3.x());
+         float f1 = (float)(Mth.lerp((double)p_345099_, this.yo, this.y) - vec3.y());
+         float f2 = (float)(Mth.lerp((double)p_345099_, this.zo, this.z) - vec3.z());

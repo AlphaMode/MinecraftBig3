@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/Mth.java
 +++ b/net/minecraft/util/Mth.java
-@@ -66,6 +_,16 @@
+@@ -67,6 +_,16 @@
          return p_14108_ < (double)i ? i - 1 : i;
      }
  
@@ -17,7 +17,7 @@
      public static long lfloor(double p_14135_) {
          long i = (long)p_14135_;
          return p_14135_ < (double)i ? i - 1L : i;
-@@ -89,6 +_,20 @@
+@@ -90,6 +_,20 @@
          return p_14166_ > (double)i ? i + 1 : i;
      }
  
@@ -38,7 +38,18 @@
      public static int clamp(int p_14046_, int p_14047_, int p_14048_) {
          return Math.min(Math.max(p_14046_, p_14047_), p_14048_);
      }
-@@ -161,6 +_,10 @@
+@@ -106,6 +_,10 @@
+         return p_14009_ < p_14010_ ? p_14010_ : Math.min(p_14009_, p_14011_);
+     }
+ 
++    public static me.alphamode.mcbig.math.BigDecimal clamp(me.alphamode.mcbig.math.BigDecimal p_14009_, me.alphamode.mcbig.math.BigDecimal p_14010_, me.alphamode.mcbig.math.BigDecimal p_14011_) {
++        return p_14009_.compareTo(p_14010_) < 0 ? p_14010_ : p_14009_.min(p_14011_);
++    }
++
+     public static double clampedLerp(double p_14086_, double p_14087_, double p_14088_) {
+         if (p_14088_ < 0.0) {
+             return p_14086_;
+@@ -162,6 +_,10 @@
          return Math.floorMod(p_14101_, p_14102_);
      }
  
@@ -49,7 +60,7 @@
      public static float positiveModulo(float p_14092_, float p_14093_) {
          return (p_14092_ % p_14093_ + p_14093_) % p_14093_;
      }
-@@ -275,14 +_,18 @@
+@@ -293,14 +_,18 @@
          return p_14186_ - (double)lfloor(p_14186_);
      }
  
@@ -76,7 +87,7 @@
          i = i * i * 42317861L + i * 11L;
          return i >> 16;
      }
-@@ -505,6 +_,10 @@
+@@ -531,6 +_,10 @@
  
      public static double lerp(double p_14140_, double p_14141_, double p_14142_) {
          return p_14141_ + p_14140_ * (p_14142_ - p_14141_);

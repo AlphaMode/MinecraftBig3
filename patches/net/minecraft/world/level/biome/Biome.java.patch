@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/biome/Biome.java
 +++ b/net/minecraft/world/level/biome/Biome.java
-@@ -64,8 +_,8 @@
+@@ -65,8 +_,8 @@
      private final BiomeGenerationSettings generationSettings;
      private final MobSpawnSettings mobSettings;
      private final BiomeSpecialEffects specialEffects;
@@ -11,19 +11,10 @@
                  @Override
                  protected void rehash(int p_47580_) {
                  }
-@@ -104,7 +_,7 @@
-     private float getHeightAdjustedTemperature(BlockPos p_47529_) {
-         float f = this.climateSettings.temperatureModifier.modifyTemperature(p_47529_, this.getBaseTemperature());
-         if (p_47529_.getY() > 80) {
--            float f1 = (float)(TEMPERATURE_NOISE.getValue((double)((float)p_47529_.getX() / 8.0F), (double)((float)p_47529_.getZ() / 8.0F), false) * 8.0);
-+            float f1 = (float)(TEMPERATURE_NOISE.getValue((double)((float)p_47529_.getBigX().floatValue() / 8.0F), (double)((float)p_47529_.getBigZ().floatValue() / 8.0F), false) * 8.0);
-             return f - (f1 + (float)p_47529_.getY() - 80.0F) * 0.05F / 40.0F;
-         } else {
-             return f;
-@@ -113,9 +_,9 @@
+@@ -115,9 +_,9 @@
  
      @Deprecated
-     private float getTemperature(BlockPos p_47506_) {
+     private float getTemperature(BlockPos p_47506_, int p_365137_) {
 -        long i = p_47506_.asLong();
 -        Long2FloatLinkedOpenHashMap long2floatlinkedopenhashmap = this.temperatureCache.get();
 -        float f = long2floatlinkedopenhashmap.get(i);
@@ -33,7 +24,7 @@
          if (!Float.isNaN(f)) {
              return f;
          } else {
-@@ -124,7 +_,7 @@
+@@ -126,7 +_,7 @@
                  long2floatlinkedopenhashmap.removeFirstFloat();
              }
  
@@ -42,7 +33,7 @@
              return f1;
          }
      }
-@@ -383,11 +_,11 @@
+@@ -385,11 +_,11 @@
          FROZEN("frozen") {
              @Override
              public float modifyTemperature(BlockPos p_47774_, float p_47775_) {

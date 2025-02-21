@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/NetherPortalBlock.java
 +++ b/net/minecraft/world/level/block/NetherPortalBlock.java
-@@ -93,9 +_,9 @@
+@@ -234,9 +_,9 @@
      public void animateTick(BlockState p_221794_, Level p_221795_, BlockPos p_221796_, RandomSource p_221797_) {
          if (p_221797_.nextInt(100) == 0) {
              p_221795_.playLocalSound(
@@ -13,10 +13,10 @@
                  SoundEvents.PORTAL_AMBIENT,
                  SoundSource.BLOCKS,
                  0.5F,
-@@ -105,18 +_,18 @@
+@@ -246,18 +_,18 @@
          }
  
-         for(int i = 0; i < 4; ++i) {
+         for (int i = 0; i < 4; i++) {
 -            double d0 = (double)p_221796_.getX() + p_221797_.nextDouble();
 -            double d1 = (double)p_221796_.getY() + p_221797_.nextDouble();
 -            double d2 = (double)p_221796_.getZ() + p_221797_.nextDouble();

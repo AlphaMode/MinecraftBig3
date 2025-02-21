@@ -23,11 +23,11 @@
 -            ChunkPos chunkpos = new ChunkPos(p_140707_);
 -            int i = chunkpos.x;
 -            int j = chunkpos.z;
-+            me.alphamode.mcbig.math.BigInteger i = p_140707_.x();
-+            me.alphamode.mcbig.math.BigInteger j = p_140707_.z();
++            me.alphamode.mcbig.math.BigInteger i = p_140707_.x;
++            me.alphamode.mcbig.math.BigInteger j = p_140707_.z;
  
-             for(int k = -1; k <= 1; ++k) {
-                 for(int l = -1; l <= 1; ++l) {
+             for (int k = -1; k <= 1; k++) {
+                 for (int l = -1; l <= 1; l++) {
 -                    long i1 = ChunkPos.asLong(i + k, j + l);
 -                    if (i1 != p_140707_) {
 +                    ChunkPos i1 = new ChunkPos(i.add(k), j.add(l));
@@ -45,11 +45,11 @@
 -        ChunkPos chunkpos = new ChunkPos(p_140711_);
 -        int j = chunkpos.x;
 -        int k = chunkpos.z;
-+        me.alphamode.mcbig.math.BigInteger j = p_140711_.x();
-+        me.alphamode.mcbig.math.BigInteger k = p_140711_.z();
++        me.alphamode.mcbig.math.BigInteger j = p_140711_.x;
++        me.alphamode.mcbig.math.BigInteger k = p_140711_.z;
  
-         for(int l = -1; l <= 1; ++l) {
-             for(int i1 = -1; i1 <= 1; ++i1) {
+         for (int l = -1; l <= 1; l++) {
+             for (int i1 = -1; i1 <= 1; i1++) {
 -                long j1 = ChunkPos.asLong(j + l, k + i1);
 +                ChunkPos j1 = new ChunkPos(j.add(l), k.add(i1));
                  if (j1 == p_140711_) {

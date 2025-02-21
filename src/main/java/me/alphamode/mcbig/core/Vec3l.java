@@ -3,7 +3,7 @@ package me.alphamode.mcbig.core;
 import com.google.common.base.MoreObjects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import java.util.stream.IntStream;
+
 import java.util.stream.Stream;
 import javax.annotation.concurrent.Immutable;
 
@@ -12,6 +12,7 @@ import me.alphamode.mcbig.math.BigInteger;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
+import net.minecraft.core.Vec3i;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.Mth;
 
@@ -28,12 +29,17 @@ public class Vec3l implements Comparable<Vec3l> {
     private BigInteger z = BigInteger.ZERO;
 
     public static Codec<Vec3l> offsetCodec(int p_194651_) {
-        return ExtraCodecs.validate(
-                CODEC,
+        return CODEC.validate(
                 p_274739_ -> p_274739_.getBigX().abs().compareTo(p_194651_) < 0 && p_274739_.getBigY().abs().compareTo(p_194651_) < 0 && p_274739_.getBigZ().abs().compareTo(p_194651_) < 0
                         ? DataResult.success(p_274739_)
                         : DataResult.error(() -> "Position out of range, expected at most " + p_194651_ + ": " + p_274739_)
         );
+    }
+
+    public Vec3l(BigInteger x, int y, BigInteger z) {
+        this.x = x;
+        this.y = me.alphamode.mcbig.math.BigInteger.constant(y);
+        this.z = z;
     }
 
     public Vec3l(BigInteger x, BigInteger y, BigInteger z) {
@@ -234,12 +240,19 @@ public class Vec3l implements Comparable<Vec3l> {
     }
 
     public double distToCenterSqr(Position p_203194_) {
-        return this.distToCenterSqr(BigDecimal.val(p_203194_.x()), BigDecimal.val(p_203194_.y()), BigDecimal.val(p_203194_.z()));
+        return this.distToCenterSqr(BigDecimal.val(p_203194_.x()), p_203194_.y(), BigDecimal.val(p_203194_.z()));
     }
 
-    public double distToCenterSqr(BigDecimal p_203199_, BigDecimal p_203200_, BigDecimal p_203201_) {
+    public double distToCenterSqr(double p_203199_, double p_203200_, double p_203201_) {
+        double d0 = (double)this.getX() + 0.5 - p_203199_;
+        double d1 = (double)this.getY() + 0.5 - p_203200_;
+        double d2 = (double)this.getZ() + 0.5 - p_203201_;
+        return d0 * d0 + d1 * d1 + d2 * d2;
+    }
+
+    public double distToCenterSqr(BigDecimal p_203199_, double p_203200_, BigDecimal p_203201_) {
         double d0 = this.getBigX().add(0.5).subtract(p_203199_).doubleValue();
-        double d1 = this.getBigY().add(0.5).subtract(p_203200_).doubleValue();
+        double d1 = (double)this.getY() + 0.5 - p_203200_;
         double d2 = this.getBigZ().add(0.5).subtract(p_203201_).doubleValue();
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
@@ -263,6 +276,13 @@ public class Vec3l implements Comparable<Vec3l> {
         float f1 = p_123334_.getBigY().subtract(this.getBigY()).abs().floatValue();
         float f2 = p_123334_.getBigZ().subtract(this.getBigZ()).abs().floatValue();
         return (int)(f + f1 + f2);
+    }
+
+    public int distChessboard(Vec3l p_381741_) {
+        int i = this.getBigX().subtract(p_381741_.getBigX()).abs().intValue();
+        int j = this.getBigY().subtract(p_381741_.getBigY()).abs().intValue();
+        int k = this.getBigZ().subtract(p_381741_.getBigZ()).abs().intValue();
+        return Math.max(Math.max(i, j), k);
     }
 
     public me.alphamode.mcbig.math.BigInteger get(Direction.Axis p_123305_) {

@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/protocol/game/DebugPackets.java
++++ b/net/minecraft/network/protocol/game/DebugPackets.java
+@@ -106,7 +_,7 @@
+     public static void sendBreezeInfo(Breeze p_312299_) {
+     }
+ 
+-    public static void sendGameEventInfo(Level p_237888_, Holder<GameEvent> p_316607_, Vec3 p_237890_) {
++    public static void sendGameEventInfo(Level p_237888_, Holder<GameEvent> p_316607_, me.alphamode.mcbig.core.BigVec3 p_237890_) {
+     }
+ 
+     public static void sendGameEventListenerInfo(Level p_179508_, GameEventListener p_179509_) {

@@ -1,0 +1,50 @@
+--- a/net/minecraft/world/entity/PositionMoveRotation.java
++++ b/net/minecraft/world/entity/PositionMoveRotation.java
+@@ -7,9 +_,9 @@
+ import net.minecraft.world.level.portal.TeleportTransition;
+ import net.minecraft.world.phys.Vec3;
+ 
+-public record PositionMoveRotation(Vec3 position, Vec3 deltaMovement, float yRot, float xRot) {
++public record PositionMoveRotation(me.alphamode.mcbig.core.BigVec3 position, Vec3 deltaMovement, float yRot, float xRot) {
+     public static final StreamCodec<FriendlyByteBuf, PositionMoveRotation> STREAM_CODEC = StreamCodec.composite(
+-        Vec3.STREAM_CODEC,
++        me.alphamode.mcbig.core.BigVec3.STREAM_CODEC,
+         PositionMoveRotation::position,
+         Vec3.STREAM_CODEC,
+         PositionMoveRotation::deltaMovement,
+@@ -20,13 +_,17 @@
+         PositionMoveRotation::new
+     );
+ 
++    public PositionMoveRotation(Vec3 pos, Vec3 deltaMovement, float yRot, float xRot) {
++        this(pos.toBig(), deltaMovement, yRot, xRot);
++    }
++
+     public static PositionMoveRotation of(Entity p_371737_) {
+-        return new PositionMoveRotation(p_371737_.position(), p_371737_.getKnownMovement(), p_371737_.getYRot(), p_371737_.getXRot());
++        return new PositionMoveRotation(p_371737_.bigPosition(), p_371737_.getKnownMovement(), p_371737_.getYRot(), p_371737_.getXRot());
+     }
+ 
+     public static PositionMoveRotation ofEntityUsingLerpTarget(Entity p_379415_) {
+         return new PositionMoveRotation(
+-            new Vec3(p_379415_.lerpTargetX(), p_379415_.lerpTargetY(), p_379415_.lerpTargetZ()),
++            new me.alphamode.mcbig.core.BigVec3(p_379415_.lerpTargetX(), p_379415_.lerpTargetY(), p_379415_.lerpTargetZ()),
+             p_379415_.getKnownMovement(),
+             p_379415_.getYRot(),
+             p_379415_.getXRot()
+@@ -38,12 +_,12 @@
+     }
+ 
+     public static PositionMoveRotation calculateAbsolute(PositionMoveRotation p_371265_, PositionMoveRotation p_371276_, Set<Relative> p_371779_) {
+-        double d0 = p_371779_.contains(Relative.X) ? p_371265_.position.x : 0.0;
++        me.alphamode.mcbig.math.BigDecimal d0 = p_371779_.contains(Relative.X) ? p_371265_.position.x : me.alphamode.mcbig.math.BigDecimal.ZERO;
+         double d1 = p_371779_.contains(Relative.Y) ? p_371265_.position.y : 0.0;
+-        double d2 = p_371779_.contains(Relative.Z) ? p_371265_.position.z : 0.0;
++        me.alphamode.mcbig.math.BigDecimal d2 = p_371779_.contains(Relative.Z) ? p_371265_.position.z : me.alphamode.mcbig.math.BigDecimal.ZERO;
+         float f = p_371779_.contains(Relative.Y_ROT) ? p_371265_.yRot : 0.0F;
+         float f1 = p_371779_.contains(Relative.X_ROT) ? p_371265_.xRot : 0.0F;
+-        Vec3 vec3 = new Vec3(d0 + p_371276_.position.x, d1 + p_371276_.position.y, d2 + p_371276_.position.z);
++        me.alphamode.mcbig.core.BigVec3 vec3 = new me.alphamode.mcbig.core.BigVec3(d0.add(p_371276_.position.x), d1 + p_371276_.position.y, d2.add(p_371276_.position.z));
+         float f2 = f + p_371276_.yRot;
+         float f3 = f1 + p_371276_.xRot;
+         Vec3 vec31 = p_371265_.deltaMovement;

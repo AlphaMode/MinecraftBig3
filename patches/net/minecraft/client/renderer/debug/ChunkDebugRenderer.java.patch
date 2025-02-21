@@ -23,8 +23,8 @@
              Builder<ChunkPos, String> builder = ImmutableMap.builder();
              ClientChunkCache clientchunkcache = clientlevel.getChunkSource();
  
--            for(int k = i - 12; k <= i + 12; ++k) {
--                for(int l = j - 12; l <= j + 12; ++l) {
+-            for (int k = i - 12; k <= i + 12; k++) {
+-                for (int l = j - 12; l <= j + 12; l++) {
 +            for(me.alphamode.mcbig.math.BigInteger k = i.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE); k.compareTo(i.add(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE)) <= 0; k = k.add()) {
 +                for(me.alphamode.mcbig.math.BigInteger l = j.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE); l.compareTo(j.add(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE)) <= 0; l = l.add()) {
                      ChunkPos chunkpos = new ChunkPos(k, l);
@@ -34,8 +34,8 @@
                      Builder<ChunkPos, String> builder1 = ImmutableMap.builder();
                      ServerChunkCache serverchunkcache = serverlevel.getChunkSource();
  
--                    for(int i1 = i - 12; i1 <= i + 12; ++i1) {
--                        for(int j1 = j - 12; j1 <= j + 12; ++j1) {
+-                    for (int i1 = i - 12; i1 <= i + 12; i1++) {
+-                        for (int j1 = j - 12; j1 <= j + 12; j1++) {
 +                    for(me.alphamode.mcbig.math.BigInteger i1 = i.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE); i1.compareTo(i.add(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE)) <= 0; i1 = i1.add()) {
 +                        for(me.alphamode.mcbig.math.BigInteger j1 = j.subtract(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE); j1.compareTo(j.add(me.alphamode.mcbig.core.BigConstants.Ints.TWELVE)) <= 0; j1 = j1.add()) {
                              ChunkPos chunkpos1 = new ChunkPos(i1, j1);

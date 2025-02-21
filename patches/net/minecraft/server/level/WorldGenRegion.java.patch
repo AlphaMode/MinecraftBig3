@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/WorldGenRegion.java
 +++ b/net/minecraft/server/level/WorldGenRegion.java
-@@ -115,17 +_,17 @@
+@@ -104,13 +_,13 @@
      }
  
      @Override
@@ -11,65 +11,21 @@
  
      @Nullable
      @Override
--    public ChunkAccess getChunk(int p_9514_, int p_9515_, ChunkStatus p_9516_, boolean p_9517_) {
-+    public ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_9514_, me.alphamode.mcbig.math.BigInteger p_9515_, ChunkStatus p_9516_, boolean p_9517_) {
-         ChunkAccess chunkaccess;
-         if (this.hasChunk(p_9514_, p_9515_)) {
--            int i = p_9514_ - this.firstPos.x;
--            int j = p_9515_ - this.firstPos.z;
-+            int i = p_9514_.subtract(this.firstPos.x()).intValue();
-+            int j = p_9515_.subtract(this.firstPos.z()).intValue();
-             chunkaccess = this.cache.get(i + j * this.size);
-             if (chunkaccess.getStatus().isOrAfter(p_9516_)) {
-                 return chunkaccess;
-@@ -138,7 +_,7 @@
-             return null;
-         } else {
-             LOGGER.error("Requested chunk : {} {}", p_9514_, p_9515_);
--            LOGGER.error("Region bounds : {} {} | {} {}", this.firstPos.x, this.firstPos.z, this.lastPos.x, this.lastPos.z);
-+            LOGGER.error("Region bounds : {} {} | {} {}", this.firstPos.x(), this.firstPos.z(), this.lastPos.x(), this.lastPos.z());
-             if (chunkaccess != null) {
-                 throw (RuntimeException)Util.pauseInIde(
-                     new RuntimeException(
-@@ -148,21 +_,31 @@
-                     )
-                 );
-             } else {
--                throw (RuntimeException)Util.pauseInIde(
--                    new RuntimeException(String.format(Locale.ROOT, "We are asking a region for a chunk out of bound | %s %s", p_9514_, p_9515_))
--                );
-+                return fixOutOfBound(p_9514_, p_9515_, (correctedX, correctedZ) -> getChunk(correctedX, correctedZ, p_9516_, p_9517_));
-+//                throw (RuntimeException)Util.pauseInIde(
-+//                    new RuntimeException(String.format(Locale.ROOT, "We are asking a region for a chunk out of bound | %s %s", p_9514_, p_9515_))
-+//                );
-             }
-         }
+-    public ChunkAccess getChunk(int p_9514_, int p_9515_, ChunkStatus p_331853_, boolean p_9517_) {
++    public ChunkAccess getChunk(me.alphamode.mcbig.math.BigInteger p_9514_, me.alphamode.mcbig.math.BigInteger p_9515_, ChunkStatus p_331853_, boolean p_9517_) {
+         int i = this.center.getPos().getChessboardDistance(p_9514_, p_9515_);
+         ChunkStatus chunkstatus = i >= this.generatingStep.directDependencies().size() ? null : this.generatingStep.directDependencies().get(i);
+         GenerationChunkHolder generationchunkholder;
+@@ -144,7 +_,7 @@
      }
  
-+    public <Return> Return fixOutOfBound(me.alphamode.mcbig.math.BigInteger x, me.alphamode.mcbig.math.BigInteger z, java.util.function.BiFunction<me.alphamode.mcbig.math.BigInteger, me.alphamode.mcbig.math.BigInteger, Return> correctedCallback) {
-+        LOGGER.error("We are asking a region for a chunk out of bound, attempting to correct");
-+        me.alphamode.mcbig.math.BigInteger difX = this.firstPos.x().subtract(x).min(this.lastPos.x().subtract(x));
-+        me.alphamode.mcbig.math.BigInteger difZ = this.firstPos.z().subtract(z).min(this.lastPos.z().subtract(z));
-+        me.alphamode.mcbig.math.BigInteger correctedX = x.add(difX);
-+        me.alphamode.mcbig.math.BigInteger correctedZ = z.add(difZ);
-+        return correctedCallback.apply(correctedX, correctedZ);
-+    }
-+
      @Override
 -    public boolean hasChunk(int p_9574_, int p_9575_) {
--        return p_9574_ >= this.firstPos.x && p_9574_ <= this.lastPos.x && p_9575_ >= this.firstPos.z && p_9575_ <= this.lastPos.z;
 +    public boolean hasChunk(me.alphamode.mcbig.math.BigInteger p_9574_, me.alphamode.mcbig.math.BigInteger p_9575_) {
-+        return p_9574_.compareTo(this.firstPos.x()) >= 0 && p_9574_.compareTo(this.lastPos.x()) <= 0 && p_9575_.compareTo(this.firstPos.z()) >= 0 && p_9575_.compareTo(this.lastPos.z()) <= 0;
+         int i = this.center.getPos().getChessboardDistance(p_9574_, p_9575_);
+         return i < this.generatingStep.directDependencies().size();
      }
- 
-     @Override
-     public BlockState getBlockState(BlockPos p_9587_) {
--        return this.getChunk(SectionPos.blockToSectionCoord(p_9587_.getX()), SectionPos.blockToSectionCoord(p_9587_.getZ())).getBlockState(p_9587_);
-+        return this.getChunk(SectionPos.blockToSectionCoord(p_9587_.getBigX()), SectionPos.blockToSectionCoord(p_9587_.getBigZ())).getBlockState(p_9587_);
-     }
- 
-     @Override
-@@ -187,7 +_,7 @@
+@@ -176,7 +_,7 @@
      }
  
      @Override
@@ -78,7 +34,7 @@
          return this.level.getUncachedNoiseBiome(p_203787_, p_203788_, p_203789_);
      }
  
-@@ -253,11 +_,11 @@
+@@ -242,11 +_,11 @@
  
      @Override
      public boolean ensureCanWrite(BlockPos p_181031_) {
@@ -89,12 +45,12 @@
          ChunkPos chunkpos = this.getCenter();
 -        int k = Math.abs(chunkpos.x - i);
 -        int l = Math.abs(chunkpos.z - j);
-+        int k = Math.abs(chunkpos.x().subtract(i).intValue());
-+        int l = Math.abs(chunkpos.z().subtract(j).intValue());
-         if (k <= this.writeRadiusCutoff && l <= this.writeRadiusCutoff) {
++        int k = Math.abs(chunkpos.x.subtract(i).intValue());
++        int l = Math.abs(chunkpos.z.subtract(j).intValue());
+         if (k <= this.generatingStep.blockStateWriteRadius() && l <= this.generatingStep.blockStateWriteRadius()) {
              if (this.center.isUpgrading()) {
                  LevelHeightAccessor levelheightaccessor = this.center.getHeightAccessorForGeneration();
-@@ -304,9 +_,9 @@
+@@ -293,9 +_,9 @@
                      }
                  } else {
                      CompoundTag compoundtag = new CompoundTag();
@@ -107,7 +63,7 @@
                      compoundtag.putString("id", "DUMMY");
                      chunkaccess.setBlockEntityNbt(compoundtag);
                  }
-@@ -328,8 +_,8 @@
+@@ -317,8 +_,8 @@
  
      @Override
      public boolean addFreshEntity(Entity p_9580_) {
@@ -118,7 +74,7 @@
          this.getChunk(i, j).addEntity(p_9580_);
          return true;
      }
-@@ -372,11 +_,11 @@
+@@ -361,11 +_,11 @@
  
      @Override
      public DifficultyInstance getCurrentDifficultyAt(BlockPos p_9585_) {
@@ -134,7 +90,7 @@
      }
  
      @Nullable
-@@ -416,8 +_,8 @@
+@@ -405,8 +_,8 @@
      }
  
      @Override
@@ -145,12 +101,12 @@
              + 1;
      }
  
-@@ -434,7 +_,7 @@
+@@ -423,7 +_,7 @@
      }
  
      @Override
--    public void gameEvent(GameEvent p_215163_, Vec3 p_215164_, GameEvent.Context p_215165_) {
-+    public void gameEvent(GameEvent p_215163_, me.alphamode.mcbig.core.BigVec3 p_215164_, GameEvent.Context p_215165_) {
+-    public void gameEvent(Holder<GameEvent> p_316792_, Vec3 p_215164_, GameEvent.Context p_215165_) {
++    public void gameEvent(Holder<GameEvent> p_215163_, me.alphamode.mcbig.core.BigVec3 p_215164_, GameEvent.Context p_215165_) {
      }
  
      @Override

@@ -1,0 +1,38 @@
+--- a/net/minecraft/world/entity/projectile/windcharge/AbstractWindCharge.java
++++ b/net/minecraft/world/entity/projectile/windcharge/AbstractWindCharge.java
+@@ -95,7 +_,7 @@
+                 EnchantmentHelper.doPostAttackEffects(serverlevel, livingentity1, damagesource);
+             }
+ 
+-            this.explode(this.position());
++            this.explode(this.bigPosition());
+         }
+     }
+ 
+@@ -103,7 +_,7 @@
+     public void push(double p_334071_, double p_333979_, double p_333996_) {
+     }
+ 
+-    protected abstract void explode(Vec3 p_352265_);
++    protected abstract void explode(me.alphamode.mcbig.core.BigVec3 p_352265_);
+ 
+     @Override
+     protected void onHitBlock(BlockHitResult p_325933_) {
+@@ -111,7 +_,7 @@
+         if (!this.level().isClientSide) {
+             Vec3i vec3i = p_325933_.getDirection().getUnitVec3i();
+             Vec3 vec3 = Vec3.atLowerCornerOf(vec3i).multiply(0.25, 0.25, 0.25);
+-            Vec3 vec31 = p_325933_.getLocation().add(vec3);
++            me.alphamode.mcbig.core.BigVec3 vec31 = p_325933_.getLocation().add(vec3);
+             this.explode(vec31);
+             this.discard();
+         }
+@@ -154,7 +_,7 @@
+     @Override
+     public void tick() {
+         if (!this.level().isClientSide && this.getBlockY() > this.level().getMaxY() + 30) {
+-            this.explode(this.position());
++            this.explode(this.bigPosition());
+             this.discard();
+         } else {
+             super.tick();

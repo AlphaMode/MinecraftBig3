@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/level/block/BubbleColumnBlock.java
 +++ b/net/minecraft/world/level/block/BubbleColumnBlock.java
-@@ -56,9 +_,9 @@
-                 for(int i = 0; i < 2; ++i) {
+@@ -57,9 +_,9 @@
+                 for (int i = 0; i < 2; i++) {
                      serverlevel.sendParticles(
                          ParticleTypes.SPLASH,
 -                        (double)p_50978_.getX() + p_50977_.random.nextDouble(),
@@ -12,7 +12,7 @@
                          1,
                          0.0,
                          0.0,
-@@ -67,9 +_,9 @@
+@@ -68,9 +_,9 @@
                      );
                      serverlevel.sendParticles(
                          ParticleTypes.BUBBLE,
@@ -24,7 +24,7 @@
                          1,
                          0.0,
                          0.01,
-@@ -132,9 +_,9 @@
+@@ -133,9 +_,9 @@
  
      @Override
      public void animateTick(BlockState p_220893_, Level p_220894_, BlockPos p_220895_, RandomSource p_220896_) {

@@ -9,9 +9,9 @@
      }
  
      default RandomSource fromHashOf(ResourceLocation p_224541_) {
-@@ -16,7 +_,7 @@
+@@ -18,7 +_,7 @@
  
-     RandomSource fromHashOf(String p_224544_);
+     RandomSource fromSeed(long p_348480_);
  
 -    RandomSource at(int p_224537_, int p_224538_, int p_224539_);
 +    RandomSource at(me.alphamode.mcbig.math.BigInteger p_224537_, int p_224538_, me.alphamode.mcbig.math.BigInteger p_224539_);

@@ -8,7 +8,7 @@
 +        EYES("eyes", (p_90382_, p_90383_) -> new me.alphamode.mcbig.core.BigVec3(p_90382_.x, p_90382_.y + (double)p_90383_.getEyeHeight(), p_90382_.z));
  
          static final Map<String, EntityAnchorArgument.Anchor> BY_NAME = Util.make(Maps.newHashMap(), p_90387_ -> {
-             for(EntityAnchorArgument.Anchor entityanchorargument$anchor : values()) {
+             for (EntityAnchorArgument.Anchor entityanchorargument$anchor : values()) {
 @@ -68,9 +_,9 @@
              }
          });

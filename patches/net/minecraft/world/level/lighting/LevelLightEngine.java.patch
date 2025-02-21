@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/lighting/LevelLightEngine.java
 +++ b/net/minecraft/world/level/lighting/LevelLightEngine.java
-@@ -101,10 +_,10 @@
+@@ -104,10 +_,10 @@
      public String getDebugData(LightLayer p_75817_, SectionPos p_75818_) {
          if (p_75817_ == LightLayer.BLOCK) {
              if (this.blockEngine != null) {
@@ -13,7 +13,7 @@
          }
  
          return "n/a";
-@@ -113,10 +_,10 @@
+@@ -116,10 +_,10 @@
      public LayerLightSectionStorage.SectionType getDebugSectionType(LightLayer p_285008_, SectionPos p_285336_) {
          if (p_285008_ == LightLayer.BLOCK) {
              if (this.blockEngine != null) {
@@ -26,7 +26,7 @@
          }
  
          return LayerLightSectionStorage.SectionType.EMPTY;
-@@ -125,10 +_,10 @@
+@@ -128,10 +_,10 @@
      public void queueSectionData(LightLayer p_285328_, SectionPos p_284962_, @Nullable DataLayer p_285035_) {
          if (p_285328_ == LightLayer.BLOCK) {
              if (this.blockEngine != null) {
@@ -39,15 +39,12 @@
          }
      }
  
-@@ -149,9 +_,9 @@
+@@ -151,7 +_,7 @@
+         return Math.max(j, i);
      }
  
-     public boolean lightOnInSection(SectionPos p_285319_) {
--        long i = p_285319_.asLong();
-+//        long i = p_285319_.asLong();
+-    public boolean lightOnInColumn(long p_366813_) {
++    public boolean lightOnInColumn(SectionPos p_366813_) {
          return this.blockEngine == null
--            || this.blockEngine.storage.lightOnInSection(i) && (this.skyEngine == null || this.skyEngine.storage.lightOnInSection(i));
-+            || this.blockEngine.storage.lightOnInSection(p_285319_) && (this.skyEngine == null || this.skyEngine.storage.lightOnInSection(p_285319_));
+             || this.blockEngine.storage.lightOnInColumn(p_366813_) && (this.skyEngine == null || this.skyEngine.storage.lightOnInColumn(p_366813_));
      }
- 
-     public int getLightSectionCount() {

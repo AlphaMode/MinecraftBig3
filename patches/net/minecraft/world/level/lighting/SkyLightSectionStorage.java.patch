@@ -29,7 +29,7 @@
          if (k != skylightsectionstorage$skydatalayerstoragemap.currentLowestY && j < k) {
              DataLayer datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i);
              if (datalayer == null) {
--                for(p_164458_ = BlockPos.getFlatIndex(p_164458_);
+-                for (p_164458_ = BlockPos.getFlatIndex(p_164458_);
 +                for(p_164458_ = new BlockPos(p_164458_.getBigX(), 0, p_164458_.getBigZ());
                      datalayer == null;
                      datalayer = this.getDataLayer(skylightsectionstorage$skydatalayerstoragemap, i)
@@ -81,14 +81,14 @@
 -        int j = SectionPos.y(p_75887_);
 -        if (this.updatingSectionData.topSections.get(i) == j + 1) {
 -            long k;
--            for(k = p_75887_; !this.storingLightForSection(k) && this.hasLightDataAtOrBelow(j); k = SectionPos.offset(k, Direction.DOWN)) {
+-            for (k = p_75887_; !this.storingLightForSection(k) && this.hasLightDataAtOrBelow(j); k = SectionPos.offset(k, Direction.DOWN)) {
 +    protected void onNodeRemoved(SectionPos p_75887_) {
 +        SectionPos i = SectionPos.getZeroNode(p_75887_.x(), p_75887_.z());
 +        int j = p_75887_.getY();
 +        if (this.updatingSectionData.topSections.getInt(i) == j + 1) {
 +            SectionPos k;
 +            for(k = p_75887_; !this.storingLightForSection(k) && this.hasLightDataAtOrBelow(j); k = k.relative(Direction.DOWN)) {
-                 --j;
+                 j--;
              }
  
              if (this.storingLightForSection(k)) {
@@ -115,7 +115,7 @@
 +                SectionPos j = p_75883_.relative(Direction.UP);
  
                  DataLayer datalayer1;
-                 while((datalayer1 = this.getDataLayer(j, true)) == null) {
+                 while ((datalayer1 = this.getDataLayer(j, true)) == null) {
 -                    j = SectionPos.offset(j, Direction.UP);
 +                    j = j.relative(Direction.UP);
                  }

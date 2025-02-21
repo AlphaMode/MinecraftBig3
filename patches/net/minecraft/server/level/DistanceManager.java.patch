@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/DistanceManager.java
 +++ b/net/minecraft/server/level/DistanceManager.java
-@@ -40,8 +_,8 @@
+@@ -38,15 +_,15 @@
      static final Logger LOGGER = LogUtils.getLogger();
      static final int PLAYER_TICKET_LEVEL = ChunkLevel.byStatus(FullChunkStatus.ENTITY_TICKING);
      private static final int INITIAL_TICKET_LIST_CAPACITY = 4;
@@ -11,29 +11,28 @@
      private final DistanceManager.ChunkTicketTracker ticketTracker = new DistanceManager.ChunkTicketTracker();
      private final DistanceManager.FixedPlayerDistanceChunkTracker naturalSpawnChunkCounter = new DistanceManager.FixedPlayerDistanceChunkTracker(8);
      private final TickingTracker tickingTicketsTracker = new TickingTracker();
-@@ -50,7 +_,7 @@
-     final ChunkTaskPriorityQueueSorter ticketThrottler;
-     final ProcessorHandle<ChunkTaskPriorityQueueSorter.Message<Runnable>> ticketThrottlerInput;
-     final ProcessorHandle<ChunkTaskPriorityQueueSorter.Release> ticketThrottlerReleaser;
+     private final DistanceManager.PlayerTicketTracker playerTicketManager = new DistanceManager.PlayerTicketTracker(32);
+     final Set<ChunkHolder> chunksToUpdateFutures = new ReferenceOpenHashSet<>();
+     final ThrottlingChunkTaskDispatcher ticketDispatcher;
 -    final LongSet ticketsToRelease = new LongOpenHashSet();
 +    final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> ticketsToRelease = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
      final Executor mainThreadExecutor;
      private long ticketTickCounter;
      private int simulationDistance = 10;
-@@ -66,10 +_,10 @@
+@@ -59,10 +_,10 @@
  
      protected void purgeStaleTickets() {
-         ++this.ticketTickCounter;
+         this.ticketTickCounter++;
 -        ObjectIterator<Entry<SortedArraySet<Ticket<?>>>> objectiterator = this.tickets.long2ObjectEntrySet().fastIterator();
 +        ObjectIterator<it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, SortedArraySet<Ticket<?>>>> objectiterator = this.tickets.object2ObjectEntrySet().fastIterator();
  
-         while(objectiterator.hasNext()) {
+         while (objectiterator.hasNext()) {
 -            Entry<SortedArraySet<Ticket<?>>> entry = objectiterator.next();
 +            it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, SortedArraySet<Ticket<?>>> entry = objectiterator.next();
              Iterator<Ticket<?>> iterator = entry.getValue().iterator();
              boolean flag = false;
  
-@@ -78,12 +_,12 @@
+@@ -71,12 +_,12 @@
                  if (ticket.timedOut(this.ticketTickCounter)) {
                      iterator.remove();
                      flag = true;
@@ -48,7 +47,7 @@
              }
  
              if (entry.getValue().isEmpty()) {
-@@ -96,13 +_,13 @@
+@@ -89,13 +_,13 @@
          return !p_140798_.isEmpty() ? p_140798_.first().getTicketLevel() : ChunkLevel.MAX_LEVEL + 1;
      }
  
@@ -76,13 +75,13 @@
 -                LongIterator longiterator = this.ticketsToRelease.iterator();
 +                it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = this.ticketsToRelease.iterator();
  
-                 while(longiterator.hasNext()) {
+                 while (longiterator.hasNext()) {
 -                    long j = longiterator.nextLong();
 +                    ChunkPos j = longiterator.next();
                      if (this.getTickets(j).stream().anyMatch(p_183910_ -> p_183910_.getType() == TicketType.PLAYER)) {
                          ChunkHolder chunkholder = p_140806_.getUpdatingChunkIfPresent(j);
                          if (chunkholder == null) {
-@@ -144,7 +_,7 @@
+@@ -142,7 +_,7 @@
          }
      }
  
@@ -91,7 +90,7 @@
          SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(p_140785_);
          int i = getTicketLevelAt(sortedarrayset);
          Ticket<?> ticket = sortedarrayset.addOrGet(p_140786_);
-@@ -154,7 +_,7 @@
+@@ -152,7 +_,7 @@
          }
      }
  
@@ -100,7 +99,7 @@
          SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(p_140819_);
          if (sortedarrayset.remove(p_140820_)) {
          }
-@@ -167,62 +_,62 @@
+@@ -165,62 +_,62 @@
      }
  
      public <T> void addTicket(TicketType<T> p_140793_, ChunkPos p_140794_, int p_140795_, T p_140796_) {
@@ -159,7 +158,7 @@
      public void addPlayer(SectionPos p_140803_, ServerPlayer p_140804_) {
          ChunkPos chunkpos = p_140803_.chunk();
 -        long i = chunkpos.toLong();
--        this.playersPerChunk.computeIfAbsent(i, p_183921_ -> new ObjectOpenHashSet()).add(p_140804_);
+-        this.playersPerChunk.computeIfAbsent(i, p_183921_ -> new ObjectOpenHashSet<>()).add(p_140804_);
 -        this.naturalSpawnChunkCounter.update(i, 0, true);
 -        this.playerTicketManager.update(i, 0, true);
 +//        long i = chunkpos.toLong();
@@ -186,7 +185,7 @@
              this.tickingTicketsTracker.removeTicket(TicketType.PLAYER, chunkpos, this.getPlayerTicketLevel(), chunkpos);
          }
      }
-@@ -231,15 +_,15 @@
+@@ -229,15 +_,15 @@
          return Math.max(0, ChunkLevel.byStatus(FullChunkStatus.ENTITY_TICKING) - this.simulationDistance);
      }
  
@@ -205,7 +204,7 @@
          SortedArraySet<Ticket<?>> sortedarrayset = this.tickets.get(p_140839_);
          return sortedarrayset != null && !sortedarrayset.isEmpty() ? sortedarrayset.first().toString() : "no_ticket";
      }
-@@ -260,7 +_,7 @@
+@@ -258,12 +_,12 @@
          return this.naturalSpawnChunkCounter.chunks.size();
      }
  
@@ -214,36 +213,44 @@
          this.naturalSpawnChunkCounter.runAllUpdates();
          return this.naturalSpawnChunkCounter.chunks.containsKey(p_140848_);
      }
-@@ -271,12 +_,12 @@
+ 
+-    public LongIterator getSpawnCandidateChunks() {
++    public it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> getSpawnCandidateChunks() {
+         this.naturalSpawnChunkCounter.runAllUpdates();
+         return this.naturalSpawnChunkCounter.chunks.keySet().iterator();
+     }
+@@ -274,8 +_,8 @@
  
      private void dumpTickets(String p_143208_) {
          try (FileOutputStream fileoutputstream = new FileOutputStream(new File(p_143208_))) {
--            for(Entry<SortedArraySet<Ticket<?>>> entry : this.tickets.long2ObjectEntrySet()) {
+-            for (Entry<SortedArraySet<Ticket<?>>> entry : this.tickets.long2ObjectEntrySet()) {
 -                ChunkPos chunkpos = new ChunkPos(entry.getLongKey());
 +            for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, SortedArraySet<Ticket<?>>> entry : this.tickets.object2ObjectEntrySet()) {
 +                ChunkPos chunkpos = entry.getKey();
  
-                 for(Ticket<?> ticket : entry.getValue()) {
+                 for (Ticket<?> ticket : entry.getValue()) {
                      fileoutputstream.write(
--                        (chunkpos.x + "\t" + chunkpos.z + "\t" + ticket.getType() + "\t" + ticket.getTicketLevel() + "\t\n").getBytes(StandardCharsets.UTF_8)
-+                        (chunkpos.x() + "\t" + chunkpos.z() + "\t" + ticket.getType() + "\t" + ticket.getTicketLevel() + "\t\n").getBytes(StandardCharsets.UTF_8)
-                     );
-                 }
-             }
-@@ -292,10 +_,10 @@
+@@ -293,16 +_,16 @@
+         return this.tickingTicketsTracker;
+     }
+ 
+-    public LongSet getTickingChunks() {
++    public it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getTickingChunks() {
+         return this.tickingTicketsTracker.getTickingChunks();
+     }
  
      public void removeTicketsOnClosing() {
-         ImmutableSet<TicketType<?>> immutableset = ImmutableSet.of(TicketType.UNKNOWN, TicketType.POST_TELEPORT, TicketType.LIGHT);
+         ImmutableSet<TicketType<?>> immutableset = ImmutableSet.of(TicketType.UNKNOWN);
 -        ObjectIterator<Entry<SortedArraySet<Ticket<?>>>> objectiterator = this.tickets.long2ObjectEntrySet().fastIterator();
 +        ObjectIterator<it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, SortedArraySet<Ticket<?>>>> objectiterator = this.tickets.object2ObjectEntrySet().fastIterator();
  
-         while(objectiterator.hasNext()) {
+         while (objectiterator.hasNext()) {
 -            Entry<SortedArraySet<Ticket<?>>> entry = objectiterator.next();
 +            it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, SortedArraySet<Ticket<?>>> entry = objectiterator.next();
              Iterator<Ticket<?>> iterator = entry.getValue().iterator();
              boolean flag = false;
  
-@@ -304,12 +_,12 @@
+@@ -311,12 +_,12 @@
                  if (!immutableset.contains(ticket.getType())) {
                      iterator.remove();
                      flag = true;
@@ -258,7 +265,7 @@
              }
  
              if (entry.getValue().isEmpty()) {
-@@ -330,7 +_,7 @@
+@@ -337,7 +_,7 @@
          }
  
          @Override
@@ -267,7 +274,7 @@
              SortedArraySet<Ticket<?>> sortedarrayset = DistanceManager.this.tickets.get(p_140883_);
              if (sortedarrayset == null) {
                  return Integer.MAX_VALUE;
-@@ -340,7 +_,7 @@
+@@ -347,7 +_,7 @@
          }
  
          @Override
@@ -276,7 +283,7 @@
              if (!DistanceManager.this.isChunkToRemove(p_140885_)) {
                  ChunkHolder chunkholder = DistanceManager.this.getChunk(p_140885_);
                  if (chunkholder != null) {
-@@ -352,7 +_,7 @@
+@@ -359,7 +_,7 @@
          }
  
          @Override
@@ -285,7 +292,7 @@
              ChunkHolder chunkholder = DistanceManager.this.getChunk(p_140880_);
              int i = chunkholder == null ? MAX_LEVEL : chunkholder.getTicketLevel();
              if (i != p_140881_) {
-@@ -369,7 +_,7 @@
+@@ -376,7 +_,7 @@
      }
  
      class FixedPlayerDistanceChunkTracker extends ChunkTracker {
@@ -294,7 +301,7 @@
          protected final int maxDistance;
  
          protected FixedPlayerDistanceChunkTracker(int p_140891_) {
-@@ -379,15 +_,15 @@
+@@ -386,15 +_,15 @@
          }
  
          @Override
@@ -314,7 +321,7 @@
              } else {
                  b0 = this.chunks.put(p_140893_, (byte)p_140894_);
              }
-@@ -395,15 +_,15 @@
+@@ -402,15 +_,15 @@
              this.onLevelChange(p_140893_, b0, p_140894_);
          }
  
@@ -333,21 +340,18 @@
              ObjectSet<ServerPlayer> objectset = DistanceManager.this.playersPerChunk.get(p_140903_);
              return objectset != null && !objectset.isEmpty();
          }
-@@ -414,10 +_,10 @@
+@@ -421,8 +_,8 @@
  
          private void dumpChunks(String p_143213_) {
              try (FileOutputStream fileoutputstream = new FileOutputStream(new File(p_143213_))) {
--                for(it.unimi.dsi.fastutil.longs.Long2ByteMap.Entry entry : this.chunks.long2ByteEntrySet()) {
+-                for (it.unimi.dsi.fastutil.longs.Long2ByteMap.Entry entry : this.chunks.long2ByteEntrySet()) {
 -                    ChunkPos chunkpos = new ChunkPos(entry.getLongKey());
 +                for(it.unimi.dsi.fastutil.objects.Object2ByteMap.Entry<ChunkPos> entry : this.chunks.object2ByteEntrySet()) {
 +                    ChunkPos chunkpos = entry.getKey();
                      String s = Byte.toString(entry.getByteValue());
--                    fileoutputstream.write((chunkpos.x + "\t" + chunkpos.z + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
-+                    fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
+                     fileoutputstream.write((chunkpos.x + "\t" + chunkpos.z + "\t" + s + "\n").getBytes(StandardCharsets.UTF_8));
                  }
-             } catch (IOException ioexception) {
-                 DistanceManager.LOGGER.error("Failed to dump chunks to {}", p_143213_, ioexception);
-@@ -427,8 +_,8 @@
+@@ -434,8 +_,8 @@
  
      class PlayerTicketTracker extends DistanceManager.FixedPlayerDistanceChunkTracker {
          private int viewDistance;
@@ -358,7 +362,7 @@
  
          protected PlayerTicketTracker(int p_140910_) {
              super(p_140910_);
-@@ -437,23 +_,23 @@
+@@ -444,23 +_,23 @@
          }
  
          @Override
@@ -368,7 +372,7 @@
          }
  
          public void updateViewDistance(int p_140913_) {
--            for(it.unimi.dsi.fastutil.longs.Long2ByteMap.Entry entry : this.chunks.long2ByteEntrySet()) {
+-            for (it.unimi.dsi.fastutil.longs.Long2ByteMap.Entry entry : this.chunks.long2ByteEntrySet()) {
 +            for(it.unimi.dsi.fastutil.objects.Object2ByteMap.Entry<ChunkPos> entry : this.chunks.object2ByteEntrySet()) {
                  byte b0 = entry.getByteValue();
 -                long i = entry.getLongKey();
@@ -385,24 +389,24 @@
 -                Ticket<?> ticket = new Ticket<>(TicketType.PLAYER, DistanceManager.PLAYER_TICKET_LEVEL, new ChunkPos(p_140919_));
 +                Ticket<?> ticket = new Ticket<>(TicketType.PLAYER, DistanceManager.PLAYER_TICKET_LEVEL, p_140919_);
                  if (p_140922_) {
-                     DistanceManager.this.ticketThrottlerInput
-                         .tell(ChunkTaskPriorityQueueSorter.message(() -> DistanceManager.this.mainThreadExecutor.execute(() -> {
-@@ -482,16 +_,16 @@
+                     DistanceManager.this.ticketDispatcher.submit(() -> DistanceManager.this.mainThreadExecutor.execute(() -> {
+                             if (this.haveTicketFor(this.getLevel(p_140919_))) {
+@@ -484,16 +_,16 @@
          public void runAllUpdates() {
              super.runAllUpdates();
              if (!this.toUpdate.isEmpty()) {
 -                LongIterator longiterator = this.toUpdate.iterator();
 +                it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = this.toUpdate.iterator();
  
-                 while(longiterator.hasNext()) {
+                 while (longiterator.hasNext()) {
 -                    long i = longiterator.nextLong();
 -                    int j = this.queueLevels.get(i);
 +                    ChunkPos i = longiterator.next();
 +                    int j = this.queueLevels.getInt(i);
                      int k = this.getLevel(i);
                      if (j != k) {
--                        DistanceManager.this.ticketThrottler.onLevelChange(new ChunkPos(i), () -> this.queueLevels.get(i), k, p_140928_ -> {
-+                        DistanceManager.this.ticketThrottler.onLevelChange(i, () -> this.queueLevels.getInt(i), k, p_140928_ -> {
+-                        DistanceManager.this.ticketDispatcher.onLevelChange(new ChunkPos(i), () -> this.queueLevels.get(i), k, p_140928_ -> {
++                        DistanceManager.this.ticketDispatcher.onLevelChange(i, () -> this.queueLevels.getInt(i), k, p_140928_ -> {
                              if (p_140928_ >= this.queueLevels.defaultReturnValue()) {
 -                                this.queueLevels.remove(i);
 +                                this.queueLevels.removeInt(i);

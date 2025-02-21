@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/chunk/CompileTaskDynamicQueue.java
++++ b/net/minecraft/client/renderer/chunk/CompileTaskDynamicQueue.java
+@@ -19,7 +_,7 @@
+     }
+ 
+     @Nullable
+-    public synchronized SectionRenderDispatcher.RenderSection.CompileTask poll(Vec3 p_366737_) {
++    public synchronized SectionRenderDispatcher.RenderSection.CompileTask poll(me.alphamode.mcbig.core.BigVec3 p_366737_) {
+         int i = -1;
+         int j = -1;
+         double d0 = Double.MAX_VALUE;

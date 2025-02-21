@@ -1,22 +1,35 @@
 --- a/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
 +++ b/net/minecraft/world/level/pathfinder/FlyNodeEvaluator.java
-@@ -15,7 +_,7 @@
+@@ -13,7 +_,7 @@
  import net.minecraft.world.phys.AABB;
  
  public class FlyNodeEvaluator extends WalkNodeEvaluator {
--    private final Long2ObjectMap<BlockPathTypes> pathTypeByPosCache = new Long2ObjectOpenHashMap<>();
-+    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, BlockPathTypes> pathTypeByPosCache = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
-     private static final float SMALL_MOB_INFLATED_START_NODE_BOUNDING_BOX = 1.5F;
+-    private final Long2ObjectMap<PathType> pathTypeByPosCache = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, PathType> pathTypeByPosCache = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+     private static final float SMALL_MOB_SIZE = 1.0F;
+     private static final float SMALL_MOB_INFLATED_START_NODE_BOUNDING_BOX = 1.1F;
      private static final int MAX_START_NODE_CANDIDATES = 10;
+@@ -40,8 +_,8 @@
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(this.mob.getX(), (double)i, this.mob.getZ());
  
-@@ -70,103 +_,103 @@
+             for (BlockState blockstate = this.currentContext.getBlockState(blockpos$mutableblockpos);
+-                blockstate.is(Blocks.WATER);
+-                blockstate = this.currentContext.getBlockState(blockpos$mutableblockpos)
++                 blockstate.is(Blocks.WATER);
++                 blockstate = this.currentContext.getBlockState(blockpos$mutableblockpos)
+             ) {
+                 blockpos$mutableblockpos.set(this.mob.getX(), (double)(++i), this.mob.getZ());
+             }
+@@ -63,7 +_,7 @@
  
      @Override
-     public Target getGoal(double p_77229_, double p_77230_, double p_77231_) {
--        return this.getTargetFromNode(this.getNode(Mth.floor(p_77229_), Mth.floor(p_77230_), Mth.floor(p_77231_)));
-+        return this.getTargetFromNode(this.getNode(Mth.bigFloor(p_77229_), Mth.bigFloor(p_77230_), Mth.bigFloor(p_77231_)));
+     protected boolean canStartAt(BlockPos p_262645_) {
+-        PathType pathtype = this.getCachedPathType(p_262645_.getX(), p_262645_.getY(), p_262645_.getZ());
++        PathType pathtype = this.getCachedPathType(p_262645_.getBigX(), p_262645_.getY(), p_262645_.getBigZ());
+         return this.mob.getPathfindingMalus(pathtype) >= 0.0F;
      }
  
+@@ -75,22 +_,22 @@
      @Override
      public int getNeighbors(Node[] p_77266_, Node p_77267_) {
          int i = 0;
@@ -43,63 +56,54 @@
          if (this.isOpen(node3)) {
              p_77266_[i++] = node3;
          }
- 
--        Node node4 = this.findAcceptedNode(p_77267_.x, p_77267_.y + 1, p_77267_.z);
-+        Node node4 = this.findAcceptedNode(p_77267_.x, p_77267_.y.add(), p_77267_.z);
-         if (this.isOpen(node4)) {
-             p_77266_[i++] = node4;
-         }
- 
--        Node node5 = this.findAcceptedNode(p_77267_.x, p_77267_.y - 1, p_77267_.z);
-+        Node node5 = this.findAcceptedNode(p_77267_.x, p_77267_.y.subtract(), p_77267_.z);
-         if (this.isOpen(node5)) {
+@@ -105,151 +_,151 @@
              p_77266_[i++] = node5;
          }
  
 -        Node node6 = this.findAcceptedNode(p_77267_.x, p_77267_.y + 1, p_77267_.z + 1);
-+        Node node6 = this.findAcceptedNode(p_77267_.x, p_77267_.y.add(), p_77267_.z.add());
++        Node node6 = this.findAcceptedNode(p_77267_.x, p_77267_.y + 1, p_77267_.z.add());
          if (this.isOpen(node6) && this.hasMalus(node) && this.hasMalus(node4)) {
              p_77266_[i++] = node6;
          }
  
 -        Node node7 = this.findAcceptedNode(p_77267_.x - 1, p_77267_.y + 1, p_77267_.z);
-+        Node node7 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y.add(), p_77267_.z);
++        Node node7 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y + 1, p_77267_.z);
          if (this.isOpen(node7) && this.hasMalus(node1) && this.hasMalus(node4)) {
              p_77266_[i++] = node7;
          }
  
 -        Node node8 = this.findAcceptedNode(p_77267_.x + 1, p_77267_.y + 1, p_77267_.z);
-+        Node node8 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y.add(), p_77267_.z);
++        Node node8 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y + 1, p_77267_.z);
          if (this.isOpen(node8) && this.hasMalus(node2) && this.hasMalus(node4)) {
              p_77266_[i++] = node8;
          }
  
 -        Node node9 = this.findAcceptedNode(p_77267_.x, p_77267_.y + 1, p_77267_.z - 1);
-+        Node node9 = this.findAcceptedNode(p_77267_.x, p_77267_.y.add(), p_77267_.z.subtract());
++        Node node9 = this.findAcceptedNode(p_77267_.x, p_77267_.y + 1, p_77267_.z.subtract());
          if (this.isOpen(node9) && this.hasMalus(node3) && this.hasMalus(node4)) {
              p_77266_[i++] = node9;
          }
  
 -        Node node10 = this.findAcceptedNode(p_77267_.x, p_77267_.y - 1, p_77267_.z + 1);
-+        Node node10 = this.findAcceptedNode(p_77267_.x, p_77267_.y.subtract(), p_77267_.z.add());
++        Node node10 = this.findAcceptedNode(p_77267_.x, p_77267_.y - 1, p_77267_.z.add());
          if (this.isOpen(node10) && this.hasMalus(node) && this.hasMalus(node5)) {
              p_77266_[i++] = node10;
          }
  
 -        Node node11 = this.findAcceptedNode(p_77267_.x - 1, p_77267_.y - 1, p_77267_.z);
-+        Node node11 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y.subtract(), p_77267_.z);
++        Node node11 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y - 1, p_77267_.z);
          if (this.isOpen(node11) && this.hasMalus(node1) && this.hasMalus(node5)) {
              p_77266_[i++] = node11;
          }
  
 -        Node node12 = this.findAcceptedNode(p_77267_.x + 1, p_77267_.y - 1, p_77267_.z);
-+        Node node12 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y.subtract(), p_77267_.z);
++        Node node12 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y - 1, p_77267_.z);
          if (this.isOpen(node12) && this.hasMalus(node2) && this.hasMalus(node5)) {
              p_77266_[i++] = node12;
          }
  
 -        Node node13 = this.findAcceptedNode(p_77267_.x, p_77267_.y - 1, p_77267_.z - 1);
-+        Node node13 = this.findAcceptedNode(p_77267_.x, p_77267_.y.subtract(), p_77267_.z.subtract());
++        Node node13 = this.findAcceptedNode(p_77267_.x, p_77267_.y - 1, p_77267_.z.subtract());
          if (this.isOpen(node13) && this.hasMalus(node3) && this.hasMalus(node5)) {
              p_77266_[i++] = node13;
          }
@@ -129,132 +133,221 @@
          }
  
 -        Node node18 = this.findAcceptedNode(p_77267_.x + 1, p_77267_.y + 1, p_77267_.z - 1);
-+        Node node18 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y.add(), p_77267_.z.subtract());
++        Node node18 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y + 1, p_77267_.z.subtract());
          if (this.isOpen(node18)
-             && this.hasMalus(node14)
-             && this.hasMalus(node3)
-@@ -177,7 +_,7 @@
+-            && this.hasMalus(node14)
+-            && this.hasMalus(node3)
+-            && this.hasMalus(node2)
+-            && this.hasMalus(node4)
+-            && this.hasMalus(node9)
+-            && this.hasMalus(node8)) {
++                && this.hasMalus(node14)
++                && this.hasMalus(node3)
++                && this.hasMalus(node2)
++                && this.hasMalus(node4)
++                && this.hasMalus(node9)
++                && this.hasMalus(node8)) {
              p_77266_[i++] = node18;
          }
  
 -        Node node19 = this.findAcceptedNode(p_77267_.x + 1, p_77267_.y + 1, p_77267_.z + 1);
-+        Node node19 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y.add(), p_77267_.z.add());
++        Node node19 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y + 1, p_77267_.z.add());
          if (this.isOpen(node19)
-             && this.hasMalus(node15)
-             && this.hasMalus(node)
-@@ -188,7 +_,7 @@
+-            && this.hasMalus(node15)
+-            && this.hasMalus(node)
+-            && this.hasMalus(node2)
+-            && this.hasMalus(node4)
+-            && this.hasMalus(node6)
+-            && this.hasMalus(node8)) {
++                && this.hasMalus(node15)
++                && this.hasMalus(node)
++                && this.hasMalus(node2)
++                && this.hasMalus(node4)
++                && this.hasMalus(node6)
++                && this.hasMalus(node8)) {
              p_77266_[i++] = node19;
          }
  
 -        Node node20 = this.findAcceptedNode(p_77267_.x - 1, p_77267_.y + 1, p_77267_.z - 1);
-+        Node node20 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y.add(), p_77267_.z.subtract());
++        Node node20 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y + 1, p_77267_.z.subtract());
          if (this.isOpen(node20)
-             && this.hasMalus(node16)
-             && this.hasMalus(node3)
-@@ -199,7 +_,7 @@
+-            && this.hasMalus(node16)
+-            && this.hasMalus(node3)
+-            && this.hasMalus(node1)
+-            && this.hasMalus(node4)
+-            && this.hasMalus(node9)
+-            && this.hasMalus(node7)) {
++                && this.hasMalus(node16)
++                && this.hasMalus(node3)
++                && this.hasMalus(node1)
++                && this.hasMalus(node4)
++                && this.hasMalus(node9)
++                && this.hasMalus(node7)) {
              p_77266_[i++] = node20;
          }
  
 -        Node node21 = this.findAcceptedNode(p_77267_.x - 1, p_77267_.y + 1, p_77267_.z + 1);
-+        Node node21 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y.add(), p_77267_.z.add());
++        Node node21 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y + 1, p_77267_.z.add());
          if (this.isOpen(node21)
-             && this.hasMalus(node17)
-             && this.hasMalus(node)
-@@ -210,7 +_,7 @@
+-            && this.hasMalus(node17)
+-            && this.hasMalus(node)
+-            && this.hasMalus(node1)
+-            && this.hasMalus(node4)
+-            && this.hasMalus(node6)
+-            && this.hasMalus(node7)) {
++                && this.hasMalus(node17)
++                && this.hasMalus(node)
++                && this.hasMalus(node1)
++                && this.hasMalus(node4)
++                && this.hasMalus(node6)
++                && this.hasMalus(node7)) {
              p_77266_[i++] = node21;
          }
  
 -        Node node22 = this.findAcceptedNode(p_77267_.x + 1, p_77267_.y - 1, p_77267_.z - 1);
-+        Node node22 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y.subtract(), p_77267_.z.subtract());
++        Node node22 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y - 1, p_77267_.z.subtract());
          if (this.isOpen(node22)
-             && this.hasMalus(node14)
-             && this.hasMalus(node3)
-@@ -221,7 +_,7 @@
+-            && this.hasMalus(node14)
+-            && this.hasMalus(node3)
+-            && this.hasMalus(node2)
+-            && this.hasMalus(node5)
+-            && this.hasMalus(node13)
+-            && this.hasMalus(node12)) {
++                && this.hasMalus(node14)
++                && this.hasMalus(node3)
++                && this.hasMalus(node2)
++                && this.hasMalus(node5)
++                && this.hasMalus(node13)
++                && this.hasMalus(node12)) {
              p_77266_[i++] = node22;
          }
  
 -        Node node23 = this.findAcceptedNode(p_77267_.x + 1, p_77267_.y - 1, p_77267_.z + 1);
-+        Node node23 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y.subtract(), p_77267_.z.add());
++        Node node23 = this.findAcceptedNode(p_77267_.x.add(), p_77267_.y - 1, p_77267_.z.add());
          if (this.isOpen(node23)
-             && this.hasMalus(node15)
-             && this.hasMalus(node)
-@@ -232,7 +_,7 @@
+-            && this.hasMalus(node15)
+-            && this.hasMalus(node)
+-            && this.hasMalus(node2)
+-            && this.hasMalus(node5)
+-            && this.hasMalus(node10)
+-            && this.hasMalus(node12)) {
++                && this.hasMalus(node15)
++                && this.hasMalus(node)
++                && this.hasMalus(node2)
++                && this.hasMalus(node5)
++                && this.hasMalus(node10)
++                && this.hasMalus(node12)) {
              p_77266_[i++] = node23;
          }
  
 -        Node node24 = this.findAcceptedNode(p_77267_.x - 1, p_77267_.y - 1, p_77267_.z - 1);
-+        Node node24 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y.subtract(), p_77267_.z.subtract());
++        Node node24 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y - 1, p_77267_.z.subtract());
          if (this.isOpen(node24)
-             && this.hasMalus(node16)
-             && this.hasMalus(node3)
-@@ -243,7 +_,7 @@
+-            && this.hasMalus(node16)
+-            && this.hasMalus(node3)
+-            && this.hasMalus(node1)
+-            && this.hasMalus(node5)
+-            && this.hasMalus(node13)
+-            && this.hasMalus(node11)) {
++                && this.hasMalus(node16)
++                && this.hasMalus(node3)
++                && this.hasMalus(node1)
++                && this.hasMalus(node5)
++                && this.hasMalus(node13)
++                && this.hasMalus(node11)) {
              p_77266_[i++] = node24;
          }
  
 -        Node node25 = this.findAcceptedNode(p_77267_.x - 1, p_77267_.y - 1, p_77267_.z + 1);
-+        Node node25 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y.subtract(), p_77267_.z.add());
++        Node node25 = this.findAcceptedNode(p_77267_.x.subtract(), p_77267_.y - 1, p_77267_.z.add());
          if (this.isOpen(node25)
-             && this.hasMalus(node17)
-             && this.hasMalus(node)
-@@ -266,7 +_,7 @@
+-            && this.hasMalus(node17)
+-            && this.hasMalus(node)
+-            && this.hasMalus(node1)
+-            && this.hasMalus(node5)
+-            && this.hasMalus(node10)
+-            && this.hasMalus(node11)) {
++                && this.hasMalus(node17)
++                && this.hasMalus(node)
++                && this.hasMalus(node1)
++                && this.hasMalus(node5)
++                && this.hasMalus(node10)
++                && this.hasMalus(node11)) {
+             p_77266_[i++] = node25;
+         }
+ 
+@@ -265,7 +_,7 @@
      }
  
      @Nullable
 -    protected Node findAcceptedNode(int p_262970_, int p_263018_, int p_262947_) {
-+    protected Node findAcceptedNode(me.alphamode.mcbig.math.BigInteger p_262970_, me.alphamode.mcbig.math.BigInteger p_263018_, me.alphamode.mcbig.math.BigInteger p_262947_) {
++    protected Node findAcceptedNode(me.alphamode.mcbig.math.BigInteger p_262970_, int p_263018_, me.alphamode.mcbig.math.BigInteger p_262947_) {
          Node node = null;
-         BlockPathTypes blockpathtypes = this.getCachedBlockPathType(p_262970_, p_263018_, p_262947_);
-         float f = this.mob.getPathfindingMalus(blockpathtypes);
-@@ -282,15 +_,15 @@
-         return node;
+         PathType pathtype = this.getCachedPathType(p_262970_, p_263018_, p_262947_);
+         float f = this.mob.getPathfindingMalus(pathtype);
+@@ -282,20 +_,20 @@
      }
  
--    private BlockPathTypes getCachedBlockPathType(int p_164694_, int p_164695_, int p_164696_) {
-+    private BlockPathTypes getCachedBlockPathType(me.alphamode.mcbig.math.BigInteger p_164694_, me.alphamode.mcbig.math.BigInteger p_164695_, me.alphamode.mcbig.math.BigInteger p_164696_) {
+     @Override
+-    protected PathType getCachedPathType(int p_326867_, int p_326833_, int p_326788_) {
++    protected PathType getCachedPathType(me.alphamode.mcbig.math.BigInteger p_326867_, int p_326833_, me.alphamode.mcbig.math.BigInteger p_326788_) {
          return this.pathTypeByPosCache
-             .computeIfAbsent(
--                BlockPos.asLong(p_164694_, p_164695_, p_164696_), p_265010_ -> this.getBlockPathType(this.level, p_164694_, p_164695_, p_164696_, this.mob)
-+                new BlockPos(p_164694_, p_164695_, p_164696_), p_265010_ -> this.getBlockPathType(this.level, p_164694_, p_164695_, p_164696_, this.mob)
+-            .computeIfAbsent(
+-                BlockPos.asLong(p_326867_, p_326833_, p_326788_),
+-                p_330153_ -> this.getPathTypeOfMob(this.currentContext, p_326867_, p_326833_, p_326788_, this.mob)
+-            );
++                .computeIfAbsent(
++                        new BlockPos(p_326867_, p_326833_, p_326788_),
++                        p_330153_ -> this.getPathTypeOfMob(this.currentContext, p_326867_, p_326833_, p_326788_, this.mob)
++                );
+     }
+ 
+     @Override
+-    public PathType getPathType(PathfindingContext p_331058_, int p_77246_, int p_77247_, int p_77248_) {
++    public PathType getPathType(PathfindingContext p_331058_, me.alphamode.mcbig.math.BigInteger p_77246_, int p_77247_, me.alphamode.mcbig.math.BigInteger p_77248_) {
+         PathType pathtype = p_331058_.getPathTypeFromState(p_77246_, p_77247_, p_77248_);
+         if (pathtype == PathType.OPEN && p_77247_ >= p_331058_.level().getMinY() + 1) {
+             BlockPos blockpos = new BlockPos(p_77246_, p_77247_ - 1, p_77248_);
+-            PathType pathtype1 = p_331058_.getPathTypeFromState(blockpos.getX(), blockpos.getY(), blockpos.getZ());
++            PathType pathtype1 = p_331058_.getPathTypeFromState(blockpos.getBigX(), blockpos.getY(), blockpos.getBigZ());
+             if (pathtype1 == PathType.DAMAGE_FIRE || pathtype1 == PathType.LAVA) {
+                 pathtype = PathType.DAMAGE_FIRE;
+             } else if (pathtype1 == PathType.DAMAGE_OTHER) {
+@@ -323,10 +_,10 @@
+         boolean flag = aabb.getSize() < 1.0;
+         if (!flag) {
+             return List.of(
+-                BlockPos.containing(aabb.minX, (double)p_263108_.getBlockY(), aabb.minZ),
+-                BlockPos.containing(aabb.minX, (double)p_263108_.getBlockY(), aabb.maxZ),
+-                BlockPos.containing(aabb.maxX, (double)p_263108_.getBlockY(), aabb.minZ),
+-                BlockPos.containing(aabb.maxX, (double)p_263108_.getBlockY(), aabb.maxZ)
++                    BlockPos.containing(aabb.minX, (double)p_263108_.getBlockY(), aabb.minZ),
++                    BlockPos.containing(aabb.minX, (double)p_263108_.getBlockY(), aabb.maxZ),
++                    BlockPos.containing(aabb.maxX, (double)p_263108_.getBlockY(), aabb.minZ),
++                    BlockPos.containing(aabb.maxX, (double)p_263108_.getBlockY(), aabb.maxZ)
              );
-     }
- 
-     @Override
--    public BlockPathTypes getBlockPathType(BlockGetter p_265753_, int p_265243_, int p_265376_, int p_265253_, Mob p_265367_) {
-+    public BlockPathTypes getBlockPathType(BlockGetter p_265753_, me.alphamode.mcbig.math.BigInteger p_265243_, me.alphamode.mcbig.math.BigInteger p_265376_, me.alphamode.mcbig.math.BigInteger p_265253_, Mob p_265367_) {
-         EnumSet<BlockPathTypes> enumset = EnumSet.noneOf(BlockPathTypes.class);
-         BlockPathTypes blockpathtypes = BlockPathTypes.BLOCKED;
-         BlockPos blockpos = p_265367_.blockPosition();
-@@ -315,11 +_,11 @@
-     }
- 
-     @Override
--    public BlockPathTypes getBlockPathType(BlockGetter p_77245_, int p_77246_, int p_77247_, int p_77248_) {
-+    public BlockPathTypes getBlockPathType(BlockGetter p_77245_, me.alphamode.mcbig.math.BigInteger p_77246_, me.alphamode.mcbig.math.BigInteger p_77247_, me.alphamode.mcbig.math.BigInteger p_77248_) {
-         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-         BlockPathTypes blockpathtypes = getBlockPathTypeRaw(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_, p_77248_));
--        if (blockpathtypes == BlockPathTypes.OPEN && p_77247_ >= p_77245_.getMinBuildHeight() + 1) {
--            BlockPathTypes blockpathtypes1 = getBlockPathTypeRaw(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_ - 1, p_77248_));
-+        if (blockpathtypes == BlockPathTypes.OPEN && p_77247_.longValue() >= p_77245_.getMinBuildHeight() + 1) {
-+            BlockPathTypes blockpathtypes1 = getBlockPathTypeRaw(p_77245_, blockpos$mutableblockpos.set(p_77246_, p_77247_.subtract(), p_77248_));
-             if (blockpathtypes1 == BlockPathTypes.DAMAGE_FIRE || blockpathtypes1 == BlockPathTypes.LAVA) {
-                 blockpathtypes = BlockPathTypes.DAMAGE_FIRE;
-             } else if (blockpathtypes1 == BlockPathTypes.DAMAGE_OTHER) {
-@@ -365,12 +_,12 @@
+         } else {
+             double d0 = Math.max(0.0, 1.1F - aabb.getZsize());
+@@ -334,14 +_,14 @@
+             double d2 = Math.max(0.0, 1.1F - aabb.getYsize());
+             AABB aabb1 = aabb.inflate(d1, d2, d0);
              return BlockPos.randomBetweenClosed(
-                 p_263108_.getRandom(),
-                 10,
+-                p_263108_.getRandom(),
+-                10,
 -                Mth.floor(aabb1.minX),
 -                Mth.floor(aabb1.minY),
 -                Mth.floor(aabb1.minZ),
 -                Mth.floor(aabb1.maxX),
 -                Mth.floor(aabb1.maxY),
 -                Mth.floor(aabb1.maxZ)
-+                Mth.bigFloor(aabb1.minX),
-+                Mth.bigFloor(aabb1.minY),
-+                Mth.bigFloor(aabb1.minZ),
-+                Mth.bigFloor(aabb1.maxX),
-+                Mth.bigFloor(aabb1.maxY),
-+                Mth.bigFloor(aabb1.maxZ)
++                    p_263108_.getRandom(),
++                    10,
++                    Mth.bigFloor(aabb1.minX),
++                    Mth.bigFloor(aabb1.minY),
++                    Mth.bigFloor(aabb1.minZ),
++                    Mth.bigFloor(aabb1.maxX),
++                    Mth.bigFloor(aabb1.maxY),
++                    Mth.bigFloor(aabb1.maxZ)
              );
          }
      }

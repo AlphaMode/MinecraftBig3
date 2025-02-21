@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/BaseFireBlock.java
 +++ b/net/minecraft/world/level/block/BaseFireBlock.java
-@@ -55,9 +_,9 @@
+@@ -58,9 +_,9 @@
      public void animateTick(BlockState p_220763_, Level p_220764_, BlockPos p_220765_, RandomSource p_220766_) {
          if (p_220766_.nextInt(24) == 0) {
              p_220764_.playLocalSound(
@@ -12,10 +12,10 @@
                  SoundEvents.FIRE_AMBIENT,
                  SoundSource.BLOCKS,
                  1.0F + p_220766_.nextFloat(),
-@@ -71,53 +_,53 @@
+@@ -74,53 +_,53 @@
          if (!this.canBurn(blockstate) && !blockstate.isFaceSturdy(p_220764_, blockpos, Direction.UP)) {
              if (this.canBurn(p_220764_.getBlockState(p_220765_.west()))) {
-                 for(int j = 0; j < 2; ++j) {
+                 for (int j = 0; j < 2; j++) {
 -                    double d3 = (double)p_220765_.getX() + p_220766_.nextDouble() * 0.1F;
 +                    double d3 = (double)p_220765_.getBigX().doubleValue() + p_220766_.nextDouble() * 0.1F;
                      double d8 = (double)p_220765_.getY() + p_220766_.nextDouble();
@@ -26,7 +26,7 @@
              }
  
              if (this.canBurn(p_220764_.getBlockState(p_220765_.east()))) {
-                 for(int k = 0; k < 2; ++k) {
+                 for (int k = 0; k < 2; k++) {
 -                    double d4 = (double)(p_220765_.getX() + 1) - p_220766_.nextDouble() * 0.1F;
 +                    double d4 = (double)(p_220765_.getBigX().add()).doubleValue() - p_220766_.nextDouble() * 0.1F;
                      double d9 = (double)p_220765_.getY() + p_220766_.nextDouble();
@@ -37,7 +37,7 @@
              }
  
              if (this.canBurn(p_220764_.getBlockState(p_220765_.north()))) {
-                 for(int l = 0; l < 2; ++l) {
+                 for (int l = 0; l < 2; l++) {
 -                    double d5 = (double)p_220765_.getX() + p_220766_.nextDouble();
 +                    double d5 = (double)p_220765_.getBigX().doubleValue() + p_220766_.nextDouble();
                      double d10 = (double)p_220765_.getY() + p_220766_.nextDouble();
@@ -48,7 +48,7 @@
              }
  
              if (this.canBurn(p_220764_.getBlockState(p_220765_.south()))) {
-                 for(int i1 = 0; i1 < 2; ++i1) {
+                 for (int i1 = 0; i1 < 2; i1++) {
 -                    double d6 = (double)p_220765_.getX() + p_220766_.nextDouble();
 +                    double d6 = (double)p_220765_.getBigX().doubleValue() + p_220766_.nextDouble();
                      double d11 = (double)p_220765_.getY() + p_220766_.nextDouble();
@@ -59,7 +59,7 @@
              }
  
              if (this.canBurn(p_220764_.getBlockState(p_220765_.above()))) {
-                 for(int j1 = 0; j1 < 2; ++j1) {
+                 for (int j1 = 0; j1 < 2; j1++) {
 -                    double d7 = (double)p_220765_.getX() + p_220766_.nextDouble();
 +                    double d7 = (double)p_220765_.getBigX().doubleValue() + p_220766_.nextDouble();
                      double d12 = (double)(p_220765_.getY() + 1) - p_220766_.nextDouble() * 0.1F;
@@ -69,7 +69,7 @@
                  }
              }
          } else {
-             for(int i = 0; i < 3; ++i) {
+             for (int i = 0; i < 3; i++) {
 -                double d0 = (double)p_220765_.getX() + p_220766_.nextDouble();
 +                double d0 = (double)p_220765_.getBigX().doubleValue() + p_220766_.nextDouble();
                  double d1 = (double)p_220765_.getY() + p_220766_.nextDouble() * 0.5 + 0.5;

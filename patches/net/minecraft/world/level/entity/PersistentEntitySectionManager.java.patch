@@ -114,8 +114,8 @@
              return false;
 @@ -229,7 +_,7 @@
          ChunkEntities<T> chunkentities;
-         while((chunkentities = this.loadingInbox.poll()) != null) {
-             chunkentities.getEntities().forEach(p_157593_ -> this.addEntity(p_157593_, true));
+         while ((chunkentities = this.loadingInbox.poll()) != null) {
+             chunkentities.getEntities().forEach(p_157593_ -> this.addEntity((T)p_157593_, true));
 -            this.chunkLoadStatuses.put(chunkentities.getPos().toLong(), PersistentEntitySectionManager.ChunkLoadStatus.LOADED);
 +            this.chunkLoadStatuses.put(chunkentities.getPos(), PersistentEntitySectionManager.ChunkLoadStatus.LOADED);
          }
@@ -130,7 +130,7 @@
 +    private it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getAllChunksToSave() {
 +        it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = this.sectionStorage.getAllChunksWithExistingSections();
  
--        for(Entry<PersistentEntitySectionManager.ChunkLoadStatus> entry : Long2ObjectMaps.fastIterable(this.chunkLoadStatuses)) {
+-        for (Entry<PersistentEntitySectionManager.ChunkLoadStatus> entry : Long2ObjectMaps.fastIterable(this.chunkLoadStatuses)) {
 +        for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, PersistentEntitySectionManager.ChunkLoadStatus> entry : it.unimi.dsi.fastutil.objects.Object2ObjectMaps.fastIterable(this.chunkLoadStatuses)) {
              if (entry.getValue() == PersistentEntitySectionManager.ChunkLoadStatus.LOADED) {
 -                longset.add(entry.getLongKey());
@@ -145,7 +145,7 @@
 -        LongSet longset = this.getAllChunksToSave();
 +        it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> longset = this.getAllChunksToSave();
  
-         while(!longset.isEmpty()) {
+         while (!longset.isEmpty()) {
              this.permanentStorage.flush(false);
 @@ -293,14 +_,14 @@
      }

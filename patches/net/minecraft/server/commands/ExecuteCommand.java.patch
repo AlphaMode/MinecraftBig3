@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/ExecuteCommand.java
 +++ b/net/minecraft/server/commands/ExecuteCommand.java
-@@ -163,7 +_,7 @@
+@@ -172,7 +_,7 @@
                                              list.add(
                                                  p_284653_.getSource()
                                                      .withLevel((ServerLevel)entity.level())
@@ -9,16 +9,16 @@
                                                      .withRotation(entity.getRotationVector())
                                              );
                                          }
-@@ -193,7 +_,7 @@
+@@ -202,7 +_,7 @@
                              List<CommandSourceStack> list = Lists.newArrayList();
-                 
-                             for(Entity entity : EntityArgument.getOptionalEntities(p_137293_, "targets")) {
+ 
+                             for (Entity entity : EntityArgument.getOptionalEntities(p_137293_, "targets")) {
 -                                list.add(p_137293_.getSource().withPosition(entity.position()));
 +                                list.add(p_137293_.getSource().withPosition(entity.bigPosition()));
                              }
-                 
+ 
                              return list;
-@@ -201,15 +_,15 @@
+@@ -210,15 +_,15 @@
                          .then(
                              Commands.literal("over")
                                  .then(Commands.argument("heightmap", HeightmapTypeArgument.heightmap()).redirect(literalcommandnode, p_274814_ -> {
@@ -37,22 +37,17 @@
                                      }
                                  }))
                          )
-@@ -493,11 +_,11 @@
- 
+@@ -503,7 +_,7 @@
      private static boolean isChunkLoaded(ServerLevel p_265261_, BlockPos p_265260_) {
          ChunkPos chunkpos = new ChunkPos(p_265260_);
--        LevelChunk levelchunk = p_265261_.getChunkSource().getChunkNow(chunkpos.x, chunkpos.z);
-+        LevelChunk levelchunk = p_265261_.getChunkSource().getChunkNow(chunkpos.x(), chunkpos.z());
-         if (levelchunk == null) {
-             return false;
-         } else {
--            return levelchunk.getFullStatus() == FullChunkStatus.ENTITY_TICKING && p_265261_.areEntitiesLoaded(chunkpos.toLong());
-+            return levelchunk.getFullStatus() == FullChunkStatus.ENTITY_TICKING && p_265261_.areEntitiesLoaded(chunkpos);
-         }
+         LevelChunk levelchunk = p_265261_.getChunkSource().getChunkNow(chunkpos.x, chunkpos.z);
+-        return levelchunk == null ? false : levelchunk.getFullStatus() == FullChunkStatus.ENTITY_TICKING && p_265261_.areEntitiesLoaded(chunkpos.toLong());
++        return levelchunk == null ? false : levelchunk.getFullStatus() == FullChunkStatus.ENTITY_TICKING && p_265261_.areEntitiesLoaded(chunkpos);
      }
  
-@@ -770,7 +_,7 @@
-     private static boolean checkCustomPredicate(CommandSourceStack p_137105_, LootItemCondition p_137106_) {
+     private static ArgumentBuilder<CommandSourceStack, ?> addConditionals(
+@@ -888,7 +_,7 @@
+     private static boolean checkCustomPredicate(CommandSourceStack p_137105_, Holder<LootItemCondition> p_335673_) {
          ServerLevel serverlevel = p_137105_.getLevel();
          LootParams lootparams = new LootParams.Builder(serverlevel)
 -            .withParameter(LootContextParams.ORIGIN, p_137105_.getPosition())
@@ -60,7 +55,7 @@
              .withOptionalParameter(LootContextParams.THIS_ENTITY, p_137105_.getEntity())
              .create(LootContextParamSets.COMMAND);
          LootContext lootcontext = new LootContext.Builder(lootparams).create(Optional.empty());
-@@ -839,7 +_,7 @@
+@@ -957,7 +_,7 @@
          BoundingBox boundingbox = BoundingBox.fromCorners(p_137038_, p_137039_);
          BoundingBox boundingbox1 = BoundingBox.fromCorners(p_137040_, p_137040_.offset(boundingbox.getLength()));
          BlockPos blockpos = new BlockPos(
@@ -69,16 +64,16 @@
          );
          int i = boundingbox.getXSpan() * boundingbox.getYSpan() * boundingbox.getZSpan();
          if (i > 32768) {
-@@ -847,9 +_,9 @@
-         } else {
+@@ -966,9 +_,9 @@
+             RegistryAccess registryaccess = p_137037_.registryAccess();
              int j = 0;
  
--            for(int k = boundingbox.minZ(); k <= boundingbox.maxZ(); ++k) {
--                for(int l = boundingbox.minY(); l <= boundingbox.maxY(); ++l) {
--                    for(int i1 = boundingbox.minX(); i1 <= boundingbox.maxX(); ++i1) {
-+            for(me.alphamode.mcbig.math.BigInteger k = boundingbox.minZ(); k.compareTo(boundingbox.maxZ()) <= 0; k = k.add()) {
-+                for(me.alphamode.mcbig.math.BigInteger l = boundingbox.minY(); l.compareTo(boundingbox.maxY()) <= 0; l = l.add()) {
-+                    for(me.alphamode.mcbig.math.BigInteger i1 = boundingbox.minX(); i1.compareTo(boundingbox.maxX()) <= 0; i1 = i1.add()) {
+-            for (int k = boundingbox.minZ(); k <= boundingbox.maxZ(); k++) {
+-                for (int l = boundingbox.minY(); l <= boundingbox.maxY(); l++) {
+-                    for (int i1 = boundingbox.minX(); i1 <= boundingbox.maxX(); i1++) {
++            for (me.alphamode.mcbig.math.BigInteger k = boundingbox.minZ(); k.compareTo(boundingbox.maxZ()) <= 0; k = k.add()) {
++                for (me.alphamode.mcbig.math.BigInteger l = boundingbox.minY(); l.compareTo(boundingbox.maxY()) <= 0; l = l.add()) {
++                    for (me.alphamode.mcbig.math.BigInteger i1 = boundingbox.minX(); i1.compareTo(boundingbox.maxX()) <= 0; i1 = i1.add()) {
                          BlockPos blockpos1 = new BlockPos(i1, l, k);
                          BlockPos blockpos2 = blockpos1.offset(blockpos);
                          BlockState blockstate = p_137037_.getBlockState(blockpos1);

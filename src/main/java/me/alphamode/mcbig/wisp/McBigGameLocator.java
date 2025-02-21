@@ -46,8 +46,6 @@ public class McBigGameLocator implements GameLocator {
         if (game != null)
             gameLibs.add(game);
 
-        WispLoader.LOGGER.warn("EEE");
-
 //        gameLibs.add(findPathForMaven("net.neoforged", "neoforge", "", "client", "3.0.0"));
 
         return gameLibs;

@@ -4,8 +4,8 @@
      }
  
      private void addNetherrackDripColumnsBelowPortal(RandomSource p_229118_, LevelAccessor p_229119_) {
--        for(int i = this.boundingBox.minX() + 1; i < this.boundingBox.maxX(); ++i) {
--            for(int j = this.boundingBox.minZ() + 1; j < this.boundingBox.maxZ(); ++j) {
+-        for (int i = this.boundingBox.minX() + 1; i < this.boundingBox.maxX(); i++) {
+-            for (int j = this.boundingBox.minZ() + 1; j < this.boundingBox.maxZ(); j++) {
 +        for(me.alphamode.mcbig.math.BigInteger i = this.boundingBox.minX().add(); i.compareTo(this.boundingBox.maxX()) < 0; i = i.add()) {
 +            for(me.alphamode.mcbig.math.BigInteger j = this.boundingBox.minZ().add(); j.compareTo(this.boundingBox.maxZ()) < 0; j = j.add()) {
                  BlockPos blockpos = new BlockPos(i, this.boundingBox.minY(), j);

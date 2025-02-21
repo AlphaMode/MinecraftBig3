@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/ChestBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/ChestBlockEntity.java
-@@ -97,9 +_,9 @@
+@@ -98,9 +_,9 @@
      static void playSound(Level p_155339_, BlockPos p_155340_, BlockState p_155341_, SoundEvent p_155342_) {
          ChestType chesttype = p_155341_.getValue(ChestBlock.TYPE);
          if (chesttype != ChestType.LEFT) {

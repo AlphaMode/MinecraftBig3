@@ -1,21 +1,26 @@
 --- a/net/minecraft/world/phys/BlockHitResult.java
 +++ b/net/minecraft/world/phys/BlockHitResult.java
-@@ -9,15 +_,15 @@
-     private final boolean miss;
+@@ -10,19 +_,19 @@
      private final boolean inside;
+     private final boolean worldBorderHit;
  
 -    public static BlockHitResult miss(Vec3 p_82427_, Direction p_82428_, BlockPos p_82429_) {
 +    public static BlockHitResult miss(me.alphamode.mcbig.core.BigVec3 p_82427_, Direction p_82428_, BlockPos p_82429_) {
-         return new BlockHitResult(true, p_82427_, p_82428_, p_82429_, false);
+         return new BlockHitResult(true, p_82427_, p_82428_, p_82429_, false, false);
      }
  
 -    public BlockHitResult(Vec3 p_82415_, Direction p_82416_, BlockPos p_82417_, boolean p_82418_) {
 +    public BlockHitResult(me.alphamode.mcbig.core.BigVec3 p_82415_, Direction p_82416_, BlockPos p_82417_, boolean p_82418_) {
-         this(false, p_82415_, p_82416_, p_82417_, p_82418_);
+         this(false, p_82415_, p_82416_, p_82417_, p_82418_, false);
      }
  
--    private BlockHitResult(boolean p_82420_, Vec3 p_82421_, Direction p_82422_, BlockPos p_82423_, boolean p_82424_) {
-+    private BlockHitResult(boolean p_82420_, me.alphamode.mcbig.core.BigVec3 p_82421_, Direction p_82422_, BlockPos p_82423_, boolean p_82424_) {
+-    public BlockHitResult(Vec3 p_366888_, Direction p_366561_, BlockPos p_366409_, boolean p_366822_, boolean p_366589_) {
++    public BlockHitResult(me.alphamode.mcbig.core.BigVec3 p_366888_, Direction p_366561_, BlockPos p_366409_, boolean p_366822_, boolean p_366589_) {
+         this(false, p_366888_, p_366561_, p_366409_, p_366822_, p_366589_);
+     }
+ 
+-    private BlockHitResult(boolean p_82420_, Vec3 p_82421_, Direction p_82422_, BlockPos p_82423_, boolean p_82424_, boolean p_366493_) {
++    private BlockHitResult(boolean p_82420_, me.alphamode.mcbig.core.BigVec3 p_82421_, Direction p_82422_, BlockPos p_82423_, boolean p_82424_, boolean p_366493_) {
          super(p_82421_);
          this.miss = p_82420_;
          this.direction = p_82422_;

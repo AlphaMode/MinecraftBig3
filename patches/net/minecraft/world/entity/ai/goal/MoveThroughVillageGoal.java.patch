@@ -1,14 +1,71 @@
 --- a/net/minecraft/world/entity/ai/goal/MoveThroughVillageGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/MoveThroughVillageGoal.java
-@@ -109,9 +_,9 @@
- 
-                             for(int i = 0; i < this.path.getNodeCount(); ++i) {
+@@ -60,30 +_,30 @@
+                     return false;
+                 } else {
+                     Vec3 vec3 = LandRandomPos.getPos(
+-                        this.mob,
+-                        15,
+-                        7,
+-                        p_217751_ -> {
+-                            if (!serverlevel.isVillage(p_217751_)) {
+-                                return Double.NEGATIVE_INFINITY;
+-                            } else {
+-                                Optional<BlockPos> optional1 = serverlevel.getPoiManager()
+-                                    .find(p_217758_ -> p_217758_.is(PoiTypeTags.VILLAGE), this::hasNotVisited, p_217751_, 10, PoiManager.Occupancy.IS_OCCUPIED);
+-                                return optional1.<Double>map(p_217754_ -> -p_217754_.distSqr(blockpos)).orElse(Double.NEGATIVE_INFINITY);
++                            this.mob,
++                            15,
++                            7,
++                            p_217751_ -> {
++                                if (!serverlevel.isVillage(p_217751_)) {
++                                    return Double.NEGATIVE_INFINITY;
++                                } else {
++                                    Optional<BlockPos> optional1 = serverlevel.getPoiManager()
++                                            .find(p_217758_ -> p_217758_.is(PoiTypeTags.VILLAGE), this::hasNotVisited, p_217751_, 10, PoiManager.Occupancy.IS_OCCUPIED);
++                                    return optional1.<Double>map(p_217754_ -> -p_217754_.distSqr(blockpos)).orElse(Double.NEGATIVE_INFINITY);
++                                }
+                             }
+-                        }
+                     );
+                     if (vec3 == null) {
+                         return false;
+                     } else {
+                         Optional<BlockPos> optional = serverlevel.getPoiManager()
+-                            .find(
+-                                p_217756_ -> p_217756_.is(PoiTypeTags.VILLAGE),
+-                                this::hasNotVisited,
+-                                BlockPos.containing(vec3),
+-                                10,
+-                                PoiManager.Occupancy.IS_OCCUPIED
+-                            );
++                                .find(
++                                        p_217756_ -> p_217756_.is(PoiTypeTags.VILLAGE),
++                                        this::hasNotVisited,
++                                        BlockPos.containing(vec3),
++                                        10,
++                                        PoiManager.Occupancy.IS_OCCUPIED
++                                );
+                         if (optional.isEmpty()) {
+                             return false;
+                         } else {
+@@ -110,7 +_,7 @@
                                  Node node = this.path.getNode(i);
--                                BlockPos blockpos1 = new BlockPos(node.x, node.y + 1, node.z);
-+                                BlockPos blockpos1 = new BlockPos(node.x, node.y.add(), node.z);
+                                 BlockPos blockpos1 = new BlockPos(node.x, node.y + 1, node.z);
                                  if (DoorBlock.isWoodenDoor(this.mob.level(), blockpos1)) {
 -                                    this.path = this.mob.getNavigation().createPath((double)node.x, (double)node.y, (double)node.z, 0);
-+                                    this.path = this.mob.getNavigation().createPath((double)node.x.doubleValue(), (double)node.y.doubleValue(), (double)node.z.doubleValue(), 0);
++                                    this.path = this.mob.getNavigation().createPath(node.x.doubleValue(), (double)node.y, node.z.doubleValue(), 0);
                                      break;
                                  }
                              }
+@@ -126,8 +_,8 @@
+     @Override
+     public boolean canContinueToUse() {
+         return this.mob.getNavigation().isDone()
+-            ? false
+-            : !this.poiPos.closerToCenterThan(this.mob.position(), (double)(this.mob.getBbWidth() + (float)this.distanceToPoi));
++                ? false
++                : !this.poiPos.closerToCenterThan(this.mob.position(), (double)(this.mob.getBbWidth() + (float)this.distanceToPoi));
+     }
+ 
+     @Override

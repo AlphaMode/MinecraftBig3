@@ -19,7 +19,7 @@
 +    protected void propagateIncrease(BlockPos p_285500_, long p_285410_, int p_285492_) {
          BlockState blockstate = null;
  
-         for(Direction direction : PROPAGATION_DIRECTIONS) {
+         for (Direction direction : PROPAGATION_DIRECTIONS) {
              if (LightEngine.QueueEntry.shouldPropagateInDirection(p_285410_, direction)) {
 -                long i = BlockPos.offset(p_285500_, direction);
 -                if (this.storage.storingLightForSection(SectionPos.blockToSection(i))) {
@@ -36,7 +36,7 @@
 +    protected void propagateDecrease(BlockPos p_285435_, long p_285230_) {
          int i = LightEngine.QueueEntry.getFromLevel(p_285230_);
  
-         for(Direction direction : PROPAGATION_DIRECTIONS) {
+         for (Direction direction : PROPAGATION_DIRECTIONS) {
              if (LightEngine.QueueEntry.shouldPropagateInDirection(p_285230_, direction)) {
 -                long j = BlockPos.offset(p_285435_, direction);
 -                if (this.storage.storingLightForSection(SectionPos.blockToSection(j))) {
@@ -45,7 +45,7 @@
                      int k = this.storage.getStoredLevel(j);
                      if (k != 0) {
                          if (k <= i - 1) {
-@@ -108,19 +_,19 @@
+@@ -108,9 +_,9 @@
          }
      }
  
@@ -57,15 +57,12 @@
      }
  
      @Override
-     public void propagateLightSources(ChunkPos p_285274_) {
-         this.setLightEnabled(p_285274_, true);
--        LightChunk lightchunk = this.chunkSource.getChunkForLighting(p_285274_.x, p_285274_.z);
-+        LightChunk lightchunk = this.chunkSource.getChunkForLighting(p_285274_.x(), p_285274_.z());
+@@ -120,7 +_,7 @@
          if (lightchunk != null) {
-             lightchunk.findBlockLightSources((p_285266_, p_285452_) -> {
-                 int i = p_285452_.getLightEmission();
--                this.enqueueIncrease(p_285266_.asLong(), LightEngine.QueueEntry.increaseLightFromEmission(i, isEmptyShape(p_285452_)));
-+                this.enqueueIncrease(p_285266_, LightEngine.QueueEntry.increaseLightFromEmission(i, isEmptyShape(p_285452_)));
+             lightchunk.findBlockLightSources((p_360252_, p_360253_) -> {
+                 int i = p_360253_.getLightEmission();
+-                this.enqueueIncrease(p_360252_.asLong(), LightEngine.QueueEntry.increaseLightFromEmission(i, isEmptyShape(p_360253_)));
++                this.enqueueIncrease(p_360252_, LightEngine.QueueEntry.increaseLightFromEmission(i, isEmptyShape(p_360253_)));
              });
          }
      }

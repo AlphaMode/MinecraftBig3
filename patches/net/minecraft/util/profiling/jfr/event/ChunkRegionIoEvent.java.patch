@@ -1,0 +1,28 @@
+--- a/net/minecraft/util/profiling/jfr/event/ChunkRegionIoEvent.java
++++ b/net/minecraft/util/profiling/jfr/event/ChunkRegionIoEvent.java
+@@ -16,10 +_,10 @@
+ public abstract class ChunkRegionIoEvent extends Event {
+     @Name("regionPosX")
+     @Label("Region X Position")
+-    public final int regionPosX;
++    public final me.alphamode.mcbig.math.BigInteger regionPosX;
+     @Name("regionPosZ")
+     @Label("Region Z Position")
+-    public final int regionPosZ;
++    public final me.alphamode.mcbig.math.BigInteger regionPosZ;
+     @Name("localPosX")
+     @Label("Local X Position")
+     public final int localChunkPosX;
+@@ -28,10 +_,10 @@
+     public final int localChunkPosZ;
+     @Name("chunkPosX")
+     @Label("Chunk X Position")
+-    public final int chunkPosX;
++    public final me.alphamode.mcbig.math.BigInteger chunkPosX;
+     @Name("chunkPosZ")
+     @Label("Chunk Z Position")
+-    public final int chunkPosZ;
++    public final me.alphamode.mcbig.math.BigInteger chunkPosZ;
+     @Name("level")
+     @Label("Level Id")
+     public final String levelId;

@@ -1,36 +1,63 @@
 --- a/net/minecraft/world/level/BlockGetter.java
 +++ b/net/minecraft/world/level/BlockGetter.java
-@@ -50,20 +_,21 @@
-             p_151354_,
-             (p_275154_, p_275155_) -> {
-                 BlockState blockstate = this.getBlockState(p_275155_);
--                Vec3 vec3 = p_275154_.getFrom().subtract(p_275154_.getTo());
-+                Vec3 vec3 = p_275154_.getFrom().subtract(p_275154_.getTo()).toVanilla();
-                 return p_275154_.isTargetBlock().test(blockstate)
-                     ? new BlockHitResult(p_275154_.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(p_275154_.getTo()), false)
-                     : null;
-             },
-             p_275156_ -> {
--                Vec3 vec3 = p_275156_.getFrom().subtract(p_275156_.getTo());
-+                Vec3 vec3 = p_275156_.getFrom().subtract(p_275156_.getTo()).toVanilla();
-                 return BlockHitResult.miss(p_275156_.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(p_275156_.getTo()));
-             }
+@@ -45,22 +_,22 @@
+ 
+     default BlockHitResult isBlockInLine(ClipBlockStateContext p_151354_) {
+         return traverseBlocks(
+-            p_151354_.getFrom(),
+-            p_151354_.getTo(),
+-            p_151354_,
+-            (p_360108_, p_360109_) -> {
+-                BlockState blockstate = this.getBlockState(p_360109_);
+-                Vec3 vec3 = p_360108_.getFrom().subtract(p_360108_.getTo());
+-                return p_360108_.isTargetBlock().test(blockstate)
+-                    ? new BlockHitResult(
+-                        p_360108_.getTo(), Direction.getApproximateNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(p_360108_.getTo()), false
++                p_151354_.getFrom(),
++                p_151354_.getTo(),
++                p_151354_,
++                (p_360108_, p_360109_) -> {
++                    BlockState blockstate = this.getBlockState(p_360109_);
++                    me.alphamode.mcbig.core.BigVec3 vec3 = p_360108_.getFrom().subtract(p_360108_.getTo());
++                    return p_360108_.isTargetBlock().test(blockstate)
++                            ? new BlockHitResult(
++                            p_360108_.getTo(), Direction.getApproximateNearest(vec3.x.doubleValue(), vec3.y, vec3.z.doubleValue()), BlockPos.containing(p_360108_.getTo()), false
+                     )
+-                    : null;
+-            },
+-            p_360111_ -> {
+-                Vec3 vec3 = p_360111_.getFrom().subtract(p_360111_.getTo());
+-                return BlockHitResult.miss(p_360111_.getTo(), Direction.getApproximateNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(p_360111_.getTo()));
+-            }
++                            : null;
++                },
++                p_360111_ -> {
++                    me.alphamode.mcbig.core.BigVec3 vec3 = p_360111_.getFrom().subtract(p_360111_.getTo());
++                    return BlockHitResult.miss(p_360111_.getTo(), Direction.getApproximateNearest(vec3.x.doubleValue(), vec3.y, vec3.z.doubleValue()), BlockPos.containing(p_360111_.getTo()));
++                }
          );
      }
  
-     default BlockHitResult clip(ClipContext p_45548_) {
--        return traverseBlocks(p_45548_.getFrom(), p_45548_.getTo(), p_45548_, (p_151359_, p_151360_) -> {
-+        Vec3 vec3 = p_45548_.getFrom().subtract(p_45548_.getTo()).toVanilla();
-+        return BlockHitResult.miss(p_45548_.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(p_45548_.getTo()));/*traverseBlocks(p_45548_.getFrom(), p_45548_.getTo(), p_45548_, (p_151359_, p_151360_) -> {
+@@ -68,8 +_,8 @@
+         return traverseBlocks(p_45548_.getFrom(), p_45548_.getTo(), p_45548_, (p_151359_, p_151360_) -> {
              BlockState blockstate = this.getBlockState(p_151360_);
              FluidState fluidstate = this.getFluidState(p_151360_);
-             Vec3 vec3 = p_151359_.getFrom();
-@@ -78,16 +_,16 @@
-         }, p_275153_ -> {
-             Vec3 vec3 = p_275153_.getFrom().subtract(p_275153_.getTo());
-             return BlockHitResult.miss(p_275153_.getTo(), Direction.getNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(p_275153_.getTo()));
--        });
-+        });*/
+-            Vec3 vec3 = p_151359_.getFrom();
+-            Vec3 vec31 = p_151359_.getTo();
++            me.alphamode.mcbig.core.BigVec3 vec3 = p_151359_.getFrom();
++            me.alphamode.mcbig.core.BigVec3 vec31 = p_151359_.getTo();
+             VoxelShape voxelshape = p_151359_.getBlockShape(blockstate, this, p_151360_);
+             BlockHitResult blockhitresult = this.clipWithInteractionOverride(vec3, vec31, p_151360_, voxelshape, blockstate);
+             VoxelShape voxelshape1 = p_151359_.getFluidShape(fluidstate, this, p_151360_);
+@@ -78,18 +_,18 @@
+             double d1 = blockhitresult1 == null ? Double.MAX_VALUE : p_151359_.getFrom().distanceToSqr(blockhitresult1.getLocation());
+             return d0 <= d1 ? blockhitresult : blockhitresult1;
+         }, p_360110_ -> {
+-            Vec3 vec3 = p_360110_.getFrom().subtract(p_360110_.getTo());
+-            return BlockHitResult.miss(p_360110_.getTo(), Direction.getApproximateNearest(vec3.x, vec3.y, vec3.z), BlockPos.containing(p_360110_.getTo()));
++            me.alphamode.mcbig.core.BigVec3 vec3 = p_360110_.getFrom().subtract(p_360110_.getTo());
++            return BlockHitResult.miss(p_360110_.getTo(), Direction.getApproximateNearest(vec3.x.doubleValue(), vec3.y, vec3.z.doubleValue()), BlockPos.containing(p_360110_.getTo()));
+         });
      }
  
      @Nullable
@@ -41,11 +68,11 @@
              BlockHitResult blockhitresult1 = p_45563_.getInteractionShape(this, p_45561_).clip(p_45559_, p_45560_, p_45561_);
              if (blockhitresult1 != null
 -                && blockhitresult1.getLocation().subtract(p_45559_).lengthSqr() < blockhitresult.getLocation().subtract(p_45559_).lengthSqr()) {
-+                && blockhitresult1.getLocation().subtract(p_45559_).lengthSqr().compareTo(blockhitresult.getLocation().subtract(p_45559_).lengthSqr()) < 0) {
++                    && blockhitresult1.getLocation().subtract(p_45559_).lengthSqr().doubleValue() < blockhitresult.getLocation().subtract(p_45559_).lengthSqr().doubleValue()) {
                  return blockhitresult.withDirection(blockhitresult1.getDirection());
              }
          }
-@@ -111,27 +_,27 @@
+@@ -113,27 +_,27 @@
          });
      }
  
@@ -64,11 +91,10 @@
              double d4 = Mth.lerp(-1.0E-7, p_151362_.y, p_151363_.y);
 -            double d5 = Mth.lerp(-1.0E-7, p_151362_.z, p_151363_.z);
 -            int i = Mth.floor(d3);
--            int j = Mth.floor(d4);
--            int k = Mth.floor(d5);
 +            me.alphamode.mcbig.math.BigDecimal d5 = Mth.lerp(-1.0E-7, p_151362_.z, p_151363_.z);
 +            me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(d3);
-+            me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(d4);
+             int j = Mth.floor(d4);
+-            int k = Mth.floor(d5);
 +            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(d5);
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i, j, k);
              T t = p_151365_.apply(p_151364_, blockpos$mutableblockpos);
@@ -83,8 +109,8 @@
                  int l = Mth.sign(d6);
                  int i1 = Mth.sign(d7);
                  int j1 = Mth.sign(d8);
-@@ -145,17 +_,17 @@
-                 while(d12 <= 1.0 || d13 <= 1.0 || d14 <= 1.0) {
+@@ -147,17 +_,17 @@
+                 while (d12 <= 1.0 || d13 <= 1.0 || d14 <= 1.0) {
                      if (d12 < d13) {
                          if (d12 < d14) {
 -                            i += l;
@@ -96,8 +122,7 @@
                              d14 += d11;
                          }
                      } else if (d13 < d14) {
--                        j += i1;
-+                        j = j.add(i1);
+                         j += i1;
                          d13 += d10;
                      } else {
 -                        k += j1;

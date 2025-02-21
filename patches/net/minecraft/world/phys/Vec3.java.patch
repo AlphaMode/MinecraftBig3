@@ -1,13 +1,9 @@
 --- a/net/minecraft/world/phys/Vec3.java
 +++ b/net/minecraft/world/phys/Vec3.java
-@@ -30,23 +_,23 @@
-         return new Vec3(d0, d1, d2);
+@@ -46,19 +_,23 @@
+         return new Vec3((double)p_82529_.getX(), (double)p_82529_.getY(), (double)p_82529_.getZ());
      }
  
--    public static Vec3 atLowerCornerOf(Vec3i p_82529_) {
--        return new Vec3((double)p_82529_.getX(), (double)p_82529_.getY(), (double)p_82529_.getZ());
--    }
--
 -    public static Vec3 atLowerCornerWithOffset(Vec3i p_272866_, double p_273680_, double p_273668_, double p_273687_) {
 -        return new Vec3((double)p_272866_.getX() + p_273680_, (double)p_272866_.getY() + p_273668_, (double)p_272866_.getZ() + p_273687_);
 -    }
@@ -35,7 +31,18 @@
          return atLowerCornerWithOffset(p_82515_, 0.5, p_82516_, 0.5);
      }
  
-@@ -111,6 +_,13 @@
+@@ -76,6 +_,10 @@
+         this((double)p_365192_.getX(), (double)p_365192_.getY(), (double)p_365192_.getZ());
+     }
+ 
++    public Vec3(me.alphamode.mcbig.core.Vec3l p_365192_) {
++        this(p_365192_.getBigX().doubleValue(), p_365192_.getY(), p_365192_.getBigZ().doubleValue());
++    }
++
+     public Vec3 vectorTo(Vec3 p_82506_) {
+         return new Vec3(p_82506_.x - this.x, p_82506_.y - this.y, p_82506_.z - this.z);
+     }
+@@ -135,6 +_,13 @@
          return d0 * d0 + d1 * d1 + d2 * d2;
      }
  
@@ -49,13 +56,14 @@
      public double distanceToSqr(double p_82532_, double p_82533_, double p_82534_) {
          double d0 = p_82532_ - this.x;
          double d1 = p_82533_ - this.y;
-@@ -281,5 +_,9 @@
+@@ -304,6 +_,10 @@
  
      public Vector3f toVector3f() {
          return new Vector3f((float)this.x, (float)this.y, (float)this.z);
 +    }
 +
 +    public me.alphamode.mcbig.core.BigVec3 toBig() {
-+        return new me.alphamode.mcbig.core.BigVec3(x, y, z);
++        return new me.alphamode.mcbig.core.BigVec3(this.x, this.y, this.z);
      }
- }
+ 
+     public Vec3 projectedOn(Vec3 p_374230_) {

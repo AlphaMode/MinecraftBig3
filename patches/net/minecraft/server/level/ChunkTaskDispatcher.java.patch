@@ -1,0 +1,29 @@
+--- a/net/minecraft/server/level/ChunkTaskDispatcher.java
++++ b/net/minecraft/server/level/ChunkTaskDispatcher.java
+@@ -41,7 +_,7 @@
+         }));
+     }
+ 
+-    public void release(long p_371596_, Runnable p_371195_, boolean p_371837_) {
++    public void release(ChunkPos p_371596_, Runnable p_371195_, boolean p_371837_) {
+         this.dispatcher.schedule(new StrictQueue.RunnableWithPriority(1, () -> {
+             this.queue.release(p_371596_, p_371837_);
+             this.onRelease(p_371596_);
+@@ -54,7 +_,7 @@
+         }));
+     }
+ 
+-    public void submit(Runnable p_371654_, long p_371885_, IntSupplier p_371509_) {
++    public void submit(Runnable p_371654_, ChunkPos p_371885_, IntSupplier p_371509_) {
+         this.dispatcher.schedule(new StrictQueue.RunnableWithPriority(2, () -> {
+             int i = p_371509_.getAsInt();
+             this.queue.submit(p_371654_, p_371885_, i);
+@@ -83,7 +_,7 @@
+             })).toArray(CompletableFuture[]::new)).thenAccept(p_371810_ -> this.pollTask());
+     }
+ 
+-    protected void onRelease(long p_371807_) {
++    protected void onRelease(ChunkPos p_371807_) {
+     }
+ 
+     @Nullable

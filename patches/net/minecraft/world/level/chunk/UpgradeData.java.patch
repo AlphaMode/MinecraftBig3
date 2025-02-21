@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/chunk/UpgradeData.java
 +++ b/net/minecraft/world/level/chunk/UpgradeData.java
-@@ -131,14 +_,14 @@
+@@ -144,14 +_,14 @@
              boolean flag3 = set.contains(Direction.NORTH);
              boolean flag4 = set.size() == 1;
              ChunkPos chunkpos = p_63344_.getPos();
@@ -8,42 +8,33 @@
 -            int l = chunkpos.getMinBlockX() + (!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 14);
 -            int i1 = chunkpos.getMinBlockZ() + (!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 1);
 -            int j1 = chunkpos.getMinBlockZ() + (!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 14);
-+            me.alphamode.mcbig.math.BigInteger k = chunkpos.getBigMinBlockX().add((!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 1));
-+            me.alphamode.mcbig.math.BigInteger l = chunkpos.getBigMinBlockX().add((!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 14));
-+            me.alphamode.mcbig.math.BigInteger i1 = chunkpos.getBigMinBlockZ().add((!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 1));
-+            me.alphamode.mcbig.math.BigInteger j1 = chunkpos.getBigMinBlockZ().add((!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 14));
++            me.alphamode.mcbig.math.BigInteger k = chunkpos.getMinBlockX().add((!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 1));
++            me.alphamode.mcbig.math.BigInteger l = chunkpos.getMinBlockX().add((!flag4 || !flag3 && !flag2 ? (flag1 ? 0 : 15) : 14));
++            me.alphamode.mcbig.math.BigInteger i1 = chunkpos.getMinBlockZ().add((!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 1));
++            me.alphamode.mcbig.math.BigInteger j1 = chunkpos.getMinBlockZ().add((!flag4 || !flag && !flag1 ? (flag3 ? 0 : 15) : 14));
              Direction[] adirection = Direction.values();
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
--            for(BlockPos blockpos : BlockPos.betweenClosed(k, level.getMinBuildHeight(), i1, l, level.getMaxBuildHeight() - 1, j1)) {
-+            for(BlockPos blockpos : BlockPos.betweenClosed(k, me.alphamode.mcbig.math.BigInteger.val(level.getMinBuildHeight()), i1, l, me.alphamode.mcbig.math.BigInteger.val(level.getMaxBuildHeight() - 1), j1)) {
+-            for (BlockPos blockpos : BlockPos.betweenClosed(k, level.getMinY(), i1, l, level.getMaxY(), j1)) {
++            for(BlockPos blockpos : BlockPos.betweenClosed(k, me.alphamode.mcbig.math.BigInteger.val(level.getMinY()), i1, l, me.alphamode.mcbig.math.BigInteger.val(level.getMaxY() - 1), j1)) {
                  BlockState blockstate = level.getBlockState(blockpos);
                  BlockState blockstate1 = blockstate;
  
-@@ -177,14 +_,14 @@
+@@ -190,14 +_,14 @@
                      int i1 = l & 15;
                      int j1 = l >> 8 & 15;
                      int k1 = l >> 4 & 15;
 -                    blockpos$mutableblockpos.set(chunkpos.getMinBlockX() + i1, k + j1, chunkpos.getMinBlockZ() + k1);
-+                    blockpos$mutableblockpos.set(chunkpos.getBigMinBlockX().add(i1), k + j1, chunkpos.getBigMinBlockZ().add(k1));
++                    blockpos$mutableblockpos.set(chunkpos.getMinBlockX().add(i1), k + j1, chunkpos.getMinBlockZ().add(k1));
                      BlockState blockstate = palettedcontainer.get(l);
                      BlockState blockstate1 = blockstate;
  
-                     for(Direction direction : adirection) {
+                     for (Direction direction : adirection) {
                          blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, direction);
 -                        if (SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getX()) == chunkpos.x
 -                            && SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getZ()) == chunkpos.z) {
-+                        if (SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getBigX()).equals(chunkpos.x())
-+                            && SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getBigZ()).equals(chunkpos.z())) {
++                        if (SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getBigX()).equals(chunkpos.x)
++                            && SectionPos.blockToSectionCoord(blockpos$mutableblockpos.getBigZ()).equals(chunkpos.z)) {
                              blockstate1 = updateState(blockstate1, direction, levelaccessor, blockpos$mutableblockpos, blockpos$mutableblockpos1);
                          }
                      }
-@@ -196,7 +_,7 @@
- 
-         for(int l1 = 0; l1 < this.index.length; ++l1) {
-             if (this.index[l1] != null) {
--                LOGGER.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.getSectionYFromSectionIndex(l1), chunkpos.x, chunkpos.z);
-+                LOGGER.warn("Discarding update data for section {} for chunk ({} {})", levelaccessor.getSectionYFromSectionIndex(l1), chunkpos.x(), chunkpos.z());
-             }
- 
-             this.index[l1] = null;

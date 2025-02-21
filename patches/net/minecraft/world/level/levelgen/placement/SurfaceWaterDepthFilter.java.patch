@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/placement/SurfaceWaterDepthFilter.java
 +++ b/net/minecraft/world/level/levelgen/placement/SurfaceWaterDepthFilter.java
-@@ -24,8 +_,8 @@
+@@ -25,8 +_,8 @@
  
      @Override
      protected boolean shouldPlace(PlacementContext p_226411_, RandomSource p_226412_, BlockPos p_226413_) {

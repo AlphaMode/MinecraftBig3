@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/DensityFunctions.java
 +++ b/net/minecraft/world/level/levelgen/DensityFunctions.java
-@@ -518,20 +_,20 @@
+@@ -516,20 +_,20 @@
              this.islandNoise = new SimplexNoise(randomsource);
          }
  
@@ -18,8 +18,8 @@
 +            float f = 100.0F - Mth.sqrt((float)(p_224064_.multiply(p_224064_).add(p_224065_.multiply(p_224065_))).floatValue()) * 8.0F;
              f = Mth.clamp(f, -100.0F, 80.0F);
  
-             for(int i1 = -12; i1 <= 12; ++i1) {
-                 for(int j1 = -12; j1 <= 12; ++j1) {
+             for (int i1 = -12; i1 <= 12; i1++) {
+                 for (int j1 = -12; j1 <= 12; j1++) {
 -                    long k1 = (long)(i + i1);
 -                    long l1 = (long)(j + j1);
 -                    if (k1 * k1 + l1 * l1 > 4096L && p_224063_.getValue((double)k1, (double)l1) < -0.9F) {
@@ -31,7 +31,7 @@
                          float f2 = (float)(k - i1 * 2);
                          float f3 = (float)(l - j1 * 2);
                          float f4 = 100.0F - Mth.sqrt(f2 * f2 + f3 * f3) * f1;
-@@ -546,7 +_,7 @@
+@@ -544,7 +_,7 @@
  
          @Override
          public double compute(DensityFunction.FunctionContext p_208633_) {
@@ -40,7 +40,7 @@
          }
  
          @Override
-@@ -790,7 +_,7 @@
+@@ -788,7 +_,7 @@
          @Override
          public double compute(DensityFunction.FunctionContext p_208800_) {
              return this.noise
@@ -49,7 +49,7 @@
          }
  
          @Override
-@@ -909,7 +_,7 @@
+@@ -907,7 +_,7 @@
  
          @Override
          public double compute(DensityFunction.FunctionContext p_208864_) {
@@ -58,7 +58,7 @@
          }
  
          @Override
-@@ -930,7 +_,7 @@
+@@ -928,7 +_,7 @@
  
          @Override
          public double compute(DensityFunction.FunctionContext p_208884_) {
@@ -67,7 +67,7 @@
          }
  
          @Override
-@@ -951,7 +_,7 @@
+@@ -949,7 +_,7 @@
  
          @Override
          public double compute(DensityFunction.FunctionContext p_208904_) {
@@ -76,7 +76,7 @@
          }
  
          @Override
-@@ -1006,9 +_,9 @@
+@@ -1004,9 +_,9 @@
  
          @Override
          public double compute(DensityFunction.FunctionContext p_208945_) {
@@ -88,7 +88,7 @@
              return this.noise.getValue(d0, d1, d2);
          }
  
-@@ -1269,7 +_,7 @@
+@@ -1267,7 +_,7 @@
          @Override
          public double transform(DensityFunction.FunctionContext p_208440_, double p_208441_) {
              double d0 = this.rarityValueMapper.mapper.get(p_208441_);

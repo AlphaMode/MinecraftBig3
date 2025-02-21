@@ -1,27 +1,25 @@
 --- a/net/minecraft/world/ticks/LevelTicks.java
 +++ b/net/minecraft/world/ticks/LevelTicks.java
-@@ -31,10 +_,10 @@
+@@ -31,9 +_,9 @@
  public class LevelTicks<T> implements LevelTickAccess<T> {
      private static final Comparator<LevelChunkTicks<?>> CONTAINER_DRAIN_ORDER = (p_193246_, p_193247_) -> ScheduledTick.INTRA_TICK_DRAIN_ORDER
              .compare(p_193246_.peek(), p_193247_.peek());
 -    private final LongPredicate tickCheck;
-+    private final java.util.function.Predicate<ChunkPos> tickCheck;
-     private final Supplier<ProfilerFiller> profiler;
 -    private final Long2ObjectMap<LevelChunkTicks<T>> allContainers = new Long2ObjectOpenHashMap<>();
 -    private final Long2LongMap nextTickForContainer = Util.make(new Long2LongOpenHashMap(), p_193262_ -> p_193262_.defaultReturnValue(Long.MAX_VALUE));
++    private final java.util.function.Predicate<ChunkPos> tickCheck;
 +    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, LevelChunkTicks<T>> allContainers = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
 +    private final it.unimi.dsi.fastutil.objects.Object2LongMap<ChunkPos> nextTickForContainer = Util.make(new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>(), p_193262_ -> p_193262_.defaultReturnValue(Long.MAX_VALUE));
      private final Queue<LevelChunkTicks<T>> containersToTick = new PriorityQueue<>(CONTAINER_DRAIN_ORDER);
      private final Queue<ScheduledTick<T>> toRunThisTick = new ArrayDeque<>();
      private final List<ScheduledTick<T>> alreadyRunThisTick = new ArrayList<>();
-@@ -45,26 +_,26 @@
+@@ -44,25 +_,25 @@
          }
      };
  
--    public LevelTicks(LongPredicate p_193211_, Supplier<ProfilerFiller> p_193212_) {
-+    public LevelTicks(java.util.function.Predicate<ChunkPos> p_193211_, Supplier<ProfilerFiller> p_193212_) {
+-    public LevelTicks(LongPredicate p_193211_) {
++    public LevelTicks(java.util.function.Predicate<ChunkPos> p_193211_) {
          this.tickCheck = p_193211_;
-         this.profiler = p_193212_;
      }
  
      public void addContainer(ChunkPos p_193232_, LevelChunkTicks<T> p_193233_) {
@@ -48,7 +46,7 @@
          if (levelchunkticks != null) {
              levelchunkticks.setOnTickAdded(null);
          }
-@@ -72,7 +_,7 @@
+@@ -70,7 +_,7 @@
  
      @Override
      public void schedule(ScheduledTick<T> p_193252_) {
@@ -56,15 +54,15 @@
 +        ChunkPos i = new ChunkPos(p_193252_.pos());
          LevelChunkTicks<T> levelchunkticks = this.allContainers.get(i);
          if (levelchunkticks == null) {
-             Util.pauseInIde(new IllegalStateException("Trying to schedule tick in not loaded position " + p_193252_.pos()));
-@@ -101,11 +_,11 @@
+             Util.logAndPauseIfInIde("Trying to schedule tick in not loaded position " + p_193252_.pos());
+@@ -99,11 +_,11 @@
      }
  
      private void sortContainersToTick(long p_193217_) {
 -        ObjectIterator<Entry> objectiterator = Long2LongMaps.fastIterator(this.nextTickForContainer);
 +        ObjectIterator<it.unimi.dsi.fastutil.objects.Object2LongMap.Entry<ChunkPos>> objectiterator = it.unimi.dsi.fastutil.objects.Object2LongMaps.fastIterator(this.nextTickForContainer);
  
-         while(objectiterator.hasNext()) {
+         while (objectiterator.hasNext()) {
 -            Entry entry = objectiterator.next();
 -            long i = entry.getLongKey();
 +            it.unimi.dsi.fastutil.objects.Object2LongMap.Entry<ChunkPos> entry = objectiterator.next();
@@ -72,7 +70,7 @@
              long j = entry.getLongValue();
              if (j <= p_193217_) {
                  LevelChunkTicks<T> levelchunkticks = this.allContainers.get(i);
-@@ -150,7 +_,7 @@
+@@ -148,7 +_,7 @@
      }
  
      private void updateContainerScheduling(ScheduledTick<T> p_193280_) {
@@ -81,7 +79,7 @@
      }
  
      private void drainFromCurrentContainer(Queue<LevelChunkTicks<T>> p_193268_, LevelChunkTicks<T> p_193269_, long p_193270_, int p_193271_) {
-@@ -201,7 +_,7 @@
+@@ -199,7 +_,7 @@
  
      @Override
      public boolean hasScheduledTick(BlockPos p_193254_, T p_193255_) {
@@ -90,7 +88,7 @@
          return levelchunkticks != null && levelchunkticks.hasScheduledTick(p_193254_, p_193255_);
      }
  
-@@ -218,14 +_,14 @@
+@@ -216,14 +_,14 @@
      }
  
      private void forContainersInArea(BoundingBox p_193237_, LevelTicks.PosAndContainerConsumer<T> p_193238_) {
@@ -103,8 +101,8 @@
 +        me.alphamode.mcbig.math.BigInteger k = SectionPos.posToSectionCoord(p_193237_.maxX().toBigDecimal());
 +        me.alphamode.mcbig.math.BigInteger l = SectionPos.posToSectionCoord(p_193237_.maxZ().toBigDecimal());
  
--        for(int i1 = i; i1 <= k; ++i1) {
--            for(int j1 = j; j1 <= l; ++j1) {
+-        for (int i1 = i; i1 <= k; i1++) {
+-            for (int j1 = j; j1 <= l; j1++) {
 -                long k1 = ChunkPos.asLong(i1, j1);
 +        for(me.alphamode.mcbig.math.BigInteger i1 = i; i1.compareTo(k) <= 0; i1 = i1.add()) {
 +            for(me.alphamode.mcbig.math.BigInteger j1 = j; j1.compareTo(l) <= 0; j1 = j1.add()) {
@@ -112,7 +110,7 @@
                  LevelChunkTicks<T> levelchunkticks = this.allContainers.get(k1);
                  if (levelchunkticks != null) {
                      p_193238_.accept(k1, levelchunkticks);
-@@ -244,7 +_,7 @@
+@@ -242,7 +_,7 @@
                  if (scheduledtick1 != null) {
                      this.updateContainerScheduling(scheduledtick1);
                  } else {
@@ -121,7 +119,7 @@
                  }
              }
          });
-@@ -252,11 +_,11 @@
+@@ -250,11 +_,11 @@
          this.toRunThisTick.removeIf(predicate);
      }
  
@@ -135,7 +133,7 @@
          List<ScheduledTick<T>> list = new ArrayList<>();
          Predicate<ScheduledTick<T>> predicate = p_200922_ -> p_265172_.isInside(p_200922_.pos());
          p_265554_.alreadyRunThisTick.stream().filter(predicate).forEach(list::add);
-@@ -285,6 +_,6 @@
+@@ -283,6 +_,6 @@
  
      @FunctionalInterface
      interface PosAndContainerConsumer<T> {

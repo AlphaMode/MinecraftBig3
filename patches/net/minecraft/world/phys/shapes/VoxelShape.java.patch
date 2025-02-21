@@ -11,18 +11,9 @@
  import net.minecraft.Util;
  import net.minecraft.core.AxisCycle;
  import net.minecraft.core.BlockPos;
-@@ -20,7 +_,7 @@
-     @Nullable
-     private VoxelShape[] faces;
- 
--    VoxelShape(DiscreteVoxelShape p_83214_) {
-+    protected VoxelShape(DiscreteVoxelShape p_83214_) {
-         this.shape = p_83214_;
-     }
- 
 @@ -68,6 +_,10 @@
  
-     protected abstract DoubleList getCoords(Direction.Axis p_83249_);
+     public abstract DoubleList getCoords(Direction.Axis p_83249_);
  
 +    protected it.unimi.dsi.fastutil.objects.ObjectList<me.alphamode.mcbig.math.BigDecimal> getBigCoords(Direction.Axis p_83249_) {
 +        return getCoords(p_83249_).doubleStream().mapToObj(me.alphamode.mcbig.math.BigDecimal::val).collect(Collectors.toCollection(ObjectArrayList::new));
@@ -31,7 +22,7 @@
      public boolean isEmpty() {
          return this.shape.isEmpty();
      }
-@@ -134,6 +_,14 @@
+@@ -138,6 +_,14 @@
          return list;
      }
  
@@ -46,7 +37,7 @@
      public double min(Direction.Axis p_166079_, double p_166080_, double p_166081_) {
          Direction.Axis direction$axis = AxisCycle.FORWARD.cycle(p_166079_);
          Direction.Axis direction$axis1 = AxisCycle.BACKWARD.cycle(p_166079_);
-@@ -157,23 +_,23 @@
+@@ -161,23 +_,23 @@
      }
  
      @Nullable
@@ -71,7 +62,7 @@
 +                            this.findIndex(Direction.Axis.Y, vec31.y - (double)p_83223_.getBigY().doubleValue()),
 +                            this.findIndex(Direction.Axis.Z, vec31.z.subtract(p_83223_.getBigZ().toBigDecimal()).doubleValue())
                          )
-                     ? new BlockHitResult(vec31, Direction.getNearest(vec3.x, vec3.y, vec3.z).getOpposite(), p_83223_, true)
+                     ? new BlockHitResult(vec31, Direction.getApproximateNearest(vec3.x, vec3.y, vec3.z).getOpposite(), p_83223_, true)
 -                    : AABB.clip(this.toAabbs(), p_83221_, p_83222_, p_83223_);
 +                    : me.alphamode.mcbig.phys.BigAABB.clip(this.toBigAabbs(), p_83221_, p_83222_, p_83223_);
              }

@@ -3,7 +3,7 @@
 @@ -36,9 +_,9 @@
          int j = p_224889_.nextInt(p_224889_.nextInt(p_224889_.nextInt(this.getCaveBound()) + 1) + 1);
  
-         for(int k = 0; k < j; ++k) {
+         for (int k = 0; k < j; k++) {
 -            double d0 = (double)p_224891_.getBlockX(p_224889_.nextInt(16));
 +            double d0 = (double)p_224891_.getBlockX(p_224889_.nextInt(16)).doubleValue();
              double d1 = (double)p_224886_.y.sample(p_224889_, p_224885_);

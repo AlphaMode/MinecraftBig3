@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/level/material/WaterFluid.java
++++ b/net/minecraft/world/level/material/WaterFluid.java
+@@ -47,9 +_,9 @@
+         if (!p_230608_.isSource() && !p_230608_.getValue(FALLING)) {
+             if (p_230609_.nextInt(64) == 0) {
+                 p_230606_.playLocalSound(
+-                    (double)p_230607_.getX() + 0.5,
+-                    (double)p_230607_.getY() + 0.5,
+-                    (double)p_230607_.getZ() + 0.5,
++                    (double)p_230607_.getBigX().doubleValue() + 0.5,
++                    (double)p_230607_.getBigY().doubleValue() + 0.5,
++                    (double)p_230607_.getBigZ().doubleValue() + 0.5,
+                     SoundEvents.WATER_AMBIENT,
+                     SoundSource.BLOCKS,
+                     p_230609_.nextFloat() * 0.25F + 0.75F,
+@@ -60,9 +_,9 @@
+         } else if (p_230609_.nextInt(10) == 0) {
+             p_230606_.addParticle(
+                 ParticleTypes.UNDERWATER,
+-                (double)p_230607_.getX() + p_230609_.nextDouble(),
+-                (double)p_230607_.getY() + p_230609_.nextDouble(),
+-                (double)p_230607_.getZ() + p_230609_.nextDouble(),
++                (double)p_230607_.getBigX().doubleValue() + p_230609_.nextDouble(),
++                (double)p_230607_.getBigY().doubleValue() + p_230609_.nextDouble(),
++                (double)p_230607_.getBigZ().doubleValue() + p_230609_.nextDouble(),
+                 0.0,
+                 0.0,
+                 0.0

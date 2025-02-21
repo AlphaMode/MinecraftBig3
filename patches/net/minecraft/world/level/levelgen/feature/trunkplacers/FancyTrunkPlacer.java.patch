@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/trunkplacers/FancyTrunkPlacer.java
 +++ b/net/minecraft/world/level/levelgen/feature/trunkplacers/FancyTrunkPlacer.java
-@@ -65,11 +_,11 @@
+@@ -67,11 +_,11 @@
                      BlockPos blockpos = p_226097_.offset(Mth.floor(d4), j1 - 1, Mth.floor(d5));
                      BlockPos blockpos1 = blockpos.above(5);
                      if (this.makeLimb(p_226093_, p_226094_, p_226095_, blockpos, blockpos1, false, p_226098_)) {
@@ -15,7 +15,7 @@
                          if (this.makeLimb(p_226093_, p_226094_, p_226095_, blockpos2, blockpos, false, p_226098_)) {
                              list.add(new FancyTrunkPlacer.FoliageCoords(blockpos, blockpos2.getY()));
                          }
-@@ -103,11 +_,11 @@
+@@ -105,11 +_,11 @@
          if (!p_226113_ && Objects.equals(p_226111_, p_226112_)) {
              return true;
          } else {
@@ -29,9 +29,9 @@
 +            float f1 = (float)blockpos.getBigY().floatValue() / (float)i;
 +            float f2 = (float)blockpos.getBigZ().floatValue() / (float)i;
  
-             for(int j = 0; j <= i; ++j) {
+             for (int j = 0; j <= i; j++) {
                  BlockPos blockpos1 = p_226111_.offset(Mth.floor(0.5F + (float)j * f), Mth.floor(0.5F + (float)j * f1), Mth.floor(0.5F + (float)j * f2));
-@@ -130,16 +_,16 @@
+@@ -132,16 +_,16 @@
      }
  
      private int getSteps(BlockPos p_70128_) {
@@ -54,9 +54,9 @@
          int k = Math.max(i, j);
          if (k > 0) {
              if (i == k) {
-@@ -167,7 +_,7 @@
+@@ -169,7 +_,7 @@
      ) {
-         for(FancyTrunkPlacer.FoliageCoords fancytrunkplacer$foliagecoords : p_226105_) {
+         for (FancyTrunkPlacer.FoliageCoords fancytrunkplacer$foliagecoords : p_226105_) {
              int i = fancytrunkplacer$foliagecoords.getBranchBase();
 -            BlockPos blockpos = new BlockPos(p_226104_.getX(), i, p_226104_.getZ());
 +            BlockPos blockpos = new BlockPos(p_226104_.getBigX(), i, p_226104_.getBigZ());

@@ -1,26 +1,69 @@
 --- a/net/minecraft/world/level/chunk/storage/SectionStorage.java
 +++ b/net/minecraft/world/level/chunk/storage/SectionStorage.java
-@@ -38,8 +_,8 @@
-     private static final Logger LOGGER = LogUtils.getLogger();
+@@ -44,8 +_,8 @@
+     static final Logger LOGGER = LogUtils.getLogger();
      private static final String SECTIONS_TAG = "Sections";
-     private final IOWorker worker;
+     private final SimpleRegionStorage simpleRegionStorage;
 -    private final Long2ObjectMap<Optional<R>> storage = new Long2ObjectOpenHashMap<>();
--    private final LongLinkedOpenHashSet dirty = new LongLinkedOpenHashSet();
+-    private final LongLinkedOpenHashSet dirtyChunks = new LongLinkedOpenHashSet();
 +    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<SectionPos, Optional<R>> storage = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
-+    private final it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<SectionPos> dirty = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<>();
-     private final Function<Runnable, Codec<R>> codec;
-     private final Function<Runnable, R> factory;
-     private final DataFixer fixerUpper;
-@@ -68,7 +_,7 @@
++    private final it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<ChunkPos> dirtyChunks = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet<>();
+     private final Codec<P> codec;
+     private final Function<R, P> packer;
+     private final BiFunction<P, Runnable, R> unpacker;
+@@ -53,8 +_,8 @@
+     private final RegistryAccess registryAccess;
+     private final ChunkIOErrorReporter errorReporter;
+     protected final LevelHeightAccessor levelHeightAccessor;
+-    private final LongSet loadedChunks = new LongOpenHashSet();
+-    private final Long2ObjectMap<CompletableFuture<Optional<SectionStorage.PackedChunk<P>>>> pendingLoads = new Long2ObjectOpenHashMap<>();
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> loadedChunks = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
++    private final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, CompletableFuture<Optional<SectionStorage.PackedChunk<P>>>> pendingLoads = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+     private final Object loadLock = new Object();
+ 
+     public SectionStorage(
+@@ -78,10 +_,10 @@
+     }
  
      protected void tick(BooleanSupplier p_63812_) {
-         while(this.hasWork() && p_63812_.getAsBoolean()) {
--            ChunkPos chunkpos = SectionPos.of(this.dirty.firstLong()).chunk();
-+            ChunkPos chunkpos = this.dirty.first().chunk();
-             this.writeColumn(chunkpos);
+-        LongIterator longiterator = this.dirtyChunks.iterator();
++        it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = this.dirtyChunks.iterator();
+ 
+         while (longiterator.hasNext() && p_63812_.getAsBoolean()) {
+-            ChunkPos chunkpos = new ChunkPos(longiterator.nextLong());
++            ChunkPos chunkpos = longiterator.next();
+             longiterator.remove();
+             this.writeChunk(chunkpos);
+         }
+@@ -91,14 +_,14 @@
+ 
+     private void unpackPendingLoads() {
+         synchronized (this.loadLock) {
+-            Iterator<Entry<CompletableFuture<Optional<SectionStorage.PackedChunk<P>>>>> iterator = Long2ObjectMaps.fastIterator(this.pendingLoads);
++            Iterator<it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, CompletableFuture<Optional<SectionStorage.PackedChunk<P>>>>> iterator = it.unimi.dsi.fastutil.objects.Object2ObjectMaps.fastIterator(this.pendingLoads);
+ 
+             while (iterator.hasNext()) {
+-                Entry<CompletableFuture<Optional<SectionStorage.PackedChunk<P>>>> entry = iterator.next();
++                it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, CompletableFuture<Optional<SectionStorage.PackedChunk<P>>>> entry = iterator.next();
+                 Optional<SectionStorage.PackedChunk<P>> optional = entry.getValue().getNow(null);
+                 if (optional != null) {
+-                    long i = entry.getLongKey();
+-                    this.unpackChunk(new ChunkPos(i), optional.orElse(null));
++                    ChunkPos i = entry.getKey();
++                    this.unpackChunk(i, optional.orElse(null));
+                     iterator.remove();
+                     this.loadedChunks.add(i);
+                 }
+@@ -108,7 +_,7 @@
+ 
+     public void flushAll() {
+         if (!this.dirtyChunks.isEmpty()) {
+-            this.dirtyChunks.forEach(p_360211_ -> this.writeChunk(new ChunkPos(p_360211_)));
++            this.dirtyChunks.forEach(this::writeChunk);
+             this.dirtyChunks.clear();
          }
      }
-@@ -78,11 +_,11 @@
+@@ -118,11 +_,11 @@
      }
  
      @Nullable
@@ -34,16 +77,16 @@
          if (this.outsideStoredRange(p_63824_)) {
              return Optional.empty();
          } else {
-@@ -90,7 +_,7 @@
+@@ -130,7 +_,7 @@
              if (optional != null) {
                  return optional;
              } else {
--                this.readColumn(SectionPos.of(p_63824_).chunk());
-+                this.readColumn(p_63824_.chunk());
+-                this.unpackChunk(SectionPos.of(p_63824_).chunk());
++                this.unpackChunk(p_63824_.chunk());
                  optional = this.get(p_63824_);
                  if (optional == null) {
                      throw (IllegalStateException)Util.pauseInIde(new IllegalStateException());
-@@ -101,12 +_,12 @@
+@@ -141,12 +_,12 @@
          }
      }
  
@@ -59,25 +102,43 @@
          if (this.outsideStoredRange(p_63828_)) {
              throw (IllegalArgumentException)Util.pauseInIde(new IllegalArgumentException("sectionPos out of bounds"));
          } else {
-@@ -152,7 +_,7 @@
-             OptionalDynamic<T> optionaldynamic = dynamic.get("Sections");
+@@ -163,7 +_,7 @@
  
-             for(int l = this.levelHeightAccessor.getMinSection(); l < this.levelHeightAccessor.getMaxSection(); ++l) {
--                long i1 = getKey(p_63802_, l);
-+                SectionPos i1 = getKey(p_63802_, l);
-                 Optional<R> optional = optionaldynamic.get(Integer.toString(l))
-                     .result()
-                     .flatMap(p_223519_ -> this.codec.apply(() -> this.setDirty(i1)).parse(p_223519_).resultOrPartial(LOGGER::error));
-@@ -182,7 +_,7 @@
+     public CompletableFuture<?> prefetch(ChunkPos p_364373_) {
+         synchronized (this.loadLock) {
+-            long i = p_364373_.toLong();
++            ChunkPos i = p_364373_;
+             return this.loadedChunks.contains(i)
+                 ? CompletableFuture.completedFuture(null)
+                 : this.pendingLoads.computeIfAbsent(i, p_360206_ -> this.tryRead(p_364373_));
+@@ -171,7 +_,7 @@
+     }
+ 
+     private void unpackChunk(ChunkPos p_365521_) {
+-        long i = p_365521_.toLong();
++        ChunkPos i = p_365521_;
+         CompletableFuture<Optional<SectionStorage.PackedChunk<P>>> completablefuture;
+         synchronized (this.loadLock) {
+             if (!this.loadedChunks.add(i)) {
+@@ -221,7 +_,7 @@
+             boolean flag = p_361845_.versionChanged();
+ 
+             for (int j = this.levelHeightAccessor.getMinSectionY(); j <= this.levelHeightAccessor.getMaxSectionY(); j++) {
+-                long k = getKey(p_365130_, j);
++                SectionPos k = getKey(p_365130_, j);
+                 Optional<R> optional = Optional.ofNullable(p_361845_.sectionsByY.get(j))
+                     .map(p_360210_ -> this.unpacker.apply((P)p_360210_, () -> this.setDirty(k)));
+                 this.storage.put(k, optional);
+@@ -253,7 +_,7 @@
          Map<T, T> map = Maps.newHashMap();
  
-         for(int i = this.levelHeightAccessor.getMinSection(); i < this.levelHeightAccessor.getMaxSection(); ++i) {
--            long j = getKey(p_63799_, i);
-+            SectionPos j = getKey(p_63799_, i);
-             this.dirty.remove(j);
+         for (int i = this.levelHeightAccessor.getMinSectionY(); i <= this.levelHeightAccessor.getMaxSectionY(); i++) {
+-            long j = getKey(p_362535_, i);
++            SectionPos j = getKey(p_362535_, i);
              Optional<R> optional = this.storage.get(j);
              if (optional != null && !optional.isEmpty()) {
-@@ -205,19 +_,19 @@
+                 DataResult<T> dataresult = this.codec.encodeStart(p_360921_, this.packer.apply(optional.get()));
+@@ -275,19 +_,19 @@
          );
      }
  
@@ -99,19 +160,20 @@
 +    protected void setDirty(SectionPos p_63788_) {
          Optional<R> optional = this.storage.get(p_63788_);
          if (optional != null && !optional.isEmpty()) {
-             this.dirty.add(p_63788_);
+-            this.dirtyChunks.add(ChunkPos.asLong(SectionPos.x(p_63788_), SectionPos.z(p_63788_)));
++            this.dirtyChunks.add(p_63788_.chunk());
          } else {
 -            LOGGER.warn("No data for position: {}", SectionPos.of(p_63788_));
 +            LOGGER.warn("No data for position: {}", p_63788_);
          }
      }
  
-@@ -228,7 +_,7 @@
+@@ -296,7 +_,7 @@
+     }
+ 
      public void flush(ChunkPos p_63797_) {
-         if (this.hasWork()) {
-             for(int i = this.levelHeightAccessor.getMinSection(); i < this.levelHeightAccessor.getMaxSection(); ++i) {
--                long j = getKey(p_63797_, i);
-+                SectionPos j = getKey(p_63797_, i);
-                 if (this.dirty.contains(j)) {
-                     this.writeColumn(p_63797_);
-                     return;
+-        if (this.dirtyChunks.remove(p_63797_.toLong())) {
++        if (this.dirtyChunks.remove(p_63797_)) {
+             this.writeChunk(p_63797_);
+         }
+     }

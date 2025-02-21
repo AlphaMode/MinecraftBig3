@@ -1,0 +1,22 @@
+--- a/net/minecraft/client/renderer/LevelEventHandler.java
++++ b/net/minecraft/client/renderer/LevelEventHandler.java
+@@ -68,14 +_,14 @@
+             case 1038:
+                 Camera camera = this.minecraft.gameRenderer.getMainCamera();
+                 if (camera.isInitialized()) {
+-                    Vec3 vec3 = Vec3.atCenterOf(p_361734_).subtract(camera.getPosition()).normalize();
+-                    Vec3 vec31 = camera.getPosition().add(vec3.scale(2.0));
++                    me.alphamode.mcbig.core.BigVec3 vec3 = me.alphamode.mcbig.core.BigVec3.atCenterOf(p_361734_).subtract(camera.getPosition()).normalize();
++                    me.alphamode.mcbig.core.BigVec3 vec31 = camera.getPosition().add(vec3.scale(2.0));
+                     if (p_361814_ == 1023) {
+-                        this.level.playLocalSound(vec31.x, vec31.y, vec31.z, SoundEvents.WITHER_SPAWN, SoundSource.HOSTILE, 1.0F, 1.0F, false);
++                        this.level.playLocalSound(vec31.x(), vec31.y, vec31.z(), SoundEvents.WITHER_SPAWN, SoundSource.HOSTILE, 1.0F, 1.0F, false);
+                     } else if (p_361814_ == 1038) {
+-                        this.level.playLocalSound(vec31.x, vec31.y, vec31.z, SoundEvents.END_PORTAL_SPAWN, SoundSource.HOSTILE, 1.0F, 1.0F, false);
++                        this.level.playLocalSound(vec31.x(), vec31.y, vec31.z(), SoundEvents.END_PORTAL_SPAWN, SoundSource.HOSTILE, 1.0F, 1.0F, false);
+                     } else {
+-                        this.level.playLocalSound(vec31.x, vec31.y, vec31.z, SoundEvents.ENDER_DRAGON_DEATH, SoundSource.HOSTILE, 5.0F, 1.0F, false);
++                        this.level.playLocalSound(vec31.x(), vec31.y, vec31.z(), SoundEvents.ENDER_DRAGON_DEATH, SoundSource.HOSTILE, 5.0F, 1.0F, false);
+                     }
+                 }
+         }

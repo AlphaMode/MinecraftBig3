@@ -3,7 +3,7 @@
 @@ -9,12 +_,12 @@
  
  public class InsideWorldBoundsPredicate implements BlockPredicate {
-     public static final Codec<InsideWorldBoundsPredicate> CODEC = RecordCodecBuilder.create(
+     public static final MapCodec<InsideWorldBoundsPredicate> CODEC = RecordCodecBuilder.mapCodec(
 -        p_190473_ -> p_190473_.group(Vec3i.offsetCodec(16).optionalFieldOf("offset", BlockPos.ZERO).forGetter(p_190475_ -> p_190475_.offset))
 +        p_190473_ -> p_190473_.group(me.alphamode.mcbig.core.Vec3l.offsetCodec(16).optionalFieldOf("offset", BlockPos.ZERO).forGetter(p_190475_ -> p_190475_.offset))
                  .apply(p_190473_, InsideWorldBoundsPredicate::new)

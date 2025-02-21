@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/item/InstrumentItem.java
++++ b/net/minecraft/world/item/InstrumentItem.java
+@@ -101,6 +_,6 @@
+         SoundEvent soundevent = p_220129_.soundEvent().value();
+         float f = p_220129_.range() / 16.0F;
+         p_220127_.playSound(p_220128_, p_220128_, soundevent, SoundSource.RECORDS, f, 1.0F);
+-        p_220127_.gameEvent(GameEvent.INSTRUMENT_PLAY, p_220128_.position(), GameEvent.Context.of(p_220128_));
++        p_220127_.gameEvent(GameEvent.INSTRUMENT_PLAY, p_220128_.bigPosition(), GameEvent.Context.of(p_220128_));
+     }
+ }

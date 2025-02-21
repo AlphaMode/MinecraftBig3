@@ -104,7 +104,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     public BigDecimal round() {
-        return new BigDecimal(this.value.round(MathContext.DECIMAL128));
+        return new BigDecimal(this.value.round(MathContext.DECIMAL64));
     }
 
     public BigInteger toBigInteger() {

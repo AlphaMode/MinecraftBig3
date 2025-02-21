@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/consume_effects/TeleportRandomlyConsumeEffect.java
++++ b/net/minecraft/world/item/consume_effects/TeleportRandomlyConsumeEffect.java
+@@ -55,7 +_,7 @@
+                 p_366884_.stopRiding();
+             }
+ 
+-            Vec3 vec3 = p_366884_.position();
++            me.alphamode.mcbig.core.BigVec3 vec3 = p_366884_.bigPosition();
+             if (p_366884_.randomTeleport(d0, d1, d2, true)) {
+                 p_366648_.gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(p_366884_));
+                 SoundSource soundsource;

@@ -1,22 +1,9 @@
 --- a/net/minecraft/network/FriendlyByteBuf.java
 +++ b/net/minecraft/network/FriendlyByteBuf.java
-@@ -404,29 +_,52 @@
+@@ -352,12 +_,30 @@
+         return p_130094_;
      }
  
-     public BlockPos readBlockPos() {
--        return BlockPos.of(this.readLong());
-+        return new BlockPos(this.readBigInteger(), this.readBigInteger(), this.readBigInteger());
-     }
- 
-     public FriendlyByteBuf writeBlockPos(BlockPos p_130065_) {
--        this.writeLong(p_130065_.asLong());
--        return this;
-+        this.writeBigInteger(p_130065_.getBigX());
-+        this.writeBigInteger(p_130065_.getBigY());
-+        this.writeBigInteger(p_130065_.getBigZ());
-+        return this;
-+    }
-+
 +    public FriendlyByteBuf writeBigInteger(me.alphamode.mcbig.math.BigInteger value) {
 +        this.writeByteArray(value.toByteArray());
 +        return this;
@@ -33,6 +20,26 @@
 +
 +    public me.alphamode.mcbig.math.BigDecimal readBigDecimal() {
 +        return new me.alphamode.mcbig.math.BigDecimal(this.readUtf());
++    }
++
+     public BlockPos readBlockPos() {
+         return readBlockPos(this);
+     }
+ 
+     public static BlockPos readBlockPos(ByteBuf p_320037_) {
+-        return BlockPos.of(p_320037_.readLong());
++        return new BlockPos(new me.alphamode.mcbig.math.BigInteger(readByteArray(p_320037_)), new me.alphamode.mcbig.math.BigInteger(readByteArray(p_320037_)), new me.alphamode.mcbig.math.BigInteger(readByteArray(p_320037_)));
+     }
+ 
+     public FriendlyByteBuf writeBlockPos(BlockPos p_130065_) {
+@@ -366,32 +_,38 @@
+     }
+ 
+     public static void writeBlockPos(ByteBuf p_320943_, BlockPos p_320546_) {
+-        p_320943_.writeLong(p_320546_.asLong());
++        writeByteArray(p_320943_, p_320546_.getBigX().toByteArray());
++        writeByteArray(p_320943_, p_320546_.getBigY().toByteArray());
++        writeByteArray(p_320943_, p_320546_.getBigZ().toByteArray());
      }
  
      public ChunkPos readChunkPos() {
@@ -42,9 +49,20 @@
  
      public FriendlyByteBuf writeChunkPos(ChunkPos p_178342_) {
 -        this.writeLong(p_178342_.toLong());
-+        this.writeBigInteger(p_178342_.x());
-+        this.writeBigInteger(p_178342_.z());
++        this.writeBigInteger(p_178342_.x);
++        this.writeBigInteger(p_178342_.z);
          return this;
+     }
+ 
+     public static ChunkPos readChunkPos(ByteBuf p_372953_) {
+-        return new ChunkPos(p_372953_.readLong());
++        return new ChunkPos(new me.alphamode.mcbig.math.BigInteger(readByteArray(p_372953_)), new me.alphamode.mcbig.math.BigInteger(readByteArray(p_372953_)));
+     }
+ 
+     public static void writeChunkPos(ByteBuf p_373081_, ChunkPos p_373096_) {
+-        p_373081_.writeLong(p_373096_.toLong());
++        writeByteArray(p_373081_, p_373096_.x.toByteArray());
++        writeByteArray(p_373081_, p_373096_.z.toByteArray());
      }
  
      public SectionPos readSectionPos() {
@@ -60,16 +78,41 @@
          return this;
      }
  
-@@ -672,7 +_,7 @@
-         float f2 = this.readFloat();
+@@ -461,6 +_,24 @@
+         writeVec3(this, p_296062_);
+     }
+ 
++    public static me.alphamode.mcbig.core.BigVec3 readBigVec3(ByteBuf p_363264_) {
++        return new me.alphamode.mcbig.core.BigVec3(new me.alphamode.mcbig.math.BigDecimal(Utf8String.read(p_363264_, MAX_STRING_LENGTH * 4)), p_363264_.readDouble(), new me.alphamode.mcbig.math.BigDecimal(Utf8String.read(p_363264_, MAX_STRING_LENGTH * 4)));
++    }
++
++    public me.alphamode.mcbig.core.BigVec3 readBigVec3() {
++        return readBigVec3(this);
++    }
++
++    public static void writeBigVec3(ByteBuf p_365393_, me.alphamode.mcbig.core.BigVec3 p_362273_) {
++        Utf8String.write(p_365393_, p_362273_.bigX().toString(), MAX_STRING_LENGTH * 4);
++        p_365393_.writeDouble(p_362273_.y());
++        Utf8String.write(p_365393_, p_362273_.bigZ().toString(), MAX_STRING_LENGTH * 4);
++    }
++
++    public void writeBigVec3(me.alphamode.mcbig.core.BigVec3 p_296062_) {
++        writeBigVec3(this, p_296062_);
++    }
++
+     public <T extends Enum<T>> T readEnum(Class<T> p_130067_) {
+         return p_130067_.getEnumConstants()[this.readVarInt()];
+     }
+@@ -641,7 +_,7 @@
          boolean flag = this.readBoolean();
+         boolean flag1 = this.readBoolean();
          return new BlockHitResult(
 -            new Vec3((double)blockpos.getX() + (double)f, (double)blockpos.getY() + (double)f1, (double)blockpos.getZ() + (double)f2),
-+            new me.alphamode.mcbig.core.BigVec3(blockpos.getBigX().toBigDecimal().add((double)f), (double)blockpos.getBigY().doubleValue() + (double)f1, blockpos.getBigZ().toBigDecimal().add(f2)),
++            new me.alphamode.mcbig.core.BigVec3((double)blockpos.getX() + (double)f, (double)blockpos.getY() + (double)f1, (double)blockpos.getZ() + (double)f2),
              direction,
              blockpos,
-             flag
-@@ -683,10 +_,10 @@
+             flag,
+@@ -653,10 +_,10 @@
          BlockPos blockpos = p_130063_.getBlockPos();
          this.writeBlockPos(blockpos);
          this.writeEnum(p_130063_.getDirection());
@@ -81,5 +124,5 @@
 -        this.writeFloat((float)(vec3.z - (double)blockpos.getZ()));
 +        this.writeFloat((vec3.z.subtract(blockpos.getBigZ().toBigDecimal())).floatValue());
          this.writeBoolean(p_130063_.isInside());
+         this.writeBoolean(p_130063_.isWorldBorderHit());
      }
- 

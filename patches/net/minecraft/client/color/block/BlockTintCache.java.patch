@@ -45,8 +45,8 @@
          try {
              this.lock.writeLock().lock();
  
-             for(int i = -1; i <= 1; ++i) {
-                 for(int j = -1; j <= 1; ++j) {
+             for (int i = -1; i <= 1; i++) {
+                 for (int j = -1; j <= 1; j++) {
 -                    long k = ChunkPos.asLong(p_92656_ + i, p_92657_ + j);
 +                    ChunkPos k = new ChunkPos(p_92656_.add(i), p_92657_.add(j));
                      BlockTintCache.CacheData blocktintcache$cachedata = this.cache.remove(k);

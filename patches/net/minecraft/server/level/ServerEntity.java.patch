@@ -1,11 +1,77 @@
 --- a/net/minecraft/server/level/ServerEntity.java
 +++ b/net/minecraft/server/level/ServerEntity.java
-@@ -87,7 +_,7 @@
-                     p_311547_ -> {
-                         if (p_311547_ instanceof ServerPlayer serverplayer1) {
+@@ -95,7 +_,7 @@
+                     p_390110_ -> {
+                         if (p_390110_ instanceof ServerPlayer serverplayer1) {
                              serverplayer1.connection
 -                                .teleport(serverplayer1.getX(), serverplayer1.getY(), serverplayer1.getZ(), serverplayer1.getYRot(), serverplayer1.getXRot());
 +                                .teleport(serverplayer1.getBigX(), serverplayer1.getY(), serverplayer1.getBigZ(), serverplayer1.getYRot(), serverplayer1.getXRot());
                          }
                      }
                  );
+@@ -144,16 +_,16 @@
+                     }
+ 
+                     this.teleportDelay++;
+-                    Vec3 vec31 = this.entity.trackingPosition();
++                    me.alphamode.mcbig.core.BigVec3 vec31 = this.entity.trackingPosition();
+                     boolean flag5 = this.positionCodec.delta(vec31).lengthSqr() >= 7.6293945E-6F;
+                     Packet<?> packet1 = null;
+                     boolean flag = flag5 || this.tickCount % 60 == 0;
+                     boolean flag1 = false;
+                     boolean flag2 = false;
+-                    long i = this.positionCodec.encodeX(vec31);
++                    me.alphamode.mcbig.math.BigInteger i = this.positionCodec.encodeX(vec31);
+                     long j = this.positionCodec.encodeY(vec31);
+-                    long k = this.positionCodec.encodeZ(vec31);
+-                    boolean flag3 = i < -32768L || i > 32767L || j < -32768L || j > 32767L || k < -32768L || k > 32767L;
++                    me.alphamode.mcbig.math.BigInteger k = this.positionCodec.encodeZ(vec31);
++                    boolean flag3 = i.compareTo(-32768L) < 0 || i.compareTo(32767L) > 0 || j < -32768L || j > 32767L || k.compareTo(-32768L) < 0 || k.compareTo(32767L) > 0;
+                     if (flag3 || this.teleportDelay > 400 || this.wasRiding || this.wasOnGround != this.entity.onGround()) {
+                         this.wasOnGround = this.entity.onGround();
+                         this.teleportDelay = 0;
+@@ -163,7 +_,7 @@
+                     } else if ((!flag || !flag4) && !(this.entity instanceof AbstractArrow)) {
+                         if (flag) {
+                             packet1 = new ClientboundMoveEntityPacket.Pos(
+-                                this.entity.getId(), (short)((int)i), (short)((int)j), (short)((int)k), this.entity.onGround()
++                                this.entity.getId(), (short)((int)i.intValue()), (short)((int)j), (short)((int)k.intValue()), this.entity.onGround()
+                             );
+                             flag1 = true;
+                         } else if (flag4) {
+@@ -172,7 +_,7 @@
+                         }
+                     } else {
+                         packet1 = new ClientboundMoveEntityPacket.PosRot(
+-                            this.entity.getId(), (short)((int)i), (short)((int)j), (short)((int)k), b0, b1, this.entity.onGround()
++                            this.entity.getId(), (short)((int)i.intValue()), (short)((int)j), (short)((int)k.intValue()), b0, b1, this.entity.onGround()
+                         );
+                         flag1 = true;
+                         flag2 = true;
+@@ -240,7 +_,7 @@
+         if (p_364284_.lerpSteps.isEmpty()) {
+             Vec3 vec3 = this.entity.getDeltaMovement();
+             double d0 = vec3.distanceToSqr(this.lastSentMovement);
+-            Vec3 vec31 = this.entity.trackingPosition();
++            me.alphamode.mcbig.core.BigVec3 vec31 = this.entity.trackingPosition();
+             boolean flag = this.positionCodec.delta(vec31).lengthSqr() >= 7.6293945E-6F;
+             boolean flag1 = flag || this.tickCount % 60 == 0;
+             if (flag1 || p_368717_ || d0 > 1.0E-7) {
+@@ -263,7 +_,7 @@
+ 
+         this.lastSentYRot = p_368668_;
+         this.lastSentXRot = p_368551_;
+-        this.positionCodec.setBase(this.entity.position());
++        this.positionCodec.setBase(this.entity.bigPosition());
+     }
+ 
+     private static Stream<Entity> removedPassengers(List<Entity> p_277592_, List<Entity> p_277658_) {
+@@ -337,7 +_,7 @@
+         }
+     }
+ 
+-    public Vec3 getPositionBase() {
++    public me.alphamode.mcbig.core.BigVec3 getPositionBase() {
+         return this.positionCodec.getBase();
+     }
+ 

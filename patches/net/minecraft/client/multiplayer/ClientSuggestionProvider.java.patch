@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientSuggestionProvider.java
 +++ b/net/minecraft/client/multiplayer/ClientSuggestionProvider.java
-@@ -146,7 +_,7 @@
+@@ -141,7 +_,7 @@
      public Collection<SharedSuggestionProvider.TextCoordinates> getAbsoluteCoordinates() {
          HitResult hitresult = this.minecraft.hitResult;
          if (hitresult != null && hitresult.getType() == HitResult.Type.BLOCK) {

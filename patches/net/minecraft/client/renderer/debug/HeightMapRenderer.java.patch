@@ -2,8 +2,8 @@
 +++ b/net/minecraft/client/renderer/debug/HeightMapRenderer.java
 @@ -44,20 +_,20 @@
  
-                     for(int k = 0; k < 16; ++k) {
-                         for(int l = 0; l < 16; ++l) {
+                     for (int k = 0; k < 16; k++) {
+                         for (int l = 0; l < 16; l++) {
 -                            int i1 = SectionPos.sectionToBlockCoord(chunkpos.x, k);
 -                            int j1 = SectionPos.sectionToBlockCoord(chunkpos.z, l);
 +                            me.alphamode.mcbig.math.BigInteger i1 = SectionPos.sectionToBlockCoord(chunkpos.x(), k);
@@ -11,7 +11,7 @@
                              float f = (float)(
                                  (double)((float)levelaccessor.getHeight(heightmap$types, i1, j1) + (float)heightmap$types.ordinal() * 0.09375F) - p_113579_
                              );
-                             LevelRenderer.addChainedFilledBoxVertices(
+                             ShapeRenderer.addChainedFilledBoxVertices(
                                  p_113576_,
                                  vertexconsumer,
 -                                (double)((float)i1 + 0.25F) - p_113578_,

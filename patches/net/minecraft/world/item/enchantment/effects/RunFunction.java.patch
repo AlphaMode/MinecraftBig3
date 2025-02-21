@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/enchantment/effects/RunFunction.java
++++ b/net/minecraft/world/item/enchantment/effects/RunFunction.java
+@@ -33,7 +_,7 @@
+                 .withSuppressedOutput()
+                 .withEntity(p_346210_)
+                 .withLevel(p_346152_)
+-                .withPosition(p_345413_)
++                .withPosition(p_345413_.toBig())
+                 .withRotation(p_346210_.getRotationVector());
+             serverfunctionmanager.execute(optional.get(), commandsourcestack);
+         } else {

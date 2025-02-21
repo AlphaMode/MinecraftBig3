@@ -4,12 +4,15 @@ import com.mojang.serialization.Codec;
 import java.util.EnumSet;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import me.alphamode.mcbig.math.BigDecimal;
 import me.alphamode.mcbig.math.BigMath;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
 import net.minecraft.core.Vec3i;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec2;
@@ -23,6 +26,15 @@ public class BigVec3 implements Position, BigPosition {
                     p_231079_ -> Util.fixedSize(p_231079_, 3).map(p_231081_ -> new BigVec3(p_231081_.get(0), p_231081_.get(1), p_231081_.get(2))),
                     p_231083_ -> List.of(p_231083_.x(), p_231083_.y(), p_231083_.z())
             );
+    public static final StreamCodec<ByteBuf, BigVec3> STREAM_CODEC = new StreamCodec<ByteBuf, BigVec3>() {
+        public BigVec3 decode(ByteBuf p_361466_) {
+            return FriendlyByteBuf.readBigVec3(p_361466_);
+        }
+
+        public void encode(ByteBuf p_364962_, BigVec3 p_364468_) {
+            FriendlyByteBuf.writeBigVec3(p_364962_, p_364468_);
+        }
+    };
     public static final BigVec3 ZERO = new BigVec3(0.0, 0.0, 0.0);
     public final BigDecimal x;
     public final double y;
@@ -68,6 +80,10 @@ public class BigVec3 implements Position, BigPosition {
     }
 
     public BigVec3(Vector3f p_253821_) {
+        this(p_253821_.x(), p_253821_.y(), p_253821_.z());
+    }
+
+    public BigVec3(Vec3 p_253821_) {
         this(p_253821_.x(), p_253821_.y(), p_253821_.z());
     }
 
@@ -135,7 +151,7 @@ public class BigVec3 implements Position, BigPosition {
     }
 
     public double distanceToSqr(Vec3 p_82558_) {
-        return distanceToSqr(p_82558_.toBig());
+        return distanceToSqr(new me.alphamode.mcbig.core.BigVec3(p_82558_));
     }
 
     public double distanceToSqr(BigDecimal x, double y, BigDecimal z) {
@@ -295,7 +311,7 @@ public class BigVec3 implements Position, BigPosition {
     }
 
     public BigVec3 relative(Direction p_231076_, BigDecimal p_231077_) {
-        Vec3i vec3i = p_231076_.getNormal();
+        Vec3i vec3i = p_231076_.getUnitVec3i();
         return new BigVec3(this.x.add(p_231077_.multiply(vec3i.getX())), this.y + p_231077_.doubleValue() * (double)vec3i.getY(), this.z.add(p_231077_.multiply(vec3i.getZ())));
     }
 

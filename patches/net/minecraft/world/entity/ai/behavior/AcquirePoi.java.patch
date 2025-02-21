@@ -1,32 +1,137 @@
 --- a/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
 +++ b/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
-@@ -45,7 +_,7 @@
+@@ -47,76 +_,76 @@
+     }
+ 
+     public static BehaviorControl<PathfinderMob> create(
+-        Predicate<Holder<PoiType>> p_390608_,
+-        MemoryModuleType<GlobalPos> p_390595_,
+-        MemoryModuleType<GlobalPos> p_390601_,
+-        boolean p_390606_,
+-        Optional<Byte> p_390610_,
+-        BiPredicate<ServerLevel, BlockPos> p_390593_
++            Predicate<Holder<PoiType>> p_390608_,
++            MemoryModuleType<GlobalPos> p_390595_,
++            MemoryModuleType<GlobalPos> p_390601_,
++            boolean p_390606_,
++            Optional<Byte> p_390610_,
++            BiPredicate<ServerLevel, BlockPos> p_390593_
+     ) {
          int i = 5;
          int j = 20;
          MutableLong mutablelong = new MutableLong(0L);
--        Long2ObjectMap<AcquirePoi.JitteredLinearRetry> long2objectmap = new Long2ObjectOpenHashMap<>();
-+        it.unimi.dsi.fastutil.objects.Object2ObjectMap<BlockPos, AcquirePoi.JitteredLinearRetry> long2objectmap = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
+         Long2ObjectMap<AcquirePoi.JitteredLinearRetry> long2objectmap = new Long2ObjectOpenHashMap<>();
          OneShot<PathfinderMob> oneshot = BehaviorBuilder.create(
-             p_258276_ -> p_258276_.group(p_258276_.absent(p_260194_))
-                     .apply(
-@@ -61,9 +_,9 @@
-                                 } else {
-                                     mutablelong.setValue(p_258294_ + 20L + (long)p_258292_.getRandom().nextInt(20));
-                                     PoiManager poimanager = p_258292_.getPoiManager();
--                                    long2objectmap.long2ObjectEntrySet().removeIf(p_22338_ -> !p_22338_.getValue().isStillValid(p_258294_));
-+                                    long2objectmap.object2ObjectEntrySet().removeIf(p_22338_ -> !p_22338_.getValue().isStillValid(p_258294_));
-                                     Predicate<BlockPos> predicate = p_258266_ -> {
+-            p_390560_ -> p_390560_.group(p_390560_.absent(p_390601_))
+-                    .apply(
+-                        p_390560_,
+-                        p_390582_ -> (p_390571_, p_390572_, p_390573_) -> {
+-                                if (p_390606_ && p_390572_.isBaby()) {
+-                                    return false;
+-                                } else if (mutablelong.getValue() == 0L) {
+-                                    mutablelong.setValue(p_390571_.getGameTime() + (long)p_390571_.random.nextInt(20));
+-                                    return false;
+-                                } else if (p_390571_.getGameTime() < mutablelong.getValue()) {
+-                                    return false;
+-                                } else {
+-                                    mutablelong.setValue(p_390573_ + 20L + (long)p_390571_.getRandom().nextInt(20));
+-                                    PoiManager poimanager = p_390571_.getPoiManager();
+-                                    long2objectmap.long2ObjectEntrySet().removeIf(p_22338_ -> !p_22338_.getValue().isStillValid(p_390573_));
+-                                    Predicate<BlockPos> predicate = p_258266_ -> {
 -                                        AcquirePoi.JitteredLinearRetry acquirepoi$jitteredlinearretry = long2objectmap.get(p_258266_.asLong());
-+                                        AcquirePoi.JitteredLinearRetry acquirepoi$jitteredlinearretry = long2objectmap.get(p_258266_);
-                                         if (acquirepoi$jitteredlinearretry == null) {
-                                             return true;
-                                         } else if (!acquirepoi$jitteredlinearretry.shouldRetry(p_258294_)) {
-@@ -91,7 +_,7 @@
+-                                        if (acquirepoi$jitteredlinearretry == null) {
+-                                            return true;
+-                                        } else if (!acquirepoi$jitteredlinearretry.shouldRetry(p_390573_)) {
+-                                            return false;
+-                                        } else {
+-                                            acquirepoi$jitteredlinearretry.markAttempt(p_390573_);
+-                                            return true;
+-                                        }
+-                                    };
+-                                    Set<Pair<Holder<PoiType>, BlockPos>> set = poimanager.findAllClosestFirstWithType(
+-                                            p_390608_, predicate, p_390572_.blockPosition(), 48, PoiManager.Occupancy.HAS_SPACE
+-                                        )
+-                                        .limit(5L)
+-                                        .filter(p_390563_ -> p_390593_.test(p_390571_, p_390563_.getSecond()))
+-                                        .collect(Collectors.toSet());
+-                                    Path path = findPathToPois(p_390572_, set);
+-                                    if (path != null && path.canReach()) {
+-                                        BlockPos blockpos = path.getTarget();
+-                                        poimanager.getType(blockpos).ifPresent(p_382710_ -> {
+-                                            poimanager.take(p_390608_, (p_217108_, p_217109_) -> p_217109_.equals(blockpos), blockpos, 1);
+-                                            p_390582_.set(GlobalPos.of(p_390571_.dimension(), blockpos));
+-                                            p_390610_.ifPresent(p_147369_ -> p_390571_.broadcastEntityEvent(p_390572_, p_147369_));
+-                                            long2objectmap.clear();
+-                                            DebugPackets.sendPoiTicketCountPacket(p_390571_, blockpos);
+-                                        });
++                p_390560_ -> p_390560_.group(p_390560_.absent(p_390601_))
++                        .apply(
++                                p_390560_,
++                                p_390582_ -> (p_390571_, p_390572_, p_390573_) -> {
++                                    if (p_390606_ && p_390572_.isBaby()) {
++                                        return false;
++                                    } else if (mutablelong.getValue() == 0L) {
++                                        mutablelong.setValue(p_390571_.getGameTime() + (long)p_390571_.random.nextInt(20));
++                                        return false;
++                                    } else if (p_390571_.getGameTime() < mutablelong.getValue()) {
++                                        return false;
                                      } else {
-                                         for(Pair<Holder<PoiType>, BlockPos> pair : set) {
-                                             long2objectmap.computeIfAbsent(
--                                                pair.getSecond().asLong(), p_264881_ -> new AcquirePoi.JitteredLinearRetry(p_258292_.random, p_258294_)
-+                                                pair.getSecond(), p_264881_ -> new AcquirePoi.JitteredLinearRetry(p_258292_.random, p_258294_)
-                                             );
+-                                        for (Pair<Holder<PoiType>, BlockPos> pair : set) {
+-                                            long2objectmap.computeIfAbsent(
+-                                                pair.getSecond().asLong(), p_264881_ -> new AcquirePoi.JitteredLinearRetry(p_390571_.random, p_390573_)
+-                                            );
++                                        mutablelong.setValue(p_390573_ + 20L + (long)p_390571_.getRandom().nextInt(20));
++                                        PoiManager poimanager = p_390571_.getPoiManager();
++                                        long2objectmap.long2ObjectEntrySet().removeIf(p_22338_ -> !p_22338_.getValue().isStillValid(p_390573_));
++                                        Predicate<BlockPos> predicate = p_258266_ -> {
++                                            AcquirePoi.JitteredLinearRetry acquirepoi$jitteredlinearretry = long2objectmap.get(p_258266_.asLong());
++                                            if (acquirepoi$jitteredlinearretry == null) {
++                                                return true;
++                                            } else if (!acquirepoi$jitteredlinearretry.shouldRetry(p_390573_)) {
++                                                return false;
++                                            } else {
++                                                acquirepoi$jitteredlinearretry.markAttempt(p_390573_);
++                                                return true;
++                                            }
++                                        };
++                                        Set<Pair<Holder<PoiType>, BlockPos>> set = poimanager.findAllClosestFirstWithType(
++                                                        p_390608_, predicate, p_390572_.blockPosition(), 48, PoiManager.Occupancy.HAS_SPACE
++                                                )
++                                                .limit(5L)
++                                                .filter(p_390563_ -> p_390593_.test(p_390571_, p_390563_.getSecond()))
++                                                .collect(Collectors.toSet());
++                                        Path path = findPathToPois(p_390572_, set);
++                                        if (path != null && path.canReach()) {
++                                            BlockPos blockpos = path.getTarget();
++                                            poimanager.getType(blockpos).ifPresent(p_382710_ -> {
++                                                poimanager.take(p_390608_, (p_217108_, p_217109_) -> p_217109_.equals(blockpos), blockpos, 1);
++                                                p_390582_.set(GlobalPos.of(p_390571_.dimension(), blockpos));
++                                                p_390610_.ifPresent(p_147369_ -> p_390571_.broadcastEntityEvent(p_390572_, p_147369_));
++                                                long2objectmap.clear();
++                                                DebugPackets.sendPoiTicketCountPacket(p_390571_, blockpos);
++                                            });
++                                        } else {
++                                            for (Pair<Holder<PoiType>, BlockPos> pair : set) {
++                                                long2objectmap.computeIfAbsent(
++                                                        pair.getSecond().asLong(), p_264881_ -> new AcquirePoi.JitteredLinearRetry(p_390571_.random, p_390573_)
++                                                );
++                                            }
                                          }
-                                     }
+-                                    }
+ 
+-                                    return true;
++                                        return true;
++                                    }
+                                 }
+-                            }
+-                    )
++                        )
+         );
+         return p_390601_ == p_390595_
+-            ? oneshot
+-            : BehaviorBuilder.create(p_258269_ -> p_258269_.group(p_258269_.absent(p_390595_)).apply(p_258269_, p_258302_ -> oneshot));
++                ? oneshot
++                : BehaviorBuilder.create(p_258269_ -> p_258269_.group(p_258269_.absent(p_390595_)).apply(p_258269_, p_258302_ -> oneshot));
+     }
+ 
+     @Nullable

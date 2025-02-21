@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/stateproviders/DualNoiseProvider.java
 +++ b/net/minecraft/world/level/levelgen/feature/stateproviders/DualNoiseProvider.java
-@@ -67,9 +_,9 @@
+@@ -68,9 +_,9 @@
      protected double getSlowNoiseValue(BlockPos p_191407_) {
          return this.slowNoise
              .getValue(

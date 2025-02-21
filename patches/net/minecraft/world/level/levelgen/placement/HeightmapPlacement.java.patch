@@ -9,5 +9,5 @@
 +        me.alphamode.mcbig.math.BigInteger i = p_226346_.getBigX();
 +        me.alphamode.mcbig.math.BigInteger j = p_226346_.getBigZ();
          int k = p_226344_.getHeight(this.heightmap, i, j);
-         return k > p_226344_.getMinBuildHeight() ? Stream.of(new BlockPos(i, k, j)) : Stream.of();
+         return k > p_226344_.getMinY() ? Stream.of(new BlockPos(i, k, j)) : Stream.of();
      }

@@ -1,6 +1,15 @@
 --- a/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/net/minecraft/world/entity/monster/EnderMan.java
-@@ -621,13 +_,13 @@
+@@ -292,7 +_,7 @@
+         boolean flag = blockstate.blocksMotion();
+         boolean flag1 = blockstate.getFluidState().is(FluidTags.WATER);
+         if (flag && !flag1) {
+-            Vec3 vec3 = this.position();
++            me.alphamode.mcbig.core.BigVec3 vec3 = this.bigPosition();
+             boolean flag2 = this.randomTeleport(p_32544_, p_32545_, p_32546_, true);
+             if (flag2) {
+                 this.level().gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(this));
+@@ -603,13 +_,13 @@
          public void tick() {
              RandomSource randomsource = this.enderman.getRandom();
              Level level = this.enderman.level();

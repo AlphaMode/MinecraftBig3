@@ -1,0 +1,29 @@
+--- a/net/minecraft/server/level/ThrottlingChunkTaskDispatcher.java
++++ b/net/minecraft/server/level/ThrottlingChunkTaskDispatcher.java
+@@ -10,7 +_,7 @@
+ import net.minecraft.world.level.ChunkPos;
+ 
+ public class ThrottlingChunkTaskDispatcher extends ChunkTaskDispatcher {
+-    private final LongSet chunkPositionsInExecution = new LongOpenHashSet();
++    private final it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> chunkPositionsInExecution = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
+     private final int maxChunksInExecution;
+     private final String executorSchedulerName;
+ 
+@@ -21,7 +_,7 @@
+     }
+ 
+     @Override
+-    protected void onRelease(long p_371820_) {
++    protected void onRelease(ChunkPos p_371820_) {
+         this.chunkPositionsInExecution.remove(p_371820_);
+     }
+ 
+@@ -41,7 +_,7 @@
+     public String getDebugStatus() {
+         return this.executorSchedulerName
+             + "=["
+-            + this.chunkPositionsInExecution.longStream().mapToObj(p_386300_ -> p_386300_ + ":" + new ChunkPos(p_386300_)).collect(Collectors.joining(","))
++            + this.chunkPositionsInExecution.stream().map(ChunkPos::toString).collect(Collectors.joining(","))
+             + "], s="
+             + this.sleeping;
+     }

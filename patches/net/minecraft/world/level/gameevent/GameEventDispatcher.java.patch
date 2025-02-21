@@ -1,12 +1,13 @@
 --- a/net/minecraft/world/level/gameevent/GameEventDispatcher.java
 +++ b/net/minecraft/world/level/gameevent/GameEventDispatcher.java
-@@ -17,15 +_,15 @@
+@@ -18,15 +_,15 @@
          this.level = p_251921_;
      }
  
--    public void post(GameEvent p_251754_, Vec3 p_250613_, GameEvent.Context p_251777_) {
-+    public void post(GameEvent p_251754_, me.alphamode.mcbig.core.BigVec3 p_250613_, GameEvent.Context p_251777_) {
-         int i = p_251754_.getNotificationRadius();
+-    public void post(Holder<GameEvent> p_316151_, Vec3 p_250613_, GameEvent.Context p_251777_) {
+-        int i = p_316151_.value().notificationRadius();
++    public void post(Holder<GameEvent> p_316151_, me.alphamode.mcbig.core.BigVec3 p_250613_, GameEvent.Context p_251777_) {
++        me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.constant(p_316151_.value().notificationRadius());
          BlockPos blockpos = BlockPos.containing(p_250613_);
 -        int j = SectionPos.blockToSectionCoord(blockpos.getX() - i);
 -        int k = SectionPos.blockToSectionCoord(blockpos.getY() - i);
@@ -21,29 +22,24 @@
 +        me.alphamode.mcbig.math.BigInteger j1 = SectionPos.blockToSectionCoord(blockpos.getBigY().add(i));
 +        me.alphamode.mcbig.math.BigInteger k1 = SectionPos.blockToSectionCoord(blockpos.getBigZ().add(i));
          List<GameEvent.ListenerInfo> list = new ArrayList<>();
-         GameEventListenerRegistry.ListenerVisitor gameeventlistenerregistry$listenervisitor = (p_251272_, p_248685_) -> {
-             if (p_251272_.getDeliveryMode() == GameEventListener.DeliveryMode.BY_DISTANCE) {
-@@ -36,11 +_,11 @@
+         GameEventListenerRegistry.ListenerVisitor gameeventlistenerregistry$listenervisitor = (p_316091_, p_316092_) -> {
+             if (p_316091_.getDeliveryMode() == GameEventListener.DeliveryMode.BY_DISTANCE) {
+@@ -37,13 +_,13 @@
          };
          boolean flag = false;
  
--        for(int l1 = j; l1 <= i1; ++l1) {
--            for(int i2 = l; i2 <= k1; ++i2) {
-+        for(me.alphamode.mcbig.math.BigInteger l1 = j; l1.compareTo(i1) <= 0; l1 = l1.add()) {
-+            for(me.alphamode.mcbig.math.BigInteger i2 = l; i2.compareTo(k1) <= 0; i2 = i2.add()) {
+-        for (int l1 = j; l1 <= i1; l1++) {
+-            for (int i2 = l; i2 <= k1; i2++) {
++        for (me.alphamode.mcbig.math.BigInteger l1 = j; l1.compareTo(i1) <= 0; l1 = l1.add()) {
++            for (me.alphamode.mcbig.math.BigInteger i2 = l; i2.compareTo(k1) <= 0; i2 = i2.add()) {
                  ChunkAccess chunkaccess = this.level.getChunkSource().getChunkNow(l1, i2);
                  if (chunkaccess != null) {
--                    for(int j2 = k; j2 <= j1; ++j2) {
-+                    for(int j2 = k.intValue(); j2 <= j1.intValue(); ++j2) {
-                         flag |= chunkaccess.getListenerRegistry(j2)
-                             .visitInRangeListeners(p_251754_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
+-                    for (int j2 = k; j2 <= j1; j2++) {
+-                        flag |= chunkaccess.getListenerRegistry(j2)
+-                            .visitInRangeListeners(p_316151_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
++                    for (me.alphamode.mcbig.math.BigInteger j2 = k; j2.compareTo(j1) <= 0; j2 = j2.add()) {
++                        flag |= chunkaccess.getListenerRegistry(j2.intValue())
++                                .visitInRangeListeners(p_316151_, p_250613_, p_251777_, gameeventlistenerregistry$listenervisitor);
                      }
-@@ -53,7 +_,7 @@
-         }
- 
-         if (flag) {
--            DebugPackets.sendGameEventInfo(this.level, p_251754_, p_250613_);
-+            DebugPackets.sendGameEventInfo(this.level, p_251754_, p_250613_.toVanilla());
-         }
-     }
- 
+                 }
+             }

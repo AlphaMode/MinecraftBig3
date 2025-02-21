@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientChunkCache.java
 +++ b/net/minecraft/client/multiplayer/ClientChunkCache.java
-@@ -49,27 +_,27 @@
+@@ -51,12 +_,12 @@
          return this.lightEngine;
      }
  
@@ -11,30 +11,20 @@
          } else {
              ChunkPos chunkpos = p_104439_.getPos();
 -            return chunkpos.x == p_104440_ && chunkpos.z == p_104441_;
-+            return chunkpos.x().equals(p_104440_) && chunkpos.z().equals(p_104441_);
++            return chunkpos.x.equals(p_104440_) && chunkpos.z.equals(p_104441_);
          }
      }
  
-     public void drop(ChunkPos p_295783_) {
--        if (this.storage.inRange(p_295783_.x, p_295783_.z)) {
--            int i = this.storage.getIndex(p_295783_.x, p_295783_.z);
-+        if (this.storage.inRange(p_295783_.x(), p_295783_.z())) {
-+            int i = this.storage.getIndex(p_295783_.x(), p_295783_.z());
-             LevelChunk levelchunk = this.storage.getChunk(i);
--            if (isValidChunk(levelchunk, p_295783_.x, p_295783_.z)) {
-+            if (isValidChunk(levelchunk, p_295783_.x(), p_295783_.z())) {
-                 this.storage.replace(i, levelchunk, null);
-             }
-         }
+@@ -71,7 +_,7 @@
      }
  
      @Nullable
--    public LevelChunk getChunk(int p_104451_, int p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
+-    public LevelChunk getChunk(int p_104451_, int p_104452_, ChunkStatus p_330230_, boolean p_104454_) {
 +    public LevelChunk getChunk(me.alphamode.mcbig.math.BigInteger p_104451_, me.alphamode.mcbig.math.BigInteger p_104452_, ChunkStatus p_104453_, boolean p_104454_) {
          if (this.storage.inRange(p_104451_, p_104452_)) {
              LevelChunk levelchunk = this.storage.getChunk(this.storage.getIndex(p_104451_, p_104452_));
              if (isValidChunk(levelchunk, p_104451_, p_104452_)) {
-@@ -85,7 +_,7 @@
+@@ -87,7 +_,7 @@
          return this.level;
      }
  
@@ -43,7 +33,7 @@
          if (!this.storage.inRange(p_275374_, p_275226_)) {
              LOGGER.warn("Ignoring chunk since it's not in the view range: {}, {}", p_275374_, p_275226_);
          } else {
-@@ -101,8 +_,8 @@
+@@ -103,8 +_,8 @@
  
      @Nullable
      public LevelChunk replaceWithPacketData(
@@ -54,7 +44,7 @@
          FriendlyByteBuf p_194119_,
          CompoundTag p_194120_,
          Consumer<ClientboundLevelChunkPacketData.BlockEntityTagOutput> p_194121_
-@@ -131,7 +_,7 @@
+@@ -134,7 +_,7 @@
      public void tick(BooleanSupplier p_202421_, boolean p_202422_) {
      }
  
@@ -63,19 +53,30 @@
          this.storage.viewCenterX = p_104460_;
          this.storage.viewCenterZ = p_104461_;
      }
-@@ -148,8 +_,8 @@
-                 LevelChunk levelchunk = this.storage.chunks.get(k);
-                 if (levelchunk != null) {
-                     ChunkPos chunkpos = levelchunk.getPos();
--                    if (clientchunkcache$storage.inRange(chunkpos.x, chunkpos.z)) {
--                        clientchunkcache$storage.replace(clientchunkcache$storage.getIndex(chunkpos.x, chunkpos.z), levelchunk);
-+                    if (clientchunkcache$storage.inRange(chunkpos.x(), chunkpos.z())) {
-+                        clientchunkcache$storage.replace(clientchunkcache$storage.getIndex(chunkpos.x(), chunkpos.z()), levelchunk);
-                     }
-                 }
-             }
-@@ -182,8 +_,8 @@
+@@ -177,26 +_,26 @@
+ 
+     @Override
+     public void onLightUpdate(LightLayer p_104436_, SectionPos p_104437_) {
+-        Minecraft.getInstance().levelRenderer.setSectionDirty(p_104437_.x(), p_104437_.y(), p_104437_.z());
++        Minecraft.getInstance().levelRenderer.setSectionDirty(p_104437_.x(), p_104437_.getY(), p_104437_.z());
+     }
+ 
+-    public LongOpenHashSet getLoadedEmptySections() {
++    public it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<SectionPos> getLoadedEmptySections() {
+         return this.storage.loadedEmptySections;
+     }
+ 
+     @Override
+-    public void onSectionEmptinessChanged(int p_366524_, int p_366407_, int p_366651_, boolean p_366887_) {
++    public void onSectionEmptinessChanged(me.alphamode.mcbig.math.BigInteger p_366524_, int p_366407_, me.alphamode.mcbig.math.BigInteger p_366651_, boolean p_366887_) {
+         this.storage.onSectionEmptinessChanged(p_366524_, p_366407_, p_366651_, p_366887_);
+     }
+ 
+     @OnlyIn(Dist.CLIENT)
+     final class Storage {
          final AtomicReferenceArray<LevelChunk> chunks;
+-        final LongOpenHashSet loadedEmptySections = new LongOpenHashSet();
++        final it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<SectionPos> loadedEmptySections = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
          final int chunkRadius;
          private final int viewRange;
 -        volatile int viewCenterX;
@@ -85,7 +86,7 @@
          int chunkCount;
  
          Storage(int p_104474_) {
-@@ -192,8 +_,8 @@
+@@ -205,8 +_,8 @@
              this.chunks = new AtomicReferenceArray<>(this.viewRange * this.viewRange);
          }
  
@@ -95,31 +96,65 @@
 +            return me.alphamode.mcbig.math.BigMath.floorMod(p_104483_, this.viewRange).intValue() * this.viewRange + me.alphamode.mcbig.math.BigMath.floorMod(p_104482_, this.viewRange).intValue();
          }
  
-         protected void replace(int p_104485_, @Nullable LevelChunk p_104486_) {
-@@ -217,8 +_,8 @@
-             return p_104489_;
+         void replace(int p_104485_, @Nullable LevelChunk p_104486_) {
+@@ -232,9 +_,9 @@
+             ClientChunkCache.this.level.unload(p_366475_);
+         }
+ 
+-        public void onSectionEmptinessChanged(int p_366606_, int p_366859_, int p_366870_, boolean p_366411_) {
++        public void onSectionEmptinessChanged(me.alphamode.mcbig.math.BigInteger p_366606_, int p_366859_, me.alphamode.mcbig.math.BigInteger p_366870_, boolean p_366411_) {
+             if (this.inRange(p_366606_, p_366870_)) {
+-                long i = SectionPos.asLong(p_366606_, p_366859_, p_366870_);
++                SectionPos i = SectionPos.of(p_366606_, p_366859_, p_366870_);
+                 if (p_366411_) {
+                     this.loadedEmptySections.add(i);
+                 } else if (this.loadedEmptySections.remove(i)) {
+@@ -248,7 +_,7 @@
+ 
+             for (int i = 0; i < alevelchunksection.length; i++) {
+                 ChunkPos chunkpos = p_366765_.getPos();
+-                this.loadedEmptySections.remove(SectionPos.asLong(chunkpos.x, p_366765_.getSectionYFromSectionIndex(i), chunkpos.z));
++                this.loadedEmptySections.remove(SectionPos.of(chunkpos.x, p_366765_.getSectionYFromSectionIndex(i), chunkpos.z));
+             }
+         }
+ 
+@@ -259,7 +_,7 @@
+                 LevelChunkSection levelchunksection = alevelchunksection[i];
+                 if (levelchunksection.hasOnlyAir()) {
+                     ChunkPos chunkpos = p_366694_.getPos();
+-                    this.loadedEmptySections.add(SectionPos.asLong(chunkpos.x, p_366694_.getSectionYFromSectionIndex(i), chunkpos.z));
++                    this.loadedEmptySections.add(SectionPos.of(chunkpos.x, p_366694_.getSectionYFromSectionIndex(i), chunkpos.z));
+                 }
+             }
+         }
+@@ -270,7 +_,7 @@
+ 
+             for (int i = 0; i < alevelchunksection.length; i++) {
+                 LevelChunkSection levelchunksection = alevelchunksection[i];
+-                long j = SectionPos.asLong(chunkpos.x, p_386574_.getSectionYFromSectionIndex(i), chunkpos.z);
++                SectionPos j = SectionPos.of(chunkpos.x, p_386574_.getSectionYFromSectionIndex(i), chunkpos.z);
+                 if (levelchunksection.hasOnlyAir()) {
+                     this.loadedEmptySections.add(j);
+                 } else if (this.loadedEmptySections.remove(j)) {
+@@ -279,8 +_,8 @@
+             }
          }
  
 -        boolean inRange(int p_104501_, int p_104502_) {
 -            return Math.abs(p_104501_ - this.viewCenterX) <= this.chunkRadius && Math.abs(p_104502_ - this.viewCenterZ) <= this.chunkRadius;
 +        boolean inRange(me.alphamode.mcbig.math.BigInteger p_104501_, me.alphamode.mcbig.math.BigInteger p_104502_) {
-+            return p_104501_.subtract(this.viewCenterX).abs().compareTo(this.chunkRadius) <= 0 && p_104502_.subtract(this.viewCenterZ).abs().compareTo(this.chunkRadius) <= 0;
++            return p_104501_.subtract(this.viewCenterX).abs().intValue() <= this.chunkRadius && p_104502_.subtract(this.viewCenterZ).abs().intValue() <= this.chunkRadius;
          }
  
          @Nullable
-@@ -230,12 +_,12 @@
+@@ -292,8 +_,8 @@
              try (FileOutputStream fileoutputstream = new FileOutputStream(p_171623_)) {
                  int i = ClientChunkCache.this.storage.chunkRadius;
  
--                for(int j = this.viewCenterZ - i; j <= this.viewCenterZ + i; ++j) {
--                    for(int k = this.viewCenterX - i; k <= this.viewCenterX + i; ++k) {
+-                for (int j = this.viewCenterZ - i; j <= this.viewCenterZ + i; j++) {
+-                    for (int k = this.viewCenterX - i; k <= this.viewCenterX + i; k++) {
 +                for(me.alphamode.mcbig.math.BigInteger j = this.viewCenterZ.subtract(i); j.compareTo(this.viewCenterZ.add(i)) <= 0; j = j.add()) {
 +                    for(me.alphamode.mcbig.math.BigInteger k = this.viewCenterX.subtract(i); k.compareTo(this.viewCenterX.add(i)) <= 0; k = k.add()) {
                          LevelChunk levelchunk = ClientChunkCache.this.storage.chunks.get(ClientChunkCache.this.storage.getIndex(k, j));
                          if (levelchunk != null) {
                              ChunkPos chunkpos = levelchunk.getPos();
--                            fileoutputstream.write((chunkpos.x + "\t" + chunkpos.z + "\t" + levelchunk.isEmpty() + "\n").getBytes(StandardCharsets.UTF_8));
-+                            fileoutputstream.write((chunkpos.x() + "\t" + chunkpos.z() + "\t" + levelchunk.isEmpty() + "\n").getBytes(StandardCharsets.UTF_8));
-                         }
-                     }
-                 }

@@ -1,67 +1,60 @@
 --- a/net/minecraft/client/multiplayer/ClientPacketListener.java
 +++ b/net/minecraft/client/multiplayer/ClientPacketListener.java
-@@ -611,17 +_,19 @@
-         boolean flag1 = p_105056_.getRelativeArguments().contains(RelativeMovement.Y);
-         boolean flag2 = p_105056_.getRelativeArguments().contains(RelativeMovement.Z);
-         double d0;
--        double d1;
-+        me.alphamode.mcbig.math.BigDecimal d1;
-         if (flag) {
-             d0 = vec3.x();
--            d1 = player.getX() + p_105056_.getX();
--            player.xOld += p_105056_.getX();
--            player.xo += p_105056_.getX();
-+            d1 = player.getBigX().add(p_105056_.getX());
-+            player.xOld += p_105056_.getX().doubleValue();
-+            player.xo += p_105056_.getX().doubleValue();
-+            player.bigXo = player.bigXo.add(p_105056_.getX());
-         } else {
-             d0 = 0.0;
-             d1 = p_105056_.getX();
--            player.xOld = d1;
--            player.xo = d1;
-+            player.xOld = d1.doubleValue();
-+            player.xo = d1.doubleValue();
-+            player.bigXo = d1;
-         }
+@@ -540,7 +_,7 @@
+         double d1 = p_104960_.getY();
+         double d2 = p_104960_.getZ();
+         Entity entity = new ExperienceOrb(this.level, d0, d1, d2, p_104960_.getValue());
+-        entity.syncPacketPositionCodec(d0, d1, d2);
++        entity.syncPacketPositionCodec(me.alphamode.mcbig.math.BigDecimal.val(d0), d1, me.alphamode.mcbig.math.BigDecimal.val(d2));
+         entity.setYRot(0.0F);
+         entity.setXRot(0.0F);
+         entity.setId(p_104960_.getId());
+@@ -570,7 +_,7 @@
+         PacketUtils.ensureRunningOnSameThread(p_380347_, this, this.minecraft);
+         Entity entity = this.level.getEntity(p_380347_.id());
+         if (entity != null) {
+-            Vec3 vec3 = p_380347_.values().position();
++            me.alphamode.mcbig.core.BigVec3 vec3 = p_380347_.values().position();
+             entity.getPositionCodec().setBase(vec3);
+             if (!entity.isControlledByLocalInstance()) {
+                 float f = p_380347_.values().yRot();
+@@ -602,9 +_,9 @@
+                 this.connection
+                     .send(
+                         new ServerboundMovePlayerPacket.PosRot(
+-                            this.minecraft.player.getX(),
++                            this.minecraft.player.getBigX(),
+                             this.minecraft.player.getY(),
+-                            this.minecraft.player.getZ(),
++                            this.minecraft.player.getBigZ(),
+                             this.minecraft.player.getYRot(),
+                             this.minecraft.player.getXRot(),
+                             false,
+@@ -663,12 +_,12 @@
+         if (entity != null) {
+             if (entity.isControlledByLocalInstance()) {
+                 VecDeltaCodec vecdeltacodec1 = entity.getPositionCodec();
+-                Vec3 vec31 = vecdeltacodec1.decode((long)p_105036_.getXa(), (long)p_105036_.getYa(), (long)p_105036_.getZa());
++                me.alphamode.mcbig.core.BigVec3 vec31 = vecdeltacodec1.decode((long)p_105036_.getXa(), (long)p_105036_.getYa(), (long)p_105036_.getZa());
+                 vecdeltacodec1.setBase(vec31);
+             } else {
+                 if (p_105036_.hasPosition()) {
+                     VecDeltaCodec vecdeltacodec = entity.getPositionCodec();
+-                    Vec3 vec3 = vecdeltacodec.decode((long)p_105036_.getXa(), (long)p_105036_.getYa(), (long)p_105036_.getZa());
++                    me.alphamode.mcbig.core.BigVec3 vec3 = vecdeltacodec.decode((long)p_105036_.getXa(), (long)p_105036_.getYa(), (long)p_105036_.getZa());
+                     vecdeltacodec.setBase(vec3);
+                     float f = p_105036_.hasRotation() ? p_105036_.getyRot() : entity.lerpTargetYRot();
+                     float f1 = p_105036_.hasRotation() ? p_105036_.getxRot() : entity.lerpTargetXRot();
+@@ -728,7 +_,7 @@
  
-         double d2;
-@@ -639,17 +_,19 @@
-         }
- 
-         double d4;
--        double d5;
-+        me.alphamode.mcbig.math.BigDecimal d5;
-         if (flag2) {
-             d4 = vec3.z();
--            d5 = player.getZ() + p_105056_.getZ();
--            player.zOld += p_105056_.getZ();
--            player.zo += p_105056_.getZ();
-+            d5 = player.getBigZ().add(p_105056_.getZ());
-+            player.zOld += p_105056_.getZ().doubleValue();
-+            player.zo += p_105056_.getZ().doubleValue();
-+            player.bigZo = player.bigZo.add(p_105056_.getZ());
-         } else {
-             d4 = 0.0;
-             d5 = p_105056_.getZ();
--            player.zOld = d5;
--            player.zo = d5;
-+            player.zOld = d5.doubleValue();
-+            player.zo = d5.doubleValue();
-+            player.bigZo = d5;
-         }
- 
-         player.setPos(d1, d3, d5);
-@@ -673,7 +_,7 @@
-         }
- 
-         this.connection.send(new ServerboundAcceptTeleportationPacket(p_105056_.getId()));
--        this.connection.send(new ServerboundMovePlayerPacket.PosRot(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot(), false));
-+        this.connection.send(new ServerboundMovePlayerPacket.PosRot(player.getBigX(), player.getY(), player.getBigZ(), player.getYRot(), player.getXRot(), false));
+         this.connection.send(new ServerboundAcceptTeleportationPacket(p_105056_.id()));
+         this.connection
+-            .send(new ServerboundMovePlayerPacket.PosRot(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot(), false, false));
++            .send(new ServerboundMovePlayerPacket.PosRot(player.getBigX(), player.getY(), player.getBigZ(), player.getYRot(), player.getXRot(), false, false));
      }
  
-     @Override
-@@ -685,8 +_,8 @@
+     private static boolean setValuesFromPositionPacket(PositionMoveRotation p_380237_, Set<Relative> p_380116_, Entity p_379700_, boolean p_379954_) {
+@@ -777,8 +_,8 @@
      @Override
      public void handleLevelChunkWithLight(ClientboundLevelChunkWithLightPacket p_194241_) {
          PacketUtils.ensureRunningOnSameThread(p_194241_, this, this.minecraft);
@@ -72,35 +65,16 @@
          this.updateLevelChunk(i, j, p_194241_.getChunkData());
          ClientboundLightUpdatePacketData clientboundlightupdatepacketdata = p_194241_.getLightData();
          this.level.queueLightUpdate(() -> {
-@@ -706,15 +_,15 @@
-             this.level
-                 .getChunkSource()
-                 .replaceBiomes(
--                    clientboundchunksbiomespacket$chunkbiomedata.pos().x,
--                    clientboundchunksbiomespacket$chunkbiomedata.pos().z,
-+                    clientboundchunksbiomespacket$chunkbiomedata.pos().x(),
-+                    clientboundchunksbiomespacket$chunkbiomedata.pos().z(),
-                     clientboundchunksbiomespacket$chunkbiomedata.getReadBuffer()
-                 );
-         }
- 
-         for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata1 : p_275437_.chunkBiomeData()) {
-             this.level
--                .onChunkLoaded(new ChunkPos(clientboundchunksbiomespacket$chunkbiomedata1.pos().x, clientboundchunksbiomespacket$chunkbiomedata1.pos().z));
-+                .onChunkLoaded(new ChunkPos(clientboundchunksbiomespacket$chunkbiomedata1.pos().x(), clientboundchunksbiomespacket$chunkbiomedata1.pos().z()));
-         }
- 
-         for(ClientboundChunksBiomesPacket.ChunkBiomeData clientboundchunksbiomespacket$chunkbiomedata2 : p_275437_.chunkBiomeData()) {
-@@ -724,7 +_,7 @@
+@@ -817,7 +_,7 @@
                          this.minecraft
                              .levelRenderer
                              .setSectionDirty(
 -                                clientboundchunksbiomespacket$chunkbiomedata2.pos().x + i, k, clientboundchunksbiomespacket$chunkbiomedata2.pos().z + j
-+                                clientboundchunksbiomespacket$chunkbiomedata2.pos().x().add(i), me.alphamode.mcbig.math.BigInteger.val(k), clientboundchunksbiomespacket$chunkbiomedata2.pos().z().add(j)
++                                clientboundchunksbiomespacket$chunkbiomedata2.pos().x.add(i), k, clientboundchunksbiomespacket$chunkbiomedata2.pos().z.add(j)
                              );
                      }
                  }
-@@ -732,7 +_,7 @@
+@@ -825,7 +_,7 @@
          }
      }
  
@@ -109,7 +83,7 @@
          this.level
              .getChunkSource()
              .replaceWithPacketData(
-@@ -740,7 +_,7 @@
+@@ -833,7 +_,7 @@
              );
      }
  
@@ -118,7 +92,16 @@
          LevelLightEngine levellightengine = this.level.getChunkSource().getLightEngine();
          LevelChunkSection[] alevelchunksection = p_194213_.getSections();
          ChunkPos chunkpos = p_194213_.getPos();
-@@ -2204,13 +_,13 @@
+@@ -844,7 +_,7 @@
+             levellightengine.updateSectionStatus(SectionPos.of(chunkpos, j), levelchunksection.hasOnlyAir());
+         }
+ 
+-        this.level.setSectionRangeDirty(p_194214_ - 1, this.level.getMinSectionY(), p_194215_ - 1, p_194214_ + 1, this.level.getMaxSectionY(), p_194215_ + 1);
++        this.level.setSectionRangeDirty(p_194214_.subtract(), this.level.getMinSectionY(), p_194215_.subtract(), p_194214_.add(), this.level.getMaxSectionY(), p_194215_.add());
+     }
+ 
+     @Override
+@@ -2334,13 +_,13 @@
      @Override
      public void handleLightUpdatePacket(ClientboundLightUpdatePacket p_194243_) {
          PacketUtils.ensureRunningOnSameThread(p_194243_, this, this.minecraft);
@@ -127,20 +110,22 @@
 +        me.alphamode.mcbig.math.BigInteger i = p_194243_.getX();
 +        me.alphamode.mcbig.math.BigInteger j = p_194243_.getZ();
          ClientboundLightUpdatePacketData clientboundlightupdatepacketdata = p_194243_.getLightData();
-         this.level.queueLightUpdate(() -> this.applyLightData(i, j, clientboundlightupdatepacketdata));
+         this.level.queueLightUpdate(() -> this.applyLightData(i, j, clientboundlightupdatepacketdata, true));
      }
  
--    private void applyLightData(int p_194249_, int p_194250_, ClientboundLightUpdatePacketData p_194251_) {
-+    private void applyLightData(me.alphamode.mcbig.math.BigInteger p_194249_, me.alphamode.mcbig.math.BigInteger p_194250_, ClientboundLightUpdatePacketData p_194251_) {
+-    private void applyLightData(int p_194249_, int p_194250_, ClientboundLightUpdatePacketData p_194251_, boolean p_363269_) {
++    private void applyLightData(me.alphamode.mcbig.math.BigInteger p_194249_, me.alphamode.mcbig.math.BigInteger p_194250_, ClientboundLightUpdatePacketData p_194251_, boolean p_363269_) {
          LevelLightEngine levellightengine = this.level.getChunkSource().getLightEngine();
          BitSet bitset = p_194251_.getSkyYMask();
          BitSet bitset1 = p_194251_.getEmptySkyYMask();
-@@ -2289,7 +_,7 @@
+@@ -2432,8 +_,8 @@
      }
  
      private void readSectionList(
--        int p_171735_, int p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_
-+        me.alphamode.mcbig.math.BigInteger p_171735_, me.alphamode.mcbig.math.BigInteger p_171736_, LevelLightEngine p_171737_, LightLayer p_171738_, BitSet p_171739_, BitSet p_171740_, Iterator<byte[]> p_171741_
-     ) {
-         for(int i = 0; i < p_171737_.getLightSectionCount(); ++i) {
-             int j = p_171737_.getMinLightSection() + i;
+-        int p_171735_,
+-        int p_171736_,
++        me.alphamode.mcbig.math.BigInteger p_171735_,
++        me.alphamode.mcbig.math.BigInteger p_171736_,
+         LevelLightEngine p_171737_,
+         LightLayer p_171738_,
+         BitSet p_171739_,

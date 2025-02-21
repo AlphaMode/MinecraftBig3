@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/templatesystem/GravityProcessor.java
 +++ b/net/minecraft/world/level/levelgen/structure/templatesystem/GravityProcessor.java
-@@ -49,9 +_,9 @@
+@@ -50,9 +_,9 @@
          }
  
          BlockPos blockpos = p_74113_.pos();

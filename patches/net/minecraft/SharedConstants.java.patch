@@ -1,11 +1,13 @@
 --- a/net/minecraft/SharedConstants.java
 +++ b/net/minecraft/SharedConstants.java
-@@ -122,7 +_,7 @@
-     public static final long MAXIMUM_TICK_TIME_NANOS = Duration.ofMillis(300L).toNanos();
-     public static final boolean USE_WORKFLOWS_HOOKS = false;
-     public static boolean CHECK_DATA_FIXER_SCHEMA = true;
--    public static boolean IS_RUNNING_IN_IDE;
-+    public static boolean IS_RUNNING_IN_IDE = true;
-     public static Set<TypeReference> DATA_FIX_TYPES_TO_OPTIMIZE = Set.of();
-     public static final int WORLD_RESOLUTION = 16;
-     public static final int MAX_CHAT_LENGTH = 256;
+@@ -164,8 +_,8 @@
+     }
+ 
+     public static boolean debugVoidTerrain(ChunkPos p_183708_) {
+-        int i = p_183708_.getMinBlockX();
+-        int j = p_183708_.getMinBlockZ();
++        int i = p_183708_.getMinBlockX().intValue();
++        int j = p_183708_.getMinBlockZ().intValue();
+         return !debugGenerateSquareTerrainWithoutNoise ? false : i > 8192 || i < 0 || j > 1024 || j < 0;
+     }
+ 

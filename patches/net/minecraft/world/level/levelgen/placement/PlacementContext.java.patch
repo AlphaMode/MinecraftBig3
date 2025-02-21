@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/placement/PlacementContext.java
 +++ b/net/minecraft/world/level/levelgen/placement/PlacementContext.java
-@@ -24,12 +_,12 @@
+@@ -23,7 +_,7 @@
          this.topFeature = p_191820_;
      }
  
@@ -9,9 +9,3 @@
          return this.level.getHeight(p_191825_, p_191826_, p_191827_);
      }
  
-     public CarvingMask getCarvingMask(ChunkPos p_191822_, GenerationStep.Carving p_191823_) {
--        return ((ProtoChunk)this.level.getChunk(p_191822_.x, p_191822_.z)).getOrCreateCarvingMask(p_191823_);
-+        return ((ProtoChunk)this.level.getChunk(p_191822_.x(), p_191822_.z())).getOrCreateCarvingMask(p_191823_);
-     }
- 
-     public BlockState getBlockState(BlockPos p_191829_) {

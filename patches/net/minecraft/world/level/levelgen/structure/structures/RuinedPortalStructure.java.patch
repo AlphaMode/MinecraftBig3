@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/RuinedPortalStructure.java
-@@ -119,8 +_,8 @@
+@@ -122,8 +_,8 @@
              BoundingBox boundingbox = structuretemplate.getBoundingBox(blockpos1, rotation, blockpos, mirror);
              BlockPos blockpos2 = boundingbox.getCenter();
              int i = chunkgenerator.getBaseHeight(
@@ -11,7 +11,7 @@
                      RuinedPortalPiece.getHeightMapType(ruinedportalstructure$setup3.placement()),
                      levelheightaccessor,
                      randomstate
-@@ -148,9 +_,9 @@
+@@ -151,9 +_,9 @@
                                  p_229285_.chunkGenerator()
                                      .getBiomeSource()
                                      .getNoiseBiome(
@@ -22,9 +22,9 @@
 +                                        QuartPos.fromBlock(blockpos3.getBigY()),
 +                                        QuartPos.fromBlock(blockpos3.getBigZ()),
                                          randomstate.sampler()
-                                     )
-                             );
-@@ -229,7 +_,7 @@
+                                     ),
+                                 chunkgenerator.getSeaLevel()
+@@ -231,7 +_,7 @@
              new BlockPos(p_229273_.maxX(), 0, p_229273_.maxZ())
          );
          List<NoiseColumn> list = list1.stream()

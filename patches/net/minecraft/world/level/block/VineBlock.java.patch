@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/VineBlock.java
 +++ b/net/minecraft/world/level/block/VineBlock.java
-@@ -281,7 +_,7 @@
+@@ -290,7 +_,7 @@
      private boolean canSpread(BlockGetter p_57851_, BlockPos p_57852_) {
          int i = 4;
          Iterable<BlockPos> iterable = BlockPos.betweenClosed(

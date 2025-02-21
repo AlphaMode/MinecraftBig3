@@ -1,8 +1,8 @@
 --- a/net/minecraft/world/level/block/TargetBlock.java
 +++ b/net/minecraft/world/level/block/TargetBlock.java
-@@ -45,12 +_,12 @@
-         Entity entity = p_57384_.getOwner();
-         if (entity instanceof ServerPlayer serverplayer) {
+@@ -44,12 +_,12 @@
+         int i = updateRedstoneOutput(p_57381_, p_57382_, p_57383_, p_57384_);
+         if (p_57384_.getOwner() instanceof ServerPlayer serverplayer) {
              serverplayer.awardStat(Stats.TARGET_HIT);
 -            CriteriaTriggers.TARGET_BLOCK_HIT.trigger(serverplayer, p_57384_, p_57383_.getLocation(), i);
 +            CriteriaTriggers.TARGET_BLOCK_HIT.trigger(serverplayer, p_57384_, p_57383_.getLocation().toVanilla(), i);

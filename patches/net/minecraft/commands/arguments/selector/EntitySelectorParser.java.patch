@@ -1,6 +1,6 @@
 --- a/net/minecraft/commands/arguments/selector/EntitySelectorParser.java
 +++ b/net/minecraft/commands/arguments/selector/EntitySelectorParser.java
-@@ -60,13 +_,13 @@
+@@ -63,13 +_,13 @@
      public static final DynamicCommandExceptionType ERROR_EXPECTED_OPTION_VALUE = new DynamicCommandExceptionType(
          p_304136_ -> Component.translatableEscape("argument.entity.options.valueless", p_304136_)
      );
@@ -14,10 +14,10 @@
          );
 -    public static final BiConsumer<Vec3, List<? extends Entity>> ORDER_RANDOM = (p_121264_, p_121265_) -> Collections.shuffle(p_121265_);
 +    public static final BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> ORDER_RANDOM = (p_121264_, p_121265_) -> Collections.shuffle(p_121265_);
-     public static final BiFunction<SuggestionsBuilder, Consumer<SuggestionsBuilder>, CompletableFuture<Suggestions>> SUGGEST_NOTHING = (p_121363_, p_121364_) -> p_121363_.buildFuture(
-             
-         );
-@@ -78,11 +_,11 @@
+     public static final BiFunction<SuggestionsBuilder, Consumer<SuggestionsBuilder>, CompletableFuture<Suggestions>> SUGGEST_NOTHING = (p_121363_, p_121364_) -> p_121363_.buildFuture();
+     private final StringReader reader;
+     private final boolean allowSelectors;
+@@ -79,11 +_,11 @@
      private MinMaxBounds.Doubles distance = MinMaxBounds.Doubles.ANY;
      private MinMaxBounds.Ints level = MinMaxBounds.Ints.ANY;
      @Nullable
@@ -31,16 +31,16 @@
      @Nullable
      private Double deltaX;
      @Nullable
-@@ -92,7 +_,7 @@
+@@ -93,7 +_,7 @@
      private WrappedMinMaxBounds rotX = WrappedMinMaxBounds.ANY;
      private WrappedMinMaxBounds rotY = WrappedMinMaxBounds.ANY;
-     private Predicate<Entity> predicate = p_121321_ -> true;
+     private final List<Predicate<Entity>> predicates = new ArrayList<>();
 -    private BiConsumer<Vec3, List<? extends Entity>> order = EntitySelector.ORDER_ARBITRARY;
 +    private BiConsumer<me.alphamode.mcbig.core.BigVec3, List<? extends Entity>> order = EntitySelector.ORDER_ARBITRARY;
      private boolean currentEntity;
      @Nullable
      private String playerName;
-@@ -137,11 +_,11 @@
+@@ -142,11 +_,11 @@
              aabb = this.createAabb(this.deltaX == null ? 0.0 : this.deltaX, this.deltaY == null ? 0.0 : this.deltaY, this.deltaZ == null ? 0.0 : this.deltaZ);
          }
  
@@ -54,7 +54,7 @@
                      this.x == null ? p_121258_.x : this.x, this.y == null ? p_121258_.y : this.y, this.z == null ? p_121258_.z : this.z
                  );
          }
-@@ -386,7 +_,7 @@
+@@ -404,7 +_,7 @@
  
      @Nullable
      public Double getX() {
@@ -63,7 +63,7 @@
      }
  
      @Nullable
-@@ -396,11 +_,11 @@
+@@ -414,11 +_,11 @@
  
      @Nullable
      public Double getZ() {
@@ -77,7 +77,7 @@
      }
  
      public void setY(double p_121283_) {
-@@ -408,7 +_,7 @@
+@@ -426,7 +_,7 @@
      }
  
      public void setZ(double p_121306_) {
@@ -86,7 +86,7 @@
      }
  
      public void setDeltaX(double p_121319_) {
-@@ -446,11 +_,11 @@
+@@ -464,11 +_,11 @@
          this.includesEntities = p_121280_;
      }
  

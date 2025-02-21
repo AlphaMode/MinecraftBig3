@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/TurtleEggBlock.java
 +++ b/net/minecraft/world/level/block/TurtleEggBlock.java
-@@ -107,7 +_,7 @@
+@@ -109,7 +_,7 @@
                      if (turtle != null) {
                          turtle.setAge(-24000);
                          turtle.setHomePos(p_222646_);

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/BoundingBox.java
 +++ b/net/minecraft/world/level/levelgen/structure/BoundingBox.java
-@@ -20,125 +_,134 @@
+@@ -19,120 +_,129 @@
  
  public class BoundingBox {
      private static final Logger LOGGER = LogUtils.getLogger();
@@ -8,7 +8,7 @@
 +    private static final BoundingBox INFINITE = new BoundingBox(me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MIN_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MIN_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MIN_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MAX_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MAX_VALUE), me.alphamode.mcbig.math.BigInteger.val(java.lang.Long.MAX_VALUE));
 +    public static final Codec<BoundingBox> CODEC = me.alphamode.mcbig.core.ModdedCodec.STRING_STREAM
          .<BoundingBox>comapFlatMap(
-             p_162383_ -> Util.fixedSize(p_162383_, 6)
+             p_338100_ -> Util.fixedSize(p_338100_, 6)
 -                    .map(p_162385_ -> new BoundingBox(p_162385_[0], p_162385_[1], p_162385_[2], p_162385_[3], p_162385_[4], p_162385_[5])),
 -            p_162391_ -> IntStream.of(p_162391_.minX, p_162391_.minY, p_162391_.minZ, p_162391_.maxX, p_162391_.maxY, p_162391_.maxZ)
 +                    .map(p_162385_ -> new BoundingBox(me.alphamode.mcbig.math.BigInteger.val(p_162385_[0]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[1]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[2]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[3]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[4]), me.alphamode.mcbig.math.BigInteger.val(p_162385_[5]))),
@@ -50,12 +50,7 @@
          this.maxZ = p_71006_;
 -        if (p_71004_ < p_71001_ || p_71005_ < p_71002_ || p_71006_ < p_71003_) {
 +        if (p_71004_.compareTo(p_71001_) < 0 || p_71005_.compareTo(p_71002_) < 0 || p_71006_.compareTo(p_71003_) < 0) {
-             String s = "Invalid bounding box data, inverted bounds for: " + this;
-             if (SharedConstants.IS_RUNNING_IN_IDE) {
-                 throw new IllegalStateException(s);
-             }
- 
-             LOGGER.error(s);
+             Util.logAndPauseIfInIde("Invalid bounding box data, inverted bounds for: " + this);
 -            this.minX = Math.min(p_71001_, p_71004_);
 -            this.minY = Math.min(p_71002_, p_71005_);
 -            this.minZ = Math.min(p_71003_, p_71006_);
@@ -98,7 +93,7 @@
 -        int p_71032_, int p_71033_, int p_71034_, int p_71035_, int p_71036_, int p_71037_, int p_71038_, int p_71039_, int p_71040_, Direction p_71041_
 +            me.alphamode.mcbig.math.BigInteger p_71032_, me.alphamode.mcbig.math.BigInteger p_71033_, me.alphamode.mcbig.math.BigInteger p_71034_, int p_71035_, int p_71036_, int p_71037_, int p_71038_, int p_71039_, int p_71040_, Direction p_71041_
      ) {
-         switch(p_71041_) {
+         switch (p_71041_) {
              case SOUTH:
              default:
                  return new BoundingBox(
@@ -197,7 +192,7 @@
      }
  
      public static Optional<BoundingBox> encapsulatingPositions(Iterable<BlockPos> p_162379_) {
-@@ -168,91 +_,91 @@
+@@ -162,95 +_,95 @@
  
      @Deprecated
      public BoundingBox encapsulate(BoundingBox p_162387_) {
@@ -273,20 +268,26 @@
          );
      }
  
-     public BoundingBox inflatedBy(int p_191962_) {
+-    public BoundingBox inflatedBy(int p_191962_) {
++    public BoundingBox inflatedBy(long p_191962_) {
+         return this.inflatedBy(p_191962_, p_191962_, p_191962_);
+     }
+ 
+-    public BoundingBox inflatedBy(int p_341249_, int p_340933_, int p_341033_) {
++    public BoundingBox inflatedBy(long p_341249_, long p_340933_, long p_341033_) {
          return new BoundingBox(
--            this.minX() - p_191962_,
--            this.minY() - p_191962_,
--            this.minZ() - p_191962_,
--            this.maxX() + p_191962_,
--            this.maxY() + p_191962_,
--            this.maxZ() + p_191962_
-+            this.minX().subtract(p_191962_),
-+            this.minY().subtract(p_191962_),
-+            this.minZ().subtract(p_191962_),
-+            this.maxX().add(p_191962_),
-+            this.maxY().add(p_191962_),
-+            this.maxZ().add(p_191962_)
+-            this.minX() - p_341249_,
+-            this.minY() - p_340933_,
+-            this.minZ() - p_341033_,
+-            this.maxX() + p_341249_,
+-            this.maxY() + p_340933_,
+-            this.maxZ() + p_341033_
++                this.minX().subtract(p_341249_),
++                this.minY().subtract(p_340933_),
++                this.minZ().subtract(p_341033_),
++                this.maxX().add(p_341249_),
++                this.maxY().add(p_340933_),
++                this.maxZ().add(p_341033_)
          );
      }
  
@@ -339,26 +340,7 @@
          );
      }
  
-@@ -288,12 +_,12 @@
-             return false;
-         } else {
-             BoundingBox boundingbox = (BoundingBox)p_162393_;
--            return this.minX == boundingbox.minX
--                && this.minY == boundingbox.minY
--                && this.minZ == boundingbox.minZ
--                && this.maxX == boundingbox.maxX
--                && this.maxY == boundingbox.maxY
--                && this.maxZ == boundingbox.maxZ;
-+            return this.minX.equals(boundingbox.minX)
-+                && this.minY.equals(boundingbox.minY)
-+                && this.minZ.equals(boundingbox.minZ)
-+                && this.maxX.equals(boundingbox.maxX)
-+                && this.maxY.equals(boundingbox.maxY)
-+                && this.maxZ.equals(boundingbox.maxZ);
-         }
-     }
- 
-@@ -302,27 +_,27 @@
+@@ -299,27 +_,27 @@
          return Objects.hash(this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
      }
  

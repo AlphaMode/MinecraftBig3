@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/NetherFortressPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/NetherFortressPieces.java
-@@ -52,9 +_,9 @@
+@@ -51,9 +_,9 @@
          NetherFortressPieces.PieceWeight p_228008_,
          StructurePieceAccessor p_228009_,
          RandomSource p_228010_,
@@ -13,7 +13,7 @@
          Direction p_228014_,
          int p_228015_
      ) {
-@@ -127,7 +_,7 @@
+@@ -126,7 +_,7 @@
              this.setOrientation(p_228028_);
          }
  
@@ -22,7 +22,7 @@
              super(StructurePieceType.NETHER_FORTRESS_BRIDGE_CROSSING, 0, StructurePiece.makeBoundingBox(p_228022_, 64, p_228023_, p_228024_, 19, 10, 19));
              this.setOrientation(p_228024_);
          }
-@@ -148,7 +_,7 @@
+@@ -147,7 +_,7 @@
          }
  
          public static NetherFortressPieces.BridgeCrossing createPiece(
@@ -31,7 +31,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228048_, p_228049_, p_228050_, -8, -3, 0, 19, 10, 19, p_228051_);
              return isOkBox(boundingbox) && p_228047_.findCollisionPiece(boundingbox) == null
-@@ -246,7 +_,7 @@
+@@ -245,7 +_,7 @@
          }
  
          public static NetherFortressPieces.BridgeEndFiller createPiece(
@@ -40,7 +40,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228075_, p_228076_, p_228077_, -1, -3, 0, 5, 10, 8, p_228078_);
              return isOkBox(boundingbox) && p_228073_.findCollisionPiece(boundingbox) == null
-@@ -324,7 +_,7 @@
+@@ -323,7 +_,7 @@
          }
  
          public static NetherFortressPieces.BridgeStraight createPiece(
@@ -49,7 +49,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228108_, p_228109_, p_228110_, -1, -3, 0, 5, 10, 19, p_228111_);
              return isOkBox(boundingbox) && p_228106_.findCollisionPiece(boundingbox) == null
-@@ -399,7 +_,7 @@
+@@ -398,7 +_,7 @@
          }
  
          public static NetherFortressPieces.CastleCorridorStairsPiece createPiece(
@@ -58,7 +58,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228136_, p_228137_, p_228138_, -1, -7, 0, 5, 14, 10, p_228139_);
              return isOkBox(boundingbox) && p_228135_.findCollisionPiece(boundingbox) == null
-@@ -485,7 +_,7 @@
+@@ -484,7 +_,7 @@
          }
  
          public static NetherFortressPieces.CastleCorridorTBalconyPiece createPiece(
@@ -67,7 +67,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228164_, p_228165_, p_228166_, -3, 0, 0, 9, 7, 9, p_228167_);
              return isOkBox(boundingbox) && p_228163_.findCollisionPiece(boundingbox) == null
-@@ -581,7 +_,7 @@
+@@ -580,7 +_,7 @@
          }
  
          public static NetherFortressPieces.CastleEntrance createPiece(
@@ -76,7 +76,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228194_, p_228195_, p_228196_, -5, -3, 0, 13, 14, 13, p_228197_);
              return isOkBox(boundingbox) && p_228192_.findCollisionPiece(boundingbox) == null
-@@ -783,7 +_,7 @@
+@@ -782,7 +_,7 @@
          }
  
          public static NetherFortressPieces.CastleSmallCorridorCrossingPiece createPiece(
@@ -85,7 +85,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228222_, p_228223_, p_228224_, -1, 0, 0, 5, 7, 5, p_228225_);
              return isOkBox(boundingbox) && p_228221_.findCollisionPiece(boundingbox) == null
-@@ -846,7 +_,7 @@
+@@ -845,7 +_,7 @@
          }
  
          public static NetherFortressPieces.CastleSmallCorridorLeftTurnPiece createPiece(
@@ -94,7 +94,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228253_, p_228254_, p_228255_, -1, 0, 0, 5, 7, 5, p_228256_);
              return isOkBox(boundingbox) && p_228251_.findCollisionPiece(boundingbox) == null
-@@ -916,7 +_,7 @@
+@@ -915,7 +_,7 @@
          }
  
          public static NetherFortressPieces.CastleSmallCorridorPiece createPiece(
@@ -103,7 +103,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228284_, p_228285_, p_228286_, -1, 0, 0, 5, 7, 5, p_228287_);
              return isOkBox(boundingbox) && p_228283_.findCollisionPiece(boundingbox) == null
-@@ -985,7 +_,7 @@
+@@ -984,7 +_,7 @@
          }
  
          public static NetherFortressPieces.CastleSmallCorridorRightTurnPiece createPiece(
@@ -112,7 +112,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228315_, p_228316_, p_228317_, -1, 0, 0, 5, 7, 5, p_228318_);
              return isOkBox(boundingbox) && p_228313_.findCollisionPiece(boundingbox) == null
-@@ -1056,7 +_,7 @@
+@@ -1055,7 +_,7 @@
          }
  
          public static NetherFortressPieces.CastleStalkRoom createPiece(
@@ -121,7 +121,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228346_, p_228347_, p_228348_, -5, -3, 0, 13, 14, 13, p_228349_);
              return isOkBox(boundingbox) && p_228345_.findCollisionPiece(boundingbox) == null
-@@ -1280,7 +_,7 @@
+@@ -1279,7 +_,7 @@
          }
  
          public static NetherFortressPieces.MonsterThrone createPiece(
@@ -130,7 +130,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228371_, p_228372_, p_228373_, -2, 0, 0, 7, 8, 9, p_228375_);
              return isOkBox(boundingbox) && p_228370_.findCollisionPiece(boundingbox) == null
-@@ -1427,9 +_,9 @@
+@@ -1425,9 +_,9 @@
              List<NetherFortressPieces.PieceWeight> p_228410_,
              StructurePieceAccessor p_228411_,
              RandomSource p_228412_,
@@ -143,7 +143,7 @@
              Direction p_228416_,
              int p_228417_
          ) {
-@@ -1472,14 +_,14 @@
+@@ -1470,14 +_,14 @@
              NetherFortressPieces.StartPiece p_228392_,
              StructurePieceAccessor p_228393_,
              RandomSource p_228394_,
@@ -162,7 +162,7 @@
                  List<NetherFortressPieces.PieceWeight> list = p_228392_.availableBridgePieces;
                  if (p_228400_) {
                      list = p_228392_.availableCastlePieces;
-@@ -1516,9 +_,9 @@
+@@ -1514,9 +_,9 @@
                              p_228402_,
                              p_228403_,
                              p_228404_,
@@ -175,7 +175,7 @@
                              direction,
                              this.getGenDepth(),
                              p_228407_
-@@ -1528,9 +_,9 @@
+@@ -1526,9 +_,9 @@
                              p_228402_,
                              p_228403_,
                              p_228404_,
@@ -188,7 +188,7 @@
                              direction,
                              this.getGenDepth(),
                              p_228407_
-@@ -1540,9 +_,9 @@
+@@ -1538,9 +_,9 @@
                              p_228402_,
                              p_228403_,
                              p_228404_,
@@ -201,7 +201,7 @@
                              direction,
                              this.getGenDepth(),
                              p_228407_
-@@ -1552,9 +_,9 @@
+@@ -1550,9 +_,9 @@
                              p_228402_,
                              p_228403_,
                              p_228404_,
@@ -214,7 +214,7 @@
                              direction,
                              this.getGenDepth(),
                              p_228407_
-@@ -1582,9 +_,9 @@
+@@ -1580,9 +_,9 @@
                              p_228421_,
                              p_228422_,
                              p_228423_,
@@ -227,7 +227,7 @@
                              Direction.WEST,
                              this.getGenDepth(),
                              p_228426_
-@@ -1594,9 +_,9 @@
+@@ -1592,9 +_,9 @@
                              p_228421_,
                              p_228422_,
                              p_228423_,
@@ -240,7 +240,7 @@
                              Direction.WEST,
                              this.getGenDepth(),
                              p_228426_
-@@ -1606,9 +_,9 @@
+@@ -1604,9 +_,9 @@
                              p_228421_,
                              p_228422_,
                              p_228423_,
@@ -253,7 +253,7 @@
                              Direction.NORTH,
                              this.getGenDepth(),
                              p_228426_
-@@ -1618,9 +_,9 @@
+@@ -1616,9 +_,9 @@
                              p_228421_,
                              p_228422_,
                              p_228423_,
@@ -266,7 +266,7 @@
                              Direction.NORTH,
                              this.getGenDepth(),
                              p_228426_
-@@ -1648,9 +_,9 @@
+@@ -1646,9 +_,9 @@
                              p_228428_,
                              p_228429_,
                              p_228430_,
@@ -279,7 +279,7 @@
                              Direction.EAST,
                              this.getGenDepth(),
                              p_228433_
-@@ -1660,9 +_,9 @@
+@@ -1658,9 +_,9 @@
                              p_228428_,
                              p_228429_,
                              p_228430_,
@@ -292,7 +292,7 @@
                              Direction.EAST,
                              this.getGenDepth(),
                              p_228433_
-@@ -1672,9 +_,9 @@
+@@ -1670,9 +_,9 @@
                              p_228428_,
                              p_228429_,
                              p_228430_,
@@ -305,7 +305,7 @@
                              Direction.SOUTH,
                              this.getGenDepth(),
                              p_228433_
-@@ -1684,9 +_,9 @@
+@@ -1682,9 +_,9 @@
                              p_228428_,
                              p_228429_,
                              p_228430_,
@@ -318,7 +318,7 @@
                              Direction.SOUTH,
                              this.getGenDepth(),
                              p_228433_
-@@ -1698,7 +_,7 @@
+@@ -1696,7 +_,7 @@
          }
  
          protected static boolean isOkBox(BoundingBox p_228387_) {
@@ -327,7 +327,7 @@
          }
      }
  
-@@ -1751,7 +_,7 @@
+@@ -1749,7 +_,7 @@
          }
  
          public static NetherFortressPieces.RoomCrossing createPiece(
@@ -336,7 +336,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228474_, p_228475_, p_228476_, -2, 0, 0, 7, 9, 7, p_228477_);
              return isOkBox(boundingbox) && p_228473_.findCollisionPiece(boundingbox) == null
-@@ -1824,7 +_,7 @@
+@@ -1822,7 +_,7 @@
          }
  
          public static NetherFortressPieces.StairsRoom createPiece(
@@ -345,7 +345,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_228502_, p_228503_, p_228504_, -2, 0, 0, 7, 11, 7, p_228506_);
              return isOkBox(boundingbox) && p_228501_.findCollisionPiece(boundingbox) == null
-@@ -1884,7 +_,7 @@
+@@ -1882,7 +_,7 @@
          public List<NetherFortressPieces.PieceWeight> availableCastlePieces;
          public final List<StructurePiece> pendingChildren = Lists.newArrayList();
  

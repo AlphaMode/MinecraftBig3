@@ -1,0 +1,15 @@
+--- a/net/minecraft/util/profiling/jfr/event/StructureGenerationEvent.java
++++ b/net/minecraft/util/profiling/jfr/event/StructureGenerationEvent.java
+@@ -25,10 +_,10 @@
+     public static final EventType TYPE = EventType.getEventType(StructureGenerationEvent.class);
+     @Name("chunkPosX")
+     @Label("Chunk X Position")
+-    public final int chunkPosX;
++    public final me.alphamode.mcbig.math.BigInteger chunkPosX;
+     @Name("chunkPosZ")
+     @Label("Chunk Z Position")
+-    public final int chunkPosZ;
++    public final me.alphamode.mcbig.math.BigInteger chunkPosZ;
+     @Name("structure")
+     @Label("Structure")
+     public final String structure;

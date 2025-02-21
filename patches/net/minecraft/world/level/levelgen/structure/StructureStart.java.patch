@@ -5,7 +5,7 @@
                  return null;
              } else {
 -                ChunkPos chunkpos = new ChunkPos(p_226859_.getInt("ChunkX"), p_226859_.getInt("ChunkZ"));
-+                ChunkPos chunkpos = new ChunkPos(p_226859_.getByteArray("ChunkX"), p_226859_.getByteArray("ChunkZ"));
++                ChunkPos chunkpos = new ChunkPos(new me.alphamode.mcbig.math.BigInteger(p_226859_.getString("ChunkX")), new me.alphamode.mcbig.math.BigInteger(p_226859_.getString("ChunkZ")));
                  int i = p_226859_.getInt("references");
                  ListTag listtag = p_226859_.getList("Children", 10);
  
@@ -16,16 +16,16 @@
 -            BlockPos blockpos1 = new BlockPos(blockpos.getX(), boundingbox.minY(), blockpos.getZ());
 +            BlockPos blockpos1 = new BlockPos(blockpos.getBigX(), boundingbox.minY(), blockpos.getBigZ());
  
-             for(StructurePiece structurepiece : list) {
+             for (StructurePiece structurepiece : list) {
                  if (structurepiece.getBoundingBox().intersects(p_226855_)) {
 @@ -101,8 +_,8 @@
          CompoundTag compoundtag = new CompoundTag();
          if (this.isValid()) {
-             compoundtag.putString("id", p_192661_.registryAccess().registryOrThrow(Registries.STRUCTURE).getKey(this.structure).toString());
+             compoundtag.putString("id", p_192661_.registryAccess().lookupOrThrow(Registries.STRUCTURE).getKey(this.structure).toString());
 -            compoundtag.putInt("ChunkX", p_192662_.x);
 -            compoundtag.putInt("ChunkZ", p_192662_.z);
-+            compoundtag.putByteArray("ChunkX", p_192662_.x().toByteArray());
-+            compoundtag.putByteArray("ChunkZ", p_192662_.z().toByteArray());
++            compoundtag.putString("ChunkX", p_192662_.x.toString());
++            compoundtag.putString("ChunkZ", p_192662_.z.toString());
              compoundtag.putInt("references", this.references);
              compoundtag.put("Children", this.pieceContainer.save(p_192661_));
              return compoundtag;

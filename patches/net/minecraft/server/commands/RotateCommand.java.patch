@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/commands/RotateCommand.java
++++ b/net/minecraft/server/commands/RotateCommand.java
+@@ -66,7 +_,7 @@
+                                             p_379579_ -> rotate(
+                                                     p_379579_.getSource(),
+                                                     EntityArgument.getEntity(p_379579_, "target"),
+-                                                    new LookAt.LookAtPosition(Vec3Argument.getVec3(p_379579_, "facingLocation"))
++                                                    new LookAt.LookAtPosition(Vec3Argument.getVec3(p_379579_, "facingLocation").toVanilla())
+                                                 )
+                                         )
+                                 )

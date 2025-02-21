@@ -1,39 +1,52 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -422,7 +_,7 @@
+@@ -449,7 +_,7 @@
              int i = serverchunkcache.getGenerator().getSpawnHeight(p_177897_);
-             if (i < p_177897_.getMinBuildHeight()) {
+             if (i < p_177897_.getMinY()) {
                  BlockPos blockpos = chunkpos.getWorldPosition();
 -                i = p_177897_.getHeight(Heightmap.Types.WORLD_SURFACE, blockpos.getX() + 8, blockpos.getZ() + 8);
 +                i = p_177897_.getHeight(Heightmap.Types.WORLD_SURFACE, blockpos.getBigX().add(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT), blockpos.getBigZ().add(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT));
              }
  
              p_177898_.setSpawn(chunkpos.getWorldPosition().offset(8, i, 8), 0.0F);
-@@ -434,7 +_,7 @@
+@@ -460,7 +_,7 @@
  
-             for(int j1 = 0; j1 < Mth.square(11); ++j1) {
-                 if (k1 >= -5 && k1 <= 5 && j >= -5 && j <= 5) {
--                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x + k1, chunkpos.z + j));
-+                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x().add(k1), chunkpos.z().add(j)));
+             for (int i1 = 0; i1 < Mth.square(11); i1++) {
+                 if (j1 >= -5 && j1 <= 5 && j >= -5 && j <= 5) {
+-                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x + j1, chunkpos.z + j));
++                    BlockPos blockpos1 = PlayerRespawnLogic.getSpawnPosInChunk(p_177897_, new ChunkPos(chunkpos.x.add(j1), chunkpos.z.add(j)));
                      if (blockpos1 != null) {
                          p_177898_.setSpawn(blockpos1, 0.0F);
                          break;
-@@ -499,11 +_,11 @@
-         for(ServerLevel serverlevel1 : this.levels.values()) {
+@@ -479,9 +_,9 @@
+ 
+             if (p_177899_) {
+                 p_177897_.registryAccess()
+-                    .lookup(Registries.CONFIGURED_FEATURE)
+-                    .flatMap(p_367841_ -> p_367841_.get(MiscOverworldFeatures.BONUS_CHEST))
+-                    .ifPresent(p_319563_ -> p_319563_.value().place(p_177897_, serverchunkcache.getGenerator(), p_177897_.random, p_177898_.getSpawnPos()));
++                        .lookup(Registries.CONFIGURED_FEATURE)
++                        .flatMap(p_367841_ -> p_367841_.get(MiscOverworldFeatures.BONUS_CHEST))
++                        .ifPresent(p_319563_ -> p_319563_.value().place(p_177897_, serverchunkcache.getGenerator(), p_177897_.random, p_177898_.getSpawnPos()));
+             }
+         }
+     }
+@@ -519,11 +_,11 @@
+         for (ServerLevel serverlevel1 : this.levels.values()) {
              ForcedChunksSavedData forcedchunkssaveddata = serverlevel1.getDataStorage().get(ForcedChunksSavedData.factory(), "chunks");
              if (forcedchunkssaveddata != null) {
 -                LongIterator longiterator = forcedchunkssaveddata.getChunks().iterator();
 +                it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = forcedchunkssaveddata.getChunks().iterator();
  
-                 while(longiterator.hasNext()) {
--                    long i = longiterator.nextLong();
--                    ChunkPos chunkpos = new ChunkPos(i);
+                 while (longiterator.hasNext()) {
+-                    long k = longiterator.nextLong();
+-                    ChunkPos chunkpos = new ChunkPos(k);
 +//                    long i = longiterator.next();
 +                    ChunkPos chunkpos = longiterator.next();
                      serverlevel1.getChunkSource().updateChunkForced(chunkpos, true);
                  }
              }
-@@ -1517,7 +_,7 @@
+@@ -1672,7 +_,7 @@
          ServerLevel serverlevel = this.overworld();
          return new CommandSourceStack(
              this,

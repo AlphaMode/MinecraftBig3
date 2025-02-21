@@ -1,0 +1,176 @@
+--- a/net/minecraft/client/renderer/Octree.java
++++ b/net/minecraft/client/renderer/Octree.java
+@@ -39,16 +_,16 @@
+         this.root.visitNodes(p_366457_, false, p_366899_, 0, p_371758_, true);
+     }
+ 
+-    boolean isClose(double p_371839_, double p_371388_, double p_371925_, double p_371916_, double p_371235_, double p_371502_, int p_371637_) {
+-        int i = this.cameraSectionCenter.getX();
++    boolean isClose(me.alphamode.mcbig.math.BigDecimal p_371839_, double p_371388_, me.alphamode.mcbig.math.BigDecimal p_371925_, me.alphamode.mcbig.math.BigDecimal p_371916_, double p_371235_, me.alphamode.mcbig.math.BigDecimal p_371502_, int p_371637_) {
++        me.alphamode.mcbig.math.BigInteger i = this.cameraSectionCenter.getBigX();
+         int j = this.cameraSectionCenter.getY();
+-        int k = this.cameraSectionCenter.getZ();
+-        return (double)i > p_371839_ - (double)p_371637_
+-            && (double)i < p_371916_ + (double)p_371637_
++        me.alphamode.mcbig.math.BigInteger k = this.cameraSectionCenter.getBigZ();
++        return i.toBigDecimal().compareTo(p_371839_.subtract(p_371637_)) > 0
++            && i.toBigDecimal().compareTo(p_371916_.add(p_371637_)) < 0
+             && (double)j > p_371388_ - (double)p_371637_
+             && (double)j < p_371235_ + (double)p_371637_
+-            && (double)k > p_371925_ - (double)p_371637_
+-            && (double)k < p_371502_ + (double)p_371637_;
++            && k.toBigDecimal().compareTo(p_371925_.subtract(p_371637_)) > 0
++            && k.toBigDecimal().compareTo(p_371502_.add(p_371637_)) < 0;
+     }
+ 
+     @OnlyIn(Dist.CLIENT)
+@@ -85,9 +_,9 @@
+     class Branch implements Octree.Node {
+         private final Octree.Node[] nodes = new Octree.Node[8];
+         private final BoundingBox boundingBox;
+-        private final int bbCenterX;
++        private final me.alphamode.mcbig.math.BigInteger bbCenterX;
+         private final int bbCenterY;
+-        private final int bbCenterZ;
++        private final me.alphamode.mcbig.math.BigInteger bbCenterZ;
+         private final Octree.AxisSorting sorting;
+         private final boolean cameraXDiffNegative;
+         private final boolean cameraYDiffNegative;
+@@ -95,12 +_,12 @@
+ 
+         public Branch(BoundingBox p_366797_) {
+             this.boundingBox = p_366797_;
+-            this.bbCenterX = this.boundingBox.minX() + this.boundingBox.getXSpan() / 2;
+-            this.bbCenterY = this.boundingBox.minY() + this.boundingBox.getYSpan() / 2;
+-            this.bbCenterZ = this.boundingBox.minZ() + this.boundingBox.getZSpan() / 2;
+-            int i = Octree.this.cameraSectionCenter.getX() - this.bbCenterX;
++            this.bbCenterX = this.boundingBox.minX().add(this.boundingBox.getXSpan() / 2);
++            this.bbCenterY = this.boundingBox.minY().intValue() + this.boundingBox.getYSpan() / 2;
++            this.bbCenterZ = this.boundingBox.minZ().add(this.boundingBox.getZSpan() / 2);
++            int i = Octree.this.cameraSectionCenter.getBigX().subtract(this.bbCenterX).intValue();
+             int j = Octree.this.cameraSectionCenter.getY() - this.bbCenterY;
+-            int k = Octree.this.cameraSectionCenter.getZ() - this.bbCenterZ;
++            int k = Octree.this.cameraSectionCenter.getBigZ().subtract(this.bbCenterZ).intValue();
+             this.sorting = Octree.AxisSorting.getAxisSorting(Math.abs(i), Math.abs(j), Math.abs(k));
+             this.cameraXDiffNegative = i < 0;
+             this.cameraYDiffNegative = j < 0;
+@@ -108,9 +_,9 @@
+         }
+ 
+         public boolean add(SectionRenderDispatcher.RenderSection p_366697_) {
+-            boolean flag = p_366697_.getOrigin().getX() - this.bbCenterX < 0;
++            boolean flag = p_366697_.getOrigin().getBigX().subtract(this.bbCenterX).intValue() < 0;
+             boolean flag1 = p_366697_.getOrigin().getY() - this.bbCenterY < 0;
+-            boolean flag2 = p_366697_.getOrigin().getZ() - this.bbCenterZ < 0;
++            boolean flag2 = p_366697_.getOrigin().getBigZ().subtract(this.bbCenterZ).intValue() < 0;
+             boolean flag3 = flag != this.cameraXDiffNegative;
+             boolean flag4 = flag1 != this.cameraYDiffNegative;
+             boolean flag5 = flag2 != this.cameraZDiffNegative;
+@@ -152,11 +_,11 @@
+         }
+ 
+         private BoundingBox createChildBoundingBox(boolean p_366433_, boolean p_366456_, boolean p_366831_) {
+-            int i;
+-            int j;
++            me.alphamode.mcbig.math.BigInteger i;
++            me.alphamode.mcbig.math.BigInteger j;
+             if (p_366433_) {
+                 i = this.boundingBox.minX();
+-                j = this.bbCenterX - 1;
++                j = this.bbCenterX.subtract();
+             } else {
+                 i = this.bbCenterX;
+                 j = this.boundingBox.maxX();
+@@ -165,18 +_,18 @@
+             int k;
+             int l;
+             if (p_366456_) {
+-                k = this.boundingBox.minY();
++                k = this.boundingBox.minY().intValue();
+                 l = this.bbCenterY - 1;
+             } else {
+                 k = this.bbCenterY;
+-                l = this.boundingBox.maxY();
++                l = this.boundingBox.maxY().intValue();
+             }
+ 
+-            int i1;
+-            int j1;
++            me.alphamode.mcbig.math.BigInteger i1;
++            me.alphamode.mcbig.math.BigInteger j1;
+             if (p_366831_) {
+                 i1 = this.boundingBox.minZ();
+-                j1 = this.bbCenterZ - 1;
++                j1 = this.bbCenterZ.subtract();
+             } else {
+                 i1 = this.bbCenterZ;
+                 j1 = this.boundingBox.maxZ();
+@@ -197,12 +_,12 @@
+             if (flag) {
+                 p_371398_ = p_371398_
+                     && Octree.this.isClose(
+-                        (double)this.boundingBox.minX(),
+-                        (double)this.boundingBox.minY(),
+-                        (double)this.boundingBox.minZ(),
+-                        (double)this.boundingBox.maxX(),
+-                        (double)this.boundingBox.maxY(),
+-                        (double)this.boundingBox.maxZ(),
++                        this.boundingBox.minX().toBigDecimal(),
++                        (double)this.boundingBox.minY().doubleValue(),
++                        this.boundingBox.minZ().toBigDecimal(),
++                        this.boundingBox.maxX().toBigDecimal(),
++                        (double)this.boundingBox.maxY().doubleValue(),
++                        this.boundingBox.maxZ().toBigDecimal(),
+                         p_371411_
+                     );
+                 p_366879_.visit(this, p_366787_, p_366756_, p_371398_);
+@@ -222,14 +_,14 @@
+         }
+ 
+         @Override
+-        public AABB getAABB() {
+-            return new AABB(
+-                (double)this.boundingBox.minX(),
+-                (double)this.boundingBox.minY(),
+-                (double)this.boundingBox.minZ(),
+-                (double)(this.boundingBox.maxX() + 1),
+-                (double)(this.boundingBox.maxY() + 1),
+-                (double)(this.boundingBox.maxZ() + 1)
++        public me.alphamode.mcbig.phys.BigAABB getAABB() {
++            return new me.alphamode.mcbig.phys.BigAABB(
++                this.boundingBox.minX().toBigDecimal(),
++                (double)this.boundingBox.minY().doubleValue(),
++                this.boundingBox.minZ().toBigDecimal(),
++                (this.boundingBox.maxX().add(1).toBigDecimal()),
++                (double)(this.boundingBox.maxY().add(1).doubleValue()),
++                (this.boundingBox.maxZ().add(1).toBigDecimal())
+             );
+         }
+     }
+@@ -244,7 +_,7 @@
+ 
+         @Override
+         public void visitNodes(Octree.OctreeVisitor p_366617_, boolean p_366572_, Frustum p_366767_, int p_366729_, int p_371551_, boolean p_371193_) {
+-            AABB aabb = this.section.getBoundingBox();
++            me.alphamode.mcbig.phys.BigAABB aabb = this.section.getBoundingBox();
+             if (p_366572_ || p_366767_.isVisible(this.getSection().getBoundingBox())) {
+                 p_371193_ = p_371193_ && Octree.this.isClose(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, p_371551_);
+                 p_366617_.visit(this, p_366572_, p_366729_, p_371193_);
+@@ -257,7 +_,7 @@
+         }
+ 
+         @Override
+-        public AABB getAABB() {
++        public me.alphamode.mcbig.phys.BigAABB getAABB() {
+             return this.section.getBoundingBox();
+         }
+     }
+@@ -269,7 +_,7 @@
+         @Nullable
+         SectionRenderDispatcher.RenderSection getSection();
+ 
+-        AABB getAABB();
++        me.alphamode.mcbig.phys.BigAABB getAABB();
+     }
+ 
+     @FunctionalInterface

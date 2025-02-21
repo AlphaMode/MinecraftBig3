@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/vehicle/MinecartChest.java
++++ b/net/minecraft/world/entity/vehicle/MinecartChest.java
+@@ -56,7 +_,7 @@
+ 
+     @Override
+     public void stopOpen(Player p_270111_) {
+-        this.level().gameEvent(GameEvent.CONTAINER_CLOSE, this.position(), GameEvent.Context.of(p_270111_));
++        this.level().gameEvent(GameEvent.CONTAINER_CLOSE, this.bigPosition(), GameEvent.Context.of(p_270111_));
+     }
+ 
+     @Override

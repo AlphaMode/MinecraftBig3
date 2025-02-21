@@ -1,0 +1,67 @@
+--- a/net/minecraft/world/level/portal/TeleportTransition.java
++++ b/net/minecraft/world/level/portal/TeleportTransition.java
+@@ -11,7 +_,7 @@
+ 
+ public record TeleportTransition(
+     ServerLevel newLevel,
+-    Vec3 position,
++    me.alphamode.mcbig.core.BigVec3 position,
+     Vec3 deltaMovement,
+     float yRot,
+     float xRot,
+@@ -26,14 +_,26 @@
+     public static final TeleportTransition.PostTeleportTransition PLACE_PORTAL_TICKET = TeleportTransition::placePortalTicket;
+ 
+     public TeleportTransition(
+-        ServerLevel p_379776_, Vec3 p_379412_, Vec3 p_379320_, float p_380257_, float p_379610_, TeleportTransition.PostTeleportTransition p_380303_
++        ServerLevel p_379776_, me.alphamode.mcbig.core.BigVec3 p_379412_, Vec3 p_379320_, float p_380257_, float p_379610_, TeleportTransition.PostTeleportTransition p_380303_
+     ) {
+         this(p_379776_, p_379412_, p_379320_, p_380257_, p_379610_, Set.of(), p_380303_);
+     }
+ 
+     public TeleportTransition(
++            ServerLevel p_380133_,
++            Vec3 p_379861_,
++            Vec3 p_380308_,
++            float p_379941_,
++            float p_380119_,
++            Set<Relative> p_379959_,
++            TeleportTransition.PostTeleportTransition p_379425_
++    ) {
++        this(p_380133_, p_379861_.toBig(), p_380308_, p_379941_, p_380119_, false, false, p_379959_, p_379425_);
++    }
++
++    public TeleportTransition(
+         ServerLevel p_380133_,
+-        Vec3 p_379861_,
++        me.alphamode.mcbig.core.BigVec3 p_379861_,
+         Vec3 p_380308_,
+         float p_379941_,
+         float p_380119_,
+@@ -44,7 +_,7 @@
+     }
+ 
+     public TeleportTransition(ServerLevel p_379938_, Entity p_379604_, TeleportTransition.PostTeleportTransition p_379683_) {
+-        this(p_379938_, findAdjustedSharedSpawnPos(p_379938_, p_379604_), Vec3.ZERO, 0.0F, 0.0F, false, false, Set.of(), p_379683_);
++        this(p_379938_, findAdjustedSharedSpawnPos(p_379938_, p_379604_).toBig(), Vec3.ZERO, 0.0F, 0.0F, false, false, Set.of(), p_379683_);
+     }
+ 
+     private static void playPortalSound(Entity p_380322_) {
+@@ -58,7 +_,7 @@
+     }
+ 
+     public static TeleportTransition missingRespawnBlock(ServerLevel p_380117_, Entity p_380173_, TeleportTransition.PostTeleportTransition p_380370_) {
+-        return new TeleportTransition(p_380117_, findAdjustedSharedSpawnPos(p_380117_, p_380173_), Vec3.ZERO, 0.0F, 0.0F, true, false, Set.of(), p_380370_);
++        return new TeleportTransition(p_380117_, findAdjustedSharedSpawnPos(p_380117_, p_380173_).toBig(), Vec3.ZERO, 0.0F, 0.0F, true, false, Set.of(), p_380370_);
+     }
+ 
+     private static Vec3 findAdjustedSharedSpawnPos(ServerLevel p_379295_, Entity p_379825_) {
+@@ -79,7 +_,7 @@
+         );
+     }
+ 
+-    public TeleportTransition withPosition(Vec3 p_379914_) {
++    public TeleportTransition withPosition(me.alphamode.mcbig.core.BigVec3 p_379914_) {
+         return new TeleportTransition(
+             this.newLevel(),
+             p_379914_,

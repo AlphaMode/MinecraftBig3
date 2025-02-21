@@ -1,0 +1,92 @@
+--- a/net/minecraft/network/protocol/game/ClientboundAddEntityPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundAddEntityPacket.java
+@@ -23,9 +_,9 @@
+     private final int id;
+     private final UUID uuid;
+     private final EntityType<?> type;
+-    private final double x;
++    private final me.alphamode.mcbig.math.BigDecimal x;
+     private final double y;
+-    private final double z;
++    private final me.alphamode.mcbig.math.BigDecimal z;
+     private final int xa;
+     private final int ya;
+     private final int za;
+@@ -42,9 +_,9 @@
+         this(
+             p_131481_.getId(),
+             p_131481_.getUUID(),
+-            p_352292_.getPositionBase().x(),
++            p_352292_.getPositionBase().bigX(),
+             p_352292_.getPositionBase().y(),
+-            p_352292_.getPositionBase().z(),
++            p_352292_.getPositionBase().bigZ(),
+             p_352292_.getLastSentXRot(),
+             p_352292_.getLastSentYRot(),
+             p_131481_.getType(),
+@@ -58,9 +_,9 @@
+         this(
+             p_237558_.getId(),
+             p_237558_.getUUID(),
+-            (double)p_237560_.getX(),
++            p_237560_.getBigX().toBigDecimal(),
+             (double)p_237560_.getY(),
+-            (double)p_237560_.getZ(),
++            p_237560_.getBigZ().toBigDecimal(),
+             p_237558_.getXRot(),
+             p_237558_.getYRot(),
+             p_237558_.getType(),
+@@ -73,9 +_,9 @@
+     public ClientboundAddEntityPacket(
+         int p_237546_,
+         UUID p_237547_,
+-        double p_237548_,
++        me.alphamode.mcbig.math.BigDecimal p_237548_,
+         double p_237549_,
+-        double p_237550_,
++        me.alphamode.mcbig.math.BigDecimal p_237550_,
+         float p_237551_,
+         float p_237552_,
+         EntityType<?> p_237553_,
+@@ -102,9 +_,9 @@
+         this.id = p_319919_.readVarInt();
+         this.uuid = p_319919_.readUUID();
+         this.type = ByteBufCodecs.registry(Registries.ENTITY_TYPE).decode(p_319919_);
+-        this.x = p_319919_.readDouble();
++        this.x = p_319919_.readBigDecimal();
+         this.y = p_319919_.readDouble();
+-        this.z = p_319919_.readDouble();
++        this.z = p_319919_.readBigDecimal();
+         this.xRot = p_319919_.readByte();
+         this.yRot = p_319919_.readByte();
+         this.yHeadRot = p_319919_.readByte();
+@@ -118,9 +_,9 @@
+         p_320192_.writeVarInt(this.id);
+         p_320192_.writeUUID(this.uuid);
+         ByteBufCodecs.registry(Registries.ENTITY_TYPE).encode(p_320192_, this.type);
+-        p_320192_.writeDouble(this.x);
++        p_320192_.writeBigDecimal(this.x);
+         p_320192_.writeDouble(this.y);
+-        p_320192_.writeDouble(this.z);
++        p_320192_.writeBigDecimal(this.z);
+         p_320192_.writeByte(this.xRot);
+         p_320192_.writeByte(this.yRot);
+         p_320192_.writeByte(this.yHeadRot);
+@@ -151,7 +_,7 @@
+         return this.type;
+     }
+ 
+-    public double getX() {
++    public me.alphamode.mcbig.math.BigDecimal getX() {
+         return this.x;
+     }
+ 
+@@ -159,7 +_,7 @@
+         return this.y;
+     }
+ 
+-    public double getZ() {
++    public me.alphamode.mcbig.math.BigDecimal getZ() {
+         return this.z;
+     }
+ 

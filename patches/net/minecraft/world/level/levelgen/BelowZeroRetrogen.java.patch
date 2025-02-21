@@ -10,8 +10,8 @@
                  p_188475_.setBlockState(p_188492_, Blocks.DEEPSLATE.defaultBlockState(), false);
              }
 @@ -89,7 +_,7 @@
-         for(int k = 0; k < 16; ++k) {
-             for(int l = 0; l < 16; ++l) {
+         for (int k = 0; k < 16; k++) {
+             for (int l = 0; l < 16; l++) {
                  if (this.hasBedrockHole(k, l)) {
 -                    BlockPos.betweenClosed(k, i, l, k, j, l).forEach(p_198219_ -> p_198222_.setBlockState(p_198219_, Blocks.AIR.defaultBlockState(), false));
 +                    BlockPos.betweenClosed(me.alphamode.mcbig.math.BigInteger.val(k), me.alphamode.mcbig.math.BigInteger.val(i), me.alphamode.mcbig.math.BigInteger.val(l), me.alphamode.mcbig.math.BigInteger.val(k), me.alphamode.mcbig.math.BigInteger.val(j), me.alphamode.mcbig.math.BigInteger.val(l)).forEach(p_198219_ -> p_198222_.setBlockState(p_198219_, Blocks.AIR.defaultBlockState(), false));

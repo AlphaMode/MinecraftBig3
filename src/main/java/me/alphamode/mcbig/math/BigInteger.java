@@ -15,6 +15,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     ).apply(instance, BigInteger::val));
     public static final BigInteger ZERO = new BigInteger(java.math.BigInteger.ZERO);
     public static final BigInteger ONE = new BigInteger(java.math.BigInteger.ONE);
+    public static final BigInteger NEGATIVE_ONE = BigInteger.constant(-1);
     protected final java.math.BigInteger value;
 
     public BigInteger(java.math.BigInteger backing) {
@@ -234,5 +235,9 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
 
     public BigInteger mod(BigInteger divisor) {
         return new BigInteger(this.value.mod(divisor.value));
+    }
+
+    public BigInteger pow(int value) {
+        return new BigInteger(this.value.pow(value));
     }
 }

@@ -1,7 +1,7 @@
 --- a/net/minecraft/client/renderer/debug/StructureRenderer.java
 +++ b/net/minecraft/client/renderer/debug/StructureRenderer.java
 @@ -42,12 +_,12 @@
-                     LevelRenderer.renderLineBox(
+                     ShapeRenderer.renderLineBox(
                          p_113688_,
                          vertexconsumer,
 -                        (double)boundingbox.minX() - p_113690_,
@@ -20,7 +20,7 @@
                          1.0F,
                          1.0F,
 @@ -69,12 +_,12 @@
-                         LevelRenderer.renderLineBox(
+                         ShapeRenderer.renderLineBox(
                              p_113688_,
                              vertexconsumer,
 -                            (double)boundingbox1.minX() - p_113690_,
@@ -39,7 +39,7 @@
                              1.0F,
                              0.0F,
 @@ -87,12 +_,12 @@
-                         LevelRenderer.renderLineBox(
+                         ShapeRenderer.renderLineBox(
                              p_113688_,
                              vertexconsumer,
 -                            (double)boundingbox1.minX() - p_113690_,

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/StrongholdPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/StrongholdPieces.java
-@@ -99,9 +_,9 @@
+@@ -98,9 +_,9 @@
          Class<? extends StrongholdPieces.StrongholdPiece> p_229427_,
          StructurePieceAccessor p_229428_,
          RandomSource p_229429_,
@@ -13,7 +13,7 @@
          @Nullable Direction p_229433_,
          int p_229434_
      ) {
-@@ -155,9 +_,9 @@
+@@ -154,9 +_,9 @@
          StrongholdPieces.StartPiece p_229418_,
          StructurePieceAccessor p_229419_,
          RandomSource p_229420_,
@@ -26,7 +26,7 @@
          Direction p_229424_,
          int p_229425_
      ) {
-@@ -204,7 +_,7 @@
+@@ -203,7 +_,7 @@
              }
  
              BoundingBox boundingbox = StrongholdPieces.FillerCorridor.findPieceBox(p_229419_, p_229420_, p_229421_, p_229422_, p_229423_, p_229424_);
@@ -35,7 +35,7 @@
          }
      }
  
-@@ -212,15 +_,15 @@
+@@ -211,15 +_,15 @@
          StrongholdPieces.StartPiece p_229437_,
          StructurePieceAccessor p_229438_,
          RandomSource p_229439_,
@@ -55,7 +55,7 @@
              StructurePiece structurepiece = generatePieceFromSmallDoor(
                  p_229437_, p_229438_, p_229439_, p_229440_, p_229441_, p_229442_, p_229443_, p_229444_ + 1
              );
-@@ -264,7 +_,7 @@
+@@ -263,7 +_,7 @@
          }
  
          public static StrongholdPieces.ChestCorridor createPiece(
@@ -64,7 +64,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229486_, p_229487_, p_229488_, -1, -1, 0, 5, 5, 7, p_229489_);
              return isOkBox(boundingbox) && p_229484_.findCollisionPiece(boundingbox) == null
-@@ -323,7 +_,7 @@
+@@ -322,7 +_,7 @@
          }
  
          public static BoundingBox findPieceBox(
@@ -73,16 +73,16 @@
          ) {
              int i = 3;
              BoundingBox boundingbox = BoundingBox.orientBox(p_229512_, p_229513_, p_229514_, -1, -1, 0, 5, 5, 4, p_229515_);
-@@ -331,7 +_,7 @@
+@@ -330,7 +_,7 @@
              if (structurepiece == null) {
                  return null;
              } else {
 -                if (structurepiece.getBoundingBox().minY() == boundingbox.minY()) {
 +                if (structurepiece.getBoundingBox().minY().equals(boundingbox.minY())) {
-                     for(int j = 2; j >= 1; --j) {
+                     for (int j = 2; j >= 1; j--) {
                          boundingbox = BoundingBox.orientBox(p_229512_, p_229513_, p_229514_, -1, -1, 0, 5, 5, j, p_229515_);
                          if (!structurepiece.getBoundingBox().intersects(boundingbox)) {
-@@ -443,7 +_,7 @@
+@@ -442,7 +_,7 @@
          }
  
          public static StrongholdPieces.FiveCrossing createPiece(
@@ -91,7 +91,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229548_, p_229549_, p_229550_, -4, -3, 0, 10, 9, 11, p_229551_);
              return isOkBox(boundingbox) && p_229546_.findCollisionPiece(boundingbox) == null
-@@ -543,7 +_,7 @@
+@@ -542,7 +_,7 @@
          }
  
          public static StrongholdPieces.LeftTurn createPiece(
@@ -100,7 +100,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229578_, p_229579_, p_229580_, -1, -1, 0, 5, 5, 5, p_229581_);
              return isOkBox(boundingbox) && p_229576_.findCollisionPiece(boundingbox) == null
-@@ -598,7 +_,7 @@
+@@ -597,7 +_,7 @@
          }
  
          public static StrongholdPieces.Library createPiece(
@@ -109,7 +109,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229606_, p_229607_, p_229608_, -4, -1, 0, 14, 11, 15, p_229609_);
              if (!isOkBox(boundingbox) || p_229604_.findCollisionPiece(boundingbox) != null) {
-@@ -836,7 +_,7 @@
+@@ -835,7 +_,7 @@
          }
  
          public static StrongholdPieces.PortalRoom createPiece(
@@ -118,7 +118,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229648_, p_229649_, p_229650_, -4, -1, 0, 11, 8, 16, p_229651_);
              return isOkBox(boundingbox) && p_229647_.findCollisionPiece(boundingbox) == null
-@@ -968,7 +_,7 @@
+@@ -966,7 +_,7 @@
          }
  
          public static StrongholdPieces.PrisonHall createPiece(
@@ -127,7 +127,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229681_, p_229682_, p_229683_, -1, -1, 0, 9, 5, 11, p_229684_);
              return isOkBox(boundingbox) && p_229679_.findCollisionPiece(boundingbox) == null
-@@ -1114,7 +_,7 @@
+@@ -1112,7 +_,7 @@
          }
  
          public static StrongholdPieces.RightTurn createPiece(
@@ -136,7 +136,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229708_, p_229709_, p_229710_, -1, -1, 0, 5, 5, 5, p_229711_);
              return isOkBox(boundingbox) && p_229706_.findCollisionPiece(boundingbox) == null
-@@ -1175,7 +_,7 @@
+@@ -1173,7 +_,7 @@
          }
  
          public static StrongholdPieces.RoomCrossing createPiece(
@@ -145,7 +145,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229739_, p_229740_, p_229741_, -4, -1, 0, 11, 7, 11, p_229742_);
              return isOkBox(boundingbox) && p_229737_.findCollisionPiece(boundingbox) == null
-@@ -1306,7 +_,7 @@
+@@ -1304,7 +_,7 @@
          private static final int DEPTH = 5;
          private final boolean isSource;
  
@@ -154,7 +154,7 @@
              super(p_229764_, p_229765_, makeBoundingBox(p_229766_, 64, p_229767_, p_229768_, 5, 11, 5));
              this.isSource = true;
              this.setOrientation(p_229768_);
-@@ -1345,7 +_,7 @@
+@@ -1343,7 +_,7 @@
          }
  
          public static StrongholdPieces.StairsDown createPiece(
@@ -163,7 +163,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229789_, p_229790_, p_229791_, -1, -7, 0, 5, 11, 5, p_229792_);
              return isOkBox(boundingbox) && p_229787_.findCollisionPiece(boundingbox) == null
-@@ -1392,7 +_,7 @@
+@@ -1390,7 +_,7 @@
          public StrongholdPieces.PortalRoom portalRoomPiece;
          public final List<StructurePiece> pendingChildren = Lists.newArrayList();
  
@@ -172,7 +172,7 @@
              super(StructurePieceType.STRONGHOLD_START, 0, p_229802_, p_229803_, getRandomHorizontalDirection(p_229801_));
          }
  
-@@ -1447,7 +_,7 @@
+@@ -1445,7 +_,7 @@
          }
  
          public static StrongholdPieces.Straight createPiece(
@@ -181,7 +181,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229834_, p_229835_, p_229836_, -1, -1, 0, 5, 5, 7, p_229837_);
              return isOkBox(boundingbox) && p_229832_.findCollisionPiece(boundingbox) == null
-@@ -1505,7 +_,7 @@
+@@ -1503,7 +_,7 @@
          }
  
          public static StrongholdPieces.StraightStairsDown createPiece(
@@ -190,7 +190,7 @@
          ) {
              BoundingBox boundingbox = BoundingBox.orientBox(p_229867_, p_229868_, p_229869_, -1, -7, 0, 5, 11, 8, p_229870_);
              return isOkBox(boundingbox) && p_229865_.findCollisionPiece(boundingbox) == null
-@@ -1724,9 +_,9 @@
+@@ -1722,9 +_,9 @@
                              p_229894_,
                              p_229895_,
                              p_229896_,
@@ -203,7 +203,7 @@
                              direction,
                              this.getGenDepth()
                          );
-@@ -1735,9 +_,9 @@
+@@ -1733,9 +_,9 @@
                              p_229894_,
                              p_229895_,
                              p_229896_,
@@ -216,7 +216,7 @@
                              direction,
                              this.getGenDepth()
                          );
-@@ -1746,9 +_,9 @@
+@@ -1744,9 +_,9 @@
                              p_229894_,
                              p_229895_,
                              p_229896_,
@@ -229,7 +229,7 @@
                              direction,
                              this.getGenDepth()
                          );
-@@ -1757,9 +_,9 @@
+@@ -1755,9 +_,9 @@
                              p_229894_,
                              p_229895_,
                              p_229896_,
@@ -242,7 +242,7 @@
                              direction,
                              this.getGenDepth()
                          );
-@@ -1781,9 +_,9 @@
+@@ -1779,9 +_,9 @@
                              p_229902_,
                              p_229903_,
                              p_229904_,
@@ -255,7 +255,7 @@
                              Direction.WEST,
                              this.getGenDepth()
                          );
-@@ -1792,9 +_,9 @@
+@@ -1790,9 +_,9 @@
                              p_229902_,
                              p_229903_,
                              p_229904_,
@@ -268,7 +268,7 @@
                              Direction.WEST,
                              this.getGenDepth()
                          );
-@@ -1803,9 +_,9 @@
+@@ -1801,9 +_,9 @@
                              p_229902_,
                              p_229903_,
                              p_229904_,
@@ -281,7 +281,7 @@
                              Direction.NORTH,
                              this.getGenDepth()
                          );
-@@ -1814,9 +_,9 @@
+@@ -1812,9 +_,9 @@
                              p_229902_,
                              p_229903_,
                              p_229904_,
@@ -294,7 +294,7 @@
                              Direction.NORTH,
                              this.getGenDepth()
                          );
-@@ -1838,9 +_,9 @@
+@@ -1836,9 +_,9 @@
                              p_229908_,
                              p_229909_,
                              p_229910_,
@@ -307,7 +307,7 @@
                              Direction.EAST,
                              this.getGenDepth()
                          );
-@@ -1849,9 +_,9 @@
+@@ -1847,9 +_,9 @@
                              p_229908_,
                              p_229909_,
                              p_229910_,
@@ -320,7 +320,7 @@
                              Direction.EAST,
                              this.getGenDepth()
                          );
-@@ -1860,9 +_,9 @@
+@@ -1858,9 +_,9 @@
                              p_229908_,
                              p_229909_,
                              p_229910_,
@@ -333,7 +333,7 @@
                              Direction.SOUTH,
                              this.getGenDepth()
                          );
-@@ -1871,9 +_,9 @@
+@@ -1869,9 +_,9 @@
                              p_229908_,
                              p_229909_,
                              p_229910_,
@@ -346,7 +346,7 @@
                              Direction.SOUTH,
                              this.getGenDepth()
                          );
-@@ -1884,7 +_,7 @@
+@@ -1882,7 +_,7 @@
          }
  
          protected static boolean isOkBox(BoundingBox p_229889_) {

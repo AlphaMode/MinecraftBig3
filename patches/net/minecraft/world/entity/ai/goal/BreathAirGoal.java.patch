@@ -11,7 +11,7 @@
 -            Mth.floor(this.mob.getY() + 8.0),
 -            Mth.floor(this.mob.getZ() + 1.0)
 +            Mth.bigFloor(this.mob.getX() - 1.0),
-+            me.alphamode.mcbig.math.BigInteger.val(this.mob.getBlockY()),
++            this.mob.getBigBlockY(),
 +            Mth.bigFloor(this.mob.getZ() - 1.0),
 +            Mth.bigFloor(this.mob.getX() + 1.0),
 +            Mth.bigFloor(this.mob.getY() + 8.0),

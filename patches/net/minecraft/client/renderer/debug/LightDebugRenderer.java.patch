@@ -7,7 +7,7 @@
 -        LongSet longset = new LongOpenHashSet();
 +        it.unimi.dsi.fastutil.objects.ObjectSet<SectionPos> longset = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>();
  
-         for(BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-10, -10, -10), blockpos.offset(10, 10, 10))) {
+         for (BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-10, -10, -10), blockpos.offset(10, 10, 10))) {
              int i = level.getBrightness(LightLayer.SKY, blockpos1);
              float f = (float)(15 - i) / 15.0F * 0.5F + 0.16F;
              int j = Mth.hsvToRgb(f, 0.9F, 0.9F);

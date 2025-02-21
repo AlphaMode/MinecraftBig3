@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/protocol/game/ClientboundAddExperienceOrbPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundAddExperienceOrbPacket.java
+@@ -20,7 +_,7 @@
+ 
+     public ClientboundAddExperienceOrbPacket(ExperienceOrb p_131517_, ServerEntity p_352182_) {
+         this.id = p_131517_.getId();
+-        Vec3 vec3 = p_352182_.getPositionBase();
++        me.alphamode.mcbig.core.BigVec3 vec3 = p_352182_.getPositionBase();
+         this.x = vec3.x();
+         this.y = vec3.y();
+         this.z = vec3.z();

@@ -1,66 +1,182 @@
 --- a/net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate.java
 +++ b/net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate.java
-@@ -87,10 +_,10 @@
+@@ -91,10 +_,10 @@
              List<StructureTemplate.StructureBlockInfo> list1 = Lists.newArrayList();
              List<StructureTemplate.StructureBlockInfo> list2 = Lists.newArrayList();
              BlockPos blockpos1 = new BlockPos(
 -                Math.min(p_163804_.getX(), blockpos.getX()), Math.min(p_163804_.getY(), blockpos.getY()), Math.min(p_163804_.getZ(), blockpos.getZ())
-+                p_163804_.getBigX().min(blockpos.getBigX()), p_163804_.getBigY().min(blockpos.getBigY()), p_163804_.getBigZ().min(blockpos.getBigZ())
++                    Math.min(p_163804_.getX(), blockpos.getX()), Math.min(p_163804_.getY(), blockpos.getY()), Math.min(p_163804_.getZ(), blockpos.getZ())
              );
              BlockPos blockpos2 = new BlockPos(
 -                Math.max(p_163804_.getX(), blockpos.getX()), Math.max(p_163804_.getY(), blockpos.getY()), Math.max(p_163804_.getZ(), blockpos.getZ())
-+                p_163804_.getBigX().max(blockpos.getBigX()), p_163804_.getBigY().max(blockpos.getBigY()), p_163804_.getBigZ().max(blockpos.getBigZ())
++                    Math.max(p_163804_.getX(), blockpos.getX()), Math.max(p_163804_.getY(), blockpos.getY()), Math.max(p_163804_.getZ(), blockpos.getZ())
              );
              this.size = p_163805_;
  
-@@ -163,7 +_,7 @@
+@@ -106,7 +_,7 @@
+                     StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo;
+                     if (blockentity != null) {
+                         structuretemplate$structureblockinfo = new StructureTemplate.StructureBlockInfo(
+-                            blockpos4, blockstate, blockentity.saveWithId(p_163803_.registryAccess())
++                                blockpos4, blockstate, blockentity.saveWithId(p_163803_.registryAccess())
+                         );
+                     } else {
+                         structuretemplate$structureblockinfo = new StructureTemplate.StructureBlockInfo(blockpos4, blockstate, null);
+@@ -128,10 +_,10 @@
+     }
+ 
+     private static void addToLists(
+-        StructureTemplate.StructureBlockInfo p_74574_,
+-        List<StructureTemplate.StructureBlockInfo> p_74575_,
+-        List<StructureTemplate.StructureBlockInfo> p_74576_,
+-        List<StructureTemplate.StructureBlockInfo> p_74577_
++            StructureTemplate.StructureBlockInfo p_74574_,
++            List<StructureTemplate.StructureBlockInfo> p_74575_,
++            List<StructureTemplate.StructureBlockInfo> p_74576_,
++            List<StructureTemplate.StructureBlockInfo> p_74577_
+     ) {
+         if (p_74574_.nbt != null) {
+             p_74576_.add(p_74574_);
+@@ -143,15 +_,15 @@
+     }
+ 
+     private static List<StructureTemplate.StructureBlockInfo> buildInfoList(
+-        List<StructureTemplate.StructureBlockInfo> p_74615_,
+-        List<StructureTemplate.StructureBlockInfo> p_74616_,
+-        List<StructureTemplate.StructureBlockInfo> p_74617_
++            List<StructureTemplate.StructureBlockInfo> p_74615_,
++            List<StructureTemplate.StructureBlockInfo> p_74616_,
++            List<StructureTemplate.StructureBlockInfo> p_74617_
+     ) {
+         Comparator<StructureTemplate.StructureBlockInfo> comparator = Comparator.<StructureTemplate.StructureBlockInfo>comparingInt(
+-                p_74641_ -> p_74641_.pos.getY()
+-            )
+-            .thenComparingInt(p_74637_ -> p_74637_.pos.getX())
+-            .thenComparingInt(p_74572_ -> p_74572_.pos.getZ());
++                        p_74641_ -> p_74641_.pos.getY()
++                )
++                .thenComparingInt(p_74637_ -> p_74637_.pos.getX())
++                .thenComparingInt(p_74572_ -> p_74572_.pos.getZ());
+         p_74615_.sort(comparator);
+         p_74617_.sort(comparator);
+         p_74616_.sort(comparator);
+@@ -164,7 +_,7 @@
+ 
+     private void fillEntityList(Level p_74501_, BlockPos p_74502_, BlockPos p_74503_) {
+         List<Entity> list = p_74501_.getEntitiesOfClass(
+-            Entity.class, AABB.encapsulatingFullBlocks(p_74502_, p_74503_), p_74499_ -> !(p_74499_ instanceof Player)
++                Entity.class, AABB.encapsulatingFullBlocks(p_74502_, p_74503_), p_74499_ -> !(p_74499_ instanceof Player)
+         );
          this.entityInfoList.clear();
  
-         for(Entity entity : list) {
--            Vec3 vec3 = new Vec3(entity.getX() - (double)p_74502_.getX(), entity.getY() - (double)p_74502_.getY(), entity.getZ() - (double)p_74502_.getZ());
-+            Vec3 vec3 = new Vec3(entity.getX() - (double)p_74502_.getBigX().doubleValue(), entity.getY() - (double)p_74502_.getBigY().doubleValue(), entity.getZ() - (double)p_74502_.getBigZ().doubleValue());
-             CompoundTag compoundtag = new CompoundTag();
-             entity.save(compoundtag);
-             BlockPos blockpos;
-@@ -232,12 +_,12 @@
-                 List<BlockPos> list1 = Lists.newArrayListWithCapacity(p_230332_.shouldKeepLiquids() ? list.size() : 0);
-                 List<BlockPos> list2 = Lists.newArrayListWithCapacity(p_230332_.shouldKeepLiquids() ? list.size() : 0);
+@@ -198,13 +_,13 @@
+             for (StructureTemplate.JigsawBlockInfo structuretemplate$jigsawblockinfo : list) {
+                 StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo = structuretemplate$jigsawblockinfo.info;
+                 list1.add(
+-                    structuretemplate$jigsawblockinfo.withInfo(
+-                        new StructureTemplate.StructureBlockInfo(
+-                            calculateRelativePosition(structureplacesettings, structuretemplate$structureblockinfo.pos()).offset(p_380356_),
+-                            structuretemplate$structureblockinfo.state.rotate(structureplacesettings.getRotation()),
+-                            structuretemplate$structureblockinfo.nbt
++                        structuretemplate$jigsawblockinfo.withInfo(
++                                new StructureTemplate.StructureBlockInfo(
++                                        calculateRelativePosition(structureplacesettings, structuretemplate$structureblockinfo.pos()).offset(p_380356_),
++                                        structuretemplate$structureblockinfo.state.rotate(structureplacesettings.getRotation()),
++                                        structuretemplate$structureblockinfo.nbt
++                                )
+                         )
+-                    )
+                 );
+             }
+ 
+@@ -213,7 +_,7 @@
+     }
+ 
+     public ObjectArrayList<StructureTemplate.StructureBlockInfo> filterBlocks(
+-        BlockPos p_230336_, StructurePlaceSettings p_230337_, Block p_230338_, boolean p_230339_
++            BlockPos p_230336_, StructurePlaceSettings p_230337_, Block p_230338_, boolean p_230339_
+     ) {
+         ObjectArrayList<StructureTemplate.StructureBlockInfo> objectarraylist = new ObjectArrayList<>();
+         BoundingBox boundingbox = p_230337_.getBoundingBox();
+@@ -221,15 +_,15 @@
+             return objectarraylist;
+         } else {
+             for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : p_230337_.getRandomPalette(this.palettes, p_230336_)
+-                .blocks(p_230338_)) {
++                    .blocks(p_230338_)) {
+                 BlockPos blockpos = p_230339_
+-                    ? calculateRelativePosition(p_230337_, structuretemplate$structureblockinfo.pos).offset(p_230336_)
+-                    : structuretemplate$structureblockinfo.pos;
++                        ? calculateRelativePosition(p_230337_, structuretemplate$structureblockinfo.pos).offset(p_230336_)
++                        : structuretemplate$structureblockinfo.pos;
+                 if (boundingbox == null || boundingbox.isInside(blockpos)) {
+                     objectarraylist.add(
+-                        new StructureTemplate.StructureBlockInfo(
+-                            blockpos, structuretemplate$structureblockinfo.state.rotate(p_230337_.getRotation()), structuretemplate$structureblockinfo.nbt
+-                        )
++                            new StructureTemplate.StructureBlockInfo(
++                                    blockpos, structuretemplate$structureblockinfo.state.rotate(p_230337_.getRotation()), structuretemplate$structureblockinfo.nbt
++                            )
+                     );
+                 }
+             }
+@@ -249,29 +_,29 @@
+     }
+ 
+     public boolean placeInWorld(
+-        ServerLevelAccessor p_230329_, BlockPos p_230330_, BlockPos p_230331_, StructurePlaceSettings p_230332_, RandomSource p_230333_, int p_230334_
++            ServerLevelAccessor p_230329_, BlockPos p_230330_, BlockPos p_230331_, StructurePlaceSettings p_230332_, RandomSource p_230333_, int p_230334_
+     ) {
+         if (this.palettes.isEmpty()) {
+             return false;
+         } else {
+             List<StructureTemplate.StructureBlockInfo> list = p_230332_.getRandomPalette(this.palettes, p_230330_).blocks();
+             if ((!list.isEmpty() || !p_230332_.isIgnoreEntities() && !this.entityInfoList.isEmpty())
+-                && this.size.getX() >= 1
+-                && this.size.getY() >= 1
+-                && this.size.getZ() >= 1) {
++                    && this.size.getX() >= 1
++                    && this.size.getY() >= 1
++                    && this.size.getZ() >= 1) {
+                 BoundingBox boundingbox = p_230332_.getBoundingBox();
+                 List<BlockPos> list1 = Lists.newArrayListWithCapacity(p_230332_.shouldApplyWaterlogging() ? list.size() : 0);
+                 List<BlockPos> list2 = Lists.newArrayListWithCapacity(p_230332_.shouldApplyWaterlogging() ? list.size() : 0);
                  List<Pair<BlockPos, CompoundTag>> list3 = Lists.newArrayListWithCapacity(list.size());
 -                int i = Integer.MAX_VALUE;
--                int j = Integer.MAX_VALUE;
++                me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.math.BigInteger.val(Integer.MAX_VALUE);
+                 int j = Integer.MAX_VALUE;
 -                int k = Integer.MAX_VALUE;
 -                int l = Integer.MIN_VALUE;
--                int i1 = Integer.MIN_VALUE;
++                me.alphamode.mcbig.math.BigInteger k = me.alphamode.mcbig.math.BigInteger.val(Integer.MAX_VALUE);
++                me.alphamode.mcbig.math.BigInteger l = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
+                 int i1 = Integer.MIN_VALUE;
 -                int j1 = Integer.MIN_VALUE;
-+                me.alphamode.mcbig.math.BigInteger i = me.alphamode.mcbig.core.BigConstants.Ints.REALLY_BIG_NUMBER;
-+                me.alphamode.mcbig.math.BigInteger j = me.alphamode.mcbig.core.BigConstants.Ints.REALLY_BIG_NUMBER;
-+                me.alphamode.mcbig.math.BigInteger k = me.alphamode.mcbig.core.BigConstants.Ints.REALLY_BIG_NUMBER;
-+                me.alphamode.mcbig.math.BigInteger l = me.alphamode.mcbig.core.BigConstants.Ints.REALLY_SMALL_NUMBER;
-+                me.alphamode.mcbig.math.BigInteger i1 = me.alphamode.mcbig.core.BigConstants.Ints.REALLY_SMALL_NUMBER;
-+                me.alphamode.mcbig.math.BigInteger j1 = me.alphamode.mcbig.core.BigConstants.Ints.REALLY_SMALL_NUMBER;
++                me.alphamode.mcbig.math.BigInteger j1 = me.alphamode.mcbig.math.BigInteger.val(Integer.MIN_VALUE);
  
-                 for(StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : processBlockInfos(
-                     p_230329_, p_230330_, p_230331_, p_230332_, list
-@@ -253,12 +_,12 @@
+                 for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : processBlockInfos(
+-                    p_230329_, p_230330_, p_230331_, p_230332_, list
++                        p_230329_, p_230330_, p_230331_, p_230332_, list
+                 )) {
+                     BlockPos blockpos = structuretemplate$structureblockinfo.pos;
+                     if (boundingbox == null || boundingbox.isInside(blockpos)) {
+@@ -284,12 +_,12 @@
                          }
  
                          if (p_230329_.setBlock(blockpos, blockstate, p_230334_)) {
 -                            i = Math.min(i, blockpos.getX());
--                            j = Math.min(j, blockpos.getY());
++                            i = i.min(blockpos.getBigX());
+                             j = Math.min(j, blockpos.getY());
 -                            k = Math.min(k, blockpos.getZ());
 -                            l = Math.max(l, blockpos.getX());
--                            i1 = Math.max(i1, blockpos.getY());
--                            j1 = Math.max(j1, blockpos.getZ());
-+                            i = i.min(blockpos.getBigX());
-+                            j = j.min(blockpos.getBigY());
 +                            k = k.min(blockpos.getBigZ());
 +                            l = l.max(blockpos.getBigX());
-+                            i1 = i1.max(blockpos.getBigY());
+                             i1 = Math.max(i1, blockpos.getY());
+-                            j1 = Math.max(j1, blockpos.getZ());
 +                            j1 = j1.max(blockpos.getBigZ());
                              list3.add(Pair.of(blockpos, structuretemplate$structureblockinfo.nbt));
                              if (structuretemplate$structureblockinfo.nbt != null) {
                                  BlockEntity blockentity1 = p_230329_.getBlockEntity(blockpos);
-@@ -316,16 +_,16 @@
+@@ -347,16 +_,16 @@
                      }
                  }
  
@@ -69,100 +185,329 @@
                      if (!p_230332_.getKnownShape()) {
 -                        DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape(l - i + 1, i1 - j + 1, j1 - k + 1);
 -                        int k1 = i;
--                        int l1 = j;
--                        int j2 = k;
-+                        DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape(l.subtract(i).add().intValue(), i1.subtract(j).add().intValue(), j1.subtract(k).add().intValue());
++                        DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape(l.subtract(i).intValue() + 1, i1 - j + 1, j1.subtract(k).intValue() + 1);
 +                        me.alphamode.mcbig.math.BigInteger k1 = i;
-+                        me.alphamode.mcbig.math.BigInteger l1 = j;
+                         int l1 = j;
+-                        int j2 = k;
 +                        me.alphamode.mcbig.math.BigInteger j2 = k;
  
-                         for(Pair<BlockPos, CompoundTag> pair1 : list3) {
+                         for (Pair<BlockPos, CompoundTag> pair1 : list3) {
                              BlockPos blockpos2 = pair1.getFirst();
 -                            discretevoxelshape.fill(blockpos2.getX() - k1, blockpos2.getY() - l1, blockpos2.getZ() - j2);
-+                            discretevoxelshape.fill(blockpos2.getBigX().subtract(k1).intValue(), blockpos2.getBigY().subtract(l1).intValue(), blockpos2.getBigZ().subtract(j2).intValue());
++                            discretevoxelshape.fill(blockpos2.getBigX().subtract(k1).intValue(), blockpos2.getY() - l1, blockpos2.getBigZ().subtract(j2).intValue());
                          }
  
                          updateShapeAtEdge(p_230329_, p_230334_, discretevoxelshape, k1, l1, j2);
-@@ -371,9 +_,9 @@
-         }
+@@ -385,13 +_,13 @@
+ 
+                 if (!p_230332_.isIgnoreEntities()) {
+                     this.placeEntities(
+-                        p_230329_,
+-                        p_230330_,
+-                        p_230332_.getMirror(),
+-                        p_230332_.getRotation(),
+-                        p_230332_.getRotationPivot(),
+-                        boundingbox,
+-                        p_230332_.shouldFinalizeEntities()
++                            p_230329_,
++                            p_230330_,
++                            p_230332_.getMirror(),
++                            p_230332_.getRotation(),
++                            p_230332_.getRotationPivot(),
++                            boundingbox,
++                            p_230332_.shouldFinalizeEntities()
+                     );
+                 }
+ 
+@@ -403,41 +_,41 @@
+     }
+ 
+     public static void updateShapeAtEdge(LevelAccessor p_333926_, int p_333789_, DiscreteVoxelShape p_333845_, BlockPos p_333731_) {
+-        updateShapeAtEdge(p_333926_, p_333789_, p_333845_, p_333731_.getX(), p_333731_.getY(), p_333731_.getZ());
++        updateShapeAtEdge(p_333926_, p_333789_, p_333845_, p_333731_.getBigX(), p_333731_.getY(), p_333731_.getBigZ());
      }
  
 -    public static void updateShapeAtEdge(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, int p_74514_, int p_74515_, int p_74516_) {
-+    public static void updateShapeAtEdge(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, me.alphamode.mcbig.math.BigInteger p_74514_, me.alphamode.mcbig.math.BigInteger p_74515_, me.alphamode.mcbig.math.BigInteger p_74516_) {
-         p_74513_.forAllFaces((p_74494_, p_74495_, p_74496_, p_74497_) -> {
--            BlockPos blockpos = new BlockPos(p_74514_ + p_74495_, p_74515_ + p_74496_, p_74516_ + p_74497_);
-+            BlockPos blockpos = new BlockPos(p_74514_.add(p_74495_), p_74515_.add(p_74496_), p_74516_.add(p_74497_));
-             BlockPos blockpos1 = blockpos.relative(p_74494_);
-             BlockState blockstate = p_74511_.getBlockState(blockpos);
-             BlockState blockstate1 = p_74511_.getBlockState(blockpos1);
-@@ -440,7 +_,7 @@
-             if (p_74529_ == null || p_74529_.isInside(blockpos)) {
-                 CompoundTag compoundtag = structuretemplate$structureentityinfo.nbt.copy();
-                 Vec3 vec3 = transform(structuretemplate$structureentityinfo.pos, p_74526_, p_74527_, p_74528_);
--                Vec3 vec31 = vec3.add((double)p_74525_.getX(), (double)p_74525_.getY(), (double)p_74525_.getZ());
-+                Vec3 vec31 = vec3.add((double)p_74525_.getBigX().doubleValue(), (double)p_74525_.getBigY().doubleValue(), (double)p_74525_.getBigZ().doubleValue());
-                 ListTag listtag = new ListTag();
-                 listtag.add(DoubleTag.valueOf(vec31.x));
-                 listtag.add(DoubleTag.valueOf(vec31.y));
-@@ -486,30 +_,30 @@
++    public static void updateShapeAtEdge(LevelAccessor p_74511_, int p_74512_, DiscreteVoxelShape p_74513_, me.alphamode.mcbig.math.BigInteger p_74514_, int p_74515_, me.alphamode.mcbig.math.BigInteger p_74516_) {
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+         BlockPos.MutableBlockPos blockpos$mutableblockpos1 = new BlockPos.MutableBlockPos();
+         p_74513_.forAllFaces(
+-            (p_374018_, p_374019_, p_374020_, p_374021_) -> {
+-                blockpos$mutableblockpos.set(p_74514_ + p_374019_, p_74515_ + p_374020_, p_74516_ + p_374021_);
+-                blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, p_374018_);
+-                BlockState blockstate = p_74511_.getBlockState(blockpos$mutableblockpos);
+-                BlockState blockstate1 = p_74511_.getBlockState(blockpos$mutableblockpos1);
+-                BlockState blockstate2 = blockstate.updateShape(
+-                    p_74511_, p_74511_, blockpos$mutableblockpos, p_374018_, blockpos$mutableblockpos1, blockstate1, p_74511_.getRandom()
+-                );
+-                if (blockstate != blockstate2) {
+-                    p_74511_.setBlock(blockpos$mutableblockpos, blockstate2, p_74512_ & -2);
+-                }
++                (p_374018_, p_374019_, p_374020_, p_374021_) -> {
++                    blockpos$mutableblockpos.set(p_74514_.add(p_374019_), p_74515_ + p_374020_, p_74516_.add(p_374021_));
++                    blockpos$mutableblockpos1.setWithOffset(blockpos$mutableblockpos, p_374018_);
++                    BlockState blockstate = p_74511_.getBlockState(blockpos$mutableblockpos);
++                    BlockState blockstate1 = p_74511_.getBlockState(blockpos$mutableblockpos1);
++                    BlockState blockstate2 = blockstate.updateShape(
++                            p_74511_, p_74511_, blockpos$mutableblockpos, p_374018_, blockpos$mutableblockpos1, blockstate1, p_74511_.getRandom()
++                    );
++                    if (blockstate != blockstate2) {
++                        p_74511_.setBlock(blockpos$mutableblockpos, blockstate2, p_74512_ & -2);
++                    }
+ 
+-                BlockState blockstate3 = blockstate1.updateShape(
+-                    p_74511_, p_74511_, blockpos$mutableblockpos1, p_374018_.getOpposite(), blockpos$mutableblockpos, blockstate2, p_74511_.getRandom()
+-                );
+-                if (blockstate1 != blockstate3) {
+-                    p_74511_.setBlock(blockpos$mutableblockpos1, blockstate3, p_74512_ & -2);
++                    BlockState blockstate3 = blockstate1.updateShape(
++                            p_74511_, p_74511_, blockpos$mutableblockpos1, p_374018_.getOpposite(), blockpos$mutableblockpos, blockstate2, p_74511_.getRandom()
++                    );
++                    if (blockstate1 != blockstate3) {
++                        p_74511_.setBlock(blockpos$mutableblockpos1, blockstate3, p_74512_ & -2);
++                    }
+                 }
+-            }
+         );
      }
  
-     public static BlockPos transform(BlockPos p_74594_, Mirror p_74595_, Rotation p_74596_, BlockPos p_74597_) {
--        int i = p_74594_.getX();
--        int j = p_74594_.getY();
--        int k = p_74594_.getZ();
-+        me.alphamode.mcbig.math.BigInteger i = p_74594_.getBigX();
-+        me.alphamode.mcbig.math.BigInteger j = p_74594_.getBigY();
-+        me.alphamode.mcbig.math.BigInteger k = p_74594_.getBigZ();
-         boolean flag = true;
-         switch(p_74595_) {
-             case LEFT_RIGHT:
--                k = -k;
-+                k = k.negate();
-                 break;
-             case FRONT_BACK:
--                i = -i;
-+                i = i.negate();
-                 break;
-             default:
-                 flag = false;
+     public static List<StructureTemplate.StructureBlockInfo> processBlockInfos(
+-        ServerLevelAccessor p_278297_,
+-        BlockPos p_74519_,
+-        BlockPos p_74520_,
+-        StructurePlaceSettings p_74521_,
+-        List<StructureTemplate.StructureBlockInfo> p_74522_
++            ServerLevelAccessor p_278297_,
++            BlockPos p_74519_,
++            BlockPos p_74520_,
++            StructurePlaceSettings p_74521_,
++            List<StructureTemplate.StructureBlockInfo> p_74522_
+     ) {
+         List<StructureTemplate.StructureBlockInfo> list = new ArrayList<>();
+         List<StructureTemplate.StructureBlockInfo> list1 = new ArrayList<>();
+@@ -445,15 +_,15 @@
+         for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : p_74522_) {
+             BlockPos blockpos = calculateRelativePosition(p_74521_, structuretemplate$structureblockinfo.pos).offset(p_74519_);
+             StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo1 = new StructureTemplate.StructureBlockInfo(
+-                blockpos,
+-                structuretemplate$structureblockinfo.state,
+-                structuretemplate$structureblockinfo.nbt != null ? structuretemplate$structureblockinfo.nbt.copy() : null
++                    blockpos,
++                    structuretemplate$structureblockinfo.state,
++                    structuretemplate$structureblockinfo.nbt != null ? structuretemplate$structureblockinfo.nbt.copy() : null
+             );
+             Iterator<StructureProcessor> iterator = p_74521_.getProcessors().iterator();
+ 
+             while (structuretemplate$structureblockinfo1 != null && iterator.hasNext()) {
+                 structuretemplate$structureblockinfo1 = iterator.next()
+-                    .processBlock(p_278297_, p_74519_, p_74520_, structuretemplate$structureblockinfo, structuretemplate$structureblockinfo1, p_74521_);
++                        .processBlock(p_278297_, p_74519_, p_74520_, structuretemplate$structureblockinfo, structuretemplate$structureblockinfo1, p_74521_);
+             }
+ 
+             if (structuretemplate$structureblockinfo1 != null) {
+@@ -470,13 +_,13 @@
+     }
+ 
+     private void placeEntities(
+-        ServerLevelAccessor p_74524_,
+-        BlockPos p_74525_,
+-        Mirror p_74526_,
+-        Rotation p_74527_,
+-        BlockPos p_74528_,
+-        @Nullable BoundingBox p_74529_,
+-        boolean p_74530_
++            ServerLevelAccessor p_74524_,
++            BlockPos p_74525_,
++            Mirror p_74526_,
++            Rotation p_74527_,
++            BlockPos p_74528_,
++            @Nullable BoundingBox p_74529_,
++            boolean p_74530_
+     ) {
+         for (StructureTemplate.StructureEntityInfo structuretemplate$structureentityinfo : this.entityInfoList) {
+             BlockPos blockpos = transform(structuretemplate$structureentityinfo.blockPos, p_74526_, p_74527_, p_74528_).offset(p_74525_);
+@@ -491,19 +_,19 @@
+                 compoundtag.put("Pos", listtag);
+                 compoundtag.remove("UUID");
+                 createEntityIgnoreException(p_74524_, compoundtag)
+-                    .ifPresent(
+-                        p_275190_ -> {
+-                            float f = p_275190_.rotate(p_74527_);
+-                            f += p_275190_.mirror(p_74526_) - p_275190_.getYRot();
+-                            p_275190_.moveTo(vec31.x, vec31.y, vec31.z, f, p_275190_.getXRot());
+-                            if (p_74530_ && p_275190_ instanceof Mob) {
+-                                ((Mob)p_275190_)
+-                                    .finalizeSpawn(p_74524_, p_74524_.getCurrentDifficultyAt(BlockPos.containing(vec31)), EntitySpawnReason.STRUCTURE, null);
+-                            }
++                        .ifPresent(
++                                p_275190_ -> {
++                                    float f = p_275190_.rotate(p_74527_);
++                                    f += p_275190_.mirror(p_74526_) - p_275190_.getYRot();
++                                    p_275190_.moveTo(vec31.x, vec31.y, vec31.z, f, p_275190_.getXRot());
++                                    if (p_74530_ && p_275190_ instanceof Mob) {
++                                        ((Mob)p_275190_)
++                                                .finalizeSpawn(p_74524_, p_74524_.getCurrentDifficultyAt(BlockPos.containing(vec31)), EntitySpawnReason.STRUCTURE, null);
++                                    }
+ 
+-                            p_74524_.addFreshEntityWithPassengers(p_275190_);
+-                        }
+-                    );
++                                    p_74524_.addFreshEntityWithPassengers(p_275190_);
++                                }
++                        );
+             }
+         }
+     }
+@@ -649,12 +_,12 @@
+                 StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo = list1.get(j);
+                 CompoundTag compoundtag = new CompoundTag();
+                 compoundtag.put(
+-                    "pos",
+-                    this.newIntegerList(
+-                        structuretemplate$structureblockinfo.pos.getX(),
+-                        structuretemplate$structureblockinfo.pos.getY(),
+-                        structuretemplate$structureblockinfo.pos.getZ()
+-                    )
++                        "pos",
++                        this.newIntegerList(
++                                structuretemplate$structureblockinfo.pos.getX(),
++                                structuretemplate$structureblockinfo.pos.getY(),
++                                structuretemplate$structureblockinfo.pos.getZ()
++                        )
+                 );
+                 int k = structuretemplate$simplepalette.idFor(structuretemplate$structureblockinfo.state);
+                 compoundtag.putInt("state", k);
+@@ -701,18 +_,18 @@
+         for (StructureTemplate.StructureEntityInfo structuretemplate$structureentityinfo : this.entityInfoList) {
+             CompoundTag compoundtag1 = new CompoundTag();
+             compoundtag1.put(
+-                "pos",
+-                this.newDoubleList(
+-                    structuretemplate$structureentityinfo.pos.x, structuretemplate$structureentityinfo.pos.y, structuretemplate$structureentityinfo.pos.z
+-                )
++                    "pos",
++                    this.newDoubleList(
++                            structuretemplate$structureentityinfo.pos.x, structuretemplate$structureentityinfo.pos.y, structuretemplate$structureentityinfo.pos.z
++                    )
+             );
+             compoundtag1.put(
+-                "blockPos",
+-                this.newIntegerList(
+-                    structuretemplate$structureentityinfo.blockPos.getX(),
+-                    structuretemplate$structureentityinfo.blockPos.getY(),
+-                    structuretemplate$structureentityinfo.blockPos.getZ()
+-                )
++                    "blockPos",
++                    this.newIntegerList(
++                            structuretemplate$structureentityinfo.blockPos.getX(),
++                            structuretemplate$structureentityinfo.blockPos.getY(),
++                            structuretemplate$structureentityinfo.blockPos.getZ()
++                    )
+             );
+             if (structuretemplate$structureentityinfo.nbt != null) {
+                 compoundtag1.put("nbt", structuretemplate$structureentityinfo.nbt);
+@@ -781,7 +_,7 @@
+             }
+ 
+             StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo = new StructureTemplate.StructureBlockInfo(
+-                blockpos, blockstate, compoundtag1
++                    blockpos, blockstate, compoundtag1
+             );
+             addToLists(structuretemplate$structureblockinfo, list2, list, list1);
+         }
+@@ -812,55 +_,55 @@
+ 
+     public static JigsawBlockEntity.JointType getJointType(CompoundTag p_379575_, BlockState p_379378_) {
+         return JigsawBlockEntity.JointType.CODEC
+-            .byName(
+-                p_379575_.getString("joint"),
+-                () -> JigsawBlock.getFrontFacing(p_379378_).getAxis().isHorizontal()
+-                        ? JigsawBlockEntity.JointType.ALIGNED
+-                        : JigsawBlockEntity.JointType.ROLLABLE
+-            );
++                .byName(
++                        p_379575_.getString("joint"),
++                        () -> JigsawBlock.getFrontFacing(p_379378_).getAxis().isHorizontal()
++                                ? JigsawBlockEntity.JointType.ALIGNED
++                                : JigsawBlockEntity.JointType.ROLLABLE
++                );
+     }
+ 
+     public static record JigsawBlockInfo(
+-        StructureTemplate.StructureBlockInfo info,
+-        JigsawBlockEntity.JointType jointType,
+-        ResourceLocation name,
+-        ResourceLocation pool,
+-        ResourceLocation target,
+-        int placementPriority,
+-        int selectionPriority
++            StructureTemplate.StructureBlockInfo info,
++            JigsawBlockEntity.JointType jointType,
++            ResourceLocation name,
++            ResourceLocation pool,
++            ResourceLocation target,
++            int placementPriority,
++            int selectionPriority
+     ) {
+         public static StructureTemplate.JigsawBlockInfo of(StructureTemplate.StructureBlockInfo p_380074_) {
+             CompoundTag compoundtag = Objects.requireNonNull(p_380074_.nbt(), () -> p_380074_ + " nbt was null");
+             return new StructureTemplate.JigsawBlockInfo(
+-                p_380074_,
+-                StructureTemplate.getJointType(compoundtag, p_380074_.state()),
+-                ResourceLocation.parse(compoundtag.getString("name")),
+-                ResourceLocation.parse(compoundtag.getString("pool")),
+-                ResourceLocation.parse(compoundtag.getString("target")),
+-                compoundtag.getInt("placement_priority"),
+-                compoundtag.getInt("selection_priority")
++                    p_380074_,
++                    StructureTemplate.getJointType(compoundtag, p_380074_.state()),
++                    ResourceLocation.parse(compoundtag.getString("name")),
++                    ResourceLocation.parse(compoundtag.getString("pool")),
++                    ResourceLocation.parse(compoundtag.getString("target")),
++                    compoundtag.getInt("placement_priority"),
++                    compoundtag.getInt("selection_priority")
+             );
          }
  
--        int l = p_74597_.getX();
--        int i1 = p_74597_.getZ();
-+        me.alphamode.mcbig.math.BigInteger l = p_74597_.getBigX();
-+        me.alphamode.mcbig.math.BigInteger i1 = p_74597_.getBigZ();
-         switch(p_74596_) {
-             case COUNTERCLOCKWISE_90:
--                return new BlockPos(l - i1 + k, j, l + i1 - i);
-+                return new BlockPos(l.subtract(i1).add(k), j, l.add(i1).subtract(i));
-             case CLOCKWISE_90:
--                return new BlockPos(l + i1 - k, j, i1 - l + i);
-+                return new BlockPos(l.add(i1).subtract(k), j, i1.subtract(l).add(i));
-             case CLOCKWISE_180:
--                return new BlockPos(l + l - i, j, i1 + i1 - k);
-+                return new BlockPos(l.add(l).subtract(i), j, i1.add(i1).subtract(k));
-             default:
-                 return flag ? new BlockPos(i, j, k) : p_74594_;
-         }
-@@ -531,15 +_,15 @@
-                 flag = false;
+         @Override
+         public String toString() {
+             return String.format(
+-                Locale.ROOT,
+-                "<JigsawBlockInfo | %s | %s | name: %s | pool: %s | target: %s | placement: %d | selection: %d | %s>",
+-                this.info.pos,
+-                this.info.state,
+-                this.name,
+-                this.pool,
+-                this.target,
+-                this.placementPriority,
+-                this.selectionPriority,
+-                this.info.nbt
++                    Locale.ROOT,
++                    "<JigsawBlockInfo | %s | %s | name: %s | pool: %s | target: %s | placement: %d | selection: %d | %s>",
++                    this.info.pos,
++                    this.info.state,
++                    this.name,
++                    this.pool,
++                    this.target,
++                    this.placementPriority,
++                    this.selectionPriority,
++                    this.info.nbt
+             );
          }
  
--        int i = p_74582_.getX();
--        int j = p_74582_.getZ();
-+        me.alphamode.mcbig.math.BigInteger i = p_74582_.getBigX();
-+        me.alphamode.mcbig.math.BigInteger j = p_74582_.getBigZ();
-         switch(p_74581_) {
-             case COUNTERCLOCKWISE_90:
--                return new Vec3((double)(i - j) + d2, d1, (double)(i + j + 1) - d0);
-+                return new Vec3((double)(i.subtract(j)).doubleValue() + d2, d1, (double)(i.add(j).add()).doubleValue() - d0);
-             case CLOCKWISE_90:
--                return new Vec3((double)(i + j + 1) - d2, d1, (double)(j - i) + d0);
-+                return new Vec3((double)(i.add(j).add()).doubleValue() - d2, d1, (double)(j.subtract(i)).doubleValue() + d0);
-             case CLOCKWISE_180:
--                return new Vec3((double)(i + i + 1) - d0, d1, (double)(j + j + 1) - d2);
-+                return new Vec3((double)(i.add(i).add()).doubleValue() - d0, d1, (double)(j.add(j).add()).doubleValue() - d2);
-             default:
-                 return flag ? new Vec3(d0, d1, d2) : p_74579_;
+         public StructureTemplate.JigsawBlockInfo withInfo(StructureTemplate.StructureBlockInfo p_379520_) {
+             return new StructureTemplate.JigsawBlockInfo(
+-                p_379520_, this.jointType, this.name, this.pool, this.target, this.placementPriority, this.selectionPriority
++                    p_379520_, this.jointType, this.name, this.pool, this.target, this.placementPriority, this.selectionPriority
+             );
          }
+     }
+@@ -889,7 +_,7 @@
+ 
+         public List<StructureTemplate.StructureBlockInfo> blocks(Block p_74654_) {
+             return this.cache
+-                .computeIfAbsent(p_74654_, p_74659_ -> this.blocks.stream().filter(p_163818_ -> p_163818_.state.is(p_74659_)).collect(Collectors.toList()));
++                    .computeIfAbsent(p_74654_, p_74659_ -> this.blocks.stream().filter(p_163818_ -> p_163818_.state.is(p_74659_)).collect(Collectors.toList()));
+         }
+     }
+ 

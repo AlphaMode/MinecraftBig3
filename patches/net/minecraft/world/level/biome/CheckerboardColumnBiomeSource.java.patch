@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/biome/CheckerboardColumnBiomeSource.java
 +++ b/net/minecraft/world/level/biome/CheckerboardColumnBiomeSource.java
-@@ -36,7 +_,7 @@
+@@ -37,7 +_,7 @@
      }
  
      @Override

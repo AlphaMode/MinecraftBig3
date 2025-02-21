@@ -1,15 +1,15 @@
 --- a/net/minecraft/client/renderer/chunk/SectionRenderDispatcher.java
 +++ b/net/minecraft/client/renderer/chunk/SectionRenderDispatcher.java
-@@ -74,7 +_,7 @@
-     private final Executor executor;
+@@ -64,7 +_,7 @@
+     private final TracingExecutor executor;
      ClientLevel level;
      final LevelRenderer renderer;
 -    private Vec3 camera = Vec3.ZERO;
 +    private me.alphamode.mcbig.core.BigVec3 camera = me.alphamode.mcbig.core.BigVec3.ZERO;
+     final SectionCompiler sectionCompiler;
  
-     public SectionRenderDispatcher(ClientLevel p_295274_, LevelRenderer p_295323_, Executor p_295234_, RenderBuffers p_307511_) {
-         this.level = p_295274_;
-@@ -160,11 +_,11 @@
+     public SectionRenderDispatcher(
+@@ -138,11 +_,11 @@
          return this.bufferPool.getFreeBufferCount();
      }
  
@@ -23,32 +23,52 @@
          return this.camera;
      }
  
-@@ -287,7 +_,7 @@
+@@ -269,37 +_,37 @@
          private final Map<RenderType, VertexBuffer> buffers = RenderType.chunkBufferLayers()
              .stream()
-             .collect(Collectors.toMap(p_295245_ -> p_295245_, p_295640_ -> new VertexBuffer(VertexBuffer.Usage.STATIC)));
+             .collect(Collectors.toMap(p_295245_ -> (RenderType)p_295245_, p_373684_ -> new VertexBuffer(BufferUsage.STATIC_WRITE)));
 -        private AABB bb;
 +        private me.alphamode.mcbig.phys.BigAABB bb;
          private boolean dirty = true;
+-        long sectionNode = SectionPos.asLong(-1, -1, -1);
++        SectionPos sectionNode = SectionPos.of(-1, -1, -1);
          final BlockPos.MutableBlockPos origin = new BlockPos.MutableBlockPos(-1, -1, -1);
-         private final BlockPos.MutableBlockPos[] relativeOrigins = Util.make(new BlockPos.MutableBlockPos[6], p_294717_ -> {
-@@ -299,12 +_,12 @@
+         private boolean playerChanged;
  
-         public RenderSection(int p_295197_, int p_295159_, int p_294506_, int p_294392_) {
+-        public RenderSection(int p_295197_, long p_366428_) {
++        public RenderSection(int p_295197_, SectionPos p_366428_) {
              this.index = p_295197_;
--            this.setOrigin(p_295159_, p_294506_, p_294392_);
-+            this.setOrigin(me.alphamode.mcbig.math.BigInteger.val(p_295159_), me.alphamode.mcbig.math.BigInteger.val(p_294506_), me.alphamode.mcbig.math.BigInteger.val(p_294392_));
+             this.setSectionNode(p_366428_);
          }
  
-         private boolean doesChunkExistAt(BlockPos p_295253_) {
-             return SectionRenderDispatcher.this.level
--                    .getChunk(SectionPos.blockToSectionCoord(p_295253_.getX()), SectionPos.blockToSectionCoord(p_295253_.getZ()), ChunkStatus.FULL, false)
-+                    .getChunk(SectionPos.blockToSectionCoord(p_295253_.getBigX()), SectionPos.blockToSectionCoord(p_295253_.getBigZ()), ChunkStatus.FULL, false)
-                 != null;
+-        private boolean doesChunkExistAt(long p_366835_) {
+-            ChunkAccess chunkaccess = SectionRenderDispatcher.this.level.getChunk(SectionPos.x(p_366835_), SectionPos.z(p_366835_), ChunkStatus.FULL, false);
+-            return chunkaccess != null && SectionRenderDispatcher.this.level.getLightEngine().lightOnInColumn(SectionPos.getZeroNode(p_366835_));
++        private boolean doesChunkExistAt(SectionPos p_366835_) {
++            ChunkAccess chunkaccess = SectionRenderDispatcher.this.level.getChunk(p_366835_.x(), p_366835_.z(), ChunkStatus.FULL, false);
++            return chunkaccess != null && SectionRenderDispatcher.this.level.getLightEngine().lightOnInColumn(p_366835_.zeroNode());
          }
  
-@@ -320,7 +_,7 @@
-             }
+         public boolean hasAllNeighbors() {
+             int i = 24;
+             return !(this.getDistToPlayerSqr() > 576.0)
+                 ? true
+-                : this.doesChunkExistAt(SectionPos.offset(this.sectionNode, Direction.WEST))
+-                    && this.doesChunkExistAt(SectionPos.offset(this.sectionNode, Direction.NORTH))
+-                    && this.doesChunkExistAt(SectionPos.offset(this.sectionNode, Direction.EAST))
+-                    && this.doesChunkExistAt(SectionPos.offset(this.sectionNode, Direction.SOUTH))
+-                    && this.doesChunkExistAt(SectionPos.offset(this.sectionNode, -1, 0, -1))
+-                    && this.doesChunkExistAt(SectionPos.offset(this.sectionNode, -1, 0, 1))
+-                    && this.doesChunkExistAt(SectionPos.offset(this.sectionNode, 1, 0, -1))
+-                    && this.doesChunkExistAt(SectionPos.offset(this.sectionNode, 1, 0, 1));
++                : this.doesChunkExistAt(this.sectionNode.offset(Direction.WEST))
++                    && this.doesChunkExistAt(this.sectionNode.offset(Direction.NORTH))
++                    && this.doesChunkExistAt(this.sectionNode.offset(Direction.EAST))
++                    && this.doesChunkExistAt(this.sectionNode.offset(Direction.SOUTH))
++                    && this.doesChunkExistAt(this.sectionNode.offset(-1, 0, -1))
++                    && this.doesChunkExistAt(this.sectionNode.offset(-1, 0, 1))
++                    && this.doesChunkExistAt(this.sectionNode.offset(1, 0, -1))
++                    && this.doesChunkExistAt(this.sectionNode.offset(1, 0, 1));
          }
  
 -        public AABB getBoundingBox() {
@@ -56,22 +76,24 @@
              return this.bb;
          }
  
-@@ -328,11 +_,11 @@
+@@ -307,21 +_,21 @@
              return this.buffers.get(p_294497_);
          }
  
--        public void setOrigin(int p_294148_, int p_295137_, int p_295706_) {
-+        public void setOrigin(me.alphamode.mcbig.math.BigInteger p_294148_, me.alphamode.mcbig.math.BigInteger p_295137_, me.alphamode.mcbig.math.BigInteger p_295706_) {
+-        public void setSectionNode(long p_366482_) {
++        public void setSectionNode(SectionPos p_366482_) {
              this.reset();
-             this.origin.set(p_294148_, p_295137_, p_295706_);
--            this.bb = new AABB(
--                (double)p_294148_, (double)p_295137_, (double)p_295706_, (double)(p_294148_ + 16), (double)(p_295137_ + 16), (double)(p_295706_ + 16)
-+            this.bb = new me.alphamode.mcbig.phys.BigAABB(
-+                p_294148_.toBigDecimal(), (double)p_295137_.doubleValue(), p_295706_.toBigDecimal(), (p_294148_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).toBigDecimal(), (double)(p_295137_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).doubleValue(), (p_295706_.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).toBigDecimal()
-             );
- 
-             for(Direction direction : Direction.values()) {
-@@ -342,9 +_,9 @@
+             this.sectionNode = p_366482_;
+-            int i = SectionPos.sectionToBlockCoord(SectionPos.x(p_366482_));
+-            int j = SectionPos.sectionToBlockCoord(SectionPos.y(p_366482_));
+-            int k = SectionPos.sectionToBlockCoord(SectionPos.z(p_366482_));
++            me.alphamode.mcbig.math.BigInteger i = SectionPos.sectionToBlockCoord(p_366482_.x());
++            int j = SectionPos.sectionToBlockCoord(p_366482_.getY());
++            me.alphamode.mcbig.math.BigInteger k = SectionPos.sectionToBlockCoord(p_366482_.z());
+             this.origin.set(i, j, k);
+-            this.bb = new AABB((double)i, (double)j, (double)k, (double)(i + 16), (double)(j + 16), (double)(k + 16));
++            this.bb = new me.alphamode.mcbig.phys.BigAABB(i.toBigDecimal(), (double)j, k.toBigDecimal(), (i.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).toBigDecimal(), (double)(j + 16), (k.add(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN)).toBigDecimal());
+         }
  
          protected double getDistToPlayerSqr() {
              Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
@@ -83,78 +105,70 @@
              return d0 * d0 + d1 * d1 + d2 * d2;
          }
  
-@@ -469,11 +_,11 @@
-             sectionrenderdispatcher$rendersection$compiletask.doTask(SectionRenderDispatcher.this.fixedBuffers);
+@@ -345,7 +_,7 @@
+             return this.origin;
          }
  
--        public boolean isAxisAlignedWith(int p_295743_, int p_295344_, int p_295518_) {
-+        public boolean isAxisAlignedWith(me.alphamode.mcbig.math.BigInteger p_295743_, me.alphamode.mcbig.math.BigInteger p_295344_, me.alphamode.mcbig.math.BigInteger p_295518_) {
-             BlockPos blockpos = this.getOrigin();
--            return p_295743_ == SectionPos.blockToSectionCoord(blockpos.getX())
--                || p_295518_ == SectionPos.blockToSectionCoord(blockpos.getZ())
--                || p_295344_ == SectionPos.blockToSectionCoord(blockpos.getY());
-+            return p_295743_.equals(SectionPos.blockToSectionCoord(blockpos.getBigX()))
-+                || p_295518_.equals(SectionPos.blockToSectionCoord(blockpos.getBigZ()))
-+                || p_295344_.equals(SectionPos.blockToSectionCoord(blockpos.getBigY()));
+-        public long getSectionNode() {
++        public SectionPos getSectionNode() {
+             return this.sectionNode;
          }
  
-         @OnlyIn(Dist.CLIENT)
-@@ -525,10 +_,10 @@
-                 } else if (this.isCancelled.get()) {
-                     return CompletableFuture.completedFuture(SectionRenderDispatcher.SectionTaskResult.CANCELLED);
-                 } else {
--                    Vec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
--                    float f = (float)vec3.x;
-+                    me.alphamode.mcbig.core.BigVec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
-+                    float f = (float)vec3.x.floatValue();
-                     float f1 = (float)vec3.y;
--                    float f2 = (float)vec3.z;
-+                    float f2 = (float)vec3.z.floatValue();
-                     SectionRenderDispatcher.RenderSection.RebuildTask.CompileResults sectionrenderdispatcher$rendersection$rebuildtask$compileresults = this.compile(
-                         f, f1, f2, p_296138_
-                     );
-@@ -616,7 +_,7 @@
-                             }
+@@ -368,8 +_,8 @@
+             return this.dirty && this.playerChanged;
+         }
  
-                             posestack.pushPose();
--                            posestack.translate((float)(blockpos2.getX() & 15), (float)(blockpos2.getY() & 15), (float)(blockpos2.getZ() & 15));
-+                            posestack.translate((float)(blockpos2.getBigX().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).floatValue()), (float)(blockpos2.getBigY().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).floatValue()), (float)(blockpos2.getBigZ().and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN).floatValue()));
-                             blockrenderdispatcher.renderBatched(blockstate, blockpos2, renderchunkregion, posestack, bufferbuilder2, true, randomsource);
-                             posestack.popPose();
-                         }
-@@ -627,7 +_,7 @@
-                         if (!bufferbuilder1.isCurrentBatchEmpty()) {
-                             bufferbuilder1.setQuadSorting(
-                                 VertexSorting.byDistance(
--                                    p_294894_ - (float)blockpos.getX(), p_295437_ - (float)blockpos.getY(), p_294465_ - (float)blockpos.getZ()
-+                                    p_294894_ - (float)blockpos.getBigX().floatValue(), p_295437_ - (float)blockpos.getBigY().floatValue(), p_294465_ - (float)blockpos.getBigZ().floatValue()
-                                 )
-                             );
-                             sectionrenderdispatcher$rendersection$rebuildtask$compileresults.transparencyState = bufferbuilder1.getSortState();
-@@ -701,10 +_,10 @@
-                 } else if (this.isCancelled.get()) {
-                     return CompletableFuture.completedFuture(SectionRenderDispatcher.SectionTaskResult.CANCELLED);
-                 } else {
--                    Vec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
--                    float f = (float)vec3.x;
-+                    me.alphamode.mcbig.core.BigVec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
-+                    float f = (float)vec3.x.floatValue();
-                     float f1 = (float)vec3.y;
--                    float f2 = (float)vec3.z;
-+                    float f2 = (float)vec3.z.floatValue();
-                     BufferBuilder.SortState bufferbuilder$sortstate = this.compiledSection.transparencyState;
-                     if (bufferbuilder$sortstate != null && !this.compiledSection.isEmpty(RenderType.translucent())) {
-                         BufferBuilder bufferbuilder = p_295160_.builder(RenderType.translucent());
-@@ -712,9 +_,9 @@
-                         bufferbuilder.restoreSortState(bufferbuilder$sortstate);
-                         bufferbuilder.setQuadSorting(
-                             VertexSorting.byDistance(
--                                f - (float)RenderSection.this.origin.getX(),
--                                f1 - (float)RenderSection.this.origin.getY(),
--                                f2 - (float)RenderSection.this.origin.getZ()
-+                                f - (float)RenderSection.this.origin.getBigX().floatValue(),
-+                                f1 - (float)RenderSection.this.origin.getBigY().floatValue(),
-+                                f2 - (float)RenderSection.this.origin.getBigZ().floatValue()
-                             )
-                         );
-                         this.compiledSection.transparencyState = bufferbuilder.getSortState();
+-        public long getNeighborSectionNode(Direction p_366736_) {
+-            return SectionPos.offset(this.sectionNode, p_366736_);
++        public SectionPos getNeighborSectionNode(Direction p_366736_) {
++            return this.sectionNode.offset(p_366736_.getStepX(), p_366736_.getStepY(), p_366736_.getStepZ());
+         }
+ 
+         public void resortTransparency(SectionRenderDispatcher p_294363_) {
+@@ -399,7 +_,7 @@
+ 
+         public SectionRenderDispatcher.RenderSection.CompileTask createCompileTask(RenderRegionCache p_295324_) {
+             this.cancelTasks();
+-            RenderChunkRegion renderchunkregion = p_295324_.createRegion(SectionRenderDispatcher.this.level, SectionPos.of(this.sectionNode));
++            RenderChunkRegion renderchunkregion = p_295324_.createRegion(SectionRenderDispatcher.this.level, this.sectionNode);
+             boolean flag = this.compiled.get() != SectionRenderDispatcher.CompiledSection.UNCOMPILED;
+             this.lastRebuildTask = new SectionRenderDispatcher.RenderSection.RebuildTask(renderchunkregion, flag);
+             return this.lastRebuildTask;
+@@ -435,9 +_,9 @@
+         }
+ 
+         VertexSorting createVertexSorting() {
+-            Vec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
++            me.alphamode.mcbig.core.BigVec3 vec3 = SectionRenderDispatcher.this.getCameraPosition();
+             return VertexSorting.byDistance(
+-                (float)(vec3.x - (double)this.origin.getX()), (float)(vec3.y - (double)this.origin.getY()), (float)(vec3.z - (double)this.origin.getZ())
++                (float)(vec3.x.subtract(this.origin.getBigX().toBigDecimal())).floatValue(), (float)(vec3.y - (double)this.origin.getY()), (float)(vec3.z.subtract(this.origin.getBigZ().toBigDecimal())).floatValue()
+             );
+         }
+ 
+@@ -628,15 +_,20 @@
+         private int y;
+         private int z;
+ 
+-        public static SectionRenderDispatcher.TranslucencyPointOfView of(Vec3 p_371341_, long p_371400_) {
++        public static SectionRenderDispatcher.TranslucencyPointOfView of(me.alphamode.mcbig.core.BigVec3 p_371341_, SectionPos p_371400_) {
+             return new SectionRenderDispatcher.TranslucencyPointOfView().set(p_371341_, p_371400_);
+         }
+ 
+-        public SectionRenderDispatcher.TranslucencyPointOfView set(Vec3 p_371567_, long p_371572_) {
+-            this.x = getCoordinate(p_371567_.x(), SectionPos.x(p_371572_));
+-            this.y = getCoordinate(p_371567_.y(), SectionPos.y(p_371572_));
+-            this.z = getCoordinate(p_371567_.z(), SectionPos.z(p_371572_));
++        public SectionRenderDispatcher.TranslucencyPointOfView set(me.alphamode.mcbig.core.BigVec3 p_371567_, SectionPos p_371572_) {
++            this.x = getCoordinate(p_371567_.bigX(), p_371572_.x());
++            this.y = getCoordinate(p_371567_.y(), p_371572_.getY());
++            this.z = getCoordinate(p_371567_.bigZ(), p_371572_.z());
+             return this;
++        }
++
++        private static int getCoordinate(me.alphamode.mcbig.math.BigDecimal p_371545_, me.alphamode.mcbig.math.BigInteger p_371464_) {
++            int i = SectionPos.blockToSectionCoord(p_371545_).subtract(p_371464_).intValue();
++            return Mth.clamp(i, -1, 1);
+         }
+ 
+         private static int getCoordinate(double p_371545_, int p_371464_) {

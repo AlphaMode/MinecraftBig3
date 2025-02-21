@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/protocol/common/custom/StructuresDebugPayload.java
 +++ b/net/minecraft/network/protocol/common/custom/StructuresDebugPayload.java
-@@ -29,16 +_,16 @@
+@@ -31,16 +_,16 @@
      }
  
      static BoundingBox readBoundingBox(FriendlyByteBuf p_294387_) {

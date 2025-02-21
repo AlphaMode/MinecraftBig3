@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/util/RandomPos.java
 +++ b/net/minecraft/world/entity/ai/util/RandomPos.java
-@@ -104,23 +_,23 @@
+@@ -106,23 +_,23 @@
      }
  
      public static BlockPos generateRandomPosTowardDirection(PathfinderMob p_217864_, int p_217865_, RandomSource p_217866_, BlockPos p_217867_) {

@@ -1,46 +1,51 @@
 --- a/net/minecraft/client/renderer/SectionOcclusionGraph.java
 +++ b/net/minecraft/client/renderer/SectionOcclusionGraph.java
-@@ -112,7 +_,7 @@
+@@ -117,8 +_,8 @@
+         }
      }
  
-     public void update(boolean p_294298_, Camera p_294529_, Frustum p_294426_, List<SectionRenderDispatcher.RenderSection> p_295280_) {
+-    public void update(boolean p_294298_, Camera p_294529_, Frustum p_294426_, List<SectionRenderDispatcher.RenderSection> p_295280_, LongOpenHashSet p_366410_) {
 -        Vec3 vec3 = p_294529_.getPosition();
++    public void update(boolean p_294298_, Camera p_294529_, Frustum p_294426_, List<SectionRenderDispatcher.RenderSection> p_295280_, it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<SectionPos> p_366410_) {
 +        me.alphamode.mcbig.core.BigVec3 vec3 = p_294529_.getPosition();
          if (this.needsFullUpdate && (this.fullUpdateTask == null || this.fullUpdateTask.isDone())) {
-             this.scheduleFullUpdate(p_294298_, p_294529_, vec3);
+             this.scheduleFullUpdate(p_294298_, p_294529_, vec3, p_366410_);
          }
-@@ -120,7 +_,7 @@
-         this.runPartialUpdate(p_294298_, p_294426_, p_295280_, vec3);
+@@ -126,9 +_,9 @@
+         this.runPartialUpdate(p_294298_, p_294426_, p_295280_, vec3, p_366410_);
      }
  
--    private void scheduleFullUpdate(boolean p_294514_, Camera p_295663_, Vec3 p_295096_) {
-+    private void scheduleFullUpdate(boolean p_294514_, Camera p_295663_, me.alphamode.mcbig.core.BigVec3 p_295096_) {
+-    private void scheduleFullUpdate(boolean p_294514_, Camera p_295663_, Vec3 p_295096_, LongOpenHashSet p_366772_) {
++    private void scheduleFullUpdate(boolean p_294514_, Camera p_295663_, me.alphamode.mcbig.core.BigVec3 p_295096_, it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<SectionPos> p_366772_) {
          this.needsFullUpdate = false;
-         this.fullUpdateTask = Util.backgroundExecutor().submit(() -> {
-             SectionOcclusionGraph.GraphState sectionocclusiongraph$graphstate = new SectionOcclusionGraph.GraphState(this.viewArea.sections.length);
-@@ -136,7 +_,7 @@
-         });
+-        LongOpenHashSet longopenhashset = p_366772_.clone();
++        it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<SectionPos> longopenhashset = p_366772_.clone();
+         this.fullUpdateTask = CompletableFuture.runAsync(() -> {
+             SectionOcclusionGraph.GraphState sectionocclusiongraph$graphstate = new SectionOcclusionGraph.GraphState(this.viewArea);
+             this.nextGraphEvents.set(sectionocclusiongraph$graphstate.events);
+@@ -144,7 +_,7 @@
      }
  
--    private void runPartialUpdate(boolean p_294795_, Frustum p_294341_, List<SectionRenderDispatcher.RenderSection> p_294796_, Vec3 p_295915_) {
-+    private void runPartialUpdate(boolean p_294795_, Frustum p_294341_, List<SectionRenderDispatcher.RenderSection> p_294796_, me.alphamode.mcbig.core.BigVec3 p_295915_) {
+     private void runPartialUpdate(
+-        boolean p_294795_, Frustum p_294341_, List<SectionRenderDispatcher.RenderSection> p_294796_, Vec3 p_295915_, LongOpenHashSet p_366753_
++        boolean p_294795_, Frustum p_294341_, List<SectionRenderDispatcher.RenderSection> p_294796_, me.alphamode.mcbig.core.BigVec3 p_295915_, it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<SectionPos> p_366753_
+     ) {
          SectionOcclusionGraph.GraphState sectionocclusiongraph$graphstate = this.currentGraph.get();
          this.queueSectionsWithNewNeighbors(sectionocclusiongraph$graphstate);
-         if (!sectionocclusiongraph$graphstate.events.sectionsToPropagateFrom.isEmpty()) {
-@@ -165,10 +_,10 @@
+@@ -174,10 +_,10 @@
      }
  
      private void queueSectionsWithNewNeighbors(SectionOcclusionGraph.GraphState p_296471_) {
 -        LongIterator longiterator = p_296471_.events.chunksWhichReceivedNeighbors.iterator();
 +        it.unimi.dsi.fastutil.objects.ObjectIterator<ChunkPos> longiterator = p_296471_.events.chunksWhichReceivedNeighbors.iterator();
  
-         while(longiterator.hasNext()) {
+         while (longiterator.hasNext()) {
 -            long i = longiterator.nextLong();
 +            ChunkPos i = longiterator.next();
              List<SectionRenderDispatcher.RenderSection> list = p_296471_.storage.chunksWaitingForNeighbors.get(i);
              if (list != null && list.get(0).hasAllNeighbors()) {
                  p_296471_.events.sectionsToPropagateFrom.addAll(list);
-@@ -180,30 +_,30 @@
+@@ -189,20 +_,20 @@
      }
  
      private void addNeighbors(SectionOcclusionGraph.GraphEvents p_295866_, ChunkPos p_295968_) {
@@ -48,38 +53,47 @@
 -        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x, p_295968_.z - 1));
 -        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x + 1, p_295968_.z));
 -        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x, p_295968_.z + 1));
-+        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x().subtract(), p_295968_.z()));
-+        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x(), p_295968_.z().subtract()));
-+        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x().add(), p_295968_.z()));
-+        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x(), p_295968_.z().add()));
+-        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x - 1, p_295968_.z - 1));
+-        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x - 1, p_295968_.z + 1));
+-        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x + 1, p_295968_.z - 1));
+-        p_295866_.chunksWhichReceivedNeighbors.add(ChunkPos.asLong(p_295968_.x + 1, p_295968_.z + 1));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x.subtract(), p_295968_.z));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x, p_295968_.z.subtract()));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x.add(), p_295968_.z));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x, p_295968_.z.add()));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x.subtract(), p_295968_.z.subtract()));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x.subtract(), p_295968_.z.add()));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x.add(), p_295968_.z.subtract()));
++        p_295866_.chunksWhichReceivedNeighbors.add(new ChunkPos(p_295968_.x.add(), p_295968_.z.add()));
      }
  
      private void initializeQueueForFullUpdate(Camera p_295148_, Queue<SectionOcclusionGraph.Node> p_294801_) {
-         int i = 16;
--        Vec3 vec3 = p_295148_.getPosition();
-+        me.alphamode.mcbig.core.BigVec3 vec3 = p_295148_.getPosition();
          BlockPos blockpos = p_295148_.getBlockPosition();
-         SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection = this.viewArea.getRenderSectionAt(blockpos);
+-        long i = SectionPos.asLong(blockpos);
+-        int j = SectionPos.y(i);
++        SectionPos i = SectionPos.of(blockpos);
++        int j = i.y().intValue();
+         SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection = this.viewArea.getRenderSection(i);
          if (sectionrenderdispatcher$rendersection == null) {
              LevelHeightAccessor levelheightaccessor = this.viewArea.getLevelHeightAccessor();
-             boolean flag = blockpos.getY() > levelheightaccessor.getMinBuildHeight();
-             int j = flag ? levelheightaccessor.getMaxBuildHeight() - 8 : levelheightaccessor.getMinBuildHeight() + 8;
--            int k = Mth.floor(vec3.x / 16.0) * 16;
--            int l = Mth.floor(vec3.z / 16.0) * 16;
-+            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(vec3.x.divide(me.alphamode.mcbig.core.BigConstants.SIXTEEN)).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN);
-+            me.alphamode.mcbig.math.BigInteger l = Mth.bigFloor(vec3.z.divide(me.alphamode.mcbig.core.BigConstants.SIXTEEN)).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN);
-             int i1 = this.viewArea.getViewDistance();
+@@ -210,13 +_,13 @@
+             int k = flag ? levelheightaccessor.getMinSectionY() : levelheightaccessor.getMaxSectionY();
+             int l = this.viewArea.getViewDistance();
              List<SectionOcclusionGraph.Node> list = Lists.newArrayList();
+-            int i1 = SectionPos.x(i);
+-            int j1 = SectionPos.z(i);
++            me.alphamode.mcbig.math.BigInteger i1 = i.x();
++            me.alphamode.mcbig.math.BigInteger j1 = i.z();
  
-             for(int j1 = -i1; j1 <= i1; ++j1) {
-                 for(int k1 = -i1; k1 <= i1; ++k1) {
+             for (int k1 = -l; k1 <= l; k1++) {
+                 for (int l1 = -l; l1 <= l; l1++) {
                      SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection1 = this.viewArea
--                        .getRenderSectionAt(new BlockPos(k + SectionPos.sectionToBlockCoord(j1, 8), j, l + SectionPos.sectionToBlockCoord(k1, 8)));
-+                        .getRenderSectionAt(new BlockPos(k.add(SectionPos.sectionToBlockCoord(j1, 8)), j, l.add(SectionPos.sectionToBlockCoord(k1, 8))));
-                     if (sectionrenderdispatcher$rendersection1 != null && this.isInViewDistance(blockpos, sectionrenderdispatcher$rendersection1.getOrigin())) {
-                         Direction direction = flag ? Direction.DOWN : Direction.UP;
+-                        .getRenderSection(SectionPos.asLong(k1 + i1, k, l1 + j1));
++                        .getRenderSection(SectionPos.of(i1.add(k1), k, j1.add(l1)));
+                     if (sectionrenderdispatcher$rendersection1 != null && this.isInViewDistance(i, sectionrenderdispatcher$rendersection1.getSectionNode())) {
+                         Direction direction = flag ? Direction.UP : Direction.DOWN;
                          SectionOcclusionGraph.Node sectionocclusiongraph$node = new SectionOcclusionGraph.Node(
-@@ -236,13 +_,13 @@
+@@ -249,15 +_,15 @@
  
      private void runUpdates(
          SectionOcclusionGraph.GraphStorage p_295507_,
@@ -87,28 +101,19 @@
 +        me.alphamode.mcbig.core.BigVec3 p_294343_,
          Queue<SectionOcclusionGraph.Node> p_295598_,
          boolean p_295668_,
-         Consumer<SectionRenderDispatcher.RenderSection> p_295393_
+         Consumer<SectionRenderDispatcher.RenderSection> p_295393_,
+-        LongOpenHashSet p_366468_
++        it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<SectionPos> p_366468_
      ) {
          int i = 16;
 -        BlockPos blockpos = new BlockPos(Mth.floor(p_294343_.x / 16.0) * 16, Mth.floor(p_294343_.y / 16.0) * 16, Mth.floor(p_294343_.z / 16.0) * 16);
+-        long j = SectionPos.asLong(blockpos);
 +        BlockPos blockpos = new BlockPos(Mth.bigFloor(p_294343_.x.divide(me.alphamode.mcbig.core.BigConstants.SIXTEEN)).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN), Mth.bigFloor(p_294343_.y / 16.0).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN), Mth.bigFloor(p_294343_.z.divide(me.alphamode.mcbig.core.BigConstants.SIXTEEN)).multiply(me.alphamode.mcbig.core.BigConstants.Ints.SIXTEEN));
++        SectionPos j = SectionPos.of(blockpos);
          BlockPos blockpos1 = blockpos.offset(8, 8, 8);
  
-         while(!p_295598_.isEmpty()) {
-@@ -252,9 +_,9 @@
-                 p_295393_.accept(sectionocclusiongraph$node.section);
-             }
- 
--            boolean flag = Math.abs(sectionrenderdispatcher$rendersection.getOrigin().getX() - blockpos.getX()) > 60
--                || Math.abs(sectionrenderdispatcher$rendersection.getOrigin().getY() - blockpos.getY()) > 60
--                || Math.abs(sectionrenderdispatcher$rendersection.getOrigin().getZ() - blockpos.getZ()) > 60;
-+            boolean flag = sectionrenderdispatcher$rendersection.getOrigin().getBigX().subtract(blockpos.getBigX()).abs().intValue() > 60
-+                || sectionrenderdispatcher$rendersection.getOrigin().getBigY().subtract(blockpos.getBigY()).abs().intValue() > 60
-+                || sectionrenderdispatcher$rendersection.getOrigin().getBigZ().subtract(blockpos.getBigZ()).abs().intValue() > 60;
- 
-             for(Direction direction : DIRECTIONS) {
-                 SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection1 = this.getRelativeFrom(
-@@ -281,15 +_,15 @@
+         while (!p_295598_.isEmpty()) {
+@@ -302,15 +_,15 @@
                      if (p_295668_ && flag) {
                          BlockPos blockpos2 = sectionrenderdispatcher$rendersection1.getOrigin();
                          BlockPos blockpos3 = blockpos2.offset(
@@ -125,59 +130,78 @@
 +                        me.alphamode.mcbig.core.BigVec3 vec3 = p_294343_.subtract(vec31).normalize().scale(CEILED_SECTION_DIAGONAL);
                          boolean flag2 = true;
  
--                        while(p_294343_.subtract(vec31).lengthSqr() > 3600.0) {
+-                        while (p_294343_.subtract(vec31).lengthSqr() > 3600.0) {
 +                        while(p_294343_.subtract(vec31).lengthSqr().compareTo(me.alphamode.mcbig.core.BigConstants.OCCLUSION) > 0) {
                              vec31 = vec31.add(vec3);
                              LevelHeightAccessor levelheightaccessor = this.viewArea.getLevelHeightAccessor();
-                             if (vec31.y > (double)levelheightaccessor.getMaxBuildHeight() || vec31.y < (double)levelheightaccessor.getMinBuildHeight()) {
-@@ -324,7 +_,7 @@
-                         } else if (this.isInViewDistance(blockpos, sectionrenderdispatcher$rendersection1.getOrigin())) {
+                             if (vec31.y > (double)levelheightaccessor.getMaxY() || vec31.y < (double)levelheightaccessor.getMinY()) {
+@@ -345,7 +_,7 @@
+                         } else if (this.isInViewDistance(j, sectionrenderdispatcher$rendersection1.getSectionNode())) {
                              p_295507_.sectionToNodeMap.put(sectionrenderdispatcher$rendersection1, sectionocclusiongraph$node2);
                              p_295507_.chunksWaitingForNeighbors
--                                .computeIfAbsent(ChunkPos.asLong(sectionrenderdispatcher$rendersection1.getOrigin()), p_294377_ -> new ArrayList())
+-                                .computeIfAbsent(ChunkPos.asLong(sectionrenderdispatcher$rendersection1.getOrigin()), p_294377_ -> new ArrayList<>())
 +                                .computeIfAbsent(new ChunkPos(sectionrenderdispatcher$rendersection1.getOrigin()), p_294377_ -> new ArrayList())
                                  .add(sectionrenderdispatcher$rendersection1);
                          }
                      }
-@@ -334,10 +_,10 @@
+@@ -354,19 +_,19 @@
+         }
      }
  
-     private boolean isInViewDistance(BlockPos p_295639_, BlockPos p_295511_) {
--        int i = SectionPos.blockToSectionCoord(p_295639_.getX());
--        int j = SectionPos.blockToSectionCoord(p_295639_.getZ());
--        int k = SectionPos.blockToSectionCoord(p_295511_.getX());
--        int l = SectionPos.blockToSectionCoord(p_295511_.getZ());
-+        me.alphamode.mcbig.math.BigInteger i = SectionPos.blockToSectionCoord(p_295639_.getBigX());
-+        me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_295639_.getBigZ());
-+        me.alphamode.mcbig.math.BigInteger k = SectionPos.blockToSectionCoord(p_295511_.getBigX());
-+        me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(p_295511_.getBigZ());
-         return ChunkTrackingView.isInViewDistance(i, j, this.viewArea.getViewDistance(), k, l);
+-    private boolean isInViewDistance(long p_366544_, long p_366485_) {
++    private boolean isInViewDistance(SectionPos p_366544_, SectionPos p_366485_) {
+         return ChunkTrackingView.isInViewDistance(
+-            SectionPos.x(p_366544_), SectionPos.z(p_366544_), this.viewArea.getViewDistance(), SectionPos.x(p_366485_), SectionPos.z(p_366485_)
++            p_366544_.x(), p_366544_.z(), this.viewArea.getViewDistance(), p_366485_.x(), p_366485_.z()
+         );
      }
  
-@@ -358,9 +_,9 @@
+     @Nullable
+-    private SectionRenderDispatcher.RenderSection getRelativeFrom(long p_366669_, SectionRenderDispatcher.RenderSection p_295211_, Direction p_294491_) {
+-        long i = p_295211_.getNeighborSectionNode(p_294491_);
++    private SectionRenderDispatcher.RenderSection getRelativeFrom(SectionPos p_366669_, SectionRenderDispatcher.RenderSection p_295211_, Direction p_294491_) {
++        SectionPos i = p_295211_.getNeighborSectionNode(p_294491_);
+         if (!this.isInViewDistance(p_366669_, i)) {
+             return null;
+         } else {
+-            return Mth.abs(SectionPos.y(p_366669_) - SectionPos.y(i)) > this.viewArea.getViewDistance() ? null : this.viewArea.getRenderSection(i);
++            return Mth.abs(p_366669_.y().intValue() - i.y().intValue()) > this.viewArea.getViewDistance() ? null : this.viewArea.getRenderSection(i);
+         }
+     }
+ 
+@@ -381,9 +_,9 @@
      }
  
      @OnlyIn(Dist.CLIENT)
 -    static record GraphEvents(LongSet chunksWhichReceivedNeighbors, BlockingQueue<SectionRenderDispatcher.RenderSection> sectionsToPropagateFrom) {
 +    static record GraphEvents(it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> chunksWhichReceivedNeighbors, BlockingQueue<SectionRenderDispatcher.RenderSection> sectionsToPropagateFrom) {
-         public GraphEvents() {
+         GraphEvents() {
 -            this(new LongOpenHashSet(), new LinkedBlockingQueue<>());
 +            this(new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(), new LinkedBlockingQueue<>());
          }
      }
  
-@@ -375,12 +_,12 @@
+@@ -398,12 +_,12 @@
      static class GraphStorage {
          public final SectionOcclusionGraph.SectionToNodeMap sectionToNodeMap;
-         public final LinkedHashSet<SectionOcclusionGraph.Node> renderSections;
+         public final Octree sectionTree;
 -        public final Long2ObjectMap<List<SectionRenderDispatcher.RenderSection>> chunksWaitingForNeighbors;
 +        public final it.unimi.dsi.fastutil.objects.Object2ObjectMap<ChunkPos, List<SectionRenderDispatcher.RenderSection>> chunksWaitingForNeighbors;
  
-         public GraphStorage(int p_296094_) {
-             this.sectionToNodeMap = new SectionOcclusionGraph.SectionToNodeMap(p_296094_);
-             this.renderSections = new LinkedHashSet<>(p_296094_);
+         public GraphStorage(ViewArea p_366828_) {
+             this.sectionToNodeMap = new SectionOcclusionGraph.SectionToNodeMap(p_366828_.sections.length);
+             this.sectionTree = new Octree(p_366828_.getCameraSectionPos(), p_366828_.getViewDistance(), p_366828_.sectionGridSizeY, p_366828_.level.getMinY());
 -            this.chunksWaitingForNeighbors = new Long2ObjectOpenHashMap<>();
 +            this.chunksWaitingForNeighbors = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>();
          }
      }
  
+@@ -449,7 +_,7 @@
+ 
+         @Override
+         public int hashCode() {
+-            return Long.hashCode(this.section.getSectionNode());
++            return Long.hashCode(this.section.getSectionNode().asLong());
+         }
+ 
+         @Override

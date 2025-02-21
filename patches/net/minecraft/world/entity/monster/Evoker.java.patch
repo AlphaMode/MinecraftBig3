@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/Evoker.java
++++ b/net/minecraft/world/entity/monster/Evoker.java
+@@ -205,7 +_,7 @@
+                 Evoker.this.level()
+                     .addFreshEntity(new EvokerFangs(Evoker.this.level(), p_32673_, (double)blockpos.getY() + d0, p_32674_, p_32677_, p_32678_, Evoker.this));
+                 Evoker.this.level()
+-                    .gameEvent(GameEvent.ENTITY_PLACE, new Vec3(p_32673_, (double)blockpos.getY() + d0, p_32674_), GameEvent.Context.of(Evoker.this));
++                    .gameEvent(GameEvent.ENTITY_PLACE, new me.alphamode.mcbig.core.BigVec3(p_32673_, (double)blockpos.getY() + d0, p_32674_), GameEvent.Context.of(Evoker.this));
+             }
+         }
+ 

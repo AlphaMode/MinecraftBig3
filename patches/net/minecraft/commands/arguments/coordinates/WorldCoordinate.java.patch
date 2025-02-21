@@ -1,6 +1,6 @@
 --- a/net/minecraft/commands/arguments/coordinates/WorldCoordinate.java
 +++ b/net/minecraft/commands/arguments/coordinates/WorldCoordinate.java
-@@ -10,15 +_,15 @@
+@@ -10,15 +_,19 @@
      public static final SimpleCommandExceptionType ERROR_EXPECTED_DOUBLE = new SimpleCommandExceptionType(Component.translatable("argument.pos.missing.double"));
      public static final SimpleCommandExceptionType ERROR_EXPECTED_INT = new SimpleCommandExceptionType(Component.translatable("argument.pos.missing.int"));
      private final boolean relative;
@@ -15,6 +15,10 @@
  
 -    public double get(double p_120868_) {
 -        return this.relative ? this.value + p_120868_ : this.value;
++    public WorldCoordinate(boolean p_120864_, double p_120865_) {
++        this(p_120864_, me.alphamode.mcbig.math.BigDecimal.val(p_120865_));
++    }
++
 +    public me.alphamode.mcbig.math.BigDecimal get(me.alphamode.mcbig.math.BigDecimal p_120868_) {
 +        return this.relative ? this.value.add(p_120868_) : this.value;
      }
@@ -52,16 +56,15 @@
              }
  
              return new WorldCoordinate(flag, d0);
-@@ -84,7 +_,7 @@
-             if (this.relative != worldcoordinate.relative) {
-                 return false;
-             } else {
--                return Double.compare(worldcoordinate.value, this.value) == 0;
-+                return worldcoordinate.value.compareTo(this.value) == 0;
-             }
+@@ -80,14 +_,14 @@
+         } else if (!(p_120877_ instanceof WorldCoordinate worldcoordinate)) {
+             return false;
+         } else {
+-            return this.relative != worldcoordinate.relative ? false : Double.compare(worldcoordinate.value, this.value) == 0;
++            return this.relative != worldcoordinate.relative ? false : worldcoordinate.value.compareTo(this.value) == 0;
          }
      }
-@@ -92,7 +_,7 @@
+ 
      @Override
      public int hashCode() {
          int i = this.relative ? 1 : 0;

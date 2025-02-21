@@ -10,14 +10,14 @@
 +        me.alphamode.mcbig.math.BigInteger l = p_226120_.getBigZ();
          OptionalInt optionalint = OptionalInt.empty();
  
-         for(int i1 = 0; i1 < p_226119_; ++i1) {
+         for (int i1 = 0; i1 < p_226119_; i1++) {
              int j1 = p_226120_.getY() + i1;
              if (i1 >= i && j > 0) {
 -                k += direction.getStepX();
 -                l += direction.getStepZ();
 +                k = k.add(direction.getStepX());
 +                l = l.add(direction.getStepZ());
-                 --j;
+                 j--;
              }
  
 @@ -65,8 +_,8 @@
@@ -32,7 +32,7 @@
          if (direction1 != direction) {
              int j2 = i - p_226118_.nextInt(2) - 1;
 @@ -76,8 +_,8 @@
-             for(int l1 = j2; l1 < p_226119_ && k1 > 0; --k1) {
+             for (int l1 = j2; l1 < p_226119_ && k1 > 0; k1--) {
                  if (l1 >= 1) {
                      int i2 = p_226120_.getY() + l1;
 -                    k += direction1.getStepX();

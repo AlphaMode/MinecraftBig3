@@ -33,5 +33,5 @@
 -            SectionPos.blockToSectionCoord(p_25851_.getX()), SectionPos.blockToSectionCoord(p_25851_.getZ()), ChunkStatus.FULL, false
 +            SectionPos.blockToSectionCoord(p_25851_.getBigX()), SectionPos.blockToSectionCoord(p_25851_.getBigZ()), ChunkStatus.FULL, false
          );
-         if (chunkaccess == null) {
-             return false;
+         return chunkaccess == null
+             ? false

@@ -14,7 +14,7 @@
              DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(i, j, k);
              return Climate.target(
                  (float)this.temperature.compute(densityfunction$singlepointcontext),
-@@ -500,7 +_,7 @@
+@@ -501,7 +_,7 @@
          Climate.SpawnFinder.Result result;
  
          SpawnFinder(List<Climate.ParameterPoint> p_207872_, Climate.Sampler p_207873_) {
@@ -23,10 +23,10 @@
              this.radialSearch(p_207872_, p_207873_, 2048.0F, 512.0F);
              this.radialSearch(p_207872_, p_207873_, 512.0F, 32.0F);
          }
-@@ -511,8 +_,8 @@
+@@ -512,8 +_,8 @@
              BlockPos blockpos = this.result.location();
  
-             while(f1 <= p_207877_) {
+             while (f1 <= p_207877_) {
 -                int i = blockpos.getX() + (int)(Math.sin((double)f) * (double)f1);
 -                int j = blockpos.getZ() + (int)(Math.cos((double)f) * (double)f1);
 +                me.alphamode.mcbig.math.BigInteger i = blockpos.getBigX().add((int)(Math.sin((double)f) * (double)f1));
@@ -34,17 +34,21 @@
                  Climate.SpawnFinder.Result climate$spawnfinder$result = getSpawnPositionAndFitness(p_207875_, p_207876_, i, j);
                  if (climate$spawnfinder$result.fitness() < this.result.fitness()) {
                      this.result = climate$spawnfinder$result;
-@@ -527,11 +_,11 @@
+@@ -528,7 +_,7 @@
          }
  
          private static Climate.SpawnFinder.Result getSpawnPositionAndFitness(
 -            List<Climate.ParameterPoint> p_207880_, Climate.Sampler p_207881_, int p_207882_, int p_207883_
 +            List<Climate.ParameterPoint> p_207880_, Climate.Sampler p_207881_, me.alphamode.mcbig.math.BigInteger p_207882_, me.alphamode.mcbig.math.BigInteger p_207883_
          ) {
-             double d0 = Mth.square(2500.0);
-             int i = 2;
--            long j = (long)((double)Mth.square(10000.0F) * Math.pow((double)(Mth.square((long)p_207882_) + Mth.square((long)p_207883_)) / d0, 2.0));
-+            long j = (long)((double)Mth.square(10000.0F) * Math.pow((double)(Mth.square((long)p_207882_.longValue()) + Mth.square((long)p_207883_.longValue())) / d0, 2.0));
              Climate.TargetPoint climate$targetpoint = p_207881_.sample(QuartPos.fromBlock(p_207882_), 0, QuartPos.fromBlock(p_207883_));
              Climate.TargetPoint climate$targetpoint1 = new Climate.TargetPoint(
-                 climate$targetpoint.temperature(),
+@@ -545,7 +_,7 @@
+                 i = Math.min(i, climate$parameterpoint.fitness(climate$targetpoint1));
+             }
+ 
+-            long k = Mth.square((long)p_207882_) + Mth.square((long)p_207883_);
++            long k = Mth.square((long)p_207882_.longValue()) + Mth.square((long)p_207883_.longValue());
+             long j = i * Mth.square(2048L) + k;
+             return new Climate.SpawnFinder.Result(new BlockPos(p_207882_, 0, p_207883_), j);
+         }

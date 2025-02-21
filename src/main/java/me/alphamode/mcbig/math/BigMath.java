@@ -1,6 +1,7 @@
 package me.alphamode.mcbig.math;
 
 import java.math.MathContext;
+import java.util.stream.Stream;
 
 public class BigMath {
     public static BigInteger floorDiv(final BigInteger x, final BigInteger y) {
@@ -39,5 +40,14 @@ public class BigMath {
 
     public static BigDecimal sqrt(BigDecimal a) {
         return new BigDecimal(a.getBacking().sqrt(MathContext.DECIMAL128));
+    }
+
+    public static Stream<BigInteger> rangeClosed(BigInteger startInclusive, BigInteger endInclusive) {
+        Stream.Builder<BigInteger> builder = Stream.builder();
+        for (BigInteger i = startInclusive; i.compareTo(endInclusive) <= 0 ; i = i.add()) {
+            builder.add(i);
+        }
+
+        return builder.build();
     }
 }

@@ -35,7 +35,7 @@
      @Nullable
 -    protected DataLayer getDataLayer(long p_75759_, boolean p_75760_) {
 +    protected DataLayer getDataLayer(SectionPos p_75759_, boolean p_75760_) {
-         return this.getDataLayer((M)(p_75760_ ? this.updatingSectionData : this.visibleSectionData), p_75759_);
+         return this.getDataLayer(p_75760_ ? this.updatingSectionData : this.visibleSectionData, p_75759_);
      }
  
      @Nullable
@@ -109,9 +109,9 @@
 +        me.alphamode.mcbig.math.BigInteger j = p_281610_.y();
 +        me.alphamode.mcbig.math.BigInteger k = p_281610_.z();
  
-         for(int l = -1; l <= 1; ++l) {
-             for(int i1 = -1; i1 <= 1; ++i1) {
-                 for(int j1 = -1; j1 <= 1; ++j1) {
+         for (int l = -1; l <= 1; l++) {
+             for (int i1 = -1; i1 <= 1; i1++) {
+                 for (int j1 = -1; j1 <= 1; j1++) {
 -                    this.sectionsAffectedByLightUpdates.add(SectionPos.asLong(i + i1, j + j1, k + l));
 +                    this.sectionsAffectedByLightUpdates.add(SectionPos.of(i.add(i1), j.add(j1), k.add(l)));
                  }
@@ -128,7 +128,7 @@
          if (this.hasInconsistencies) {
              this.hasInconsistencies = false;
  
--            for(long i : this.toRemove) {
+-            for (long i : this.toRemove) {
 +            for(SectionPos i : this.toRemove) {
                  DataLayer datalayer = this.queuedSections.remove(i);
                  DataLayer datalayer1 = this.updatingSectionData.removeLayer(i);
@@ -141,7 +141,7 @@
  
              this.updatingSectionData.clearCache();
  
--            for(long k : this.toRemove) {
+-            for (long k : this.toRemove) {
 +            for(SectionPos k : this.toRemove) {
                  this.onNodeRemoved(k);
                  this.changedSections.add(k);
@@ -151,7 +151,7 @@
 -            ObjectIterator<Entry<DataLayer>> objectiterator = Long2ObjectMaps.fastIterator(this.queuedSections);
 +            ObjectIterator<it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<SectionPos, DataLayer>> objectiterator = it.unimi.dsi.fastutil.objects.Object2ObjectMaps.fastIterator(this.queuedSections);
  
-             while(objectiterator.hasNext()) {
+             while (objectiterator.hasNext()) {
 -                Entry<DataLayer> entry = objectiterator.next();
 -                long j = entry.getLongKey();
 +                it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<SectionPos, DataLayer> entry = objectiterator.next();
@@ -180,15 +180,21 @@
          if (p_284938_) {
              this.columnsWithSources.add(p_285065_);
          } else {
-@@ -187,12 +_,12 @@
+@@ -187,16 +_,16 @@
          }
      }
  
 -    protected boolean lightOnInSection(long p_285433_) {
 -        long i = SectionPos.getZeroNode(p_285433_);
+-        return this.columnsWithSources.contains(i);
 +    protected boolean lightOnInSection(SectionPos p_285433_) {
-+        SectionPos i = SectionPos.getZeroNode(p_285433_.x(), p_285433_.z());
-         return this.columnsWithSources.contains(i);
++//        long i = SectionPos.getZeroNode(p_285433_);
++        return this.columnsWithSources.contains(p_285433_.zeroNode());
+     }
+ 
+-    protected boolean lightOnInColumn(long p_366629_) {
++    protected boolean lightOnInColumn(SectionPos p_366629_) {
+         return this.columnsWithSources.contains(p_366629_);
      }
  
 -    public void retainData(long p_75783_, boolean p_75784_) {
@@ -196,7 +202,7 @@
          if (p_75784_) {
              this.columnsToRetainQueuedDataFor.add(p_75783_);
          } else {
-@@ -200,7 +_,7 @@
+@@ -204,7 +_,7 @@
          }
      }
  
@@ -205,7 +211,7 @@
          if (p_285498_ != null) {
              this.queuedSections.put(p_285403_, p_285498_);
              this.hasInconsistencies = true;
-@@ -209,8 +_,8 @@
+@@ -213,8 +_,8 @@
          }
      }
  
@@ -216,9 +222,9 @@
          byte b1 = LayerLightSectionStorage.SectionState.hasData(b0, !p_75789_);
          if (b0 != b1) {
              this.putSectionState(p_75788_, b1);
-@@ -220,8 +_,8 @@
-                 for(int k = -1; k <= 1; ++k) {
-                     for(int l = -1; l <= 1; ++l) {
+@@ -224,8 +_,8 @@
+                 for (int k = -1; k <= 1; k++) {
+                     for (int l = -1; l <= 1; l++) {
                          if (j != 0 || k != 0 || l != 0) {
 -                            long i1 = SectionPos.offset(p_75788_, j, k, l);
 -                            byte b2 = this.sectionStates.get(i1);
@@ -227,7 +233,7 @@
                              this.putSectionState(
                                  i1, LayerLightSectionStorage.SectionState.neighborCount(b2, LayerLightSectionStorage.SectionState.neighborCount(b2) + i)
                              );
-@@ -232,17 +_,17 @@
+@@ -236,17 +_,17 @@
          }
      }
  
@@ -248,7 +254,7 @@
          if (!this.toRemove.remove(p_285124_)) {
              this.updatingSectionData.setLayer(p_285124_, this.createDataLayer(p_285124_));
              this.changedSections.add(p_285124_);
-@@ -252,7 +_,7 @@
+@@ -256,7 +_,7 @@
          }
      }
  
@@ -257,14 +263,14 @@
          this.toRemove.add(p_285477_);
          this.hasInconsistencies = true;
      }
-@@ -266,19 +_,19 @@
+@@ -270,19 +_,19 @@
          }
  
          if (!this.sectionsAffectedByLightUpdates.isEmpty()) {
 -            LongIterator longiterator = this.sectionsAffectedByLightUpdates.iterator();
 +            it.unimi.dsi.fastutil.objects.ObjectIterator<SectionPos> longiterator = this.sectionsAffectedByLightUpdates.iterator();
  
-             while(longiterator.hasNext()) {
+             while (longiterator.hasNext()) {
 -                long i = longiterator.nextLong();
 -                this.chunkSource.onLightUpdate(this.layer, SectionPos.of(i));
 +                SectionPos i = longiterator.next();

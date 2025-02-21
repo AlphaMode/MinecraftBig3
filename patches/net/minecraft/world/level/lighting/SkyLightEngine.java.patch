@@ -61,13 +61,13 @@
 +            me.alphamode.mcbig.math.BigInteger j = SectionPos.blockToSectionCoord(p_285138_);
              int k = p_285130_ - 1;
  
-             for(int l = SectionPos.blockToSectionCoord(k); this.storage.hasLightDataAtOrBelow(l); --l) {
+             for (int l = SectionPos.blockToSectionCoord(k); this.storage.hasLightDataAtOrBelow(l); l--) {
 -                if (this.storage.storingLightForSection(SectionPos.asLong(i, l, j))) {
 +                if (this.storage.storingLightForSection(SectionPos.of(i, l, j))) {
                      int i1 = SectionPos.sectionToBlockCoord(l);
                      int j1 = i1 + 15;
  
-                     for(int k1 = Math.min(j1, k); k1 >= i1; --k1) {
+                     for (int k1 = Math.min(j1, k); k1 >= i1; k1--) {
 -                        long l1 = BlockPos.asLong(p_285475_, k1, p_285138_);
 +                        BlockPos l1 = new BlockPos(p_285475_, k1, p_285138_);
                          if (!isSourceLevel(this.storage.getStoredLevel(l1))) {
@@ -91,14 +91,14 @@
          );
          int l = Math.max(p_284972_, p_285134_);
  
--        for(long i1 = SectionPos.asLong(i, SectionPos.blockToSectionCoord(l), j); !this.storage.isAboveData(i1); i1 = SectionPos.offset(i1, Direction.UP)) {
+-        for (long i1 = SectionPos.asLong(i, SectionPos.blockToSectionCoord(l), j); !this.storage.isAboveData(i1); i1 = SectionPos.offset(i1, Direction.UP)) {
 +        for(SectionPos i1 = SectionPos.of(i, SectionPos.blockToSectionCoord(l), j); !this.storage.isAboveData(i1); i1 = i1.relative(Direction.UP)) {
              if (this.storage.storingLightForSection(i1)) {
 -                int j1 = SectionPos.sectionToBlockCoord(SectionPos.y(i1));
 +                int j1 = SectionPos.sectionToBlockCoord(i1.y()).intValue();
                  int k1 = j1 + 15;
  
-                 for(int l1 = Math.max(j1, l); l1 <= k1; ++l1) {
+                 for (int l1 = Math.max(j1, l); l1 <= k1; l1++) {
 -                    long i2 = BlockPos.asLong(p_285241_, l1, p_285212_);
 +                    BlockPos i2 = new BlockPos(p_285241_, l1, p_285212_);
                      if (isSourceLevel(this.storage.getStoredLevel(i2))) {
@@ -113,7 +113,7 @@
          BlockState blockstate = null;
          int i = this.countEmptySectionsBelowIfAtBorder(p_285341_);
  
-         for(Direction direction : PROPAGATION_DIRECTIONS) {
+         for (Direction direction : PROPAGATION_DIRECTIONS) {
              if (LightEngine.QueueEntry.shouldPropagateInDirection(p_285204_, direction)) {
 -                long j = BlockPos.offset(p_285341_, direction);
 -                if (this.storage.storingLightForSection(SectionPos.blockToSection(j))) {
@@ -131,7 +131,7 @@
          int i = this.countEmptySectionsBelowIfAtBorder(p_285015_);
          int j = LightEngine.QueueEntry.getFromLevel(p_285395_);
  
-         for(Direction direction : PROPAGATION_DIRECTIONS) {
+         for (Direction direction : PROPAGATION_DIRECTIONS) {
              if (LightEngine.QueueEntry.shouldPropagateInDirection(p_285395_, direction)) {
 -                long k = BlockPos.offset(p_285015_, direction);
 -                if (this.storage.storingLightForSection(SectionPos.blockToSection(k))) {
@@ -168,9 +168,9 @@
 +                me.alphamode.mcbig.math.BigInteger i2 = SectionPos.blockToSectionCoord(l);
                  int j2 = 0;
  
--                while(!this.storage.storingLightForSection(SectionPos.asLong(k1, l1 - j2 - 1, i2)) && this.storage.hasLightDataAtOrBelow(l1 - j2 - 1)) {
+-                while (!this.storage.storingLightForSection(SectionPos.asLong(k1, l1 - j2 - 1, i2)) && this.storage.hasLightDataAtOrBelow(l1 - j2 - 1)) {
 +                while(!this.storage.storingLightForSection(SectionPos.of(k1, l1 - j2 - 1, i2)) && this.storage.hasLightDataAtOrBelow(l1 - j2 - 1)) {
-                     ++j2;
+                     j2++;
                  }
  
 @@ -225,25 +_,25 @@
@@ -194,14 +194,14 @@
                  int j1 = SectionPos.blockToSectionCoord(k) - 1;
                  int k1 = j1 - p_285052_ + 1;
  
-                 while(j1 >= k1) {
+                 while (j1 >= k1) {
 -                    if (!this.storage.storingLightForSection(SectionPos.asLong(l, j1, i1))) {
 +                    if (!this.storage.storingLightForSection(SectionPos.of(l, j1, i1))) {
-                         --j1;
+                         j1--;
                      } else {
                          int l1 = SectionPos.sectionToBlockCoord(j1);
  
-                         for(int i2 = 15; i2 >= 0; --i2) {
+                         for (int i2 = 15; i2 >= 0; i2--) {
 -                            long j2 = BlockPos.asLong(i, l1 + i2, j);
 +                            BlockPos j2 = new BlockPos(i, l1 + i2, j);
                              if (p_285001_) {
@@ -220,7 +220,7 @@
              int l = this.storage.getTopSectionY(k);
              int i1 = Math.max(this.storage.getBottomSectionY(), j);
  
-             for(int j1 = l - 1; j1 >= i1; --j1) {
+             for (int j1 = l - 1; j1 >= i1; j1--) {
 -                DataLayer datalayer = this.storage.getDataLayerToWrite(SectionPos.asLong(p_285459_.x, j1, p_285459_.z));
 +                DataLayer datalayer = this.storage.getDataLayerToWrite(SectionPos.of(p_285459_.x(), j1, p_285459_.z()));
                  if (datalayer != null && datalayer.isEmpty()) {
@@ -250,14 +250,14 @@
 +        me.alphamode.mcbig.math.BigInteger l = SectionPos.sectionToBlockCoord(p_285333_.x());
 +        me.alphamode.mcbig.math.BigInteger i1 = SectionPos.sectionToBlockCoord(p_285333_.z());
  
-         for(int j1 = j - 1; j1 >= k; --j1) {
+         for (int j1 = j - 1; j1 >= k; j1--) {
 -            long k1 = SectionPos.asLong(p_285333_.x, j1, p_285333_.z);
 +            SectionPos k1 = SectionPos.of(p_285333_.x(), j1, p_285333_.z());
              DataLayer datalayer = this.storage.getDataLayerToWrite(k1);
              if (datalayer != null) {
                  int l1 = SectionPos.sectionToBlockCoord(j1);
 @@ -327,7 +_,7 @@
-                             for(int j4 = i2; j4 >= Math.max(l1, l2); --j4) {
+                             for (int j4 = i2; j4 >= Math.max(l1, l2); j4--) {
                                  datalayer.set(k2, SectionPos.sectionRelative(j4), j2, 15);
                                  if (j4 == l2 || j4 < i4) {
 -                                    long k4 = BlockPos.asLong(l + k2, j4, i1 + j2);

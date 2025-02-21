@@ -20,26 +20,12 @@
      }
  
      @Override
-@@ -100,18 +_,18 @@
+@@ -97,7 +_,7 @@
          }
      }
  
 -    public static WorldCoordinates absolute(double p_175086_, double p_175087_, double p_175088_) {
--        return new WorldCoordinates(new WorldCoordinate(false, p_175086_), new WorldCoordinate(false, p_175087_), new WorldCoordinate(false, p_175088_));
 +    public static WorldCoordinates absolute(me.alphamode.mcbig.math.BigDecimal p_175086_, double p_175087_, me.alphamode.mcbig.math.BigDecimal p_175088_) {
-+        return new WorldCoordinates(new WorldCoordinate(false, p_175086_), new WorldCoordinate(false, me.alphamode.mcbig.math.BigDecimal.val(p_175087_)), new WorldCoordinate(false, p_175088_));
+         return new WorldCoordinates(new WorldCoordinate(false, p_175086_), new WorldCoordinate(false, p_175087_), new WorldCoordinate(false, p_175088_));
      }
  
-     public static WorldCoordinates absolute(Vec2 p_175090_) {
-         return new WorldCoordinates(
--            new WorldCoordinate(false, (double)p_175090_.x), new WorldCoordinate(false, (double)p_175090_.y), new WorldCoordinate(true, 0.0)
-+            new WorldCoordinate(false, me.alphamode.mcbig.math.BigDecimal.val(p_175090_.x)), new WorldCoordinate(false, me.alphamode.mcbig.math.BigDecimal.val((double)p_175090_.y)), new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO)
-         );
-     }
- 
-     public static WorldCoordinates current() {
--        return new WorldCoordinates(new WorldCoordinate(true, 0.0), new WorldCoordinate(true, 0.0), new WorldCoordinate(true, 0.0));
-+        return new WorldCoordinates(new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO), new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO), new WorldCoordinate(true, me.alphamode.mcbig.math.BigDecimal.ZERO));
-     }
- 
-     @Override

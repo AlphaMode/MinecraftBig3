@@ -3,7 +3,7 @@
 @@ -22,12 +_,12 @@
          BlockPos blockpos = null;
  
-         for(BlockPos blockpos1 : BlockPos.betweenClosed(
+         for (BlockPos blockpos1 : BlockPos.betweenClosed(
 -            Mth.floor(this.mob.getX() - 2.0),
 -            Mth.floor(this.mob.getY() - 2.0),
 -            Mth.floor(this.mob.getZ() - 2.0),

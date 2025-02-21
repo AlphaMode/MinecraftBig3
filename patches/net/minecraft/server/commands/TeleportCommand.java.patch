@@ -1,6 +1,15 @@
 --- a/net/minecraft/server/commands/TeleportCommand.java
 +++ b/net/minecraft/server/commands/TeleportCommand.java
-@@ -163,9 +_,9 @@
+@@ -134,7 +_,7 @@
+                                                             p_379022_.getSource().getLevel(),
+                                                             Vec3Argument.getCoordinates(p_379022_, "location"),
+                                                             null,
+-                                                            new LookAt.LookAtPosition(Vec3Argument.getVec3(p_379022_, "facingLocation"))
++                                                            new LookAt.LookAtPosition(Vec3Argument.getVec3(p_379022_, "facingLocation").toVanilla())
+                                                         )
+                                                 )
+                                         )
+@@ -161,9 +_,9 @@
                  p_139033_,
                  entity,
                  (ServerLevel)p_139035_.level(),
@@ -9,30 +18,39 @@
                  p_139035_.getY(),
 -                p_139035_.getZ(),
 +                p_139035_.getBigZ(),
-                 EnumSet.noneOf(RelativeMovement.class),
+                 EnumSet.noneOf(Relative.class),
                  p_139035_.getYRot(),
                  p_139035_.getXRot(),
-@@ -195,7 +_,7 @@
+@@ -193,7 +_,7 @@
          @Nullable Coordinates p_139030_,
-         @Nullable TeleportCommand.LookAt p_139031_
+         @Nullable LookAt p_380364_
      ) throws CommandSyntaxException {
 -        Vec3 vec3 = p_139029_.getPosition(p_139026_);
 +        me.alphamode.mcbig.core.BigVec3 vec3 = p_139029_.getPosition(p_139026_);
          Vec2 vec2 = p_139030_ == null ? null : p_139030_.getRotation(p_139026_);
-         Set<RelativeMovement> set = EnumSet.noneOf(RelativeMovement.class);
-         if (p_139029_.isXRelative()) {
-@@ -254,6 +_,10 @@
-         return p_139027_.size();
-     }
  
-+    private static String formatDouble(me.alphamode.mcbig.math.BigDecimal p_142776_) {
-+        return String.format(Locale.ROOT, "%f", p_142776_.getBacking());
-+    }
-+
-     private static String formatDouble(double p_142776_) {
-         return String.format(Locale.ROOT, "%f", p_142776_);
-     }
-@@ -262,9 +_,9 @@
+         for (Entity entity : p_139027_) {
+@@ -210,16 +_,16 @@
+                 () -> Component.translatable(
+                         "commands.teleport.success.location.single",
+                         p_139027_.iterator().next().getDisplayName(),
+-                        formatDouble(vec3.x),
++                        formatDouble(vec3.x.doubleValue()),
+                         formatDouble(vec3.y),
+-                        formatDouble(vec3.z)
++                        formatDouble(vec3.z.doubleValue())
+                     ),
+                 true
+             );
+         } else {
+             p_139026_.sendSuccess(
+                 () -> Component.translatable(
+-                        "commands.teleport.success.location.multiple", p_139027_.size(), formatDouble(vec3.x), formatDouble(vec3.y), formatDouble(vec3.z)
++                        "commands.teleport.success.location.multiple", p_139027_.size(), formatDouble(vec3.x.doubleValue()), formatDouble(vec3.y), formatDouble(vec3.z.doubleValue())
+                     ),
+                 true
+             );
+@@ -270,9 +_,9 @@
          CommandSourceStack p_139015_,
          Entity p_139016_,
          ServerLevel p_139017_,
@@ -41,24 +59,18 @@
          double p_139019_,
 -        double p_139020_,
 +        me.alphamode.mcbig.math.BigDecimal p_139020_,
-         Set<RelativeMovement> p_139021_,
+         Set<Relative> p_139021_,
          float p_139022_,
          float p_139023_,
-@@ -294,7 +_,7 @@
-     }
- 
-     static class LookAt {
--        private final Vec3 position;
-+        private final me.alphamode.mcbig.core.BigVec3 position;
-         private final Entity entity;
-         private final EntityAnchorArgument.Anchor anchor;
- 
-@@ -304,7 +_,7 @@
-             this.position = p_139057_.apply(p_139056_);
-         }
- 
--        public LookAt(Vec3 p_139059_) {
-+        public LookAt(me.alphamode.mcbig.core.BigVec3 p_139059_) {
-             this.entity = null;
-             this.position = p_139059_;
-             this.anchor = null;
+@@ -282,9 +_,9 @@
+         if (!Level.isInSpawnableBounds(blockpos)) {
+             throw INVALID_POSITION.create();
+         } else {
+-            double d0 = p_139021_.contains(Relative.X) ? p_139018_ - p_139016_.getX() : p_139018_;
++            me.alphamode.mcbig.math.BigDecimal d0 = p_139021_.contains(Relative.X) ? p_139018_.subtract(p_139016_.getBigX()) : p_139018_;
+             double d1 = p_139021_.contains(Relative.Y) ? p_139019_ - p_139016_.getY() : p_139019_;
+-            double d2 = p_139021_.contains(Relative.Z) ? p_139020_ - p_139016_.getZ() : p_139020_;
++            me.alphamode.mcbig.math.BigDecimal d2 = p_139021_.contains(Relative.Z) ? p_139020_.subtract(p_139016_.getBigZ()) : p_139020_;
+             float f = p_139021_.contains(Relative.Y_ROT) ? p_139022_ - p_139016_.getYRot() : p_139022_;
+             float f1 = p_139021_.contains(Relative.X_ROT) ? p_139023_ - p_139016_.getXRot() : p_139023_;
+             float f2 = Mth.wrapDegrees(f);

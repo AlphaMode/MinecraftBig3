@@ -1,49 +1,56 @@
 --- a/net/minecraft/client/renderer/chunk/RenderChunkRegion.java
 +++ b/net/minecraft/client/renderer/chunk/RenderChunkRegion.java
-@@ -16,12 +_,12 @@
- 
- @OnlyIn(Dist.CLIENT)
+@@ -18,12 +_,12 @@
  public class RenderChunkRegion implements BlockAndTintGetter {
--    private final int centerX;
--    private final int centerZ;
-+    private final me.alphamode.mcbig.math.BigInteger centerX;
-+    private final me.alphamode.mcbig.math.BigInteger centerZ;
-     protected final RenderChunk[][] chunks;
+     public static final int RADIUS = 1;
+     public static final int SIZE = 3;
+-    private final int minChunkX;
+-    private final int minChunkZ;
++    private final me.alphamode.mcbig.math.BigInteger minChunkX;
++    private final me.alphamode.mcbig.math.BigInteger minChunkZ;
+     protected final RenderChunk[] chunks;
      protected final Level level;
  
--    RenderChunkRegion(Level p_200456_, int p_200457_, int p_200458_, RenderChunk[][] p_200459_) {
-+    RenderChunkRegion(Level p_200456_, me.alphamode.mcbig.math.BigInteger p_200457_, me.alphamode.mcbig.math.BigInteger p_200458_, RenderChunk[][] p_200459_) {
+-    RenderChunkRegion(Level p_200456_, int p_200457_, int p_200458_, RenderChunk[] p_350680_) {
++    RenderChunkRegion(Level p_200456_, me.alphamode.mcbig.math.BigInteger p_200457_, me.alphamode.mcbig.math.BigInteger p_200458_, RenderChunk[] p_350680_) {
          this.level = p_200456_;
-         this.centerX = p_200457_;
-         this.centerZ = p_200458_;
-@@ -30,15 +_,15 @@
+         this.minChunkX = p_200457_;
+         this.minChunkZ = p_200458_;
+@@ -32,12 +_,12 @@
  
      @Override
      public BlockState getBlockState(BlockPos p_112947_) {
--        int i = SectionPos.blockToSectionCoord(p_112947_.getX()) - this.centerX;
--        int j = SectionPos.blockToSectionCoord(p_112947_.getZ()) - this.centerZ;
-+        int i = SectionPos.blockToSectionCoord(p_112947_.getBigX()).subtract(this.centerX).intValue();
-+        int j = SectionPos.blockToSectionCoord(p_112947_.getBigZ()).subtract(this.centerZ).intValue();
-         return this.chunks[i][j].getBlockState(p_112947_);
+-        return this.getChunk(SectionPos.blockToSectionCoord(p_112947_.getX()), SectionPos.blockToSectionCoord(p_112947_.getZ())).getBlockState(p_112947_);
++        return this.getChunk(SectionPos.blockToSectionCoord(p_112947_.getBigX()), SectionPos.blockToSectionCoord(p_112947_.getBigZ())).getBlockState(p_112947_);
      }
  
      @Override
      public FluidState getFluidState(BlockPos p_112943_) {
--        int i = SectionPos.blockToSectionCoord(p_112943_.getX()) - this.centerX;
--        int j = SectionPos.blockToSectionCoord(p_112943_.getZ()) - this.centerZ;
-+        int i = SectionPos.blockToSectionCoord(p_112943_.getBigX()).subtract(this.centerX).intValue();
-+        int j = SectionPos.blockToSectionCoord(p_112943_.getBigZ()).subtract(this.centerZ).intValue();
-         return this.chunks[i][j].getBlockState(p_112943_).getFluidState();
+-        return this.getChunk(SectionPos.blockToSectionCoord(p_112943_.getX()), SectionPos.blockToSectionCoord(p_112943_.getZ()))
++        return this.getChunk(SectionPos.blockToSectionCoord(p_112943_.getBigX()), SectionPos.blockToSectionCoord(p_112943_.getBigZ()))
+             .getBlockState(p_112943_)
+             .getFluidState();
      }
- 
-@@ -55,8 +_,8 @@
+@@ -55,10 +_,10 @@
      @Nullable
      @Override
      public BlockEntity getBlockEntity(BlockPos p_112945_) {
--        int i = SectionPos.blockToSectionCoord(p_112945_.getX()) - this.centerX;
--        int j = SectionPos.blockToSectionCoord(p_112945_.getZ()) - this.centerZ;
-+        int i = SectionPos.blockToSectionCoord(p_112945_.getBigX()).subtract(this.centerX).intValue();
-+        int j = SectionPos.blockToSectionCoord(p_112945_.getBigZ()).subtract(this.centerZ).intValue();
-         return this.chunks[i][j].getBlockEntity(p_112945_);
+-        return this.getChunk(SectionPos.blockToSectionCoord(p_112945_.getX()), SectionPos.blockToSectionCoord(p_112945_.getZ())).getBlockEntity(p_112945_);
++        return this.getChunk(SectionPos.blockToSectionCoord(p_112945_.getBigX()), SectionPos.blockToSectionCoord(p_112945_.getBigZ())).getBlockEntity(p_112945_);
      }
  
+-    private RenderChunk getChunk(int p_350795_, int p_350558_) {
++    private RenderChunk getChunk(me.alphamode.mcbig.math.BigInteger p_350795_, me.alphamode.mcbig.math.BigInteger p_350558_) {
+         return this.chunks[index(this.minChunkX, this.minChunkZ, p_350795_, p_350558_)];
+     }
+ 
+@@ -77,7 +_,7 @@
+         return this.level.getHeight();
+     }
+ 
+-    public static int index(int p_350911_, int p_350842_, int p_350891_, int p_350833_) {
+-        return p_350891_ - p_350911_ + (p_350833_ - p_350842_) * 3;
++    public static int index(me.alphamode.mcbig.math.BigInteger p_350911_, me.alphamode.mcbig.math.BigInteger p_350842_, me.alphamode.mcbig.math.BigInteger p_350891_, me.alphamode.mcbig.math.BigInteger p_350833_) {
++        return p_350891_.subtract(p_350911_).intValue() + (p_350833_.subtract(p_350842_)).intValue() * 3;
+     }
+ }

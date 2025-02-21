@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/commands/LookAt.java
++++ b/net/minecraft/server/commands/LookAt.java
+@@ -16,7 +_,7 @@
+             if (p_379889_ instanceof ServerPlayer serverplayer) {
+                 serverplayer.lookAt(p_380255_.getAnchor(), this.entity, this.anchor);
+             } else {
+-                p_379889_.lookAt(p_380255_.getAnchor(), this.anchor.apply(this.entity));
++                p_379889_.lookAt(p_380255_.getAnchor(), this.anchor.apply(this.entity).toVanilla());
+             }
+         }
+     }

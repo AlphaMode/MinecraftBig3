@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/IglooPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/IglooPieces.java
-@@ -116,8 +_,8 @@
+@@ -118,8 +_,8 @@
              StructurePlaceSettings structureplacesettings = makeSettings(this.placeSettings.getRotation(), resourcelocation);
              BlockPos blockpos = IglooPieces.OFFSETS.get(resourcelocation);
              BlockPos blockpos1 = this.templatePosition

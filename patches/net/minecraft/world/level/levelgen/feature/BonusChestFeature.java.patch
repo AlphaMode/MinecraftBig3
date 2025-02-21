@@ -1,0 +1,19 @@
+--- a/net/minecraft/world/level/levelgen/feature/BonusChestFeature.java
++++ b/net/minecraft/world/level/levelgen/feature/BonusChestFeature.java
+@@ -26,12 +_,12 @@
+         RandomSource randomsource = p_159477_.random();
+         WorldGenLevel worldgenlevel = p_159477_.level();
+         ChunkPos chunkpos = new ChunkPos(p_159477_.origin());
+-        IntArrayList intarraylist = Util.toShuffledList(IntStream.rangeClosed(chunkpos.getMinBlockX(), chunkpos.getMaxBlockX()), randomsource);
+-        IntArrayList intarraylist1 = Util.toShuffledList(IntStream.rangeClosed(chunkpos.getMinBlockZ(), chunkpos.getMaxBlockZ()), randomsource);
++        java.util.List<me.alphamode.mcbig.math.BigInteger> intarraylist = Util.toShuffledList(me.alphamode.mcbig.math.BigMath.rangeClosed(chunkpos.getMinBlockX(), chunkpos.getMaxBlockX()), randomsource);
++        java.util.List<me.alphamode.mcbig.math.BigInteger> intarraylist1 = Util.toShuffledList(me.alphamode.mcbig.math.BigMath.rangeClosed(chunkpos.getMinBlockZ(), chunkpos.getMaxBlockZ()), randomsource);
+         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+ 
+-        for (Integer integer : intarraylist) {
+-            for (Integer integer1 : intarraylist1) {
++        for (me.alphamode.mcbig.math.BigInteger integer : intarraylist) {
++            for (me.alphamode.mcbig.math.BigInteger integer1 : intarraylist1) {
+                 blockpos$mutableblockpos.set(integer, 0, integer1);
+                 BlockPos blockpos = worldgenlevel.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos$mutableblockpos);
+                 if (worldgenlevel.isEmptyBlock(blockpos) || worldgenlevel.getBlockState(blockpos).getCollisionShape(worldgenlevel, blockpos).isEmpty()) {

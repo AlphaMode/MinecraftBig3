@@ -8,7 +8,7 @@
 +    public static BlendingData getOrUpdateBlendingData(WorldGenRegion p_190305_, me.alphamode.mcbig.math.BigInteger p_190306_, me.alphamode.mcbig.math.BigInteger p_190307_) {
          ChunkAccess chunkaccess = p_190305_.getChunk(p_190306_, p_190307_);
          BlendingData blendingdata = chunkaccess.getBlendingData();
-         if (blendingdata != null && chunkaccess.getHighestGeneratedStatus().isOrAfter(ChunkStatus.BIOMES)) {
+         if (blendingdata != null && !chunkaccess.getHighestGeneratedStatus().isBefore(ChunkStatus.BIOMES)) {
 @@ -112,12 +_,12 @@
          }
      }
@@ -17,7 +17,7 @@
 +    public static Set<Direction8> sideByGenerationAge(WorldGenLevel p_197066_, me.alphamode.mcbig.math.BigInteger p_197067_, me.alphamode.mcbig.math.BigInteger p_197068_, boolean p_197069_) {
          Set<Direction8> set = EnumSet.noneOf(Direction8.class);
  
-         for(Direction8 direction8 : Direction8.values()) {
+         for (Direction8 direction8 : Direction8.values()) {
 -            int i = p_197067_ + direction8.getStepX();
 -            int j = p_197068_ + direction8.getStepZ();
 +            me.alphamode.mcbig.math.BigInteger i = p_197067_.add(direction8.getStepX());
@@ -29,10 +29,10 @@
      private int getHeightAtXZ(ChunkAccess p_190311_, int p_190312_, int p_190313_) {
          int i;
          if (p_190311_.hasPrimedHeightmap(Heightmap.Types.WORLD_SURFACE_WG)) {
--            i = Math.min(p_190311_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, p_190312_, p_190313_) + 1, this.areaWithOldGeneration.getMaxBuildHeight());
-+            i = Math.min(p_190311_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, me.alphamode.mcbig.math.BigInteger.val(p_190312_), me.alphamode.mcbig.math.BigInteger.val(p_190313_)) + 1, this.areaWithOldGeneration.getMaxBuildHeight());
+-            i = Math.min(p_190311_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, p_190312_, p_190313_), this.areaWithOldGeneration.getMaxY());
++            i = Math.min(p_190311_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, me.alphamode.mcbig.math.BigInteger.val(p_190312_), me.alphamode.mcbig.math.BigInteger.val(p_190313_)) + 1, this.areaWithOldGeneration.getMaxY());
          } else {
-             i = this.areaWithOldGeneration.getMaxBuildHeight();
+             i = this.areaWithOldGeneration.getMaxY();
          }
 @@ -307,11 +_,11 @@
          }
@@ -40,7 +40,7 @@
  
 -    protected void iterateHeights(int p_190296_, int p_190297_, BlendingData.HeightConsumer p_190298_) {
 +    protected void iterateHeights(me.alphamode.mcbig.math.BigInteger p_190296_, me.alphamode.mcbig.math.BigInteger p_190297_, BlendingData.HeightConsumer p_190298_) {
-         for(int i = 0; i < this.heights.length; ++i) {
+         for (int i = 0; i < this.heights.length; i++) {
              double d0 = this.heights[i];
              if (d0 != Double.MAX_VALUE) {
 -                p_190298_.consume(p_190296_ + getX(i), p_190297_ + getZ(i), d0);
@@ -48,11 +48,12 @@
              }
          }
      }
-@@ -397,6 +_,6 @@
+@@ -397,7 +_,7 @@
      }
  
      protected interface HeightConsumer {
 -        void consume(int p_190367_, int p_190368_, double p_190369_);
 +        void consume(me.alphamode.mcbig.math.BigInteger p_190367_, me.alphamode.mcbig.math.BigInteger p_190368_, double p_190369_);
      }
- }
+ 
+     public static record Packed(int minSection, int maxSection, Optional<double[]> heights) {

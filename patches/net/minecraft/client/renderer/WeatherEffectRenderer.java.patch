@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/WeatherEffectRenderer.java
++++ b/net/minecraft/client/renderer/WeatherEffectRenderer.java
+@@ -232,7 +_,7 @@
+     }
+ 
+     private Biome.Precipitation getPrecipitationAt(Level p_362885_, BlockPos p_362817_) {
+-        if (!p_362885_.getChunkSource().hasChunk(SectionPos.blockToSectionCoord(p_362817_.getX()), SectionPos.blockToSectionCoord(p_362817_.getZ()))) {
++        if (!p_362885_.getChunkSource().hasChunk(SectionPos.blockToSectionCoord(p_362817_.getBigX()), SectionPos.blockToSectionCoord(p_362817_.getBigZ()))) {
+             return Biome.Precipitation.NONE;
+         } else {
+             Biome biome = p_362885_.getBiome(p_362817_).value();

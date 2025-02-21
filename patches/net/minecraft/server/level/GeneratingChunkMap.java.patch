@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/level/GeneratingChunkMap.java
++++ b/net/minecraft/server/level/GeneratingChunkMap.java
+@@ -8,7 +_,7 @@
+ import net.minecraft.world.level.chunk.status.ChunkStep;
+ 
+ public interface GeneratingChunkMap {
+-    GenerationChunkHolder acquireGeneration(long p_347510_);
++    GenerationChunkHolder acquireGeneration(ChunkPos p_347510_);
+ 
+     void releaseGeneration(GenerationChunkHolder p_347643_);
+ 

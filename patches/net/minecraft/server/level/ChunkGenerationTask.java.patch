@@ -1,0 +1,33 @@
+--- a/net/minecraft/server/level/ChunkGenerationTask.java
++++ b/net/minecraft/server/level/ChunkGenerationTask.java
+@@ -34,7 +_,7 @@
+     public static ChunkGenerationTask create(GeneratingChunkMap p_347575_, ChunkStatus p_347556_, ChunkPos p_347630_) {
+         int i = ChunkPyramid.GENERATION_PYRAMID.getStepTo(p_347556_).getAccumulatedRadiusOf(ChunkStatus.EMPTY);
+         StaticCache2D<GenerationChunkHolder> staticcache2d = StaticCache2D.create(
+-            p_347630_.x, p_347630_.z, i, (p_347569_, p_347704_) -> p_347575_.acquireGeneration(ChunkPos.asLong(p_347569_, p_347704_))
++            p_347630_.x, p_347630_.z, i, (p_347569_, p_347704_) -> p_347575_.acquireGeneration(new ChunkPos(p_347569_, p_347704_))
+         );
+         return new ChunkGenerationTask(p_347575_, p_347556_, p_347630_, staticcache2d);
+     }
+@@ -90,8 +_,8 @@
+                 ChunkDependencies chunkdependencies = ChunkPyramid.LOADING_PYRAMID.getStepTo(this.targetStatus).accumulatedDependencies();
+                 int i = chunkdependencies.getRadius();
+ 
+-                for (int j = this.pos.x - i; j <= this.pos.x + i; j++) {
+-                    for (int k = this.pos.z - i; k <= this.pos.z + i; k++) {
++                for (me.alphamode.mcbig.math.BigInteger j = this.pos.x.subtract(i); j.compareTo(this.pos.x.add(i)) <= 0; j = j.add()) {
++                    for (me.alphamode.mcbig.math.BigInteger k = this.pos.z.subtract(i); k.compareTo(this.pos.z.add(i)) <= 0; k = k.add()) {
+                         int l = this.pos.getChessboardDistance(j, k);
+                         ChunkStatus chunkstatus1 = chunkdependencies.get(l);
+                         ChunkStatus chunkstatus2 = this.cache.get(j, k).getPersistedStatus();
+@@ -117,8 +_,8 @@
+             zone.addText(p_347611_::getName);
+             int i = this.getRadiusForLayer(p_347611_, p_347592_);
+ 
+-            for (int j = this.pos.x - i; j <= this.pos.x + i; j++) {
+-                for (int k = this.pos.z - i; k <= this.pos.z + i; k++) {
++            for (me.alphamode.mcbig.math.BigInteger j = this.pos.x.subtract(i); j.compareTo(this.pos.x.add(i)) <= 0; j = j.add()) {
++                for (me.alphamode.mcbig.math.BigInteger k = this.pos.z.subtract(i); k.compareTo(this.pos.z.add(i)) <= 0; k = k.add()) {
+                     GenerationChunkHolder generationchunkholder = this.cache.get(j, k);
+                     if (this.markedForCancellation || !this.scheduleChunkInLayer(p_347611_, p_347592_, generationchunkholder)) {
+                         return;

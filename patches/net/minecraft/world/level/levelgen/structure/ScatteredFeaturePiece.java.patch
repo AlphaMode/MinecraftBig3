@@ -13,8 +13,8 @@
              int j = 0;
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
--            for(int k = this.boundingBox.minZ(); k <= this.boundingBox.maxZ(); ++k) {
--                for(int l = this.boundingBox.minX(); l <= this.boundingBox.maxX(); ++l) {
+-            for (int k = this.boundingBox.minZ(); k <= this.boundingBox.maxZ(); k++) {
+-                for (int l = this.boundingBox.minX(); l <= this.boundingBox.maxX(); l++) {
 +            for(me.alphamode.mcbig.math.BigInteger k = this.boundingBox.minZ(); k.compareTo(this.boundingBox.maxZ()) <= 0; k = k.add()) {
 +                for(me.alphamode.mcbig.math.BigInteger l = this.boundingBox.minX(); l.compareTo(this.boundingBox.maxX()) <= 0; l = l.add()) {
                      blockpos$mutableblockpos.set(l, 64, k);
@@ -33,8 +33,8 @@
              boolean flag = false;
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
--            for(int j = this.boundingBox.minZ(); j <= this.boundingBox.maxZ(); ++j) {
--                for(int k = this.boundingBox.minX(); k <= this.boundingBox.maxX(); ++k) {
+-            for (int j = this.boundingBox.minZ(); j <= this.boundingBox.maxZ(); j++) {
+-                for (int k = this.boundingBox.minX(); k <= this.boundingBox.maxX(); k++) {
 +            for(me.alphamode.mcbig.math.BigInteger j = this.boundingBox.minZ(); j.compareTo(this.boundingBox.maxZ()) <= 0; j = j.add()) {
 +                for(me.alphamode.mcbig.math.BigInteger k = this.boundingBox.minX(); k.compareTo(this.boundingBox.maxX()) <= 0; k = k.add()) {
                      blockpos$mutableblockpos.set(k, 0, j);

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonHoldingPatternPhase.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonHoldingPatternPhase.java
-@@ -118,7 +_,7 @@
+@@ -117,7 +_,7 @@
  
      private void navigateToNextPathNode() {
          if (this.currentPath != null && !this.currentPath.isDone()) {

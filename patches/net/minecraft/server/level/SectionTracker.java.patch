@@ -15,9 +15,9 @@
 -    protected void checkNeighborsAfterUpdate(long p_8280_, int p_8281_, boolean p_8282_) {
 +    protected void checkNeighborsAfterUpdate(SectionPos p_8280_, int p_8281_, boolean p_8282_) {
          if (!p_8282_ || p_8281_ < this.levelCount - 2) {
-             for(int i = -1; i <= 1; ++i) {
-                 for(int j = -1; j <= 1; ++j) {
-                     for(int k = -1; k <= 1; ++k) {
+             for (int i = -1; i <= 1; i++) {
+                 for (int j = -1; j <= 1; j++) {
+                     for (int k = -1; k <= 1; k++) {
 -                        long l = SectionPos.offset(p_8280_, i, j, k);
 -                        if (l != p_8280_) {
 +                        SectionPos l = p_8280_.offset(i, j, k);
@@ -33,9 +33,9 @@
 +    protected int getComputedLevel(SectionPos p_8284_, SectionPos p_8285_, int p_8286_) {
          int i = p_8286_;
  
-         for(int j = -1; j <= 1; ++j) {
-             for(int k = -1; k <= 1; ++k) {
-                 for(int l = -1; l <= 1; ++l) {
+         for (int j = -1; j <= 1; j++) {
+             for (int k = -1; k <= 1; k++) {
+                 for (int l = -1; l <= 1; l++) {
 -                    long i1 = SectionPos.offset(p_8284_, j, k, l);
 -                    if (i1 == p_8284_) {
 -                        i1 = Long.MAX_VALUE;

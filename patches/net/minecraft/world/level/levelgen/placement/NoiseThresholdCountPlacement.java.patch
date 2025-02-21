@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/placement/NoiseThresholdCountPlacement.java
 +++ b/net/minecraft/world/level/levelgen/placement/NoiseThresholdCountPlacement.java
-@@ -32,7 +_,7 @@
+@@ -33,7 +_,7 @@
  
      @Override
      protected int count(RandomSource p_226355_, BlockPos p_226356_) {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonTakeoffPhase.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonTakeoffPhase.java
-@@ -65,7 +_,7 @@
+@@ -64,7 +_,7 @@
          if (this.currentPath != null) {
              this.currentPath.advance();
              if (!this.currentPath.isDone()) {

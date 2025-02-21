@@ -3,7 +3,7 @@
 @@ -25,7 +_,7 @@
      @Deprecated
      public void offsetPiecesVertically(int p_192782_) {
-         for(StructurePiece structurepiece : this.pieces) {
+         for (StructurePiece structurepiece : this.pieces) {
 -            structurepiece.move(0, p_192782_, 0);
 +            structurepiece.move(me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.val(p_192782_), me.alphamode.mcbig.math.BigInteger.ZERO);
          }

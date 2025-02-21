@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/behavior/RamTarget.java
 +++ b/net/minecraft/world/entity/ai/behavior/RamTarget.java
-@@ -64,7 +_,7 @@
+@@ -66,7 +_,7 @@
          BlockPos blockpos = p_217360_.blockPosition();
          Brain<?> brain = p_217360_.getBrain();
          Vec3 vec3 = brain.getMemory(MemoryModuleType.RAM_TARGET).get();

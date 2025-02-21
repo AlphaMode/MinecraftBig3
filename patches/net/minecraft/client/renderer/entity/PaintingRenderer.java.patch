@@ -1,33 +1,14 @@
 --- a/net/minecraft/client/renderer/entity/PaintingRenderer.java
 +++ b/net/minecraft/client/renderer/entity/PaintingRenderer.java
-@@ -90,24 +_,24 @@
-                 float f16 = f + (float)(k * 16);
-                 float f17 = f1 + (float)((l + 1) * 16);
-                 float f18 = f1 + (float)(l * 16);
--                int i1 = p_115561_.getBlockX();
-+                me.alphamode.mcbig.math.BigInteger i1 = p_115561_.getBlockX();
-                 int j1 = Mth.floor(p_115561_.getY() + (double)((f17 + f18) / 2.0F / 16.0F));
--                int k1 = p_115561_.getBlockZ();
-+                me.alphamode.mcbig.math.BigInteger k1 = p_115561_.getBlockZ();
-                 Direction direction = p_115561_.getDirection();
-                 if (direction == Direction.NORTH) {
--                    i1 = Mth.floor(p_115561_.getX() + (double)((f15 + f16) / 2.0F / 16.0F));
-+                    i1 = Mth.bigFloor(p_115561_.getX() + (double)((f15 + f16) / 2.0F / 16.0F));
-                 }
- 
-                 if (direction == Direction.WEST) {
--                    k1 = Mth.floor(p_115561_.getZ() - (double)((f15 + f16) / 2.0F / 16.0F));
-+                    k1 = Mth.bigFloor(p_115561_.getZ() - (double)((f15 + f16) / 2.0F / 16.0F));
-                 }
- 
-                 if (direction == Direction.SOUTH) {
--                    i1 = Mth.floor(p_115561_.getX() - (double)((f15 + f16) / 2.0F / 16.0F));
-+                    i1 = Mth.bigFloor(p_115561_.getX() - (double)((f15 + f16) / 2.0F / 16.0F));
-                 }
- 
-                 if (direction == Direction.EAST) {
--                    k1 = Mth.floor(p_115561_.getZ() + (double)((f15 + f16) / 2.0F / 16.0F));
-+                    k1 = Mth.bigFloor(p_115561_.getZ() + (double)((f15 + f16) / 2.0F / 16.0F));
-                 }
- 
-                 int l1 = LevelRenderer.getLightColor(p_115561_.level(), new BlockPos(i1, j1, k1));
+@@ -72,9 +_,9 @@
+             for (int l = 0; l < i; l++) {
+                 float f2 = (float)l + f + 0.5F;
+                 float f3 = (float)k + f1 + 0.5F;
+-                int i1 = p_360735_.getBlockX();
++                int i1 = p_360735_.getBlockX().intValue();
+                 int j1 = Mth.floor(p_360735_.getY() + (double)f3);
+-                int k1 = p_360735_.getBlockZ();
++                int k1 = p_360735_.getBlockZ().intValue();
+                 switch (direction) {
+                     case NORTH:
+                         i1 = Mth.floor(p_360735_.getX() + (double)f2);

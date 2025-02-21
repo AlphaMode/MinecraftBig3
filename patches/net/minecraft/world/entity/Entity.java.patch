@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
-@@ -44,7 +_,6 @@
+@@ -52,7 +_,6 @@
  import net.minecraft.network.chat.Component;
  import net.minecraft.network.chat.HoverEvent;
  import net.minecraft.network.chat.MutableComponent;
@@ -8,7 +8,7 @@
  import net.minecraft.network.protocol.Packet;
  import net.minecraft.network.protocol.game.ClientGamePacketListener;
  import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
-@@ -156,7 +_,10 @@
+@@ -168,7 +_,10 @@
      public double xo;
      public double yo;
      public double zo;
@@ -20,15 +20,15 @@
      private BlockPos blockPosition;
      private ChunkPos chunkPosition;
      private Vec3 deltaMovement = Vec3.ZERO;
-@@ -247,6 +_,7 @@
+@@ -257,6 +_,7 @@
          this.level = p_19871_;
          this.dimensions = p_19870_.getDimensions();
          this.position = Vec3.ZERO;
 +        this.bigPosition = me.alphamode.mcbig.core.BigVec3.ZERO;
          this.blockPosition = BlockPos.ZERO;
          this.chunkPosition = ChunkPos.ZERO;
-         this.entityData = new SynchedEntityData(this);
-@@ -265,7 +_,7 @@
+         SynchedEntityData.Builder synchedentitydata$builder = new SynchedEntityData.Builder(this);
+@@ -276,7 +_,7 @@
  
      public boolean isColliding(BlockPos p_20040_, BlockState p_20041_) {
          VoxelShape voxelshape = p_20041_.getCollisionShape(this.level(), p_20040_, CollisionContext.of(this));
@@ -37,7 +37,27 @@
          return Shapes.joinIsNotEmpty(voxelshape1, Shapes.create(this.getBoundingBox()), BooleanOp.AND);
      }
  
-@@ -394,6 +_,11 @@
+@@ -299,8 +_,8 @@
+         }
+     }
+ 
+-    public void syncPacketPositionCodec(double p_217007_, double p_217008_, double p_217009_) {
+-        this.packetPositionCodec.setBase(new Vec3(p_217007_, p_217008_, p_217009_));
++    public void syncPacketPositionCodec(me.alphamode.mcbig.math.BigDecimal p_217007_, double p_217008_, me.alphamode.mcbig.math.BigDecimal p_217009_) {
++        this.packetPositionCodec.setBase(new me.alphamode.mcbig.core.BigVec3(p_217007_, p_217008_, p_217009_));
+     }
+ 
+     public VecDeltaCodec getPositionCodec() {
+@@ -399,11 +_,20 @@
+         this.setPos(p_146885_.x(), p_146885_.y(), p_146885_.z());
+     }
+ 
++    public final void setPos(me.alphamode.mcbig.core.BigVec3 p_146885_) {
++        this.setPos(p_146885_.x(), p_146885_.y(), p_146885_.z());
++    }
++
+     public void setPos(double p_20210_, double p_20211_, double p_20212_) {
+         this.setPosRaw(p_20210_, p_20211_, p_20212_);
          this.setBoundingBox(this.makeBoundingBox());
      }
  
@@ -46,10 +66,18 @@
 +        this.setBoundingBox(this.makeBoundingBox());
 +    }
 +
-     protected AABB makeBoundingBox() {
-         return this.dimensions.makeBoundingBox(this.position);
+     protected final AABB makeBoundingBox() {
+         return this.makeBoundingBox(this.position);
      }
-@@ -602,7 +_,7 @@
+@@ -414,6 +_,7 @@
+ 
+     protected void reapplyPosition() {
+         this.setPos(this.position.x, this.position.y, this.position.z);
++        this.setPos(this.bigPosition.x, this.bigPosition.y, this.bigPosition.z);
+     }
+ 
+     public void turn(double p_19885_, double p_19886_) {
+@@ -629,7 +_,7 @@
  
      public void move(MoverType p_19973_, Vec3 p_19974_) {
          if (this.noPhysics) {
@@ -58,7 +86,7 @@
          } else {
              this.wasOnFire = this.isOnFire();
              if (p_19973_ == MoverType.PISTON) {
-@@ -626,14 +_,14 @@
+@@ -654,14 +_,14 @@
                  if (this.fallDistance != 0.0F && d0 >= 1.0) {
                      BlockHitResult blockhitresult = this.level()
                          .clip(
@@ -74,8 +102,8 @@
 +                this.setPos(this.getBigX().add(vec3.x), this.getY() + vec3.y, this.getBigZ().add(vec3.z));
              }
  
-             this.level().getProfiler().pop();
-@@ -748,7 +_,7 @@
+             profilerfiller.pop();
+@@ -802,7 +_,7 @@
                  }
  
                  if (p_286543_) {
@@ -84,7 +112,7 @@
                  }
  
                  return true;
-@@ -821,9 +_,9 @@
+@@ -864,9 +_,9 @@
                      : blockpos;
              }
          } else {
@@ -97,29 +125,22 @@
              return new BlockPos(i, j, k);
          }
      }
-@@ -985,9 +_,9 @@
-         if (this.level().hasChunksAt(blockpos, blockpos1)) {
-             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
- 
--            for(int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
--                for(int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
--                    for(int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
-+            for(me.alphamode.mcbig.math.BigInteger i = blockpos.getBigX(); i.compareTo(blockpos1.getBigX()) <= 0; i = i.add()) {
-+                for(me.alphamode.mcbig.math.BigInteger j = blockpos.getBigY(); j.compareTo(blockpos1.getBigY()) <= 0; j = j.add()) {
-+                    for(me.alphamode.mcbig.math.BigInteger k = blockpos.getBigZ(); k.compareTo(blockpos1.getBigZ()) <= 0; k = k.add()) {
-                         if (!this.isAlive()) {
-                             return;
-                         }
-@@ -1014,7 +_,7 @@
+@@ -1108,12 +_,12 @@
+     public BlockPos adjustSpawnLocation(ServerLevel p_352356_, BlockPos p_352343_) {
+         BlockPos blockpos = p_352356_.getSharedSpawnPos();
+         Vec3 vec3 = blockpos.getCenter();
+-        int i = p_352356_.getChunkAt(blockpos).getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos.getX(), blockpos.getZ()) + 1;
++        int i = p_352356_.getChunkAt(blockpos).getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockpos.getBigX(), blockpos.getBigZ()) + 1;
+         return BlockPos.containing(vec3.x, (double)i, vec3.z);
      }
  
-     public void gameEvent(GameEvent p_146853_, @Nullable Entity p_146854_) {
--        this.level().gameEvent(p_146854_, p_146853_, this.position);
-+        this.level().gameEvent(p_146854_, p_146853_, this.bigPosition);
+     public void gameEvent(Holder<GameEvent> p_316133_, @Nullable Entity p_146854_) {
+-        this.level().gameEvent(p_146854_, p_316133_, this.position);
++        this.level().gameEvent(p_146854_, p_316133_, this.bigPosition);
      }
  
-     public void gameEvent(GameEvent p_146851_) {
-@@ -1125,7 +_,7 @@
+     public void gameEvent(Holder<GameEvent> p_316256_) {
+@@ -1248,7 +_,7 @@
                  this.level()
                      .gameEvent(
                          GameEvent.HIT_GROUND,
@@ -128,7 +149,7 @@
                          GameEvent.Context.of(
                              this, this.mainSupportingBlockPos.<BlockState>map(p_286200_ -> this.level().getBlockState(p_286200_)).orElse(p_19913_)
                          )
-@@ -1163,10 +_,12 @@
+@@ -1286,10 +_,12 @@
      private boolean isInRain() {
          BlockPos blockpos = this.blockPosition();
          return this.level().isRainingAt(blockpos)
@@ -139,10 +160,10 @@
      private boolean isInBubbleColumn() {
 +        if (me.alphamode.mcbig.core.BigConstants.BIG_MODE)
 +            return false;
-         return this.level().getBlockState(this.blockPosition()).is(Blocks.BUBBLE_COLUMN);
+         return this.getInBlockState().is(Blocks.BUBBLE_COLUMN);
      }
  
-@@ -1237,7 +_,7 @@
+@@ -1361,7 +_,7 @@
              return;
          }
  
@@ -151,10 +172,10 @@
          FluidState fluidstate = this.level().getFluidState(blockpos);
          double d1 = (double)((float)blockpos.getY() + fluidstate.getHeight(this.level(), blockpos));
          if (d1 > d0) {
-@@ -1297,12 +_,12 @@
+@@ -1421,12 +_,12 @@
              BlockPos blockpos1 = this.blockPosition();
-             double d0 = this.getX() + (this.random.nextDouble() - 0.5) * (double)this.dimensions.width;
-             double d1 = this.getZ() + (this.random.nextDouble() - 0.5) * (double)this.dimensions.width;
+             double d0 = this.getX() + (this.random.nextDouble() - 0.5) * (double)this.dimensions.width();
+             double d1 = this.getZ() + (this.random.nextDouble() - 0.5) * (double)this.dimensions.width();
 -            if (blockpos1.getX() != blockpos.getX()) {
 -                d0 = Mth.clamp(d0, (double)blockpos.getX(), (double)blockpos.getX() + 1.0);
 +            if (!java.util.Objects.equals(blockpos1.getBigX(), blockpos.getBigX())) {
@@ -168,9 +189,36 @@
              }
  
              this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate), d0, this.getY() + 0.1, d1, vec3.x * -4.0, 1.5, vec3.z * -4.0);
-@@ -1350,11 +_,15 @@
+@@ -1461,10 +_,15 @@
+     @Deprecated
+     public float getLightLevelDependentMagicValue() {
+         return this.level().hasChunkAt(this.getBlockX(), this.getBlockZ())
+-            ? this.level().getLightLevelDependentMagicValue(BlockPos.containing(this.getX(), this.getEyeY(), this.getZ()))
++            ? this.level().getLightLevelDependentMagicValue(BlockPos.containing(this.getBigX(), this.getEyeY(), this.getBigZ()))
+             : 0.0F;
      }
  
++    public void absMoveTo(me.alphamode.mcbig.math.BigDecimal p_19891_, double p_19892_, me.alphamode.mcbig.math.BigDecimal p_19893_, float p_19894_, float p_19895_) {
++        this.absMoveTo(p_19891_, p_19892_, p_19893_);
++        this.absRotateTo(p_19894_, p_19895_);
++    }
++
+     public void absMoveTo(double p_19891_, double p_19892_, double p_19893_, float p_19894_, float p_19895_) {
+         this.absMoveTo(p_19891_, p_19892_, p_19893_);
+         this.absRotateTo(p_19894_, p_19895_);
+@@ -1477,9 +_,18 @@
+         this.xRotO = this.getXRot();
+     }
+ 
++    public void absMoveTo(me.alphamode.mcbig.math.BigDecimal p_20249_, double p_20250_, me.alphamode.mcbig.math.BigDecimal p_20251_) {
++        me.alphamode.mcbig.math.BigDecimal d0 = p_20249_;//Mth.clamp(p_20249_, -3.0E7, 3.0E7);
++        me.alphamode.mcbig.math.BigDecimal d1 = p_20251_;//Mth.clamp(p_20251_, -3.0E7, 3.0E7);
++        this.xo = d0.doubleValue();
++        this.yo = p_20250_;
++        this.zo = d1.doubleValue();
++        this.setPos(d0, p_20250_, d1);
++    }
++
      public void absMoveTo(double p_20249_, double p_20250_, double p_20251_) {
 -        double d0 = Mth.clamp(p_20249_, -3.0E7, 3.0E7);
 -        double d1 = Mth.clamp(p_20251_, -3.0E7, 3.0E7);
@@ -179,23 +227,7 @@
          this.xo = d0;
          this.yo = p_20250_;
          this.zo = d1;
-+        if (this instanceof Player) {
-+            this.bigXo = me.alphamode.mcbig.math.BigDecimal.val(d0);
-+            this.bigZo = me.alphamode.mcbig.math.BigDecimal.val(d1);
-+        }
-         this.setPos(d0, p_20250_, d1);
-     }
- 
-@@ -1367,7 +_,7 @@
-     }
- 
-     public void moveTo(BlockPos p_20036_, float p_20037_, float p_20038_) {
--        this.moveTo((double)p_20036_.getX() + 0.5, (double)p_20036_.getY(), (double)p_20036_.getZ() + 0.5, p_20037_, p_20038_);
-+        this.moveTo((double)p_20036_.getBigX().doubleValue() + 0.5, (double)p_20036_.getBigY().doubleValue(), (double)p_20036_.getBigZ().doubleValue() + 0.5, p_20037_, p_20038_);
-     }
- 
-     public void moveTo(double p_20108_, double p_20109_, double p_20110_, float p_20111_, float p_20112_) {
-@@ -1378,13 +_,23 @@
+@@ -1510,28 +_,40 @@
          this.reapplyPosition();
      }
  
@@ -208,18 +240,40 @@
 +    }
 +
      public final void setOldPosAndRot() {
-         double d0 = this.getX();
-         double d1 = this.getY();
-         double d2 = this.getZ();
-         this.xo = d0;
-+        this.bigXo = getBigX();
-         this.yo = d1;
-         this.zo = d2;
-+        this.bigZo = getBigZ();
-         this.xOld = d0;
-         this.yOld = d1;
-         this.zOld = d2;
-@@ -1417,6 +_,13 @@
+         this.setOldPos();
+         this.setOldRot();
+     }
+ 
+-    public final void setOldPosAndRot(Vec3 p_371927_, float p_371686_, float p_371638_) {
++    public final void setOldPosAndRot(me.alphamode.mcbig.core.BigVec3 p_371927_, float p_371686_, float p_371638_) {
+         this.setOldPos(p_371927_);
+         this.setOldRot(p_371686_, p_371638_);
+     }
+ 
+     protected void setOldPos() {
+-        this.setOldPos(this.position);
++        this.setOldPos(this.bigPosition);
+     }
+ 
+     public void setOldRot() {
+         this.setOldRot(this.getYRot(), this.getXRot());
+     }
+ 
+-    private void setOldPos(Vec3 p_371773_) {
+-        this.xo = this.xOld = p_371773_.x;
++    protected void setOldPos(me.alphamode.mcbig.core.BigVec3 p_371773_) {
++        this.xo = this.xOld = p_371773_.x.doubleValue();
+         this.yo = this.yOld = p_371773_.y;
+-        this.zo = this.zOld = p_371773_.z;
++        this.zo = this.zOld = p_371773_.z.doubleValue();
++        if (this instanceof Player player) {
++            player.bigXo = p_371773_.x;
++            player.bigZo = p_371773_.z;
++        }
+     }
+ 
+     private void setOldRot(float p_371749_, float p_371505_) {
+@@ -1568,6 +_,13 @@
          return d0 * d0 + d1 * d1 + d2 * d2;
      }
  
@@ -233,7 +287,7 @@
      public void playerTouch(Player p_20081_) {
      }
  
-@@ -1525,7 +_,7 @@
+@@ -1701,7 +_,7 @@
          Vec3 vec3 = this.getEyePosition(p_19909_);
          Vec3 vec31 = this.getViewVector(p_19909_);
          Vec3 vec32 = vec3.add(vec31.x * p_19908_, vec31.y * p_19908_, vec31.z * p_19908_);
@@ -242,8 +296,8 @@
      }
  
      public boolean canBeHitByProjectile() {
-@@ -1677,9 +_,9 @@
-             this.setDeltaMovement(Math.abs(d0) > 10.0 ? 0.0 : d0, Math.abs(d1) > 10.0 ? 0.0 : d1, Math.abs(d2) > 10.0 ? 0.0 : d2);
+@@ -1854,9 +_,9 @@
+             this.hasImpulse = true;
              double d3 = 3.0000512E7;
              this.setPosRaw(
 -                Mth.clamp(listtag.getDouble(0), -3.0000512E7, 3.0000512E7),
@@ -255,7 +309,7 @@
              );
              this.setYRot(listtag2.getFloat(0));
              this.setXRot(listtag2.getFloat(1));
-@@ -1828,7 +_,7 @@
+@@ -2005,7 +_,7 @@
                              && blockstate.isSuffocating(this.level(), p_201942_)
                              && Shapes.joinIsNotEmpty(
                                  blockstate.getCollisionShape(this.level(), p_201942_)
@@ -264,7 +318,19 @@
                                  Shapes.create(aabb),
                                  BooleanOp.AND
                              );
-@@ -2346,7 +_,7 @@
+@@ -2201,6 +_,11 @@
+     public void cancelLerp() {
+     }
+ 
++    public void lerpTo(me.alphamode.mcbig.math.BigDecimal p_19896_, double p_19897_, me.alphamode.mcbig.math.BigDecimal p_19898_, float p_19899_, float p_19900_, int p_19901_) {
++        this.setPos(p_19896_, p_19897_, p_19898_);
++        this.setRot(p_19899_, p_19900_);
++    }
++
+     public void lerpTo(double p_19896_, double p_19897_, double p_19898_, float p_19899_, float p_19900_, int p_19901_) {
+         this.setPos(p_19896_, p_19897_, p_19898_);
+         this.setRot(p_19899_, p_19900_);
+@@ -2539,7 +_,7 @@
  
      protected void moveTowardsClosestSpace(double p_20315_, double p_20316_, double p_20317_) {
          BlockPos blockpos = BlockPos.containing(p_20315_, p_20316_, p_20317_);
@@ -273,50 +339,69 @@
          BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
          Direction direction = Direction.UP;
          double d0 = Double.MAX_VALUE;
-@@ -2492,7 +_,7 @@
-                 Entity entity = this.getType().create(p_20118_);
-                 if (entity != null) {
-                     entity.restoreFrom(this);
--                    entity.moveTo(portalinfo.pos.x, portalinfo.pos.y, portalinfo.pos.z, portalinfo.yRot, entity.getXRot());
-+                    entity.moveTo(portalinfo.pos.x.doubleValue(), portalinfo.pos.y, portalinfo.pos.z.doubleValue(), portalinfo.yRot, entity.getXRot());
-                     entity.setDeltaMovement(portalinfo.speed);
-                     p_20118_.addDuringTeleport(entity);
-                     if (p_20118_.dimension() == Level.END) {
-@@ -2566,7 +_,7 @@
-             }
+@@ -2746,7 +_,7 @@
+         float f = p_380120_.yRot() + (p_380120_.relatives().contains(Relative.Y_ROT) ? 0.0F : p_379847_.getYRot() - this.getYRot());
+         float f1 = p_380120_.xRot() + (p_380120_.relatives().contains(Relative.X_ROT) ? 0.0F : p_379847_.getXRot() - this.getXRot());
+         Vec3 vec3 = p_379847_.position().subtract(this.position());
+-        Vec3 vec31 = p_380120_.position()
++        me.alphamode.mcbig.core.BigVec3 vec31 = p_380120_.position()
+             .add(
+                 p_380120_.relatives().contains(Relative.X) ? 0.0 : vec3.x(),
+                 p_380120_.relatives().contains(Relative.Y) ? 0.0 : vec3.y(),
+@@ -2923,9 +_,9 @@
  
-             return new PortalInfo(
--                new Vec3((double)blockpos.getX() + 0.5, (double)blockpos.getY(), (double)blockpos.getZ() + 0.5),
-+                new me.alphamode.mcbig.core.BigVec3(blockpos.getBigX().toBigDecimal().add(me.alphamode.mcbig.core.BigConstants.AABB), (double)blockpos.getBigY().doubleValue(), blockpos.getBigZ().toBigDecimal().add(me.alphamode.mcbig.core.BigConstants.AABB)),
-                 this.getDeltaMovement(),
-                 this.getYRot(),
-                 this.getXRot()
-@@ -2686,13 +_,13 @@
-         if (this.level() instanceof ServerLevel) {
-             ChunkPos chunkpos = new ChunkPos(BlockPos.containing(p_20325_, p_20326_, p_20327_));
-             ((ServerLevel)this.level()).getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 0, this.getId());
--            this.level().getChunk(chunkpos.x, chunkpos.z);
-+            this.level().getChunk(chunkpos.x(), chunkpos.z());
-             this.teleportTo(p_20325_, p_20326_, p_20327_);
+     public boolean teleportTo(
+         ServerLevel p_265257_,
+-        double p_265407_,
++        me.alphamode.mcbig.math.BigDecimal p_265407_,
+         double p_265727_,
+-        double p_265410_,
++        me.alphamode.mcbig.math.BigDecimal p_265410_,
+         Set<Relative> p_265083_,
+         float p_265573_,
+         float p_265094_,
+@@ -2933,7 +_,7 @@
+     ) {
+         float f = Mth.clamp(p_265094_, -90.0F, 90.0F);
+         Entity entity = this.teleport(
+-            new TeleportTransition(p_265257_, new Vec3(p_265407_, p_265727_, p_265410_), Vec3.ZERO, p_265573_, f, p_265083_, TeleportTransition.DO_NOTHING)
++            new TeleportTransition(p_265257_, new me.alphamode.mcbig.core.BigVec3(p_265407_, p_265727_, p_265410_), Vec3.ZERO, p_265573_, f, p_265083_, TeleportTransition.DO_NOTHING)
+         );
+         return entity != null;
+     }
+@@ -2949,6 +_,13 @@
          }
      }
  
-     public boolean teleportTo(
--        ServerLevel p_265257_, double p_265407_, double p_265727_, double p_265410_, Set<RelativeMovement> p_265083_, float p_265573_, float p_265094_
-+        ServerLevel p_265257_, me.alphamode.mcbig.math.BigDecimal p_265407_, double p_265727_, me.alphamode.mcbig.math.BigDecimal p_265410_, Set<RelativeMovement> p_265083_, float p_265573_, float p_265094_
-     ) {
-         float f = Mth.clamp(p_265094_, -90.0F, 90.0F);
-         if (p_265257_ == this.level()) {
-@@ -3029,7 +_,7 @@
-     public CommandSourceStack createCommandSourceStack() {
++    public void teleportTo(me.alphamode.mcbig.math.BigDecimal p_19887_, double p_19888_, me.alphamode.mcbig.math.BigDecimal p_19889_) {
++        if (this.level() instanceof ServerLevel) {
++            this.moveTo(p_19887_, p_19888_, p_19889_, this.getYRot(), this.getXRot());
++            this.teleportPassengers();
++        }
++    }
++
+     private void teleportPassengers() {
+         this.getSelfAndPassengers().forEach(p_185977_ -> {
+             for (Entity entity : p_185977_.passengers) {
+@@ -2958,7 +_,7 @@
+     }
+ 
+     public void teleportRelative(double p_249341_, double p_252229_, double p_252038_) {
+-        this.teleportTo(this.getX() + p_249341_, this.getY() + p_252229_, this.getZ() + p_252038_);
++        this.teleportTo(this.getBigX().add(p_249341_), this.getY() + p_252229_, this.getBigZ().add(p_252038_));
+     }
+ 
+     public boolean shouldShowName() {
+@@ -3261,7 +_,7 @@
+     public CommandSourceStack createCommandSourceStackForNameResolution(ServerLevel p_376557_) {
          return new CommandSourceStack(
-             this,
+             CommandSource.NULL,
 -            this.position(),
 +            this.bigPosition(),
              this.getRotationVector(),
-             this.level() instanceof ServerLevel ? (ServerLevel)this.level() : null,
-             this.getPermissionLevel(),
-@@ -3064,7 +_,7 @@
+             p_376557_,
+             0,
+@@ -3273,7 +_,7 @@
      }
  
      public void lookAt(EntityAnchorArgument.Anchor p_20033_, Vec3 p_20034_) {
@@ -325,27 +410,7 @@
          double d0 = p_20034_.x - vec3.x;
          double d1 = p_20034_.y - vec3.y;
          double d2 = p_20034_.z - vec3.z;
-@@ -3076,6 +_,19 @@
-         this.yRotO = this.getYRot();
-     }
- 
-+    public void lookAt(EntityAnchorArgument.Anchor p_20033_, me.alphamode.mcbig.core.BigVec3 p_20034_) {
-+        me.alphamode.mcbig.core.BigVec3 vec3 = p_20033_.apply(this);
-+        double d0 = p_20034_.x.subtract(vec3.x).doubleValue();
-+        double d1 = p_20034_.y - vec3.y;
-+        double d2 = p_20034_.z.subtract(vec3.z).doubleValue();
-+        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-+        this.setXRot(Mth.wrapDegrees((float)(-(Mth.atan2(d1, d3) * 180.0F / (float)Math.PI))));
-+        this.setYRot(Mth.wrapDegrees((float)(Mth.atan2(d2, d0) * 180.0F / (float)Math.PI) - 90.0F));
-+        this.setYHeadRot(this.getYRot());
-+        this.xRotO = this.getXRot();
-+        this.yRotO = this.getYRot();
-+    }
-+
-     public boolean updateFluidHeightAndDoFluidPushing(TagKey<Fluid> p_204032_, double p_204033_) {
-         if (this.touchingUnloadedChunk()) {
-             return false;
-@@ -3145,10 +_,10 @@
+@@ -3358,10 +_,10 @@
  
      public boolean touchingUnloadedChunk() {
          AABB aabb = this.getBoundingBox().inflate(1.0);
@@ -360,18 +425,22 @@
          return !this.level().hasChunksAt(i, k, j, l);
      }
  
-@@ -3184,6 +_,10 @@
+@@ -3397,8 +_,12 @@
          return this.position;
      }
  
+-    public Vec3 trackingPosition() {
+-        return this.position();
 +    public me.alphamode.mcbig.core.BigVec3 bigPosition() {
 +        return this.bigPosition;
 +    }
 +
-     public Vec3 trackingPosition() {
-         return this.position();
++    public me.alphamode.mcbig.core.BigVec3 trackingPosition() {
++        return this.bigPosition();
      }
-@@ -3221,14 +_,18 @@
+ 
+     @Override
+@@ -3434,14 +_,18 @@
          this.setDeltaMovement(new Vec3(p_20335_, p_20336_, p_20337_));
      }
  
@@ -392,7 +461,7 @@
      public double getX(double p_20166_) {
          return this.position.x + (double)this.getBbWidth() * p_20166_;
      }
-@@ -3241,6 +_,10 @@
+@@ -3454,6 +_,10 @@
          return this.blockPosition.getY();
      }
  
@@ -403,7 +472,7 @@
      public final double getY() {
          return this.position.y;
      }
-@@ -3257,14 +_,18 @@
+@@ -3470,14 +_,18 @@
          return this.position.y + (double)this.eyeHeight;
      }
  
@@ -424,7 +493,7 @@
      public double getZ(double p_20247_) {
          return this.position.z + (double)this.getBbWidth() * p_20247_;
      }
-@@ -3273,16 +_,35 @@
+@@ -3486,16 +_,35 @@
          return this.getZ((2.0 * this.random.nextDouble() - 1.0) * p_20263_);
      }
  
@@ -437,15 +506,15 @@
 -            int k = Mth.floor(p_20346_);
 -            if (i != this.blockPosition.getX() || j != this.blockPosition.getY() || k != this.blockPosition.getZ()) {
 -                this.blockPosition = new BlockPos(i, j, k);
--                this.feetBlockState = null;
+-                this.inBlockState = null;
 -                if (SectionPos.blockToSectionCoord(i) != this.chunkPosition.x || SectionPos.blockToSectionCoord(k) != this.chunkPosition.z) {
 +            me.alphamode.mcbig.math.BigInteger i = Mth.bigFloor(p_20344_);
 +            me.alphamode.mcbig.math.BigInteger j = Mth.bigFloor(p_20345_);
 +            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(p_20346_);
 +            if (!i.equals(this.blockPosition.getBigX()) || !j.equals(this.blockPosition.getBigY()) || !k.equals(this.blockPosition.getBigZ())) {
 +                this.blockPosition = new BlockPos(i, j, k);
-+                this.feetBlockState = null;
-+                if (!SectionPos.blockToSectionCoord(i).equals(this.chunkPosition.x()) || !SectionPos.blockToSectionCoord(k).equals(this.chunkPosition.z())) {
++                this.inBlockState = null;
++                if (!SectionPos.blockToSectionCoord(i).equals(this.chunkPosition.x) || !SectionPos.blockToSectionCoord(k).equals(this.chunkPosition.z)) {
 +                    this.chunkPosition = new ChunkPos(this.blockPosition);
 +                }
 +            }
@@ -463,8 +532,20 @@
 +            me.alphamode.mcbig.math.BigInteger k = Mth.bigFloor(p_20346_);
 +            if (!i.equals(this.blockPosition.getBigX()) || !j.equals(this.blockPosition.getBigY()) || !k.equals(this.blockPosition.getBigZ())) {
 +                this.blockPosition = new BlockPos(i, j, k);
-+                this.feetBlockState = null;
-+                if (!SectionPos.blockToSectionCoord(i).equals(this.chunkPosition.x()) || !SectionPos.blockToSectionCoord(k).equals(this.chunkPosition.z())) {
++                this.inBlockState = null;
++                if (!SectionPos.blockToSectionCoord(i).equals(this.chunkPosition.x) || !SectionPos.blockToSectionCoord(k).equals(this.chunkPosition.z)) {
                      this.chunkPosition = new ChunkPos(this.blockPosition);
                  }
              }
+@@ -3513,9 +_,9 @@
+ 
+     public void recreateFromPacket(ClientboundAddEntityPacket p_146866_) {
+         int i = p_146866_.getId();
+-        double d0 = p_146866_.getX();
++        me.alphamode.mcbig.math.BigDecimal d0 = p_146866_.getX();
+         double d1 = p_146866_.getY();
+-        double d2 = p_146866_.getZ();
++        me.alphamode.mcbig.math.BigDecimal d2 = p_146866_.getZ();
+         this.syncPacketPositionCodec(d0, d1, d2);
+         this.moveTo(d0, d1, d2, p_146866_.getYRot(), p_146866_.getXRot());
+         this.setId(i);

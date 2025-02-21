@@ -7,7 +7,7 @@
 -    private final Vec3i offset;
 +    private final me.alphamode.mcbig.core.Vec3l offset;
      private final Direction direction;
-     public static final Codec<HasSturdyFacePredicate> CODEC = RecordCodecBuilder.create(
+     public static final MapCodec<HasSturdyFacePredicate> CODEC = RecordCodecBuilder.mapCodec(
          p_198327_ -> p_198327_.group(
 -                    Vec3i.offsetCodec(16).optionalFieldOf("offset", Vec3i.ZERO).forGetter(p_198331_ -> p_198331_.offset),
 +                    me.alphamode.mcbig.core.Vec3l.offsetCodec(16).optionalFieldOf("offset", me.alphamode.mcbig.core.Vec3l.ZERO).forGetter(p_198331_ -> p_198331_.offset),

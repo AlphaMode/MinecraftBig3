@@ -1,53 +1,53 @@
 --- a/net/minecraft/client/Camera.java
 +++ b/net/minecraft/client/Camera.java
-@@ -25,7 +_,7 @@
+@@ -31,7 +_,7 @@
      private boolean initialized;
      private BlockGetter level;
      private Entity entity;
 -    private Vec3 position = Vec3.ZERO;
 +    private me.alphamode.mcbig.core.BigVec3 position = me.alphamode.mcbig.core.BigVec3.ZERO;
      private final BlockPos.MutableBlockPos blockPosition = new BlockPos.MutableBlockPos();
-     private final Vector3f forwards = new Vector3f(0.0F, 0.0F, 1.0F);
-     private final Vector3f up = new Vector3f(0.0F, 1.0F, 0.0F);
-@@ -47,9 +_,9 @@
-         this.partialTickTime = p_90580_;
-         this.setRotation(p_90577_.getViewYRot(p_90580_), p_90577_.getViewXRot(p_90580_));
-         this.setPosition(
--            Mth.lerp((double)p_90580_, p_90577_.xo, p_90577_.getX()),
-+            Mth.lerp((double)p_90580_, p_90577_.bigXo, p_90577_.getBigX()),
-             Mth.lerp((double)p_90580_, p_90577_.yo, p_90577_.getY()) + (double)Mth.lerp(p_90580_, this.eyeHeightOld, this.eyeHeight),
--            Mth.lerp((double)p_90580_, p_90577_.zo, p_90577_.getZ())
-+            Mth.lerp((double)p_90580_, p_90577_.bigZo, p_90577_.getBigZ())
-         );
-         if (p_90578_) {
-             if (p_90579_) {
-@@ -79,11 +_,11 @@
-             f *= 0.1F;
-             f1 *= 0.1F;
-             f2 *= 0.1F;
--            Vec3 vec3 = this.position.add((double)f, (double)f1, (double)f2);
--            Vec3 vec31 = new Vec3(
--                this.position.x - (double)this.forwards.x() * p_90567_ + (double)f,
-+            me.alphamode.mcbig.core.BigVec3 vec3 = this.position.add((double)f, (double)f1, (double)f2);
-+            me.alphamode.mcbig.core.BigVec3 vec31 = new me.alphamode.mcbig.core.BigVec3(
-+                this.position.x.subtract((double)this.forwards.x() * p_90567_ + (double)f),
-                 this.position.y - (double)this.forwards.y() * p_90567_ + (double)f1,
--                this.position.z - (double)this.forwards.z() * p_90567_ + (double)f2
-+                this.position.z.subtract((double)this.forwards.z() * p_90567_ + (double)f2)
+     private final Vector3f forwards = new Vector3f(FORWARDS);
+     private final Vector3f up = new Vector3f(UP);
+@@ -60,13 +_,13 @@
+                 .subtract(p_90577_.getVehicleAttachmentPoint(minecart))
+                 .add(new Vec3(0.0, (double)Mth.lerp(p_90580_, this.eyeHeightOld, this.eyeHeight), 0.0));
+             this.setRotation(p_90577_.getViewYRot(p_90580_), p_90577_.getViewXRot(p_90580_));
+-            this.setPosition(newminecartbehavior.getCartLerpPosition(p_90580_).add(vec3));
++            this.setPosition(newminecartbehavior.getCartLerpPosition(p_90580_).add(vec3).toBig());
+         } else {
+             this.setRotation(p_90577_.getViewYRot(p_90580_), p_90577_.getViewXRot(p_90580_));
+             this.setPosition(
+-                Mth.lerp((double)p_90580_, p_90577_.xo, p_90577_.getX()),
++                Mth.lerp(p_90580_, p_90577_.bigXo, p_90577_.getBigX()),
+                 Mth.lerp((double)p_90580_, p_90577_.yo, p_90577_.getY()) + (double)Mth.lerp(p_90580_, this.eyeHeightOld, this.eyeHeight),
+-                Mth.lerp((double)p_90580_, p_90577_.zo, p_90577_.getZ())
++                Mth.lerp(p_90580_, p_90577_.bigZo, p_90577_.getBigZ())
              );
+         }
+ 
+@@ -98,8 +_,8 @@
+             float f1 = (float)((i & 1) * 2 - 1);
+             float f2 = (float)((i >> 1 & 1) * 2 - 1);
+             float f3 = (float)((i >> 2 & 1) * 2 - 1);
+-            Vec3 vec3 = this.position.add((double)(f1 * 0.1F), (double)(f2 * 0.1F), (double)(f3 * 0.1F));
+-            Vec3 vec31 = vec3.add(new Vec3(this.forwards).scale((double)(-p_350335_)));
++            me.alphamode.mcbig.core.BigVec3 vec3 = this.position.add((double)(f1 * 0.1F), (double)(f2 * 0.1F), (double)(f3 * 0.1F));
++            me.alphamode.mcbig.core.BigVec3 vec31 = vec3.add(new Vec3(this.forwards).scale((double)(-p_350335_)));
              HitResult hitresult = this.level.clip(new ClipContext(vec3, vec31, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, this.entity));
              if (hitresult.getType() != HitResult.Type.MISS) {
-@@ -101,7 +_,7 @@
-         double d0 = (double)this.forwards.x() * p_90569_ + (double)this.up.x() * p_90570_ + (double)this.left.x() * p_90571_;
-         double d1 = (double)this.forwards.y() * p_90569_ + (double)this.up.y() * p_90570_ + (double)this.left.y() * p_90571_;
-         double d2 = (double)this.forwards.z() * p_90569_ + (double)this.up.z() * p_90570_ + (double)this.left.z() * p_90571_;
--        this.setPosition(new Vec3(this.position.x + d0, this.position.y + d1, this.position.z + d2));
-+        this.setPosition(new me.alphamode.mcbig.core.BigVec3(this.position.x.add(d0), this.position.y + d1, this.position.z.add(d2)));
+                 float f4 = (float)hitresult.getLocation().distanceToSqr(this.position);
+@@ -114,7 +_,7 @@
+ 
+     protected void move(float p_351037_, float p_351008_, float p_350869_) {
+         Vector3f vector3f = new Vector3f(p_350869_, p_351008_, -p_351037_).rotate(this.rotation);
+-        this.setPosition(new Vec3(this.position.x + (double)vector3f.x, this.position.y + (double)vector3f.y, this.position.z + (double)vector3f.z));
++        this.setPosition(new me.alphamode.mcbig.core.BigVec3(this.position.x.add((double)vector3f.x), this.position.y + (double)vector3f.y, this.position.z.add((double)vector3f.z)));
      }
  
      protected void setRotation(float p_90573_, float p_90574_) {
-@@ -113,16 +_,16 @@
-         this.left.set(1.0F, 0.0F, 0.0F).rotate(this.rotation);
+@@ -126,16 +_,16 @@
+         LEFT.rotate(this.rotation, this.left);
      }
  
 -    protected void setPosition(double p_90585_, double p_90586_, double p_90587_) {
@@ -67,7 +67,7 @@
          return this.position;
      }
  
-@@ -183,7 +_,7 @@
+@@ -196,7 +_,7 @@
                      camera$nearplane.getBottomLeft(),
                      camera$nearplane.getBottomRight()
                  )) {

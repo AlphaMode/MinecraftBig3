@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
 +++ b/net/minecraft/world/entity/ai/navigation/FlyingPathNavigation.java
-@@ -55,7 +_,7 @@
+@@ -54,7 +_,7 @@
                  this.followThePath();
              } else if (this.path != null && !this.path.isDone()) {
                  Vec3 vec3 = this.path.getNextEntityPos(this.mob);

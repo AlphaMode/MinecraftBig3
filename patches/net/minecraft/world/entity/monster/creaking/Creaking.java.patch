@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/entity/monster/creaking/Creaking.java
++++ b/net/minecraft/world/entity/monster/creaking/Creaking.java
+@@ -636,12 +_,12 @@
+         private static final int MAX_DISTANCE_TO_HOME_SQ = 1024;
+ 
+         @Override
+-        public PathType getPathType(PathfindingContext p_389549_, int p_389638_, int p_389512_, int p_389613_) {
++        public PathType getPathType(PathfindingContext p_389549_, me.alphamode.mcbig.math.BigInteger p_389638_, int p_389512_, me.alphamode.mcbig.math.BigInteger p_389613_) {
+             BlockPos blockpos = Creaking.this.getHomePos();
+             if (blockpos == null) {
+                 return super.getPathType(p_389549_, p_389638_, p_389512_, p_389613_);
+             } else {
+-                double d0 = blockpos.distSqr(new Vec3i(p_389638_, p_389512_, p_389613_));
++                double d0 = blockpos.distSqr(new me.alphamode.mcbig.core.Vec3l(p_389638_, p_389512_, p_389613_));
+                 return d0 > 1024.0 && d0 >= blockpos.distSqr(p_389549_.mobPosition())
+                     ? PathType.BLOCKED
+                     : super.getPathType(p_389549_, p_389638_, p_389512_, p_389613_);

@@ -1,0 +1,89 @@
+--- a/net/minecraft/world/level/chunk/storage/SerializableChunkData.java
++++ b/net/minecraft/world/level/chunk/storage/SerializableChunkData.java
+@@ -113,7 +_,7 @@
+         if (!p_362040_.contains("Status", 8)) {
+             return null;
+         } else {
+-            ChunkPos chunkpos = new ChunkPos(p_362040_.getInt("xPos"), p_362040_.getInt("zPos"));
++            ChunkPos chunkpos = new ChunkPos(new me.alphamode.mcbig.math.BigInteger(p_362040_.getString("xPos")), new me.alphamode.mcbig.math.BigInteger(p_362040_.getString("zPos")));
+             long i = p_362040_.getLong("LastUpdate");
+             long j = p_362040_.getLong("InhabitedTime");
+             ChunkStatus chunkstatus = ChunkStatus.byName(p_362040_.getString("Status"));
+@@ -454,9 +_,9 @@
+ 
+     public CompoundTag write() {
+         CompoundTag compoundtag = NbtUtils.addCurrentDataVersion(new CompoundTag());
+-        compoundtag.putInt("xPos", this.chunkPos.x);
++        compoundtag.putString("xPos", this.chunkPos.x.toString());
+         compoundtag.putInt("yPos", this.minSectionY);
+-        compoundtag.putInt("zPos", this.chunkPos.z);
++        compoundtag.putString("zPos", this.chunkPos.z.toString());
+         compoundtag.putLong("LastUpdate", this.lastUpdateTime);
+         compoundtag.putLong("InhabitedTime", this.inhabitedTime);
+         compoundtag.putString("Status", BuiltInRegistries.CHUNK_STATUS.getKey(this.chunkStatus).toString());
+@@ -573,7 +_,7 @@
+     }
+ 
+     private static CompoundTag packStructureData(
+-        StructurePieceSerializationContext p_361063_, ChunkPos p_365377_, Map<Structure, StructureStart> p_365385_, Map<Structure, LongSet> p_362410_
++        StructurePieceSerializationContext p_361063_, ChunkPos p_365377_, Map<Structure, StructureStart> p_365385_, Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> p_362410_
+     ) {
+         CompoundTag compoundtag = new CompoundTag();
+         CompoundTag compoundtag1 = new CompoundTag();
+@@ -587,10 +_,17 @@
+         compoundtag.put("starts", compoundtag1);
+         CompoundTag compoundtag2 = new CompoundTag();
+ 
+-        for (Entry<Structure, LongSet> entry1 : p_362410_.entrySet()) {
++        for (Entry<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> entry1 : p_362410_.entrySet()) {
+             if (!entry1.getValue().isEmpty()) {
+                 ResourceLocation resourcelocation1 = registry.getKey(entry1.getKey());
+-                compoundtag2.put(resourcelocation1.toString(), new LongArrayTag(entry1.getValue()));
++                var listTag = new net.minecraft.nbt.ListTag();
++                entry1.getValue().forEach(pos -> {
++                    var tag = new CompoundTag();
++                    tag.putString("x", pos.x.toString());
++                    tag.putString("z", pos.z.toString());
++                    listTag.add(tag);
++                });
++                compoundtag2.put(resourcelocation1.toString(), listTag);
+             }
+         }
+ 
+@@ -619,8 +_,8 @@
+         return map;
+     }
+ 
+-    private static Map<Structure, LongSet> unpackStructureReferences(RegistryAccess p_360856_, ChunkPos p_362116_, CompoundTag p_360575_) {
+-        Map<Structure, LongSet> map = Maps.newHashMap();
++    private static Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> unpackStructureReferences(RegistryAccess p_360856_, ChunkPos p_362116_, CompoundTag p_360575_) {
++        Map<Structure, it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos>> map = Maps.newHashMap();
+         Registry<Structure> registry = p_360856_.lookupOrThrow(Registries.STRUCTURE);
+         CompoundTag compoundtag = p_360575_.getCompound("References");
+ 
+@@ -630,17 +_,20 @@
+             if (structure == null) {
+                 LOGGER.warn("Found reference to unknown structure '{}' in chunk {}, discarding", resourcelocation, p_362116_);
+             } else {
+-                long[] along = compoundtag.getLongArray(s);
+-                if (along.length != 0) {
+-                    map.put(structure, new LongOpenHashSet(Arrays.stream(along).filter(p_360765_ -> {
+-                        ChunkPos chunkpos = new ChunkPos(p_360765_);
++                net.minecraft.nbt.ListTag along = compoundtag.getList(s, Tag.TAG_COMPOUND);
++                if (!along.isEmpty()) {
++                    map.put(structure, new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(along.stream().map(tag -> {
++                        var tagCompound = (CompoundTag)tag;
++                        return new ChunkPos(tagCompound.getInt("x"), tagCompound.getInt("z"));
++                    }).filter(p_360765_ -> {
++                        ChunkPos chunkpos = p_360765_;
+                         if (chunkpos.getChessboardDistance(p_362116_) > 8) {
+                             LOGGER.warn("Found invalid structure reference [ {} @ {} ] for chunk {}.", resourcelocation, chunkpos, p_362116_);
+                             return false;
+                         } else {
+                             return true;
+                         }
+-                    }).toArray()));
++                    }).toArray(ChunkPos[]::new)));
+                 }
+             }
+         }

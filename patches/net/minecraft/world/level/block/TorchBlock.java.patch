@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/TorchBlock.java
 +++ b/net/minecraft/world/level/block/TorchBlock.java
-@@ -43,9 +_,9 @@
+@@ -42,9 +_,9 @@
  
      @Override
      public void animateTick(BlockState p_222593_, Level p_222594_, BlockPos p_222595_, RandomSource p_222596_) {

@@ -3,7 +3,7 @@
 @@ -154,7 +_,7 @@
                          ServerLevel serverlevel = this.server.overworld();
                          CommandSourceStack commandsourcestack = new CommandSourceStack(
-                             serverplayer,
+                             serverplayer.commandSource(),
 -                            Vec3.atLowerCornerOf(serverlevel.getSharedSpawnPos()),
 +                            me.alphamode.mcbig.core.BigVec3.atLowerCornerOf(serverlevel.getSharedSpawnPos()),
                              Vec2.ZERO,

@@ -1,16 +1,17 @@
 --- a/net/minecraft/world/level/gameevent/vibrations/VibrationSystem.java
 +++ b/net/minecraft/world/level/gameevent/vibrations/VibrationSystem.java
-@@ -192,7 +_,7 @@
+@@ -200,25 +_,25 @@
          }
  
          @Override
--        public boolean handleGameEvent(ServerLevel p_282254_, GameEvent p_283599_, GameEvent.Context p_283664_, Vec3 p_282426_) {
-+        public boolean handleGameEvent(ServerLevel p_282254_, GameEvent p_283599_, GameEvent.Context p_283664_, me.alphamode.mcbig.core.BigVec3 p_282426_) {
+-        public boolean handleGameEvent(ServerLevel p_282254_, Holder<GameEvent> p_316513_, GameEvent.Context p_283664_, Vec3 p_282426_) {
++        public boolean handleGameEvent(ServerLevel p_282254_, Holder<GameEvent> p_283599_, GameEvent.Context p_283664_, me.alphamode.mcbig.core.BigVec3 p_282426_) {
              VibrationSystem.Data vibrationsystem$data = this.system.getVibrationData();
              VibrationSystem.User vibrationsystem$user = this.system.getVibrationUser();
              if (vibrationsystem$data.getCurrentVibration() != null) {
-@@ -200,17 +_,17 @@
-             } else if (!vibrationsystem$user.isValidVibration(p_283599_, p_283664_)) {
+                 return false;
+-            } else if (!vibrationsystem$user.isValidVibration(p_316513_, p_283664_)) {
++            } else if (!vibrationsystem$user.isValidVibration(p_283599_, p_283664_)) {
                  return false;
              } else {
 -                Optional<Vec3> optional = vibrationsystem$user.getPositionSource().getPosition(p_282254_);
@@ -19,27 +20,28 @@
                      return false;
                  } else {
 -                    Vec3 vec3 = optional.get();
+-                    if (!vibrationsystem$user.canReceiveVibration(p_282254_, BlockPos.containing(p_282426_), p_316513_, p_283664_)) {
 +                    me.alphamode.mcbig.core.BigVec3 vec3 = optional.get();
-                     if (!vibrationsystem$user.canReceiveVibration(p_282254_, BlockPos.containing(p_282426_), p_283599_, p_283664_)) {
++                    if (!vibrationsystem$user.canReceiveVibration(p_282254_, BlockPos.containing(p_282426_), p_283599_, p_283664_)) {
                          return false;
                      } else if (isOccluded(p_282254_, p_282426_, vec3)) {
                          return false;
                      } else {
--                        this.scheduleVibration(p_282254_, vibrationsystem$data, p_283599_, p_283664_, p_282426_, vec3);
+-                        this.scheduleVibration(p_282254_, vibrationsystem$data, p_316513_, p_283664_, p_282426_, vec3);
 +                        this.scheduleVibration(p_282254_, vibrationsystem$data, p_283599_, p_283664_, p_282426_.toVanilla(), vec3.toVanilla());
                          return true;
                      }
                  }
-@@ -222,7 +_,7 @@
+@@ -230,7 +_,7 @@
                  .getVibrationUser()
                  .getPositionSource()
                  .getPosition(p_282808_)
--                .ifPresent(p_281936_ -> this.scheduleVibration(p_282808_, this.system.getVibrationData(), p_281875_, p_281652_, p_281530_, p_281936_));
-+                .ifPresent(p_281936_ -> this.scheduleVibration(p_282808_, this.system.getVibrationData(), p_281875_, p_281652_, p_281530_, p_281936_.toVanilla()));
+-                .ifPresent(p_316103_ -> this.scheduleVibration(p_282808_, this.system.getVibrationData(), p_316321_, p_281652_, p_281530_, p_316103_));
++                .ifPresent(p_281936_ -> this.scheduleVibration(p_282808_, this.system.getVibrationData(), p_316321_, p_281652_, p_281530_, p_281936_.toVanilla()));
          }
  
          private void scheduleVibration(
-@@ -238,12 +_,12 @@
+@@ -246,12 +_,12 @@
              return (float)Math.sqrt(p_282413_.distSqr(p_281960_));
          }
  
@@ -50,30 +52,30 @@
 +            me.alphamode.mcbig.core.BigVec3 vec3 = new me.alphamode.mcbig.core.BigVec3(Mth.bigFloor(p_283328_.x).toBigDecimal().add(me.alphamode.mcbig.core.BigConstants.AABB), (double)Mth.floor(p_283328_.y) + 0.5, Mth.bigFloor(p_283328_.z).toBigDecimal().add(me.alphamode.mcbig.core.BigConstants.AABB));
 +            me.alphamode.mcbig.core.BigVec3 vec31 = new me.alphamode.mcbig.core.BigVec3(Mth.bigFloor(p_283163_.x).toBigDecimal().add(me.alphamode.mcbig.core.BigConstants.AABB), (double)Mth.floor(p_283163_.y) + 0.5, Mth.bigFloor(p_283163_.z).toBigDecimal().add(me.alphamode.mcbig.core.BigConstants.AABB));
  
-             for(Direction direction : Direction.values()) {
+             for (Direction direction : Direction.values()) {
 -                Vec3 vec32 = vec3.relative(direction, 1.0E-5F);
 +                me.alphamode.mcbig.core.BigVec3 vec32 = vec3.relative(direction, me.alphamode.mcbig.math.BigDecimal.val(1.0E-5F));
                  if (p_283225_.isBlockInLine(new ClipBlockStateContext(vec32, vec31, p_283608_ -> p_283608_.is(BlockTags.OCCLUDES_VIBRATION_SIGNALS))).getType()
                      != HitResult.Type.BLOCK) {
                      return false;
-@@ -308,7 +_,7 @@
+@@ -316,7 +_,7 @@
                  } else {
                      Vec3 vec3 = p_282354_.currentVibration.pos();
                      PositionSource positionsource = p_282958_.getPositionSource();
 -                    Vec3 vec31 = positionsource.getPosition(p_282010_).orElse(vec3);
-+                    Vec3 vec31 = positionsource.getPosition(p_282010_).orElse(vec3.toBig()).toVanilla();
++                    Vec3 vec31 = positionsource.getPosition(p_282010_).orElse(new me.alphamode.mcbig.core.BigVec3(vec3)).toVanilla();
                      int i = p_282354_.getTravelTimeInTicks();
                      int j = p_282958_.calculateTravelTimeInTicks(p_282354_.currentVibration.distance());
                      double d0 = 1.0 - (double)i / (double)j;
-@@ -345,9 +_,9 @@
+@@ -353,9 +_,9 @@
          private static boolean areAdjacentChunksTicking(Level p_282735_, BlockPos p_281722_) {
              ChunkPos chunkpos = new ChunkPos(p_281722_);
  
--            for(int i = chunkpos.x - 1; i <= chunkpos.x + 1; ++i) {
--                for(int j = chunkpos.z - 1; j <= chunkpos.z + 1; ++j) {
+-            for (int i = chunkpos.x - 1; i <= chunkpos.x + 1; i++) {
+-                for (int j = chunkpos.z - 1; j <= chunkpos.z + 1; j++) {
 -                    if (!p_282735_.shouldTickBlocksAt(ChunkPos.asLong(i, j)) || p_282735_.getChunkSource().getChunkNow(i, j) == null) {
-+            for(me.alphamode.mcbig.math.BigInteger i = chunkpos.x().subtract(); i.compareTo(chunkpos.x().add()) <= 0; i = i.add()) {
-+                for(me.alphamode.mcbig.math.BigInteger j = chunkpos.z().subtract(); j.compareTo(chunkpos.z().add()) <= 0; j = j.add()) {
++            for(me.alphamode.mcbig.math.BigInteger i = chunkpos.x.subtract(); i.compareTo(chunkpos.x.add()) <= 0; i = i.add()) {
++                for(me.alphamode.mcbig.math.BigInteger j = chunkpos.z.subtract(); j.compareTo(chunkpos.z.add()) <= 0; j = j.add()) {
 +                    if (!p_282735_.shouldTickBlocksAt(new ChunkPos(i, j)) || p_282735_.getChunkSource().getChunkNow(i, j) == null) {
                          return false;
                      }

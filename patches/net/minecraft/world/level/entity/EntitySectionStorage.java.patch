@@ -1,8 +1,8 @@
 --- a/net/minecraft/world/level/entity/EntitySectionStorage.java
 +++ b/net/minecraft/world/level/entity/EntitySectionStorage.java
-@@ -23,34 +_,34 @@
- 
- public class EntitySectionStorage<T extends EntityAccess> {
+@@ -25,33 +_,33 @@
+     public static final int CHONKY_ENTITY_SEARCH_GRACE = 2;
+     public static final int MAX_NON_CHONKY_ENTITY_SIZE = 4;
      private final Class<T> entityClass;
 -    private final Long2ObjectFunction<Visibility> intialSectionVisibility;
 -    private final Long2ObjectMap<EntitySection<T>> sections = new Long2ObjectOpenHashMap<>();
@@ -18,42 +18,41 @@
      }
  
      public void forEachAccessibleNonEmptySection(AABB p_188363_, AbortableIterationConsumer<EntitySection<T>> p_261588_) {
-         int i = 2;
--        int j = SectionPos.posToSectionCoord(p_188363_.minX - 2.0);
--        int k = SectionPos.posToSectionCoord(p_188363_.minY - 4.0);
--        int l = SectionPos.posToSectionCoord(p_188363_.minZ - 2.0);
--        int i1 = SectionPos.posToSectionCoord(p_188363_.maxX + 2.0);
--        int j1 = SectionPos.posToSectionCoord(p_188363_.maxY + 0.0);
--        int k1 = SectionPos.posToSectionCoord(p_188363_.maxZ + 2.0);
-+        me.alphamode.mcbig.math.BigInteger j = SectionPos.posToSectionCoord(p_188363_.minX - 2.0);
-+        me.alphamode.mcbig.math.BigInteger k = SectionPos.posToSectionCoord(p_188363_.minY - 4.0);
-+        me.alphamode.mcbig.math.BigInteger l = SectionPos.posToSectionCoord(p_188363_.minZ - 2.0);
-+        me.alphamode.mcbig.math.BigInteger i1 = SectionPos.posToSectionCoord(p_188363_.maxX + 2.0);
-+        me.alphamode.mcbig.math.BigInteger j1 = SectionPos.posToSectionCoord(p_188363_.maxY + 0.0);
-+        me.alphamode.mcbig.math.BigInteger k1 = SectionPos.posToSectionCoord(p_188363_.maxZ + 2.0);
+-        int i = SectionPos.posToSectionCoord(p_188363_.minX - 2.0);
+-        int j = SectionPos.posToSectionCoord(p_188363_.minY - 4.0);
+-        int k = SectionPos.posToSectionCoord(p_188363_.minZ - 2.0);
+-        int l = SectionPos.posToSectionCoord(p_188363_.maxX + 2.0);
+-        int i1 = SectionPos.posToSectionCoord(p_188363_.maxY + 0.0);
+-        int j1 = SectionPos.posToSectionCoord(p_188363_.maxZ + 2.0);
++        me.alphamode.mcbig.math.BigInteger i = SectionPos.posToSectionCoord(p_188363_.minX - 2.0);
++        me.alphamode.mcbig.math.BigInteger j = SectionPos.posToSectionCoord(p_188363_.minY - 4.0);
++        me.alphamode.mcbig.math.BigInteger k = SectionPos.posToSectionCoord(p_188363_.minZ - 2.0);
++        me.alphamode.mcbig.math.BigInteger l = SectionPos.posToSectionCoord(p_188363_.maxX + 2.0);
++        me.alphamode.mcbig.math.BigInteger i1 = SectionPos.posToSectionCoord(p_188363_.maxY + 0.0);
++        me.alphamode.mcbig.math.BigInteger j1 = SectionPos.posToSectionCoord(p_188363_.maxZ + 2.0);
  
--        for(int l1 = j; l1 <= i1; ++l1) {
--            long i2 = SectionPos.asLong(l1, 0, 0);
--            long j2 = SectionPos.asLong(l1, -1, -1);
--            LongIterator longiterator = this.sectionIds.subSet(i2, j2 + 1L).iterator();
-+        for(me.alphamode.mcbig.math.BigInteger l1 = j; l1.compareTo(i1) <= 0; l1 = l1.add()) {
-+            SectionPos i2 = SectionPos.of(l1, me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.ZERO);
-+            SectionPos j2 = SectionPos.of(l1, me.alphamode.mcbig.math.BigInteger.ONE.negate(), me.alphamode.mcbig.math.BigInteger.ONE.negate());
-+            it.unimi.dsi.fastutil.objects.ObjectIterator<SectionPos> longiterator = this.sectionIds.subSet(i2, j2.offset(1L)).iterator();
+-        for (int k1 = i; k1 <= l; k1++) {
+-            long l1 = SectionPos.asLong(k1, 0, 0);
+-            long i2 = SectionPos.asLong(k1, -1, -1);
+-            LongIterator longiterator = this.sectionIds.subSet(l1, i2 + 1L).iterator();
++        for (me.alphamode.mcbig.math.BigInteger k1 = i; k1.compareTo(l) <= 0; k1 = k1.add()) {
++            SectionPos l1 = SectionPos.of(k1, me.alphamode.mcbig.math.BigInteger.ZERO, me.alphamode.mcbig.math.BigInteger.ZERO);
++            SectionPos i2 = SectionPos.of(k1, -1, me.alphamode.mcbig.math.BigInteger.val(-1));
++            it.unimi.dsi.fastutil.objects.ObjectIterator<SectionPos> longiterator = this.sectionIds.subSet(l1, i2.offset(1L)).iterator();
  
-             while(longiterator.hasNext()) {
--                long k2 = longiterator.nextLong();
--                int l2 = SectionPos.y(k2);
--                int i3 = SectionPos.z(k2);
--                if (l2 >= k && l2 <= j1 && i3 >= l && i3 <= k1) {
-+                SectionPos k2 = longiterator.next();
-+                me.alphamode.mcbig.math.BigInteger l2 = k2.y();
-+                me.alphamode.mcbig.math.BigInteger i3 = k2.z();
-+                if (l2.compareTo(k) >= 0 && l2.compareTo(j1) <= 0 && i3.compareTo(l) >= 0 && i3.compareTo(k1) <= 0) {
-                     EntitySection<T> entitysection = this.sections.get(k2);
+             while (longiterator.hasNext()) {
+-                long j2 = longiterator.nextLong();
+-                int k2 = SectionPos.y(j2);
+-                int l2 = SectionPos.z(j2);
+-                if (k2 >= j && k2 <= i1 && l2 >= k && l2 <= j1) {
++                SectionPos j2 = longiterator.next();
++                me.alphamode.mcbig.math.BigInteger k2 = j2.y();
++                me.alphamode.mcbig.math.BigInteger l2 = j2.z();
++                if (k2.compareTo(j) >= 0 && k2.compareTo(i1) <= 0 && l2.compareTo(k) >= 0 && l2.compareTo(j1) <= 0) {
+                     EntitySection<T> entitysection = this.sections.get(j2);
                      if (entitysection != null
                          && !entitysection.isEmpty()
-@@ -63,50 +_,50 @@
+@@ -64,50 +_,50 @@
          }
      }
  
@@ -62,8 +61,8 @@
 -        int j = ChunkPos.getZ(p_156862_);
 -        LongSortedSet longsortedset = this.getChunkSections(i, j);
 +    public java.util.stream.Stream<SectionPos> getExistingSectionPositionsInChunk(ChunkPos p_156862_) {
-+        me.alphamode.mcbig.math.BigInteger i = p_156862_.x();
-+        me.alphamode.mcbig.math.BigInteger j = p_156862_.z();
++        me.alphamode.mcbig.math.BigInteger i = p_156862_.x;
++        me.alphamode.mcbig.math.BigInteger j = p_156862_.z;
 +        it.unimi.dsi.fastutil.objects.ObjectSortedSet<SectionPos> longsortedset = this.getChunkSections(i, j);
          if (longsortedset.isEmpty()) {
 -            return LongStream.empty();
@@ -131,7 +130,7 @@
          this.sections.keySet().forEach(p_156886_ -> longset.add(getChunkKeyFromSectionKey(p_156886_)));
          return longset;
      }
-@@ -119,7 +_,7 @@
+@@ -120,7 +_,7 @@
          this.forEachAccessibleNonEmptySection(p_261843_, p_261463_ -> p_261463_.getEntities(p_261630_, p_261843_, p_261742_));
      }
  

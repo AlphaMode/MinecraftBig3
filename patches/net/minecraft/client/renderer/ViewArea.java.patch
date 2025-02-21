@@ -1,63 +1,101 @@
 --- a/net/minecraft/client/renderer/ViewArea.java
 +++ b/net/minecraft/client/renderer/ViewArea.java
-@@ -71,36 +_,36 @@
-         return this.level;
-     }
- 
--    public void repositionCamera(double p_110851_, double p_110852_) {
--        int i = Mth.ceil(p_110851_);
--        int j = Mth.ceil(p_110852_);
-+    public void repositionCamera(me.alphamode.mcbig.math.BigDecimal p_110851_, me.alphamode.mcbig.math.BigDecimal p_110852_) {
-+        me.alphamode.mcbig.math.BigInteger i = Mth.bigCeil(p_110851_);
-+        me.alphamode.mcbig.math.BigInteger j = Mth.bigCeil(p_110852_);
- 
-         for(int k = 0; k < this.sectionGridSizeX; ++k) {
-             int l = this.sectionGridSizeX * 16;
--            int i1 = i - 8 - l / 2;
--            int j1 = i1 + Math.floorMod(k * 16 - i1, l);
-+            me.alphamode.mcbig.math.BigInteger i1 = i.subtract(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT).subtract(l / 2);
-+            me.alphamode.mcbig.math.BigInteger j1 = i1.add(me.alphamode.mcbig.math.BigMath.floorMod(me.alphamode.mcbig.math.BigInteger.val(k * 16L).subtract(i1), l));
- 
-             for(int k1 = 0; k1 < this.sectionGridSizeZ; ++k1) {
-                 int l1 = this.sectionGridSizeZ * 16;
--                int i2 = j - 8 - l1 / 2;
--                int j2 = i2 + Math.floorMod(k1 * 16 - i2, l1);
-+                me.alphamode.mcbig.math.BigInteger i2 = j.subtract(me.alphamode.mcbig.core.BigConstants.Ints.EIGHT).subtract(l1 / 2);
-+                me.alphamode.mcbig.math.BigInteger j2 = i2.add(me.alphamode.mcbig.math.BigMath.floorMod(me.alphamode.mcbig.math.BigInteger.val(k1 * 16L).subtract(i2), l1));
- 
-                 for(int k2 = 0; k2 < this.sectionGridSizeY; ++k2) {
-                     int l2 = this.level.getMinBuildHeight() + k2 * 16;
-                     SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection = this.sections[this.getSectionIndex(k, k2, k1)];
-                     BlockPos blockpos = sectionrenderdispatcher$rendersection.getOrigin();
--                    if (j1 != blockpos.getX() || l2 != blockpos.getY() || j2 != blockpos.getZ()) {
--                        sectionrenderdispatcher$rendersection.setOrigin(j1, l2, j2);
-+                        if (!java.util.Objects.equals(j1, blockpos.getBigX()) || l2 != blockpos.getY() || !java.util.Objects.equals(j2, blockpos.getBigZ())) {
-+                        sectionrenderdispatcher$rendersection.setOrigin(j1, me.alphamode.mcbig.math.BigInteger.val(l2), j2);
+@@ -40,7 +_,7 @@
+                 for (int k = 0; k < this.sectionGridSizeY; k++) {
+                     for (int l = 0; l < this.sectionGridSizeZ; l++) {
+                         int i1 = this.getSectionIndex(j, k, l);
+-                        this.sections[i1] = p_294825_.new RenderSection(i1, SectionPos.asLong(j, k + this.level.getMinSectionY(), l));
++                        this.sections[i1] = p_294825_.new RenderSection(i1, SectionPos.of(j, k + this.level.getMinSectionY(), l));
                      }
                  }
              }
-         }
+@@ -75,19 +_,19 @@
+ 
+     public void repositionCamera(SectionPos p_366723_) {
+         for (int i = 0; i < this.sectionGridSizeX; i++) {
+-            int j = p_366723_.x() - this.viewDistance;
+-            int k = j + Math.floorMod(i - j, this.sectionGridSizeX);
++            me.alphamode.mcbig.math.BigInteger j = p_366723_.x().subtract(this.viewDistance);
++            me.alphamode.mcbig.math.BigInteger k = j.add(me.alphamode.mcbig.math.BigMath.floorMod(me.alphamode.mcbig.math.BigInteger.val(i).subtract(j), this.sectionGridSizeX));
+ 
+             for (int l = 0; l < this.sectionGridSizeZ; l++) {
+-                int i1 = p_366723_.z() - this.viewDistance;
+-                int j1 = i1 + Math.floorMod(l - i1, this.sectionGridSizeZ);
++                me.alphamode.mcbig.math.BigInteger i1 = p_366723_.z().subtract(this.viewDistance);
++                me.alphamode.mcbig.math.BigInteger j1 = i1.add(me.alphamode.mcbig.math.BigMath.floorMod(me.alphamode.mcbig.math.BigInteger.val(l).subtract(i1), this.sectionGridSizeZ));
+ 
+                 for (int k1 = 0; k1 < this.sectionGridSizeY; k1++) {
+                     int l1 = this.level.getMinSectionY() + k1;
+                     SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection = this.sections[this.getSectionIndex(i, k1, l)];
+-                    long i2 = sectionrenderdispatcher$rendersection.getSectionNode();
+-                    if (i2 != SectionPos.asLong(k, l1, j1)) {
+-                        sectionrenderdispatcher$rendersection.setSectionNode(SectionPos.asLong(k, l1, j1));
++                    SectionPos i2 = sectionrenderdispatcher$rendersection.getSectionNode();
++                    if (!i2.equals(SectionPos.of(k, l1, j1))) {
++                        sectionrenderdispatcher$rendersection.setSectionNode(SectionPos.of(k, l1, j1));
+                     }
+                 }
+             }
+@@ -101,7 +_,7 @@
+         return this.cameraSectionPos;
      }
  
 -    public void setDirty(int p_110860_, int p_110861_, int p_110862_, boolean p_110863_) {
--        int i = Math.floorMod(p_110860_, this.sectionGridSizeX);
--        int j = Math.floorMod(p_110861_ - this.level.getMinSection(), this.sectionGridSizeY);
--        int k = Math.floorMod(p_110862_, this.sectionGridSizeZ);
-+    public void setDirty(me.alphamode.mcbig.math.BigInteger p_110860_, me.alphamode.mcbig.math.BigInteger p_110861_, me.alphamode.mcbig.math.BigInteger p_110862_, boolean p_110863_) {
-+        int i = me.alphamode.mcbig.math.BigMath.floorMod(p_110860_, this.sectionGridSizeX).intValue();
-+        int j = me.alphamode.mcbig.math.BigMath.floorMod(p_110861_.subtract(this.level.getMinSection()), this.sectionGridSizeY).intValue();
-+        int k = me.alphamode.mcbig.math.BigMath.floorMod(p_110862_, this.sectionGridSizeZ).intValue();
-         SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection = this.sections[this.getSectionIndex(i, j, k)];
-         sectionrenderdispatcher$rendersection.setDirty(p_110863_);
-     }
-@@ -109,8 +_,8 @@
++    public void setDirty(me.alphamode.mcbig.math.BigInteger p_110860_, int p_110861_, me.alphamode.mcbig.math.BigInteger p_110862_, boolean p_110863_) {
+         SectionRenderDispatcher.RenderSection sectionrenderdispatcher$rendersection = this.getRenderSection(p_110860_, p_110861_, p_110862_);
+         if (sectionrenderdispatcher$rendersection != null) {
+             sectionrenderdispatcher$rendersection.setDirty(p_110863_);
+@@ -110,34 +_,34 @@
+ 
+     @Nullable
      protected SectionRenderDispatcher.RenderSection getRenderSectionAt(BlockPos p_294239_) {
-         int i = Mth.floorDiv(p_294239_.getY() - this.level.getMinBuildHeight(), 16);
-         if (i >= 0 && i < this.sectionGridSizeY) {
--            int j = Mth.positiveModulo(Mth.floorDiv(p_294239_.getX(), 16), this.sectionGridSizeX);
--            int k = Mth.positiveModulo(Mth.floorDiv(p_294239_.getZ(), 16), this.sectionGridSizeZ);
-+            int j = Mth.positiveModulo(me.alphamode.mcbig.math.BigMath.floorDiv(p_294239_.getBigX(), 16), this.sectionGridSizeX);
-+            int k = Mth.positiveModulo(me.alphamode.mcbig.math.BigMath.floorDiv(p_294239_.getBigZ(), 16), this.sectionGridSizeZ);
-             return this.sections[this.getSectionIndex(j, i, k)];
-         } else {
+-        return this.getRenderSection(SectionPos.asLong(p_294239_));
+-    }
+-
+-    @Nullable
+-    protected SectionRenderDispatcher.RenderSection getRenderSection(long p_366845_) {
+-        int i = SectionPos.x(p_366845_);
+-        int j = SectionPos.y(p_366845_);
+-        int k = SectionPos.z(p_366845_);
+-        return this.getRenderSection(i, j, k);
+-    }
+-
+-    @Nullable
+-    private SectionRenderDispatcher.RenderSection getRenderSection(int p_366548_, int p_366588_, int p_366508_) {
++        return this.getRenderSection(SectionPos.of(p_294239_));
++    }
++
++    @Nullable
++    protected SectionRenderDispatcher.RenderSection getRenderSection(SectionPos p_366845_) {
++//        int i = SectionPos.x(p_366845_);
++//        int j = SectionPos.y(p_366845_);
++//        int k = SectionPos.z(p_366845_);
++        return this.getRenderSection(p_366845_.x(), p_366845_.getY(), p_366845_.z());
++    }
++
++    @Nullable
++    private SectionRenderDispatcher.RenderSection getRenderSection(me.alphamode.mcbig.math.BigInteger p_366548_, int p_366588_, me.alphamode.mcbig.math.BigInteger p_366508_) {
+         if (!this.containsSection(p_366548_, p_366588_, p_366508_)) {
              return null;
+         } else {
+             int i = p_366588_ - this.level.getMinSectionY();
+-            int j = Math.floorMod(p_366548_, this.sectionGridSizeX);
+-            int k = Math.floorMod(p_366508_, this.sectionGridSizeZ);
+-            return this.sections[this.getSectionIndex(j, i, k)];
++            me.alphamode.mcbig.math.BigInteger j = me.alphamode.mcbig.math.BigMath.floorMod(p_366548_, this.sectionGridSizeX);
++            me.alphamode.mcbig.math.BigInteger k = me.alphamode.mcbig.math.BigMath.floorMod(p_366508_, this.sectionGridSizeZ);
++            return this.sections[this.getSectionIndex(j.intValue(), i, k.intValue())];
+         }
+     }
+ 
+-    private boolean containsSection(int p_366483_, int p_366902_, int p_366901_) {
++    private boolean containsSection(me.alphamode.mcbig.math.BigInteger p_366483_, int p_366902_, me.alphamode.mcbig.math.BigInteger p_366901_) {
+         if (p_366902_ >= this.level.getMinSectionY() && p_366902_ <= this.level.getMaxSectionY()) {
+-            return p_366483_ < this.cameraSectionPos.x() - this.viewDistance || p_366483_ > this.cameraSectionPos.x() + this.viewDistance
++            return p_366483_.compareTo(this.cameraSectionPos.x().subtract(this.viewDistance)) < 0 || p_366483_.compareTo(this.cameraSectionPos.x().add(this.viewDistance)) > 0
+                 ? false
+-                : p_366901_ >= this.cameraSectionPos.z() - this.viewDistance && p_366901_ <= this.cameraSectionPos.z() + this.viewDistance;
++                : p_366901_.compareTo(this.cameraSectionPos.z().subtract(this.viewDistance)) >= 0 && p_366901_.compareTo(this.cameraSectionPos.z().add(this.viewDistance)) <= 0;
+         } else {
+             return false;
+         }

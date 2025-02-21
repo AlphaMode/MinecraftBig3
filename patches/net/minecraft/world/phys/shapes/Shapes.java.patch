@@ -78,7 +78,7 @@
      protected static long lcm(int p_83056_, int p_83057_) {
          return (long)p_83056_ * (long)(p_83057_ / IntMath.gcd(p_83056_, p_83057_));
      }
-@@ -333,5 +_,9 @@
+@@ -314,5 +_,9 @@
  
      public interface DoubleLineConsumer {
          void consume(double p_83162_, double p_83163_, double p_83164_, double p_83165_, double p_83166_, double p_83167_);

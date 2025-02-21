@@ -9,7 +9,7 @@
 +        me.alphamode.mcbig.math.BigInteger i = p_228964_.chunkPos().getBlockX(9);
 +        me.alphamode.mcbig.math.BigInteger j = p_228964_.chunkPos().getBlockZ(9);
  
-         for(Holder<Biome> holder : p_228964_.biomeSource()
+         for (Holder<Biome> holder : p_228964_.biomeSource()
              .getBiomesWithin(i, p_228964_.chunkGenerator().getSeaLevel(), j, 29, p_228964_.randomState().sampler())) {
 @@ -42,8 +_,8 @@
      }
@@ -17,8 +17,8 @@
      private static StructurePiece createTopPiece(ChunkPos p_228961_, WorldgenRandom p_228962_) {
 -        int i = p_228961_.getMinBlockX() - 29;
 -        int j = p_228961_.getMinBlockZ() - 29;
-+        me.alphamode.mcbig.math.BigInteger i = p_228961_.getBigMinBlockX().subtract(29);
-+        me.alphamode.mcbig.math.BigInteger j = p_228961_.getBigMinBlockZ().subtract(29);
++        me.alphamode.mcbig.math.BigInteger i = p_228961_.getMinBlockX().subtract(29);
++        me.alphamode.mcbig.math.BigInteger j = p_228961_.getMinBlockZ().subtract(29);
          Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(p_228962_);
          return new OceanMonumentPieces.MonumentBuilding(p_228962_, i, j, direction);
      }
@@ -27,7 +27,7 @@
          } else {
              WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(RandomSupport.generateUniqueSeed()));
 -            worldgenrandom.setLargeFeatureSeed(p_228958_, p_228957_.x, p_228957_.z);
-+            worldgenrandom.setLargeFeatureSeed(p_228958_, p_228957_.x().longValue(), p_228957_.z().longValue());
++            worldgenrandom.setLargeFeatureSeed(p_228958_, p_228957_.x.longValue(), p_228957_.z.longValue());
              StructurePiece structurepiece = p_228959_.pieces().get(0);
              BoundingBox boundingbox = structurepiece.getBoundingBox();
 -            int i = boundingbox.minX();

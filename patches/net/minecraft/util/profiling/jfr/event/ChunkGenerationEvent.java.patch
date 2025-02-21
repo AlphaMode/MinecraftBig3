@@ -1,9 +1,22 @@
 --- a/net/minecraft/util/profiling/jfr/event/ChunkGenerationEvent.java
 +++ b/net/minecraft/util/profiling/jfr/event/ChunkGenerationEvent.java
+@@ -23,10 +_,10 @@
+     public static final EventType TYPE = EventType.getEventType(ChunkGenerationEvent.class);
+     @Name("worldPosX")
+     @Label("First Block X World Position")
+-    public final int worldPosX;
++    public final me.alphamode.mcbig.math.BigInteger worldPosX;
+     @Name("worldPosZ")
+     @Label("First Block Z World Position")
+-    public final int worldPosZ;
++    public final me.alphamode.mcbig.math.BigInteger worldPosZ;
+     @Name("chunkPosX")
+     @Label("Chunk X Position")
+     public final int chunkPosX;
 @@ -43,8 +_,8 @@
      public ChunkGenerationEvent(ChunkPos p_195543_, ResourceKey<Level> p_195544_, String p_195545_) {
          this.targetStatus = p_195545_;
-         this.level = p_195544_.toString();
+         this.level = p_195544_.location().toString();
 -        this.chunkPosX = p_195543_.x;
 -        this.chunkPosZ = p_195543_.z;
 +        this.chunkPosX = p_195543_.x().intValue();

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/item/FallingBlockEntity.java
 +++ b/net/minecraft/world/entity/item/FallingBlockEntity.java
-@@ -78,9 +_,9 @@
+@@ -82,9 +_,9 @@
      public static FallingBlockEntity fall(Level p_201972_, BlockPos p_201973_, BlockState p_201974_) {
          FallingBlockEntity fallingblockentity = new FallingBlockEntity(
              p_201972_,
@@ -13,7 +13,7 @@
              p_201974_.hasProperty(BlockStateProperties.WATERLOGGED) ? p_201974_.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)) : p_201974_
          );
          p_201972_.setBlock(p_201973_, p_201974_.getFluidState().createLegacyBlock(), 3);
-@@ -137,7 +_,7 @@
+@@ -154,7 +_,7 @@
                      BlockHitResult blockhitresult = this.level()
                          .clip(
                              new ClipContext(
@@ -22,3 +22,15 @@
                              )
                          );
                      if (blockhitresult.getType() != HitResult.Type.MISS && this.level().getFluidState(blockhitresult.getBlockPos()).is(FluidTags.WATER)) {
+@@ -356,9 +_,9 @@
+         super.recreateFromPacket(p_149654_);
+         this.blockState = Block.stateById(p_149654_.getData());
+         this.blocksBuilding = true;
+-        double d0 = p_149654_.getX();
++        me.alphamode.mcbig.math.BigDecimal d0 = p_149654_.getX();
+         double d1 = p_149654_.getY();
+-        double d2 = p_149654_.getZ();
++        me.alphamode.mcbig.math.BigDecimal d2 = p_149654_.getZ();
+         this.setPos(d0, d1, d2);
+         this.setStartPos(this.blockPosition());
+     }

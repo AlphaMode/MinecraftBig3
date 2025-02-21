@@ -10,7 +10,7 @@
 +        me.alphamode.mcbig.math.BigInteger j = p_225223_.getBigZ();
          BlockPos.MutableBlockPos blockpos$mutableblockpos = p_225223_.mutable();
  
-         for(int k = p_225223_.getY(); k < p_225224_; ++k) {
+         for (int k = p_225223_.getY(); k < p_225224_; k++) {
 @@ -95,7 +_,7 @@
      }
  

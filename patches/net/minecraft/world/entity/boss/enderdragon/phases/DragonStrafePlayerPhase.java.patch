@@ -1,15 +1,16 @@
 --- a/net/minecraft/world/entity/boss/enderdragon/phases/DragonStrafePlayerPhase.java
 +++ b/net/minecraft/world/entity/boss/enderdragon/phases/DragonStrafePlayerPhase.java
-@@ -2,7 +_,7 @@
+@@ -2,8 +_,8 @@
  
  import com.mojang.logging.LogUtils;
  import javax.annotation.Nullable;
 -import net.minecraft.core.Vec3i;
+ import net.minecraft.server.level.ServerLevel;
 +
  import net.minecraft.util.Mth;
  import net.minecraft.world.entity.LivingEntity;
  import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-@@ -134,7 +_,7 @@
+@@ -136,7 +_,7 @@
  
      private void navigateToNextPathNode() {
          if (this.currentPath != null && !this.currentPath.isDone()) {
@@ -18,7 +19,7 @@
              this.currentPath.advance();
              double d0 = (double)vec3i.getX();
              double d2 = (double)vec3i.getZ();
-@@ -160,13 +_,13 @@
+@@ -162,10 +_,10 @@
          this.attackTarget = p_31359_;
          int i = this.dragon.findClosestNode();
          int j = this.dragon.findClosestNode(this.attackTarget.getX(), this.attackTarget.getY(), this.attackTarget.getZ());
@@ -32,8 +33,4 @@
 +        double d1 = (double)l.doubleValue() - this.dragon.getZ();
          double d2 = Math.sqrt(d0 * d0 + d1 * d1);
          double d3 = Math.min(0.4F + d2 / 80.0 - 1.0, 10.0);
--        int i1 = Mth.floor(this.attackTarget.getY() + d3);
-+        me.alphamode.mcbig.math.BigInteger i1 = Mth.bigFloor(this.attackTarget.getY() + d3);
-         Node node = new Node(k, i1, l);
-         this.currentPath = this.dragon.findPath(i, j, node);
-         if (this.currentPath != null) {
+         int i1 = Mth.floor(this.attackTarget.getY() + d3);

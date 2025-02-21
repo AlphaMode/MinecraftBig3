@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/vehicle/NewMinecartBehavior.java
++++ b/net/minecraft/world/entity/vehicle/NewMinecartBehavior.java
+@@ -259,7 +_,7 @@
+                 this.minecart.resetFallDistance();
+                 this.minecart.setOldPosAndRot();
+                 if (blockstate.is(Blocks.ACTIVATOR_RAIL)) {
+-                    this.minecart.activateMinecart(blockpos.getX(), blockpos.getY(), blockpos.getZ(), blockstate.getValue(PoweredRailBlock.POWERED));
++                    this.minecart.activateMinecart(blockpos.getBigX(), blockpos.getBigY(), blockpos.getBigZ(), blockstate.getValue(PoweredRailBlock.POWERED));
+                 }
+ 
+                 RailShape railshape = blockstate.getValue(((BaseRailBlock)blockstate.getBlock()).getShapeProperty());

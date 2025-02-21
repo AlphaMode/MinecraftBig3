@@ -52,11 +52,11 @@
  
      public static SectionPos of(ChunkPos p_123197_, int p_123198_) {
 -        return new SectionPos(p_123197_.x, p_123198_, p_123197_.z);
-+        return new SectionPos(p_123197_.x(), me.alphamode.mcbig.math.BigInteger.val(p_123198_), p_123197_.z());
++        return new SectionPos(p_123197_.x, me.alphamode.mcbig.math.BigInteger.val(p_123198_), p_123197_.z);
      }
  
      public static SectionPos of(EntityAccess p_235862_) {
-@@ -53,28 +_,25 @@
+@@ -53,42 +_,47 @@
          return new SectionPos(blockToSectionCoord(p_235864_.x()), blockToSectionCoord(p_235864_.y()), blockToSectionCoord(p_235864_.z()));
      }
  
@@ -65,7 +65,7 @@
 -    }
 -
      public static SectionPos bottomOf(ChunkAccess p_175563_) {
-         return of(p_175563_.getPos(), p_175563_.getMinSection());
+         return of(p_175563_.getPos(), p_175563_.getMinSectionY());
      }
  
 -    public static long offset(long p_123192_, Direction p_123193_) {
@@ -100,7 +100,14 @@
      }
  
      public static int blockToSectionCoord(double p_235866_) {
-@@ -85,10 +_,14 @@
+         return Mth.floor(p_235866_) >> 4;
+     }
+ 
++    public static me.alphamode.mcbig.math.BigInteger blockToSectionCoord(me.alphamode.mcbig.math.BigDecimal p_235866_) {
++        return p_235866_.floor().toBigInteger().shiftRight(SECTION_BITS);
++    }
++
+     public static int sectionRelative(int p_123208_) {
          return p_123208_ & 15;
      }
  
@@ -145,7 +152,7 @@
      }
  
      public BlockPos relativeToBlockPos(short p_123246_) {
-@@ -128,62 +_,56 @@
+@@ -128,68 +_,66 @@
          return sectionToBlockCoord(p_175555_) + p_175556_;
      }
  
@@ -238,6 +245,16 @@
      }
  
      public static long getZeroNode(long p_123241_) {
+         return p_123241_ & -1048576L;
+     }
+ 
++    public SectionPos zeroNode() {
++        return new SectionPos(x(), me.alphamode.mcbig.math.BigInteger.ZERO, z());
++    }
++
+     public BlockPos origin() {
+         return new BlockPos(sectionToBlockCoord(this.x()), sectionToBlockCoord(this.y()), sectionToBlockCoord(this.z()));
+     }
 @@ -203,10 +_,6 @@
          return new ChunkPos(this.x(), this.z());
      }
@@ -249,12 +266,16 @@
      public static long asLong(int p_123210_, int p_123211_, int p_123212_) {
          long i = 0L;
          i |= ((long)p_123210_ & 4194303L) << 42;
-@@ -215,11 +_,15 @@
+@@ -215,11 +_,19 @@
      }
  
      public long asLong() {
 -        return asLong(this.x(), this.y(), this.z());
 +        return asLong(this.x().intValue(), this.y().intValue(), this.z().intValue());
++    }
++
++    public SectionPos offset(Direction direction) {
++        return this.offset(direction.getStepX(), direction.getStepY(), direction.getStepZ());
      }
  
      public SectionPos offset(int p_175571_, int p_175572_, int p_175573_) {
@@ -284,9 +305,9 @@
      public static Stream<SectionPos> aroundChunk(ChunkPos p_175558_, int p_175559_, int p_175560_, int p_175561_) {
 -        int i = p_175558_.x;
 -        int j = p_175558_.z;
--        return betweenClosedStream(i - p_175559_, p_175560_, j - p_175559_, i + p_175559_, p_175561_ - 1, j + p_175559_);
-+        me.alphamode.mcbig.math.BigInteger i = p_175558_.x();
-+        me.alphamode.mcbig.math.BigInteger j = p_175558_.z();
+-        return betweenClosedStream(i - p_175559_, p_175560_, j - p_175559_, i + p_175559_, p_175561_, j + p_175559_);
++        me.alphamode.mcbig.math.BigInteger i = p_175558_.x;
++        me.alphamode.mcbig.math.BigInteger j = p_175558_.z;
 +        return betweenClosedStream(i.subtract(p_175559_), me.alphamode.mcbig.math.BigInteger.val(p_175560_), j.subtract(p_175559_), i.add(p_175559_), me.alphamode.mcbig.math.BigInteger.val(p_175561_).subtract(), j.add(p_175559_));
      }
  
@@ -298,7 +319,7 @@
 -            new AbstractSpliterator<SectionPos>((long)((p_123181_ - p_123178_ + 1) * (p_123182_ - p_123179_ + 1) * (p_123183_ - p_123180_ + 1)), 64) {
 +            new AbstractSpliterator<SectionPos>((long)((p_123181_.subtract(p_123178_).add()).multiply(p_123182_.subtract(p_123179_).add()).multiply(p_123183_.subtract(p_123180_).add()).longValue()), 64) {
                  final Cursor3D cursor = new Cursor3D(p_123178_, p_123179_, p_123180_, p_123181_, p_123182_, p_123183_);
-     
+ 
                  @Override
 @@ -259,28 +_,24 @@
          );
@@ -335,9 +356,9 @@
 +        if (i.equals(j) && k.equals(l) && i1.equals(j1)) {
 +            p_194638_.accept(of(i, k, i1));
          } else {
--            for(int k1 = i; k1 <= j; ++k1) {
--                for(int l1 = k; l1 <= l; ++l1) {
--                    for(int i2 = i1; i2 <= j1; ++i2) {
+-            for (int k1 = i; k1 <= j; k1++) {
+-                for (int l1 = k; l1 <= l; l1++) {
+-                    for (int i2 = i1; i2 <= j1; i2++) {
 -                        p_194638_.accept(asLong(k1, l1, i2));
 +            for(me.alphamode.mcbig.math.BigInteger k1 = i; k1.compareTo(j) <= 0; k1 = k1.add()) {
 +                for(me.alphamode.mcbig.math.BigInteger l1 = k; l1.compareTo(l) <= 0; l1 = l1.add()) {

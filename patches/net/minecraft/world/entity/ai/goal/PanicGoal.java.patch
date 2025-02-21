@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/goal/PanicGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/PanicGoal.java
-@@ -33,9 +_,9 @@
+@@ -47,9 +_,9 @@
              if (this.mob.isOnFire()) {
                  BlockPos blockpos = this.lookForWater(this.mob.level(), this.mob, 5);
                  if (blockpos != null) {

@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/level/levelgen/feature/SeaPickleFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/SeaPickleFeature.java
 @@ -26,8 +_,8 @@
-         for(int k = 0; k < j; ++k) {
+         for (int k = 0; k < j; k++) {
              int l = randomsource.nextInt(8) - randomsource.nextInt(8);
              int i1 = randomsource.nextInt(8) - randomsource.nextInt(8);
 -            int j1 = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + l, blockpos.getZ() + i1);

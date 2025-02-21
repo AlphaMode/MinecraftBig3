@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/components/DebugScreenOverlay.java
 +++ b/net/minecraft/client/gui/components/DebugScreenOverlay.java
-@@ -254,7 +_,7 @@
+@@ -269,7 +_,7 @@
                  "P: " + this.minecraft.particleEngine.countParticles() + ". T: " + this.minecraft.level.getEntityCount(),
                  this.minecraft.level.gatherChunkSourceStats(),
                  "",
@@ -9,7 +9,7 @@
              );
          } else {
              Entity entity = this.minecraft.getCameraEntity();
-@@ -274,7 +_,7 @@
+@@ -289,7 +_,7 @@
              }
  
              Level level = this.getLevel();
@@ -18,7 +18,7 @@
              List<String> list = Lists.newArrayList(
                  "Minecraft "
                      + SharedConstants.getCurrentVersion().getName()
-@@ -302,30 +_,30 @@
+@@ -317,27 +_,27 @@
                  String.format(
                      Locale.ROOT,
                      "XYZ: %.3f / %.5f / %.3f",
@@ -44,7 +44,6 @@
 -                String.format(
 -                    Locale.ROOT,
 -                    "Chunk: %d %d %d [%d %d in r.%d.%d.mca]",
--                    chunkpos.x,
 +                    this.minecraft.getCameraEntity().getBigZ().getBacking()
 +                )
 +            );
@@ -64,14 +63,10 @@
 +                String.format(
 +                    Locale.ROOT,
 +                    "Chunk: %s %d %s [%d %d in r.%s.%s.mca]",
-+                    chunkpos.x(),
+                     chunkpos.x,
                      SectionPos.blockToSectionCoord(blockpos.getY()),
--                    chunkpos.z,
-+                    chunkpos.z(),
-                     chunkpos.getRegionLocalX(),
-                     chunkpos.getRegionLocalZ(),
-                     chunkpos.getRegionX(),
-@@ -353,7 +_,7 @@
+                     chunkpos.z,
+@@ -368,7 +_,7 @@
                          stringbuilder.append(" ")
                              .append(HEIGHTMAP_NAMES.get(heightmap$types))
                              .append(": ")
@@ -80,7 +75,7 @@
                      }
                  }
  
-@@ -365,7 +_,7 @@
+@@ -380,7 +_,7 @@
                      if (heightmap$types1.keepAfterWorldgen()) {
                          stringbuilder.append(" ").append(HEIGHTMAP_NAMES.get(heightmap$types1)).append(": ");
                          if (levelchunk1 != null) {
@@ -89,25 +84,7 @@
                          } else {
                              stringbuilder.append("??");
                          }
-@@ -470,7 +_,7 @@
-             }
- 
-             this.serverChunk = serverlevel.getChunkSource()
--                .getChunkFuture(this.lastPos.x, this.lastPos.z, ChunkStatus.FULL, false)
-+                .getChunkFuture(this.lastPos.x(), this.lastPos.z(), ChunkStatus.FULL, false)
-                 .thenApply(p_205369_ -> p_205369_.map(p_205371_ -> (LevelChunk)p_205371_, p_205363_ -> null));
-         }
- 
-@@ -479,7 +_,7 @@
- 
-     private LevelChunk getClientChunk() {
-         if (this.clientChunk == null) {
--            this.clientChunk = this.minecraft.level.getChunk(this.lastPos.x, this.lastPos.z);
-+            this.clientChunk = this.minecraft.level.getChunk(this.lastPos.x(), this.lastPos.z());
-         }
- 
-         return this.clientChunk;
-@@ -515,7 +_,7 @@
+@@ -530,7 +_,7 @@
                  BlockPos blockpos = ((BlockHitResult)this.block).getBlockPos();
                  BlockState blockstate = this.minecraft.level.getBlockState(blockpos);
                  list.add("");
@@ -115,8 +92,8 @@
 +                list.add(ChatFormatting.UNDERLINE + "Targeted Block: " + blockpos.getBigX() + ", " + blockpos.getBigY() + ", " + blockpos.getBigZ());
                  list.add(String.valueOf(BuiltInRegistries.BLOCK.getKey(blockstate.getBlock())));
  
-                 for(Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
-@@ -529,7 +_,7 @@
+                 for (Entry<Property<?>, Comparable<?>> entry : blockstate.getValues().entrySet()) {
+@@ -544,7 +_,7 @@
                  BlockPos blockpos1 = ((BlockHitResult)this.liquid).getBlockPos();
                  FluidState fluidstate = this.minecraft.level.getFluidState(blockpos1);
                  list.add("");
@@ -124,4 +101,4 @@
 +                list.add(ChatFormatting.UNDERLINE + "Targeted Fluid: " + blockpos1.getBigX() + ", " + blockpos1.getBigY() + ", " + blockpos1.getBigZ());
                  list.add(String.valueOf(BuiltInRegistries.FLUID.getKey(fluidstate.getType())));
  
-                 for(Entry<Property<?>, Comparable<?>> entry1 : fluidstate.getValues().entrySet()) {
+                 for (Entry<Property<?>, Comparable<?>> entry1 : fluidstate.getValues().entrySet()) {

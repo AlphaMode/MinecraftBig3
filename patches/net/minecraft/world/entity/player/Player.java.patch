@@ -1,26 +1,6 @@
 --- a/net/minecraft/world/entity/player/Player.java
 +++ b/net/minecraft/world/entity/player/Player.java
-@@ -18,6 +_,7 @@
- import net.minecraft.core.BlockPos;
- import net.minecraft.core.Direction;
- import net.minecraft.core.GlobalPos;
-+import net.minecraft.core.SectionPos;
- import net.minecraft.core.particles.ParticleOptions;
- import net.minecraft.core.particles.ParticleTypes;
- import net.minecraft.core.registries.Registries;
-@@ -91,10 +_,7 @@
- import net.minecraft.world.item.crafting.RecipeHolder;
- import net.minecraft.world.item.enchantment.EnchantmentHelper;
- import net.minecraft.world.item.trading.MerchantOffers;
--import net.minecraft.world.level.BaseCommandBlock;
--import net.minecraft.world.level.GameRules;
--import net.minecraft.world.level.GameType;
--import net.minecraft.world.level.Level;
-+import net.minecraft.world.level.*;
- import net.minecraft.world.level.block.BedBlock;
- import net.minecraft.world.level.block.Block;
- import net.minecraft.world.level.block.RespawnAnchorBlock;
-@@ -181,7 +_,7 @@
+@@ -207,7 +_,7 @@
          this.gameProfile = p_252153_;
          this.inventoryMenu = new InventoryMenu(this.inventory, !p_250508_.isClientSide, this);
          this.containerMenu = this.inventoryMenu;
@@ -29,7 +9,7 @@
          this.rotOffs = 180.0F;
      }
  
-@@ -273,9 +_,9 @@
+@@ -303,9 +_,9 @@
          }
  
          int i = 29999999;
@@ -42,7 +22,7 @@
              this.setPos(d0, this.getY(), d1);
          }
  
-@@ -1008,7 +_,7 @@
+@@ -1030,7 +_,7 @@
  
                      InteractionResult interactionresult1 = itemstack.interactLivingEntity(this, (LivingEntity)p_36158_, p_36159_);
                      if (interactionresult1.consumesAction()) {
@@ -51,16 +31,7 @@
                          if (itemstack.isEmpty() && !this.abilities.instabuild) {
                              this.setItemInHand(p_36159_, ItemStack.EMPTY);
                          }
-@@ -1396,7 +_,7 @@
-             BlockState blockstate1 = p_36131_.getBlockState(p_36132_.above());
-             boolean flag1 = blockstate1.getBlock().isPossibleToRespawnInThis(blockstate1);
-             return flag && flag1
--                ? Optional.of(new Vec3((double)p_36132_.getX() + 0.5, (double)p_36132_.getY() + 0.1, (double)p_36132_.getZ() + 0.5))
-+                ? Optional.of(new Vec3((double)p_36132_.getBigX().doubleValue() + 0.5, (double)p_36132_.getBigY().doubleValue() + 0.1, (double)p_36132_.getBigZ().doubleValue() + 0.5))
-                 : Optional.empty();
-         }
-     }
-@@ -2108,5 +_,42 @@
+@@ -2197,5 +_,51 @@
          public Component getMessage() {
              return this.message;
          }
@@ -93,6 +64,15 @@
 +        this.xo = d0.doubleValue();
 +        this.zo = d1.doubleValue();
 +        this.setPos(d0, p_20250_, d1);
++    }
++
++    public void absMoveTo(double p_20249_, double p_20250_, double p_20251_) {
++        this.bigXo = me.alphamode.mcbig.math.BigDecimal.val(p_20249_);
++        this.yo = p_20250_;
++        this.bigZo = me.alphamode.mcbig.math.BigDecimal.val(p_20251_);
++        this.xo = p_20249_;
++        this.zo = p_20251_;
++        this.setPos(p_20249_, p_20250_, p_20251_);
 +    }
 +
 +    public void moveTo(me.alphamode.mcbig.math.BigDecimal p_20108_, double p_20109_, me.alphamode.mcbig.math.BigDecimal p_20110_, float p_20111_, float p_20112_) {

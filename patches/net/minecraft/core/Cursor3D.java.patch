@@ -60,15 +60,15 @@
      public int getNextType() {
 -        int i = 0;
 -        if (this.x == 0 || this.x == this.width - 1) {
--            ++i;
+-            i++;
 -        }
 -
 -        if (this.y == 0 || this.y == this.height - 1) {
--            ++i;
+-            i++;
 -        }
 -
 -        if (this.z == 0 || this.z == this.depth - 1) {
--            ++i;
+-            i++;
 -        }
 -
 -        return i;

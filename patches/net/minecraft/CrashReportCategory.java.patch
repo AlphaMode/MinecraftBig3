@@ -20,7 +20,7 @@
 +            long i1 = p_178945_ & 15;
 +            long j1 = p_178946_ & 15;
              int k1 = SectionPos.sectionToBlockCoord(i);
-             int l1 = p_178943_.getMinBuildHeight();
+             int l1 = p_178943_.getMinY();
              int i2 = SectionPos.sectionToBlockCoord(k);
 @@ -69,18 +_,18 @@
          stringbuilder.append(", ");
@@ -40,12 +40,12 @@
 +            long i4 = (i3 + 1 << 5) - 1;
 +            long j4 = (j3 + 1 << 5) - 1;
 +            long k4 = i3 << 9;
-             int l4 = p_178943_.getMinBuildHeight();
+             int l4 = p_178943_.getMinY();
 -            int i5 = j3 << 9;
 -            int j5 = (i3 + 1 << 9) - 1;
 +            long i5 = j3 << 9;
 +            long j5 = (i3 + 1 << 9) - 1;
-             int k5 = p_178943_.getMaxBuildHeight() - 1;
+             int k5 = p_178943_.getMaxY();
 -            int l5 = (j3 + 1 << 9) - 1;
 +            long l5 = (j3 + 1 << 9) - 1;
              stringbuilder.append(

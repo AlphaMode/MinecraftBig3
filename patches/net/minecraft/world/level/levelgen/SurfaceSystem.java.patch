@@ -6,15 +6,15 @@
          final ChunkPos chunkpos = p_224654_.getPos();
 -        int i = chunkpos.getMinBlockX();
 -        int j = chunkpos.getMinBlockZ();
-+        me.alphamode.mcbig.math.BigInteger i = chunkpos.getBigMinBlockX();
-+        me.alphamode.mcbig.math.BigInteger j = chunkpos.getBigMinBlockZ();
++        me.alphamode.mcbig.math.BigInteger i = chunkpos.getMinBlockX();
++        me.alphamode.mcbig.math.BigInteger j = chunkpos.getMinBlockZ();
          BlockColumn blockcolumn = new BlockColumn() {
              @Override
              public BlockState getBlock(int p_190006_) {
 @@ -105,16 +_,16 @@
  
-         for(int k = 0; k < 16; ++k) {
-             for(int l = 0; l < 16; ++l) {
+         for (int k = 0; k < 16; k++) {
+             for (int l = 0; l < 16; l++) {
 -                int i1 = i + k;
 -                int j1 = j + l;
 -                int k1 = p_224654_.getHeight(Heightmap.Types.WORLD_SURFACE_WG, k, l) + 1;
@@ -50,8 +50,8 @@
      }
  
      private boolean isStone(BlockState p_189953_) {
-@@ -189,25 +_,25 @@
-             this, p_189973_.randomState(), p_189975_, p_189976_, p_189974_, p_189973_.registryAccess().registryOrThrow(Registries.BIOME), p_189973_
+@@ -193,25 +_,25 @@
+             this, p_189973_.randomState(), p_189975_, p_189976_, p_189974_, p_189973_.registryAccess().lookupOrThrow(Registries.BIOME), p_189973_
          );
          SurfaceRules.SurfaceRule surfacerules$surfacerule = p_189972_.apply(surfacerules$context);
 -        int i = p_189977_.getX();
@@ -82,7 +82,7 @@
              double d5 = 64.0 + Math.min(d1 * d1 * 2.5, Math.ceil(d4 * 50.0) + 24.0);
              int i = Mth.floor(d5);
              if (p_189958_ <= i) {
-@@ -230,17 +_,17 @@
+@@ -234,17 +_,17 @@
      }
  
      private void frozenOceanExtension(
@@ -102,9 +102,9 @@
 -            double d5 = Math.abs(this.icebergPillarRoofNoise.getValue((double)p_189939_ * 1.17, 0.0, (double)p_189940_ * 1.17) * 1.5);
 +            double d5 = Math.abs(this.icebergPillarRoofNoise.getValue((double)p_189939_.doubleValue() * 1.17, 0.0, (double)p_189940_.doubleValue() * 1.17) * 1.5);
              double d6 = Math.min(d1 * d1 * 1.2, Math.ceil(d5 * 40.0) + 14.0);
-             if (p_189936_.shouldMeltFrozenOceanIcebergSlightly(p_189938_.set(p_189939_, 63, p_189940_))) {
+             if (p_189936_.shouldMeltFrozenOceanIcebergSlightly(p_189938_.set(p_189939_, this.seaLevel, p_189940_), this.seaLevel)) {
                  d6 -= 2.0;
-@@ -321,8 +_,8 @@
+@@ -325,8 +_,8 @@
          }
      }
  

@@ -44,7 +44,7 @@ public class BigArrayVoxelShape extends VoxelShape {
     }
 
     @Override
-    protected DoubleList getCoords(Direction.Axis p_82577_) {
+    public DoubleList getCoords(Direction.Axis p_82577_) {
         switch(p_82577_) {
             case X:
                 return this.xs.stream().map(BigDecimal::doubleValue).collect(Collectors.toCollection(DoubleArrayList::new));

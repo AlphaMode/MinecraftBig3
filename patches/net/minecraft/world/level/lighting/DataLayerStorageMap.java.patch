@@ -43,7 +43,7 @@
 -    public DataLayer getLayer(long p_75533_) {
 +    public DataLayer getLayer(SectionPos p_75533_) {
          if (this.cacheEnabled) {
-             for(int i = 0; i < 2; ++i) {
+             for (int i = 0; i < 2; i++) {
 -                if (p_75533_ == this.lastSectionKeys[i]) {
 +                if (p_75533_.equals(this.lastSectionKeys[i])) {
                      return this.lastSections[i];
@@ -64,7 +64,7 @@
      }
  
      public void clearCache() {
-         for(int i = 0; i < 2; ++i) {
+         for (int i = 0; i < 2; i++) {
 -            this.lastSectionKeys[i] = Long.MAX_VALUE;
 +            this.lastSectionKeys[i] = net.minecraft.server.level.SectionTracker.SOURCE;
              this.lastSections[i] = null;

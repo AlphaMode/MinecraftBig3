@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/projectile/windcharge/WindCharge.java
++++ b/net/minecraft/world/entity/projectile/windcharge/WindCharge.java
+@@ -51,7 +_,7 @@
+     }
+ 
+     @Override
+-    protected void explode(Vec3 p_352393_) {
++    protected void explode(me.alphamode.mcbig.core.BigVec3 p_352393_) {
+         this.level()
+             .explode(
+                 this,

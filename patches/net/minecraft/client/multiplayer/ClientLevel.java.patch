@@ -1,15 +1,27 @@
 --- a/net/minecraft/client/multiplayer/ClientLevel.java
 +++ b/net/minecraft/client/multiplayer/ClientLevel.java
-@@ -310,7 +_,7 @@
+@@ -29,10 +_,7 @@
+ import net.minecraft.client.renderer.LevelRenderer;
+ import net.minecraft.client.resources.sounds.EntityBoundSoundInstance;
+ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+-import net.minecraft.core.BlockPos;
+-import net.minecraft.core.Cursor3D;
+-import net.minecraft.core.Direction;
+-import net.minecraft.core.Holder;
++import net.minecraft.core.*;
+ import net.minecraft.core.particles.BlockParticleOption;
+ import net.minecraft.core.particles.ParticleOptions;
+ import net.minecraft.core.particles.ParticleTypes;
+@@ -321,7 +_,7 @@
+         this.entityStorage.startTicking(p_171650_);
      }
  
-     public void onChunkLoaded(ChunkPos p_171650_) {
--        this.tintCaches.forEach((p_194154_, p_194155_) -> p_194155_.invalidateForChunk(p_171650_.x, p_171650_.z));
-+        this.tintCaches.forEach((p_194154_, p_194155_) -> p_194155_.invalidateForChunk(p_171650_.x(), p_171650_.z()));
-         this.entityStorage.startTicking(p_171650_);
-         this.levelRenderer.onChunkLoaded(p_171650_);
+-    public void onSectionBecomingNonEmpty(long p_366708_) {
++    public void onSectionBecomingNonEmpty(SectionPos p_366708_) {
+         this.levelRenderer.onSectionBecomingNonEmpty(p_366708_);
      }
-@@ -320,7 +_,7 @@
+ 
+@@ -330,7 +_,7 @@
      }
  
      @Override
@@ -18,7 +30,7 @@
          return true;
      }
  
-@@ -352,7 +_,7 @@
+@@ -362,7 +_,7 @@
          this.connection.getConnection().disconnect(Component.translatable("multiplayer.status.quitting"));
      }
  
@@ -27,7 +39,7 @@
          int i = 32;
          RandomSource randomsource = RandomSource.create();
          Block block = this.getMarkerParticleTarget();
-@@ -378,11 +_,11 @@
+@@ -388,11 +_,11 @@
      }
  
      public void doAnimateTick(
@@ -42,7 +54,7 @@
          p_233619_.set(i, j, k);
          BlockState blockstate = this.getBlockState(p_233619_);
          blockstate.getBlock().animateTick(blockstate, this, p_233619_, p_233617_);
-@@ -398,7 +_,7 @@
+@@ -408,7 +_,7 @@
          }
  
          if (p_233618_ == blockstate.getBlock()) {
@@ -51,7 +63,7 @@
          }
  
          if (!blockstate.isCollisionShapeFullBlock(this, p_233619_)) {
-@@ -410,9 +_,9 @@
+@@ -420,9 +_,9 @@
                          if (p_264703_.canSpawn(this.random)) {
                              this.addParticle(
                                  p_264703_.getOptions(),
@@ -64,7 +76,7 @@
                                  0.0,
                                  0.0,
                                  0.0
-@@ -430,10 +_,10 @@
+@@ -440,10 +_,10 @@
              if (d0 < 1.0) {
                  if (p_104693_) {
                      this.spawnFluidParticle(
@@ -79,7 +91,7 @@
                          (double)(p_104690_.getY() + 1) - 0.05,
                          p_104692_
                      );
-@@ -457,10 +_,10 @@
+@@ -467,10 +_,10 @@
  
      private void spawnParticle(BlockPos p_104695_, ParticleOptions p_104696_, VoxelShape p_104697_, double p_104698_) {
          this.spawnFluidParticle(
@@ -94,39 +106,42 @@
              p_104698_,
              p_104696_
          );
-@@ -628,8 +_,8 @@
+@@ -644,11 +_,11 @@
          this.levelRenderer.setBlockDirty(p_104759_, p_104760_, p_104761_);
      }
  
 -    public void setSectionDirtyWithNeighbors(int p_104794_, int p_104795_, int p_104796_) {
--        this.levelRenderer.setSectionDirtyWithNeighbors(p_104794_, p_104795_, p_104796_);
 +    public void setSectionDirtyWithNeighbors(me.alphamode.mcbig.math.BigInteger p_104794_, int p_104795_, me.alphamode.mcbig.math.BigInteger p_104796_) {
-+        this.levelRenderer.setSectionDirtyWithNeighbors(p_104794_, me.alphamode.mcbig.math.BigInteger.val(p_104795_), p_104796_);
+         this.levelRenderer.setSectionDirtyWithNeighbors(p_104794_, p_104795_, p_104796_);
      }
  
-     @Override
-@@ -709,7 +_,7 @@
+-    public void setSectionRangeDirty(int p_362815_, int p_361646_, int p_361179_, int p_363637_, int p_364381_, int p_361721_) {
++    public void setSectionRangeDirty(me.alphamode.mcbig.math.BigInteger p_362815_, int p_361646_, me.alphamode.mcbig.math.BigInteger p_361179_, me.alphamode.mcbig.math.BigInteger p_363637_, int p_364381_, me.alphamode.mcbig.math.BigInteger p_361721_) {
+         this.levelRenderer.setSectionRangeDirty(p_362815_, p_361646_, p_361179_, p_363637_, p_364381_, p_361721_);
+     }
+ 
+@@ -736,7 +_,7 @@
      }
  
      @Override
 -    public Holder<Biome> getUncachedNoiseBiome(int p_205516_, int p_205517_, int p_205518_) {
 +    public Holder<Biome> getUncachedNoiseBiome(me.alphamode.mcbig.math.BigInteger p_205516_, me.alphamode.mcbig.math.BigInteger p_205517_, me.alphamode.mcbig.math.BigInteger p_205518_) {
-         return this.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS);
+         return this.registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.PLAINS);
      }
  
-@@ -723,9 +_,9 @@
+@@ -750,9 +_,9 @@
          return f1 * 0.8F + 0.2F;
      }
  
--    public Vec3 getSkyColor(Vec3 p_171661_, float p_171662_) {
-+    public Vec3 getSkyColor(me.alphamode.mcbig.core.BigVec3 p_171661_, float p_171662_) {
+-    public int getSkyColor(Vec3 p_171661_, float p_171662_) {
++    public int getSkyColor(me.alphamode.mcbig.core.BigVec3 p_171661_, float p_171662_) {
          float f = this.getTimeOfDay(p_171662_);
 -        Vec3 vec3 = p_171661_.subtract(2.0, 2.0, 2.0).scale(0.25);
 +        me.alphamode.mcbig.core.BigVec3 vec3 = p_171661_.subtract(2.0, 2.0, 2.0).scale(0.25);
-         BiomeManager biomemanager = this.getBiomeManager();
          Vec3 vec31 = CubicSampler.gaussianSampleVec3(
-             vec3, (p_194161_, p_194162_, p_194163_) -> Vec3.fromRGB24(biomemanager.getNoiseBiomeAtQuart(p_194161_, p_194162_, p_194163_).value().getSkyColor())
-@@ -848,21 +_,21 @@
+             vec3,
+             (p_378799_, p_378800_, p_378801_) -> Vec3.fromRGB24(
+@@ -858,14 +_,14 @@
      public int calculateBlockTint(BlockPos p_104763_, ColorResolver p_104764_) {
          int i = Minecraft.getInstance().options.biomeBlendRadius().get();
          if (i == 0) {
@@ -141,22 +156,14 @@
 -                p_104763_.getX() - i, p_104763_.getY(), p_104763_.getZ() - i, p_104763_.getX() + i, p_104763_.getY(), p_104763_.getZ() + i
 +                p_104763_.getBigX().subtract(i), p_104763_.getBigY(), p_104763_.getBigZ().subtract(i), p_104763_.getBigX().add(i), p_104763_.getBigY(), p_104763_.getBigZ().add(i)
              );
+             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
-             int j1;
-             for(BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(); cursor3d.advance(); i1 += j1 & 0xFF) {
-                 blockpos$mutableblockpos.set(cursor3d.nextX(), cursor3d.nextY(), cursor3d.nextZ());
-                 j1 = p_104764_.getColor(
--                    this.getBiome(blockpos$mutableblockpos).value(), (double)blockpos$mutableblockpos.getX(), (double)blockpos$mutableblockpos.getZ()
-+                    this.getBiome(blockpos$mutableblockpos).value(), (double)blockpos$mutableblockpos.getBigX().doubleValue(), (double)blockpos$mutableblockpos.getBigZ().doubleValue()
-                 );
-                 k += (j1 & 0xFF0000) >> 16;
-                 l += (j1 & 0xFF00) >> 8;
-@@ -886,7 +_,7 @@
+@@ -897,7 +_,7 @@
      }
  
      @Override
--    public void gameEvent(GameEvent p_233639_, Vec3 p_233640_, GameEvent.Context p_233641_) {
-+    public void gameEvent(GameEvent p_233639_, me.alphamode.mcbig.core.BigVec3 p_233640_, GameEvent.Context p_233641_) {
+-    public void gameEvent(Holder<GameEvent> p_316478_, Vec3 p_233640_, GameEvent.Context p_233641_) {
++    public void gameEvent(Holder<GameEvent> p_233639_, me.alphamode.mcbig.core.BigVec3 p_233640_, GameEvent.Context p_233641_) {
      }
  
-     protected Map<String, MapItemSavedData> getAllMapData() {
+     protected Map<MapId, MapItemSavedData> getAllMapData() {

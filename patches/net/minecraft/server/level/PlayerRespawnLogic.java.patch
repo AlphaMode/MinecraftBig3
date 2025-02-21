@@ -12,7 +12,7 @@
              ? p_183929_.getChunkSource().getGenerator().getSpawnHeight(p_183929_)
 -            : levelchunk.getHeight(Heightmap.Types.MOTION_BLOCKING, p_183930_ & 15, p_183931_ & 15);
 +            : levelchunk.getHeight(Heightmap.Types.MOTION_BLOCKING, p_183930_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN), p_183931_.and(me.alphamode.mcbig.core.BigConstants.Ints.FIFTEEN));
-         if (i < p_183929_.getMinBuildHeight()) {
+         if (i < p_183929_.getMinY()) {
              return null;
          } else {
 -            int j = levelchunk.getHeight(Heightmap.Types.WORLD_SURFACE, p_183930_ & 15, p_183931_ & 15);
@@ -26,10 +26,10 @@
          if (SharedConstants.debugVoidTerrain(p_183934_)) {
              return null;
          } else {
--            for(int i = p_183934_.getMinBlockX(); i <= p_183934_.getMaxBlockX(); ++i) {
--                for(int j = p_183934_.getMinBlockZ(); j <= p_183934_.getMaxBlockZ(); ++j) {
-+            for(me.alphamode.mcbig.math.BigInteger i = p_183934_.getBigMinBlockX(); i.compareTo(p_183934_.getBigMaxBlockX()) <= 0; i = i.add()) {
-+                for(me.alphamode.mcbig.math.BigInteger j = p_183934_.getBigMinBlockZ(); j.compareTo(p_183934_.getBigMaxBlockZ()) <= 0; j = j.add()) {
+-            for (int i = p_183934_.getMinBlockX(); i <= p_183934_.getMaxBlockX(); i++) {
+-                for (int j = p_183934_.getMinBlockZ(); j <= p_183934_.getMaxBlockZ(); j++) {
++            for(me.alphamode.mcbig.math.BigInteger i = p_183934_.getMinBlockX(); i.compareTo(p_183934_.getMaxBlockX()) <= 0; i = i.add()) {
++                for(me.alphamode.mcbig.math.BigInteger j = p_183934_.getMinBlockZ(); j.compareTo(p_183934_.getMaxBlockZ()) <= 0; j = j.add()) {
                      BlockPos blockpos = getOverworldRespawnPos(p_183933_, i, j);
                      if (blockpos != null) {
                          return blockpos;

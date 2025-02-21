@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/treedecorators/TreeDecorator.java
 +++ b/net/minecraft/world/level/levelgen/feature/treedecorators/TreeDecorator.java
-@@ -46,9 +_,9 @@
+@@ -47,9 +_,9 @@
              this.roots = new ObjectArrayList<>(p_226057_);
              this.logs = new ObjectArrayList<>(p_226055_);
              this.leaves = new ObjectArrayList<>(p_226056_);

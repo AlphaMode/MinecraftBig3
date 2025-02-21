@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/vehicle/MinecartCommandBlock.java
 +++ b/net/minecraft/world/entity/vehicle/MinecartCommandBlock.java
-@@ -76,7 +_,7 @@
+@@ -73,7 +_,7 @@
      }
  
      @Override
@@ -9,7 +9,7 @@
          if (p_38520_ && this.tickCount - this.lastActivated >= 4) {
              this.getCommandBlock().performCommand(this.level());
              this.lastActivated = this.tickCount;
-@@ -131,7 +_,7 @@
+@@ -123,7 +_,7 @@
          public CommandSourceStack createCommandSourceStack() {
              return new CommandSourceStack(
                  this,

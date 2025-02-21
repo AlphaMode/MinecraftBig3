@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/entity/projectile/AbstractHurtingProjectile.java
++++ b/net/minecraft/world/entity/projectile/AbstractHurtingProjectile.java
+@@ -71,11 +_,11 @@
+         this.applyInertia();
+         if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
+             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity, this.getClipType());
+-            Vec3 vec3;
++            me.alphamode.mcbig.core.BigVec3 vec3;
+             if (hitresult.getType() != HitResult.Type.MISS) {
+                 vec3 = hitresult.getLocation();
+             } else {
+-                vec3 = this.position().add(this.getDeltaMovement());
++                vec3 = this.bigPosition().add(this.getDeltaMovement());
+             }
+ 
+             ProjectileUtil.rotateTowardsMovement(this, 0.2F);

@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/culling/Frustum.java
 +++ b/net/minecraft/client/renderer/culling/Frustum.java
-@@ -13,9 +_,9 @@
+@@ -14,9 +_,9 @@
      private final FrustumIntersection intersection = new FrustumIntersection();
      private final Matrix4f matrix = new Matrix4f();
      private Vector4f viewVector;
@@ -12,7 +12,7 @@
  
      public Frustum(Matrix4f p_254207_, Matrix4f p_254535_) {
          this.calculateFrustum(p_254207_, p_254535_);
-@@ -31,33 +_,33 @@
+@@ -32,33 +_,33 @@
      }
  
      public Frustum offsetToFullyIncludeCameraCube(int p_194442_) {
@@ -25,7 +25,7 @@
 +        me.alphamode.mcbig.math.BigDecimal d3 = this.camX.divide((double)p_194442_).ceil().multiply((double)p_194442_);
          double d4 = Math.ceil(this.camY / (double)p_194442_) * (double)p_194442_;
  
--        for(double d5 = Math.ceil(this.camZ / (double)p_194442_) * (double)p_194442_;
+-        for (double d5 = Math.ceil(this.camZ / (double)p_194442_) * (double)p_194442_;
 +        for(me.alphamode.mcbig.math.BigDecimal d5 = this.camZ.divide((double)p_194442_).ceil().multiply((double)p_194442_);
              this.intersection
                      .intersectAab(
@@ -41,12 +41,12 @@
 +                        (float)(d5.subtract(this.camZ).floatValue())
                      )
                  != -2;
--            this.camZ -= (double)(this.viewVector.z() * 4.0F)
+-            this.camZ = this.camZ - (double)(this.viewVector.z() * 4.0F)
 +            this.camZ = this.camZ.subtract((double)(this.viewVector.z() * 4.0F))
          ) {
--            this.camX -= (double)(this.viewVector.x() * 4.0F);
+-            this.camX = this.camX - (double)(this.viewVector.x() * 4.0F);
 +            this.camX = this.camX.subtract((double)(this.viewVector.x() * 4.0F));
-             this.camY -= (double)(this.viewVector.y() * 4.0F);
+             this.camY = this.camY - (double)(this.viewVector.y() * 4.0F);
          }
  
          return this;
@@ -57,37 +57,72 @@
          this.camX = p_113003_;
          this.camY = p_113004_;
          this.camZ = p_113005_;
-@@ -73,13 +_,27 @@
-         return this.cubeInFrustum(p_113030_.minX, p_113030_.minY, p_113030_.minZ, p_113030_.maxX, p_113030_.maxY, p_113030_.maxZ);
+@@ -75,24 +_,39 @@
+         return i == -2 || i == -1;
      }
  
 +    public boolean isVisible(me.alphamode.mcbig.phys.BigAABB p_113030_) {
-+        return this.cubeInFrustum(p_113030_.minX, p_113030_.minY, p_113030_.minZ, p_113030_.maxX, p_113030_.maxY, p_113030_.maxZ);
++        int i = this.cubeInFrustum(p_113030_.minX, p_113030_.minY, p_113030_.minZ, p_113030_.maxX, p_113030_.maxY, p_113030_.maxZ);
++        return i == -2 || i == -1;
 +    }
 +
-     private boolean cubeInFrustum(double p_113007_, double p_113008_, double p_113009_, double p_113010_, double p_113011_, double p_113012_) {
+     public int cubeInFrustum(BoundingBox p_366406_) {
+         return this.cubeInFrustum(
+-            (double)p_366406_.minX(),
+-            (double)p_366406_.minY(),
+-            (double)p_366406_.minZ(),
+-            (double)(p_366406_.maxX() + 1),
+-            (double)(p_366406_.maxY() + 1),
+-            (double)(p_366406_.maxZ() + 1)
++            (double)p_366406_.minX().doubleValue(),
++            (double)p_366406_.minY().doubleValue(),
++            (double)p_366406_.minZ().doubleValue(),
++            (double)(p_366406_.maxX().add().doubleValue()),
++            (double)(p_366406_.maxY().add().doubleValue()),
++            (double)(p_366406_.maxZ().add().doubleValue())
+         );
+     }
+ 
+     private int cubeInFrustum(double p_113007_, double p_113008_, double p_113009_, double p_113010_, double p_113011_, double p_113012_) {
 -        float f = (float)(p_113007_ - this.camX);
 -        float f1 = (float)(p_113008_ - this.camY);
 -        float f2 = (float)(p_113009_ - this.camZ);
 -        float f3 = (float)(p_113010_ - this.camX);
 -        float f4 = (float)(p_113011_ - this.camY);
 -        float f5 = (float)(p_113012_ - this.camZ);
-+        float f = (float)(me.alphamode.mcbig.math.BigDecimal.val(p_113007_).subtract(this.camX).floatValue());
++        float f = (float)(p_113007_ - this.camX.doubleValue());
 +        float f1 = (float)(p_113008_ - this.camY);
-+        float f2 = (float)(me.alphamode.mcbig.math.BigDecimal.val(p_113009_).subtract(this.camZ).floatValue());
-+        float f3 = (float)(me.alphamode.mcbig.math.BigDecimal.val(p_113010_).subtract(this.camX).floatValue());
++        float f2 = (float)(p_113009_ - this.camZ.doubleValue());
++        float f3 = (float)(p_113010_ - this.camX.doubleValue());
 +        float f4 = (float)(p_113011_ - this.camY);
-+        float f5 = (float)(me.alphamode.mcbig.math.BigDecimal.val(p_113012_).subtract(this.camZ).floatValue());
-+        return this.intersection.testAab(f, f1, f2, f3, f4, f5);
++        float f5 = (float)(p_113012_ - this.camZ.doubleValue());
++        return this.intersection.intersectAab(f, f1, f2, f3, f4, f5);
 +    }
 +
-+    private boolean cubeInFrustum(me.alphamode.mcbig.math.BigDecimal p_113007_, double p_113008_, me.alphamode.mcbig.math.BigDecimal p_113009_, me.alphamode.mcbig.math.BigDecimal p_113010_, double p_113011_, me.alphamode.mcbig.math.BigDecimal p_113012_) {
++    private int cubeInFrustum(me.alphamode.mcbig.math.BigDecimal p_113007_, double p_113008_, me.alphamode.mcbig.math.BigDecimal p_113009_, me.alphamode.mcbig.math.BigDecimal p_113010_, double p_113011_, me.alphamode.mcbig.math.BigDecimal p_113012_) {
 +        float f = (float)(p_113007_.subtract(this.camX).floatValue());
 +        float f1 = (float)(p_113008_ - this.camY);
 +        float f2 = (float)(p_113009_.subtract(this.camZ).floatValue());
 +        float f3 = (float)(p_113010_.subtract(this.camX).floatValue());
 +        float f4 = (float)(p_113011_ - this.camY);
 +        float f5 = (float)(p_113012_.subtract(this.camZ).floatValue());
-         return this.intersection.testAab(f, f1, f2, f3, f4, f5);
+         return this.intersection.intersectAab(f, f1, f2, f3, f4, f5);
+     }
+ 
+@@ -118,7 +_,7 @@
+     }
+ 
+     public double getCamX() {
+-        return this.camX;
++        return this.camX.doubleValue();
+     }
+ 
+     public double getCamY() {
+@@ -126,6 +_,6 @@
+     }
+ 
+     public double getCamZ() {
+-        return this.camZ;
++        return this.camZ.doubleValue();
      }
  }

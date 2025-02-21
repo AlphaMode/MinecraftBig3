@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/entity/projectile/ThrowableProjectile.java
++++ b/net/minecraft/world/entity/projectile/ThrowableProjectile.java
+@@ -47,11 +_,11 @@
+         this.applyGravity();
+         this.applyInertia();
+         HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
+-        Vec3 vec3;
++        me.alphamode.mcbig.core.BigVec3 vec3;
+         if (hitresult.getType() != HitResult.Type.MISS) {
+             vec3 = hitresult.getLocation();
+         } else {
+-            vec3 = this.position().add(this.getDeltaMovement());
++            vec3 = this.bigPosition().add(this.getDeltaMovement());
+         }
+ 
+         this.setPos(vec3);

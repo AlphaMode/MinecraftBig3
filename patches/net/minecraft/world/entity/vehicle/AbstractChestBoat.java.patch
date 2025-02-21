@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/entity/vehicle/AbstractChestBoat.java
++++ b/net/minecraft/world/entity/vehicle/AbstractChestBoat.java
+@@ -196,6 +_,6 @@
+ 
+     @Override
+     public void stopOpen(Player p_376820_) {
+-        this.level().gameEvent(GameEvent.CONTAINER_CLOSE, this.position(), GameEvent.Context.of(p_376820_));
++        this.level().gameEvent(GameEvent.CONTAINER_CLOSE, this.bigPosition(), GameEvent.Context.of(p_376820_));
+     }
+ }

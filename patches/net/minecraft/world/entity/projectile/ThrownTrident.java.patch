@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/projectile/ThrownTrident.java
++++ b/net/minecraft/world/entity/projectile/ThrownTrident.java
+@@ -141,7 +_,7 @@
+ 
+     @Override
+     protected void hitBlockEnchantmentEffects(ServerLevel p_344953_, BlockHitResult p_346320_, ItemStack p_344999_) {
+-        Vec3 vec3 = p_346320_.getBlockPos().clampLocationWithin(p_346320_.getLocation());
++        Vec3 vec3 = p_346320_.getBlockPos().clampLocationWithin(p_346320_.getLocation().toVanilla());
+         EnchantmentHelper.onHitBlock(
+             p_344953_,
+             p_344999_,

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/biome/BiomeSource.java
 +++ b/net/minecraft/world/level/biome/BiomeSource.java
-@@ -40,25 +_,25 @@
+@@ -41,25 +_,25 @@
          return this.possibleBiomes.get();
      }
  
@@ -23,9 +23,9 @@
 +        int i2 = j1.subtract(k).add().intValue();
          Set<Holder<Biome>> set = Sets.newHashSet();
  
-         for(int j2 = 0; j2 < i2; ++j2) {
-             for(int k2 = 0; k2 < k1; ++k2) {
-                 for(int l2 = 0; l2 < l1; ++l2) {
+         for (int j2 = 0; j2 < i2; j2++) {
+             for (int k2 = 0; k2 < k1; k2++) {
+                 for (int l2 = 0; l2 < l1; l2++) {
 -                    int i3 = i + k2;
 +                    me.alphamode.mcbig.math.BigInteger i3 = i.add(k2);
                      int j3 = j + l2;
@@ -36,7 +36,7 @@
                  }
              }
          }
-@@ -68,7 +_,7 @@
+@@ -69,7 +_,7 @@
  
      @Nullable
      public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(
@@ -45,10 +45,10 @@
      ) {
          return this.findBiomeHorizontal(p_220571_, p_220572_, p_220573_, p_220574_, 1, p_220575_, p_220576_, false, p_220577_);
      }
-@@ -85,14 +_,14 @@
-             int[] aint = Mth.outFromOrigin(p_220578_.getY(), p_220584_.getMinBuildHeight() + 1, p_220584_.getMaxBuildHeight(), p_220581_).toArray();
+@@ -86,14 +_,14 @@
+             int[] aint = Mth.outFromOrigin(p_220578_.getY(), p_220584_.getMinY() + 1, p_220584_.getMaxY() + 1, p_220581_).toArray();
  
-             for(BlockPos.MutableBlockPos blockpos$mutableblockpos : BlockPos.spiralAround(BlockPos.ZERO, i, Direction.EAST, Direction.SOUTH)) {
+             for (BlockPos.MutableBlockPos blockpos$mutableblockpos : BlockPos.spiralAround(BlockPos.ZERO, i, Direction.EAST, Direction.SOUTH)) {
 -                int j = p_220578_.getX() + blockpos$mutableblockpos.getX() * p_220580_;
 -                int k = p_220578_.getZ() + blockpos$mutableblockpos.getZ() * p_220580_;
 -                int l = QuartPos.fromBlock(j);
@@ -58,14 +58,14 @@
 +                me.alphamode.mcbig.math.BigInteger l = QuartPos.fromBlock(j);
 +                me.alphamode.mcbig.math.BigInteger i1 = QuartPos.fromBlock(k);
  
-                 for(int j1 : aint) {
+                 for (int j1 : aint) {
                      int k1 = QuartPos.fromBlock(j1);
 -                    Holder<Biome> holder = this.getNoiseBiome(l, k1, i1, p_220583_);
 +                    Holder<Biome> holder = this.getNoiseBiome(l, me.alphamode.mcbig.math.BigInteger.val(k1), i1, p_220583_);
                      if (set.contains(holder)) {
                          return Pair.of(new BlockPos(j, j1, k), holder);
                      }
-@@ -105,9 +_,9 @@
+@@ -106,9 +_,9 @@
  
      @Nullable
      public Pair<BlockPos, Holder<Biome>> findBiomeHorizontal(
@@ -77,7 +77,7 @@
          int p_220564_,
          int p_220565_,
          Predicate<Holder<Biome>> p_220566_,
-@@ -115,8 +_,8 @@
+@@ -116,8 +_,8 @@
          boolean p_220568_,
          Climate.Sampler p_220569_
      ) {
@@ -88,7 +88,7 @@
          int k = QuartPos.fromBlock(p_220564_);
          int l = QuartPos.fromBlock(p_220562_);
          Pair<BlockPos, Holder<Biome>> pair = null;
-@@ -135,9 +_,9 @@
+@@ -137,9 +_,9 @@
                          }
                      }
  
@@ -101,7 +101,7 @@
                      if (p_220566_.test(holder)) {
                          if (pair == null || p_220567_.nextInt(i1 + 1) == 0) {
                              BlockPos blockpos = new BlockPos(QuartPos.toBlock(k2), p_220562_, QuartPos.toBlock(j2));
-@@ -158,7 +_,7 @@
+@@ -162,7 +_,7 @@
      }
  
      @Override

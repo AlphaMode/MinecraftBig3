@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/VoidStartPlatformFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/VoidStartPlatformFeature.java
-@@ -17,24 +_,24 @@
+@@ -17,8 +_,8 @@
          super(p_67354_);
      }
  
@@ -11,22 +11,16 @@
      }
  
      @Override
-     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> p_160633_) {
-         WorldGenLevel worldgenlevel = p_160633_.level();
-         ChunkPos chunkpos = new ChunkPos(p_160633_.origin());
--        if (checkerboardDistance(chunkpos.x, chunkpos.z, PLATFORM_ORIGIN_CHUNK.x, PLATFORM_ORIGIN_CHUNK.z) > 1) {
-+        if (checkerboardDistance(chunkpos.x(), chunkpos.z(), PLATFORM_ORIGIN_CHUNK.x(), PLATFORM_ORIGIN_CHUNK.z()) > 1) {
-             return true;
-         } else {
+@@ -31,10 +_,10 @@
              BlockPos blockpos = PLATFORM_OFFSET.atY(p_160633_.origin().getY() + PLATFORM_OFFSET.getY());
              BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
  
--            for(int i = chunkpos.getMinBlockZ(); i <= chunkpos.getMaxBlockZ(); ++i) {
--                for(int j = chunkpos.getMinBlockX(); j <= chunkpos.getMaxBlockX(); ++j) {
+-            for (int i = chunkpos.getMinBlockZ(); i <= chunkpos.getMaxBlockZ(); i++) {
+-                for (int j = chunkpos.getMinBlockX(); j <= chunkpos.getMaxBlockX(); j++) {
 -                    if (checkerboardDistance(blockpos.getX(), blockpos.getZ(), j, i) <= 16) {
 -                        blockpos$mutableblockpos.set(j, blockpos.getY(), i);
-+            for(me.alphamode.mcbig.math.BigInteger i = chunkpos.getBigMinBlockZ(); i.compareTo(chunkpos.getBigMaxBlockZ()) <= 0; i = i.add()) {
-+                for(me.alphamode.mcbig.math.BigInteger j = chunkpos.getBigMinBlockX(); j.compareTo(chunkpos.getBigMaxBlockX()) <= 0; j = j.add()) {
++            for(me.alphamode.mcbig.math.BigInteger i = chunkpos.getMinBlockZ(); i.compareTo(chunkpos.getMaxBlockZ()) <= 0; i = i.add()) {
++                for(me.alphamode.mcbig.math.BigInteger j = chunkpos.getMinBlockX(); j.compareTo(chunkpos.getMaxBlockX()) <= 0; j = j.add()) {
 +                    if (checkerboardDistance(blockpos.getBigX(), blockpos.getBigZ(), j, i) <= 16) {
 +                        blockpos$mutableblockpos.set(j, blockpos.getBigY(), i);
                          if (blockpos$mutableblockpos.equals(blockpos)) {

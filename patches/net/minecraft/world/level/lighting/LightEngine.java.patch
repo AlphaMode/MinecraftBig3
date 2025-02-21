@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/lighting/LightEngine.java
 +++ b/net/minecraft/world/level/lighting/LightEngine.java
-@@ -26,12 +_,12 @@
+@@ -25,11 +_,11 @@
      protected static final Direction[] PROPAGATION_DIRECTIONS = Direction.values();
      protected final LightChunkGetter chunkSource;
      protected final S storage;
@@ -10,14 +10,13 @@
 +    private final it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<BlockPos> blockNodesToCheck = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(512, 0.5F);
 +    private final it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<me.alphamode.mcbig.lighting.LightingData> decreaseQueue = new it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<>();
 +    private final it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<me.alphamode.mcbig.lighting.LightingData> increaseQueue = new it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue<>();
-     private final BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
      private static final int CACHE_SIZE = 2;
 -    private final long[] lastChunkPos = new long[2];
 +    private final ChunkPos[] lastChunkPos = new ChunkPos[2];
      private final LightChunk[] lastChunk = new LightChunk[2];
  
      protected LightEngine(LightChunkGetter p_285189_, S p_284964_) {
-@@ -74,8 +_,8 @@
+@@ -68,8 +_,8 @@
      }
  
      protected BlockState getState(BlockPos p_285338_) {
@@ -28,20 +27,7 @@
          LightChunk lightchunk = this.getChunk(i, j);
          return lightchunk == null ? Blocks.BEDROCK.defaultBlockState() : lightchunk.getBlockState(p_285338_);
      }
-@@ -84,19 +_,19 @@
-         return Math.max(1, p_285084_.getLightBlock(this.chunkSource.getLevel(), p_285057_));
-     }
- 
--    protected boolean shapeOccludes(long p_285115_, BlockState p_285154_, long p_284957_, BlockState p_285155_, Direction p_285327_) {
-+    protected boolean shapeOccludes(BlockPos p_285115_, BlockState p_285154_, BlockPos p_284957_, BlockState p_285155_, Direction p_285327_) {
-         VoxelShape voxelshape = this.getOcclusionShape(p_285154_, p_285115_, p_285327_);
-         VoxelShape voxelshape1 = this.getOcclusionShape(p_285155_, p_284957_, p_285327_.getOpposite());
-         return Shapes.faceShapeOccludes(voxelshape, voxelshape1);
-     }
- 
--    protected VoxelShape getOcclusionShape(BlockState p_285136_, long p_285517_, Direction p_285376_) {
-+    protected VoxelShape getOcclusionShape(BlockState p_285136_, BlockPos p_285517_, Direction p_285376_) {
-         return getOcclusionShape(this.chunkSource.getLevel(), this.mutablePos.set(p_285517_), p_285136_, p_285376_);
+@@ -85,11 +_,11 @@
      }
  
      @Nullable
@@ -50,9 +36,13 @@
 +    protected LightChunk getChunk(me.alphamode.mcbig.math.BigInteger p_284967_, me.alphamode.mcbig.math.BigInteger p_285447_) {
 +        ChunkPos i = new ChunkPos(p_284967_, p_285447_);
  
-         for(int j = 0; j < 2; ++j) {
-             if (i == this.lastChunkPos[j]) {
-@@ -123,33 +_,33 @@
+         for (int j = 0; j < 2; j++) {
+-            if (i == this.lastChunkPos[j]) {
++            if (i.equals(this.lastChunkPos[j])) {
+                 return this.lastChunk[j];
+             }
+         }
+@@ -113,10 +_,10 @@
  
      @Override
      public void checkBlock(BlockPos p_285352_) {
@@ -65,10 +55,7 @@
          this.storage.queueSectionData(p_285221_, p_285427_);
      }
  
-     public void retainData(ChunkPos p_285314_, boolean p_284937_) {
--        this.storage.retainData(SectionPos.getZeroNode(p_285314_.x, p_285314_.z), p_284937_);
-+        this.storage.retainData(SectionPos.getZeroNode(p_285314_.x(), p_285314_.z()), p_284937_);
-     }
+@@ -126,7 +_,7 @@
  
      @Override
      public void updateSectionStatus(SectionPos p_285167_, boolean p_284934_) {
@@ -77,26 +64,23 @@
      }
  
      @Override
-     public void setLightEnabled(ChunkPos p_285116_, boolean p_285522_) {
--        this.storage.setLightEnabled(SectionPos.getZeroNode(p_285116_.x, p_285116_.z), p_285522_);
-+        this.storage.setLightEnabled(SectionPos.getZeroNode(p_285116_.x(), p_285116_.z()), p_285522_);
-     }
+@@ -136,10 +_,10 @@
  
      @Override
      public int runLightUpdates() {
 -        LongIterator longiterator = this.blockNodesToCheck.iterator();
 +        it.unimi.dsi.fastutil.objects.ObjectIterator<BlockPos> longiterator = this.blockNodesToCheck.iterator();
  
-         while(longiterator.hasNext()) {
+         while (longiterator.hasNext()) {
 -            this.checkNode(longiterator.nextLong());
 +            this.checkNode(longiterator.next());
          }
  
          this.blockNodesToCheck.clear();
-@@ -166,17 +_,16 @@
+@@ -156,17 +_,16 @@
      private int propagateIncreases() {
          int i;
-         for(i = 0; !this.increaseQueue.isEmpty(); ++i) {
+         for (i = 0; !this.increaseQueue.isEmpty(); i++) {
 -            long j = this.increaseQueue.dequeueLong();
 -            long k = this.increaseQueue.dequeueLong();
 -            int l = this.storage.getStoredLevel(j);
@@ -117,10 +101,10 @@
              }
          }
  
-@@ -186,22 +_,19 @@
+@@ -176,22 +_,19 @@
      private int propagateDecreases() {
          int i;
-         for(i = 0; !this.decreaseQueue.isEmpty(); ++i) {
+         for (i = 0; !this.decreaseQueue.isEmpty(); i++) {
 -            long j = this.decreaseQueue.dequeueLong();
 -            long k = this.decreaseQueue.dequeueLong();
 -            this.propagateDecrease(j, k);
@@ -146,7 +130,7 @@
      }
  
      @Override
-@@ -212,27 +_,27 @@
+@@ -202,27 +_,27 @@
      @Nullable
      @Override
      public DataLayer getDataLayerData(SectionPos p_285093_) {

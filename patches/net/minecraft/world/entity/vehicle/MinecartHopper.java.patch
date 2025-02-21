@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/vehicle/MinecartHopper.java
 +++ b/net/minecraft/world/entity/vehicle/MinecartHopper.java
-@@ -47,7 +_,7 @@
+@@ -42,7 +_,7 @@
      }
  
      @Override

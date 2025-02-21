@@ -14,6 +14,9 @@ public interface ModdedCodec {
             if (list.stream().allMatch(element -> ops.getStringValue(element).result().isPresent())) {
                 return DataResult.success(list.stream().map(element -> ops.getStringValue(element).result().get()));
             }
+            if (list.stream().allMatch(element -> ops.getNumberValue(element).result().isPresent())) {
+                return DataResult.success(list.stream().map(element -> ops.getNumberValue(element).result().get().toString()));
+            }
             return DataResult.error(() -> "Some elements are not ints: " + input);
         });
     }

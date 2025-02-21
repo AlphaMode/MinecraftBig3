@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 public class BigConstants {
     public static final BigDecimal ONE = BigDecimal.val(1.0);
     public static final BigDecimal POINT_ONE = BigDecimal.val(0.1D);
+    public static final BigDecimal POINT_FIVE = BigDecimal.val(0.5);
     public static final BigDecimal DISTANCE = BigDecimal.val(256.0D);
     public static final BigDecimal NINE = BigDecimal.val(9.0D);
     public static final BigDecimal BEE = BigDecimal.val(0.3F);

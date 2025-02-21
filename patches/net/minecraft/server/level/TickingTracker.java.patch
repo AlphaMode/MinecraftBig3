@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/TickingTracker.java
 +++ b/net/minecraft/server/level/TickingTracker.java
-@@ -13,15 +_,15 @@
+@@ -14,15 +_,15 @@
  public class TickingTracker extends ChunkTracker {
      public static final int MAX_LEVEL = 33;
      private static final int INITIAL_TICKET_LIST_CAPACITY = 4;
@@ -19,7 +19,7 @@
          return this.tickets.computeIfAbsent(p_184178_, p_184180_ -> SortedArraySet.create(4));
      }
  
-@@ -29,7 +_,7 @@
+@@ -30,7 +_,7 @@
          return p_184160_.isEmpty() ? 34 : p_184160_.first().getTicketLevel();
      }
  
@@ -28,7 +28,7 @@
          SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(p_184152_);
          int i = this.getTicketLevelAt(sortedarrayset);
          sortedarrayset.add(p_184153_);
-@@ -38,7 +_,7 @@
+@@ -39,7 +_,7 @@
          }
      }
  
@@ -37,7 +37,7 @@
          SortedArraySet<Ticket<?>> sortedarrayset = this.getTickets(p_184166_);
          sortedarrayset.remove(p_184167_);
          if (sortedarrayset.isEmpty()) {
-@@ -49,54 +_,50 @@
+@@ -50,60 +_,56 @@
      }
  
      public <T> void addTicket(TicketType<T> p_184155_, ChunkPos p_184156_, int p_184157_, T p_184158_) {
@@ -55,9 +55,9 @@
 -        List<Pair<Ticket<ChunkPos>, Long>> list = new ArrayList<>();
 +        List<Pair<Ticket<ChunkPos>, ChunkPos>> list = new ArrayList<>();
  
--        for(Entry<SortedArraySet<Ticket<?>>> entry : this.tickets.long2ObjectEntrySet()) {
+-        for (Entry<SortedArraySet<Ticket<?>>> entry : this.tickets.long2ObjectEntrySet()) {
 +        for(it.unimi.dsi.fastutil.objects.Object2ObjectMap.Entry<ChunkPos, SortedArraySet<Ticket<?>>> entry : this.tickets.object2ObjectEntrySet()) {
-             for(Ticket<?> ticket : entry.getValue()) {
+             for (Ticket<?> ticket : entry.getValue()) {
                  if (ticket.getType() == TicketType.PLAYER) {
 -                    list.add(Pair.of((Ticket<ChunkPos>)ticket, entry.getLongKey()));
 +                    list.add(Pair.of((Ticket<ChunkPos>)ticket, entry.getKey()));
@@ -65,7 +65,7 @@
              }
          }
  
--        for(Pair<Ticket<ChunkPos>, Long> pair : list) {
+-        for (Pair<Ticket<ChunkPos>, Long> pair : list) {
 -            Long olong = pair.getSecond();
 +        for(Pair<Ticket<ChunkPos>, ChunkPos> pair : list) {
 +            ChunkPos olong = pair.getSecond();
@@ -110,7 +110,14 @@
          } else {
              this.chunks.put(p_184149_, (byte)p_184150_);
          }
-@@ -106,7 +_,7 @@
+     }
+ 
+-    public LongSet getTickingChunks() {
++    public it.unimi.dsi.fastutil.objects.ObjectSet<ChunkPos> getTickingChunks() {
+         return this.chunks.keySet();
+     }
+ 
+@@ -111,7 +_,7 @@
          this.runUpdates(Integer.MAX_VALUE);
      }
  

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/EndPortalBlock.java
 +++ b/net/minecraft/world/level/block/EndPortalBlock.java
-@@ -65,9 +_,9 @@
+@@ -103,9 +_,9 @@
  
      @Override
      public void animateTick(BlockState p_221102_, Level p_221103_, BlockPos p_221104_, RandomSource p_221105_) {

@@ -89,8 +89,8 @@
              this.checkEdge(p_75594_, p_75595_, j, this.getLevel(p_75595_), i, p_75597_);
 @@ -128,9 +_,9 @@
          } else {
-             while(!this.priorityQueue.isEmpty() && p_75589_ > 0) {
-                 --p_75589_;
+             while (!this.priorityQueue.isEmpty() && p_75589_ > 0) {
+                 p_75589_--;
 -                long i = this.priorityQueue.removeFirstLong();
 +                Pos i = this.priorityQueue.removeFirstLong();
                  int j = Mth.clamp(this.getLevel(i), 0, this.levelCount - 1);

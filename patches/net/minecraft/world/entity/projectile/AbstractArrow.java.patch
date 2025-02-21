@@ -1,23 +1,25 @@
 --- a/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
-@@ -179,9 +_,9 @@
-             this.inGroundTime = 0;
-             Vec3 vec32 = this.position();
-             Vec3 vec33 = vec32.add(vec3);
--            HitResult hitresult = this.level().clip(new ClipContext(vec32, vec33, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-+            HitResult hitresult = this.level().clip(new ClipContext(vec32.toBig(), vec33.toBig(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-             if (hitresult.getType() != HitResult.Type.MISS) {
--                vec33 = hitresult.getLocation();
-+                vec33 = hitresult.getLocation().toVanilla();
+@@ -265,10 +_,10 @@
+     private void stepMoveAndHit(BlockHitResult p_371761_) {
+         while (this.isAlive()) {
+             Vec3 vec3 = this.position();
+-            EntityHitResult entityhitresult = this.findHitEntity(vec3, p_371761_.getLocation());
+-            Vec3 vec31 = Objects.requireNonNullElse(entityhitresult, p_371761_).getLocation();
++            EntityHitResult entityhitresult = this.findHitEntity(vec3, p_371761_.getLocation().toVanilla());
++            me.alphamode.mcbig.core.BigVec3 vec31 = Objects.requireNonNullElse(entityhitresult, p_371761_).getLocation();
+             this.setPos(vec31);
+-            this.applyEffectsFromBlocks(vec3, vec31);
++            this.applyEffectsFromBlocks(vec3, vec31.toVanilla());
+             if (this.portalProcess != null && this.portalProcess.isInsidePortalThisTick()) {
+                 this.handlePortal();
              }
+@@ -512,7 +_,7 @@
+     }
  
-             while(!this.isRemoved()) {
-@@ -422,7 +_,7 @@
-     protected void onHitBlock(BlockHitResult p_36755_) {
-         this.lastState = this.level().getBlockState(p_36755_.getBlockPos());
-         super.onHitBlock(p_36755_);
--        Vec3 vec3 = p_36755_.getLocation().subtract(this.getX(), this.getY(), this.getZ());
-+        Vec3 vec3 = p_36755_.getLocation().subtract(this.getX(), this.getY(), this.getZ()).toVanilla();
-         this.setDeltaMovement(vec3);
-         Vec3 vec31 = vec3.normalize().scale(0.05F);
-         this.setPosRaw(this.getX() - vec31.x, this.getY() - vec31.y, this.getZ() - vec31.z);
+     protected void hitBlockEnchantmentEffects(ServerLevel p_345462_, BlockHitResult p_345204_, ItemStack p_345083_) {
+-        Vec3 vec3 = p_345204_.getBlockPos().clampLocationWithin(p_345204_.getLocation());
++        Vec3 vec3 = p_345204_.getBlockPos().clampLocationWithin(p_345204_.getLocation().toVanilla());
+         EnchantmentHelper.onHitBlock(
+             p_345462_,
+             p_345083_,

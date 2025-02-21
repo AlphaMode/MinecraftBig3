@@ -5,10 +5,9 @@
      public Vec3 getEntityPosAtNode(Entity p_77383_, int p_77384_) {
          Node node = this.nodes.get(p_77384_);
 -        double d0 = (double)node.x + (double)((int)(p_77383_.getBbWidth() + 1.0F)) * 0.5;
--        double d1 = (double)node.y;
--        double d2 = (double)node.z + (double)((int)(p_77383_.getBbWidth() + 1.0F)) * 0.5;
 +        double d0 = (double)node.x.doubleValue() + (double)((int)(p_77383_.getBbWidth() + 1.0F)) * 0.5;
-+        double d1 = (double)node.y.doubleValue();
+         double d1 = (double)node.y;
+-        double d2 = (double)node.z + (double)((int)(p_77383_.getBbWidth() + 1.0F)) * 0.5;
 +        double d2 = (double)node.z.doubleValue() + (double)((int)(p_77383_.getBbWidth() + 1.0F)) * 0.5;
          return new Vec3(d0, d1, d2);
      }

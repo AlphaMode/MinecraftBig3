@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/structure/structures/EndCityPieces.java
 +++ b/net/minecraft/world/level/levelgen/structure/structures/EndCityPieces.java
-@@ -278,7 +_,7 @@
+@@ -279,7 +_,7 @@
          );
          BlockPos blockpos = p_227431_.template()
              .calculateConnectedPosition(p_227431_.placeSettings(), p_227432_, endcitypieces$endcitypiece.placeSettings(), BlockPos.ZERO);

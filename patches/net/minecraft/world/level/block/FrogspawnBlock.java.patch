@@ -1,8 +1,8 @@
 --- a/net/minecraft/world/level/block/FrogspawnBlock.java
 +++ b/net/minecraft/world/level/block/FrogspawnBlock.java
-@@ -108,8 +_,8 @@
-         for(int j = 1; j <= i; ++j) {
-             Tadpole tadpole = EntityType.TADPOLE.create(p_221221_);
+@@ -116,8 +_,8 @@
+         for (int j = 1; j <= i; j++) {
+             Tadpole tadpole = EntityType.TADPOLE.create(p_221221_, EntitySpawnReason.BREEDING);
              if (tadpole != null) {
 -                double d0 = (double)p_221222_.getX() + this.getRandomTadpolePositionOffset(p_221223_);
 -                double d1 = (double)p_221222_.getZ() + this.getRandomTadpolePositionOffset(p_221223_);

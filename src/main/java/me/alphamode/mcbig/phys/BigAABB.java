@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -530,4 +531,7 @@ public class BigAABB {
     public static BigAABB ofSize(BigVec3 pos, double x, double y, double z) {
         return ofSize(pos, BigDecimal.val(x), y, BigDecimal.val(z));
     }
+
+    public AABB toVanilla() {
+        return new AABB(this.minX.doubleValue(), this.minY, this.minZ.doubleValue(), this.maxX.doubleValue(), this.maxY, this.maxZ.doubleValue());}
 }

@@ -31,8 +31,8 @@
          } else {
              List<ChunkAccess> list = new ArrayList<>();
  
--            for(int k = SectionPos.blockToSectionCoord(boundingbox.minZ()); k <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); ++k) {
--                for(int l = SectionPos.blockToSectionCoord(boundingbox.minX()); l <= SectionPos.blockToSectionCoord(boundingbox.maxX()); ++l) {
+-            for (int k = SectionPos.blockToSectionCoord(boundingbox.minZ()); k <= SectionPos.blockToSectionCoord(boundingbox.maxZ()); k++) {
+-                for (int l = SectionPos.blockToSectionCoord(boundingbox.minX()); l <= SectionPos.blockToSectionCoord(boundingbox.maxX()); l++) {
 +            for(me.alphamode.mcbig.math.BigInteger k = SectionPos.blockToSectionCoord(boundingbox.minZ()); k.compareTo(SectionPos.blockToSectionCoord(boundingbox.maxZ())) <= 0; k = k.add()) {
 +                for(me.alphamode.mcbig.math.BigInteger l = SectionPos.blockToSectionCoord(boundingbox.minX()); l.compareTo(SectionPos.blockToSectionCoord(boundingbox.maxX())) <= 0; l = l.add()) {
                      ChunkAccess chunkaccess = p_313779_.getChunk(l, k, ChunkStatus.FULL, false);

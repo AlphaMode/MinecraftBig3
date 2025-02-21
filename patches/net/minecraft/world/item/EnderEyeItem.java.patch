@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/EnderEyeItem.java
++++ b/net/minecraft/world/item/EnderEyeItem.java
+@@ -86,7 +_,7 @@
+                 EyeOfEnder eyeofender = new EyeOfEnder(p_41184_, p_41185_.getX(), p_41185_.getY(0.5), p_41185_.getZ());
+                 eyeofender.setItem(itemstack);
+                 eyeofender.signalTo(blockpos);
+-                p_41184_.gameEvent(GameEvent.PROJECTILE_SHOOT, eyeofender.position(), GameEvent.Context.of(p_41185_));
++                p_41184_.gameEvent(GameEvent.PROJECTILE_SHOOT, eyeofender.bigPosition(), GameEvent.Context.of(p_41185_));
+                 p_41184_.addFreshEntity(eyeofender);
+                 if (p_41185_ instanceof ServerPlayer serverplayer) {
+                     CriteriaTriggers.USED_ENDER_EYE.trigger(serverplayer, blockpos);

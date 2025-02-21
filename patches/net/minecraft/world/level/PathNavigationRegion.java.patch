@@ -1,9 +1,9 @@
 --- a/net/minecraft/world/level/PathNavigationRegion.java
 +++ b/net/minecraft/world/level/PathNavigationRegion.java
-@@ -25,8 +_,8 @@
+@@ -24,8 +_,8 @@
  import net.minecraft.world.phys.shapes.VoxelShape;
  
- public class PathNavigationRegion implements BlockGetter, CollisionGetter {
+ public class PathNavigationRegion implements CollisionGetter {
 -    protected final int centerX;
 -    protected final int centerZ;
 +    protected final me.alphamode.mcbig.math.BigInteger centerX;
@@ -11,10 +11,10 @@
      protected final ChunkAccess[][] chunks;
      protected boolean allEmpty;
      protected final Level level;
-@@ -35,23 +_,23 @@
+@@ -34,23 +_,23 @@
      public PathNavigationRegion(Level p_47164_, BlockPos p_47165_, BlockPos p_47166_) {
          this.level = p_47164_;
-         this.plains = Suppliers.memoize(() -> p_47164_.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS));
+         this.plains = Suppliers.memoize(() -> p_47164_.registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.PLAINS));
 -        this.centerX = SectionPos.blockToSectionCoord(p_47165_.getX());
 -        this.centerZ = SectionPos.blockToSectionCoord(p_47165_.getZ());
 -        int i = SectionPos.blockToSectionCoord(p_47166_.getX());
@@ -28,8 +28,8 @@
          ChunkSource chunksource = p_47164_.getChunkSource();
          this.allEmpty = true;
  
--        for(int k = this.centerX; k <= i; ++k) {
--            for(int l = this.centerZ; l <= j; ++l) {
+-        for (int k = this.centerX; k <= i; k++) {
+-            for (int l = this.centerZ; l <= j; l++) {
 -                this.chunks[k - this.centerX][l - this.centerZ] = chunksource.getChunkNow(k, l);
 +        for(me.alphamode.mcbig.math.BigInteger k = this.centerX; k.compareTo(i) <= 0; k = k.add()) {
 +            for(me.alphamode.mcbig.math.BigInteger l = this.centerZ; l.compareTo(j) <= 0; l = l.add()) {
@@ -37,8 +37,8 @@
              }
          }
  
--        for(int i1 = SectionPos.blockToSectionCoord(p_47165_.getX()); i1 <= SectionPos.blockToSectionCoord(p_47166_.getX()); ++i1) {
--            for(int j1 = SectionPos.blockToSectionCoord(p_47165_.getZ()); j1 <= SectionPos.blockToSectionCoord(p_47166_.getZ()); ++j1) {
+-        for (int i1 = SectionPos.blockToSectionCoord(p_47165_.getX()); i1 <= SectionPos.blockToSectionCoord(p_47166_.getX()); i1++) {
+-            for (int j1 = SectionPos.blockToSectionCoord(p_47165_.getZ()); j1 <= SectionPos.blockToSectionCoord(p_47166_.getZ()); j1++) {
 -                ChunkAccess chunkaccess = this.chunks[i1 - this.centerX][j1 - this.centerZ];
 +        for(me.alphamode.mcbig.math.BigInteger i1 = SectionPos.blockToSectionCoord(p_47165_.getBigX()); i1.compareTo(SectionPos.blockToSectionCoord(p_47166_.getBigX())) <= 0; i1 = i1.add()) {
 +            for(me.alphamode.mcbig.math.BigInteger j1 = SectionPos.blockToSectionCoord(p_47165_.getBigZ()); j1.compareTo(SectionPos.blockToSectionCoord(p_47166_.getBigZ())) <= 0; j1 = j1.add()) {
@@ -46,7 +46,7 @@
                  if (chunkaccess != null && !chunkaccess.isYSpaceEmpty(p_47165_.getY(), p_47166_.getY())) {
                      this.allEmpty = false;
                      return;
-@@ -61,12 +_,12 @@
+@@ -60,12 +_,12 @@
      }
  
      private ChunkAccess getChunk(BlockPos p_47186_) {
@@ -63,7 +63,7 @@
          if (i >= 0 && i < this.chunks.length && j >= 0 && j < this.chunks[i].length) {
              ChunkAccess chunkaccess = this.chunks[i][j];
              return (ChunkAccess)(chunkaccess != null ? chunkaccess : new EmptyLevelChunk(this.level, new ChunkPos(p_47168_, p_47169_), this.plains.get()));
-@@ -81,7 +_,7 @@
+@@ -80,7 +_,7 @@
      }
  
      @Override

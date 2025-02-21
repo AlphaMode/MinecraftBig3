@@ -16,7 +16,7 @@
 -        this.queues = new LongLinkedOpenHashSet[p_278289_];
 +        this.queues = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet[p_278289_];
  
-         for(int i = 0; i < p_278289_; ++i) {
+         for (int i = 0; i < p_278289_; i++) {
 -            this.queues[i] = new LongLinkedOpenHashSet(p_278259_, 0.5F) {
 +            this.queues[i] = new it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet(p_278259_, 0.5F) {
                  @Override
