@@ -189,6 +189,15 @@
      }
  
      public BlockPos immutable() {
+@@ -258,7 +_,7 @@
+     }
+ 
+     public BlockPos.MutableBlockPos mutable() {
+-        return new BlockPos.MutableBlockPos(this.getX(), this.getY(), this.getZ());
++        return new BlockPos.MutableBlockPos(this.getBigX(), this.getBigY(), this.getBigZ());
+     }
+ 
+     public Vec3 clampLocationWithin(Vec3 p_350293_) {
 @@ -273,12 +_,12 @@
          return randomBetweenClosed(
              p_235651_,

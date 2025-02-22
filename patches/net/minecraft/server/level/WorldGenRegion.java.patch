@@ -25,7 +25,7 @@
          crashreportcategory.setDetail("Generating status", () -> this.generatingStep.targetStatus().getName());
          crashreportcategory.setDetail("Requested status", p_331853_::getName);
          crashreportcategory.setDetail(
-@@ -144,7 +_,7 @@
+@@ -144,14 +_,14 @@
      }
  
      @Override
@@ -34,6 +34,14 @@
          int i = this.center.getPos().getChessboardDistance(p_9574_, p_9575_);
          return i < this.generatingStep.directDependencies().size();
      }
+ 
+     @Override
+     public BlockState getBlockState(BlockPos p_9587_) {
+-        return this.getChunk(SectionPos.blockToSectionCoord(p_9587_.getX()), SectionPos.blockToSectionCoord(p_9587_.getZ())).getBlockState(p_9587_);
++        return this.getChunk(SectionPos.blockToSectionCoord(p_9587_.getBigX()), SectionPos.blockToSectionCoord(p_9587_.getBigZ())).getBlockState(p_9587_);
+     }
+ 
+     @Override
 @@ -176,7 +_,7 @@
      }
  
