@@ -25,7 +25,6 @@ dependencyResolutionManagement {
     rulesMode = RulesMode.FAIL_ON_PROJECT_RULES
     repositories {
         mavenCentral()
-        mavenLocal()
         maven {
             url 'https://repo.sleeping.town'
             content {
@@ -34,10 +33,6 @@ dependencyResolutionManagement {
         }
         maven {
             url = "https://maven.fabricmc.net/"
-        }
-        maven {
-            url "http://alphasmoddingserver.com/releases"
-            allowInsecureProtocol true
         }
     }
 }

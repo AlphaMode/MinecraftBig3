@@ -30,24 +30,24 @@ sourceSets {
     }
 }
 
-final checkVersion = JCCPlugin.providePreviousVersion(
-        project.providers, project.providers.provider({['http://alphasmoddingserver.com/releases']}), project.providers.provider({'me.alphamode:mcbig'}),
-        project.provider { project.version }.map { ver -> CompatibilityTask.VersionComponentTest.MINOR.predicate(ver) }
-)
-final createCompatJar = tasks.register('createCompatibilityCheckJar', ProvideNeoForgeJarTask) {
-    // Use the same jar that the patches were generated against
-    cleanJar.set(tasks.generateClientBinPatches.cleanJar)
-    maven.set('http://alphasmoddingserver.com/releases')
-    artifact.set('me.alphamode:mcbig')
-    version.set(checkVersion)
-    javaLauncher = javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(java_version)
-    }
-}
-checkJarCompatibility {
-    isAPI = true
-    baseJar = createCompatJar.flatMap { it.output }
-}
+//final checkVersion = JCCPlugin.providePreviousVersion(
+//        project.providers, project.providers.provider({['http://alphasmoddingserver.com/releases']}), project.providers.provider({'me.alphamode:mcbig'}),
+//        project.provider { project.version }.map { ver -> CompatibilityTask.VersionComponentTest.MINOR.predicate(ver) }
+//)
+//final createCompatJar = tasks.register('createCompatibilityCheckJar', ProvideNeoForgeJarTask) {
+//    // Use the same jar that the patches were generated against
+//    cleanJar.set(tasks.generateClientBinPatches.cleanJar)
+//    maven.set('http://alphasmoddingserver.com/releases')
+//    artifact.set('me.alphamode:mcbig')
+//    version.set(checkVersion)
+//    javaLauncher = javaToolchains.launcherFor {
+//        languageVersion = JavaLanguageVersion.of(java_version)
+//    }
+//}
+//checkJarCompatibility {
+//    isAPI = true
+//    baseJar = createCompatJar.flatMap { it.output }
+//}
 
 neoDev {
     mods {
@@ -83,7 +83,7 @@ dependencies {
             }
         }
     }
-    moduleLibraries "me.alphamode.wisp:wisp-loader:1.1"
+//    moduleLibraries "me.alphamode.wisp:wisp-loader:1.1"
 
     libraries "net.neoforged:mergetool:${project.mergetool_version}:api"
     libraries "com.electronwill.night-config:core:${project.nightconfig_version}"

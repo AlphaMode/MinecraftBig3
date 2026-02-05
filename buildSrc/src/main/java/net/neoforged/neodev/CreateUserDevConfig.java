@@ -104,7 +104,7 @@ abstract class CreateUserDevConfig extends DefaultTask {
             if (runType == RunType.CLIENT || runType == RunType.DATA || runType == RunType.JUNIT) {
                 Collections.addAll(args,
                         "--assetIndex", "{asset_index}",
-                        "--assetsDir", "{assets_root}");
+                        "--assetsDir", "{assets_root}", "--accessToken", "");
             }
 
             Collections.addAll(args,
@@ -129,7 +129,7 @@ abstract class CreateUserDevConfig extends DefaultTask {
 
             config.runs().put(runType.jsonName, new UserDevRunType(
                     runType != RunType.JUNIT,
-                    "me.alphamode.wisp.loader.Main",
+                    "net.minecraft.client.main.Main",
                     args,
                     List.of(
                             "-p", "{modules}",
