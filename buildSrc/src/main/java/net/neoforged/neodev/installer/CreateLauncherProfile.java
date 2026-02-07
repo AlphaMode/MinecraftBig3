@@ -104,7 +104,7 @@ public abstract class CreateLauncherProfile extends DefaultTask {
                 time,
                 time,
                 "release",
-                "me.alphamode.wisp.loader.Main",
+                "net.minecraft.client.main.Main",
                 getMinecraftVersion().get(),
                 arguments,
                 libraries

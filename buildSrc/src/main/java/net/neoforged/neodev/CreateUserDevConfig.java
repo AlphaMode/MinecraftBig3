@@ -112,7 +112,8 @@ abstract class CreateUserDevConfig extends DefaultTask {
                     "--fml.fmlVersion", getFmlVersion().get(),
                     "--fml.mcVersion", getMinecraftVersion().get(),
                     "--fml.neoForgeVersion", getNeoForgeVersion().get(),
-                    "--fml.neoFormVersion", getRawNeoFormVersion().get());
+                    "--fml.neoFormVersion", getRawNeoFormVersion().get(),
+                    "--accessToken", "0");
 
             Map<String, String> systemProperties = new LinkedHashMap<>();
             systemProperties.put("java.net.preferIPv6Addresses", "system");
@@ -126,10 +127,9 @@ abstract class CreateUserDevConfig extends DefaultTask {
                     systemProperties.put("neoforge.gameTestServer", "true");
                 }
             }
-
             config.runs().put(runType.jsonName, new UserDevRunType(
                     runType != RunType.JUNIT,
-                    "me.alphamode.wisp.loader.Main",
+                    "net.minecraft.client.main.Main",
                     args,
                     List.of(
                             "-p", "{modules}",

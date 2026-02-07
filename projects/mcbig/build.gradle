@@ -83,8 +83,6 @@ dependencies {
             }
         }
     }
-    moduleLibraries "me.alphamode.wisp:wisp-loader:1.1"
-
     libraries "net.neoforged:mergetool:${project.mergetool_version}:api"
     libraries "com.electronwill.night-config:core:${project.nightconfig_version}"
     libraries "com.electronwill.night-config:toml:${project.nightconfig_version}"
